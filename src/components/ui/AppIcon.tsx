@@ -60,6 +60,7 @@ import {
   TrendingDown,
   TrendingUp,
   TriangleAlert,
+  Trophy,
   Unlock,
   User,
   UserPlus,
