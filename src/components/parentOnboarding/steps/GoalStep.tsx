@@ -50,7 +50,6 @@ export default function GoalStep(props: {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log("Goals from DB:", data);
     let mounted = true;
     (async () => {
       try {
