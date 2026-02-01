@@ -1,0 +1,90 @@
+// src/components/child/today/StreakMomentumCard.tsx
+// FEAT-013: Streak momentum card (half-width, sits alongside RewardsMiniCard)
+// Extracted from inline Today.tsx implementation
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFire, faCheck } from "@fortawesome/free-solid-svg-icons";
+
+interface StreakMomentumCardProps {
+  currentStreak: number;
+  completedToday: number;
+  totalToday: number;
+}
+
+export default function StreakMomentumCard({
+  currentStreak,
+  completedToday,
+  totalToday,
+}: StreakMomentumCardProps) {
+  const allComplete = completedToday >= totalToday && totalToday > 0;
+
+  // Don't render if no streak
+  if (currentStreak === 0) {
+    return (
+      <div className="bg-gradient-to-r from-primary-50 to-primary-100 rounded-2xl p-6 border border-primary-200">
+        <div className="flex items-start space-x-4">
+          <div className="w-12 h-12 bg-primary-200 rounded-full flex items-center justify-center flex-shrink-0">
+            <FontAwesomeIcon icon={faFire} className="text-primary-600 text-xl" />
+          </div>
+          <div className="flex-1">
+            <h3 className="text-lg font-bold text-primary-900 mb-2">
+              Build Your Streak
+            </h3>
+            <p className="text-neutral-600">
+              Complete today's sessions to start a streak!
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const streakLabel = currentStreak >= 7 ? "incredible!" : "great momentum!";
+
+  return (
+    <div className="bg-gradient-to-r from-primary-50 to-primary-100 rounded-2xl shadow-soft p-6 border border-primary-200">
+      <div className="flex items-start space-x-4">
+        <div className="w-12 h-12 bg-accent-green rounded-full flex items-center justify-center flex-shrink-0">
+          <FontAwesomeIcon icon={faFire} className="text-white text-xl" />
+        </div>
+        <div className="flex-1">
+          <h3 className="text-lg font-bold text-primary-900 mb-2">
+            {currentStreak}-day streak — {streakLabel}
+          </h3>
+          <p className="text-neutral-600 mb-3">
+            {allComplete
+              ? "Amazing work! You've completed all your sessions today. Keep it up tomorrow!"
+              : `You're building an amazing habit. Complete today's sessions to reach a ${currentStreak + 1}-day streak!`}
+          </p>
+          <StreakVisualizer current={currentStreak} showNext={!allComplete} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Streak Visualizer - shows streak progress circles
+ */
+function StreakVisualizer({ current, showNext }: { current: number; showNext: boolean }) {
+  // Show up to 4 completed circles + 1 next if applicable
+  const displayCount = Math.min(current, 4);
+
+  return (
+    <div className="flex items-center space-x-1">
+      {Array.from({ length: displayCount }).map((_, i) => (
+        <div
+          key={i}
+          className="w-8 h-8 bg-accent-green rounded-full flex items-center justify-center"
+        >
+          <FontAwesomeIcon icon={faCheck} className="text-white text-xs" />
+        </div>
+      ))}
+      {showNext && (
+        <div className="w-8 h-8 bg-primary-300 rounded-full flex items-center justify-center border-2 border-primary-600">
+          <span className="text-primary-900 font-bold text-xs">{current + 1}</span>
+        </div>
+      )}
+    </div>
+  );
+}
