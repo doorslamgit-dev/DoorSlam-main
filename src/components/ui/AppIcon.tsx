@@ -29,6 +29,7 @@ import {
   Flame,
   Gift,
   GraduationCap,
+  GripVertical,
   HandHeart,
   Heart,
   Hourglass,
@@ -85,6 +86,7 @@ export const ICON_MAP = {
   flame: Flame,
   star: Star,
   sprout: Sprout,
+  trophy: Trophy,
 
   // Navigation + actions
   "arrow-left": ArrowLeft,
@@ -97,6 +99,7 @@ export const ICON_MAP = {
   x: X,
   pencil: Pencil,
   trash: Trash2,
+  "grip-vertical": GripVertical,
 
   // Time + schedule
   calendar: Calendar,
