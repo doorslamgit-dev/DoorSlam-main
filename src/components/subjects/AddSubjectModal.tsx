@@ -26,6 +26,11 @@ import SubjectPriorityGradesStep, {
   type SubjectWithGrades,
 } from "../parentOnboarding/steps/SubjectPriorityGradesStep";
 
+// Import add subject step components
+import PrioritizeSubjectsStep from "./addSubject/PrioritizeSubjectsStep";
+import ImpactAssessmentStep from "./addSubject/ImpactAssessmentStep";
+import ConfirmationStep from "./addSubject/ConfirmationStep";
+
 interface AddSubjectModalProps {
   childId: string;
   childName: string;
@@ -388,36 +393,6 @@ export default function AddSubjectModal({
   const currentStepDisplay = getDisplayStep();
   const progressPercent = Math.round((currentStepDisplay / totalSteps) * 100);
 
-  // Get recommendation color
-  const getRecommendationColor = (rec: string) => {
-    switch (rec) {
-      case "on_track":
-        return "text-green-700 bg-green-50 border-green-200";
-      case "tight_but_ok":
-        return "text-blue-700 bg-blue-50 border-blue-200";
-      case "add_sessions":
-        return "text-amber-700 bg-amber-50 border-amber-200";
-      case "prioritize":
-        return "text-red-700 bg-red-50 border-red-200";
-      default:
-        return "text-neutral-700 bg-neutral-50 border-neutral-200";
-    }
-  };
-
-  const getRecommendationIconName = (rec: string) => {
-    switch (rec) {
-      case "on_track":
-        return "check-circle" as const;
-      case "tight_but_ok":
-        return "info" as const;
-      case "add_sessions":
-      case "prioritize":
-        return "triangle-alert" as const;
-      default:
-        return "info" as const;
-    }
-  };
-
   if (!isOpen) return null;
 
   return (
@@ -524,274 +499,27 @@ export default function AddSubjectModal({
 
           {/* Step 4: Prioritize ALL Subjects */}
           {step === STEPS.PRIORITIZE && (
-            <div className="space-y-6">
-              <div>
-                <p className="text-neutral-600 mb-4">
-                  Drag subjects to set their priority. Higher priority subjects
-                  will receive more revision sessions.
-                </p>
-                <p className="text-sm text-neutral-500 flex items-center">
-                  <AppIcon
-                    name="info"
-                    className="w-4 h-4 text-neutral-500 mr-2"
-                  />
-                  Subjects with larger grade gaps may benefit from higher priority.
-                </p>
-              </div>
-
-              <div className="space-y-2">
-                {prioritizedSubjects.map((subject, index) => (
-                  <div
-                    key={subject.subject_id}
-                    className={`flex items-center gap-3 p-4 rounded-xl border ${
-                      subject.is_new
-                        ? "bg-primary-50 border-primary-200"
-                        : "bg-white border-neutral-200"
-                    }`}
-                  >
-                    {/* Priority number */}
-                    <div className="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center text-sm font-bold text-neutral-600">
-                      {index + 1}
-                    </div>
-
-                    {/* Drag handle placeholder */}
-                    <AppIcon
-                      name="grip"
-                      className="w-4 h-4 text-neutral-400"
-                      aria-hidden={true}
-                    />
-
-                    {/* Subject info */}
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2">
-                        <span className="font-medium text-neutral-800">
-                          {subject.subject_name}
-                        </span>
-                        {subject.is_new && (
-                          <span className="text-xs px-2 py-0.5 rounded-full bg-primary-600 text-white">
-                            New
-                          </span>
-                        )}
-                      </div>
-                      <div className="text-sm text-neutral-500">
-                        {subject.exam_board_name}
-                        {subject.grade_gap && subject.grade_gap > 0 && (
-                          <span className="ml-2 text-amber-600">
-                            • {subject.grade_gap} grade gap
-                          </span>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Move buttons */}
-                    <div className="flex gap-1">
-                      <button
-                        type="button"
-                        onClick={() => moveSubjectUp(index)}
-                        disabled={index === 0}
-                        className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-neutral-100 disabled:opacity-30 disabled:cursor-not-allowed"
-                        aria-label="Move up"
-                      >
-                        <AppIcon name="arrow-up" className="w-4 h-4 text-neutral-500" />
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => moveSubjectDown(index)}
-                        disabled={index === prioritizedSubjects.length - 1}
-                        className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-neutral-100 disabled:opacity-30 disabled:cursor-not-allowed"
-                        aria-label="Move down"
-                      >
-                        <AppIcon
-                          name="arrow-down"
-                          className="w-4 h-4 text-neutral-500"
-                        />
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <PrioritizeSubjectsStep
+              prioritizedSubjects={prioritizedSubjects}
+              onMoveSubjectUp={moveSubjectUp}
+              onMoveSubjectDown={moveSubjectDown}
+            />
           )}
 
           {/* Step 5: Impact Assessment */}
           {step === STEPS.IMPACT && (
-            <div className="space-y-6">
-              {loadingImpact ? (
-                <div className="flex items-center justify-center py-12">
-                  <AppIcon
-                    name="loader"
-                    className="w-6 h-6 text-primary-600 animate-spin"
-                  />
-                </div>
-              ) : impactAssessment ? (
-                <>
-                  {/* Summary Stats */}
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="bg-neutral-50 rounded-xl p-4 text-center">
-                      <div className="text-2xl font-bold text-neutral-800">
-                        {impactAssessment.current_weekly_sessions}
-                      </div>
-                      <div className="text-sm text-neutral-500">
-                        Sessions/week
-                      </div>
-                    </div>
-                    <div className="bg-neutral-50 rounded-xl p-4 text-center">
-                      <div className="text-2xl font-bold text-neutral-800">
-                        {impactAssessment.total_topics}
-                      </div>
-                      <div className="text-sm text-neutral-500">Total topics</div>
-                    </div>
-                    <div className="bg-neutral-50 rounded-xl p-4 text-center">
-                      <div className="text-2xl font-bold text-neutral-800">
-                        {impactAssessment.coverage_percent}%
-                      </div>
-                      <div className="text-sm text-neutral-500">Coverage</div>
-                    </div>
-                  </div>
-
-                  {/* Topic Breakdown */}
-                  <div className="bg-neutral-50 rounded-xl p-4">
-                    <h3 className="font-medium text-neutral-800 mb-3 flex items-center gap-2">
-                      <AppIcon
-                        name="chart-line"
-                        className="w-4 h-4 text-primary-600"
-                      />
-                      Topic Breakdown
-                    </h3>
-                    <div className="space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-neutral-600">Existing subjects</span>
-                        <span className="font-medium">
-                          {impactAssessment.existing_topic_count} topics
-                        </span>
-                      </div>
-                      <div className="flex justify-between text-primary-600">
-                        <span>New subjects</span>
-                        <span className="font-medium">
-                          +{impactAssessment.new_topic_count} topics
-                        </span>
-                      </div>
-                      <div className="border-t border-neutral-200 pt-2 flex justify-between font-medium">
-                        <span className="text-neutral-800">Total</span>
-                        <span>{impactAssessment.total_topics} topics</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Recommendation */}
-                  <div
-                    className={`rounded-xl border p-4 ${getRecommendationColor(
-                      impactAssessment.recommendation
-                    )}`}
-                  >
-                    <div className="flex items-start gap-3">
-                      <AppIcon
-                        name={getRecommendationIconName(
-                          impactAssessment.recommendation
-                        )}
-                        className="w-5 h-5 mt-0.5"
-                        aria-hidden={true}
-                      />
-                      <div>
-                        <h3 className="font-semibold mb-1">
-                          {impactAssessment.recommendation === "on_track" &&
-                            "Looking good!"}
-                          {impactAssessment.recommendation === "tight_but_ok" &&
-                            "Coverage is tight"}
-                          {impactAssessment.recommendation === "add_sessions" &&
-                            "Consider adding sessions"}
-                          {impactAssessment.recommendation === "prioritize" &&
-                            "Prioritization important"}
-                        </h3>
-                        <p className="text-sm">
-                          {impactAssessment.recommendation_detail}
-                        </p>
-                        {impactAssessment.additional_sessions_needed > 0 && (
-                          <p className="text-sm mt-2 font-medium">
-                            Suggested: Add {impactAssessment.additional_sessions_needed}{" "}
-                            session
-                            {impactAssessment.additional_sessions_needed !== 1
-                              ? "s"
-                              : ""}{" "}
-                            per week
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Sessions info */}
-                  <div className="text-sm text-neutral-500 text-center">
-                    <p>
-                      {impactAssessment.total_available_sessions} total sessions over{" "}
-                      {impactAssessment.weeks_in_plan} weeks
-                    </p>
-                    <p>
-                      ≈ {impactAssessment.sessions_per_topic.toFixed(1)} sessions per topic
-                    </p>
-                  </div>
-                </>
-              ) : (
-                <div className="text-center py-8 text-neutral-500">
-                  Unable to load impact assessment
-                </div>
-              )}
-            </div>
+            <ImpactAssessmentStep
+              impactAssessment={impactAssessment}
+              loadingImpact={loadingImpact}
+            />
           )}
 
           {/* Step 6: Confirm */}
           {step === STEPS.CONFIRM && (
-            <div className="space-y-6">
-              <p className="text-neutral-600">
-                You're about to add {subjectsWithGrades.length} subject
-                {subjectsWithGrades.length !== 1 ? "s" : ""} to {childName}'s
-                revision plan.
-              </p>
-
-              <div className="bg-neutral-50 rounded-xl p-4 space-y-3">
-                {subjectsWithGrades.map((subject) => (
-                  <div
-                    key={subject.subject_id}
-                    className="flex items-center justify-between bg-white rounded-lg p-3 border border-neutral-200"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-primary-100 flex items-center justify-center">
-                        <AppIcon name="book" className="w-5 h-5 text-primary-600" />
-                      </div>
-                      <div>
-                        <p className="font-medium text-neutral-800">
-                          {subject.subject_name}
-                        </p>
-                        <p className="text-sm text-neutral-500">
-                          {subject.exam_board_name}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="flex items-center gap-2 text-sm">
-                        <span className="text-neutral-500">Target:</span>
-                        <span className="font-semibold text-primary-600">
-                          Grade {subject.target_grade}
-                        </span>
-                      </div>
-                      {subject.current_grade && (
-                        <p className="text-xs text-neutral-400">
-                          Current: Grade {subject.current_grade}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
-                <p className="text-sm text-blue-800">
-                  <strong>What happens next:</strong> Sessions will be automatically
-                  redistributed across all subjects based on your priority order.{" "}
-                  {childName} will see the updated schedule right away.
-                </p>
-              </div>
-            </div>
+            <ConfirmationStep
+              subjectsWithGrades={subjectsWithGrades}
+              childName={childName}
+            />
           )}
         </div>
 
