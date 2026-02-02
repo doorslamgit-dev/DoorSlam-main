@@ -10,6 +10,7 @@ import type {
   PendingRedemption,
   RedemptionHistoryItem,
 } from '../../types/parent/rewardTypes';
+import { isChildRewardConfig } from '../../utils/typeGuards';
 
 // ============================================================================
 // CONFIGURATION
@@ -24,7 +25,10 @@ export async function getChildRewardConfig(childId: string): Promise<ChildReward
   });
 
   if (error) throw error;
-  return data as ChildRewardConfig;
+  if (!isChildRewardConfig(data)) {
+    throw new Error('Invalid reward config data received from API');
+  }
+  return data;
 }
 
 /**
@@ -44,6 +48,9 @@ export async function savePointConfig(
   });
 
   if (error) throw error;
+  if (!data || typeof data !== 'object' || !('success' in data) || typeof data.success !== 'boolean') {
+    throw new Error('Invalid point config save response from API');
+  }
   return data as { success: boolean; error?: string };
 }
 
@@ -67,6 +74,9 @@ export async function upsertReward(
   });
 
   if (error) throw error;
+  if (!data || typeof data !== 'object' || !('success' in data) || typeof data.success !== 'boolean') {
+    throw new Error('Invalid reward upsert response from API');
+  }
   return data as { success: boolean; reward_id?: string; error?: string };
 }
 
@@ -81,6 +91,9 @@ export async function removeReward(
   });
 
   if (error) throw error;
+  if (!data || typeof data !== 'object' || !('success' in data) || typeof data.success !== 'boolean') {
+    throw new Error('Invalid reward removal response from API');
+  }
   return data as { success: boolean; declined_redemptions?: number };
 }
 
@@ -97,6 +110,9 @@ export async function toggleReward(
   });
 
   if (error) throw error;
+  if (!data || typeof data !== 'object' || !('success' in data) || typeof data.success !== 'boolean') {
+    throw new Error('Invalid reward toggle response from API');
+  }
   return data as { success: boolean; is_active?: boolean; error?: string };
 }
 
@@ -111,6 +127,9 @@ export async function quickStartRewards(
   });
 
   if (error) throw error;
+  if (!data || typeof data !== 'object' || !('success' in data) || typeof data.success !== 'boolean') {
+    throw new Error('Invalid quick start rewards response from API');
+  }
   return data as { success: boolean; reward_id?: string; auto_approve_threshold?: number; error?: string };
 }
 
@@ -129,6 +148,9 @@ export async function enableTemplateRewards(
   });
 
   if (error) throw error;
+  if (!data || typeof data !== 'object' || !('success' in data) || typeof data.success !== 'boolean') {
+    throw new Error('Invalid enable template rewards response from API');
+  }
   return data as { success: boolean; rewards_created?: number };
 }
 
@@ -147,7 +169,10 @@ export async function getPendingRedemptions(
   });
 
   if (error) throw error;
-  return (data || []) as PendingRedemption[];
+  if (!Array.isArray(data)) {
+    throw new Error('Invalid pending redemptions data received from API');
+  }
+  return data as PendingRedemption[];
 }
 
 /**
@@ -165,6 +190,9 @@ export async function resolveRedemption(
   });
 
   if (error) throw error;
+  if (!data || typeof data !== 'object' || !('success' in data) || typeof data.success !== 'boolean') {
+    throw new Error('Invalid resolve redemption response from API');
+  }
   return data as { success: boolean; error?: string };
 }
 
@@ -183,6 +211,9 @@ export async function getChildRewardsCatalog(
   });
 
   if (error) throw error;
+  if (!data || typeof data !== 'object') {
+    throw new Error('Invalid rewards catalog data received from API');
+  }
   return data as ChildRewardsCatalog;
 }
 
@@ -205,6 +236,9 @@ export async function requestRedemption(
   });
 
   if (error) throw error;
+  if (!data || typeof data !== 'object' || !('success' in data) || typeof data.success !== 'boolean') {
+    throw new Error('Invalid request redemption response from API');
+  }
   return data as {
     success: boolean;
     redemption_id?: string;
@@ -227,6 +261,9 @@ export async function cancelRedemption(
   });
 
   if (error) throw error;
+  if (!data || typeof data !== 'object' || !('success' in data) || typeof data.success !== 'boolean') {
+    throw new Error('Invalid cancel redemption response from API');
+  }
   return data as { success: boolean; error?: string };
 }
 
@@ -243,5 +280,8 @@ export async function getRedemptionHistory(
   });
 
   if (error) throw error;
-  return (data || []) as RedemptionHistoryItem[];
+  if (!Array.isArray(data)) {
+    throw new Error('Invalid redemption history data received from API');
+  }
+  return data as RedemptionHistoryItem[];
 }

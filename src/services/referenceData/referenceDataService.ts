@@ -1,5 +1,11 @@
 // src/services/referenceData/referenceDataService.ts
 import { supabase } from "../../lib/supabase";
+import {
+  isExamTypeArray,
+  isGoalArray,
+  isNeedClusterArray,
+  isSubjectArray,
+} from "../../utils/typeGuards";
 
 /* ============================
    Types
@@ -86,25 +92,37 @@ function throwIfError(error: any) {
 export async function listExamTypes(): Promise<ExamType[]> {
   const { data, error } = await supabase.rpc("rpc_list_exam_types");
   throwIfError(error);
-  return (data ?? []) as ExamType[];
+  if (!isExamTypeArray(data ?? [])) {
+    throw new Error('Invalid exam types data received from API');
+  }
+  return data ?? [];
 }
 
 export async function listGoals(): Promise<Goal[]> {
   const { data, error } = await supabase.rpc("rpc_list_goals");
   throwIfError(error);
-  return (data ?? []) as Goal[];
+  if (!isGoalArray(data ?? [])) {
+    throw new Error('Invalid goals data received from API');
+  }
+  return data ?? [];
 }
 
 export async function listNeedAreas(): Promise<NeedArea[]> {
   const { data, error } = await supabase.rpc("rpc_list_need_areas");
   throwIfError(error);
+  if (!Array.isArray(data ?? [])) {
+    throw new Error('Invalid need areas data received from API');
+  }
   return (data ?? []) as NeedArea[];
 }
 
 export async function listNeedClusters(): Promise<NeedCluster[]> {
   const { data, error } = await supabase.rpc("rpc_list_need_clusters");
   throwIfError(error);
-  return (data ?? []) as NeedCluster[];
+  if (!isNeedClusterArray(data ?? [])) {
+    throw new Error('Invalid need clusters data received from API');
+  }
+  return data ?? [];
 }
 
 export async function listClustersByArea(area: JcqArea): Promise<NeedCluster[]> {
@@ -112,7 +130,10 @@ export async function listClustersByArea(area: JcqArea): Promise<NeedCluster[]> 
     p_area: area,
   });
   throwIfError(error);
-  return (data ?? []) as NeedCluster[];
+  if (!isNeedClusterArray(data ?? [])) {
+    throw new Error('Invalid need clusters by area data received from API');
+  }
+  return data ?? [];
 }
 
 export async function listSubjectsForExamTypes(
@@ -123,5 +144,8 @@ export async function listSubjectsForExamTypes(
     p_exam_type_ids: examTypeIds,
   });
   throwIfError(error);
-  return (data ?? []) as Subject[];
+  if (!isSubjectArray(data ?? [])) {
+    throw new Error('Invalid subjects for exam types data received from API');
+  }
+  return data ?? [];
 }

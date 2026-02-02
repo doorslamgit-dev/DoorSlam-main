@@ -8,6 +8,7 @@ import type {
   RedemptionHistoryItem,
   RedemptionRequestResult,
 } from '../../types/child/childRewardTypes';
+import { isRewardsCatalog } from '../../utils/typeGuards';
 
 /**
  * Get rewards summary for mini card on Today.tsx
@@ -20,6 +21,10 @@ export async function getChildRewardsSummary(childId: string): Promise<ChildRewa
   if (error) {
     console.error('getChildRewardsSummary error:', error);
     throw error;
+  }
+
+  if (!data || typeof data !== 'object') {
+    throw new Error('Invalid rewards summary data received from API');
   }
 
   return data as ChildRewardsSummary;
@@ -38,7 +43,11 @@ export async function getChildRewardsCatalog(childId: string): Promise<RewardsCa
     throw error;
   }
 
-  return data as RewardsCatalog;
+  if (!isRewardsCatalog(data)) {
+    throw new Error('Invalid rewards catalog data received from API');
+  }
+
+  return data;
 }
 
 /**
@@ -56,6 +65,10 @@ export async function requestRedemption(
   if (error) {
     console.error('requestRedemption error:', error);
     return { success: false, error: error.message };
+  }
+
+  if (!data || typeof data !== 'object' || !('success' in data) || typeof data.success !== 'boolean') {
+    throw new Error('Invalid redemption request response from API');
   }
 
   return data as RedemptionRequestResult;
@@ -94,5 +107,9 @@ export async function getRedemptionHistory(
     throw error;
   }
 
-  return (data || []) as RedemptionHistoryItem[];
+  if (!Array.isArray(data)) {
+    throw new Error('Invalid redemption history data received from API');
+  }
+
+  return data as RedemptionHistoryItem[];
 }

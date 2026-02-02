@@ -3,6 +3,11 @@
 // FEAT-012: Updated with impact assessment and redistribution
 
 import { supabase } from "../lib/supabase";
+import {
+  isAddSubjectsResult,
+  isImpactAssessment,
+  isSubjectForPrioritizationArray,
+} from "../utils/typeGuards";
 
 export interface SubjectToAdd {
   subject_id: string;
@@ -151,7 +156,14 @@ export async function addSubjectsToChild(
       };
     }
 
-    return data as AddSubjectsResult;
+    if (!isAddSubjectsResult(data)) {
+      return {
+        success: false,
+        error: "Invalid add subjects response from API",
+      };
+    }
+
+    return data;
   } catch (err: any) {
     console.error("Exception adding subjects:", err);
     return {
@@ -179,7 +191,11 @@ export async function getImpactAssessment(
       return { data: null, error: error.message };
     }
 
-    return { data: data as ImpactAssessment, error: null };
+    if (!isImpactAssessment(data)) {
+      return { data: null, error: "Invalid impact assessment data received from API" };
+    }
+
+    return { data, error: null };
   } catch (err: any) {
     console.error("Exception fetching impact assessment:", err);
     return { data: null, error: err.message || "Failed to get impact assessment" };
@@ -202,7 +218,11 @@ export async function getSubjectsForPrioritization(
       return { data: null, error: error.message };
     }
 
-    return { data: data as SubjectForPrioritization[], error: null };
+    if (!isSubjectForPrioritizationArray(data)) {
+      return { data: null, error: "Invalid subjects for prioritization data received from API" };
+    }
+
+    return { data, error: null };
   } catch (err: any) {
     console.error("Exception fetching subjects:", err);
     return { data: null, error: err.message || "Failed to fetch subjects" };
@@ -227,7 +247,11 @@ export async function updateSubjectPriorities(
       return { success: false, error: error.message };
     }
 
-    return { success: data?.success ?? true, error: null };
+    if (!data || typeof data !== 'object' || !('success' in data)) {
+      return { success: false, error: "Invalid update priorities response from API" };
+    }
+
+    return { success: data.success ?? true, error: null };
   } catch (err: any) {
     console.error("Exception updating priorities:", err);
     return { success: false, error: err.message || "Failed to update priorities" };
@@ -252,6 +276,10 @@ export async function getAvailableSubjectsForChild(
       return { data: null, error: error.message };
     }
 
+    if (!Array.isArray(data)) {
+      return { data: null, error: "Invalid available subjects data received from API" };
+    }
+
     return { data: data as AvailableSubject[], error: null };
   } catch (err: any) {
     console.error("Exception fetching available subjects:", err);
@@ -273,6 +301,10 @@ export async function getChildExamTypes(
     if (error) {
       console.error("Error fetching child exam types:", error);
       return { data: null, error: error.message };
+    }
+
+    if (!Array.isArray(data)) {
+      return { data: null, error: "Invalid child exam types data received from API" };
     }
 
     return { data: data as ChildExamType[], error: null };

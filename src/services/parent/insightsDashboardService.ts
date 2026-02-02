@@ -15,6 +15,15 @@ import type {
   TutorAdvice,
 } from '../../types/parent/insightsDashboardTypes';
 import { COLORS } from '../../constants/colors';
+import {
+  isAllInsightsData,
+  isInsightsSummary,
+  isWeeklyProgress,
+  isFocusModeComparison,
+  isSubjectBalanceData,
+  isConfidenceTrend,
+  isConfidenceHeatmap,
+} from '../../utils/typeGuards';
 
 /**
  * Fetch all insights data in a single RPC call
@@ -34,7 +43,11 @@ export async function fetchAllInsights(
       return { data: null, error: error.message };
     }
 
-    return { data: data as AllInsightsData, error: null };
+    if (!isAllInsightsData(data)) {
+      return { data: null, error: 'Invalid insights data received from API' };
+    }
+
+    return { data, error: null };
   } catch (err: any) {
     console.error('Exception fetching insights:', err);
     return { data: null, error: err.message || 'Failed to fetch insights' };
@@ -58,7 +71,11 @@ export async function fetchInsightsSummary(
       return { data: null, error: error.message };
     }
 
-    return { data: data as InsightsSummary, error: null };
+    if (!isInsightsSummary(data)) {
+      return { data: null, error: 'Invalid insights summary data received from API' };
+    }
+
+    return { data, error: null };
   } catch (err: any) {
     return { data: null, error: err.message || 'Failed to fetch summary' };
   }
@@ -81,7 +98,11 @@ export async function fetchWeeklyProgress(
       return { data: null, error: error.message };
     }
 
-    return { data: data as WeeklyProgress, error: null };
+    if (!isWeeklyProgress(data)) {
+      return { data: null, error: 'Invalid weekly progress data received from API' };
+    }
+
+    return { data, error: null };
   } catch (err: any) {
     return { data: null, error: err.message || 'Failed to fetch weekly progress' };
   }
@@ -104,7 +125,11 @@ export async function fetchFocusModeComparison(
       return { data: null, error: error.message };
     }
 
-    return { data: data as FocusModeComparison, error: null };
+    if (!isFocusModeComparison(data)) {
+      return { data: null, error: 'Invalid focus mode comparison data received from API' };
+    }
+
+    return { data, error: null };
   } catch (err: any) {
     return { data: null, error: err.message || 'Failed to fetch focus comparison' };
   }
@@ -127,7 +152,11 @@ export async function fetchSubjectBalance(
       return { data: null, error: error.message };
     }
 
-    return { data: data as SubjectBalance, error: null };
+    if (!isSubjectBalanceData(data)) {
+      return { data: null, error: 'Invalid subject balance data received from API' };
+    }
+
+    return { data, error: null };
   } catch (err: any) {
     return { data: null, error: err.message || 'Failed to fetch subject balance' };
   }
@@ -152,7 +181,11 @@ export async function fetchConfidenceTrend(
       return { data: null, error: error.message };
     }
 
-    return { data: data as ConfidenceTrend, error: null };
+    if (!isConfidenceTrend(data)) {
+      return { data: null, error: 'Invalid confidence trend data received from API' };
+    }
+
+    return { data, error: null };
   } catch (err: any) {
     return { data: null, error: err.message || 'Failed to fetch confidence trend' };
   }
@@ -177,7 +210,11 @@ export async function fetchConfidenceHeatmap(
       return { data: null, error: error.message };
     }
 
-    return { data: data as ConfidenceHeatmap, error: null };
+    if (!isConfidenceHeatmap(data)) {
+      return { data: null, error: 'Invalid confidence heatmap data received from API' };
+    }
+
+    return { data, error: null };
   } catch (err: any) {
     return { data: null, error: err.message || 'Failed to fetch heatmap' };
   }
@@ -247,6 +284,10 @@ export async function generateTutorAdvice(
     if (error) {
       console.error('Error generating tutor advice:', error);
       return { data: null, error: error.message };
+    }
+
+    if (!data || typeof data !== 'object') {
+      return { data: null, error: 'Invalid tutor advice data received from API' };
     }
 
     return { data: data as TutorAdvice, error: null };
