@@ -118,7 +118,7 @@ export default function Today() {
   // Loading state
   if (authLoading || loading) {
     return (
-      <PageLayout bgColor="bg-neutral-100">
+      <PageLayout>
         <LoadingState message="Loading your sessions..." />
       </PageLayout>
     );
@@ -127,14 +127,14 @@ export default function Today() {
   // Error state
   if (error) {
     return (
-      <PageLayout bgColor="bg-neutral-100">
+      <PageLayout>
         <ErrorState message={error} onRetry={() => window.location.reload()} />
       </PageLayout>
     );
   }
 
   return (
-    <PageLayout bgColor="bg-neutral-100">
+    <PageLayout>
       <main className="max-w-[1120px] mx-auto px-4 py-6">
         
         {/* Header with greeting and streak badge */}

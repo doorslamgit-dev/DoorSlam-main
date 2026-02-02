@@ -114,8 +114,8 @@ export default function SubjectProgress() {
     return (
       <PageLayout>
         <div className="max-w-6xl mx-auto px-6 py-8">
-          <div className="bg-white rounded-2xl shadow-card p-8 text-center">
-            <p className="text-neutral-600">
+          <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-card p-8 text-center">
+            <p className="text-neutral-600 dark:text-neutral-300">
               No children found. Please add a child first.
             </p>
             <button

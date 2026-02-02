@@ -3,14 +3,7 @@
 // Uses shared WeeklyScheduleEditor component
 
 import { useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faTimes,
-  faCalendarAlt,
-  faSave,
-  faRotate,
-  faExclamationTriangle,
-} from "@fortawesome/free-solid-svg-icons";
+import AppIcon from "../ui/AppIcon";
 import WeeklyScheduleEditor from "../shared/scheduling/WeeklyScheduleEditor";
 import { createEmptyTemplate, type DayTemplate } from "../shared/scheduling/DayCard";
 import {
@@ -173,7 +166,7 @@ export default function EditScheduleModal({
         <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-200 shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center">
-              <FontAwesomeIcon icon={faCalendarAlt} className="text-primary-600" />
+              <AppIcon name="calendar" className="w-5 h-5 text-primary-600" />
             </div>
             <div>
               <h2 className="text-lg font-semibold text-neutral-700">
@@ -188,7 +181,7 @@ export default function EditScheduleModal({
             onClick={handleClose}
             className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-neutral-100 transition"
           >
-            <FontAwesomeIcon icon={faTimes} className="text-neutral-500" />
+            <AppIcon name="x" className="w-5 h-5 text-neutral-500" />
           </button>
         </div>
 
@@ -197,7 +190,7 @@ export default function EditScheduleModal({
           {/* Error Message */}
           {error && (
             <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-600 flex items-center gap-2">
-              <FontAwesomeIcon icon={faExclamationTriangle} />
+              <AppIcon name="triangle-alert" className="w-4 h-4" />
               {error}
             </div>
           )}
@@ -240,7 +233,7 @@ export default function EditScheduleModal({
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-neutral-100 group-hover:bg-primary-100 rounded-lg flex items-center justify-center transition">
-                      <FontAwesomeIcon icon={faSave} className="text-neutral-600 group-hover:text-primary-600" />
+                      <AppIcon name="save" className="w-5 h-5 text-neutral-600 group-hover:text-primary-600" />
                     </div>
                     <div>
                       <h4 className="text-sm font-semibold text-neutral-700">Save template only</h4>
@@ -255,7 +248,7 @@ export default function EditScheduleModal({
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-primary-100 group-hover:bg-primary-200 rounded-lg flex items-center justify-center transition">
-                      <FontAwesomeIcon icon={faRotate} className="text-primary-600" />
+                      <AppIcon name="rotate-cw" className="w-5 h-5 text-primary-600" />
                     </div>
                     <div>
                       <h4 className="text-sm font-semibold text-primary-700">Save & regenerate</h4>
@@ -289,7 +282,7 @@ export default function EditScheduleModal({
                   disabled={!isValid || !hasChanges || saving}
                   className="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
-                  <FontAwesomeIcon icon={faSave} />
+                  <AppIcon name="save" className="w-4 h-4" />
                   Save Changes
                 </button>
               </div>

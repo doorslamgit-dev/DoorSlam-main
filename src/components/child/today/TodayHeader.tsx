@@ -1,8 +1,7 @@
 // src/components/child/today/TodayHeader.tsx
 // Greeting section with streak badge
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFire } from "@fortawesome/free-solid-svg-icons";
+import AppIcon from "../../ui/AppIcon";
 
 interface TodayHeaderProps {
   childName: string;
@@ -16,7 +15,7 @@ export default function TodayHeader({ childName, currentStreak }: TodayHeaderPro
         <h1 className="text-3xl font-bold text-primary-900">Hi {childName} 👋</h1>
         {currentStreak > 0 && (
           <div className="flex items-center space-x-2 bg-accent-green/10 px-4 py-2 rounded-full">
-            <FontAwesomeIcon icon={faFire} className="text-accent-green" />
+            <AppIcon name="flame" className="text-accent-green w-4 h-4" />
             <span className="text-accent-green font-semibold text-sm">
               {currentStreak}-day streak
             </span>

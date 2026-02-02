@@ -2,8 +2,7 @@
 // FEAT-013: Streak momentum card (half-width, sits alongside RewardsMiniCard)
 // Extracted from inline Today.tsx implementation
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFire, faCheck } from "@fortawesome/free-solid-svg-icons";
+import AppIcon from "../../ui/AppIcon";
 
 interface StreakMomentumCardProps {
   currentStreak: number;
@@ -24,7 +23,7 @@ export default function StreakMomentumCard({
       <div className="bg-gradient-to-r from-primary-50 to-primary-100 rounded-2xl p-6 border border-primary-200">
         <div className="flex items-start space-x-4">
           <div className="w-12 h-12 bg-primary-200 rounded-full flex items-center justify-center flex-shrink-0">
-            <FontAwesomeIcon icon={faFire} className="text-primary-600 text-xl" />
+            <AppIcon name="flame" className="text-primary-600 w-6 h-6" />
           </div>
           <div className="flex-1">
             <h3 className="text-lg font-bold text-primary-900 mb-2">
@@ -45,7 +44,7 @@ export default function StreakMomentumCard({
     <div className="bg-gradient-to-r from-primary-50 to-primary-100 rounded-2xl shadow-soft p-6 border border-primary-200">
       <div className="flex items-start space-x-4">
         <div className="w-12 h-12 bg-accent-green rounded-full flex items-center justify-center flex-shrink-0">
-          <FontAwesomeIcon icon={faFire} className="text-white text-xl" />
+          <AppIcon name="flame" className="text-white w-6 h-6" />
         </div>
         <div className="flex-1">
           <h3 className="text-lg font-bold text-primary-900 mb-2">
@@ -77,7 +76,7 @@ function StreakVisualizer({ current, showNext }: { current: number; showNext: bo
           key={i}
           className="w-8 h-8 bg-accent-green rounded-full flex items-center justify-center"
         >
-          <FontAwesomeIcon icon={faCheck} className="text-white text-xs" />
+          <AppIcon name="check" className="text-white w-3 h-3" />
         </div>
       ))}
       {showNext && (

@@ -1,4 +1,5 @@
 import type { SubjectLegend as SubjectLegendType } from "../../services/timetableService";
+import { getSubjectColor } from "../../constants/colors";
 
 interface SubjectLegendProps {
   subjects: SubjectLegendType[];
@@ -19,7 +20,7 @@ export function SubjectLegend({ subjects }: SubjectLegendProps) {
           <div key={subject.subject_id} className="flex items-center space-x-2">
             <div
               className="w-4 h-4 rounded"
-              style={{ backgroundColor: subject.subject_color }}
+              style={{ backgroundColor: getSubjectColor(subject.subject_name) }}
             />
             <span className="text-sm text-neutral-600">
               {subject.subject_name}

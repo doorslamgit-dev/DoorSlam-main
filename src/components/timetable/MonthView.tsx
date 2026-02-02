@@ -1,4 +1,5 @@
 import type { TimetableSession } from "../../services/timetableService";
+import { getSubjectColor } from "../../constants/colors";
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
@@ -47,13 +48,13 @@ export function MonthView({
     today.getFullYear() === year && today.getMonth() === month;
 
   return (
-    <div className="bg-white rounded-2xl shadow-card overflow-hidden mb-6">
+    <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-card overflow-hidden mb-6">
       <div className="p-6">
         <div className="grid grid-cols-7 gap-1 mb-2">
           {DAYS.map((day) => (
             <div
               key={day}
-              className="text-center text-sm font-medium py-2 text-neutral-600"
+              className="text-center text-sm font-medium py-2 text-neutral-600 dark:text-neutral-300"
             >
               {day}
             </div>
@@ -75,41 +76,44 @@ export function MonthView({
                 key={day}
                 className={`h-24 border rounded-lg p-2 overflow-hidden ${
                   dayBlocked
-                    ? "border-neutral-300 bg-neutral-100"
+                    ? "border-neutral-300 dark:border-neutral-600 bg-neutral-100 dark:bg-neutral-700"
                     : isToday
-                    ? "border-primary-600 bg-primary-50"
-                    : "border-neutral-200 bg-white"
+                    ? "border-primary-600 dark:border-primary-500 bg-primary-50 dark:bg-primary-900/30"
+                    : "border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800"
                 }`}
               >
                 <div
                   className={`text-sm font-medium mb-1 ${
                     dayBlocked
-                      ? "text-neutral-400"
+                      ? "text-neutral-400 dark:text-neutral-500"
                       : isToday
-                      ? "text-primary-600"
-                      : "text-neutral-700"
+                      ? "text-primary-600 dark:text-primary-400"
+                      : "text-neutral-700 dark:text-neutral-200"
                   }`}
                 >
                   {day}
                 </div>
                 {dayBlocked ? (
-                  <div className="text-xs text-neutral-400 italic">Blocked</div>
+                  <div className="text-xs text-neutral-400 dark:text-neutral-500 italic">Blocked</div>
                 ) : (
                   <div className="space-y-1">
-                    {daySessions.slice(0, 2).map((session) => (
-                      <div
-                        key={session.planned_session_id}
-                        className="text-xs px-1.5 py-0.5 rounded truncate"
-                        style={{
-                          backgroundColor: `${session.color}20`,
-                          color: session.color,
-                        }}
-                      >
-                        {session.subject_name}
-                      </div>
-                    ))}
+                    {daySessions.slice(0, 2).map((session) => {
+                      const color = getSubjectColor(session.subject_name);
+                      return (
+                        <div
+                          key={session.planned_session_id}
+                          className="text-xs px-1.5 py-0.5 rounded truncate"
+                          style={{
+                            backgroundColor: `${color}20`,
+                            color: color,
+                          }}
+                        >
+                          {session.subject_name}
+                        </div>
+                      );
+                    })}
                     {daySessions.length > 2 && (
-                      <div className="text-xs text-neutral-500">
+                      <div className="text-xs text-neutral-500 dark:text-neutral-400">
                         +{daySessions.length - 2} more
                       </div>
                     )}

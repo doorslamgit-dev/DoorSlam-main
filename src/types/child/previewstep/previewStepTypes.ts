@@ -1,7 +1,5 @@
 // src/types/child/previewstep/previewStepTypes.ts
 
-import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
-
 export type ConfidenceLevel = "very_confident" | "fairly_confident" | "bit_unsure" | "need_help";
 
 export interface PreviewStepOverview {
@@ -36,7 +34,7 @@ export interface ConfidenceOption {
   id: ConfidenceLevel;
   label: string;
   description: string;
-  icon: IconDefinition;
+  icon: string;
   bgColor: string;
   iconBgColor: string;
   iconColor: string;

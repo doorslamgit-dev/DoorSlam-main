@@ -14,6 +14,7 @@ import {
 import type { ConfidenceTrend } from "../../../types/parent/insightsDashboardTypes";
 import AppIcon from "../../ui/AppIcon";
 import { ICON_MAP } from "../../ui/AppIcon";
+import { COLORS } from "../../../constants/colors";
 
 interface ConfidenceTrendWidgetProps {
   data: ConfidenceTrend | null;
@@ -84,23 +85,23 @@ export default function ConfidenceTrendWidget({ data, loading }: ConfidenceTrend
             {/* Theme tokens for chart colours live on the container */}
             <div
               style={{
-                // You can point these at your theme variables later without touching this component again
-                ["--chart-pre" as any]: "var(--color-primary-300)",
-                ["--chart-post" as any]: "var(--color-primary-600)",
+                // Theme-ready color variables pointing to our design system
+                ["--chart-pre" as any]: COLORS.primary[300],
+                ["--chart-post" as any]: COLORS.primary[600],
               }}
               className="w-full h-full"
             >
               <LineChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--grid-line, #E1E4EE)" />
+                <CartesianGrid strokeDasharray="3 3" stroke={COLORS.neutral[200]} />
                 <XAxis
                   dataKey="name"
-                  tick={{ fontSize: 12, fill: "var(--axis-text, #6C7280)" }}
-                  axisLine={{ stroke: "var(--axis-line, #E1E4EE)" }}
+                  tick={{ fontSize: 12, fill: COLORS.neutral[500] }}
+                  axisLine={{ stroke: COLORS.neutral[200] }}
                 />
                 <YAxis
                   domain={[0, 100]}
-                  tick={{ fontSize: 12, fill: "var(--axis-text, #6C7280)" }}
-                  axisLine={{ stroke: "var(--axis-line, #E1E4EE)" }}
+                  tick={{ fontSize: 12, fill: COLORS.neutral[500] }}
+                  axisLine={{ stroke: COLORS.neutral[200] }}
                 />
                 <Tooltip content={<CustomTooltip />} />
 

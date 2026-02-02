@@ -3,12 +3,7 @@
 // Child-friendly language throughout
 // Now uses extracted components, hooks, services, and types
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faExpand,
-  faShuffle,
-  faQuestionCircle,
-} from "@fortawesome/free-solid-svg-icons";
+import AppIcon from "../../../components/ui/AppIcon";
 
 // Types
 import type { RecallStepProps, Flashcard } from "../../../types/child/recallStep";
@@ -33,7 +28,7 @@ function NoCardsScreen({ onNext }: { onNext: () => void }) {
   return (
     <div className="bg-white rounded-2xl shadow-card p-8 text-center">
       <div className="w-16 h-16 bg-neutral-100 rounded-full flex items-center justify-center mx-auto mb-4">
-        <FontAwesomeIcon icon={faQuestionCircle} className="text-neutral-400 text-2xl" />
+        <AppIcon name="circle-help" className="text-neutral-400 w-8 h-8" />
       </div>
       <h2 className="text-xl font-bold text-neutral-900 mb-2">Let's skip ahead!</h2>
       <p className="text-neutral-600 mb-6">
@@ -64,14 +59,14 @@ function FooterControls({ onShuffle }: { onShuffle: () => void }) {
           className="text-neutral-400 hover:text-neutral-600"
           title="Shuffle"
         >
-          <FontAwesomeIcon icon={faShuffle} />
+          <AppIcon name="shuffle" className="w-4 h-4" />
         </button>
         <button
           type="button"
           className="text-neutral-400 hover:text-neutral-600 flex items-center gap-1"
           title="Full screen"
         >
-          <FontAwesomeIcon icon={faExpand} />
+          <AppIcon name="expand" className="w-4 h-4" />
           <span>Full screen</span>
         </button>
       </div>

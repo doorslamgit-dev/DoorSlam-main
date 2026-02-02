@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import AppIcon from "../../ui/AppIcon";
+import { COLORS } from "../../../constants/colors";
 
 /* ============================
    Types
@@ -302,11 +303,11 @@ export default function RevisionPeriodStep({
               }
               className="w-full h-2 bg-neutral-200 rounded-full appearance-none cursor-pointer accent-primary-600"
               style={{
-                background: `linear-gradient(to right, #5B2CFF 0%, #5B2CFF ${
+                background: `linear-gradient(to right, ${COLORS.primary[600]} 0%, ${COLORS.primary[600]} ${
                   ((currentScore - 1) / 4) * 100
-                }%, #E1E4EE ${
+                }%, ${COLORS.neutral[200]} ${
                   ((currentScore - 1) / 4) * 100
-                }%, #E1E4EE 100%)`,
+                }%, ${COLORS.neutral[200]} 100%)`,
               }}
             />
             <div className="flex justify-between mt-2">
@@ -355,12 +356,12 @@ export default function RevisionPeriodStep({
               }`}
               style={{
                 background: revisionPeriod.is_first_time
-                  ? "#E1E4EE"
-                  : `linear-gradient(to right, #5B2CFF 0%, #5B2CFF ${
+                  ? COLORS.neutral[200]
+                  : `linear-gradient(to right, ${COLORS.primary[600]} 0%, ${COLORS.primary[600]} ${
                       ((pastScore - 1) / 4) * 100
-                    }%, #E1E4EE ${
+                    }%, ${COLORS.neutral[200]} ${
                       ((pastScore - 1) / 4) * 100
-                    }%, #E1E4EE 100%)`,
+                    }%, ${COLORS.neutral[200]} 100%)`,
               }}
             />
             <div className="flex justify-between mt-2">

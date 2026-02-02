@@ -1,5 +1,4 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import AppIcon from "../ui/AppIcon";
 import { formatDateRange } from "../../services/timetableService";
 import type { ViewMode } from "../../hooks/useTimetableData";
 
@@ -35,9 +34,9 @@ export function TimetableControls({
             onClick={onPrevious}
             className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-neutral-100 transition-colors"
           >
-            <FontAwesomeIcon
-              icon={faChevronLeft}
-              className="text-neutral-600"
+            <AppIcon
+              name="chevron-left"
+              className="w-4 h-4 text-neutral-600"
             />
           </button>
           <h3 className="text-lg font-semibold min-w-[200px] text-center text-neutral-700">
@@ -47,9 +46,9 @@ export function TimetableControls({
             onClick={onNext}
             className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-neutral-100 transition-colors"
           >
-            <FontAwesomeIcon
-              icon={faChevronRight}
-              className="text-neutral-600"
+            <AppIcon
+              name="chevron-right"
+              className="w-4 h-4 text-neutral-600"
             />
           </button>
         </div>

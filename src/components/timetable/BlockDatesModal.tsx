@@ -1,18 +1,7 @@
 // src/components/timetable/BlockDatesModal.tsx
 
 import { useState, useEffect, useRef } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faTimes,
-  faPlus,
-  faTrash,
-  faPlane,
-  faGift,
-  faCoffee,
-  faCalendarTimes,
-  faCheck,
-  faExclamationTriangle,
-} from "@fortawesome/free-solid-svg-icons";
+import AppIcon from "../ui/AppIcon";
 import {
   fetchDateOverrides,
   addDateOverride,
@@ -29,10 +18,10 @@ interface BlockDatesModalProps {
 }
 
 const REASON_OPTIONS = [
-  { value: "holiday", label: "Holiday", icon: faPlane },
-  { value: "event", label: "Event / Birthday", icon: faGift },
-  { value: "break", label: "Taking a break", icon: faCoffee },
-  { value: "other", label: "Other", icon: faCalendarTimes },
+  { value: "holiday", label: "Holiday", icon: "plane" },
+  { value: "event", label: "Event / Birthday", icon: "gift" },
+  { value: "break", label: "Taking a break", icon: "coffee" },
+  { value: "other", label: "Other", icon: "calendar-x" },
 ];
 
 export default function BlockDatesModal({
@@ -192,10 +181,10 @@ export default function BlockDatesModal({
     return option?.label || reasonCode;
   }
 
-  function getReasonIcon(reasonCode: string | null) {
-    if (!reasonCode) return faCalendarTimes;
+  function getReasonIcon(reasonCode: string | null): string {
+    if (!reasonCode) return "calendar-x";
     const option = REASON_OPTIONS.find((o) => o.value === reasonCode);
-    return option?.icon || faCalendarTimes;
+    return option?.icon || "calendar-x";
   }
 
   if (!isOpen) return null;
@@ -220,7 +209,7 @@ export default function BlockDatesModal({
             className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-neutral-100 transition"
             title="Cancel"
           >
-            <FontAwesomeIcon icon={faTimes} className="text-neutral-500" />
+            <AppIcon name="x" className="w-5 h-5 text-neutral-500" />
           </button>
         </div>
 
@@ -228,14 +217,14 @@ export default function BlockDatesModal({
         <div className="p-6 overflow-y-auto flex-1">
           {error && (
             <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-600 flex items-center gap-2">
-              <FontAwesomeIcon icon={faExclamationTriangle} />
+              <AppIcon name="triangle-alert" className="w-4 h-4" />
               {error}
             </div>
           )}
 
           {successMessage && (
             <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg text-sm text-green-600 flex items-center gap-2">
-              <FontAwesomeIcon icon={faCheck} />
+              <AppIcon name="check" className="w-4 h-4" />
               {successMessage}
             </div>
           )}
@@ -286,7 +275,7 @@ export default function BlockDatesModal({
                         : "border-neutral-200 hover:border-neutral-300 text-neutral-600"
                     }`}
                   >
-                    <FontAwesomeIcon icon={option.icon} className="text-xs" />
+                    <AppIcon name={option.icon} className="w-3 h-3" />
                     {option.label}
                   </button>
                 ))}
@@ -305,7 +294,7 @@ export default function BlockDatesModal({
                 </>
               ) : (
                 <>
-                  <FontAwesomeIcon icon={faPlus} />
+                  <AppIcon name="plus" className="w-4 h-4" />
                   Add to Blocked List
                 </>
               )}
@@ -325,7 +314,7 @@ export default function BlockDatesModal({
               </div>
             ) : overrides.length === 0 ? (
               <div className="py-8 text-center text-neutral-500 border-2 border-dashed border-neutral-200 rounded-xl">
-                <FontAwesomeIcon icon={faCalendarTimes} className="text-2xl text-neutral-300 mb-2" />
+                <AppIcon name="calendar-x" className="w-8 h-8 text-neutral-300 mb-2 mx-auto" />
                 <p className="text-sm">No dates blocked yet</p>
                 <p className="text-xs text-neutral-400 mt-1">
                   Use the form above to add blocked dates
@@ -340,9 +329,9 @@ export default function BlockDatesModal({
                   >
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 bg-neutral-100 rounded-lg flex items-center justify-center">
-                        <FontAwesomeIcon
-                          icon={getReasonIcon(override.reason)}
-                          className="text-neutral-500 text-sm"
+                        <AppIcon
+                          name={getReasonIcon(override.reason)}
+                          className="w-4 h-4 text-neutral-500"
                         />
                       </div>
                       <div>
@@ -359,7 +348,7 @@ export default function BlockDatesModal({
                       className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-red-50 text-neutral-400 hover:text-red-500 transition"
                       title="Remove"
                     >
-                      <FontAwesomeIcon icon={faTrash} className="text-sm" />
+                      <AppIcon name="trash-2" className="w-4 h-4" />
                     </button>
                   </div>
                 ))}
@@ -372,8 +361,8 @@ export default function BlockDatesModal({
         <div className="flex items-center justify-between px-6 py-4 border-t border-neutral-200 bg-neutral-50 shrink-0">
           <div className="text-sm text-neutral-500">
             {datesAddedThisSession > 0 && (
-              <span className="text-green-600">
-                <FontAwesomeIcon icon={faCheck} className="mr-1" />
+              <span className="text-green-600 flex items-center gap-1">
+                <AppIcon name="check" className="w-4 h-4" />
                 {datesAddedThisSession} date{datesAddedThisSession !== 1 ? "s" : ""} added
               </span>
             )}

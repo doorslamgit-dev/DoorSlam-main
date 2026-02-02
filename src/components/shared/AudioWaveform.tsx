@@ -5,6 +5,7 @@
 // Used by VoiceRecorder for visual feedback during recording.
 
 import { useEffect, useRef } from "react";
+import { COLORS } from "../../constants/colors";
 
 // =============================================================================
 // Types
@@ -34,7 +35,7 @@ interface AudioWaveformProps {
 // =============================================================================
 
 const DEFAULT_BAR_COUNT = 20;
-const DEFAULT_BAR_COLOR = "#7C3AED"; // primary-600
+const DEFAULT_BAR_COLOR = COLORS.accent.purple; // accent-purple
 const DEFAULT_BG_COLOR = "transparent";
 const DEFAULT_WIDTH = 120;
 const DEFAULT_HEIGHT = 40;

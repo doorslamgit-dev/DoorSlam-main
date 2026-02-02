@@ -1,7 +1,6 @@
 // src/components/child/summarystep/MnemonicStyleSelector.tsx
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import AppIcon from "../../ui/AppIcon";
 import { MnemonicStyle } from "../../../types/child/summarystep";
 import { MNEMONIC_STYLES } from "../../../services/child/summarystep";
 
@@ -47,7 +46,7 @@ export function MnemonicStyleSelector({
             <div
               className={`w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-gradient-to-br ${style.gradient}`}
             >
-              <FontAwesomeIcon icon={style.icon} className="text-white text-lg" />
+              <AppIcon name={style.icon} className="text-white w-5 h-5" />
             </div>
 
             <span className="font-semibold text-neutral-700 text-sm">
@@ -60,7 +59,7 @@ export function MnemonicStyleSelector({
 
             {isSelected && (
               <div className="mt-2 text-primary-600">
-                <FontAwesomeIcon icon={faCheck} />
+                <AppIcon name="check" className="w-4 h-4" />
               </div>
             )}
           </button>

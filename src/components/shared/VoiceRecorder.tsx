@@ -12,6 +12,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import AudioWaveform from "./AudioWaveform";
 import AppIcon from "../ui/AppIcon";
+import { COLORS } from "../../constants/colors";
 
 // =============================================================================
 // Types
@@ -133,7 +134,7 @@ export default function VoiceRecorder({
   showPlayback = false,
   existingRecording,
   silenceThreshold = DEFAULT_SILENCE_THRESHOLD,
-  waveformColor = "#7C3AED",
+  waveformColor = COLORS.accent.purple,
   size = "md",
   className = "",
 }: VoiceRecorderProps) {

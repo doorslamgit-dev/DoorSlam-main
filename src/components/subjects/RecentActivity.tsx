@@ -2,6 +2,7 @@
 
 import type { SubjectProgress } from "../../types/subjectProgress";
 import AppIcon from "../ui/AppIcon";
+import { COLORS, ACTIVITY_COLORS, getSubjectColor } from "../../constants/colors";
 
 interface RecentActivityProps {
   subjects: SubjectProgress[];
@@ -29,7 +30,7 @@ export default function RecentActivity({ subjects }: RecentActivityProps) {
         type: "completed",
         subject: subject.subject_name,
         topic: topic.topic_name,
-        color: subject.subject_color || "#5B2CFF",
+        color: getSubjectColor(subject.subject_name),
         timeAgo: formatDaysAgo(topic.days_since),
       });
     });
@@ -45,7 +46,7 @@ export default function RecentActivity({ subjects }: RecentActivityProps) {
           type: "needs_practice",
           subject: subject.subject_name,
           topic: upcomingTopic.topic_name,
-          color: subject.subject_color || "#FFB547",
+          color: getSubjectColor(subject.subject_name),
           timeAgo: "review needed",
         });
       }
@@ -57,11 +58,11 @@ export default function RecentActivity({ subjects }: RecentActivityProps) {
 
   if (recentActivities.length === 0) {
     return (
-      <div className="bg-white rounded-2xl shadow-soft p-6">
-        <h3 className="text-lg font-semibold mb-4" style={{ color: "#1F2330" }}>
+      <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-soft p-6">
+        <h3 className="text-lg font-semibold mb-4 text-neutral-700 dark:text-neutral-200">
           Recent Activity
         </h3>
-        <p className="text-sm text-center py-4" style={{ color: "#6C7280" }}>
+        <p className="text-sm text-center py-4 text-neutral-500 dark:text-neutral-400">
           No recent activity
         </p>
       </div>
@@ -69,8 +70,8 @@ export default function RecentActivity({ subjects }: RecentActivityProps) {
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-soft p-6">
-      <h3 className="text-lg font-semibold mb-4" style={{ color: "#1F2330" }}>
+    <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-soft p-6">
+      <h3 className="text-lg font-semibold mb-4 text-neutral-700 dark:text-neutral-200">
         Recent Activity
       </h3>
 
@@ -91,10 +92,10 @@ export default function RecentActivity({ subjects }: RecentActivityProps) {
             </div>
 
             <div>
-              <div className="text-sm font-medium" style={{ color: "#1F2330" }}>
+              <div className="text-sm font-medium text-neutral-700 dark:text-neutral-200">
                 {getActivityTitle(activity.type, activity.subject)}
               </div>
-              <div className="text-xs" style={{ color: "#6C7280" }}>
+              <div className="text-xs text-neutral-500 dark:text-neutral-400">
                 {activity.topic} • {activity.timeAgo}
               </div>
             </div>
@@ -114,16 +115,7 @@ function formatDaysAgo(days: number): string {
 }
 
 function getActivityColor(type: Activity["type"]): string {
-  switch (type) {
-    case "completed":
-      return "#1EC592"; // accent-green
-    case "submitted":
-      return "#5B2CFF"; // primary-600
-    case "needs_practice":
-      return "#FFB547"; // accent-amber
-    default:
-      return "#5B2CFF";
-  }
+  return ACTIVITY_COLORS[type] || COLORS.primary[600];
 }
 
 function getActivityIcon(type: Activity["type"]) {

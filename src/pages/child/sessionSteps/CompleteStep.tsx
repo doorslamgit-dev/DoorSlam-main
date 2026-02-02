@@ -7,16 +7,7 @@
 // PRESERVES: Audio recording, transcription workflow, reflection insert
 // FEAT-011 Phase 2: Added studyBuddyService.updateSummary on completion
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faStar,
-  faCheckCircle,
-  faClock,
-  faPencil,
-  faMicrophone,
-  faHome,
-  faArrowRight,
-} from "@fortawesome/free-solid-svg-icons";
+import AppIcon from "../../../components/ui/AppIcon";
 
 import type {
   CompleteStepProps,
@@ -31,6 +22,7 @@ import {
 import { getIconFromName } from "../../../services/child/completestep";
 import { supabase } from "../../../lib/supabase";
 import { studyBuddyService } from "../../../services/child/studyBuddy/studyBuddyService";
+import { getSubjectColor } from "../../../constants/colors";
 
 export default function CompleteStep({
   overview,
@@ -65,7 +57,7 @@ export default function CompleteStep({
   });
 
   const subjectIcon = getIconFromName(overview.subject_icon);
-  const subjectColor = overview.subject_color || "#5B2CFF";
+  const subjectColor = getSubjectColor(overview.subject_name);
   const childName = overview.child_name || "there";
   const sessionMinutes = overview.session_duration_minutes ?? 20;
 
@@ -136,7 +128,7 @@ export default function CompleteStep({
             className="w-12 h-12 rounded-xl flex items-center justify-center"
             style={{ backgroundColor: subjectColor }}
           >
-            <FontAwesomeIcon icon={subjectIcon} className="text-white text-xl" />
+            <AppIcon name={subjectIcon} className="text-white w-6 h-6" />
           </div>
           <div>
             <p className="text-neutral-500 text-sm">
@@ -147,11 +139,11 @@ export default function CompleteStep({
         </div>
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2 bg-green-100 px-3 py-1.5 rounded-full">
-            <FontAwesomeIcon icon={faCheckCircle} className="text-green-600" />
+            <AppIcon name="circle-check" className="text-green-600 w-4 h-4" />
             <span className="text-green-700 font-medium text-sm">Complete!</span>
           </div>
           <div className="flex items-center gap-2 text-neutral-500 text-sm">
-            <FontAwesomeIcon icon={faClock} />
+            <AppIcon name="clock" className="w-4 h-4" />
             <span>{sessionMinutes} mins</span>
           </div>
         </div>
@@ -188,7 +180,7 @@ export default function CompleteStep({
         <div className="bg-white rounded-2xl shadow-card p-6">
           <div className="flex items-center space-x-3 mb-5">
             <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
-              <FontAwesomeIcon icon={faPencil} className="text-primary-600 text-xl" />
+              <AppIcon name="pencil" className="text-primary-600 w-6 h-6" />
             </div>
             <div>
               <h2 className="text-xl font-bold text-primary-900">Any notes for next time?</h2>
@@ -207,7 +199,7 @@ export default function CompleteStep({
 
           <div className="mt-4">
             <p className="text-sm text-neutral-600 mb-3 flex items-center gap-2">
-              <FontAwesomeIcon icon={faMicrophone} className="text-primary-600" />
+              <AppIcon name="mic" className="text-primary-600 w-4 h-4" />
               <span className="font-medium">Or say it instead:</span>
             </p>
             <AudioRecorder
@@ -226,7 +218,7 @@ export default function CompleteStep({
         <div className="bg-gradient-to-br from-primary-600 to-primary-700 rounded-2xl shadow-card p-6 text-white">
           <div className="flex items-start space-x-4">
             <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
-              <FontAwesomeIcon icon={faStar} className="text-white text-xl" />
+              <AppIcon name="star" className="text-white w-6 h-6" />
             </div>
             <div className="flex-1">
               <h3 className="text-lg font-bold mb-2">Amazing work, {childName}!</h3>
@@ -253,7 +245,7 @@ export default function CompleteStep({
               disabled={!canFinish || saving}
               className="flex items-center gap-2 px-5 py-3 bg-neutral-100 text-neutral-700 font-medium rounded-xl hover:bg-neutral-200 transition disabled:opacity-50"
             >
-              <FontAwesomeIcon icon={faHome} />
+              <AppIcon name="home" className="w-4 h-4" />
               <span>Home</span>
             </button>
 
@@ -268,7 +260,7 @@ export default function CompleteStep({
                 className="flex items-center gap-2 px-6 py-3 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition disabled:opacity-50"
               >
                 <span>{saving ? "Saving..." : "Next Session"}</span>
-                <FontAwesomeIcon icon={faArrowRight} />
+                <AppIcon name="arrow-right" className="w-4 h-4" />
               </button>
             ) : (
               <button
@@ -278,7 +270,7 @@ export default function CompleteStep({
                 className="flex items-center gap-2 px-6 py-3 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition disabled:opacity-50"
               >
                 <span>{saving ? "Saving..." : "Finish"}</span>
-                <FontAwesomeIcon icon={faCheckCircle} />
+                <AppIcon name="circle-check" className="w-4 h-4" />
               </button>
             )}
           </div>

@@ -30,7 +30,7 @@ export function ReportHeader({
             </div>
 
             <h1 className="text-2xl font-bold text-primary-900">
-              RevisionHub Progress Report
+              Doorslam Progress Report
             </h1>
           </div>
 

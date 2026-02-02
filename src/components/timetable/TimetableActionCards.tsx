@@ -1,11 +1,6 @@
 // src/components/timetable/TimetableActionCards.tsx
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPlus,
-  faCalendarAlt,
-  faUmbrellaBeach,
-} from "@fortawesome/free-solid-svg-icons";
+import AppIcon from "../ui/AppIcon";
 
 interface TimetableActionCardsProps {
   onAddSession: () => void;
@@ -20,19 +15,19 @@ export default function TimetableActionCards({
 }: TimetableActionCardsProps) {
   const cards = [
     {
-      icon: faPlus,
+      icon: "plus",
       title: "Add Session",
       description: "Quick add a one-time revision session",
       onClick: onAddSession,
     },
     {
-      icon: faCalendarAlt,
+      icon: "calendar",
       title: "Edit Schedule",
       description: "Change weekly availability pattern",
       onClick: onEditSchedule,
     },
     {
-      icon: faUmbrellaBeach,
+      icon: "umbrella",
       title: "Block Dates",
       description: "Mark holidays, events, or time off",
       onClick: onBlockDates,
@@ -49,7 +44,7 @@ export default function TimetableActionCards({
         >
           <div className="flex items-start gap-3">
             <div className="w-10 h-10 bg-primary-100 group-hover:bg-primary-200 rounded-lg flex items-center justify-center shrink-0 transition">
-              <FontAwesomeIcon icon={card.icon} className="text-lg text-primary-600" />
+              <AppIcon name={card.icon} className="w-5 h-5 text-primary-600" />
             </div>
             <div>
               <h3 className="font-semibold text-sm mb-0.5 text-primary-900">{card.title}</h3>

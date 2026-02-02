@@ -1,37 +1,14 @@
 // src/services/child/summarystep.ts
 
-import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
-import {
-  faCalculator,
-  faBook,
-  faFlask,
-  faAtom,
-  faGlobe,
-  faLandmark,
-  faDna,
-  faMicrophone,
-  faMusic,
-  faGuitar,
-} from "@fortawesome/free-solid-svg-icons";
 import { KeyTakeaway, TeachingSlide, MnemonicStyle } from "../../types/child/summarystep";
+import { getSubjectIcon } from "../../constants/icons";
 
 // =============================================================================
 // Icon Mapping
 // =============================================================================
 
-const ICON_MAP: Record<string, IconDefinition> = {
-  calculator: faCalculator,
-  book: faBook,
-  flask: faFlask,
-  atom: faAtom,
-  globe: faGlobe,
-  landmark: faLandmark,
-  dna: faDna,
-};
-
-export function getIconFromName(iconName?: string): IconDefinition {
-  if (!iconName) return faFlask;
-  return ICON_MAP[iconName.toLowerCase()] || faFlask;
+export function getIconFromName(iconName?: string): string {
+  return getSubjectIcon(iconName);
 }
 
 // =============================================================================
@@ -129,7 +106,7 @@ export const MNEMONIC_STYLES: Array<{
   id: MnemonicStyle;
   name: string;
   description: string;
-  icon: IconDefinition;
+  icon: string;
   gradient: string;
   styleReference: string;
 }> = [
@@ -137,7 +114,7 @@ export const MNEMONIC_STYLES: Array<{
     id: "hip-hop",
     name: "Hip-Hop",
     description: "Catchy rap beats",
-    icon: faMicrophone,
+    icon: "mic",
     gradient: "from-purple-500 to-pink-500",
     styleReference: "street-anthem",
   },
@@ -145,7 +122,7 @@ export const MNEMONIC_STYLES: Array<{
     id: "pop",
     name: "Pop",
     description: "Upbeat melody",
-    icon: faMusic,
+    icon: "music",
     gradient: "from-blue-500 to-cyan-500",
     styleReference: "upbeat-pop",
   },
@@ -153,7 +130,7 @@ export const MNEMONIC_STYLES: Array<{
     id: "rock",
     name: "Rock",
     description: "Electric vibes",
-    icon: faGuitar,
+    icon: "guitar",
     gradient: "from-orange-500 to-red-500",
     styleReference: "indie-rock",
   },

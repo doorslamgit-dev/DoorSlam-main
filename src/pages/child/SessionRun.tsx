@@ -32,6 +32,7 @@ import { useSessionRun } from "../../hooks/child/useSessionRun";
 
 // Utils
 import { getSubjectIcon, calculateTimeRemaining } from "../../utils/child/sessionUtils";
+import { getSubjectColor } from "../../constants/colors";
 
 // Services
 import {
@@ -151,7 +152,7 @@ export default function SessionRun() {
   // ===========================================================================
 
   const subjectIcon = getSubjectIcon(sessionData.subject_icon);
-  const subjectColor = sessionData.subject_color || "#5B2CFF";
+  const subjectColor = getSubjectColor(sessionData.subject_name);
   const currentStepData = sessionData.steps.find((s) => s.step_key === currentStepKey);
 
   const timeRemainingMinutes = calculateTimeRemaining(

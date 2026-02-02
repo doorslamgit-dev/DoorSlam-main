@@ -1,8 +1,7 @@
 // src/components/child/today/EmptyState.tsx
 // Loading, Error, and Empty state components
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBook, faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
+import AppIcon from "../../ui/AppIcon";
 
 interface LoadingStateProps {
   message?: string;
@@ -29,7 +28,7 @@ export function ErrorState({ message, onRetry }: ErrorStateProps) {
     <div className="max-w-[1120px] mx-auto px-4 py-8">
       <div className="bg-red-50 border border-red-100 rounded-2xl p-6 text-center">
         <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <FontAwesomeIcon icon={faExclamationTriangle} className="text-red-500 text-xl" />
+          <AppIcon name="triangle-alert" className="text-red-500 w-6 h-6" />
         </div>
         <p className="text-red-700 font-medium mb-4">{message}</p>
         {onRetry && (
@@ -57,7 +56,7 @@ export default function EmptyState({
   return (
     <div className="text-center py-8">
       <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
-        <FontAwesomeIcon icon={faBook} className="text-2xl text-primary-600" />
+        <AppIcon name="book" className="text-primary-600 w-8 h-8" />
       </div>
       <h3 className="text-lg font-semibold text-primary-900 mb-2">{title}</h3>
       <p className="text-neutral-600">{message}</p>

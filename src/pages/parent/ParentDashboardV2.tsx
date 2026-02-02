@@ -151,9 +151,11 @@ export function ParentDashboardV2() {
   // Loading state
   if (loading) {
     return (
-      <div className="max-w-content mx-auto px-6 py-8">
-        <HeroSkeleton />
-        <ChildCardsSkeleton />
+      <div className="min-h-[calc(100vh-73px)] bg-neutral-50 dark:bg-neutral-900">
+        <div className="max-w-content mx-auto px-6 py-8">
+          <HeroSkeleton />
+          <ChildCardsSkeleton />
+        </div>
       </div>
     );
   }
@@ -161,8 +163,10 @@ export function ParentDashboardV2() {
   // Error state
   if (error) {
     return (
-      <div className="max-w-content mx-auto px-6 py-8">
-        <ErrorState message={error} onRetry={fetchData} />
+      <div className="min-h-[calc(100vh-73px)] bg-neutral-50 dark:bg-neutral-900">
+        <div className="max-w-content mx-auto px-6 py-8">
+          <ErrorState message={error} onRetry={fetchData} />
+        </div>
       </div>
     );
   }
@@ -170,14 +174,17 @@ export function ParentDashboardV2() {
   // No data state
   if (!data) {
     return (
-      <div className="max-w-content mx-auto px-6 py-8">
-        <ErrorState message="No data available" onRetry={fetchData} />
+      <div className="min-h-[calc(100vh-73px)] bg-neutral-50 dark:bg-neutral-900">
+        <div className="max-w-content mx-auto px-6 py-8">
+          <ErrorState message="No data available" onRetry={fetchData} />
+        </div>
       </div>
     );
   }
 
   return (
-    <main className="max-w-content mx-auto px-6 py-8">
+    <div className="min-h-[calc(100vh-73px)] bg-neutral-50 dark:bg-neutral-900">
+      <main className="max-w-content mx-auto px-6 py-8">
       {/* Hero Status Banner (includes nudges as 4th card + Add Child button) */}
       <HeroStatusBanner
         weekSummary={data.week_summary}
@@ -238,7 +245,8 @@ export function ParentDashboardV2() {
 
       {/* Resources */}
       <ResourcesSection />
-    </main>
+      </main>
+    </div>
   );
 }
 

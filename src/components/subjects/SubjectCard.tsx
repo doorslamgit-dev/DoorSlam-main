@@ -4,6 +4,7 @@
 
 import AppIcon from "../ui/AppIcon";
 import type { SubjectProgress } from "../../types/subjectProgress";
+import { COLORS, STATUS_COLORS, getSubjectColor } from "../../constants/colors";
 
 interface SubjectCardProps {
   subject: SubjectProgress;
@@ -22,13 +23,13 @@ function hexToRgba(hex: string, alpha: number): string {
 function getStatusStyle(status: string) {
   switch (status) {
     case "in_progress":
-      return { label: "On Track", bgColor: "#1EC592" };
+      return { label: "On Track", bgColor: STATUS_COLORS.on_track };
     case "needs_attention":
-      return { label: "Needs Focus", bgColor: "#E69B2C" }; // darker amber
+      return { label: "Needs Focus", bgColor: STATUS_COLORS.needs_attention };
     case "completed":
-      return { label: "Completed", bgColor: "#7C3AED" }; // purple
+      return { label: "Completed", bgColor: STATUS_COLORS.completed };
     default:
-      return { label: "Not Started", bgColor: "#A8AEBD" };
+      return { label: "Not Started", bgColor: STATUS_COLORS.not_started };
   }
 }
 
@@ -72,11 +73,11 @@ export default function SubjectCard({ subject }: SubjectCardProps) {
   const statusStyle = getStatusStyle(subject.status);
   const recentlyCovered = subject.recently_covered?.slice(0, 3) || [];
   const comingUp = subject.coming_up?.slice(0, 3) || [];
-  const subjectColor = subject.subject_color || "#5B2CFF";
+  const subjectColor = getSubjectColor(subject.subject_name);
   const iconKey = mapSubjectIconToAppIcon(subject.subject_icon);
 
   return (
-    <div className="bg-white rounded-2xl shadow-soft p-6">
+    <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-soft p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-3">
@@ -95,10 +96,10 @@ export default function SubjectCard({ subject }: SubjectCardProps) {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold" style={{ color: "#1F2330" }}>
+            <h3 className="text-lg font-semibold text-neutral-700 dark:text-neutral-200">
               {subject.subject_name}
             </h3>
-            <p className="text-sm" style={{ color: "#6C7280" }}>
+            <p className="text-sm text-neutral-500 dark:text-neutral-400">
               {subject.exam_type || "GCSE"} • {subject.exam_board_name || "Edexcel"}
             </p>
           </div>
@@ -116,18 +117,18 @@ export default function SubjectCard({ subject }: SubjectCardProps) {
       {/* Content */}
       <div className="space-y-4">
         <div>
-          <div className="text-sm mb-2" style={{ color: "#4B5161" }}>
+          <div className="text-sm mb-2 text-neutral-600 dark:text-neutral-300">
             <span className="font-medium">Recently covered:</span>{" "}
-            <span style={{ color: "#6C7280" }}>
+            <span className="text-neutral-500 dark:text-neutral-400">
               {recentlyCovered.length > 0
                 ? recentlyCovered.map((t) => t.topic_name).join(", ")
                 : "No topics covered yet"}
             </span>
           </div>
 
-          <div className="text-sm" style={{ color: "#4B5161" }}>
+          <div className="text-sm text-neutral-600 dark:text-neutral-300">
             <span className="font-medium">Coming up next:</span>{" "}
-            <span style={{ color: "#6C7280" }}>
+            <span className="text-neutral-500 dark:text-neutral-400">
               {comingUp.length > 0
                 ? comingUp.map((t) => t.topic_name).join(", ")
                 : "No upcoming topics scheduled"}
@@ -138,13 +139,13 @@ export default function SubjectCard({ subject }: SubjectCardProps) {
         {/* Progress Bar */}
         <div className="space-y-2">
           <div className="flex items-center justify-between text-sm">
-            <span style={{ color: "#6C7280" }}>Coverage progress</span>
-            <span className="font-medium" style={{ color: "#1F2330" }}>
+            <span className="text-neutral-500 dark:text-neutral-400">Coverage progress</span>
+            <span className="font-medium text-neutral-700 dark:text-neutral-200">
               {subject.completion_percentage}% complete
             </span>
           </div>
 
-          <div className="w-full rounded-full h-2" style={{ backgroundColor: "#E1E4EE" }}>
+          <div className="w-full rounded-full h-2 bg-neutral-200 dark:bg-neutral-700">
             <div
               className="h-2 rounded-full transition-all duration-300"
               style={{

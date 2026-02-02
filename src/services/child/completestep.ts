@@ -1,35 +1,11 @@
 // src/services/child/completestep.ts
 
-import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
-import {
-  faCalculator,
-  faBook,
-  faFlask,
-  faAtom,
-  faGlobe,
-  faLandmark,
-  faDna,
-  faFaceLaughBeam,
-  faFaceSmile,
-  faFaceMeh,
-  faFaceFrown,
-} from "@fortawesome/free-solid-svg-icons";
 import { ConfidenceOption, ConfidenceLevel } from "../../types/child/completestep";
+import { getSubjectIcon } from "../../constants/icons";
 
-const ICON_MAP: Record<string, IconDefinition> = {
-  calculator: faCalculator,
-  book: faBook,
-  flask: faFlask,
-  atom: faAtom,
-  globe: faGlobe,
-  landmark: faLandmark,
-  dna: faDna,
-};
-
-export function getIconFromName(iconName?: string): IconDefinition {
-  if (!iconName) return faFlask;
-  return ICON_MAP[iconName.toLowerCase()] || faFlask;
-}
+// Export for backward compatibility
+export { getSubjectIcon };
+export { getSubjectIcon as getIconFromName };
 
 export const CONFIDENCE_OPTIONS: ConfidenceOption[] = [
   {
@@ -37,7 +13,7 @@ export const CONFIDENCE_OPTIONS: ConfidenceOption[] = [
     label: "Got it!",
     emoji: "😊",
     description: "I could teach this to a friend",
-    icon: faFaceLaughBeam,
+    icon: "rocket",
     bgColor: "bg-white",
     selectedBg: "bg-green-50",
     selectedBorder: "border-green-500",
@@ -47,7 +23,7 @@ export const CONFIDENCE_OPTIONS: ConfidenceOption[] = [
     label: "Pretty good",
     emoji: "🙂",
     description: "I understand most of it",
-    icon: faFaceSmile,
+    icon: "check",
     bgColor: "bg-white",
     selectedBg: "bg-blue-50",
     selectedBorder: "border-blue-500",
@@ -57,7 +33,7 @@ export const CONFIDENCE_OPTIONS: ConfidenceOption[] = [
     label: "A bit wobbly",
     emoji: "🤔",
     description: "Some parts are still unclear",
-    icon: faFaceMeh,
+    icon: "circle-question",
     bgColor: "bg-white",
     selectedBg: "bg-amber-50",
     selectedBorder: "border-amber-500",
@@ -67,7 +43,7 @@ export const CONFIDENCE_OPTIONS: ConfidenceOption[] = [
     label: "Need more practice",
     emoji: "😅",
     description: "I'd like to go over this again",
-    icon: faFaceFrown,
+    icon: "hand-heart",
     bgColor: "bg-white",
     selectedBg: "bg-red-50",
     selectedBorder: "border-red-400",

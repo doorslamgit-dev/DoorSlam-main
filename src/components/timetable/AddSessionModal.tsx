@@ -1,13 +1,7 @@
 // src/components/timetable/AddSessionModal.tsx
 
 import { useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faTimes,
-  faPlus,
-  faCalendarAlt,
-  faArrowRight,
-} from "@fortawesome/free-solid-svg-icons";
+import AppIcon from "../ui/AppIcon";
 import {
   fetchChildSubjects,
   addSingleSession,
@@ -144,7 +138,7 @@ export default function AddSessionModal({
             onClick={onClose}
             className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-neutral-100 transition"
           >
-            <FontAwesomeIcon icon={faTimes} className="text-neutral-500" />
+            <AppIcon name="x" className="w-5 h-5 text-neutral-500" />
           </button>
         </div>
 
@@ -169,7 +163,7 @@ export default function AddSessionModal({
               >
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center group-hover:bg-primary-200 transition">
-                    <FontAwesomeIcon icon={faPlus} className="text-primary-600 text-lg" />
+                    <AppIcon name="plus" className="text-primary-600 w-5 h-5" />
                   </div>
                   <div className="flex-1">
                     <h3 className="font-semibold text-neutral-700">One-time session</h3>
@@ -177,7 +171,7 @@ export default function AddSessionModal({
                       Add a single session for a specific date
                     </p>
                   </div>
-                  <FontAwesomeIcon icon={faArrowRight} className="text-neutral-400 group-hover:text-primary-600 transition" />
+                  <AppIcon name="arrow-right" className="w-4 h-4 text-neutral-400 group-hover:text-primary-600 transition" />
                 </div>
               </button>
 
@@ -187,7 +181,7 @@ export default function AddSessionModal({
               >
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center group-hover:bg-primary-200 transition">
-                    <FontAwesomeIcon icon={faCalendarAlt} className="text-primary-600 text-lg" />
+                    <AppIcon name="calendar" className="text-primary-600 w-5 h-5" />
                   </div>
                   <div className="flex-1">
                     <h3 className="font-semibold text-neutral-700">Change weekly schedule</h3>
@@ -195,7 +189,7 @@ export default function AddSessionModal({
                       Edit recurring availability pattern
                     </p>
                   </div>
-                  <FontAwesomeIcon icon={faArrowRight} className="text-neutral-400 group-hover:text-primary-600 transition" />
+                  <AppIcon name="arrow-right" className="w-4 h-4 text-neutral-400 group-hover:text-primary-600 transition" />
                 </div>
               </button>
             </div>
@@ -312,7 +306,7 @@ export default function AddSessionModal({
                 </>
               ) : (
                 <>
-                  <FontAwesomeIcon icon={faPlus} />
+                  <AppIcon name="plus" className="w-4 h-4" />
                   Add Session
                 </>
               )}

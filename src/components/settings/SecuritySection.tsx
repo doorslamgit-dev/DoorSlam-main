@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLock, faCheck, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import AppIcon from "../ui/AppIcon";
 import { supabase } from "../../lib/supabase";
 
 export function SecuritySection() {
@@ -56,13 +55,13 @@ export function SecuritySection() {
   return (
     <div className="bg-white rounded-2xl shadow-card p-6">
       <div className="flex items-center gap-3 mb-6">
-        <FontAwesomeIcon icon={faLock} className="text-primary-600" />
+        <AppIcon name="lock" className="w-5 h-5 text-primary-600" />
         <h2 className="text-lg font-semibold text-neutral-700">Security</h2>
       </div>
 
       {passwordSuccess && (
         <div className="mb-4 p-3 rounded-xl flex items-center gap-2 bg-green-100">
-          <FontAwesomeIcon icon={faCheck} className="text-accent-green" />
+          <AppIcon name="check" className="w-4 h-4 text-accent-green" />
           <p className="text-sm text-green-800">Password changed successfully</p>
         </div>
       )}
@@ -114,7 +113,7 @@ export function SecuritySection() {
               className="px-4 py-2 rounded-xl bg-primary-600 text-white font-medium flex items-center gap-2 hover:bg-primary-700 transition-colors"
             >
               {savingPassword && (
-                <FontAwesomeIcon icon={faSpinner} className="animate-spin" />
+                <AppIcon name="loader" className="w-4 h-4 animate-spin" />
               )}
               Update password
             </button>

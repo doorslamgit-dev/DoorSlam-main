@@ -78,7 +78,7 @@ export function PointWeightingConfig({
         <div className="bg-gray-50 rounded-lg p-4 text-sm text-gray-600">
           <p className="font-medium text-gray-900 mb-2">Auto Mode</p>
           <p>
-            RevisionHub will use balanced defaults: 40% Completion, 35% Accuracy, 25% Focus.
+            Doorslam will use balanced defaults: 40% Completion, 35% Accuracy, 25% Focus.
             This ensures a good mix of finishing sessions, getting answers right, and staying focused.
           </p>
         </div>

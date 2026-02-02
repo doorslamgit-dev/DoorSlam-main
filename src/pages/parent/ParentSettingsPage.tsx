@@ -4,12 +4,7 @@
 
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCog,
-  faExclamationTriangle,
-  faTimes,
-} from "@fortawesome/free-solid-svg-icons";
+import AppIcon from "../../components/ui/AppIcon";
 import { useAuth } from "../../contexts/AuthContext";
 import { PageLayout } from "../../components/layout";
 import {
@@ -68,9 +63,9 @@ export default function ParentSettingsPage() {
         {/* Page Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">
-            <FontAwesomeIcon
-              icon={faCog}
-              className="text-primary-600 text-xl"
+            <AppIcon
+              name="settings"
+              className="w-6 h-6 text-primary-600"
             />
             <h1 className="text-2xl font-bold text-primary-600">Settings</h1>
           </div>
@@ -82,13 +77,13 @@ export default function ParentSettingsPage() {
         {/* Error banner */}
         {error && (
           <div className="mb-6 p-4 rounded-xl flex items-center gap-3 bg-red-50 border border-red-200">
-            <FontAwesomeIcon
-              icon={faExclamationTriangle}
-              className="text-accent-red"
+            <AppIcon
+              name="triangle-alert"
+              className="w-4 h-4 text-accent-red"
             />
             <p className="text-sm text-accent-red">{error}</p>
             <button onClick={() => setError(null)} className="ml-auto">
-              <FontAwesomeIcon icon={faTimes} className="text-accent-red" />
+              <AppIcon name="x" className="w-4 h-4 text-accent-red" />
             </button>
           </div>
         )}

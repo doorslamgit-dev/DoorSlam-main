@@ -4,8 +4,7 @@
 // FEAT-008: Social media toggle for focus mode
 // REFACTORED: January 2026 - Modular structure with extracted components
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGaugeHigh } from "@fortawesome/free-solid-svg-icons";
+import AppIcon from "../../../components/ui/AppIcon";
 import { PreviewStepProps } from "../../../types/child/previewstep";
 import { usePreviewStep } from "../../../hooks/child/previewstep";
 import { getIconFromName } from "../../../services/child/previewstep";
@@ -15,6 +14,7 @@ import {
   TopicHeader,
   StartButton,
 } from "../../../components/child/previewstep";
+import { getSubjectColor } from "../../../constants/colors";
 
 export default function PreviewStep({
   overview,
@@ -31,7 +31,7 @@ export default function PreviewStep({
   });
 
   const subjectIcon = getIconFromName(overview.subject_icon);
-  const subjectColor = overview.subject_color || "#5B2CFF";
+  const subjectColor = getSubjectColor(overview.subject_name);
   const sessionMinutes = overview.session_duration_minutes ?? 20;
 
   const isBusy = saving || state.isStarting;
@@ -66,7 +66,7 @@ export default function PreviewStep({
         <div className="bg-white rounded-2xl shadow-card p-6">
           <div className="flex items-center space-x-3 mb-6">
             <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
-              <FontAwesomeIcon icon={faGaugeHigh} className="text-primary-600 text-xl" />
+              <AppIcon name="gauge" className="text-primary-600 w-6 h-6" />
             </div>
 
             <div className="flex-1">

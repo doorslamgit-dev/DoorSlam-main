@@ -1,8 +1,6 @@
 // src/types/child/sessionTypes.ts
 // Type definitions for session runner
 
-import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
-
 // =============================================================================
 // Step Types
 // =============================================================================

@@ -4,6 +4,7 @@ import {
   getTopicNames,
   type WeekDayData,
 } from "../../services/timetableService";
+import { getSubjectColor } from "../../constants/colors";
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
@@ -21,11 +22,11 @@ export function WeekView({
   const weekStart = getWeekStart(referenceDate);
 
   return (
-    <div className="bg-white rounded-2xl shadow-card overflow-hidden mb-6">
+    <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-card overflow-hidden mb-6">
       {/* Header Row */}
-      <div className="grid grid-cols-8 border-b border-neutral-200">
-        <div className="p-4 border-r bg-neutral-50 border-neutral-200">
-          <div className="text-sm font-medium text-neutral-700">Time</div>
+      <div className="grid grid-cols-8 border-b border-neutral-200 dark:border-neutral-700">
+        <div className="p-4 border-r bg-neutral-50 dark:bg-neutral-900 border-neutral-200 dark:border-neutral-700">
+          <div className="text-sm font-medium text-neutral-700 dark:text-neutral-200">Time</div>
         </div>
         {DAYS.map((day, index) => {
           const date = new Date(weekStart);
@@ -37,21 +38,21 @@ export function WeekView({
           return (
             <div
               key={day}
-              className={`p-4 text-center border-r last:border-r-0 border-neutral-200 ${
+              className={`p-4 text-center border-r last:border-r-0 border-neutral-200 dark:border-neutral-700 ${
                 isBlocked
-                  ? "bg-neutral-200"
+                  ? "bg-neutral-200 dark:bg-neutral-700"
                   : isToday
-                  ? "bg-primary-50"
-                  : "bg-white"
+                  ? "bg-primary-50 dark:bg-primary-900/30"
+                  : "bg-white dark:bg-neutral-800"
               }`}
             >
               <div
                 className={`text-sm font-medium ${
                   isBlocked
-                    ? "text-neutral-500"
+                    ? "text-neutral-500 dark:text-neutral-400"
                     : isToday
-                    ? "text-primary-600"
-                    : "text-neutral-700"
+                    ? "text-primary-600 dark:text-primary-400"
+                    : "text-neutral-700 dark:text-neutral-200"
                 }`}
               >
                 {day}
@@ -59,16 +60,16 @@ export function WeekView({
               <div
                 className={`text-xs ${
                   isBlocked
-                    ? "text-neutral-400"
+                    ? "text-neutral-400 dark:text-neutral-500"
                     : isToday
-                    ? "text-primary-600"
-                    : "text-neutral-500"
+                    ? "text-primary-600 dark:text-primary-400"
+                    : "text-neutral-500 dark:text-neutral-400"
                 }`}
               >
                 {date.getDate()}
               </div>
               {isBlocked && (
-                <div className="text-xs text-neutral-400 mt-1">Blocked</div>
+                <div className="text-xs text-neutral-400 dark:text-neutral-500 mt-1">Blocked</div>
               )}
             </div>
           );
@@ -77,10 +78,10 @@ export function WeekView({
 
       {/* Session Row */}
       <div className="grid grid-cols-8 min-h-[200px]">
-        <div className="p-4 border-r flex items-start bg-neutral-50 border-neutral-200">
+        <div className="p-4 border-r flex items-start bg-neutral-50 dark:bg-neutral-900 border-neutral-200 dark:border-neutral-700">
           <div>
-            <div className="text-sm font-medium text-neutral-700">Sessions</div>
-            <div className="text-xs text-neutral-500">All day</div>
+            <div className="text-sm font-medium text-neutral-700 dark:text-neutral-200">Sessions</div>
+            <div className="text-xs text-neutral-500 dark:text-neutral-400">All day</div>
           </div>
         </div>
         {DAYS.map((_, dayIndex) => {
@@ -95,49 +96,52 @@ export function WeekView({
           return (
             <div
               key={dayIndex}
-              className={`p-3 border-r last:border-r-0 border-neutral-200 ${
-                isBlocked ? "bg-neutral-100" : ""
+              className={`p-3 border-r last:border-r-0 border-neutral-200 dark:border-neutral-700 ${
+                isBlocked ? "bg-neutral-100 dark:bg-neutral-900" : ""
               }`}
             >
               {isBlocked ? (
                 <div className="h-full flex items-center justify-center">
-                  <span className="text-xs text-neutral-400 italic">
+                  <span className="text-xs text-neutral-400 dark:text-neutral-500 italic">
                     No revision
                   </span>
                 </div>
               ) : daySessions.length === 0 ? (
                 <div className="h-full flex items-center justify-center">
-                  <span className="text-xs text-neutral-400">No sessions</span>
+                  <span className="text-xs text-neutral-400 dark:text-neutral-500">No sessions</span>
                 </div>
               ) : (
-                daySessions.map((session) => (
-                  <div
-                    key={session.planned_session_id}
-                    className="rounded-lg p-3 mb-2 last:mb-0 cursor-pointer hover:opacity-90 transition-opacity"
-                    style={{
-                      backgroundColor: `${session.color}15`,
-                      borderLeft: `4px solid ${session.color}`,
-                    }}
-                  >
+                daySessions.map((session) => {
+                  const color = getSubjectColor(session.subject_name);
+                  return (
                     <div
-                      className="text-sm font-semibold mb-1"
-                      style={{ color: session.color }}
+                      key={session.planned_session_id}
+                      className="rounded-lg p-3 mb-2 last:mb-0 cursor-pointer hover:opacity-90 transition-opacity"
+                      style={{
+                        backgroundColor: `${color}15`,
+                        borderLeft: `4px solid ${color}`,
+                      }}
                     >
-                      {session.subject_name}
+                      <div
+                        className="text-sm font-semibold mb-1"
+                        style={{ color: color }}
+                      >
+                        {session.subject_name}
+                      </div>
+                      <div className="text-xs text-neutral-600 dark:text-neutral-300">
+                        {getTopicNames(session)}
+                      </div>
+                      <div className="text-xs mt-2 text-neutral-500 dark:text-neutral-400">
+                        {session.session_duration_minutes} mins
+                      </div>
+                      {session.status === "completed" && (
+                        <span className="inline-block mt-1 px-2 py-0.5 text-xs rounded-full text-white bg-accent-green">
+                          Done
+                        </span>
+                      )}
                     </div>
-                    <div className="text-xs text-neutral-600">
-                      {getTopicNames(session)}
-                    </div>
-                    <div className="text-xs mt-2 text-neutral-500">
-                      {session.session_duration_minutes} mins
-                    </div>
-                    {session.status === "completed" && (
-                      <span className="inline-block mt-1 px-2 py-0.5 text-xs rounded-full text-white bg-accent-green">
-                        Done
-                      </span>
-                    )}
-                  </div>
-                ))
+                  );
+                })
               )}
             </div>
           );

@@ -21,7 +21,7 @@ export default function Footer() {
                 />
               </div>
               <span className="text-xl font-bold text-white">
-                RevisionHub
+                Doorslam
               </span>
             </div>
             <p className="text-neutral-400 text-sm">
@@ -125,7 +125,7 @@ export default function Footer() {
 
         {/* Copyright */}
         <div className="border-t border-neutral-600 mt-8 pt-8 text-center text-neutral-400 text-sm">
-          <p>&copy; 2026 RevisionHub. All rights reserved.</p>
+          <p>&copy; 2026 Doorslam. All rights reserved.</p>
         </div>
       </div>
     </footer>

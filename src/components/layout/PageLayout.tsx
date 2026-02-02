@@ -20,7 +20,7 @@ interface PageLayoutProps {
 export default function PageLayout({
   children,
   hideFooter = false,
-  bgColor = "bg-neutral-100",
+  bgColor = "bg-neutral-50 dark:bg-neutral-900",
 }: PageLayoutProps) {
   return (
     <div className={`min-h-[calc(100vh-73px)] flex flex-col ${bgColor}`}>

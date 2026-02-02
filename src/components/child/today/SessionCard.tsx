@@ -36,14 +36,14 @@ export default function SessionCard({
 
   return (
     <div
-      className={`bg-white rounded-2xl border shadow-sm overflow-hidden transition-all ${
+      className={`bg-white dark:bg-neutral-800 rounded-2xl border shadow-sm overflow-hidden transition-all ${
         session.status === "completed"
-          ? "border-green-200 opacity-75"
+          ? "border-green-200 dark:border-green-800 opacity-75"
           : isLocked
-          ? "border-gray-200 opacity-60"
+          ? "border-gray-200 dark:border-neutral-700 opacity-60"
           : isNext
-          ? "border-indigo-300 ring-2 ring-indigo-100"
-          : "border-gray-200"
+          ? "border-indigo-300 dark:border-indigo-700 ring-2 ring-indigo-100 dark:ring-indigo-900/50"
+          : "border-gray-200 dark:border-neutral-700"
       }`}
     >
       <div className="p-6">
@@ -58,10 +58,10 @@ export default function SessionCard({
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold text-gray-900">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-neutral-100">
                 {session.subject_name || "Subject"}
               </h3>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 dark:text-neutral-400">
                 Session {sessionNumber} • {getPatternLabel(session.session_pattern)}
               </p>
             </div>
@@ -71,7 +71,7 @@ export default function SessionCard({
         </div>
 
         {/* Session info */}
-        <div className="flex items-center gap-4 text-sm text-gray-600 mb-4">
+        <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-neutral-300 mb-4">
           <div className="flex items-center gap-1.5">
             <AppIcon name="clock" className="w-4 h-4" aria-hidden />
             {formatDuration(session.session_duration_minutes)}
@@ -113,13 +113,13 @@ export default function SessionCard({
               {topics.slice(0, 3).map((topic: string, idx: number) => (
                 <span
                   key={idx}
-                  className="px-3 py-1 bg-gray-100 text-gray-700 text-xs rounded-full"
+                  className="px-3 py-1 bg-gray-100 dark:bg-neutral-700 text-gray-700 dark:text-neutral-200 text-xs rounded-full"
                 >
                   {topic}
                 </span>
               ))}
               {topics.length > 3 && (
-                <span className="px-3 py-1 bg-gray-100 text-gray-500 text-xs rounded-full">
+                <span className="px-3 py-1 bg-gray-100 dark:bg-neutral-700 text-gray-500 dark:text-neutral-400 text-xs rounded-full">
                   +{topics.length - 3} more
                 </span>
               )}
@@ -156,7 +156,7 @@ function SessionActionButton({
 
   if (isLocked) {
     return (
-      <div className="w-full py-3 rounded-xl bg-gray-100 text-gray-500 font-medium text-center flex items-center justify-center gap-2">
+      <div className="w-full py-3 rounded-xl bg-gray-100 dark:bg-neutral-700 text-gray-500 dark:text-neutral-400 font-medium text-center flex items-center justify-center gap-2">
         <AppIcon name="lock" className="w-4 h-4" aria-hidden />
         Complete previous session first
       </div>

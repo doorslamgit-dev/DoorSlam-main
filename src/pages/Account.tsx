@@ -4,12 +4,7 @@
 
 import { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCog,
-  faExclamationTriangle,
-  faTimes,
-} from "@fortawesome/free-solid-svg-icons";
+import AppIcon from "../components/ui/AppIcon";
 import { useAuth } from "../contexts/AuthContext";
 import { PageLayout } from "../components/layout";
 import {
@@ -108,7 +103,7 @@ export default function Account() {
               to="/parent/settings"
               className="flex items-center gap-2 px-4 py-2 rounded-xl bg-neutral-100 text-neutral-700 hover:bg-neutral-200 transition-colors"
             >
-              <FontAwesomeIcon icon={faCog} />
+              <AppIcon name="settings" className="w-4 h-4" />
               <span className="font-medium">Settings</span>
             </Link>
           )}
@@ -117,13 +112,13 @@ export default function Account() {
         {/* Error banner */}
         {error && (
           <div className="mb-6 p-4 rounded-xl flex items-center gap-3 bg-red-50 border border-red-200">
-            <FontAwesomeIcon
-              icon={faExclamationTriangle}
-              className="text-accent-red"
+            <AppIcon
+              name="triangle-alert"
+              className="w-4 h-4 text-accent-red"
             />
             <p className="text-sm text-accent-red">{error}</p>
             <button onClick={() => setError(null)} className="ml-auto">
-              <FontAwesomeIcon icon={faTimes} className="text-accent-red" />
+              <AppIcon name="x" className="w-4 h-4 text-accent-red" />
             </button>
           </div>
         )}
@@ -193,7 +188,7 @@ export default function Account() {
                     to="/parent/settings"
                     className="flex items-center gap-2 px-4 py-2 rounded-xl bg-primary-600 text-white font-medium hover:bg-primary-700 transition-colors"
                   >
-                    <FontAwesomeIcon icon={faCog} />
+                    <AppIcon name="settings" className="w-4 h-4" />
                     Go to Settings
                   </Link>
                 </div>

@@ -1,8 +1,7 @@
 // src/components/child/recallStep/CompleteScreen.tsx
 // Results summary shown after all flashcards are reviewed
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import AppIcon from "../../ui/AppIcon";
 
 type CompleteScreenProps = {
   knownCount: number;
@@ -66,7 +65,7 @@ export function CompleteScreen({
         className="w-full py-4 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition disabled:opacity-50 flex items-center justify-center gap-2"
       >
         Continue
-        <FontAwesomeIcon icon={faArrowRight} />
+        <AppIcon name="arrow-right" className="w-4 h-4" />
       </button>
     </div>
   );

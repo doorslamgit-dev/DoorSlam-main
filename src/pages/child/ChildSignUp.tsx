@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBookOpen, faSpinner, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import AppIcon from "../../components/ui/AppIcon";
 import { rpcGetInvitePreview, rpcAcceptInvite, signUpChild } from "../../services/invitationService";
 import { useAuth } from "../../contexts/AuthContext";
 
@@ -125,7 +124,7 @@ export default function ChildSignUp() {
     return (
       <div className="min-h-screen bg-neutral-bg flex items-center justify-center">
         <div className="text-center">
-          <FontAwesomeIcon icon={faSpinner} className="text-calm-purple text-4xl animate-spin mb-4" />
+          <AppIcon name="loader" className="w-10 h-10 text-calm-purple animate-spin mb-4 mx-auto" />
           <p className="text-gray-600">Loading invitation...</p>
         </div>
       </div>
@@ -161,15 +160,15 @@ export default function ChildSignUp() {
       <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full">
         <div className="text-center mb-8">
           <div className="w-16 h-16 bg-calm-purple rounded-full flex items-center justify-center mx-auto mb-4">
-            <FontAwesomeIcon icon={faBookOpen} className="text-white text-2xl" />
+            <AppIcon name="book-open" className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">Welcome to RevisionHub</h1>
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">Welcome to Doorslam</h1>
           <p className="text-gray-600">{invitation.parent_name} has invited you to start your revision journey</p>
         </div>
 
         <div className="bg-soft-green bg-opacity-10 border border-soft-green rounded-xl p-4 mb-6">
           <div className="flex items-start space-x-3">
-            <FontAwesomeIcon icon={faCheckCircle} className="text-soft-green text-xl mt-0.5" />
+            <AppIcon name="check-circle" className="w-6 h-6 text-soft-green mt-0.5" />
             <div>
               <p className="text-sm font-medium text-gray-800 mb-1">Account for: {invitation.child_name}</p>
               <p className="text-sm text-gray-600">Use your email address to create a login</p>
@@ -241,7 +240,7 @@ export default function ChildSignUp() {
           >
             {submitting ? (
               <>
-                <FontAwesomeIcon icon={faSpinner} className="animate-spin mr-2" />
+                <AppIcon name="loader" className="w-4 h-4 animate-spin mr-2" />
                 <span>Creating account...</span>
               </>
             ) : (

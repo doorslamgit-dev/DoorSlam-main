@@ -4,11 +4,10 @@
 
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../../contexts/AuthContext';
 import { PageLayout } from '../../components/layout';
 import { supabase } from '../../lib/supabase';
+import AppIcon from '../../components/ui/AppIcon';
 import {
   fetchAllInsights,
   generateTutorAdvice,
@@ -228,7 +227,7 @@ export default function InsightsDashboard() {
       <PageLayout>
         <div className="flex items-center justify-center py-32">
           <div className="text-center">
-            <FontAwesomeIcon icon={faSpinner} className="text-primary-600 text-2xl animate-spin mb-3" />
+            <AppIcon name="loader" className="text-primary-600 text-2xl animate-spin mb-3" />
             <p className="text-sm text-neutral-600">Loading insights...</p>
           </div>
         </div>
@@ -317,7 +316,7 @@ export default function InsightsDashboard() {
           {loadingAdvice && tutorAdvice && (
             <div className="mt-2 text-center">
               <span className="text-xs text-neutral-400">
-                <FontAwesomeIcon icon={faSpinner} className="animate-spin mr-1" />
+                <AppIcon name="loader" className="animate-spin mr-1" />
                 Enhancing with AI insights...
               </span>
             </div>

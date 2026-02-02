@@ -3,6 +3,7 @@
 
 import AppIcon from "../../ui/AppIcon";
 import type { InsightsSummary } from "../../../types/parent/insightsDashboardTypes";
+import { COLORS } from "../../../constants/colors";
 
 interface MomentumWidgetProps {
   summary: InsightsSummary | null;
@@ -36,7 +37,7 @@ function CircularProgress({
           cx={size / 2}
           cy={size / 2}
           r={radius}
-          stroke="#E1E4EE"
+          stroke={COLORS.neutral[200]}
           strokeWidth={strokeWidth}
           fill="none"
         />
@@ -107,7 +108,7 @@ export default function MomentumWidget({ summary, loading }: MomentumWidgetProps
 
       <div className="grid grid-cols-2 gap-4">
         <div className="text-center">
-          <CircularProgress value={currentStreak} max={Math.max(longestStreak, 7)} color="#5B2CFF">
+          <CircularProgress value={currentStreak} max={Math.max(longestStreak, 7)} color={COLORS.primary[600]}>
             <div className="text-3xl font-bold text-primary-900">{currentStreak}</div>
             <div className="text-xs text-neutral-500">day streak</div>
           </CircularProgress>
@@ -118,7 +119,7 @@ export default function MomentumWidget({ summary, loading }: MomentumWidgetProps
         </div>
 
         <div className="text-center">
-          <CircularProgress value={completionRate} max={100} color="#1EC592">
+          <CircularProgress value={completionRate} max={100} color={COLORS.accent.green}>
             <div className="text-3xl font-bold text-accent-green">{completionRate}%</div>
             <div className="text-xs text-neutral-500">weekly pace</div>
           </CircularProgress>

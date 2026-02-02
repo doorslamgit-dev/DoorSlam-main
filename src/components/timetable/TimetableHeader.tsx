@@ -1,5 +1,4 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import AppIcon from "../ui/AppIcon";
 import type { ChildOption } from "../../services/timetableService";
 
 interface TimetableHeaderProps {
@@ -35,9 +34,9 @@ export function TimetableHeader({
             </option>
           ))}
         </select>
-        <FontAwesomeIcon
-          icon={faChevronDown}
-          className="absolute right-4 text-xs pointer-events-none text-primary-600"
+        <AppIcon
+          name="chevron-down"
+          className="absolute right-4 w-3 h-3 pointer-events-none text-primary-600"
         />
       </div>
     </div>

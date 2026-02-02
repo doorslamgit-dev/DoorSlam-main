@@ -1,6 +1,7 @@
 // src/services/timetableService.ts
 
 import { supabase } from "../lib/supabase";
+import { COLORS } from "../constants/colors";
 
 // ============================================================================
 // Types
@@ -283,7 +284,7 @@ export async function fetchMonthSessions(
       subject_id: row.subject_id,
       subject_name: row.subjects?.subject_name || "Unknown",
       icon: row.subjects?.icon || "book",
-      color: row.subjects?.color || "#6B7280",
+      color: row.subjects?.color || COLORS.neutral[500],
       topic_count: row.topic_ids?.length || 0,
       topics_preview: [],
     }));
@@ -527,7 +528,7 @@ export async function fetchChildSubjects(
     const subjects: ChildSubjectOption[] = (data || []).map((row: any) => ({
       subject_id: row.subject_id,
       subject_name: row.subjects?.subject_name || "Unknown",
-      color: row.subjects?.color || "#6B7280",
+      color: row.subjects?.color || COLORS.neutral[500],
       icon: row.subjects?.icon || "book",
     }));
 

@@ -4,15 +4,7 @@
 // REFACTORED: January 2026 - Modular structure with extracted components
 
 import { useMemo } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowRight,
-  faLightbulb,
-  faBrain,
-  faRobot,
-  faWandMagicSparkles,
-  faTriangleExclamation,
-} from "@fortawesome/free-solid-svg-icons";
+import AppIcon from "../../../components/ui/AppIcon";
 
 import type { SummaryStepProps, MnemonicStyle, MnemonicData } from "../../../types/child/summarystep";
 import { useSummaryStep } from "../../../hooks/child/summarystep";
@@ -33,6 +25,7 @@ import {
   transformToMnemonicData,
   MnemonicStyle as ApiMnemonicStyle,
 } from "../../../services/mnemonics/mnemonicApi";
+import { getSubjectColor } from "../../../constants/colors";
 
 export default function SummaryStep({
   overview,
@@ -68,7 +61,7 @@ export default function SummaryStep({
 
   const progressPercent = (overview.step_index / overview.total_steps) * 100;
   const subjectIcon = getIconFromName(overview.subject_icon);
-  const subjectColor = overview.subject_color || "#5B2CFF";
+  const subjectColor = getSubjectColor(overview.subject_name);
 
   async function handleGenerateMnemonic() {
     if (!selectedStyle) return;
@@ -206,7 +199,7 @@ export default function SummaryStep({
             className="w-12 h-12 rounded-xl flex items-center justify-center"
             style={{ backgroundColor: subjectColor }}
           >
-            <FontAwesomeIcon icon={subjectIcon} className="text-white text-xl" />
+            <AppIcon name={subjectIcon} className="text-white w-6 h-6" />
           </div>
           <div>
             <p className="text-neutral-500 text-sm">
@@ -228,7 +221,7 @@ export default function SummaryStep({
         <div className="bg-white rounded-2xl shadow-card p-6">
           <div className="flex items-center space-x-3 mb-5">
             <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
-              <FontAwesomeIcon icon={faLightbulb} className="text-primary-600 text-xl" />
+              <AppIcon name="lightbulb" className="text-primary-600 w-6 h-6" />
             </div>
             <div>
               <h2 className="text-xl font-bold text-primary-900">What You've Learned</h2>
@@ -249,7 +242,7 @@ export default function SummaryStep({
         <div className="bg-white rounded-2xl shadow-card p-6">
           <div className="flex items-center space-x-3 mb-5">
             <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
-              <FontAwesomeIcon icon={faBrain} className="text-primary-600 text-xl" />
+              <AppIcon name="brain" className="text-primary-600 w-6 h-6" />
             </div>
             <div>
               <h2 className="text-xl font-bold text-primary-900">Help Me Remember</h2>
@@ -264,7 +257,7 @@ export default function SummaryStep({
               <div className="p-5 bg-gradient-to-br from-primary-50 to-primary-100 rounded-xl border border-primary-200">
                 <div className="flex items-start space-x-3 mb-4">
                   <div className="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center flex-shrink-0">
-                    <FontAwesomeIcon icon={faRobot} className="text-white" />
+                    <AppIcon name="bot" className="text-white w-5 h-5" />
                   </div>
                   <div>
                     <h3 className="font-bold text-primary-900 mb-1">StudyBuddy's Music Maker</h3>
@@ -288,7 +281,7 @@ export default function SummaryStep({
                       disabled={isGenerating || saving}
                       className="flex items-center space-x-2 px-6 py-3 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition disabled:opacity-50"
                     >
-                      <FontAwesomeIcon icon={faWandMagicSparkles} />
+                      <AppIcon name="wand-sparkles" className="w-4 h-4" />
                       <span>Make My Song!</span>
                     </button>
                   </div>
@@ -297,8 +290,8 @@ export default function SummaryStep({
 
               {mnemonic?.status === "failed" && (
                 <div className="p-4 bg-amber-50 border border-amber-200 rounded-xl">
-                  <p className="text-amber-800 text-sm">
-                    <FontAwesomeIcon icon={faTriangleExclamation} className="mr-2" />
+                  <p className="text-amber-800 text-sm flex items-center">
+                    <AppIcon name="triangle-alert" className="mr-2 w-4 h-4" />
                     The last attempt didn't work. Try a different style or continue without a song.
                   </p>
                 </div>
@@ -315,7 +308,7 @@ export default function SummaryStep({
         <div className="bg-gradient-to-br from-primary-600 to-primary-700 rounded-2xl shadow-card p-6 text-white">
           <div className="flex items-start space-x-4">
             <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
-              <FontAwesomeIcon icon={faRobot} className="text-white text-xl" />
+              <AppIcon name="bot" className="text-white w-6 h-6" />
             </div>
             <div className="flex-1">
               <h3 className="text-lg font-bold mb-2">Amazing progress!</h3>
@@ -324,7 +317,7 @@ export default function SummaryStep({
                 points above — they'll help in your exams!
               </p>
               <p className="text-primary-100 text-xs flex items-center space-x-2">
-                <FontAwesomeIcon icon={faLightbulb} />
+                <AppIcon name="lightbulb" className="w-3 h-3" />
                 <span>Top tip: Try explaining what you learned to someone else — it really helps it stick!</span>
               </p>
             </div>
@@ -347,7 +340,7 @@ export default function SummaryStep({
               className="flex items-center space-x-2 px-6 py-3 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition disabled:opacity-50"
             >
               <span>Continue</span>
-              <FontAwesomeIcon icon={faArrowRight} />
+              <AppIcon name="arrow-right" className="w-4 h-4" />
             </button>
           </div>
         </div>

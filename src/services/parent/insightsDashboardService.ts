@@ -14,6 +14,7 @@ import type {
   WidgetConfig,
   TutorAdvice,
 } from '../../types/parent/insightsDashboardTypes';
+import { COLORS } from '../../constants/colors';
 
 /**
  * Fetch all insights data in a single RPC call
@@ -383,8 +384,8 @@ export function getConfidenceLabel(value: number): string {
  * Helper: Get confidence color
  */
 export function getConfidenceColor(value: number): string {
-  if (value <= 25) return '#F05151'; // red
-  if (value <= 50) return '#FFB547'; // amber
-  if (value <= 75) return '#A8AEBD'; // neutral
-  return '#1EC592'; // green
+  if (value <= 25) return COLORS.accent.red; // red
+  if (value <= 50) return COLORS.accent.amber; // amber
+  if (value <= 75) return COLORS.neutral[400]; // neutral
+  return COLORS.accent.green; // green
 }

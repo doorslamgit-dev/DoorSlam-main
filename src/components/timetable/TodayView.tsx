@@ -1,49 +1,9 @@
 // src/components/timetable/TodayView.tsx
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPlus,
-  faCheck,
-  faClock,
-  faBook,
-  faCalculator,
-  faFlask,
-  faAtom,
-  faGlobe,
-  faLandmark,
-  faLanguage,
-  faPalette,
-  faMusic,
-  faMicroscope,
-  faLaptopCode,
-  faDumbbell,
-  faPray,
-  faLeaf,
-  faTheaterMasks,
-  faUtensils,
-  type IconDefinition,
-} from "@fortawesome/free-solid-svg-icons";
+import AppIcon from "../ui/AppIcon";
 import type { TimetableSession } from "../../services/timetableService";
-
-// Icon mapping from database icon names to FontAwesome icons
-const ICON_MAP: Record<string, IconDefinition> = {
-  calculator: faCalculator,
-  flask: faFlask,
-  atom: faAtom,
-  globe: faGlobe,
-  landmark: faLandmark,
-  language: faLanguage,
-  palette: faPalette,
-  music: faMusic,
-  microscope: faMicroscope,
-  "laptop-code": faLaptopCode,
-  dumbbell: faDumbbell,
-  pray: faPray,
-  leaf: faLeaf,
-  "theater-masks": faTheaterMasks,
-  utensils: faUtensils,
-  book: faBook,
-};
+import { getSubjectIcon } from "../../constants/icons";
+import { getSubjectColor } from "../../constants/colors";
 
 interface TodayViewProps {
   sessions: TimetableSession[];
@@ -63,10 +23,6 @@ export default function TodayView({
     const baseHour = 16; // 4 PM
     const hour = baseHour + Math.floor(index * 0.75);
     return `${hour}:00`;
-  };
-
-  const getIcon = (iconName: string): IconDefinition => {
-    return ICON_MAP[iconName] || faBook;
   };
 
   const isToday = new Date().toDateString() === date.toDateString();
@@ -108,7 +64,7 @@ export default function TodayView({
               onClick={onAddSession}
               className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition flex items-center gap-2"
             >
-              <FontAwesomeIcon icon={faPlus} />
+              <AppIcon name="plus" className="w-4 h-4" />
               Add Session
             </button>
           )}
@@ -120,7 +76,7 @@ export default function TodayView({
         {sessions.length === 0 ? (
           <div className="text-center py-12">
             <div className="w-16 h-16 bg-neutral-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <FontAwesomeIcon icon={faBook} className="text-2xl text-neutral-400" />
+              <AppIcon name="book" className="w-8 h-8 text-neutral-400" />
             </div>
             <h3 className="text-lg font-semibold text-neutral-700 mb-2">
               No sessions scheduled
@@ -144,6 +100,7 @@ export default function TodayView({
             {sessions.map((session, index) => {
               const isCompleted = session.status === "completed";
               const isStarted = session.status === "started";
+              const color = getSubjectColor(session.subject_name);
 
               return (
                 <div
@@ -172,15 +129,15 @@ export default function TodayView({
                       className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0"
                       style={{
                         backgroundColor: isCompleted
-                          ? `${session.color}20`
-                          : session.color,
+                          ? `${color}20`
+                          : color,
                       }}
                     >
-                      <FontAwesomeIcon
-                        icon={getIcon(session.icon)}
-                        className="text-xl"
+                      <AppIcon
+                        name={getSubjectIcon(session.icon)}
+                        className="w-6 h-6"
                         style={{
-                          color: isCompleted ? session.color : "white",
+                          color: isCompleted ? color : "white",
                         }}
                       />
                     </div>
@@ -191,7 +148,7 @@ export default function TodayView({
                         <div>
                           <h3
                             className="font-semibold text-lg"
-                            style={{ color: session.color }}
+                            style={{ color: color }}
                           >
                             {session.subject_name}
                           </h3>
@@ -206,17 +163,17 @@ export default function TodayView({
                         <div className="shrink-0">
                           {isCompleted ? (
                             <span className="inline-flex items-center gap-1 px-3 py-1 bg-accent-green text-white text-sm font-medium rounded-full">
-                              <FontAwesomeIcon icon={faCheck} className="text-xs" />
+                              <AppIcon name="check" className="w-3 h-3" />
                               Done
                             </span>
                           ) : isStarted ? (
                             <span className="inline-flex items-center gap-1 px-3 py-1 bg-primary-600 text-white text-sm font-medium rounded-full">
-                              <FontAwesomeIcon icon={faClock} className="text-xs" />
+                              <AppIcon name="clock" className="w-3 h-3" />
                               In Progress
                             </span>
                           ) : (
                             <span className="inline-flex items-center gap-1 px-3 py-1 bg-neutral-100 text-neutral-600 text-sm font-medium rounded-full">
-                              <FontAwesomeIcon icon={faClock} className="text-xs" />
+                              <AppIcon name="clock" className="w-3 h-3" />
                               Planned
                             </span>
                           )}
@@ -226,7 +183,7 @@ export default function TodayView({
                       {/* Session Pattern */}
                       <div className="flex items-center gap-4 mt-3 text-xs text-neutral-500">
                         <span className="flex items-center gap-1">
-                          <FontAwesomeIcon icon={faClock} />
+                          <AppIcon name="clock" className="w-3 h-3" />
                           {session.session_pattern === "SINGLE_20"
                             ? "20 min session"
                             : session.session_pattern === "DOUBLE_45"

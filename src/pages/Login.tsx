@@ -2,8 +2,7 @@
 
 import { useState, type FormEvent, type ChangeEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBookOpen } from "@fortawesome/free-solid-svg-icons";
+import AppIcon from "../components/ui/AppIcon";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function Login() {
@@ -46,12 +45,12 @@ export default function Login() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="inline-flex w-16 h-16 bg-white rounded-2xl items-center justify-center mb-4 shadow-lg">
-            <FontAwesomeIcon
-              icon={faBookOpen}
-              className="text-brand-purple text-2xl"
+            <AppIcon
+              name="book-open"
+              className="w-8 h-8 text-brand-purple"
             />
           </div>
-          <h1 className="text-4xl font-bold text-white mb-2">RevisionHub</h1>
+          <h1 className="text-4xl font-bold text-white mb-2">Doorslam</h1>
           <p className="text-purple-100">
             Calm, confidence-building revision for your children
           </p>

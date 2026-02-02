@@ -4,6 +4,7 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: 'class',
   theme: {
     // ==========================================================================
     // BREAKPOINTS (Mobile-first)
@@ -19,72 +20,85 @@ export default {
 
     extend: {
       // ========================================================================
-      // COLORS - Brand Palette
+      // COLORS - Referencing CSS Custom Properties
       // ========================================================================
       colors: {
         primary: {
-          50:  "#F7F4FF",
-          100: "#EAE3FF",
-          200: "#D6C7FF",
-          300: "#C3B5FF",
-          400: "#9A84FF",
-          500: "#744FFF",
-          600: "#5B2CFF",  // Main brand purple
-          700: "#4520C5",
-          800: "#32168E",
-          900: "#2A185E",
+          50:  'var(--color-primary-50)',
+          100: 'var(--color-primary-100)',
+          200: 'var(--color-primary-200)',
+          300: 'var(--color-primary-300)',
+          400: 'var(--color-primary-400)',
+          500: 'var(--color-primary-500)',
+          600: 'var(--color-primary-600)',
+          700: 'var(--color-primary-700)',
+          800: 'var(--color-primary-800)',
+          900: 'var(--color-primary-900)',
         },
         neutral: {
-          0:   "#FFFFFF",
-          50:  "#F9FAFC",
-          100: "#F6F7FB",
-          200: "#E1E4EE",
-          300: "#CFD3E0",
-          400: "#A8AEBD",
-          500: "#6C7280",
-          600: "#4B5161",
-          700: "#1F2330",
-          800: "#121420",
-          900: "#050611",
+          0:   'var(--color-neutral-0)',
+          50:  'var(--color-neutral-50)',
+          100: 'var(--color-neutral-100)',
+          200: 'var(--color-neutral-200)',
+          300: 'var(--color-neutral-300)',
+          400: 'var(--color-neutral-400)',
+          500: 'var(--color-neutral-500)',
+          600: 'var(--color-neutral-600)',
+          700: 'var(--color-neutral-700)',
+          800: 'var(--color-neutral-800)',
+          900: 'var(--color-neutral-900)',
         },
         accent: {
-          green: "#1EC592",
-          amber: "#FFB547",
-          red:   "#F05151",
+          green: 'var(--color-accent-green)',
+          amber: 'var(--color-accent-amber)',
+          red:   'var(--color-accent-red)',
+          blue:  'var(--color-accent-blue)',
+          purple: 'var(--color-accent-purple)',
         },
         brand: {
-          purple: "#5B2CFF",
-          "purple-dark": "#4520C5",
+          purple: 'var(--color-primary-600)',
+          "purple-dark": 'var(--color-primary-700)',
         },
+        // Semantic color aliases for common use cases
+        success: 'var(--color-accent-green)',
+        warning: 'var(--color-accent-amber)',
+        danger: 'var(--color-accent-red)',
+        info: 'var(--color-accent-blue)',
+      },
+
+      // ========================================================================
+      // SEMANTIC TEXT COLORS
+      // ========================================================================
+      textColor: {
+        'dark': 'var(--color-text-primary)',
+        'medium': 'var(--color-text-secondary)',
+        'muted': 'var(--color-text-tertiary)',
+        'light': 'var(--color-text-light)',
       },
 
       // ========================================================================
       // TYPOGRAPHY
+      // Font scales and weights are defined in themes.css via --font-* tokens
       // ========================================================================
       fontFamily: {
-        sans: [
-          "Inter",
-          "system-ui",
-          "-apple-system",
-          "BlinkMacSystemFont",
-          "Segoe UI",
-          "sans-serif",
-        ],
+        sans: 'var(--font-family-sans)',
       },
       fontSize: {
         // Mobile-optimized sizes
-        'xs':   ['0.75rem', { lineHeight: '1rem' }],
-        'sm':   ['0.875rem', { lineHeight: '1.25rem' }],
-        'base': ['1rem', { lineHeight: '1.5rem' }],
-        'lg':   ['1.125rem', { lineHeight: '1.75rem' }],
-        'xl':   ['1.25rem', { lineHeight: '1.75rem' }],
-        '2xl':  ['1.5rem', { lineHeight: '2rem' }],
-        '3xl':  ['1.875rem', { lineHeight: '2.25rem' }],
-        '4xl':  ['2.25rem', { lineHeight: '2.5rem' }],
+        'xs':   ['var(--font-size-xs)', { lineHeight: 'var(--line-height-tight)' }],
+        'sm':   ['var(--font-size-sm)', { lineHeight: 'var(--line-height-snug)' }],
+        'base': ['var(--font-size-base)', { lineHeight: 'var(--line-height-normal)' }],
+        'lg':   ['var(--font-size-lg)', { lineHeight: 'var(--line-height-relaxed)' }],
+        'xl':   ['var(--font-size-xl)', { lineHeight: 'var(--line-height-relaxed)' }],
+        '2xl':  ['var(--font-size-2xl)', { lineHeight: 'var(--line-height-tight)' }],
+        '3xl':  ['var(--font-size-3xl)', { lineHeight: 'var(--line-height-tight)' }],
+        '4xl':  ['var(--font-size-4xl)', { lineHeight: 'var(--line-height-tight)' }],
       },
 
       // ========================================================================
       // SPACING & SIZING
+      // Note: Base spacing scale (0-24) is defined in themes.css via --spacing-* tokens
+      // Tailwind's default rem-based spacing (1 = 0.25rem) automatically works with this
       // ========================================================================
       spacing: {
         18: "4.5rem",
@@ -104,23 +118,28 @@ export default {
       // BORDERS & SHADOWS
       // ========================================================================
       borderRadius: {
-        xl: "1rem",
-        "2xl": "1.5rem",
-        pill: "999px",
+        xl: 'var(--radius-xl)',
+        "2xl": 'var(--radius-2xl)',
+        pill: 'var(--radius-full)',
       },
       boxShadow: {
-        'card': '0 18px 45px rgba(15, 23, 42, 0.06)',
-        'soft': '0 10px 30px rgba(15, 23, 42, 0.04)',
-        'card-hover': '0 20px 50px rgba(15, 23, 42, 0.1)',
-        'button': '0 4px 14px rgba(91, 44, 255, 0.3)',
+        'card': 'var(--shadow-card)',
+        'soft': 'var(--shadow-soft)',
+        'card-hover': 'var(--shadow-card-hover)',
+        'button': 'var(--shadow-button)',
       },
 
       // ========================================================================
       // BACKGROUNDS
       // ========================================================================
       backgroundImage: {
-        'hero-soft': 'linear-gradient(135deg, #F7F4FF 0%, #F0F7FF 50%, #FFFFFF 100%)',
-        'celebration': 'linear-gradient(135deg, #F7F4FF 0%, #EAE3FF 50%, #E8E0FF 100%)',
+        'hero-soft': 'linear-gradient(135deg, var(--color-primary-50) 0%, var(--color-background-soft) 50%, var(--color-neutral-0) 100%)',
+        'celebration': 'linear-gradient(135deg, var(--color-primary-50) 0%, var(--color-primary-100) 50%, var(--color-primary-100) 100%)',
+        'gradient-progress': 'linear-gradient(to right, var(--color-primary-600) 0%, var(--color-primary-600) var(--progress, 0%), var(--color-neutral-200) var(--progress, 0%), var(--color-neutral-200) 100%)',
+        'gradient-button': 'linear-gradient(135deg, var(--color-primary-500) 0%, var(--color-primary-600) 100%)',
+        'gradient-primary': 'linear-gradient(to bottom right, var(--color-primary-300), var(--color-primary-600))',
+        'gradient-success': 'linear-gradient(to bottom right, #86efac, #10b981)',
+        'gradient-celebration-badge': 'linear-gradient(to bottom right, #4ade80, #10b981)',
       },
 
       // ========================================================================

@@ -54,12 +54,12 @@ export function SubjectProgressHeader({
   const hasMultipleChildren = childOptions.length > 1;
 
   return (
-    <div className="bg-gradient-to-br from-primary-50 to-white rounded-2xl shadow-card p-8">
+    <div className="bg-gradient-to-br from-primary-50 to-white dark:from-neutral-800 dark:to-neutral-800 rounded-2xl shadow-card p-8">
       {/* Header with title and child selector */}
       <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6">
         <div className="flex-1">
           <div className="flex items-center gap-3 mb-2 flex-wrap">
-            <h1 className="text-2xl md:text-3xl font-bold text-primary-900">
+            <h1 className="text-2xl md:text-3xl font-bold text-primary-900 dark:text-neutral-100">
               {headline}
             </h1>
 
@@ -73,19 +73,19 @@ export function SubjectProgressHeader({
             )}
           </div>
 
-          <p className="text-neutral-600 max-w-xl">{message}</p>
+          <p className="text-neutral-600 dark:text-neutral-300 max-w-xl">{message}</p>
         </div>
 
         {/* Child Selector */}
         <div className="flex items-center space-x-3">
-          <span className="text-sm text-neutral-500">Child:</span>
+          <span className="text-sm text-neutral-500 dark:text-neutral-400">Child:</span>
 
-          <div className="relative flex items-center px-4 py-2 rounded-full border bg-white border-primary-200 shadow-sm">
+          <div className="relative flex items-center px-4 py-2 rounded-full border bg-white dark:bg-neutral-700 border-primary-200 dark:border-neutral-600 shadow-sm">
             <select
               value={selectedChildId || ""}
               onChange={(e) => onChildChange(e.target.value)}
               disabled={!hasMultipleChildren}
-              className="appearance-none bg-transparent border-none font-medium focus:outline-none cursor-pointer pr-6 text-primary-600 disabled:cursor-default disabled:opacity-80"
+              className="appearance-none bg-transparent border-none font-medium focus:outline-none cursor-pointer pr-6 text-primary-600 dark:text-neutral-200 disabled:cursor-default disabled:opacity-80"
               aria-label="Select child"
             >
               {childOptions.map((child) => (
@@ -96,7 +96,7 @@ export function SubjectProgressHeader({
             </select>
 
             {hasMultipleChildren && (
-              <span className="absolute right-4 pointer-events-none text-primary-600">
+              <span className="absolute right-4 pointer-events-none text-primary-600 dark:text-neutral-200">
                 <AppIcon name="chevron-down" className="w-4 h-4" />
               </span>
             )}
@@ -117,7 +117,7 @@ export function SubjectProgressHeader({
         <button
           type="button"
           onClick={onScheduleClick}
-          className="px-6 py-3 bg-white text-primary-600 font-medium rounded-full border-2 border-primary-200 hover:border-primary-300 transition-colors"
+          className="px-6 py-3 bg-white dark:bg-neutral-700 text-primary-600 dark:text-neutral-200 font-medium rounded-full border-2 border-primary-200 dark:border-neutral-600 hover:border-primary-300 dark:hover:border-neutral-500 transition-colors"
         >
           View Schedule
         </button>
@@ -125,7 +125,7 @@ export function SubjectProgressHeader({
         <button
           type="button"
           onClick={onAddSubject}
-          className="ml-auto flex items-center gap-2 px-4 py-2 bg-white text-primary-600 font-medium rounded-full border border-neutral-200 hover:border-primary-300 transition-colors shadow-sm"
+          className="ml-auto flex items-center gap-2 px-4 py-2 bg-white dark:bg-neutral-700 text-primary-600 dark:text-neutral-200 font-medium rounded-full border border-neutral-200 dark:border-neutral-600 hover:border-primary-300 dark:hover:border-neutral-500 transition-colors shadow-sm"
         >
           <AppIcon name="plus" className="w-4 h-4" />
           Add Subject

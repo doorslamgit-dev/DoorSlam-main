@@ -19,6 +19,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import AppIcon from "../../ui/AppIcon";
+import { COLORS } from "../../../constants/colors";
 
 /* ============================
    Types
@@ -109,10 +110,7 @@ function SortableCard({ subject, index, onGradeChange }: SortableCardProps) {
     >
       <div className="flex items-start gap-4">
         {/* Priority Badge */}
-        <div
-          className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0"
-          style={{ background: "linear-gradient(135deg, #744FFF 0%, #5B2CFF 100%)" }}
-        >
+        <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0 bg-gradient-button">
           {index + 1}
         </div>
 

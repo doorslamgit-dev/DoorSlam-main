@@ -2,6 +2,7 @@
 // Updated to show SESSION ALLOCATION distribution instead of topic distribution
 
 import type { SubjectProgress } from "../../types/subjectProgress";
+import { COLORS, getSubjectColor } from "../../constants/colors";
 
 interface CoverageSummaryProps {
   subjects: SubjectProgress[];
@@ -67,7 +68,7 @@ export default function CoverageSummary({ subjects }: CoverageSummaryProps) {
   // sessions_total = all sessions for this subject in the revision plan
   const subjectData = subjects.map((subject) => ({
     subject_name: subject.subject_name,
-    color: subject.subject_color || "#5B2CFF",
+    color: getSubjectColor(subject.subject_name),
     // Use sessions_total for distribution (with fallback for pre-update data)
     sessionCount: subject.sessions_total ?? (subject.topics_covered_total + subject.topics_remaining),
   }));
@@ -78,11 +79,11 @@ export default function CoverageSummary({ subjects }: CoverageSummaryProps) {
   // If no sessions at all, show empty state
   if (grandTotal === 0) {
     return (
-      <div className="bg-white rounded-2xl shadow-soft p-6">
-        <h3 className="text-lg font-semibold mb-4" style={{ color: "#1F2330" }}>
+      <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-soft p-6">
+        <h3 className="text-lg font-semibold mb-4 text-neutral-700 dark:text-neutral-200">
           Session Distribution
         </h3>
-        <p className="text-sm text-center py-8" style={{ color: "#6C7280" }}>
+        <p className="text-sm text-center py-8 text-neutral-500 dark:text-neutral-400">
           No session data available
         </p>
       </div>
@@ -116,16 +117,16 @@ export default function CoverageSummary({ subjects }: CoverageSummaryProps) {
   });
 
   return (
-    <div className="bg-white rounded-2xl shadow-soft p-6">
-      <h3 className="text-lg font-semibold mb-4" style={{ color: "#1F2330" }}>
+    <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-soft p-6">
+      <h3 className="text-lg font-semibold mb-4 text-neutral-700 dark:text-neutral-200">
         Session Distribution
       </h3>
 
       {/* SVG Pie Chart */}
       <div className="flex justify-center">
-        <svg 
-          width="280" 
-          height="280" 
+        <svg
+          width="280"
+          height="280"
           viewBox="0 0 280 280"
           style={{ overflow: "visible" }}
         >
@@ -136,7 +137,7 @@ export default function CoverageSummary({ subjects }: CoverageSummaryProps) {
                 key={slice.subject_name}
                 d={slice.path}
                 fill={slice.color}
-                stroke="#FFFFFF"
+                stroke={COLORS.neutral[0]}
                 strokeWidth="2"
                 className="transition-opacity hover:opacity-80 cursor-pointer"
               >
@@ -149,19 +150,19 @@ export default function CoverageSummary({ subjects }: CoverageSummaryProps) {
           {slices.map((slice) => {
             // Only show label if slice is large enough (> 7%)
             if (slice.percentage < 7) return null;
-            
+
             // Truncate long names
-            const displayName = slice.subject_name.length > 10 
+            const displayName = slice.subject_name.length > 10
               ? slice.subject_name.substring(0, 9) + "…"
               : slice.subject_name;
-            
+
             return (
               <g key={`label-${slice.subject_name}`}>
                 <text
                   x={slice.labelPos.x}
                   y={slice.labelPos.y - 6}
                   textAnchor="middle"
-                  fill="#FFFFFF"
+                  fill={COLORS.neutral[0]}
                   fontSize="10"
                   fontWeight="500"
                   style={{ pointerEvents: "none" }}
@@ -172,7 +173,7 @@ export default function CoverageSummary({ subjects }: CoverageSummaryProps) {
                   x={slice.labelPos.x}
                   y={slice.labelPos.y + 8}
                   textAnchor="middle"
-                  fill="#FFFFFF"
+                  fill={COLORS.neutral[0]}
                   fontSize="10"
                   opacity="0.9"
                   style={{ pointerEvents: "none" }}
@@ -186,7 +187,7 @@ export default function CoverageSummary({ subjects }: CoverageSummaryProps) {
       </div>
 
       {/* Legend */}
-      <div className="mt-4 pt-4 border-t" style={{ borderColor: "#F6F7FB" }}>
+      <div className="mt-4 pt-4 border-t border-neutral-100 dark:border-neutral-700">
         <div className="grid grid-cols-2 gap-2">
           {slices.map((slice) => (
             <div key={slice.subject_name} className="flex items-center gap-2">
@@ -194,9 +195,8 @@ export default function CoverageSummary({ subjects }: CoverageSummaryProps) {
                 className="w-3 h-3 rounded-full flex-shrink-0"
                 style={{ backgroundColor: slice.color }}
               />
-              <span 
-                className="text-xs truncate" 
-                style={{ color: "#6C7280" }}
+              <span
+                className="text-xs truncate text-neutral-500 dark:text-neutral-400"
                 title={`${slice.subject_name}: ${slice.value} sessions (${slice.percentage}%)`}
               >
                 {slice.subject_name} ({slice.value})
@@ -207,9 +207,9 @@ export default function CoverageSummary({ subjects }: CoverageSummaryProps) {
       </div>
 
       {/* Total sessions summary */}
-      <div className="mt-3 pt-3 border-t text-center" style={{ borderColor: "#F6F7FB" }}>
-        <span className="text-sm" style={{ color: "#6C7280" }}>
-          Total: <span className="font-medium" style={{ color: "#1F2330" }}>{grandTotal} sessions</span> planned
+      <div className="mt-3 pt-3 border-t border-neutral-100 dark:border-neutral-700 text-center">
+        <span className="text-sm text-neutral-500 dark:text-neutral-400">
+          Total: <span className="font-medium text-neutral-700 dark:text-neutral-200">{grandTotal} sessions</span> planned
         </span>
       </div>
     </div>

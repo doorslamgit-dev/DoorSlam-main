@@ -1,6 +1,7 @@
 // src/components/subjects/TimelineView.tsx
 
 import type { TimelineGroup } from "../../types/subjectProgress";
+import { getSubjectColor } from "../../constants/colors";
 
 interface TimelineViewProps {
   timeline: TimelineGroup[];
@@ -62,7 +63,7 @@ export default function TimelineView({ timeline }: TimelineViewProps) {
                 >
                   <div
                     className="w-2 h-2 rounded-full"
-                    style={{ backgroundColor: session.subject_color }}
+                    style={{ backgroundColor: getSubjectColor(session.subject_name) }}
                   />
                   <p className="text-sm text-gray-900">
                     {session.subject_name}: {session.topic_name || "Topic TBD"}

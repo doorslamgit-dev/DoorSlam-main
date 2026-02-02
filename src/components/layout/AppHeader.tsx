@@ -8,6 +8,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AppIcon from "../ui/AppIcon";
+import ThemeToggle from "../ui/ThemeToggle";
 import { useAuth } from "../../contexts/AuthContext";
 import { supabase } from "../../lib/supabase";
 import ParentNav from "./ParentNav";
@@ -153,7 +154,7 @@ export default function AppHeader() {
 
             <div>
               <div className="text-base font-semibold leading-tight">
-                RevisionHub
+                Doorslam
               </div>
               <div className="text-xs text-neutral-500">
                 {isChild ? "Your revision" : "Plan revision"}
@@ -209,6 +210,9 @@ export default function AppHeader() {
                 <span className="font-bold text-sm">{pointsBalance}</span>
               </Link>
             )}
+
+            {/* Theme toggle */}
+            <ThemeToggle variant="icon" />
 
             {/* Avatar dropdown */}
             <div className="relative" ref={dropdownRef}>

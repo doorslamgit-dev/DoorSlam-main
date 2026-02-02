@@ -2,6 +2,7 @@
 
 import AppIcon from "../ui/AppIcon";
 import type { FocusArea } from "../../types/subjectProgress";
+import { getSubjectColor } from "../../constants/colors";
 
 interface FocusAreasCardProps {
   focusAreas: FocusArea[];
@@ -105,33 +106,36 @@ export default function FocusAreasCard({
       </div>
 
       <div className="space-y-3">
-        {focusAreas.map((area) => (
-          <div
-            key={area.subject_id}
-            className="flex items-start gap-3 p-3 border border-gray-200 rounded-lg"
-          >
+        {focusAreas.map((area) => {
+          const color = getSubjectColor(area.subject_name);
+          return (
             <div
-              className="w-8 h-8 rounded flex items-center justify-center flex-shrink-0"
-              style={{
-                backgroundColor: `${area.subject_color || "#5B2CFF"}15`,
-              }}
+              key={area.subject_id}
+              className="flex items-start gap-3 p-3 border border-gray-200 rounded-lg"
             >
-              <SubjectIcon
-                icon={area.subject_icon || "book"}
-                color={area.subject_color || "#5B2CFF"}
-              />
-            </div>
+              <div
+                className="w-8 h-8 rounded flex items-center justify-center flex-shrink-0"
+                style={{
+                  backgroundColor: `${color}15`,
+                }}
+              >
+                <SubjectIcon
+                  icon={area.subject_icon || "book"}
+                  color={color}
+                />
+              </div>
 
-            <div>
-              <p className="text-sm font-medium text-gray-900">
-                {area.subject_name}
-              </p>
-              <p className="text-xs text-gray-600 mt-1">
-                {area.focus_topics || "Topics scheduled"}
-              </p>
+              <div>
+                <p className="text-sm font-medium text-gray-900">
+                  {area.subject_name}
+                </p>
+                <p className="text-xs text-gray-600 mt-1">
+                  {area.focus_topics || "Topics scheduled"}
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
