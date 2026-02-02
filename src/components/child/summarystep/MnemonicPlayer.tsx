@@ -26,14 +26,14 @@ interface MnemonicPlayerProps {
 function getStyleIconKey(styleId: string | null | undefined): IconKey {
   // Map your mnemonic styles to your AppIcon keys (typed).
   // Adjust the IconKey values to match your canonical set if needed.
-  const STYLE_ICON = {
+  const STYLE_ICON: Record<string, IconKey> = {
     pop: "music",
     rap: "mic",
     rock: "guitar",
     edm: "sparkles",
     classical: "musicNote",
     default: "disc",
-  } satisfies Record<string, IconKey>;
+  };
 
   if (!styleId) return STYLE_ICON.default;
   return STYLE_ICON[styleId] ?? STYLE_ICON.default;

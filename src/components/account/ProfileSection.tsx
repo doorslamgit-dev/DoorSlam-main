@@ -98,14 +98,9 @@ export function ProfileSection({
     }
   };
 
-  // SectionCard currently takes an icon prop; keep it compliant without FontAwesome.
-  // If SectionCard still expects a FontAwesome IconDefinition, refactor SectionCard next
-  // to accept `iconKey?: IconKey` or `icon?: ReactNode`.
-  const sectionIconKey: IconKey = "user";
-
   return (
     <SectionCard
-      icon={<AppIcon name={sectionIconKey} className="w-5 h-5 text-neutral-700" aria-hidden />}
+      icon="user"
       title="Profile"
       editing={editing}
       saving={saving}

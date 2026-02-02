@@ -163,3 +163,28 @@ export interface ChildHealthCardProps {
   onViewInsights: (childId: string) => void;
 }
 
+export interface ChildHealthCardGridProps {
+  children: ChildSummary[];
+  onGoToToday: (childId: string) => void;
+  onViewInsights: (childId: string) => void;
+}
+
+export interface ComingUpCardProps {
+  sessions: ComingUpSession[];
+  onViewFullSchedule: () => void;
+}
+
+export interface FamilyOverviewCardProps {
+  weekSummary: WeekSummary;
+  subjectCoverage: SubjectCoverage[];
+  childrenCount: number;
+}
+
+export interface HeroStatusBannerProps {
+  weekSummary: WeekSummary;
+  comingUpCount: number;
+  onViewTodaySessions: () => void;
+  onViewInsights: () => void;
+  reminders: GentleReminder[];
+}
+

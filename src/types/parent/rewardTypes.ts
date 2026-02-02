@@ -46,6 +46,8 @@ export interface TemplateConfig {
 // Child Reward Types
 // ============================================================================
 
+export type LimitType = 'per_day' | 'per_week' | 'per_month' | 'unlimited';
+
 export interface ChildReward {
   id: string;
   child_id: string;
@@ -56,7 +58,7 @@ export interface ChildReward {
   name: string;
   emoji: string | null;
   points_cost: number;
-  limit_type: 'per_day' | 'per_week' | 'per_month' | 'unlimited' | null;
+  limit_type: LimitType | null;
   limit_count: number | null;
   is_active: boolean;
   created_at: string;

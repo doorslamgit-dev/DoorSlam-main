@@ -5,7 +5,7 @@ import AppIcon from "../../ui/AppIcon";
 import type { IconKey } from "../../ui/AppIcon";
 
 interface StudyBuddyTriggerProps {
-  onClick: () => void;
+  onClick: (e: React.MouseEvent) => void;
   promptText?: string;
   variant?: "inline" | "floating" | "compact";
   disabled?: boolean;

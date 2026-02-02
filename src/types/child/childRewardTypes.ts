@@ -42,6 +42,9 @@ export interface MyReward {
   is_available: boolean;
 }
 
+// Alias for RedemptionModal compatibility
+export type CatalogReward = MyReward;
+
 // Pending redemption request
 export interface PendingRedemption {
   id: string;
@@ -88,4 +91,24 @@ export interface RequestRedemptionResult {
   redemption_id?: string;
   auto_approved?: boolean;
   error?: string;
+}
+
+// Alias for service compatibility
+export type RedemptionRequestResult = RequestRedemptionResult;
+
+// Child rewards summary (for mini card)
+export interface ChildRewardsSummary {
+  points_balance: number;
+  pending_redemptions: number;
+  available_rewards: number;
+}
+
+// Full rewards catalog response
+export interface RewardsCatalog {
+  dashboard: RewardsDashboard;
+  my_rewards: MyReward[];
+  pending_redemptions: PendingRedemption[];
+  catalog_items: CatalogItem[];
+  addition_requests: AdditionRequest[];
+  history: RedemptionHistoryItem[];
 }

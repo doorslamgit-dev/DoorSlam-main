@@ -1,6 +1,7 @@
 // src/components/child/summarystep/MnemonicStyleSelector.tsx
 
 import AppIcon from "../../ui/AppIcon";
+import type { IconKey } from "../../ui/AppIcon";
 import { MnemonicStyle } from "../../../types/child/summarystep";
 import { MNEMONIC_STYLES } from "../../../services/child/summarystep";
 
@@ -46,7 +47,7 @@ export function MnemonicStyleSelector({
             <div
               className={`w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-gradient-to-br ${style.gradient}`}
             >
-              <AppIcon name={style.icon} className="text-white w-5 h-5" />
+              <AppIcon name={style.icon as IconKey} className="text-white w-5 h-5" />
             </div>
 
             <span className="font-semibold text-neutral-700 text-sm">
