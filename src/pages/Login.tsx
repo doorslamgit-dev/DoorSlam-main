@@ -2,7 +2,6 @@
 
 import { useState, type FormEvent, type ChangeEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import AppIcon from "../components/ui/AppIcon";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function Login() {
@@ -43,19 +42,7 @@ export default function Login() {
   return (
     <div className="min-h-[calc(100vh-73px)] bg-gradient-to-br from-brand-purple-light via-brand-purple to-brand-purple-dark flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <div className="inline-flex w-16 h-16 bg-white rounded-2xl items-center justify-center mb-4 shadow-lg">
-            <AppIcon
-              name="book-open"
-              className="w-8 h-8 text-brand-purple"
-            />
-          </div>
-          <h1 className="text-4xl font-bold text-white mb-2">Doorslam</h1>
-          <p className="text-purple-100">
-            Calm, confidence-building revision for your children
-          </p>
-        </div>
-
+        
         <div className="bg-white rounded-2xl shadow-2xl p-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Welcome back</h2>
 
