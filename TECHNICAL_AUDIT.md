@@ -744,18 +744,32 @@ export class ErrorBoundary extends React.Component<
 
 ## 10. Recommended Action Plan
 
-### Phase 1: Critical Fixes (Week 1)
+### Status Overview
+- ✅ **Phase 1 (Critical Fixes):** COMPLETE - All 3 critical components refactored
+- 🔄 **Phase 2 (Architecture Improvements):** IN PROGRESS - Custom hooks next
+- ⏳ **Phase 3 (Polish & Documentation):** PENDING
 
-**Day 1-2: Component Refactoring**
-- [ ] Split `AvailabilityBuilderStep.tsx` (6 hours)
-- [ ] Split `StudyBuddyPanel.tsx` (8 hours)
+### Phase 1: Critical Fixes (Week 1) ✅ COMPLETE
 
-**Day 3-4: Type Safety**
+**Day 1-2: Component Refactoring** ✅ COMPLETE
+- [x] Split `AvailabilityBuilderStep.tsx` (920 → 569 lines, 38% reduction)
+  - Created `DayCard.tsx` (197 lines)
+  - Created `CoverageCard.tsx` (209 lines)
+- [x] Split `StudyBuddyPanel.tsx` (911 → 703 lines, 23% reduction)
+  - Created `MessageBubble.tsx` (122 lines)
+  - Created `useVoiceRecording.ts` hook (174 lines)
+  - Created `useAudioPlayback.ts` hook (116 lines)
+- [x] Split `AddSubjectModal.tsx` (905 → 633 lines, 30% reduction)
+  - Created `PrioritizeSubjectsStep.tsx` (119 lines)
+  - Created `ImpactAssessmentStep.tsx` (172 lines)
+  - Created `ConfirmationStep.tsx` (70 lines)
+
+**Day 3-4: Type Safety** → Moved to Phase 3
 - [ ] Create `utils/typeGuards.ts` (4 hours)
 - [ ] Add type guards to all services (6 hours)
 - [ ] Replace unsafe `as` casts (3 hours)
 
-**Day 5: Error Boundaries**
+**Day 5: Error Boundaries** → Moved to Phase 3
 - [ ] Create ErrorBoundary component (2 hours)
 - [ ] Add to page components (2 hours)
 - [ ] Add to modal components (2 hours)
@@ -800,12 +814,14 @@ export class ErrorBoundary extends React.Component<
 
 ## 11. Metrics & Goals
 
-### Current State
-- **Component Size:** 3 components >900 lines
-- **Type Safety:** 70% (30+ unsafe casts)
-- **Error Handling:** 80% (inconsistent patterns)
+### Current State (Updated 2026-02-02)
+- **Component Size:** 0 components >900 lines ✅ (Phase 1 complete)
+  - All critical components now <700 lines
+  - 9 new focused components/hooks created
+- **Type Safety:** 70% (30+ unsafe casts) → Phase 3
+- **Error Handling:** 80% (inconsistent patterns) → Phase 3
 - **Service Layer:** 85% coverage
-- **Code Duplication:** Moderate (missing hooks)
+- **Code Duplication:** Moderate (missing hooks) → Phase 2 in progress
 
 ### Target State (After Refactoring)
 - **Component Size:** All components <400 lines ✅
