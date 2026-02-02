@@ -6,13 +6,16 @@
 //
 // UPDATED: January 2026 - Added play button on buddy messages
 
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import AppIcon from "../../ui/AppIcon";
 import type { IconKey } from "../../ui/AppIcon";
 import { studyBuddyService } from "../../../services/child/studyBuddy/studyBuddyService";
 import { studyBuddyVoiceService } from "../../../services/child/studyBuddy/studyBuddyVoiceService";
 import AudioWaveform from "../../shared/AudioWaveform";
 import type { VoiceQuotaStatus } from "../../../types/child/studyBuddy/voiceTypes";
+import MessageBubble from "./MessageBubble";
+import { useVoiceRecording } from "../../../hooks/child/useVoiceRecording";
+import { useAudioPlayback } from "../../../hooks/child/useAudioPlayback";
 
 // =============================================================================
 // Types
@@ -63,23 +66,6 @@ const ICON_VOLUME_UP: IconKey = "volumeUp";
 const ICON_VOLUME_MUTE: IconKey = "volumeMute";
 
 // =============================================================================
-// Helper: Get supported MIME type
-// =============================================================================
-
-function getSupportedMimeType(): string {
-  const types = [
-    "audio/webm;codecs=opus",
-    "audio/webm",
-    "audio/mp4",
-    "audio/ogg;codecs=opus",
-  ];
-  for (const type of types) {
-    if (MediaRecorder.isTypeSupported(type)) return type;
-  }
-  return "";
-}
-
-// =============================================================================
 // Component
 // =============================================================================
 
@@ -100,17 +86,22 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [messagesRemaining, setMessagesRemaining] = useState(20);
   const [threadId, setThreadId] = useState<string | null>(null);
-
-  // Voice input state
   const [voiceQuota, setVoiceQuota] = useState<VoiceQuotaStatus | null>(null);
-  const [recordingTime, setRecordingTime] = useState(0);
-  const [analyser, setAnalyser] = useState<AnalyserNode | null>(null);
-
-  // TTS state
-  const [playingMessageId, setPlayingMessageId] = useState<string | null>(null);
   const [loadingTTSMessageId, setLoadingTTSMessageId] = useState<string | null>(
     null
   );
+
+  // ===========================================================================
+  // Custom Hooks
+  // ===========================================================================
+
+  // Voice recording hook
+  const voiceRecording = useVoiceRecording();
+
+  // Audio playback hook
+  const audioPlayback = useAudioPlayback((errorMsg: string) => {
+    setError(errorMsg);
+  });
 
   // ===========================================================================
   // Refs
@@ -118,15 +109,6 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  // Audio recording refs
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-  const audioContextRef = useRef<AudioContext | null>(null);
-  const streamRef = useRef<MediaStream | null>(null);
-  const audioChunksRef = useRef<Blob[]>([]);
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const recordingStartTimeRef = useRef<number>(0);
 
   // ===========================================================================
   // Effects
@@ -177,8 +159,7 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
   // Cleanup on unmount
   useEffect(() => {
     return () => {
-      cleanupRecording();
-      stopAudioPlayback();
+      audioPlayback.stop();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -216,262 +197,164 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
   };
 
   // ===========================================================================
-  // Recording Functions (STT)
+  // Voice Recording - Process audio blob when recording completes
   // ===========================================================================
 
-  const cleanupRecording = useCallback(() => {
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-      timerRef.current = null;
-    }
-    if (streamRef.current) {
-      streamRef.current.getTracks().forEach((track) => track.stop());
-      streamRef.current = null;
-    }
-    if (audioContextRef.current && audioContextRef.current.state !== "closed") {
-      void audioContextRef.current.close();
-      audioContextRef.current = null;
-    }
-    setAnalyser(null);
-    setRecordingTime(0);
-  }, []);
+  useEffect(() => {
+    const processVoiceRecording = async (blob: Blob) => {
+      setPanelState("transcribing");
 
-  const stopRecording = useCallback(() => {
-    if (mediaRecorderRef.current && panelState === "recording") {
-      mediaRecorderRef.current.stop();
-    }
-  }, [panelState]);
+      try {
+        const durationSeconds = voiceRecording.recordingTime;
+        const result = await studyBuddyVoiceService.sendVoiceMessage(
+          childId,
+          revisionSessionId,
+          blob,
+          durationSeconds,
+          stepContext
+        );
 
-  const processVoiceRecording = async (blob: Blob, durationSeconds: number) => {
-    setPanelState("transcribing");
+        if (result.success && result.transcript) {
+          setMessages((prev) => [
+            ...prev,
+            {
+              id: `voice-child-${Date.now()}`,
+              role: "child",
+              content_text: result.transcript!,
+              input_mode: "voice",
+              created_at: new Date().toISOString(),
+            },
+            {
+              id: `voice-buddy-${Date.now()}`,
+              role: "buddy",
+              content_text: result.response || "I couldn't generate a response.",
+              input_mode: null,
+              created_at: new Date().toISOString(),
+            },
+          ]);
 
-    try {
-      const result = await studyBuddyVoiceService.sendVoiceMessage(
-        childId,
-        revisionSessionId,
-        blob,
-        durationSeconds,
-        stepContext
-      );
+          if (result.messages_remaining !== undefined) {
+            setMessagesRemaining(result.messages_remaining);
+          }
 
-      if (result.success && result.transcript) {
-        setMessages((prev) => [
-          ...prev,
-          {
-            id: `voice-child-${Date.now()}`,
-            role: "child",
-            content_text: result.transcript!,
-            input_mode: "voice",
-            created_at: new Date().toISOString(),
-          },
-          {
-            id: `voice-buddy-${Date.now()}`,
-            role: "buddy",
-            content_text: result.response || "I couldn't generate a response.",
-            input_mode: null,
-            created_at: new Date().toISOString(),
-          },
-        ]);
+          if (result.quota) {
+            setVoiceQuota((prev) =>
+              prev
+                ? {
+                    ...prev,
+                    remaining: {
+                      session_minutes: result.quota!.session_minutes_remaining,
+                      session_interactions:
+                        result.quota!.session_interactions_remaining,
+                      daily_minutes: result.quota!.daily_minutes_remaining,
+                    },
+                    can_use_voice: result.quota!.can_continue,
+                  }
+                : prev
+            );
+          }
 
-        if (result.messages_remaining !== undefined) {
-          setMessagesRemaining(result.messages_remaining);
-        }
-
-        if (result.quota) {
-          setVoiceQuota((prev) =>
-            prev
-              ? {
-                  ...prev,
-                  remaining: {
-                    session_minutes: result.quota!.session_minutes_remaining,
-                    session_interactions:
-                      result.quota!.session_interactions_remaining,
-                    daily_minutes: result.quota!.daily_minutes_remaining,
-                  },
-                  can_use_voice: result.quota!.can_continue,
-                }
-              : prev
-          );
-        }
-
-        setPanelState("idle");
-        return;
-      }
-
-      if (result.error === "empty_transcript") {
-        setError(result.message || "I didn't catch that. Try again?");
-      } else if (result.error === "voice_quota_exceeded") {
-        setError(result.message || "Voice quota exceeded. Try typing instead!");
-        void loadVoiceQuota();
-      } else {
-        setError(result.message || "Failed to process voice message");
-      }
-      setPanelState("idle");
-    } catch (err) {
-      console.error("[StudyBuddyPanel] Voice message error:", err);
-      setError("Something went wrong. Please try again.");
-      setPanelState("idle");
-    }
-  };
-
-  const startRecording = useCallback(async () => {
-    if (panelState !== "idle") return;
-
-    setError(null);
-
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      streamRef.current = stream;
-
-      // Waveform analyser
-      const audioContext = new AudioContext();
-      audioContextRef.current = audioContext;
-      const source = audioContext.createMediaStreamSource(stream);
-      const analyserNode = audioContext.createAnalyser();
-      analyserNode.fftSize = 256;
-      analyserNode.smoothingTimeConstant = 0.8;
-      source.connect(analyserNode);
-      setAnalyser(analyserNode);
-
-      // MediaRecorder
-      const mimeType = getSupportedMimeType();
-      const options = mimeType ? { mimeType } : undefined;
-      const mediaRecorder = new MediaRecorder(stream, options);
-      mediaRecorderRef.current = mediaRecorder;
-      audioChunksRef.current = [];
-
-      mediaRecorder.ondataavailable = (event) => {
-        if (event.data.size > 0) audioChunksRef.current.push(event.data);
-      };
-
-      mediaRecorder.onstop = async () => {
-        const finalMimeType = mediaRecorder.mimeType || mimeType || "audio/webm";
-        const blob = new Blob(audioChunksRef.current, { type: finalMimeType });
-        const durationSeconds =
-          (Date.now() - recordingStartTimeRef.current) / 1000;
-
-        cleanupRecording();
-
-        if (durationSeconds > 0.5) {
-          await processVoiceRecording(blob, durationSeconds);
+          setPanelState("idle");
           return;
         }
 
-        setError("Recording too short. Hold longer to speak.");
+        if (result.error === "empty_transcript") {
+          setError(result.message || "I didn't catch that. Try again?");
+        } else if (result.error === "voice_quota_exceeded") {
+          setError(result.message || "Voice quota exceeded. Try typing instead!");
+          void loadVoiceQuota();
+        } else {
+          setError(result.message || "Failed to process voice message");
+        }
         setPanelState("idle");
-      };
-
-      mediaRecorder.start(100);
-      recordingStartTimeRef.current = Date.now();
-      setPanelState("recording");
-      setRecordingTime(0);
-
-      timerRef.current = setInterval(() => {
-        setRecordingTime((prev) => {
-          const next = prev + 1;
-          if (next >= 60) stopRecording();
-          return next;
-        });
-      }, 1000);
-    } catch (err) {
-      console.error("[StudyBuddyPanel] Failed to start recording:", err);
-
-      if (err instanceof DOMException && err.name === "NotAllowedError") {
-        setError("Microphone access denied. Please allow microphone access.");
-      } else {
-        setError("Could not start recording. Please try again.");
+      } catch (err) {
+        console.error("[StudyBuddyPanel] Voice message error:", err);
+        setError("Something went wrong. Please try again.");
+        setPanelState("idle");
       }
+    };
 
-      cleanupRecording();
+    if (voiceRecording.audioBlob) {
+      void processVoiceRecording(voiceRecording.audioBlob);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [voiceRecording.audioBlob]);
+
+  // Sync recording state with panel state
+  useEffect(() => {
+    if (voiceRecording.isRecording) {
+      setPanelState("recording");
+    }
+  }, [voiceRecording.isRecording]);
+
+  // Handle recording errors
+  useEffect(() => {
+    if (voiceRecording.error) {
+      setError(voiceRecording.error);
       setPanelState("idle");
     }
-  }, [panelState, cleanupRecording, stopRecording]);
+  }, [voiceRecording.error]);
 
   // ===========================================================================
   // PTT Event Handlers
   // ===========================================================================
 
-  const handlePTTStart = useCallback(
-    (e: React.MouseEvent | React.TouchEvent) => {
-      e.preventDefault();
-      void startRecording();
-    },
-    [startRecording]
-  );
+  const handlePTTStart = (e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault();
+    if (panelState === "idle") {
+      void voiceRecording.startRecording();
+    }
+  };
 
-  const handlePTTEnd = useCallback(
-    (e: React.MouseEvent | React.TouchEvent) => {
-      e.preventDefault();
-      if (panelState === "recording") stopRecording();
-    },
-    [panelState, stopRecording]
-  );
+  const handlePTTEnd = (e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault();
+    if (voiceRecording.isRecording) {
+      voiceRecording.stopRecording();
+    }
+  };
 
   // ===========================================================================
   // TTS Functions (Text-to-Speech)
   // ===========================================================================
 
-  const stopAudioPlayback = useCallback(() => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
-      audioRef.current = null;
+  const handlePlayMessage = async (messageId: string, text: string) => {
+    if (audioPlayback.currentlyPlayingId === messageId) {
+      audioPlayback.stop();
+      setPanelState("idle");
+      return;
     }
-    setPlayingMessageId(null);
-    if (panelState === "speaking") setPanelState("idle");
-  }, [panelState]);
 
-  const handlePlayMessage = useCallback(
-    async (messageId: string, text: string) => {
-      if (playingMessageId === messageId) {
-        stopAudioPlayback();
+    setLoadingTTSMessageId(messageId);
+
+    try {
+      const result = await studyBuddyVoiceService.speakText(
+        text,
+        "nova",
+        messageId
+      );
+
+      if (result.success && result.audio_url) {
+        setLoadingTTSMessageId(null);
+        setPanelState("speaking");
+        await audioPlayback.play(result.audio_url, messageId);
         return;
       }
 
-      stopAudioPlayback();
-      setLoadingTTSMessageId(messageId);
+      setError(result.message || "Failed to generate speech");
+      setLoadingTTSMessageId(null);
+    } catch (err) {
+      console.error("[StudyBuddyPanel] TTS error:", err);
+      setError("Failed to play message");
+      setLoadingTTSMessageId(null);
+    }
+  };
 
-      try {
-        const result = await studyBuddyVoiceService.speakText(
-          text,
-          "nova",
-          messageId
-        );
-
-        if (result.success && result.audio_url) {
-          const audio = new Audio(result.audio_url);
-          audioRef.current = audio;
-
-          audio.onended = () => {
-            setPlayingMessageId(null);
-            audioRef.current = null;
-            if (panelState === "speaking") setPanelState("idle");
-          };
-
-          audio.onerror = () => {
-            setError("Failed to play audio");
-            setPlayingMessageId(null);
-            audioRef.current = null;
-            setPanelState("idle");
-          };
-
-          setPlayingMessageId(messageId);
-          setLoadingTTSMessageId(null);
-          setPanelState("speaking");
-          await audio.play();
-          return;
-        }
-
-        setError(result.message || "Failed to generate speech");
-        setLoadingTTSMessageId(null);
-      } catch (err) {
-        console.error("[StudyBuddyPanel] TTS error:", err);
-        setError("Failed to play message");
-        setLoadingTTSMessageId(null);
-      }
-    },
-    [playingMessageId, stopAudioPlayback, panelState]
-  );
+  // Sync playback state with panel state
+  useEffect(() => {
+    if (!audioPlayback.isPlaying && panelState === "speaking") {
+      setPanelState("idle");
+    }
+  }, [audioPlayback.isPlaying, panelState]);
 
   // ===========================================================================
   // Text Message Handling
@@ -663,7 +546,7 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
             <MessageBubble
               key={msg.id}
               message={msg}
-              isPlaying={playingMessageId === msg.id}
+              isPlaying={audioPlayback.currentlyPlayingId === msg.id}
               isLoadingTTS={loadingTTSMessageId === msg.id}
               onPlay={() => void handlePlayMessage(msg.id, msg.content_text)}
             />
@@ -736,14 +619,14 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
               <div className="flex items-center gap-3">
                 <div className="flex-1 flex items-center gap-2">
                   <AudioWaveform
-                    analyser={analyser}
+                    analyser={voiceRecording.analyser}
                     isActive={true}
                     width={120}
                     height={32}
                     barCount={16}
                   />
                   <span className="text-sm font-medium text-accent-red">
-                    {formatTime(recordingTime)}
+                    {formatTime(voiceRecording.recordingTime)}
                   </span>
                 </div>
 
@@ -811,97 +694,6 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
             <br />
             Keep revising! 💪
           </div>
-        )}
-      </div>
-    </div>
-  );
-};
-
-// =============================================================================
-// Message Bubble Component (with TTS play button)
-// =============================================================================
-
-interface MessageBubbleProps {
-  message: StudyBuddyMessage;
-  isPlaying: boolean;
-  isLoadingTTS: boolean;
-  onPlay: () => void;
-}
-
-const MessageBubble: React.FC<MessageBubbleProps> = ({
-  message,
-  isPlaying,
-  isLoadingTTS,
-  onPlay,
-}) => {
-  const isChild = message.role === "child";
-  const isBuddy = message.role === "buddy";
-  const isVoice = message.input_mode === "voice";
-
-  return (
-    <div className={`flex items-start gap-2 ${isChild ? "flex-row-reverse" : ""}`}>
-      {/* Avatar */}
-      <div
-        className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-          isChild
-            ? "bg-accent-green"
-            : "bg-gradient-to-br from-primary-500 to-primary-700"
-        }`}
-        aria-hidden="true"
-      >
-        {isChild ? (
-          <span className="text-white text-sm font-bold">Y</span>
-        ) : (
-          <AppIcon name={ICON_ROBOT} />
-        )}
-      </div>
-
-      {/* Message bubble */}
-      <div
-        className={`max-w-[75%] rounded-2xl px-4 py-2 shadow-sm ${
-          isChild
-            ? "bg-accent-green text-white rounded-tr-none"
-            : "bg-white text-neutral-800 rounded-tl-none"
-        }`}
-      >
-        {/* Voice indicator for child messages */}
-        {isVoice && isChild && (
-          <div className="flex items-center gap-1 mb-1 opacity-70">
-            <AppIcon name={ICON_MIC} />
-            <span className="text-xs">Voice</span>
-          </div>
-        )}
-
-        <p className="text-sm whitespace-pre-wrap">{message.content_text}</p>
-
-        {/* TTS Play button for buddy messages */}
-        {isBuddy && (
-          <button
-            type="button"
-            onClick={onPlay}
-            disabled={isLoadingTTS}
-            className="mt-2 flex items-center gap-1 text-xs text-primary-600 hover:text-primary-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            title={isPlaying ? "Stop" : "Listen"}
-          >
-            {isLoadingTTS ? (
-              <>
-                <span className="animate-spin">
-                  <AppIcon name={ICON_SPINNER} />
-                </span>
-                <span>Loading…</span>
-              </>
-            ) : isPlaying ? (
-              <>
-                <AppIcon name={ICON_VOLUME_MUTE} />
-                <span>Stop</span>
-              </>
-            ) : (
-              <>
-                <AppIcon name={ICON_VOLUME_UP} />
-                <span>Listen</span>
-              </>
-            )}
-          </button>
         )}
       </div>
     </div>
