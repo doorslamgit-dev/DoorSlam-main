@@ -7,7 +7,7 @@ import { NavLink } from "react-router-dom";
 
 export default function ChildNav() {
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-    `text-sm font-semibold transition-all duration-200 pb-1 ${
+    `text-base font-semibold transition-all duration-200 pb-1 ${
       isActive
         ? "text-primary-600 border-b-2 border-primary-600"
         : "text-neutral-600 hover:text-primary-600 hover:border-b-2 hover:border-primary-300 border-b-2 border-transparent"

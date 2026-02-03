@@ -26,6 +26,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - New `useParentDashboardData` hook encapsulates all refresh logic
   - Files: `useParentDashboardData.ts`, `ParentDashboardV2.tsx`
 
+- **Header Branding Update** - Refreshed header with new logo and strapline
+  - Added dark/light mode logo variants (`logo-dark.png`, `logo-light.png`)
+  - New strapline: "Revision without the drama"
+  - Increased navigation font sizes from `text-sm` to `text-base`
+  - Logo sized at `h-14` (56px) for proper visual balance
+  - Files: `AppHeader.tsx`, `ParentNav.tsx`, `ChildNav.tsx`, `public/images/`
+
 ### Fixed
 - **TypeScript Strict Compilation** - Resolved all 29 TypeScript errors for clean builds
   - Added missing type exports: `MomentType`, `ProgressMomentsCardProps`, `WeeklyFocusStripProps`, `WeeklyRhythmChartProps`

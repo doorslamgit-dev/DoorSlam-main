@@ -140,24 +140,24 @@ export default function AppHeader() {
             to="/"
             className="flex items-center gap-3 text-primary-900 hover:opacity-80 transition-opacity"
           >
-            <div
-              className={`w-10 h-10 ${
-                isChild ? "bg-primary-600" : "bg-primary-600"
-              } rounded-xl flex items-center justify-center shadow-soft`}
-            >
-              <AppIcon
-                name="book-open"
-                className="w-5 h-5 text-white"
-                aria-hidden
-              />
-            </div>
+            {/* Logo - dark version for light mode, light version for dark mode */}
+            <img
+              src="/images/logo-dark.png"
+              alt="Doorslam"
+              className="h-14 w-auto dark:hidden"
+            />
+            <img
+              src="/images/logo-light.png"
+              alt="Doorslam"
+              className="h-14 w-auto hidden dark:block"
+            />
 
             <div>
-              <div className="text-base font-semibold leading-tight">
+              <div className="text-xl font-bold leading-tight">
                 Doorslam
               </div>
-              <div className="text-xs text-neutral-500">
-                {isChild ? "Your revision" : "Plan revision"}
+              <div className="text-sm text-neutral-500 dark:text-neutral-400">
+                Revision without the drama
               </div>
             </div>
           </Link>
