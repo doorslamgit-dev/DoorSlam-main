@@ -17,6 +17,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Architecture ready for future AI-generated summaries via backend
   - Files: `statusStyles.ts`, `HeroStatusBanner.tsx`, `ParentDashboardV2.tsx`, `parentDashboardTypes.ts`
 
+- **Real-Time Dashboard Refresh** - Parent Dashboard now automatically refreshes data
+  - Supabase real-time subscriptions for `revision_sessions` and `planned_sessions`
+  - Auto-refresh when browser tab becomes visible (Page Visibility API)
+  - Auto-refresh when window regains focus
+  - 30-second throttle between refreshes to prevent API spam
+  - Stale data detection (>5 minutes)
+  - New `useParentDashboardData` hook encapsulates all refresh logic
+  - Files: `useParentDashboardData.ts`, `ParentDashboardV2.tsx`
+
 ### Fixed
 - **TypeScript Strict Compilation** - Resolved all 29 TypeScript errors for clean builds
   - Added missing type exports: `MomentType`, `ProgressMomentsCardProps`, `WeeklyFocusStripProps`, `WeeklyRhythmChartProps`
@@ -31,6 +40,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - `AppIcon` component now gracefully handles string icon names with runtime validation
 - `SessionHeader` and `TopicHeader` components support both `subjectColor` (hex) and `subjectColorClass` (CSS class)
+- `ParentDashboardV2` now uses `useParentDashboardData` hook instead of manual state management
+
+### Removed
+- Legacy duplicate files: `src/types/parentDashboard.ts`, `src/services/parentDashboardService.ts`
 
 ---
 

@@ -4,7 +4,7 @@
 
 | Property | Value |
 |----------|-------|
-| Version | 9.1 |
+| Version | 9.2 |
 | Date | 3 February 2026 |
 | Status | Active Development |
 | Owner | Product & Engineering |
@@ -20,6 +20,7 @@
 | v8.1 | 24 Jan 2026 | FEAT-013 Reward System: 7 tables, 17 RPCs, parent config, child catalog, addition requests |
 | v9.0 | 2 Feb 2026 | Full document consolidation: complete PRD reconstruction from codebase, technical audit integration |
 | v9.1 | 3 Feb 2026 | FEAT-014 Personalized Hero Summaries, TypeScript strict compilation cleanup |
+| v9.2 | 3 Feb 2026 | Real-time dashboard refresh with Supabase subscriptions, visibility/focus handling |
 
 ---
 
@@ -317,6 +318,39 @@ For families with multiple children, the HeroStatusBanner displays personalized 
 | keep_an_eye | "{Name}'s activity dipped slightly this week." |
 | needs_attention | "{Name} missed a few sessions — a gentle nudge might help." |
 | getting_started | "{Name} is just getting started — great first steps!" |
+
+#### 7.1.4 Real-Time Data Refresh
+
+The Parent Dashboard automatically refreshes data to ensure parents always see current information:
+
+**Refresh Triggers:**
+| Trigger | Description |
+|---------|-------------|
+| Real-Time Subscription | Supabase listens for changes to `revision_sessions` and `planned_sessions` |
+| Visibility Change | Refreshes when browser tab becomes visible (Page Visibility API) |
+| Window Focus | Refreshes when browser window regains focus |
+| Manual Refresh | Error retry button forces immediate refresh |
+
+**Implementation Details:**
+- **Hook:** `useParentDashboardData` encapsulates all refresh logic
+- **Throttling:** 30-second minimum between automatic refreshes
+- **Stale Detection:** Data marked stale after 5 minutes
+- **Subscriptions:** Per-child filtering on session tables
+
+**Data Flow:**
+```
+Initial Load → Subscribe to Real-Time Channels
+                        ↓
+         ┌──────────────┴──────────────┐
+         ↓                              ↓
+Session Change Event          Tab/Focus Change
+         ↓                              ↓
+         └──────────→ Throttle Check ←──┘
+                           ↓
+                   Fetch Dashboard RPC
+                           ↓
+                    Update UI State
+```
 
 ### 7.2 Parent Insights
 
@@ -1282,6 +1316,7 @@ Parents can configure:
 | Custom Hooks Library | Phase 2 | 27 Jan 2026 | Reusable hooks patterns |
 | Personalized Hero Summaries | FEAT-014 | 3 Feb 2026 | Per-child hero card sentences using nickname/first name |
 | TypeScript Strict Cleanup | Maintenance | 3 Feb 2026 | Resolved all 29 TypeScript errors for clean builds |
+| Real-Time Dashboard Refresh | Enhancement | 3 Feb 2026 | Supabase subscriptions + visibility/focus refresh |
 
 ### 18.2 In Progress Features
 
