@@ -8,13 +8,16 @@ import type {
   HeroStatusBannerProps,
   StatusIndicator,
   GentleReminder,
+  ChildSummary,
 } from "../../../types/parent/parentDashboardTypes";
-import { getStatusUI } from "../../../utils/statusStyles";
+import { getStatusUI, generateFamilyDescription } from "../../../utils/statusStyles";
 import AppIcon, { hasIcon } from "../../ui/AppIcon";
 import type { IconKey } from "../../ui/AppIcon";
 
 interface ExtendedHeroStatusBannerProps extends HeroStatusBannerProps {
   onAddChild: () => void;
+  /** Children data for generating personalized family description */
+  children?: ChildSummary[];
 }
 
 function toTitleCaseStatus(status: StatusIndicator) {
@@ -143,6 +146,7 @@ export function HeroStatusBanner({
   onViewInsights,
   reminders,
   onAddChild,
+  children,
 }: ExtendedHeroStatusBannerProps) {
   const [showNudges, setShowNudges] = useState(false);
   const [selectedNudge, setSelectedNudge] = useState<GentleReminder | null>(
@@ -152,6 +156,22 @@ export function HeroStatusBanner({
   const status = (weekSummary.family_status || "on_track") as StatusIndicator;
   const ui = getStatusUI(status);
   const nudgeCount = reminders.length;
+
+  // Generate personalized family description if children data is available
+  // Priority: 1. Backend-provided family_description, 2. Generated from children, 3. Static template
+  const familyDescription =
+    weekSummary.family_description ||
+    (children && children.length > 0
+      ? generateFamilyDescription(
+          children.map((c) => ({
+            first_name: c.first_name,
+            preferred_name: c.preferred_name ?? null,
+            status_indicator: c.status_indicator,
+            week_sessions_completed: c.week_sessions_completed,
+            week_sessions_total: c.week_sessions_total,
+          }))
+        )
+      : ui.description);
 
   const statusIcon = safeIconKey(ui.icon, "info");
 
@@ -174,7 +194,7 @@ export function HeroStatusBanner({
             </div>
 
             <p className="text-lg text-neutral-600 leading-relaxed max-w-2xl">
-              {ui.description}
+              {familyDescription}
             </p>
           </div>
         </div>

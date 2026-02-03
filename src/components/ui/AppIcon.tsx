@@ -415,7 +415,7 @@ type BaseProps = {
 };
 
 type Props =
-  | (BaseProps & { name: IconKey; icon?: never })
+  | (BaseProps & { name: IconKey | string; icon?: never })
   | (BaseProps & { icon: LucideIcon; name?: never });
 
 export function hasIcon(name: string): name is IconKey {
@@ -432,7 +432,7 @@ export default function AppIcon({
   "aria-label": ariaLabel,
 }: Props) {
   const Icon: LucideIcon | undefined =
-    icon ?? (name ? ICON_MAP[name] : undefined);
+    icon ?? (name && hasIcon(name) ? ICON_MAP[name] : undefined);
 
   if (!Icon) {
     if (import.meta?.env?.DEV) {

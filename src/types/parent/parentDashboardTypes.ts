@@ -37,6 +37,8 @@ export interface ChildSummary {
   child_name: string;
   first_name: string;
   last_name: string;
+  /** Nickname - used for personalized messages if set */
+  preferred_name?: string | null;
   year_group: number;
   exam_type: string;
   subjects: ChildSubject[];
@@ -62,6 +64,8 @@ export interface ChildSummary {
   insight_sub_message: string;
   insight_icon: string;
   next_session_time: string | null;
+  /** Backend-generated hero sentence for this child (future). Frontend generates this if not provided. */
+  hero_sentence?: string;
 }
 
 export interface WeekSummary {
@@ -76,6 +80,8 @@ export interface WeekSummary {
   days_active: number;
   family_status: StatusIndicator;
   family_status_label: string;
+  /** Backend-generated per-child description (future). Frontend generates this if not provided. */
+  family_description?: string;
 }
 
 export interface DailyPattern {
@@ -136,11 +142,19 @@ export interface SubjectCoverage {
   topics_covered: number;
 }
 
+/** Types of progress moments that can be celebrated */
+export type MomentType =
+  | 'achievement'
+  | 'sessions_milestone'
+  | 'streak_milestone'
+  | 'getting_started'
+  | 'focus_mode';
+
 export interface ProgressMoment {
   child_id: string;
   child_name: string;
   avatar_url: string | null;
-  moment_type: 'achievement' | 'sessions_milestone' | 'streak_milestone' | 'getting_started';
+  moment_type: MomentType;
   message: string;
   sub_message: string;
   icon: string;
@@ -186,5 +200,19 @@ export interface HeroStatusBannerProps {
   onViewTodaySessions: () => void;
   onViewInsights: () => void;
   reminders: GentleReminder[];
+}
+
+export interface ProgressMomentsCardProps {
+  moments: ProgressMoment[];
+}
+
+export interface WeeklyFocusStripProps {
+  dailyPattern: DailyPattern[];
+  onSeeWhy: () => void;
+}
+
+export interface WeeklyRhythmChartProps {
+  dailyPattern: DailyPattern[];
+  onViewDetailedBreakdown: () => void;
 }
 

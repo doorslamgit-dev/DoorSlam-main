@@ -3,12 +3,14 @@
 import AppIcon from "../../ui/AppIcon";
 import type { IconKey } from "../../ui/AppIcon";
 
-interface TopicHeaderProps {
+export interface TopicHeaderProps {
   subjectName: string;
   topicName: string;
-  subjectIcon: IconKey;
-  /** Tailwind background class, e.g. "bg-blue-600" */
-  subjectColorClass: string;
+  subjectIcon: IconKey | string;
+  /** CSS class like "bg-blue-600" or inline color like "#5B2CFF" */
+  subjectColor?: string;
+  /** @deprecated Use subjectColor instead */
+  subjectColorClass?: string;
   sessionMinutes: number;
   totalSteps: number;
 }
@@ -17,15 +19,21 @@ export function TopicHeader({
   subjectName,
   topicName,
   subjectIcon,
+  subjectColor,
   subjectColorClass,
   sessionMinutes,
   totalSteps,
 }: TopicHeaderProps) {
+  // Support both CSS class and inline color
+  const colorValue = subjectColor || subjectColorClass;
+  const isInlineColor = colorValue?.startsWith("#") || colorValue?.startsWith("rgb");
+
   return (
     <div className="bg-white rounded-2xl shadow-card p-6">
       <div className="flex items-center space-x-4">
         <div
-          className={`w-16 h-16 rounded-xl flex items-center justify-center ${subjectColorClass}`}
+          className={`w-16 h-16 rounded-xl flex items-center justify-center ${isInlineColor ? "" : colorValue || "bg-primary-500"}`}
+          style={isInlineColor ? { backgroundColor: colorValue } : undefined}
         >
           <AppIcon name={subjectIcon} className="text-white text-2xl" />
         </div>

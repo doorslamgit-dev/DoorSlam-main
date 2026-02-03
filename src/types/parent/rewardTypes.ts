@@ -88,8 +88,11 @@ export interface EnabledReward {
 // Point Configuration
 // ============================================================================
 
+export type WeightingMode = 'auto' | 'manual';
+
 export interface PointConfig {
-  weighting_mode: 'auto' | 'manual';
+  mode: WeightingMode;
+  weighting_mode?: WeightingMode; // Legacy alias
   completion_weight: number;
   accuracy_weight: number;
   focus_weight: number;
@@ -107,6 +110,10 @@ export interface PendingRedemption {
   reward_id: string;
   reward_name: string;
   points_spent: number;
+  /** Alias for points_spent - used in some UI components */
+  points_cost?: number;
+  /** Child's current point balance at time of request */
+  child_current_balance?: number;
   requested_at: string;
   expires_at: string;
 }

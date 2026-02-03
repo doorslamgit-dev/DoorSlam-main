@@ -32,7 +32,7 @@ export function RewardEditor({
     name: reward?.name || '',
     points_cost: reward?.points_cost || 100,
     emoji: reward?.emoji || '',
-    limit_type: reward?.limit_type || null,
+    limit_type: reward?.limit_type ?? undefined,
     limit_count: reward?.limit_count || undefined,
   });
 

@@ -9,6 +9,7 @@ import type {
   WeeklyProgress,
   FocusModeComparison,
   SubjectBalance,
+  SubjectBalanceData,
   ConfidenceTrend,
   ConfidenceHeatmap,
   WidgetConfig,
@@ -141,7 +142,7 @@ export async function fetchFocusModeComparison(
 export async function fetchSubjectBalance(
   childId: string,
   dateRange: DateRangeType
-): Promise<{ data: SubjectBalance | null; error: string | null }> {
+): Promise<{ data: SubjectBalanceData | null; error: string | null }> {
   try {
     const { data, error } = await supabase.rpc('rpc_get_subject_balance', {
       p_child_id: childId,

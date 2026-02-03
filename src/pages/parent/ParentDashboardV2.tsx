@@ -1,10 +1,10 @@
 // src/pages/parent/ParentDashboardV2.tsx
 // Parent Dashboard v2 - Multi-child family dashboard (FEAT-009)
+// Updated: Real-time data refresh with visibility/focus handling
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
-import { getParentDashboard } from "../../services/parent/parentDashboardService";
+import { useParentDashboardData } from "../../hooks/parent/useParentDashboardData";
 import { HeroStatusBanner } from "../../components/parent/dashboard/HeroStatusBanner";
 import { ChildHealthCardGrid } from "../../components/parent/dashboard/ChildHealthCardGrid";
 import { WeeklyFocusStrip } from "../../components/parent/dashboard/WeeklyFocusStrip";
@@ -15,7 +15,7 @@ import { QuickActionsSection } from "../../components/parent/dashboard/QuickActi
 import { FamilyOverviewCard } from "../../components/parent/dashboard/FamilyOverviewCard";
 import { WeeklyRhythmChart } from "../../components/parent/dashboard/WeeklyRhythmChart";
 import { ResourcesSection } from "../../components/parent/dashboard/ResourcesSection";
-import type { ParentDashboardData } from "../../types/parent/parentDashboardTypes";
+import AppIcon from "../../components/ui/AppIcon";
 
 function HeroSkeleton() {
   return (
@@ -63,11 +63,11 @@ function ErrorState({ message, onRetry }: { message: string; onRetry: () => void
   return (
     <div className="bg-accent-red/5 border border-accent-red/20 rounded-2xl p-8 text-center">
       <div className="w-16 h-16 bg-accent-red/10 rounded-full flex items-center justify-center mx-auto mb-4">
-        <i className="fa-solid fa-exclamation-triangle text-accent-red text-2xl"></i>
+        <AppIcon name="triangle-alert" className="w-8 h-8 text-accent-red" />
       </div>
       <h3 className="text-lg font-bold text-primary-900 mb-2">Something went wrong</h3>
       <p className="text-neutral-600 mb-4">{message}</p>
-      <button 
+      <button
         onClick={onRetry}
         className="px-6 py-3 bg-primary-600 text-white rounded-xl font-semibold hover:bg-primary-700 transition-colors"
       >
@@ -79,38 +79,19 @@ function ErrorState({ message, onRetry }: { message: string; onRetry: () => void
 
 export function ParentDashboardV2() {
   const navigate = useNavigate();
-  const { user } = useAuth();
-  
-  const [data, setData] = useState<ParentDashboardData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+
+  // Use the comprehensive data hook with real-time updates
+  const { data, loading, error, refresh, lastFetchedAt, isStale } = useParentDashboardData({
+    enableRealtime: true,
+    enableVisibilityRefresh: true,
+    refreshThrottleMs: 30000, // 30 seconds minimum between refreshes
+  });
 
   // Helper to navigate and scroll to top
   const navigateWithScroll = (path: string) => {
     navigate(path);
     window.scrollTo({ top: 0, behavior: "instant" });
   };
-
-  const fetchData = async () => {
-    setLoading(true);
-    setError(null);
-    
-    try {
-      const dashboardData = await getParentDashboard();
-      setData(dashboardData);
-    } catch (err) {
-      console.error("Failed to load dashboard:", err);
-      setError(err instanceof Error ? err.message : "Failed to load dashboard");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (user) {
-      fetchData();
-    }
-  }, [user]);
 
   // Navigation handlers - all use navigateWithScroll
   const handleViewTodaySessions = () => {
@@ -165,7 +146,7 @@ export function ParentDashboardV2() {
     return (
       <div className="min-h-[calc(100vh-73px)] bg-neutral-50 dark:bg-neutral-900">
         <div className="max-w-content mx-auto px-6 py-8">
-          <ErrorState message={error} onRetry={fetchData} />
+          <ErrorState message={error} onRetry={refresh} />
         </div>
       </div>
     );
@@ -176,7 +157,7 @@ export function ParentDashboardV2() {
     return (
       <div className="min-h-[calc(100vh-73px)] bg-neutral-50 dark:bg-neutral-900">
         <div className="max-w-content mx-auto px-6 py-8">
-          <ErrorState message="No data available" onRetry={fetchData} />
+          <ErrorState message="No data available" onRetry={refresh} />
         </div>
       </div>
     );
@@ -193,6 +174,7 @@ export function ParentDashboardV2() {
         onViewInsights={handleViewInsights}
         reminders={data.gentle_reminders}
         onAddChild={handleAddChild}
+        children={data.children}
       />
 
       {/* Child Health Cards */}

@@ -74,3 +74,81 @@ export function getStatusContent(status: StatusIndicator) {
   const { headline, description, badgeText, icon } = getStatusUI(status);
   return { headline, description, badgeText, icon };
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Per-child hero sentence generation
+// Used to create personalized descriptions for multi-child families
+// ─────────────────────────────────────────────────────────────────────────────
+
+interface ChildHeroContext {
+  firstName: string;
+  preferredName?: string | null;
+  status: StatusIndicator;
+  sessionsCompleted: number;
+  sessionsTotal: number;
+}
+
+const CHILD_HERO_TEMPLATES: Record<StatusIndicator, string[]> = {
+  on_track: [
+    "{name} completed {completed} sessions and is on track.",
+    "{name}'s keeping up great momentum this week.",
+  ],
+  keep_an_eye: [
+    "{name} has slowed down a bit — worth keeping an eye on.",
+    "{name}'s activity dipped slightly this week.",
+  ],
+  needs_attention: [
+    "{name} missed a few sessions — a gentle nudge might help.",
+    "{name} could use a little encouragement this week.",
+  ],
+  getting_started: [
+    "{name} is just getting started — great first steps!",
+    "{name}'s beginning their revision journey.",
+  ],
+};
+
+/**
+ * Generate a personalized hero sentence for a single child.
+ * Uses preferred_name (nickname) if available, otherwise first_name.
+ */
+export function generateChildHeroSentence(context: ChildHeroContext): string {
+  const name = context.preferredName || context.firstName;
+  const templates = CHILD_HERO_TEMPLATES[context.status] ?? CHILD_HERO_TEMPLATES.on_track;
+
+  // Use first template for simplicity (could randomize later)
+  const template = templates[0];
+
+  return template
+    .replace("{name}", name)
+    .replace("{completed}", String(context.sessionsCompleted));
+}
+
+/**
+ * Generate a family description from multiple children's data.
+ * Returns personalized sentences for each child, joined together.
+ */
+export function generateFamilyDescription(
+  children: Array<{
+    first_name: string;
+    preferred_name?: string | null;
+    status_indicator: StatusIndicator;
+    week_sessions_completed: number;
+    week_sessions_total: number;
+  }>
+): string {
+  if (children.length === 0) {
+    return "";
+  }
+
+  const sentences = children.map((child) =>
+    generateChildHeroSentence({
+      firstName: child.first_name,
+      preferredName: child.preferred_name,
+      status: child.status_indicator,
+      sessionsCompleted: child.week_sessions_completed,
+      sessionsTotal: child.week_sessions_total,
+    })
+  );
+
+  return sentences.join(" ");
+}
