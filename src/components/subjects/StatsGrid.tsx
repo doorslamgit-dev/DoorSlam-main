@@ -3,7 +3,6 @@
 // Updated: Token-based colors
 
 import AppIcon from "../ui/AppIcon";
-import { COLORS } from "../../constants/colors";
 
 interface StatsGridProps {
   totalSubjects: number;

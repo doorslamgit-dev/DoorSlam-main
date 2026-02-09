@@ -1,6 +1,6 @@
 // src/services/child/completestep.ts
 
-import { ConfidenceOption, ConfidenceLevel } from "../../types/child/completestep";
+import { ConfidenceOption } from "../../types/child/completestep";
 import { getSubjectIcon } from "../../constants/icons";
 
 // Export for backward compatibility

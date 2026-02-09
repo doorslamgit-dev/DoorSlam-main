@@ -155,7 +155,7 @@ export async function uploadAudioNote(
 ): Promise<string> {
   const filename = `${childId}/${revisionSessionId}/${Date.now()}.webm`;
 
-  const { data, error } = await supabase.storage
+  const { data: _data, error } = await supabase.storage
     .from("audio-notes")
     .upload(filename, blob, {
       contentType: "audio/webm",

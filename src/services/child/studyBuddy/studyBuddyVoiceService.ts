@@ -272,7 +272,7 @@ class StudyBuddyVoiceService {
     return new Promise((resolve, reject) => {
       const audio = new Audio(audioUrl);
       audio.onended = () => resolve();
-      audio.onerror = (e) => reject(new Error("Audio playback failed"));
+      audio.onerror = (_e) => reject(new Error("Audio playback failed"));
       audio.play().catch(reject);
     });
   }

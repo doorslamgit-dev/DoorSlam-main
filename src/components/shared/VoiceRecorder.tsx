@@ -125,7 +125,7 @@ function getSupportedMimeType(): string {
 export default function VoiceRecorder({
   onRecordingComplete,
   onRecordingStart,
-  onRecordingCancel,
+  onRecordingCancel: _onRecordingCancel,
   onSilenceDetected,
   onDelete,
   maxDurationSeconds = DEFAULT_MAX_DURATION,
@@ -368,22 +368,6 @@ export default function VoiceRecorder({
     silenceThreshold,
     stopRecording,
   ]);
-
-  const cancelRecording = useCallback(() => {
-    if (mediaRecorderRef.current && isRecording) {
-      mediaRecorderRef.current.stop();
-      setIsRecording(false);
-      audioChunksRef.current = []; // Discard recorded data
-
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-        timerRef.current = null;
-      }
-
-      cleanup();
-      onRecordingCancel?.();
-    }
-  }, [cleanup, isRecording, onRecordingCancel]);
 
   // =========================================================================
   // Playback Functions

@@ -1,10 +1,8 @@
 import { useState } from "react";
-import AppIcon from "../../components/ui/AppIcon";
 import { supabase } from "../../lib/supabase";
 import { SectionCard } from "./SectionCard";
 import { FormField } from "./FormField";
 import type { ProfileData } from "../../hooks/useAccountData";
-import type { IconKey } from "../../components/ui/AppIcon";
 
 interface AddressSectionProps {
   parentData: ProfileData;

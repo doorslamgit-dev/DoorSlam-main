@@ -62,8 +62,8 @@ const ICON_CHAT: IconKey = "chat";
 const ICON_CHEVRON_DOWN: IconKey = "chevronDown";
 const ICON_MIC: IconKey = "microphone";
 const ICON_STOP: IconKey = "stop";
-const ICON_VOLUME_UP: IconKey = "volumeUp";
-const ICON_VOLUME_MUTE: IconKey = "volumeMute";
+const _ICON_VOLUME_UP: IconKey = "volumeUp";
+const _ICON_VOLUME_MUTE: IconKey = "volumeMute";
 
 // =============================================================================
 // Component

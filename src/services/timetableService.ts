@@ -808,7 +808,7 @@ export async function saveTemplateAndRegenerate(
     const today = new Date().toISOString().split("T")[0];
     console.log("[saveTemplateAndRegenerate] Step 3: Deleting future sessions from:", today);
     try {
-      const { data: deleteData, error: deleteError, count: deleteCount } = await supabase
+      const { data: deleteData, error: deleteError, count: _deleteCount } = await supabase
         .from("planned_sessions")
         .delete()
         .eq("child_id", childId)

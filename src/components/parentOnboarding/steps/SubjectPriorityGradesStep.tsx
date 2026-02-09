@@ -19,7 +19,6 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import AppIcon from "../../ui/AppIcon";
-import { COLORS } from "../../../constants/colors";
 
 /* ============================
    Types

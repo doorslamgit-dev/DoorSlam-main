@@ -55,7 +55,7 @@ export default function ExamTypeStep(props: {
 
   function toggle(id: string) {
     const next = new Set(selected);
-    next.has(id) ? next.delete(id) : next.add(id);
+    void (next.has(id) ? next.delete(id) : next.add(id));
     onChange(Array.from(next));
   }
 
