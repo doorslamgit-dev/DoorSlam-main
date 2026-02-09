@@ -168,7 +168,7 @@ export function ChildRewardsCatalog() {
   async function handleCancelRedemption(redemptionId: string) {
     setActionLoading(redemptionId);
     try {
-      const { data, error } = await supabase
+      const { data: _data, error } = await supabase
         .rpc('rpc_cancel_redemption_request', { p_redemption_id: redemptionId });
 
       if (error) throw error;

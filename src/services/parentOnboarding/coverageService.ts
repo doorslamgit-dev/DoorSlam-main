@@ -369,7 +369,7 @@ export function calculateSessionsForCoverageLocal(
   totalWeeks: number
 ): SessionsForCoverageResult {
   const goalMultiplier = getGoalMultiplier(goalCode);
-  const { multiplier: needsMultiplier, pattern, advice } = getNeedsFactors(needClusters);
+  const { multiplier: needsMultiplier, pattern, advice: _advice } = getNeedsFactors(needClusters);
 
   let totalRequiredSessions = 0;
   const subjectResults: SubjectRequirement[] = [];

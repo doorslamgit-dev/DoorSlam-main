@@ -8,7 +8,6 @@ import type {
   InsightsSummary,
   WeeklyProgress,
   FocusModeComparison,
-  SubjectBalance,
   SubjectBalanceData,
   ConfidenceTrend,
   ConfidenceHeatmap,

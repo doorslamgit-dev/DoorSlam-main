@@ -1,6 +1,4 @@
 import { useState } from "react";
-import AppIcon from "../../components/ui/AppIcon";
-import type { IconKey } from "../../components/ui/AppIcon";
 import { supabase } from "../../lib/supabase";
 import { SectionCard } from "./SectionCard";
 import { FormField } from "./FormField";

@@ -2,7 +2,6 @@
 // FEAT-010: Centralised status UI mapping - single source of truth
 
 import type { IconKey } from "../components/ui/AppIcon";
-import { COLORS } from "../constants/colors";
 
 export type StatusIndicator =
   | "on_track"

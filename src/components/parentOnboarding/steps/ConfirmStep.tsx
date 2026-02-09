@@ -78,7 +78,7 @@ const PATTERN_MINUTES: Record<string, number> = {
   p70: 70,
 };
 
-const TIME_OF_DAY_LABELS: Record<string, string> = {
+const _TIME_OF_DAY_LABELS: Record<string, string> = {
   early_morning: "Early morning",
   morning: "Morning",
   afternoon: "Afternoon",

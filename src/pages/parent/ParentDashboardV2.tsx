@@ -81,7 +81,7 @@ export function ParentDashboardV2() {
   const navigate = useNavigate();
 
   // Use the comprehensive data hook with real-time updates
-  const { data, loading, error, refresh, lastFetchedAt, isStale } = useParentDashboardData({
+  const { data, loading, error, refresh, lastFetchedAt: _lastFetchedAt, isStale: _isStale } = useParentDashboardData({
     enableRealtime: true,
     enableVisibilityRefresh: true,
     refreshThrottleMs: 30000, // 30 seconds minimum between refreshes

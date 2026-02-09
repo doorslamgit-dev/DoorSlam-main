@@ -76,7 +76,6 @@ function WeekProgressGrid({
       {days.map((day, index) => {
         const isPast = index < todayIndex;
         const isCurrentDay = index === todayIndex;
-        const isFuture = index > todayIndex;
 
         // Determine completion status based on streak
         const isCompletedDay = isPast && index >= todayIndex - streak && streak > 0;

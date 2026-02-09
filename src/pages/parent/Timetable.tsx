@@ -41,7 +41,6 @@ export default function Timetable() {
     dateOverrides,
     setSelectedChildId,
     setViewMode,
-    setReferenceDate,
     goToPrevious,
     goToNext,
     goToToday,

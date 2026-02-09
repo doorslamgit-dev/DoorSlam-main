@@ -43,7 +43,7 @@ import {
 
 // Types
 import { STEP_ORDER } from "../../types/child/sessionTypes";
-import type { StepKey, StepPayload, StepOverview } from "../../types/child/sessionTypes";
+import type { StepPayload, StepOverview } from "../../types/child/sessionTypes";
 import type { StepContext } from "../../types/child/studyBuddy/studyBuddyTypes";
 
 // =============================================================================

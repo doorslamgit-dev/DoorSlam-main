@@ -59,7 +59,7 @@ export interface CoverageCardProps {
   feasibility: FeasibilityResult;
 }
 
-export function CoverageCard({ coverage, required, feasibility }: CoverageCardProps) {
+export function CoverageCard({ coverage, required: _required, feasibility }: CoverageCardProps) {
   const statusInfo = getCoverageStatusInfo(coverage.coverage_status);
   const [showDetails, setShowDetails] = useState(false);
 

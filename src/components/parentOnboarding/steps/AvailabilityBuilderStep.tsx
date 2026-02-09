@@ -14,10 +14,6 @@ import {
   calculateSessionsForCoverageLocal,
   checkFeasibility,
   DEFAULT_COVERAGE_TARGETS,
-  type CoverageDistributionResult,
-  type SessionsForCoverageResult,
-  type FeasibilityResult,
-  type CoverageTargets,
 } from "../../../services/parentOnboarding/coverageService";
 import type { SubjectWithGrades } from "./SubjectPriorityGradesStep";
 import type { NeedClusterSelection } from "./NeedsStep";
@@ -121,14 +117,12 @@ function hasAnySlots(template: DayTemplate[]): boolean {
 
 export default function AvailabilityBuilderStep({
   weeklyTemplate,
-  dateOverrides,
   recommendation,
   revisionPeriod,
   subjects,
   goalCode,
   needClusters,
   onTemplateChange,
-  onOverridesChange,
   onNext,
   onBack,
 }: AvailabilityBuilderStepProps) {

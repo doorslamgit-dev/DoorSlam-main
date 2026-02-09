@@ -4,7 +4,7 @@
 
 import AppIcon from "../ui/AppIcon";
 import type { SubjectProgress } from "../../types/subjectProgress";
-import { COLORS, STATUS_COLORS, getSubjectColor } from "../../constants/colors";
+import { STATUS_COLORS, getSubjectColor } from "../../constants/colors";
 
 interface SubjectCardProps {
   subject: SubjectProgress;
@@ -90,7 +90,6 @@ export default function SubjectCard({ subject }: SubjectCardProps) {
               className="w-5 h-5"
               aria-hidden
               // Lucide icons take currentColor; we set via style for per-subject colour
-              // eslint-disable-next-line react/forbid-dom-props
               style={{ color: subjectColor } as any}
             />
           </div>
