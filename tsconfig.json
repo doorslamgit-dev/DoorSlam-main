@@ -21,6 +21,6 @@
     }
   },
   "include": ["src"],
-  "exclude": ["src/supabase/functions", "src/pages/deprecated-*.tsx"],
+  "exclude": ["supabase/functions", "src/pages/deprecated-*.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
