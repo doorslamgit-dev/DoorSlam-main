@@ -1,3 +1,5 @@
+'use client';
+
 // src/components/layout/AppHeader.tsx
 // Shows ParentNav for parents, ChildNav for children
 // Shows avatar image when available, otherwise initials
@@ -6,7 +8,8 @@
 // FEAT-013: Added points badge for child users
 
 import { useState, useRef, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import AppIcon from "../ui/AppIcon";
 import ThemeToggle from "../ui/ThemeToggle";
 import { useAuth } from "../../contexts/AuthContext";
@@ -41,7 +44,7 @@ function getDisplayName(profile: any, isChild: boolean): string | null {
 }
 
 export default function AppHeader() {
-  const navigate = useNavigate();
+  const router = useRouter();
   const { user, profile, loading, isChild, isParent, activeChildId, signOut } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [pointsBalance, setPointsBalance] = useState<number | null>(null);
@@ -99,7 +102,7 @@ export default function AppHeader() {
 
   function handleSignOut() {
     setDropdownOpen(false);
-    navigate("/", { replace: true });
+    router.replace("/");
     signOut();
   }
 
@@ -136,8 +139,7 @@ export default function AppHeader() {
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Left side */}
         <div className="flex items-center gap-8">
-          <Link
-            to="/"
+          <Link href="/"
             className="flex items-center gap-3 text-primary-900 hover:opacity-80 transition-opacity"
           >
             {/* Logo - dark version for light mode, light version for dark mode */}
@@ -177,14 +179,12 @@ export default function AppHeader() {
           </div>
         ) : !isLoggedIn ? (
           <div className="flex items-center gap-2">
-            <Link
-              to="/login"
+            <Link href="/login"
               className="px-4 py-2 rounded-xl text-neutral-700 hover:bg-neutral-50 text-sm font-medium"
             >
               Log in
             </Link>
-            <Link
-              to="/signup"
+            <Link href="/signup"
               className="px-4 py-2 rounded-xl bg-primary-600 text-white text-sm font-semibold hover:bg-primary-700 transition-colors"
             >
               Sign up
@@ -202,8 +202,7 @@ export default function AppHeader() {
           <div className="flex items-center gap-4">
             {/* Points badge - child only */}
             {isChild && pointsBalance !== null && (
-              <Link
-                to="/child/rewards"
+              <Link href="/child/rewards"
                 className="flex items-center gap-1.5 bg-amber-100 hover:bg-amber-200 text-amber-700 px-3 py-1.5 rounded-full transition-colors"
               >
                 <AppIcon name="star" className="w-4 h-4" aria-hidden />
@@ -242,7 +241,7 @@ export default function AppHeader() {
                     type="button"
                     onClick={() => {
                       setDropdownOpen(false);
-                      navigate("/account");
+                      router.push("/account");
                     }}
                     className="w-full px-4 py-2.5 text-left text-sm text-neutral-700 hover:bg-neutral-50 flex items-center gap-3"
                   >
@@ -259,7 +258,7 @@ export default function AppHeader() {
                       type="button"
                       onClick={() => {
                         setDropdownOpen(false);
-                        navigate("/parent/settings");
+                        router.push("/parent/settings");
                       }}
                       className="w-full px-4 py-2.5 text-left text-sm text-neutral-700 hover:bg-neutral-50 flex items-center gap-3"
                     >

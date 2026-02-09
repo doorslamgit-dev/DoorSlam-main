@@ -1,9 +1,11 @@
+'use client';
+
 // src/components/child/today/RewardsMiniCard.tsx
 // FEAT-013 Phase 3: Rewards mini card for child dashboard
 // Designed to sit side-by-side with StreakMomentumCard
 
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import AppIcon from '../../ui/AppIcon';
 import { supabase } from '../../../lib/supabase';
 
@@ -26,7 +28,7 @@ interface RewardsMiniCardProps {
 }
 
 export default function RewardsMiniCard({ childId }: RewardsMiniCardProps) {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [summary, setSummary] = useState<RewardsSummary | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -152,7 +154,7 @@ export default function RewardsMiniCard({ childId }: RewardsMiniCardProps) {
 
       {/* CTA Button */}
       <button
-        onClick={() => navigate('/child/rewards')}
+        onClick={() => router.push('/child/rewards')}
         className="w-full py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl font-medium text-sm transition-colors flex items-center justify-center gap-2"
       >
         <AppIcon name="gift" className="w-4 h-4" />
