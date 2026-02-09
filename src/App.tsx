@@ -20,6 +20,7 @@ import InsightsReport from './pages/parent/InsightsReport';
 import ParentSettingsPage from './pages/parent/ParentSettingsPage';
 import RewardManagement from './pages/parent/RewardManagement';
 import { ChildRewardsCatalog } from "./pages/child/ChildRewardsCatalog";
+import Pricing from "./pages/Pricing";
 
 function HomeGate() {
   const { loading, user, isParent, isChild, isUnresolved, parentChildCount } = useAuth();
@@ -51,6 +52,7 @@ export default function App() {
           {/* Public auth */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/pricing" element={<Pricing />} />
 
           {/* Child invite signup */}
           <Route path="/child/signup" element={<ChildSignUp />} />
