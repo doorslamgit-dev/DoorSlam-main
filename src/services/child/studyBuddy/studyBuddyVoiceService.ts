@@ -60,7 +60,7 @@ class StudyBuddyVoiceService {
   private baseUrl: string;
 
   constructor() {
-    this.baseUrl = import.meta.env.VITE_SUPABASE_URL || "";
+    this.baseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
   }
 
   // ===========================================================================

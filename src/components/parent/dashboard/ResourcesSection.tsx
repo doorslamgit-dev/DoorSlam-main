@@ -1,9 +1,11 @@
+'use client';
+
 // src/components/parent/dashboard/ResourcesSection.tsx
 // Help and resources links for Parent Dashboard v2 (FEAT-009)
 // FEAT-010: AppIcon name-based keys (no ICON_MAP usage)
 
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from 'next/navigation';
 import AppIcon from "../../ui/AppIcon";
 import type { IconKey } from "../../ui/AppIcon";
 
@@ -34,10 +36,10 @@ const resources: Array<{
 ];
 
 export function ResourcesSection() {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleNavigate = (path: string) => {
-    navigate(path);
+    router.push(path);
     window.scrollTo({ top: 0, behavior: "instant" });
   };
 
