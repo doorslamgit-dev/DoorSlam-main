@@ -1,7 +1,7 @@
 'use client';
 
-import ParentDashboardV2 from '@/views/parent/ParentDashboardV2';
+import ParentDashboardV3 from '@/views/parent/ParentDashboardV3';
 
 export default function ParentDashboardPage() {
-  return <ParentDashboardV2 />;
+  return <ParentDashboardV3 />;
 }
