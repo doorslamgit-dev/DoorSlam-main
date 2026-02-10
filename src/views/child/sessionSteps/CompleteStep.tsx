@@ -1,4 +1,4 @@
-// src/pages/child/sessionSteps/CompleteStep.tsx
+// src/views/child/sessionSteps/CompleteStep.tsx
 // UPDATED: January 2026 - 6-Step Session Model
 // Step 6: Combined Celebration + Reflection + Audio Notes
 // Child-friendly language update
@@ -90,9 +90,7 @@ export default function CompleteStep({
         });
 
       if (reflectionError) {
-        console.error("[CompleteStep] Failed to create reflection record:", reflectionError);
-      } else {
-        console.log("[CompleteStep] Session reflection record created", { hasAudio, hasTextNote });
+        // Reflection save failed — non-blocking, session still completes
       }
     }
 
@@ -108,12 +106,10 @@ export default function CompleteStep({
       },
     });
 
-    // FEAT-011 Phase 2: Update Study Buddy summary on session completion
     try {
       await studyBuddyService.updateSummary(overview.revision_session_id, true);
-      console.log("[CompleteStep] Study Buddy summary update triggered");
-    } catch (error) {
-      console.error("[CompleteStep] Study Buddy summary update failed:", error);
+    } catch {
+      // Study Buddy summary update is non-blocking
     }
 
     await onFinish();
@@ -138,9 +134,9 @@ export default function CompleteStep({
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 bg-green-100 px-3 py-1.5 rounded-full">
-            <AppIcon name="circle-check" className="text-green-600 w-4 h-4" />
-            <span className="text-green-700 font-medium text-sm">Complete!</span>
+          <div className="flex items-center gap-2 bg-success-bg px-3 py-1.5 rounded-full">
+            <AppIcon name="circle-check" className="text-success w-4 h-4" />
+            <span className="text-success font-medium text-sm">Complete!</span>
           </div>
           <div className="flex items-center gap-2 text-neutral-500 text-sm">
             <AppIcon name="clock" className="w-4 h-4" />
@@ -156,7 +152,7 @@ export default function CompleteStep({
 
       {/* Confidence Check */}
       <section>
-        <div className="bg-white rounded-2xl shadow-card p-6">
+        <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
           <div className="flex items-center space-x-3 mb-5">
             <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
               <span className="text-2xl">🤔</span>
@@ -177,7 +173,7 @@ export default function CompleteStep({
 
       {/* Notes Section */}
       <section>
-        <div className="bg-white rounded-2xl shadow-card p-6">
+        <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
           <div className="flex items-center space-x-3 mb-5">
             <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
               <AppIcon name="pencil" className="text-primary-600 w-6 h-6" />
@@ -237,7 +233,7 @@ export default function CompleteStep({
 
       {/* Action Buttons */}
       <section>
-        <div className="bg-white rounded-2xl shadow-card p-6">
+        <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
           <div className="flex items-center justify-between">
             <button
               type="button"

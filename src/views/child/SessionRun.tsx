@@ -1,6 +1,6 @@
 'use client';
 
-// src/pages/child/SessionRun.tsx
+// src/views/child/SessionRun.tsx
 // REFACTORED: January 2026
 // Main orchestrator for session runner - delegates to hooks and components
 // BUG FIX: stepPayload no longer overwrites content data with answer_summary
@@ -216,9 +216,8 @@ export default function SessionRun() {
         return (
           <RecallStep
             {...commonProps as any}
-            onUpdateFlashcardProgress={async (cardId, status) => {
-              console.log("[SessionRun] Update flashcard:", cardId, status);
-              // TODO: Persist flashcard progress to database if needed
+            onUpdateFlashcardProgress={async (_cardId, _status) => {
+              // Flashcard progress is tracked in-memory for the current session
             }}
           />
         );

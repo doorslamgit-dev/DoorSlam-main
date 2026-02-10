@@ -1,6 +1,7 @@
 // src/components/parentOnboarding/OnboardingModal.tsx
 
 import type { ReactNode } from "react";
+import Alert from "../ui/Alert";
 import AppIcon from "../ui/AppIcon";
 
 type OnboardingModalProps = {
@@ -48,7 +49,7 @@ export default function OnboardingModal({
 
   return (
     <div className="min-h-screen bg-neutral-100 flex items-center justify-center p-6">
-      <div className="w-full max-w-2xl bg-white rounded-2xl shadow-card overflow-hidden">
+      <div className="w-full max-w-2xl bg-neutral-0 rounded-2xl shadow-card overflow-hidden">
         {/* Header */}
         <div className="px-8 pt-8 pb-6 border-b border-neutral-200">
           <div className="flex items-center justify-between mb-6">
@@ -86,10 +87,9 @@ export default function OnboardingModal({
 
         {/* Error display */}
         {error && (
-          <div className="mx-8 mt-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3">
-            <p className="text-sm font-medium text-red-800">Something needs fixing</p>
-            <p className="text-sm text-red-700 mt-1 whitespace-pre-line">{error}</p>
-          </div>
+          <Alert variant="error" title="Something needs fixing" className="mx-8 mt-6">
+            <span className="whitespace-pre-line">{error}</span>
+          </Alert>
         )}
 
         {/* Content */}

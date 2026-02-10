@@ -1,4 +1,4 @@
-// src/pages/child/sessionSteps/RecallStep.tsx
+// src/views/child/sessionSteps/RecallStep.tsx
 // REFACTORED: January 2026 - Flashcard-based recall with flip animation
 // Child-friendly language throughout
 // Now uses extracted components, hooks, services, and types
@@ -26,7 +26,7 @@ import {
 
 function NoCardsScreen({ onNext }: { onNext: () => void }) {
   return (
-    <div className="bg-white rounded-2xl shadow-card p-8 text-center">
+    <div className="bg-neutral-0 rounded-2xl shadow-card p-8 text-center">
       <div className="w-16 h-16 bg-neutral-100 rounded-full flex items-center justify-center mx-auto mb-4">
         <AppIcon name="circle-help" className="text-neutral-400 w-8 h-8" />
       </div>

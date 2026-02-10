@@ -77,7 +77,7 @@ export default function SubjectCard({ subject }: SubjectCardProps) {
   const iconKey = mapSubjectIconToAppIcon(subject.subject_icon);
 
   return (
-    <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-soft p-6">
+    <div className="bg-neutral-0 dark:bg-neutral-800 rounded-2xl shadow-soft p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-3">

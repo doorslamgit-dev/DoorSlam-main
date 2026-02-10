@@ -37,9 +37,9 @@ export function CompleteScreen({
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-card p-8">
+    <div className="bg-neutral-0 rounded-2xl shadow-card p-8">
       <div className="text-center mb-8">
-        <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
+        <div className="w-20 h-20 bg-success-bg rounded-full flex items-center justify-center mx-auto mb-4">
           <span className="text-4xl">🎉</span>
         </div>
         <h2 className="text-2xl font-bold text-neutral-900 mb-2">{headlineMessage}</h2>
@@ -48,8 +48,8 @@ export function CompleteScreen({
 
       {/* Results summary */}
       <div className="grid grid-cols-2 gap-4 mb-8">
-        <div className="bg-green-50 rounded-xl p-4 text-center">
-          <p className="text-3xl font-bold text-green-600">{knownCount}</p>
+        <div className="bg-success-bg rounded-xl p-4 text-center">
+          <p className="text-3xl font-bold text-success">{knownCount}</p>
           <p className="text-sm text-neutral-600 mt-1">Already knew</p>
         </div>
         <div className="bg-orange-50 rounded-xl p-4 text-center">

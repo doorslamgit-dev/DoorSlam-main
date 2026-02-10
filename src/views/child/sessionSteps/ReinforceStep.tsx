@@ -1,4 +1,4 @@
-// src/pages/child/sessionSteps/ReinforceStep.tsx
+// src/views/child/sessionSteps/ReinforceStep.tsx
 // UPDATED: January 2026 - Teaching slides + worked examples
 // Child-friendly language throughout
 // REFACTORED: January 2026 - Modular structure with extracted components

@@ -1,4 +1,4 @@
-// src/pages/child/sessionSteps/PreviewStep.tsx
+// src/views/child/sessionSteps/PreviewStep.tsx
 // NEW: 6-Step Session Model - January 2026
 // Step 1: Pre-confidence capture + session overview
 // FEAT-008: Social media toggle for focus mode
@@ -52,7 +52,7 @@ export default function PreviewStep({
 
       {/* Focus Mode Section */}
       <section className="mb-6">
-        <div className="bg-white rounded-2xl shadow-card p-6">
+        <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
           <FocusModeToggle
             isActive={state.socialMediaOff}
             onToggle={handlers.handleSocialMediaToggle}
@@ -63,7 +63,7 @@ export default function PreviewStep({
 
       {/* Pre-Confidence Section */}
       <section className="mb-6">
-        <div className="bg-white rounded-2xl shadow-card p-6">
+        <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
           <div className="flex items-center space-x-3 mb-6">
             <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
               <AppIcon name="gauge" className="text-primary-600 w-6 h-6" />

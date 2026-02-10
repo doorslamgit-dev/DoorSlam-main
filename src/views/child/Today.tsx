@@ -1,6 +1,6 @@
 'use client';
 
-// src/pages/child/Today.tsx
+// src/views/child/Today.tsx
 // REFACTORED: January 2026 - Componentized structure
 // FEAT-013: Added RewardsMiniCard alongside StreakMomentumCard
 

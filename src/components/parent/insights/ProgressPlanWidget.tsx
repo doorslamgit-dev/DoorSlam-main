@@ -22,7 +22,7 @@ interface ProgressPlanWidgetProps {
 export default function ProgressPlanWidget({ data, loading }: ProgressPlanWidgetProps) {
   if (loading) {
     return (
-      <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-card p-6 border border-neutral-200 dark:border-neutral-700 animate-pulse">
+      <div className="bg-neutral-0 dark:bg-neutral-800 rounded-2xl shadow-card p-6 border border-neutral-200 dark:border-neutral-700 animate-pulse">
         <div className="h-6 bg-neutral-100 dark:bg-neutral-700 rounded w-1/3 mb-4" />
         <div className="h-60 bg-neutral-100 dark:bg-neutral-700 rounded" />
       </div>
@@ -37,7 +37,7 @@ export default function ProgressPlanWidget({ data, loading }: ProgressPlanWidget
     })) || [];
 
   return (
-    <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-card p-6 border border-neutral-200 dark:border-neutral-700">
+    <div className="bg-neutral-0 dark:bg-neutral-800 rounded-2xl shadow-card p-6 border border-neutral-200 dark:border-neutral-700">
       <div className="flex items-center justify-between mb-4">
         <div>
           <h3 className="text-lg font-bold text-primary-900 dark:text-neutral-100 mb-1">Progress vs Plan</h3>

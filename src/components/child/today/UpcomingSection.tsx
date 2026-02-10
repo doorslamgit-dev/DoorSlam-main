@@ -48,7 +48,7 @@ export default function UpcomingSection({ days }: UpcomingSectionProps) {
   if (days.length === 0) return null;
 
   return (
-    <div className="bg-white rounded-2xl shadow-card p-6">
+    <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
       <h2 className="text-xl font-bold text-primary-900 mb-4">Coming Up Next</h2>
 
       <div className="space-y-4">

@@ -21,7 +21,7 @@ type StatusUI = {
 export const STATUS_UI: Record<StatusIndicator, StatusUI> = {
   on_track: {
     badgeClass: "bg-accent-green text-white",
-    insightClass: "bg-green-50 border border-green-200",
+    insightClass: "bg-success-bg border border-success-border",
     headline: "Everything's on track this week",
     description:
       "Your children are keeping a steady revision rhythm. Sessions are happening consistently, and engagement is strong across all subjects.",
@@ -30,7 +30,7 @@ export const STATUS_UI: Record<StatusIndicator, StatusUI> = {
   },
   keep_an_eye: {
     badgeClass: "bg-info text-white",
-    insightClass: "bg-blue-50 border border-blue-200",
+    insightClass: "bg-info-bg border border-info-border",
     headline: "Worth keeping an eye on",
     description:
       "Activity has slowed slightly. Nothing to worry about yet, but worth monitoring over the next few days.",
@@ -39,7 +39,7 @@ export const STATUS_UI: Record<StatusIndicator, StatusUI> = {
   },
   needs_attention: {
     badgeClass: "bg-warning text-white",
-    insightClass: "bg-amber-50 border border-amber-200",
+    insightClass: "bg-warning-bg border border-warning-border",
     headline: "Some sessions need a little boost",
     description:
       "A few sessions were missed this week. A gentle check-in with your children could help get things back on track.",
@@ -48,7 +48,7 @@ export const STATUS_UI: Record<StatusIndicator, StatusUI> = {
   },
   getting_started: {
     badgeClass: "bg-accent-purple text-white",
-    insightClass: "bg-purple-50 border border-purple-200",
+    insightClass: "bg-primary-50 border border-primary-200",
     headline: "Great start to the revision journey",
     description:
       "Your family is just getting started with Doorslam. The first sessions are always the hardest — you're doing great!",

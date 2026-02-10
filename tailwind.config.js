@@ -54,16 +54,45 @@ export default {
           red:   'var(--color-accent-red)',
           blue:  'var(--color-accent-blue)',
           purple: 'var(--color-accent-purple)',
+          pink:  'var(--color-accent-pink)',
         },
         brand: {
           purple: 'var(--color-primary-600)',
           "purple-dark": 'var(--color-primary-700)',
         },
-        // Semantic color aliases for common use cases
-        success: 'var(--color-accent-green)',
-        warning: 'var(--color-accent-amber)',
-        danger: 'var(--color-accent-red)',
-        info: 'var(--color-accent-blue)',
+        // Semantic status colors with background/border variants
+        success: {
+          DEFAULT: 'var(--color-success)',
+          bg:      'var(--color-success-bg)',
+          border:  'var(--color-success-border)',
+        },
+        warning: {
+          DEFAULT: 'var(--color-warning)',
+          bg:      'var(--color-warning-bg)',
+          border:  'var(--color-warning-border)',
+        },
+        danger: {
+          DEFAULT: 'var(--color-error)',
+          bg:      'var(--color-error-bg)',
+          border:  'var(--color-error-border)',
+        },
+        info: {
+          DEFAULT: 'var(--color-info)',
+          bg:      'var(--color-info-bg)',
+          border:  'var(--color-info-border)',
+        },
+        // Semantic surface/background colors
+        surface: {
+          DEFAULT:  'var(--color-surface)',
+          elevated: 'var(--color-surface-elevated)',
+          hover:    'var(--color-surface-hover)',
+        },
+        background: {
+          DEFAULT:   'var(--color-background)',
+          soft:      'var(--color-background-soft)',
+          secondary: 'var(--color-background-secondary)',
+          tertiary:  'var(--color-background-tertiary)',
+        },
       },
 
       // ========================================================================
@@ -74,6 +103,17 @@ export default {
         'medium': 'var(--color-text-secondary)',
         'muted': 'var(--color-text-tertiary)',
         'light': 'var(--color-text-light)',
+        'disabled': 'var(--color-text-disabled)',
+        'inverse': 'var(--color-text-inverse)',
+      },
+
+      // ========================================================================
+      // SEMANTIC BORDER COLORS
+      // ========================================================================
+      borderColor: {
+        'default': 'var(--color-border)',
+        'light': 'var(--color-border-light)',
+        'heavy': 'var(--color-border-dark)',
       },
 
       // ========================================================================
@@ -138,8 +178,8 @@ export default {
         'gradient-progress': 'linear-gradient(to right, var(--color-primary-600) 0%, var(--color-primary-600) var(--progress, 0%), var(--color-neutral-200) var(--progress, 0%), var(--color-neutral-200) 100%)',
         'gradient-button': 'linear-gradient(135deg, var(--color-primary-500) 0%, var(--color-primary-600) 100%)',
         'gradient-primary': 'linear-gradient(to bottom right, var(--color-primary-300), var(--color-primary-600))',
-        'gradient-success': 'linear-gradient(to bottom right, #86efac, #10b981)',
-        'gradient-celebration-badge': 'linear-gradient(to bottom right, #4ade80, #10b981)',
+        'gradient-success': 'linear-gradient(to bottom right, var(--color-success-border), var(--color-success))',
+        'gradient-celebration-badge': 'linear-gradient(to bottom right, var(--color-success-border), var(--color-success))',
       },
 
       // ========================================================================

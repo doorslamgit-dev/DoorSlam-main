@@ -36,14 +36,14 @@ export default function SessionCard({
 
   return (
     <div
-      className={`bg-white dark:bg-neutral-800 rounded-2xl border shadow-sm overflow-hidden transition-all ${
+      className={`bg-neutral-0 dark:bg-neutral-800 rounded-2xl border shadow-sm overflow-hidden transition-all ${
         session.status === "completed"
-          ? "border-green-200 dark:border-green-800 opacity-75"
+          ? "border-success-border dark:border-green-800 opacity-75"
           : isLocked
-          ? "border-gray-200 dark:border-neutral-700 opacity-60"
+          ? "border-neutral-200 dark:border-neutral-700 opacity-60"
           : isNext
-          ? "border-indigo-300 dark:border-indigo-700 ring-2 ring-indigo-100 dark:ring-indigo-900/50"
-          : "border-gray-200 dark:border-neutral-700"
+          ? "border-primary-300 dark:border-primary-700 ring-2 ring-primary-100 dark:ring-primary-900/50"
+          : "border-neutral-200 dark:border-neutral-700"
       }`}
     >
       <div className="p-6">
@@ -58,10 +58,10 @@ export default function SessionCard({
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-neutral-100">
+              <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
                 {session.subject_name || "Subject"}
               </h3>
-              <p className="text-sm text-gray-500 dark:text-neutral-400">
+              <p className="text-sm text-neutral-500 dark:text-neutral-400">
                 Session {sessionNumber} • {getPatternLabel(session.session_pattern)}
               </p>
             </div>
@@ -71,7 +71,7 @@ export default function SessionCard({
         </div>
 
         {/* Session info */}
-        <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-neutral-300 mb-4">
+        <div className="flex items-center gap-4 text-sm text-neutral-600 dark:text-neutral-300 mb-4">
           <div className="flex items-center gap-1.5">
             <AppIcon name="clock" className="w-4 h-4" aria-hidden />
             {formatDuration(session.session_duration_minutes)}
@@ -85,17 +85,17 @@ export default function SessionCard({
 
         {/* Topic progress for in-progress sessions */}
         {isStarted && session.total_topics && session.total_topics > 1 && (
-          <div className="mb-4 p-3 bg-amber-50 rounded-xl border border-amber-200">
+          <div className="mb-4 p-3 bg-warning-bg rounded-xl border border-warning-border">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium text-amber-800">Topic Progress</span>
-              <span className="text-sm text-amber-700">
+              <span className="text-sm font-medium text-warning">Topic Progress</span>
+              <span className="text-sm text-warning">
                 {(session.current_topic_index ?? 0) + 1} of {session.total_topics}
               </span>
             </div>
 
             <div className="h-2 bg-amber-200 rounded-full overflow-hidden">
               <div
-                className="h-full bg-amber-500 rounded-full transition-all duration-300"
+                className="h-full bg-warning rounded-full transition-all duration-300"
                 style={{
                   width: `${
                     (((session.current_topic_index ?? 0) + 1) / session.total_topics) * 100
@@ -113,13 +113,13 @@ export default function SessionCard({
               {topics.slice(0, 3).map((topic: string, idx: number) => (
                 <span
                   key={idx}
-                  className="px-3 py-1 bg-gray-100 dark:bg-neutral-700 text-gray-700 dark:text-neutral-200 text-xs rounded-full"
+                  className="px-3 py-1 bg-neutral-100 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-200 text-xs rounded-full"
                 >
                   {topic}
                 </span>
               ))}
               {topics.length > 3 && (
-                <span className="px-3 py-1 bg-gray-100 dark:bg-neutral-700 text-gray-500 dark:text-neutral-400 text-xs rounded-full">
+                <span className="px-3 py-1 bg-neutral-100 dark:bg-neutral-700 text-neutral-500 dark:text-neutral-400 text-xs rounded-full">
                   +{topics.length - 3} more
                 </span>
               )}
@@ -147,7 +147,7 @@ function SessionActionButton({
     return (
       <button
         onClick={onStart}
-        className="w-full py-3 rounded-xl bg-green-50 text-green-700 font-medium hover:bg-green-100 transition-colors"
+        className="w-full py-3 rounded-xl bg-success-bg text-success font-medium hover:bg-success-bg transition-colors"
       >
         Review session
       </button>
@@ -156,7 +156,7 @@ function SessionActionButton({
 
   if (isLocked) {
     return (
-      <div className="w-full py-3 rounded-xl bg-gray-100 dark:bg-neutral-700 text-gray-500 dark:text-neutral-400 font-medium text-center flex items-center justify-center gap-2">
+      <div className="w-full py-3 rounded-xl bg-neutral-100 dark:bg-neutral-700 text-neutral-500 dark:text-neutral-400 font-medium text-center flex items-center justify-center gap-2">
         <AppIcon name="lock" className="w-4 h-4" aria-hidden />
         Complete previous session first
       </div>
@@ -167,7 +167,7 @@ function SessionActionButton({
     return (
       <button
         onClick={onStart}
-        className="w-full py-3 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors"
+        className="w-full py-3 rounded-xl bg-primary-600 text-white font-semibold hover:bg-primary-700 transition-colors"
       >
         Continue session
       </button>
@@ -177,7 +177,7 @@ function SessionActionButton({
   return (
     <button
       onClick={onStart}
-      className="w-full py-3 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors"
+      className="w-full py-3 rounded-xl bg-primary-600 text-white font-semibold hover:bg-primary-700 transition-colors"
     >
       Start session
     </button>

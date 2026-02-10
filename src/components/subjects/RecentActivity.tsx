@@ -58,7 +58,7 @@ export default function RecentActivity({ subjects }: RecentActivityProps) {
 
   if (recentActivities.length === 0) {
     return (
-      <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-soft p-6">
+      <div className="bg-neutral-0 dark:bg-neutral-800 rounded-2xl shadow-soft p-6">
         <h3 className="text-lg font-semibold mb-4 text-neutral-700 dark:text-neutral-200">
           Recent Activity
         </h3>
@@ -70,7 +70,7 @@ export default function RecentActivity({ subjects }: RecentActivityProps) {
   }
 
   return (
-    <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-soft p-6">
+    <div className="bg-neutral-0 dark:bg-neutral-800 rounded-2xl shadow-soft p-6">
       <h3 className="text-lg font-semibold mb-4 text-neutral-700 dark:text-neutral-200">
         Recent Activity
       </h3>

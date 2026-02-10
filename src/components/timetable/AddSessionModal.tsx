@@ -1,7 +1,9 @@
 // src/components/timetable/AddSessionModal.tsx
 
 import { useState, useEffect } from "react";
+import Alert from "../ui/Alert";
 import AppIcon from "../ui/AppIcon";
+import Modal from "../ui/Modal";
 import {
   fetchChildSubjects,
   addSingleSession,
@@ -113,181 +115,21 @@ export default function AddSessionModal({
     onEditSchedule();
   }
 
-  if (!isOpen) return null;
+  const modalTitle =
+    mode === "choice"
+      ? "Add Revision Session"
+      : mode === "single"
+        ? "Quick Add Session"
+        : "Edit Schedule";
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-black/50"
-        onClick={onClose}
-      />
-
-      {/* Modal */}
-      <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-md mx-4 overflow-hidden">
-        {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-200">
-          <h2 className="text-lg font-semibold text-neutral-700">
-            {mode === "choice"
-              ? "Add Revision Session"
-              : mode === "single"
-              ? "Quick Add Session"
-              : "Edit Schedule"}
-          </h2>
-          <button
-            onClick={onClose}
-            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-neutral-100 transition"
-          >
-            <AppIcon name="x" className="w-5 h-5 text-neutral-500" />
-          </button>
-        </div>
-
-        {/* Content */}
-        <div className="p-6">
-          {error && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-600">
-              {error}
-            </div>
-          )}
-
-          {/* Choice Mode */}
-          {mode === "choice" && (
-            <div className="space-y-3">
-              <p className="text-sm text-neutral-600 mb-4">
-                How would you like to add sessions?
-              </p>
-
-              <button
-                onClick={() => setMode("single")}
-                className="w-full p-4 border-2 border-neutral-200 rounded-xl hover:border-primary-300 hover:bg-primary-50 transition text-left group"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center group-hover:bg-primary-200 transition">
-                    <AppIcon name="plus" className="text-primary-600 w-5 h-5" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-neutral-700">One-time session</h3>
-                    <p className="text-sm text-neutral-500">
-                      Add a single session for a specific date
-                    </p>
-                  </div>
-                  <AppIcon name="arrow-right" className="w-4 h-4 text-neutral-400 group-hover:text-primary-600 transition" />
-                </div>
-              </button>
-
-              <button
-                onClick={handleEditSchedule}
-                className="w-full p-4 border-2 border-neutral-200 rounded-xl hover:border-primary-300 hover:bg-primary-50 transition text-left group"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center group-hover:bg-primary-200 transition">
-                    <AppIcon name="calendar" className="text-primary-600 w-5 h-5" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-neutral-700">Change weekly schedule</h3>
-                    <p className="text-sm text-neutral-500">
-                      Edit recurring availability pattern
-                    </p>
-                  </div>
-                  <AppIcon name="arrow-right" className="w-4 h-4 text-neutral-400 group-hover:text-primary-600 transition" />
-                </div>
-              </button>
-            </div>
-          )}
-
-          {/* Single Session Form */}
-          {mode === "single" && (
-            <div className="space-y-4">
-              {loading ? (
-                <div className="py-8 text-center">
-                  <div className="w-8 h-8 border-2 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
-                  <p className="text-sm text-neutral-500">Loading subjects...</p>
-                </div>
-              ) : (
-                <>
-                  {/* Date */}
-                  <div>
-                    <label className="block text-sm font-medium text-neutral-700 mb-1.5">
-                      Date
-                    </label>
-                    <input
-                      type="date"
-                      value={formData.date}
-                      onChange={(e) =>
-                        setFormData((prev) => ({ ...prev, date: e.target.value }))
-                      }
-                      min={formatDate(new Date())}
-                      className="w-full px-4 py-2.5 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                    />
-                  </div>
-
-                  {/* Subject */}
-                  <div>
-                    <label className="block text-sm font-medium text-neutral-700 mb-1.5">
-                      Subject
-                    </label>
-                    <select
-                      value={formData.subjectId}
-                      onChange={(e) =>
-                        setFormData((prev) => ({ ...prev, subjectId: e.target.value }))
-                      }
-                      className="w-full px-4 py-2.5 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                    >
-                      {subjects.map((subject) => (
-                        <option key={subject.subject_id} value={subject.subject_id}>
-                          {subject.subject_name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* Session Pattern */}
-                  <div>
-                    <label className="block text-sm font-medium text-neutral-700 mb-1.5">
-                      Session Length
-                    </label>
-                    <div className="grid grid-cols-3 gap-2">
-                      {[
-                        { value: "SINGLE_20", label: "20 min", desc: "Quick" },
-                        { value: "DOUBLE_45", label: "45 min", desc: "Standard" },
-                        { value: "TRIPLE_70", label: "70 min", desc: "Extended" },
-                      ].map((option) => (
-                        <button
-                          key={option.value}
-                          type="button"
-                          onClick={() =>
-                            setFormData((prev) => ({
-                              ...prev,
-                              sessionPattern: option.value,
-                            }))
-                          }
-                          className={`p-3 border-2 rounded-lg text-center transition ${
-                            formData.sessionPattern === option.value
-                              ? "border-primary-600 bg-primary-50"
-                              : "border-neutral-200 hover:border-neutral-300"
-                          }`}
-                        >
-                          <div className={`font-semibold ${
-                            formData.sessionPattern === option.value
-                              ? "text-primary-600"
-                              : "text-neutral-700"
-                          }`}>
-                            {option.label}
-                          </div>
-                          <div className="text-xs text-neutral-500">{option.desc}</div>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* Footer */}
-        {mode === "single" && (
-          <div className="flex items-center justify-between px-6 py-4 border-t border-neutral-200 bg-neutral-50">
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title={modalTitle}
+      footer={
+        mode === "single" ? (
+          <div className="flex items-center justify-between">
             <button
               onClick={() => setMode("choice")}
               className="px-4 py-2 text-neutral-600 hover:text-neutral-800 transition"
@@ -312,8 +154,148 @@ export default function AddSessionModal({
               )}
             </button>
           </div>
-        )}
-      </div>
-    </div>
+        ) : undefined
+      }
+    >
+      {error && (
+        <Alert variant="error" className="mb-4">
+          {error}
+        </Alert>
+      )}
+
+      {/* Choice Mode */}
+      {mode === "choice" && (
+        <div className="space-y-3">
+          <p className="text-sm text-neutral-600 mb-4">
+            How would you like to add sessions?
+          </p>
+
+          <button
+            onClick={() => setMode("single")}
+            className="w-full p-4 border-2 border-neutral-200 rounded-xl hover:border-primary-300 hover:bg-primary-50 transition text-left group"
+          >
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center group-hover:bg-primary-200 transition">
+                <AppIcon name="plus" className="text-primary-600 w-5 h-5" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-semibold text-neutral-700">One-time session</h3>
+                <p className="text-sm text-neutral-500">
+                  Add a single session for a specific date
+                </p>
+              </div>
+              <AppIcon name="arrow-right" className="w-4 h-4 text-neutral-400 group-hover:text-primary-600 transition" />
+            </div>
+          </button>
+
+          <button
+            onClick={handleEditSchedule}
+            className="w-full p-4 border-2 border-neutral-200 rounded-xl hover:border-primary-300 hover:bg-primary-50 transition text-left group"
+          >
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center group-hover:bg-primary-200 transition">
+                <AppIcon name="calendar" className="text-primary-600 w-5 h-5" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-semibold text-neutral-700">Change weekly schedule</h3>
+                <p className="text-sm text-neutral-500">
+                  Edit recurring availability pattern
+                </p>
+              </div>
+              <AppIcon name="arrow-right" className="w-4 h-4 text-neutral-400 group-hover:text-primary-600 transition" />
+            </div>
+          </button>
+        </div>
+      )}
+
+      {/* Single Session Form */}
+      {mode === "single" && (
+        <div className="space-y-4">
+          {loading ? (
+            <div className="py-8 text-center">
+              <div className="w-8 h-8 border-2 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
+              <p className="text-sm text-neutral-500">Loading subjects...</p>
+            </div>
+          ) : (
+            <>
+              {/* Date */}
+              <div>
+                <label className="block text-sm font-medium text-neutral-700 mb-1.5">
+                  Date
+                </label>
+                <input
+                  type="date"
+                  value={formData.date}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, date: e.target.value }))
+                  }
+                  min={formatDate(new Date())}
+                  className="w-full px-4 py-2.5 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                />
+              </div>
+
+              {/* Subject */}
+              <div>
+                <label className="block text-sm font-medium text-neutral-700 mb-1.5">
+                  Subject
+                </label>
+                <select
+                  value={formData.subjectId}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, subjectId: e.target.value }))
+                  }
+                  className="w-full px-4 py-2.5 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                >
+                  {subjects.map((subject) => (
+                    <option key={subject.subject_id} value={subject.subject_id}>
+                      {subject.subject_name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Session Pattern */}
+              <div>
+                <label className="block text-sm font-medium text-neutral-700 mb-1.5">
+                  Session Length
+                </label>
+                <div className="grid grid-cols-3 gap-2">
+                  {[
+                    { value: "SINGLE_20", label: "20 min", desc: "Quick" },
+                    { value: "DOUBLE_45", label: "45 min", desc: "Standard" },
+                    { value: "TRIPLE_70", label: "70 min", desc: "Extended" },
+                  ].map((option) => (
+                    <button
+                      key={option.value}
+                      type="button"
+                      onClick={() =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          sessionPattern: option.value,
+                        }))
+                      }
+                      className={`p-3 border-2 rounded-lg text-center transition ${
+                        formData.sessionPattern === option.value
+                          ? "border-primary-600 bg-primary-50"
+                          : "border-neutral-200 hover:border-neutral-300"
+                      }`}
+                    >
+                      <div className={`font-semibold ${
+                        formData.sessionPattern === option.value
+                          ? "text-primary-600"
+                          : "text-neutral-700"
+                      }`}>
+                        {option.label}
+                      </div>
+                      <div className="text-xs text-neutral-500">{option.desc}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+      )}
+    </Modal>
   );
 }

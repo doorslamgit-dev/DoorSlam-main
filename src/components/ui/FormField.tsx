@@ -95,7 +95,7 @@ const baseInputStyles = [
   "border rounded-xl",
   "border-neutral-300 dark:border-neutral-600",
   // Background
-  "bg-white dark:bg-neutral-800",
+  "bg-neutral-0 dark:bg-neutral-800",
   // Focus state
   "focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent",
   // Transition
@@ -110,8 +110,8 @@ const baseInputStyles = [
  * Error state styles
  */
 const errorStyles = [
-  "border-accent-red dark:border-red-500",
-  "focus:ring-red-500",
+  "border-danger dark:border-danger",
+  "focus:ring-danger",
 ].join(" ");
 
 /**
@@ -160,7 +160,7 @@ function FieldMessage({ error, helperText }: FieldMessageProps) {
     <p
       className={`mt-1.5 text-sm ${
         error
-          ? "text-accent-red dark:text-red-400"
+          ? "text-danger"
           : "text-neutral-500 dark:text-neutral-400"
       }`}
     >

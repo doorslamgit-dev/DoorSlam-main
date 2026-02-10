@@ -203,7 +203,7 @@ export default function AppHeader() {
             {/* Points badge - child only */}
             {isChild && pointsBalance !== null && (
               <Link href="/child/rewards"
-                className="flex items-center gap-1.5 bg-amber-100 hover:bg-amber-200 text-amber-700 px-3 py-1.5 rounded-full transition-colors"
+                className="flex items-center gap-1.5 bg-warning-bg hover:bg-amber-200 text-warning px-3 py-1.5 rounded-full transition-colors"
               >
                 <AppIcon name="star" className="w-4 h-4" aria-hidden />
                 <span className="font-bold text-sm">{pointsBalance}</span>

@@ -1,6 +1,6 @@
 'use client';
 
-// src/pages/parent/Timetable.tsx
+// src/views/parent/Timetable.tsx
 // Refactored: Extracted components and hooks for better maintainability
 // January 2026
 

@@ -22,7 +22,7 @@ export { default as RewardsMiniCard } from "./RewardsMiniCard";
 export { default as TodayTipCard } from "./TodayTipCard";
 
 // States
-export { default as EmptyState, LoadingState, ErrorState } from "./EmptyState";
+export { LoadingState, ErrorState } from "./EmptyState";
 
 // Legacy exports (for backward compatibility if needed)
 export { default as GamificationBar, GamificationInline } from "./GamificationBar";

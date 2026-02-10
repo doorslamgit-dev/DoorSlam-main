@@ -72,7 +72,7 @@ export default function AnalyticsSharingCard({
   };
 
   return (
-    <div className="rounded-2xl p-6 bg-white dark:bg-neutral-800 shadow-xl">
+    <div className="rounded-2xl p-6 bg-neutral-0 dark:bg-neutral-800 shadow-xl">
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-start gap-4">
@@ -99,7 +99,7 @@ export default function AnalyticsSharingCard({
           aria-label={settings.enabled ? "Disable community insights sharing" : "Enable community insights sharing"}
         >
           <div
-            className={`absolute top-1 w-5 h-5 bg-white rounded-full shadow transition-transform ${
+            className={`absolute top-1 w-5 h-5 bg-neutral-0 rounded-full shadow transition-transform ${
               settings.enabled ? "translate-x-8" : "translate-x-1"
             }`}
           />
@@ -205,7 +205,7 @@ export default function AnalyticsSharingCard({
                     className={`p-3 rounded-xl border text-left transition-colors disabled:cursor-not-allowed ${
                       isActive
                         ? "border-primary-600 bg-primary-50"
-                        : "border-neutral-200 hover:border-neutral-300 bg-white"
+                        : "border-neutral-200 hover:border-neutral-300 bg-neutral-0"
                     }`}
                   >
                     <div className="flex items-start gap-2">
@@ -264,7 +264,7 @@ export default function AnalyticsSharingCard({
                       }
                     >
                       <div
-                        className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${
+                        className={`absolute top-0.5 w-4 h-4 bg-neutral-0 rounded-full shadow transition-transform ${
                           child.enabled ? "translate-x-5" : "translate-x-0.5"
                         }`}
                       />

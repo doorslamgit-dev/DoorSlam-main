@@ -13,7 +13,7 @@ interface SubjectBalanceWidgetProps {
 export default function SubjectBalanceWidget({ data, loading }: SubjectBalanceWidgetProps) {
   if (loading) {
     return (
-      <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-card p-6 border border-neutral-200 dark:border-neutral-700 animate-pulse">
+      <div className="bg-neutral-0 dark:bg-neutral-800 rounded-2xl shadow-card p-6 border border-neutral-200 dark:border-neutral-700 animate-pulse">
         <div className="h-6 bg-neutral-100 dark:bg-neutral-700 rounded w-1/3 mb-4" />
         <div className="h-48 bg-neutral-100 dark:bg-neutral-700 rounded-full mx-auto" style={{ width: 192 }} />
       </div>
@@ -30,7 +30,7 @@ export default function SubjectBalanceWidget({ data, loading }: SubjectBalanceWi
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white p-3 border border-neutral-200 rounded-lg shadow-sm">
+        <div className="bg-neutral-0 p-3 border border-neutral-200 rounded-lg shadow-sm">
           <p className="text-sm font-medium text-neutral-700">{payload[0].name}</p>
           <p className="text-xs text-neutral-500">
             {payload[0].value} sessions ({payload[0].payload.percentage}%)
@@ -42,7 +42,7 @@ export default function SubjectBalanceWidget({ data, loading }: SubjectBalanceWi
   };
 
   return (
-    <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-card p-6 border border-neutral-200 dark:border-neutral-700">
+    <div className="bg-neutral-0 dark:bg-neutral-800 rounded-2xl shadow-card p-6 border border-neutral-200 dark:border-neutral-700">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div>

@@ -11,19 +11,19 @@ export const DIFFICULTY_OPTIONS: Array<{
   {
     value: "easy",
     label: "Easy",
-    color: "bg-green-100 text-green-700 border-green-300",
+    color: "bg-success-bg text-success border-success-border",
     emoji: "🌱",
   },
   {
     value: "medium",
     label: "Medium",
-    color: "bg-amber-100 text-amber-700 border-amber-300",
+    color: "bg-warning-bg text-warning border-warning-border",
     emoji: "⭐",
   },
   {
     value: "hard",
     label: "Hard",
-    color: "bg-red-100 text-red-700 border-red-300",
+    color: "bg-danger-bg text-danger border-danger",
     emoji: "🔥",
   },
 ];
@@ -35,9 +35,9 @@ export function getDifficultyLabel(difficulty?: number): string {
 }
 
 export function getDifficultyColor(difficulty?: number): string {
-  if (difficulty === 1) return "bg-green-100 text-green-700";
-  if (difficulty === 3) return "bg-red-100 text-red-700";
-  return "bg-amber-100 text-amber-700";
+  if (difficulty === 1) return "bg-success-bg text-success";
+  if (difficulty === 3) return "bg-danger-bg text-danger";
+  return "bg-warning-bg text-warning";
 }
 
 export function getEncouragementMessage(

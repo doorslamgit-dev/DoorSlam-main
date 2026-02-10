@@ -1,6 +1,6 @@
 'use client';
 
-// src/pages/parent/ParentDashboardV2.tsx
+// src/views/parent/ParentDashboardV2.tsx
 // Parent Dashboard v2 - Multi-child family dashboard (FEAT-009)
 // Updated: Real-time data refresh with visibility/focus handling
 

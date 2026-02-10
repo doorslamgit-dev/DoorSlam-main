@@ -75,7 +75,7 @@ export default function AnalyticsGateWidget({
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div className="bg-white rounded-xl p-5 border border-primary-200">
+        <div className="bg-neutral-0 rounded-xl p-5 border border-primary-200">
           <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center mb-3">
             <AppIcon name="target" className="w-5 h-5 text-primary-600" />
           </div>
@@ -83,7 +83,7 @@ export default function AnalyticsGateWidget({
           <p className="text-sm text-neutral-600">Progress relative to similar learners</p>
         </div>
 
-        <div className="bg-white rounded-xl p-5 border border-primary-200">
+        <div className="bg-neutral-0 rounded-xl p-5 border border-primary-200">
           <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center mb-3">
             <AppIcon name="chart-line" className="w-5 h-5 text-primary-600" />
           </div>
@@ -91,7 +91,7 @@ export default function AnalyticsGateWidget({
           <p className="text-sm text-neutral-600">Understand engagement standing</p>
         </div>
 
-        <div className="bg-white rounded-xl p-5 border border-primary-200">
+        <div className="bg-neutral-0 rounded-xl p-5 border border-primary-200">
           <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center mb-3">
             <AppIcon name="target" className="w-5 h-5 text-primary-600" />
           </div>
@@ -100,7 +100,7 @@ export default function AnalyticsGateWidget({
         </div>
       </div>
 
-      <div className="flex items-center justify-between p-5 bg-white rounded-xl border-2 border-primary-300">
+      <div className="flex items-center justify-between p-5 bg-neutral-0 rounded-xl border-2 border-primary-300">
         <div className="flex items-center space-x-4">
           <button
             onClick={handleToggle}
@@ -110,7 +110,7 @@ export default function AnalyticsGateWidget({
             } ${isUpdating ? "opacity-50" : ""}`}
           >
             <span
-              className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform ${
+              className={`inline-block h-6 w-6 transform rounded-full bg-neutral-0 transition-transform ${
                 enabled ? "translate-x-7" : "translate-x-1"
               }`}
             />

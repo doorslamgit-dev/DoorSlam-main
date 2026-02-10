@@ -30,7 +30,7 @@ export function RatingButtons({
 
   return (
     <div className="flex justify-center">
-      <div className="inline-flex items-center gap-2 bg-white rounded-full shadow-lg p-2">
+      <div className="inline-flex items-center gap-2 bg-neutral-0 rounded-full shadow-lg p-2">
         {/* Undo */}
         <button
           type="button"

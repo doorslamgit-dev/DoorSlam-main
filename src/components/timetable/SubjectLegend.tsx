@@ -11,7 +11,7 @@ export function SubjectLegend({ subjects }: SubjectLegendProps) {
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-soft p-6">
+    <div className="bg-neutral-0 rounded-2xl shadow-soft p-6">
       <h3 className="text-sm font-semibold mb-4 text-neutral-700">
         Subject Legend
       </h3>

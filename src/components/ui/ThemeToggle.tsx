@@ -34,7 +34,7 @@ export default function ThemeToggle({ variant = 'switch', className = '' }: Them
         title={`Switch to ${isDark ? 'light' : 'dark'} mode`}
       >
         {isDark ? (
-          <AppIcon name="sun" className="w-5 h-5 text-amber-400" />
+          <AppIcon name="sun" className="w-5 h-5 text-warning" />
         ) : (
           <AppIcon name="moon" className="w-5 h-5 text-neutral-600" />
         )}
@@ -81,7 +81,7 @@ export default function ThemeToggle({ variant = 'switch', className = '' }: Them
     >
       <div className="relative w-14 h-8 bg-neutral-200 dark:bg-neutral-700 rounded-full transition-colors">
         <div
-          className={`absolute top-1 left-1 w-6 h-6 bg-white dark:bg-neutral-200 rounded-full shadow-md transition-transform duration-200 flex items-center justify-center ${
+          className={`absolute top-1 left-1 w-6 h-6 bg-neutral-0 dark:bg-neutral-200 rounded-full shadow-md transition-transform duration-200 flex items-center justify-center ${
             isDark ? 'translate-x-6' : 'translate-x-0'
           }`}
         >

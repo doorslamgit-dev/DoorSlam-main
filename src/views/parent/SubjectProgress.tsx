@@ -1,6 +1,6 @@
 'use client';
 
-// src/pages/parent/SubjectProgress.tsx
+// src/views/parent/SubjectProgress.tsx
 // Refactored: Extracted components and hooks for better maintainability
 // January 2026
 // Updated (fix): Remove local STATUS_COLORS / STATUS_CONTENT. Use centralised statusStyles.
@@ -95,11 +95,11 @@ export default function SubjectProgress() {
     return (
       <PageLayout>
         <div className="max-w-6xl mx-auto px-6 py-8">
-          <div className="rounded-2xl p-6 text-center bg-red-50 border border-red-200">
+          <div className="rounded-2xl p-6 text-center bg-danger-bg border border-danger-border">
             <p className="font-medium text-accent-red">
               Failed to load subject progress
             </p>
-            <p className="text-sm mt-1 text-red-700">{error}</p>
+            <p className="text-sm mt-1 text-danger">{error}</p>
             <button
               onClick={() => window.location.reload()}
               className="mt-4 px-4 py-2 text-white rounded-lg hover:opacity-90 bg-accent-red"
@@ -116,7 +116,7 @@ export default function SubjectProgress() {
     return (
       <PageLayout>
         <div className="max-w-6xl mx-auto px-6 py-8">
-          <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-card p-8 text-center">
+          <div className="bg-neutral-0 dark:bg-neutral-800 rounded-2xl shadow-card p-8 text-center">
             <p className="text-neutral-600 dark:text-neutral-300">
               No children found. Please add a child first.
             </p>

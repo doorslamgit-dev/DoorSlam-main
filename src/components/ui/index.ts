@@ -20,6 +20,9 @@ export type { CardProps, CardVariant, CardPadding } from "./Card";
 export { default as Alert } from "./Alert";
 export type { AlertProps, AlertVariant } from "./Alert";
 
+export { default as Modal } from "./Modal";
+export type { ModalProps } from "./Modal";
+
 export { default as Badge } from "./Badge";
 export { STATUS_TO_BADGE_VARIANT } from "./Badge";
 export type { BadgeProps, BadgeVariant, BadgeSize, BadgeStyle } from "./Badge";

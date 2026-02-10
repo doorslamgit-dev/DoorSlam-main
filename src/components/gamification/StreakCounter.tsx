@@ -132,7 +132,7 @@ export function StreakCelebration({
         </div>
       )}
 
-      <p className="mt-4 text-gray-600">{getStreakMessage(streak)}</p>
+      <p className="mt-4 text-neutral-600">{getStreakMessage(streak)}</p>
     </div>
   );
 }

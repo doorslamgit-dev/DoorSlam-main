@@ -165,7 +165,7 @@ function WhenScreen(props: {
               className={`w-full rounded-2xl border px-5 py-4 text-left transition-colors ${
                 isSelected
                   ? "border-primary-300 bg-primary-50"
-                  : "border-neutral-200 hover:border-neutral-300 bg-white"
+                  : "border-neutral-200 hover:border-neutral-300 bg-neutral-0"
               }`}
             >
               <p className="font-medium text-neutral-900">{option.label}</p>
@@ -182,7 +182,7 @@ function WhenScreen(props: {
       </div>
 
       {showDatePicker && (
-        <div className="mt-4 rounded-2xl border border-neutral-200 bg-white p-4">
+        <div className="mt-4 rounded-2xl border border-neutral-200 bg-neutral-0 p-4">
           <label className="text-sm font-medium text-neutral-700">Select a date</label>
           <input
             type="date"
@@ -260,7 +260,7 @@ function FeelingScreen(props: {
               className={`w-full rounded-2xl border px-5 py-4 text-left transition-colors ${
                 isSelected
                   ? "border-primary-300 bg-primary-50"
-                  : "border-neutral-200 hover:border-neutral-300 bg-white"
+                  : "border-neutral-200 hover:border-neutral-300 bg-neutral-0"
               }`}
             >
               <div className="flex items-center gap-3">
@@ -317,7 +317,7 @@ function HistoryScreen(props: {
               className={`w-full rounded-2xl border px-5 py-4 text-left transition-colors ${
                 isSelected
                   ? "border-primary-300 bg-primary-50"
-                  : "border-neutral-200 hover:border-neutral-300 bg-white"
+                  : "border-neutral-200 hover:border-neutral-300 bg-neutral-0"
               }`}
             >
               <div className="flex items-center gap-3">

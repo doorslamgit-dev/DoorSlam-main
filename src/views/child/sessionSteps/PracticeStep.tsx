@@ -1,4 +1,4 @@
-// src/pages/child/sessionSteps/PracticeStep.tsx
+// src/views/child/sessionSteps/PracticeStep.tsx
 // UPDATED: January 2026 - Practice questions with difficulty selector
 // Includes Smart Mark AI button (UI only - functionality coming later)
 // V2: Clearer post-submission flow, "do more" option

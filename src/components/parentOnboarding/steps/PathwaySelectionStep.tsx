@@ -81,15 +81,15 @@ function SubjectPathwayCard({
   const isSkipped = subjectSelections.some((s) => s.pathway_id === "skipped");
 
   const statusStyles = isComplete
-    ? "border-accent-green/30 bg-white"
+    ? "border-accent-green/30 bg-neutral-0"
     : isSkipped
-      ? "border-amber-200 bg-white"
-      : "border-neutral-200 bg-white";
+      ? "border-warning-border bg-neutral-0"
+      : "border-neutral-200 bg-neutral-0";
 
   const badgeStyles = isComplete
     ? "bg-accent-green/10 text-accent-green"
     : isSkipped
-      ? "bg-amber-100 text-amber-700"
+      ? "bg-warning-bg text-warning"
       : "bg-neutral-100 text-neutral-400";
 
   const statusIcon: "check" | "circle-question" | "chevron-right" = isComplete
@@ -122,7 +122,7 @@ function SubjectPathwayCard({
             )}
 
             {isSkipped && (
-              <div className="text-sm text-amber-700">
+              <div className="text-sm text-warning">
                 Selection needed before revision starts
               </div>
             )}
@@ -159,7 +159,7 @@ function SubjectPathwayCard({
                     key={pathway.id}
                     type="button"
                     onClick={() => onSelect(subject.subject_id, pathway)}
-                    className="rounded-lg border border-neutral-200 bg-white px-4 py-3 text-left hover:border-neutral-300 hover:bg-neutral-50 transition"
+                    className="rounded-lg border border-neutral-200 bg-neutral-0 px-4 py-3 text-left hover:border-neutral-300 hover:bg-neutral-50 transition"
                   >
                     <div className="font-medium text-neutral-900">
                       {pathway.pathway_name}
@@ -203,7 +203,7 @@ function SubjectPathwayCard({
                     key={child.id}
                     type="button"
                     onClick={() => onSelect(subject.subject_id, child)}
-                    className="rounded-lg border border-neutral-200 bg-white px-3 py-2 text-left hover:border-neutral-300 hover:bg-neutral-50 transition"
+                    className="rounded-lg border border-neutral-200 bg-neutral-0 px-3 py-2 text-left hover:border-neutral-300 hover:bg-neutral-50 transition"
                   >
                     <div className="font-medium text-neutral-900 text-sm">
                       {child.pathway_name}
@@ -503,11 +503,11 @@ export default function PathwaySelectionStep({
 
       {/* Skipped warning */}
       {skippedCount > 0 && (
-        <div className="rounded-xl bg-amber-50 border border-amber-200 p-4 text-sm text-amber-900">
+        <div className="rounded-xl bg-warning-bg border border-warning-border p-4 text-sm text-amber-900">
           <div className="flex items-start gap-3">
             <AppIcon
               name="triangle-alert"
-              className="w-5 h-5 text-amber-700 mt-0.5"
+              className="w-5 h-5 text-warning mt-0.5"
               aria-hidden
             />
             <div>
@@ -516,7 +516,7 @@ export default function PathwaySelectionStep({
                   ? "1 subject needs a tier/option before revision can start."
                   : `${skippedCount} subjects need tiers/options before revision can start.`}
               </p>
-              <p className="text-amber-800">
+              <p className="text-warning">
                 You’ll see a reminder on your dashboard.
               </p>
             </div>

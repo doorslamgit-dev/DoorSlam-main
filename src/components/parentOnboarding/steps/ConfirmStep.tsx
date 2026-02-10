@@ -322,7 +322,7 @@ export default function ConfirmStep(props: {
               {sortedSubjects.map((subject, index) => (
                 <span
                   key={subject.subject_id}
-                  className="px-3 py-1.5 bg-white border border-neutral-200 text-neutral-700 text-xs font-medium rounded-full"
+                  className="px-3 py-1.5 bg-neutral-0 border border-neutral-200 text-neutral-700 text-xs font-medium rounded-full"
                 >
                   {subject.subject_name || `Subject ${index + 1}`}
                   {subject.exam_board_name && (

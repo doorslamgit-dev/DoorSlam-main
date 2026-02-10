@@ -1,5 +1,6 @@
 import { useState } from "react";
 import AppIcon from "../ui/AppIcon";
+import Button from "../ui/Button";
 
 export function DangerZoneSection() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -11,7 +12,7 @@ export function DangerZoneSection() {
   };
 
   return (
-    <div className="rounded-2xl p-6 border-2 border-accent-red bg-red-50">
+    <div className="rounded-2xl p-6 border-2 border-accent-red bg-danger-bg">
       <div className="flex items-center gap-3 mb-4">
         <AppIcon name="trash" className="w-5 h-5 text-accent-red" />
         <h2 className="text-lg font-semibold text-accent-red">Danger Zone</h2>
@@ -26,7 +27,7 @@ export function DangerZoneSection() {
         <button
           type="button"
           onClick={() => setShowDeleteConfirm(true)}
-          className="px-4 py-2 rounded-xl border-2 border-accent-red text-accent-red font-medium hover:bg-red-100 transition-colors"
+          className="px-4 py-2 rounded-xl border-2 border-accent-red text-accent-red font-medium hover:bg-danger-bg transition-colors"
         >
           Delete my account
         </button>
@@ -44,21 +45,12 @@ export function DangerZoneSection() {
           />
 
           <div className="flex gap-3">
-            <button
-              type="button"
-              onClick={handleCancel}
-              className="px-4 py-2 rounded-xl border border-neutral-200 text-neutral-700 font-medium"
-            >
+            <Button variant="secondary" onClick={handleCancel}>
               Cancel
-            </button>
-
-            <button
-              type="button"
-              disabled={deleteConfirmText !== "DELETE"}
-              className="px-4 py-2 rounded-xl bg-accent-red text-white font-medium disabled:opacity-50"
-            >
+            </Button>
+            <Button variant="danger" disabled={deleteConfirmText !== "DELETE"}>
               Permanently delete account
-            </button>
+            </Button>
           </div>
         </div>
       )}

@@ -98,7 +98,6 @@ export async function requestMnemonic(args: {
     callback_url: args.callbackUrl ?? null,
   };
 
-  console.log("[mnemonicApi] Requesting mnemonic via edge proxy:", payload);
 
   try {
     const { data, error } = await supabase.functions.invoke("mnemonic-webhook-proxy", {
@@ -112,7 +111,6 @@ export async function requestMnemonic(args: {
 
     // invoke() returns parsed JSON in data
     const response = data as MnemonicResponse;
-    console.log("[mnemonicApi] Proxy response:", response);
     return response;
   } catch (error) {
     console.error("[mnemonicApi] Request failed:", error);

@@ -71,7 +71,7 @@ function TopicCard({
 export function BuildingConfidenceWidget({ topics, loading }: Omit<TopicListWidgetProps, "variant">) {
   if (loading) {
     return (
-      <div className="bg-white rounded-2xl shadow-card p-6 border border-neutral-200 animate-pulse">
+      <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200 animate-pulse">
         <div className="h-6 bg-neutral-100 rounded w-1/2 mb-4" />
         <div className="space-y-3">
           <div className="h-20 bg-neutral-100 rounded" />
@@ -90,7 +90,7 @@ export function BuildingConfidenceWidget({ topics, loading }: Omit<TopicListWidg
     .slice(0, 3);
 
   return (
-    <div className="bg-white rounded-2xl shadow-card p-6 border border-neutral-200">
+    <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200">
       <div className="flex items-center justify-between mb-4">
         <div>
           <h3 className="text-lg font-bold text-primary-900 mb-1">Building Confidence</h3>
@@ -117,7 +117,7 @@ export function BuildingConfidenceWidget({ topics, loading }: Omit<TopicListWidg
 export function NeedsAttentionWidget({ topics, loading }: Omit<TopicListWidgetProps, "variant">) {
   if (loading) {
     return (
-      <div className="bg-white rounded-2xl shadow-card p-6 border border-neutral-200 animate-pulse">
+      <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200 animate-pulse">
         <div className="h-6 bg-neutral-100 rounded w-1/2 mb-4" />
         <div className="space-y-3">
           <div className="h-20 bg-neutral-100 rounded" />
@@ -136,7 +136,7 @@ export function NeedsAttentionWidget({ topics, loading }: Omit<TopicListWidgetPr
     .slice(0, 3);
 
   return (
-    <div className="bg-white rounded-2xl shadow-card p-6 border border-neutral-200">
+    <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200">
       <div className="flex items-center justify-between mb-4">
         <div>
           <h3 className="text-lg font-bold text-primary-900 mb-1">Where Support Helps Most</h3>

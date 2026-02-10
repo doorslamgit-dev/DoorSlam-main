@@ -102,10 +102,10 @@ const solidStyles: Record<BadgeVariant, string> = {
 const softStyles: Record<BadgeVariant, string> = {
   default: "bg-neutral-100 text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300",
   primary: "bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-300",
-  success: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300",
-  warning: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300",
-  danger: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300",
-  info: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
+  success: "bg-success-bg text-success",
+  warning: "bg-warning-bg text-warning",
+  danger: "bg-danger-bg text-danger",
+  info: "bg-info-bg text-info",
 };
 
 /**
@@ -114,10 +114,10 @@ const softStyles: Record<BadgeVariant, string> = {
 const outlineStyles: Record<BadgeVariant, string> = {
   default: "border border-neutral-300 text-neutral-600 dark:border-neutral-600 dark:text-neutral-300",
   primary: "border border-primary-300 text-primary-600 dark:border-primary-600 dark:text-primary-400",
-  success: "border border-green-300 text-green-600 dark:border-green-600 dark:text-green-400",
-  warning: "border border-amber-300 text-amber-600 dark:border-amber-600 dark:text-amber-400",
-  danger: "border border-red-300 text-red-600 dark:border-red-600 dark:text-red-400",
-  info: "border border-blue-300 text-blue-600 dark:border-blue-600 dark:text-blue-400",
+  success: "border border-success-border text-success",
+  warning: "border border-warning-border text-warning",
+  danger: "border border-danger-border text-danger",
+  info: "border border-info-border text-info",
 };
 
 /**

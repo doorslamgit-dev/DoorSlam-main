@@ -78,7 +78,7 @@ export function QuestionCard({
           <span className="bg-primary-600 text-white text-sm font-bold px-3 py-1 rounded-full">
             Q{questionNumber}
           </span>
-          <span className="bg-purple-100 text-purple-700 text-sm font-medium px-3 py-1 rounded-full">
+          <span className="bg-primary-100 text-primary-700 text-sm font-medium px-3 py-1 rounded-full">
             {question.marks} mark{question.marks !== 1 ? "s" : ""}
           </span>
           {question.difficulty && (
@@ -93,7 +93,7 @@ export function QuestionCard({
       </div>
 
       {/* Question card */}
-      <div className="bg-white rounded-2xl shadow-card overflow-hidden">
+      <div className="bg-neutral-0 rounded-2xl shadow-card overflow-hidden">
         {/* Question text */}
         <div className="p-6 border-b border-neutral-100">
           <p className="text-lg text-neutral-900 leading-relaxed">{question.text}</p>
@@ -115,7 +115,7 @@ export function QuestionCard({
                         ${
                           selectedOption === option.id
                             ? "border-primary-500 bg-primary-50"
-                            : "border-neutral-200 hover:border-neutral-300 bg-white"
+                            : "border-neutral-200 hover:border-neutral-300 bg-neutral-0"
                         }
                       `}
                     >
@@ -190,15 +190,15 @@ export function QuestionCard({
 
               {/* Self-assessment */}
               {!selfAssessment && (
-                <div className="bg-blue-50 border border-blue-200 rounded-xl p-5">
-                  <p className="text-blue-900 font-medium mb-4 text-center">
+                <div className="bg-info-bg border border-info-border rounded-xl p-5">
+                  <p className="text-info font-medium mb-4 text-center">
                     How do you think you did? Select to see the answer:
                   </p>
                   <div className="flex gap-3 justify-center">
                     <button
                       type="button"
                       onClick={() => onSelfAssess("got_it")}
-                      className="flex-1 max-w-[140px] py-4 px-4 bg-white hover:bg-green-50 border-2 border-green-200 hover:border-green-400 text-green-700 rounded-xl transition flex flex-col items-center gap-2 shadow-sm"
+                      className="flex-1 max-w-[140px] py-4 px-4 bg-neutral-0 hover:bg-success-bg border-2 border-success-border hover:border-green-400 text-success rounded-xl transition flex flex-col items-center gap-2 shadow-sm"
                     >
                       <span className="text-2xl">😊</span>
                       <span className="text-sm font-semibold">Nailed it!</span>
@@ -206,7 +206,7 @@ export function QuestionCard({
                     <button
                       type="button"
                       onClick={() => onSelfAssess("unsure")}
-                      className="flex-1 max-w-[140px] py-4 px-4 bg-white hover:bg-amber-50 border-2 border-amber-200 hover:border-amber-400 text-amber-700 rounded-xl transition flex flex-col items-center gap-2 shadow-sm"
+                      className="flex-1 max-w-[140px] py-4 px-4 bg-neutral-0 hover:bg-warning-bg border-2 border-warning-border hover:border-amber-400 text-warning rounded-xl transition flex flex-col items-center gap-2 shadow-sm"
                     >
                       <span className="text-2xl">🤔</span>
                       <span className="text-sm font-semibold">Not sure</span>
@@ -214,7 +214,7 @@ export function QuestionCard({
                     <button
                       type="button"
                       onClick={() => onSelfAssess("not_quite")}
-                      className="flex-1 max-w-[140px] py-4 px-4 bg-white hover:bg-red-50 border-2 border-red-200 hover:border-red-400 text-red-700 rounded-xl transition flex flex-col items-center gap-2 shadow-sm"
+                      className="flex-1 max-w-[140px] py-4 px-4 bg-neutral-0 hover:bg-danger-bg border-2 border-danger-border hover:border-danger text-danger rounded-xl transition flex flex-col items-center gap-2 shadow-sm"
                     >
                       <span className="text-2xl">😅</span>
                       <span className="text-sm font-semibold">Missed it</span>
@@ -233,10 +233,10 @@ export function QuestionCard({
             <div
               className={`p-3 rounded-xl text-center ${
                 selfAssessment === "got_it"
-                  ? "bg-green-100 text-green-800"
+                  ? "bg-success-bg text-success"
                   : selfAssessment === "not_quite"
-                  ? "bg-red-100 text-red-800"
-                  : "bg-amber-100 text-amber-800"
+                  ? "bg-danger-bg text-danger"
+                  : "bg-warning-bg text-warning"
               }`}
             >
               <span className="text-lg mr-2">
@@ -252,12 +252,12 @@ export function QuestionCard({
             </div>
 
             {/* Correct answer */}
-            <div className="bg-green-50 border border-green-200 rounded-xl p-4">
+            <div className="bg-success-bg border border-success-border rounded-xl p-4">
               <h4 className="font-semibold text-green-900 mb-2 flex items-center gap-2">
-                <AppIcon name={ICONS.checkCircle} className="text-green-600" />
+                <AppIcon name={ICONS.checkCircle} className="text-success" />
                 Correct Answer
               </h4>
-              <p className="text-green-800 font-medium text-lg">
+              <p className="text-success font-medium text-lg">
                 {question.questionType === "multiple_choice" && question.correct_option_id
                   ? question.options?.find((o) => o.id === question.correct_option_id)?.label
                   : question.correct_value}
@@ -269,7 +269,7 @@ export function QuestionCard({
               <button
                 type="button"
                 disabled
-                className="py-2.5 px-4 bg-gradient-to-r from-purple-100 to-blue-100 text-purple-400 font-medium rounded-xl flex items-center gap-2 cursor-not-allowed opacity-60 text-sm"
+                className="py-2.5 px-4 bg-gradient-to-r from-primary-100 to-blue-100 text-primary-400 font-medium rounded-xl flex items-center gap-2 cursor-not-allowed opacity-60 text-sm"
               >
                 <AppIcon name={ICONS.robot} />
                 <span>Smart Mark my answer</span>
@@ -282,15 +282,15 @@ export function QuestionCard({
 
             {/* Mark scheme */}
             {question.mark_scheme && question.mark_scheme.length > 0 && (
-              <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
-                <h4 className="font-semibold text-blue-900 mb-2 flex items-center gap-2">
-                  <AppIcon name={ICONS.idea} className="text-blue-600" />
+              <div className="bg-info-bg border border-info-border rounded-xl p-4">
+                <h4 className="font-semibold text-info mb-2 flex items-center gap-2">
+                  <AppIcon name={ICONS.idea} className="text-info" />
                   Mark Scheme
                 </h4>
                 <ul className="space-y-2">
                   {question.mark_scheme.map((item, i) => (
-                    <li key={i} className="flex gap-2 text-blue-800">
-                      <span className="font-mono text-sm bg-blue-100 px-2 py-0.5 rounded font-bold flex-shrink-0">
+                    <li key={i} className="flex gap-2 text-info">
+                      <span className="font-mono text-sm bg-info-bg px-2 py-0.5 rounded font-bold flex-shrink-0">
                         {item.code}
                       </span>
                       <span>{item.criterion}</span>
@@ -302,23 +302,23 @@ export function QuestionCard({
 
             {/* Explanation */}
             {question.explanation && (
-              <div className="bg-purple-50 border border-purple-200 rounded-xl p-4">
-                <h4 className="font-semibold text-purple-900 mb-2">Explanation</h4>
-                <p className="text-purple-800">{question.explanation}</p>
+              <div className="bg-primary-50 border border-primary-200 rounded-xl p-4">
+                <h4 className="font-semibold text-primary-900 mb-2">Explanation</h4>
+                <p className="text-primary-800">{question.explanation}</p>
               </div>
             )}
 
             {/* Common mistakes */}
             {question.common_mistakes && question.common_mistakes.length > 0 && (
-              <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+              <div className="bg-warning-bg border border-warning-border rounded-xl p-4">
                 <h4 className="font-semibold text-amber-900 mb-2 flex items-center gap-2">
-                  <AppIcon name={ICONS.warning} className="text-amber-600" />
+                  <AppIcon name={ICONS.warning} className="text-warning" />
                   Common Mistakes to Avoid
                 </h4>
                 <ul className="space-y-1">
                   {question.common_mistakes.map((mistake, i) => (
-                    <li key={i} className="text-amber-800 flex items-start gap-2">
-                      <span className="text-amber-500">•</span>
+                    <li key={i} className="text-warning flex items-start gap-2">
+                      <span className="text-warning">•</span>
                       {mistake}
                     </li>
                   ))}

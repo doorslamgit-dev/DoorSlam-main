@@ -15,7 +15,7 @@ export default function TodayProgressCard({
   currentStreak,
 }: TodayProgressCardProps) {
   return (
-    <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-card p-6">
+    <div className="bg-neutral-0 dark:bg-neutral-800 rounded-2xl shadow-card p-6">
       <h2 className="text-xl font-bold text-primary-900 dark:text-neutral-100 mb-4">This Week's Progress</h2>
 
       {/* Progress bar */}

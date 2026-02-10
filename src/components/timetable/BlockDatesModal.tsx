@@ -1,7 +1,9 @@
 // src/components/timetable/BlockDatesModal.tsx
 
 import { useState, useEffect, useRef } from "react";
+import Alert from "../ui/Alert";
 import AppIcon from "../ui/AppIcon";
+import Modal from "../ui/Modal";
 import {
   fetchDateOverrides,
   addDateOverride,
@@ -37,19 +39,15 @@ export default function BlockDatesModal({
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  // Track if any dates were added in this session
   const [datesAddedThisSession, setDatesAddedThisSession] = useState(0);
   const initialOverrideCount = useRef<number>(0);
 
-  // Form state
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [reason, setReason] = useState("holiday");
 
-  // Auto-update end date when start date changes
   function handleStartDateChange(newStartDate: string) {
     setStartDate(newStartDate);
-    // If end date is empty or before start date, set it to start date
     if (!endDate || endDate < newStartDate) {
       setEndDate(newStartDate);
     }
@@ -88,7 +86,6 @@ export default function BlockDatesModal({
     setLoading(true);
     const { data, error } = await fetchDateOverrides(childId);
     if (data) {
-      // Filter to only show blocked dates, sort by date
       const blockedDates = data
         .filter((o) => o.override_type === "blocked")
         .sort((a, b) => a.override_date.localeCompare(b.override_date));
@@ -109,7 +106,6 @@ export default function BlockDatesModal({
     setError(null);
     setSuccessMessage(null);
 
-    // Generate all dates in range
     const start = new Date(startDate);
     const end = endDate ? new Date(endDate) : start;
     const dates: string[] = [];
@@ -120,7 +116,6 @@ export default function BlockDatesModal({
       current.setDate(current.getDate() + 1);
     }
 
-    // Add each date
     let hasError = false;
     let addedCount = 0;
     for (const date of dates) {
@@ -139,14 +134,12 @@ export default function BlockDatesModal({
       setDatesAddedThisSession((prev) => prev + addedCount);
       setSuccessMessage(`${addedCount} date${addedCount !== 1 ? "s" : ""} added to blocked list`);
       await loadOverrides();
-      // Reset form for next entry
       const tomorrow = new Date();
       tomorrow.setDate(tomorrow.getDate() + 1);
       setStartDate(formatDate(tomorrow));
       setEndDate(formatDate(tomorrow));
       onDatesChanged();
-      
-      // Clear success message after 3 seconds
+
       setTimeout(() => setSuccessMessage(null), 3000);
     }
   }
@@ -162,16 +155,11 @@ export default function BlockDatesModal({
   }
 
   function handleDone() {
-    // If no dates were added this session, and there were no blocked dates to begin with
     if (datesAddedThisSession === 0 && initialOverrideCount.current === 0) {
       if (!confirm("You haven't added any blocked dates. Are you sure you want to close?")) {
         return;
       }
     }
-    onClose();
-  }
-
-  function handleCancel() {
     onClose();
   }
 
@@ -187,181 +175,18 @@ export default function BlockDatesModal({
     return option?.icon || "calendar-x";
   }
 
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/50" onClick={handleCancel} />
-
-      {/* Modal */}
-      <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-lg mx-4 max-h-[90vh] flex flex-col">
-        {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-200 shrink-0">
-          <div>
-            <h2 className="text-lg font-semibold text-neutral-700">Block Dates</h2>
-            <p className="text-sm text-neutral-500">
-              Mark days when {childName} won't be revising
-            </p>
-          </div>
-          <button
-            onClick={handleCancel}
-            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-neutral-100 transition"
-            title="Cancel"
-          >
-            <AppIcon name="x" className="w-5 h-5 text-neutral-500" />
-          </button>
-        </div>
-
-        {/* Content */}
-        <div className="p-6 overflow-y-auto flex-1">
-          {error && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-600 flex items-center gap-2">
-              <AppIcon name="triangle-alert" className="w-4 h-4" />
-              {error}
-            </div>
-          )}
-
-          {successMessage && (
-            <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg text-sm text-green-600 flex items-center gap-2">
-              <AppIcon name="check" className="w-4 h-4" />
-              {successMessage}
-            </div>
-          )}
-
-          {/* Add New Block */}
-          <div className="bg-neutral-50 rounded-xl p-4 mb-6">
-            <h3 className="font-medium text-neutral-700 mb-3">Block New Dates</h3>
-
-            <div className="grid grid-cols-2 gap-3 mb-3">
-              <div>
-                <label className="block text-xs font-medium text-neutral-600 mb-1">
-                  Start Date
-                </label>
-                <input
-                  type="date"
-                  value={startDate}
-                  onChange={(e) => handleStartDateChange(e.target.value)}
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-medium text-neutral-600 mb-1">
-                  End Date (optional)
-                </label>
-                <input
-                  type="date"
-                  value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
-                  min={startDate}
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
-                />
-              </div>
-            </div>
-
-            <div className="mb-4">
-              <label className="block text-xs font-medium text-neutral-600 mb-2">
-                Reason
-              </label>
-              <div className="grid grid-cols-2 gap-2">
-                {REASON_OPTIONS.map((option) => (
-                  <button
-                    key={option.value}
-                    type="button"
-                    onClick={() => setReason(option.value)}
-                    className={`flex items-center gap-2 px-3 py-2 border-2 rounded-lg text-sm transition ${
-                      reason === option.value
-                        ? "border-primary-600 bg-primary-50 text-primary-700"
-                        : "border-neutral-200 hover:border-neutral-300 text-neutral-600"
-                    }`}
-                  >
-                    <AppIcon name={option.icon} className="w-3 h-3" />
-                    {option.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <button
-              onClick={handleAddBlockedDates}
-              disabled={saving || !startDate}
-              className="w-full px-4 py-2.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-            >
-              {saving ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  Adding...
-                </>
-              ) : (
-                <>
-                  <AppIcon name="plus" className="w-4 h-4" />
-                  Add to Blocked List
-                </>
-              )}
-            </button>
-          </div>
-
-          {/* Existing Blocked Dates */}
-          <div>
-            <h3 className="font-medium text-neutral-700 mb-3">
-              Blocked Dates ({overrides.length})
-            </h3>
-
-            {loading ? (
-              <div className="py-8 text-center">
-                <div className="w-6 h-6 border-2 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
-                <p className="text-sm text-neutral-500">Loading...</p>
-              </div>
-            ) : overrides.length === 0 ? (
-              <div className="py-8 text-center text-neutral-500 border-2 border-dashed border-neutral-200 rounded-xl">
-                <AppIcon name="calendar-x" className="w-8 h-8 text-neutral-300 mb-2 mx-auto" />
-                <p className="text-sm">No dates blocked yet</p>
-                <p className="text-xs text-neutral-400 mt-1">
-                  Use the form above to add blocked dates
-                </p>
-              </div>
-            ) : (
-              <div className="space-y-2 max-h-64 overflow-y-auto">
-                {overrides.map((override) => (
-                  <div
-                    key={override.id}
-                    className="flex items-center justify-between p-3 bg-white border border-neutral-200 rounded-lg"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-neutral-100 rounded-lg flex items-center justify-center">
-                        <AppIcon
-                          name={getReasonIcon(override.reason)}
-                          className="w-4 h-4 text-neutral-500"
-                        />
-                      </div>
-                      <div>
-                        <div className="font-medium text-neutral-700 text-sm">
-                          {formatDisplayDate(override.override_date)}
-                        </div>
-                        <div className="text-xs text-neutral-500">
-                          {getReasonLabel(override.reason)}
-                        </div>
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => handleRemoveDate(override.override_date)}
-                      className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-red-50 text-neutral-400 hover:text-red-500 transition"
-                      title="Remove"
-                    >
-                      <AppIcon name="trash-2" className="w-4 h-4" />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Footer */}
-        <div className="flex items-center justify-between px-6 py-4 border-t border-neutral-200 bg-neutral-50 shrink-0">
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title="Block Dates"
+      subtitle={`Mark days when ${childName} won't be revising`}
+      maxWidth="lg"
+      footer={
+        <div className="flex items-center justify-between">
           <div className="text-sm text-neutral-500">
             {datesAddedThisSession > 0 && (
-              <span className="text-green-600 flex items-center gap-1">
+              <span className="text-success flex items-center gap-1">
                 <AppIcon name="check" className="w-4 h-4" />
                 {datesAddedThisSession} date{datesAddedThisSession !== 1 ? "s" : ""} added
               </span>
@@ -374,7 +199,146 @@ export default function BlockDatesModal({
             Done
           </button>
         </div>
+      }
+    >
+      {error && (
+        <Alert variant="error" className="mb-4">
+          {error}
+        </Alert>
+      )}
+
+      {successMessage && (
+        <Alert variant="success" className="mb-4">
+          {successMessage}
+        </Alert>
+      )}
+
+      {/* Add New Block */}
+      <div className="bg-neutral-50 rounded-xl p-4 mb-6">
+        <h3 className="font-medium text-neutral-700 mb-3">Block New Dates</h3>
+
+        <div className="grid grid-cols-2 gap-3 mb-3">
+          <div>
+            <label className="block text-xs font-medium text-neutral-600 mb-1">
+              Start Date
+            </label>
+            <input
+              type="date"
+              value={startDate}
+              onChange={(e) => handleStartDateChange(e.target.value)}
+              className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-neutral-600 mb-1">
+              End Date (optional)
+            </label>
+            <input
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              min={startDate}
+              className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+            />
+          </div>
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-xs font-medium text-neutral-600 mb-2">
+            Reason
+          </label>
+          <div className="grid grid-cols-2 gap-2">
+            {REASON_OPTIONS.map((option) => (
+              <button
+                key={option.value}
+                type="button"
+                onClick={() => setReason(option.value)}
+                className={`flex items-center gap-2 px-3 py-2 border-2 rounded-lg text-sm transition ${
+                  reason === option.value
+                    ? "border-primary-600 bg-primary-50 text-primary-700"
+                    : "border-neutral-200 hover:border-neutral-300 text-neutral-600"
+                }`}
+              >
+                <AppIcon name={option.icon} className="w-3 h-3" />
+                {option.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <button
+          onClick={handleAddBlockedDates}
+          disabled={saving || !startDate}
+          className="w-full px-4 py-2.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        >
+          {saving ? (
+            <>
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              Adding...
+            </>
+          ) : (
+            <>
+              <AppIcon name="plus" className="w-4 h-4" />
+              Add to Blocked List
+            </>
+          )}
+        </button>
       </div>
-    </div>
+
+      {/* Existing Blocked Dates */}
+      <div>
+        <h3 className="font-medium text-neutral-700 mb-3">
+          Blocked Dates ({overrides.length})
+        </h3>
+
+        {loading ? (
+          <div className="py-8 text-center">
+            <div className="w-6 h-6 border-2 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
+            <p className="text-sm text-neutral-500">Loading...</p>
+          </div>
+        ) : overrides.length === 0 ? (
+          <div className="py-8 text-center text-neutral-500 border-2 border-dashed border-neutral-200 rounded-xl">
+            <AppIcon name="calendar-x" className="w-8 h-8 text-neutral-300 mb-2 mx-auto" />
+            <p className="text-sm">No dates blocked yet</p>
+            <p className="text-xs text-neutral-400 mt-1">
+              Use the form above to add blocked dates
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-2 max-h-64 overflow-y-auto">
+            {overrides.map((override) => (
+              <div
+                key={override.id}
+                className="flex items-center justify-between p-3 bg-neutral-0 border border-neutral-200 rounded-lg"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-neutral-100 rounded-lg flex items-center justify-center">
+                    <AppIcon
+                      name={getReasonIcon(override.reason)}
+                      className="w-4 h-4 text-neutral-500"
+                    />
+                  </div>
+                  <div>
+                    <div className="font-medium text-neutral-700 text-sm">
+                      {formatDisplayDate(override.override_date)}
+                    </div>
+                    <div className="text-xs text-neutral-500">
+                      {getReasonLabel(override.reason)}
+                    </div>
+                  </div>
+                </div>
+                <button
+                  onClick={() => handleRemoveDate(override.override_date)}
+                  className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-danger-bg text-neutral-400 hover:text-danger transition"
+                  title="Remove"
+                >
+                  <AppIcon name="trash-2" className="w-4 h-4" />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </Modal>
   );
 }

@@ -82,28 +82,28 @@ const variantStyles: Record<AlertVariant, {
   text: string;
 }> = {
   error: {
-    container: "bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-800",
-    icon: "text-accent-red",
-    title: "text-red-800 dark:text-red-200",
-    text: "text-red-700 dark:text-red-300",
+    container: "bg-danger-bg border-danger-border",
+    icon: "text-danger",
+    title: "text-danger",
+    text: "text-danger",
   },
   success: {
-    container: "bg-green-50 dark:bg-green-950/30 border-green-200 dark:border-green-800",
-    icon: "text-accent-green",
-    title: "text-green-800 dark:text-green-200",
-    text: "text-green-700 dark:text-green-300",
+    container: "bg-success-bg border-success-border",
+    icon: "text-success",
+    title: "text-success",
+    text: "text-success",
   },
   warning: {
-    container: "bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800",
-    icon: "text-accent-amber",
-    title: "text-amber-800 dark:text-amber-200",
-    text: "text-amber-700 dark:text-amber-300",
+    container: "bg-warning-bg border-warning-border",
+    icon: "text-warning",
+    title: "text-warning",
+    text: "text-warning",
   },
   info: {
-    container: "bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800",
-    icon: "text-accent-blue",
-    title: "text-blue-800 dark:text-blue-200",
-    text: "text-blue-700 dark:text-blue-300",
+    container: "bg-info-bg border-info-border",
+    icon: "text-info",
+    title: "text-info",
+    text: "text-info",
   },
 };
 

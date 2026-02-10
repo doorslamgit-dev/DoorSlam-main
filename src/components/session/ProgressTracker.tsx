@@ -33,7 +33,7 @@ export default function ProgressTracker({
   }, [safeCurrent, safeTotal]);
 
   return (
-    <div className="bg-white border-b border-neutral-200 px-6 py-6">
+    <div className="bg-neutral-0 border-b border-neutral-200 px-6 py-6">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-4 gap-4">
           <h2 className="text-base font-medium text-neutral-900">{phaseName}</h2>

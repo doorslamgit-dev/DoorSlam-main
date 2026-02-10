@@ -85,7 +85,7 @@ export interface EmptyStateProps extends HTMLAttributes<HTMLDivElement> {
 const variantStyles: Record<EmptyStateVariant, string> = {
   default: "py-8",
   minimal: "py-6",
-  card: "bg-white dark:bg-neutral-800 rounded-2xl shadow-card p-8",
+  card: "bg-neutral-0 dark:bg-neutral-800 rounded-2xl shadow-card p-8",
 };
 
 // ============================================================================

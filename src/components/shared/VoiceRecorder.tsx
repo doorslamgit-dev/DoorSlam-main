@@ -305,8 +305,6 @@ export default function VoiceRecorder({
 
         // Check for silence
         if (peakLevelRef.current < silenceThreshold) {
-          // eslint-disable-next-line no-console
-          console.log("[VoiceRecorder] Silence detected, peak:", peakLevelRef.current);
           URL.revokeObjectURL(url);
           onSilenceDetected?.();
           setError("I didn't catch that. Try again?");
@@ -461,7 +459,7 @@ export default function VoiceRecorder({
           <button
             type="button"
             onClick={handleToggle}
-            className={`${sizeConfig.button} rounded-full bg-red-500 flex items-center justify-center transition hover:bg-red-600 animate-pulse`}
+            className={`${sizeConfig.button} rounded-full bg-danger flex items-center justify-center transition hover:bg-red-600 animate-pulse`}
             aria-label="Stop recording"
           >
             <AppIcon name="stop" className={`text-white ${sizeConfig.icon}`} />
@@ -472,7 +470,7 @@ export default function VoiceRecorder({
             onMouseUp={handlePTTEnd}
             onMouseLeave={handlePTTEnd}
             onTouchEnd={handlePTTEnd}
-            className={`${sizeConfig.button} rounded-full bg-red-500 flex items-center justify-center transition animate-pulse`}
+            className={`${sizeConfig.button} rounded-full bg-danger flex items-center justify-center transition animate-pulse`}
             aria-label="Release to stop recording"
           >
             <AppIcon name="mic" className={`text-white ${sizeConfig.icon}`} />
@@ -546,7 +544,7 @@ export default function VoiceRecorder({
           type="button"
           onClick={handleDelete}
           disabled={disabled}
-          className="w-9 h-9 rounded-full bg-neutral-100 flex items-center justify-center hover:bg-red-100 transition flex-shrink-0 disabled:opacity-50"
+          className="w-9 h-9 rounded-full bg-neutral-100 flex items-center justify-center hover:bg-danger-bg transition flex-shrink-0 disabled:opacity-50"
           aria-label="Delete recording"
         >
           <AppIcon name="trash" className="w-4 h-4 text-neutral-500" />
@@ -562,7 +560,7 @@ export default function VoiceRecorder({
   if (error) {
     return (
       <div className={`flex items-center gap-3 ${className}`}>
-        <div className="flex-1 text-sm text-red-600">{error}</div>
+        <div className="flex-1 text-sm text-danger">{error}</div>
         <button
           type="button"
           onClick={() => setError(null)}

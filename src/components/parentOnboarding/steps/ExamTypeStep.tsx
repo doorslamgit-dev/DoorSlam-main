@@ -100,7 +100,7 @@ export default function ExamTypeStep(props: {
                     className={`relative flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${
                       isOn
                         ? "bg-primary-600 border-primary-600"
-                        : "bg-white border-neutral-300"
+                        : "bg-neutral-0 border-neutral-300"
                     }`}
                     aria-hidden
                   >

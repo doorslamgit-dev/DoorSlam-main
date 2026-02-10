@@ -79,7 +79,7 @@ export default function CoverageSummary({ subjects }: CoverageSummaryProps) {
   // If no sessions at all, show empty state
   if (grandTotal === 0) {
     return (
-      <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-soft p-6">
+      <div className="bg-neutral-0 dark:bg-neutral-800 rounded-2xl shadow-soft p-6">
         <h3 className="text-lg font-semibold mb-4 text-neutral-700 dark:text-neutral-200">
           Session Distribution
         </h3>
@@ -117,7 +117,7 @@ export default function CoverageSummary({ subjects }: CoverageSummaryProps) {
   });
 
   return (
-    <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-soft p-6">
+    <div className="bg-neutral-0 dark:bg-neutral-800 rounded-2xl shadow-soft p-6">
       <h3 className="text-lg font-semibold mb-4 text-neutral-700 dark:text-neutral-200">
         Session Distribution
       </h3>
