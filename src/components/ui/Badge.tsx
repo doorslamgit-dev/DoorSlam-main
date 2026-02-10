@@ -88,7 +88,7 @@ export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
  * Solid variant colors (filled background)
  */
 const solidStyles: Record<BadgeVariant, string> = {
-  default: "bg-neutral-200 text-neutral-700 dark:bg-neutral-700 dark:text-neutral-200",
+  default: "bg-neutral-200 text-neutral-700",
   primary: "bg-primary-600 text-white",
   success: "bg-accent-green text-white",
   warning: "bg-accent-amber text-white",
@@ -100,7 +100,7 @@ const solidStyles: Record<BadgeVariant, string> = {
  * Soft variant colors (light background, darker text)
  */
 const softStyles: Record<BadgeVariant, string> = {
-  default: "bg-neutral-100 text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300",
+  default: "bg-neutral-100 text-neutral-600",
   primary: "bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-300",
   success: "bg-success-bg text-success",
   warning: "bg-warning-bg text-warning",
@@ -112,7 +112,7 @@ const softStyles: Record<BadgeVariant, string> = {
  * Outline variant colors (border only)
  */
 const outlineStyles: Record<BadgeVariant, string> = {
-  default: "border border-neutral-300 text-neutral-600 dark:border-neutral-600 dark:text-neutral-300",
+  default: "border border-neutral-300 text-neutral-600",
   primary: "border border-primary-300 text-primary-600 dark:border-primary-600 dark:text-primary-400",
   success: "border border-success-border text-success",
   warning: "border border-warning-border text-warning",

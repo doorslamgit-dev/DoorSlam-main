@@ -22,20 +22,20 @@ export function StatsGrid({
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
       {/* Total Subjects Card */}
-      <div className="bg-neutral-0 dark:bg-neutral-800 rounded-xl p-4 shadow-sm border border-neutral-100 dark:border-neutral-700">
+      <div className="bg-neutral-0 rounded-xl p-4 shadow-sm border border-neutral-100">
         <div className="mb-3">
           <div className="w-10 h-10 rounded-lg bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center">
             <AppIcon name="book" className="w-5 h-5 text-primary-600 dark:text-primary-400" aria-hidden />
           </div>
         </div>
-        <div className="text-2xl font-bold text-primary-900 dark:text-neutral-100">
+        <div className="text-2xl font-bold text-primary-900">
           {totalSubjects} subject{totalSubjects !== 1 ? "s" : ""}
         </div>
-        <div className="text-sm text-neutral-500 dark:text-neutral-400">Active Coverage</div>
+        <div className="text-sm text-neutral-500">Active Coverage</div>
       </div>
 
       {/* Sessions This Week Card */}
-      <div className="bg-neutral-0 dark:bg-neutral-800 rounded-xl p-4 shadow-sm border border-neutral-100 dark:border-neutral-700">
+      <div className="bg-neutral-0 rounded-xl p-4 shadow-sm border border-neutral-100">
         <div className="mb-3">
           <div className="w-10 h-10 rounded-lg bg-success-bg dark:bg-green-900/30 flex items-center justify-center">
             <AppIcon
@@ -45,14 +45,14 @@ export function StatsGrid({
             />
           </div>
         </div>
-        <div className="text-2xl font-bold text-primary-900 dark:text-neutral-100">
+        <div className="text-2xl font-bold text-primary-900">
           {sessionsThisWeek} session{sessionsThisWeek !== 1 ? "s" : ""}
         </div>
-        <div className="text-sm text-neutral-500 dark:text-neutral-400">Completed This Week</div>
+        <div className="text-sm text-neutral-500">Completed This Week</div>
       </div>
 
       {/* Topics Covered Card */}
-      <div className="bg-neutral-0 dark:bg-neutral-800 rounded-xl p-4 shadow-sm border border-neutral-100 dark:border-neutral-700">
+      <div className="bg-neutral-0 rounded-xl p-4 shadow-sm border border-neutral-100">
         <div className="mb-3">
           <div className="w-10 h-10 rounded-lg bg-info-bg dark:bg-blue-900/30 flex items-center justify-center">
             <AppIcon
@@ -62,14 +62,14 @@ export function StatsGrid({
             />
           </div>
         </div>
-        <div className="text-2xl font-bold text-primary-900 dark:text-neutral-100">
+        <div className="text-2xl font-bold text-primary-900">
           {topicsCoveredThisWeek} topic{topicsCoveredThisWeek !== 1 ? "s" : ""}
         </div>
-        <div className="text-sm text-neutral-500 dark:text-neutral-400">Covered This Week</div>
+        <div className="text-sm text-neutral-500">Covered This Week</div>
       </div>
 
       {/* Coverage Status Card */}
-      <div className="bg-neutral-0 dark:bg-neutral-800 rounded-xl p-4 shadow-sm border border-neutral-100 dark:border-neutral-700">
+      <div className="bg-neutral-0 rounded-xl p-4 shadow-sm border border-neutral-100">
         <div className="mb-3">
           <div
             className={`w-10 h-10 rounded-lg flex items-center justify-center ${
@@ -84,12 +84,12 @@ export function StatsGrid({
           </div>
         </div>
 
-        <div className="text-2xl font-bold text-primary-900 dark:text-neutral-100">
+        <div className="text-2xl font-bold text-primary-900">
           {needsFocus
             ? `${subjectsNeedingAttention} need${subjectsNeedingAttention === 1 ? "s" : ""} focus`
             : "All good!"}
         </div>
-        <div className="text-sm text-neutral-500 dark:text-neutral-400">Subject Coverage</div>
+        <div className="text-sm text-neutral-500">Subject Coverage</div>
       </div>
     </div>
   );

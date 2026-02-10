@@ -19,17 +19,17 @@ export default function TimetableHeroCard({
   // Loading state
   if (loading) {
     return (
-      <div className="bg-neutral-0 dark:bg-neutral-800 rounded-2xl shadow-card p-6 mb-6 animate-pulse">
+      <div className="bg-neutral-0 rounded-2xl shadow-card p-6 mb-6 animate-pulse">
         <div className="flex items-start gap-6 mb-6">
-          <div className="w-24 h-24 bg-neutral-200 dark:bg-neutral-700 rounded-2xl" />
+          <div className="w-24 h-24 bg-neutral-200 rounded-2xl" />
           <div className="flex-1 space-y-3">
-            <div className="h-6 bg-neutral-200 dark:bg-neutral-700 rounded w-48" />
-            <div className="h-4 bg-neutral-200 dark:bg-neutral-700 rounded w-64" />
+            <div className="h-6 bg-neutral-200 rounded w-48" />
+            <div className="h-4 bg-neutral-200 rounded w-64" />
           </div>
         </div>
         <div className="grid grid-cols-4 gap-4">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="h-20 bg-neutral-100 dark:bg-neutral-700 rounded-xl" />
+            <div key={i} className="h-20 bg-neutral-100 rounded-xl" />
           ))}
         </div>
       </div>
@@ -39,17 +39,17 @@ export default function TimetableHeroCard({
   // No data state
   if (!planOverview || planOverview.status === "no_plan") {
     return (
-      <div className="bg-neutral-0 dark:bg-neutral-800 rounded-2xl shadow-card p-6 mb-6">
+      <div className="bg-neutral-0 rounded-2xl shadow-card p-6 mb-6">
         <div className="flex items-start gap-6">
-          <div className="w-24 h-24 bg-neutral-100 dark:bg-neutral-700 rounded-2xl flex flex-col items-center justify-center text-neutral-400 dark:text-neutral-500">
+          <div className="w-24 h-24 bg-neutral-100 rounded-2xl flex flex-col items-center justify-center text-neutral-400">
             <AppIcon name="triangle-alert" className="w-8 h-8 mb-1" />
             <span className="text-xs font-medium">No Plan</span>
           </div>
           <div className="flex-1">
-            <h2 className="text-xl font-semibold text-neutral-700 dark:text-neutral-200 mb-2">
+            <h2 className="text-xl font-semibold text-neutral-700 mb-2">
               No Revision Plan Found
             </h2>
-            <p className="text-neutral-500 dark:text-neutral-400">
+            <p className="text-neutral-500">
               Create a revision plan to see your schedule and progress.
             </p>
           </div>
@@ -152,7 +152,7 @@ export default function TimetableHeroCard({
   }, [] as typeof subjects);
 
   return (
-    <div className="bg-neutral-0 dark:bg-neutral-800 rounded-2xl shadow-card p-6 mb-6">
+    <div className="bg-neutral-0 rounded-2xl shadow-card p-6 mb-6">
       {/* Header Row: Status Badge + Title + Key Stats */}
       <div className="flex items-start gap-5 mb-6">
         {/* Status Indicator */}
@@ -170,10 +170,10 @@ export default function TimetableHeroCard({
           {/* Title Row */}
           <div className="flex items-center justify-between mb-3">
             <div>
-              <h2 className="text-lg font-semibold text-neutral-800 dark:text-neutral-100">
+              <h2 className="text-lg font-semibold text-neutral-800">
                 Revision Plan
               </h2>
-              <p className="text-sm text-neutral-500 dark:text-neutral-400">
+              <p className="text-sm text-neutral-500">
                 {weeksRemaining > 0
                   ? `${Math.round(weeksRemaining)} weeks until exams`
                   : "Exam period"}
@@ -182,15 +182,15 @@ export default function TimetableHeroCard({
 
             {/* Completion Badge */}
             <div className="text-right">
-              <div className="text-2xl font-bold text-neutral-800 dark:text-neutral-100">
+              <div className="text-2xl font-bold text-neutral-800">
                 {completionPercent}%
               </div>
-              <div className="text-xs text-neutral-500 dark:text-neutral-400">complete</div>
+              <div className="text-xs text-neutral-500">complete</div>
             </div>
           </div>
 
           {/* Progress Bar */}
-          <div className="h-3 bg-neutral-100 dark:bg-neutral-700 rounded-full overflow-hidden mb-4">
+          <div className="h-3 bg-neutral-100 rounded-full overflow-hidden mb-4">
             <div
               className={`h-full rounded-full transition-all duration-500 ${status.color}`}
               style={{ width: `${Math.max(completionPercent, 0)}%` }}
@@ -200,28 +200,28 @@ export default function TimetableHeroCard({
           {/* Stats Row */}
           <div className="grid grid-cols-4 gap-3">
             <div className="text-center">
-              <div className="text-xl font-bold text-neutral-800 dark:text-neutral-100">
+              <div className="text-xl font-bold text-neutral-800">
                 {totals.planned_sessions}
               </div>
-              <div className="text-[11px] text-neutral-500 dark:text-neutral-400">Total</div>
+              <div className="text-[11px] text-neutral-500">Total</div>
             </div>
             <div className="text-center">
               <div className="text-xl font-bold text-accent-green">
                 {totals.completed_sessions}
               </div>
-              <div className="text-[11px] text-neutral-500 dark:text-neutral-400">Done</div>
+              <div className="text-[11px] text-neutral-500">Done</div>
             </div>
             <div className="text-center">
-              <div className="text-xl font-bold text-neutral-600 dark:text-neutral-300">
+              <div className="text-xl font-bold text-neutral-600">
                 {totals.remaining_sessions}
               </div>
-              <div className="text-[11px] text-neutral-500 dark:text-neutral-400">Remaining</div>
+              <div className="text-[11px] text-neutral-500">Remaining</div>
             </div>
             <div className="text-center">
-              <div className="text-xl font-bold text-neutral-600 dark:text-neutral-300">
+              <div className="text-xl font-bold text-neutral-600">
                 {scheduledPerWeek}
               </div>
-              <div className="text-[11px] text-neutral-500 dark:text-neutral-400">Per Week</div>
+              <div className="text-[11px] text-neutral-500">Per Week</div>
             </div>
           </div>
         </div>
@@ -237,14 +237,14 @@ export default function TimetableHeroCard({
             />
             <div>
               {status.isHealthy ? (
-                <p className="text-sm text-neutral-700 dark:text-neutral-300">
-                  <strong className="text-neutral-800 dark:text-neutral-100">{scheduledPerWeek} sessions/week</strong> scheduled
+                <p className="text-sm text-neutral-700">
+                  <strong className="text-neutral-800">{scheduledPerWeek} sessions/week</strong> scheduled
                   {neededPerWeek > 0 && (
-                    <span className="text-neutral-500 dark:text-neutral-400"> • {neededPerWeek}/week needed for full coverage</span>
+                    <span className="text-neutral-500"> • {neededPerWeek}/week needed for full coverage</span>
                   )}
                 </p>
               ) : (
-                <p className="text-sm text-neutral-700 dark:text-neutral-300">
+                <p className="text-sm text-neutral-700">
                   You have <strong>{scheduledPerWeek} sessions/week</strong> but need{" "}
                   <strong>{neededPerWeek}/week</strong> for full coverage
                 </p>
@@ -256,7 +256,7 @@ export default function TimetableHeroCard({
           {!status.isHealthy && onEditSchedule && (
             <button
               onClick={onEditSchedule}
-              className="flex items-center gap-2 px-4 py-2 bg-neutral-0 dark:bg-neutral-700 border border-neutral-300 dark:border-neutral-600 rounded-lg text-sm font-medium text-neutral-700 dark:text-neutral-200 hover:bg-neutral-50 dark:hover:bg-neutral-600 hover:border-neutral-400 dark:hover:border-neutral-500 transition-colors shrink-0"
+              className="flex items-center gap-2 px-4 py-2 bg-neutral-0 border border-neutral-300 rounded-lg text-sm font-medium text-neutral-700 hover:bg-neutral-50 hover:border-neutral-400 transition-colors shrink-0"
             >
               <AppIcon name="sliders-horizontal" className="w-3 h-3" />
               Adjust Schedule
@@ -268,7 +268,7 @@ export default function TimetableHeroCard({
       {/* Subject Progress Section */}
       {consolidatedSubjects.length > 0 && (
         <div>
-          <h3 className="text-sm font-semibold text-neutral-700 dark:text-neutral-200 mb-3">
+          <h3 className="text-sm font-semibold text-neutral-700 mb-3">
             Progress by Subject
           </h3>
           <div className="space-y-3">
@@ -290,27 +290,27 @@ export default function TimetableHeroCard({
 
                 {/* Subject Name */}
                 <div className="w-32 shrink-0">
-                  <span className="text-sm font-medium text-neutral-700 dark:text-neutral-200 truncate block">
+                  <span className="text-sm font-medium text-neutral-700 truncate block">
                     {subject.subject_name}
                   </span>
                 </div>
 
                 {/* Progress Bar */}
-                <div className="flex-1 h-6 bg-neutral-100 dark:bg-neutral-700 rounded-full overflow-hidden relative">
+                <div className="flex-1 h-6 bg-neutral-100 rounded-full overflow-hidden relative">
                   <div
                     className="h-full rounded-full transition-all duration-500 bg-accent-green"
                     style={{
                       width: `${Math.max(subject.completion_percent, 0)}%`,
                     }}
                   />
-                  <span className="absolute inset-0 flex items-center justify-center text-xs font-medium text-neutral-600 dark:text-neutral-300">
+                  <span className="absolute inset-0 flex items-center justify-center text-xs font-medium text-neutral-600">
                     {subject.completed_sessions} / {subject.planned_sessions}
                   </span>
                 </div>
 
                   {/* Remaining */}
                   <div className="w-16 text-right shrink-0">
-                    <span className="text-sm text-neutral-500 dark:text-neutral-400">
+                    <span className="text-sm text-neutral-500">
                       {subject.remaining_sessions} left
                     </span>
                   </div>

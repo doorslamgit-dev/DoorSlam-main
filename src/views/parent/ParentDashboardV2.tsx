@@ -134,7 +134,7 @@ export function ParentDashboardV2() {
   // Loading state
   if (loading) {
     return (
-      <div className="min-h-[calc(100vh-73px)] bg-neutral-50 dark:bg-neutral-900">
+      <div className="min-h-screen bg-neutral-50">
         <div className="max-w-content mx-auto px-6 py-8">
           <HeroSkeleton />
           <ChildCardsSkeleton />
@@ -146,7 +146,7 @@ export function ParentDashboardV2() {
   // Error state
   if (error) {
     return (
-      <div className="min-h-[calc(100vh-73px)] bg-neutral-50 dark:bg-neutral-900">
+      <div className="min-h-screen bg-neutral-50">
         <div className="max-w-content mx-auto px-6 py-8">
           <ErrorState message={error} onRetry={refresh} />
         </div>
@@ -157,7 +157,7 @@ export function ParentDashboardV2() {
   // No data state
   if (!data) {
     return (
-      <div className="min-h-[calc(100vh-73px)] bg-neutral-50 dark:bg-neutral-900">
+      <div className="min-h-screen bg-neutral-50">
         <div className="max-w-content mx-auto px-6 py-8">
           <ErrorState message="No data available" onRetry={refresh} />
         </div>
@@ -166,7 +166,7 @@ export function ParentDashboardV2() {
   }
 
   return (
-    <div className="min-h-[calc(100vh-73px)] bg-neutral-50 dark:bg-neutral-900">
+    <div className="min-h-screen bg-neutral-50">
       <main className="max-w-content mx-auto px-6 py-8">
       {/* Hero Status Banner (includes nudges as 4th card + Add Child button) */}
       <HeroStatusBanner

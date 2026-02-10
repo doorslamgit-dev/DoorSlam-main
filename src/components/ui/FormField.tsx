@@ -89,20 +89,20 @@ const baseInputStyles = [
   // Layout & sizing
   "w-full px-4 py-3",
   // Typography
-  "text-neutral-900 dark:text-neutral-100",
-  "placeholder:text-neutral-400 dark:placeholder:text-neutral-500",
+  "text-neutral-900",
+  "placeholder:text-neutral-400",
   // Border & shape
   "border rounded-xl",
-  "border-neutral-300 dark:border-neutral-600",
+  "border-neutral-300",
   // Background
-  "bg-neutral-0 dark:bg-neutral-800",
+  "bg-neutral-0",
   // Focus state
   "focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent",
   // Transition
   "transition-all duration-150",
   // Disabled state
-  "disabled:bg-neutral-100 dark:disabled:bg-neutral-700",
-  "disabled:text-neutral-500 dark:disabled:text-neutral-400",
+  "disabled:bg-neutral-100",
+  "disabled:text-neutral-500",
   "disabled:cursor-not-allowed",
 ].join(" ");
 
@@ -119,7 +119,7 @@ const errorStyles = [
  */
 const labelStyles = [
   "block text-sm font-medium mb-2",
-  "text-neutral-700 dark:text-neutral-300",
+  "text-neutral-700",
 ].join(" ");
 
 // ============================================================================
@@ -161,7 +161,7 @@ function FieldMessage({ error, helperText }: FieldMessageProps) {
       className={`mt-1.5 text-sm ${
         error
           ? "text-danger"
-          : "text-neutral-500 dark:text-neutral-400"
+          : "text-neutral-500"
       }`}
     >
       {error || helperText}

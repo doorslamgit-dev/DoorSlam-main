@@ -48,13 +48,13 @@ export function MonthView({
     today.getFullYear() === year && today.getMonth() === month;
 
   return (
-    <div className="bg-neutral-0 dark:bg-neutral-800 rounded-2xl shadow-card overflow-hidden mb-6">
+    <div className="bg-neutral-0 rounded-2xl shadow-card overflow-hidden mb-6">
       <div className="p-6">
         <div className="grid grid-cols-7 gap-1 mb-2">
           {DAYS.map((day) => (
             <div
               key={day}
-              className="text-center text-sm font-medium py-2 text-neutral-600 dark:text-neutral-300"
+              className="text-center text-sm font-medium py-2 text-neutral-600"
             >
               {day}
             </div>
@@ -76,25 +76,25 @@ export function MonthView({
                 key={day}
                 className={`h-24 border rounded-lg p-2 overflow-hidden ${
                   dayBlocked
-                    ? "border-neutral-300 dark:border-neutral-600 bg-neutral-100 dark:bg-neutral-700"
+                    ? "border-neutral-300 bg-neutral-100"
                     : isToday
                     ? "border-primary-600 dark:border-primary-500 bg-primary-50 dark:bg-primary-900/30"
-                    : "border-neutral-200 dark:border-neutral-700 bg-neutral-0 dark:bg-neutral-800"
+                    : "border-neutral-200 bg-neutral-0"
                 }`}
               >
                 <div
                   className={`text-sm font-medium mb-1 ${
                     dayBlocked
-                      ? "text-neutral-400 dark:text-neutral-500"
+                      ? "text-neutral-400"
                       : isToday
                       ? "text-primary-600 dark:text-primary-400"
-                      : "text-neutral-700 dark:text-neutral-200"
+                      : "text-neutral-700"
                   }`}
                 >
                   {day}
                 </div>
                 {dayBlocked ? (
-                  <div className="text-xs text-neutral-400 dark:text-neutral-500 italic">Blocked</div>
+                  <div className="text-xs text-neutral-400 italic">Blocked</div>
                 ) : (
                   <div className="space-y-1">
                     {daySessions.slice(0, 2).map((session) => {
@@ -113,7 +113,7 @@ export function MonthView({
                       );
                     })}
                     {daySessions.length > 2 && (
-                      <div className="text-xs text-neutral-500 dark:text-neutral-400">
+                      <div className="text-xs text-neutral-500">
                         +{daySessions.length - 2} more
                       </div>
                     )}

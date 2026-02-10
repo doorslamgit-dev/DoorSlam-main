@@ -6,17 +6,17 @@ import Footer from "../components/layout/Footer";
 
 export default function Landing() {
   return (
-    <div className="bg-neutral-0 dark:bg-neutral-900 flex flex-col min-h-screen">
+    <div className="bg-neutral-0 flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-primary-50/30 via-white to-white dark:from-neutral-800 dark:via-neutral-900 dark:to-neutral-900 pt-12 pb-20">
+      <section className="bg-gradient-to-br from-primary-50/30 via-white to-white pt-12 pb-20">
         <div className="max-w-[1120px] mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-6">
-              <h1 className="text-5xl font-bold text-neutral-800 dark:text-neutral-100 leading-tight">
+              <h1 className="text-5xl font-bold text-neutral-800 leading-tight">
                 Confident revision,<br />
                 <span className="text-primary-600 dark:text-primary-400">without the stress</span>
               </h1>
-              <p className="text-lg text-neutral-600 dark:text-neutral-300 leading-relaxed">
+              <p className="text-lg text-neutral-600 leading-relaxed">
                 Help your child stay on track with personalized GCSE revision plans.
                 Get clear insights into their progress and never worry about exam prep again.
               </p>
@@ -70,20 +70,20 @@ export default function Landing() {
       </section>
 
       {/* Choose Your Path Section */}
-      <section className="py-20 bg-neutral-0 dark:bg-neutral-900">
+      <section className="py-20 bg-neutral-0">
         <div className="max-w-[1120px] mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-primary-900 dark:text-neutral-100 mb-4">Choose your path</h2>
-            <p className="text-xl text-neutral-600 dark:text-neutral-300">Get started with the experience that's right for you</p>
+            <h2 className="text-3xl font-bold text-primary-900 mb-4">Choose your path</h2>
+            <p className="text-xl text-neutral-600">Get started with the experience that's right for you</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-neutral-0 dark:bg-neutral-800 border-2 border-primary-200 dark:border-primary-700 rounded-2xl p-8 text-center hover:border-primary-400 hover:shadow-lg transition-all shadow-soft">
+            <div className="bg-neutral-0 border-2 border-primary-200 dark:border-primary-700 rounded-2xl p-8 text-center hover:border-primary-400 hover:shadow-lg transition-all shadow-soft">
               <div className="w-16 h-16 bg-primary-100 dark:bg-primary-900 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <AppIcon name="heart" className="w-8 h-8 text-primary-600" />
               </div>
-              <h3 className="text-xl font-semibold text-neutral-800 dark:text-neutral-200 mb-3">I'm a parent</h3>
-              <p className="text-neutral-600 dark:text-neutral-300 mb-6">Monitor your child's progress, get insights, and ensure they're prepared for their GCSEs.</p>
+              <h3 className="text-xl font-semibold text-neutral-800 mb-3">I'm a parent</h3>
+              <p className="text-neutral-600 mb-6">Monitor your child's progress, get insights, and ensure they're prepared for their GCSEs.</p>
               <Link href="/signup"
                 className="block w-full px-6 py-3 bg-primary-600 text-white rounded-full hover:bg-primary-700 transition-colors font-semibold shadow-sm"
               >
@@ -91,27 +91,27 @@ export default function Landing() {
               </Link>
             </div>
 
-            <div className="bg-neutral-0 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-2xl p-8 text-center hover:border-primary-300 transition-colors shadow-soft">
-              <div className="w-16 h-16 bg-neutral-100 dark:bg-neutral-700 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <AppIcon name="graduation-cap" className="w-8 h-8 text-neutral-600 dark:text-neutral-300" />
+            <div className="bg-neutral-0 border border-neutral-200 rounded-2xl p-8 text-center hover:border-primary-300 transition-colors shadow-soft">
+              <div className="w-16 h-16 bg-neutral-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <AppIcon name="graduation-cap" className="w-8 h-8 text-neutral-600" />
               </div>
-              <h3 className="text-xl font-semibold text-neutral-700 dark:text-neutral-200 mb-3">I'm a student</h3>
-              <p className="text-neutral-600 dark:text-neutral-300 mb-6">Access personalized revision plans, track your progress, and ace your GCSE exams.</p>
+              <h3 className="text-xl font-semibold text-neutral-700 mb-3">I'm a student</h3>
+              <p className="text-neutral-600 mb-6">Access personalized revision plans, track your progress, and ace your GCSE exams.</p>
               <Link href="/signup"
-                className="block w-full px-6 py-3 border border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-200 rounded-full hover:border-primary-300 hover:text-primary-600 transition-colors"
+                className="block w-full px-6 py-3 border border-neutral-300 text-neutral-700 rounded-full hover:border-primary-300 hover:text-primary-600 transition-colors"
               >
                 Start as student
               </Link>
             </div>
 
-            <div className="bg-neutral-0 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-2xl p-8 text-center hover:border-primary-300 transition-colors shadow-soft">
-              <div className="w-16 h-16 bg-neutral-100 dark:bg-neutral-700 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <AppIcon name="user" className="w-8 h-8 text-neutral-600 dark:text-neutral-300" />
+            <div className="bg-neutral-0 border border-neutral-200 rounded-2xl p-8 text-center hover:border-primary-300 transition-colors shadow-soft">
+              <div className="w-16 h-16 bg-neutral-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <AppIcon name="user" className="w-8 h-8 text-neutral-600" />
               </div>
-              <h3 className="text-xl font-semibold text-neutral-700 dark:text-neutral-200 mb-3">I'm a teacher</h3>
-              <p className="text-neutral-600 dark:text-neutral-300 mb-6">Help your students succeed with classroom tools and progress monitoring.</p>
+              <h3 className="text-xl font-semibold text-neutral-700 mb-3">I'm a teacher</h3>
+              <p className="text-neutral-600 mb-6">Help your students succeed with classroom tools and progress monitoring.</p>
               <Link href="/signup"
-                className="block w-full px-6 py-3 border border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-200 rounded-full hover:border-primary-300 hover:text-primary-600 transition-colors"
+                className="block w-full px-6 py-3 border border-neutral-300 text-neutral-700 rounded-full hover:border-primary-300 hover:text-primary-600 transition-colors"
               >
                 Start as teacher
               </Link>
@@ -121,11 +121,11 @@ export default function Landing() {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-20 bg-neutral-50 dark:bg-neutral-800">
+      <section className="py-20 bg-neutral-50">
         <div className="max-w-[1120px] mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-primary-900 dark:text-neutral-100 mb-4">How it works</h2>
-            <p className="text-xl text-neutral-600 dark:text-neutral-300">Get your child exam-ready in three simple steps</p>
+            <h2 className="text-3xl font-bold text-primary-900 mb-4">How it works</h2>
+            <p className="text-xl text-neutral-600">Get your child exam-ready in three simple steps</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -133,79 +133,79 @@ export default function Landing() {
               <div className="w-20 h-20 bg-primary-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <span className="text-white text-2xl font-bold">1</span>
               </div>
-              <h3 className="text-xl font-semibold text-primary-900 dark:text-neutral-100 mb-3">Set up your child's profile</h3>
-              <p className="text-neutral-600 dark:text-neutral-300">Tell us about your child's subjects, exam dates, and current confidence levels.</p>
+              <h3 className="text-xl font-semibold text-primary-900 mb-3">Set up your child's profile</h3>
+              <p className="text-neutral-600">Tell us about your child's subjects, exam dates, and current confidence levels.</p>
             </div>
 
             <div className="text-center">
               <div className="w-20 h-20 bg-primary-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <span className="text-white text-2xl font-bold">2</span>
               </div>
-              <h3 className="text-xl font-semibold text-primary-900 dark:text-neutral-100 mb-3">Get a personalized plan</h3>
-              <p className="text-neutral-600 dark:text-neutral-300">We create a tailored revision schedule that fits around your child's life and learning style.</p>
+              <h3 className="text-xl font-semibold text-primary-900 mb-3">Get a personalized plan</h3>
+              <p className="text-neutral-600">We create a tailored revision schedule that fits around your child's life and learning style.</p>
             </div>
 
             <div className="text-center">
               <div className="w-20 h-20 bg-primary-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <span className="text-white text-2xl font-bold">3</span>
               </div>
-              <h3 className="text-xl font-semibold text-primary-900 dark:text-neutral-100 mb-3">Track progress together</h3>
-              <p className="text-neutral-600 dark:text-neutral-300">Monitor your child's progress with clear insights and celebrate their achievements.</p>
+              <h3 className="text-xl font-semibold text-primary-900 mb-3">Track progress together</h3>
+              <p className="text-neutral-600">Monitor your child's progress with clear insights and celebrate their achievements.</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20 bg-neutral-0 dark:bg-neutral-900">
+      <section className="py-20 bg-neutral-0">
         <div className="max-w-[1120px] mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-primary-900 dark:text-neutral-100 mb-4">Why parents choose Doorslam</h2>
-            <p className="text-xl text-neutral-600 dark:text-neutral-300">Trusted by thousands of families across the UK</p>
+            <h2 className="text-3xl font-bold text-primary-900 mb-4">Why parents choose Doorslam</h2>
+            <p className="text-xl text-neutral-600">Trusted by thousands of families across the UK</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-neutral-0 dark:bg-neutral-800 rounded-2xl p-6 shadow-card">
+            <div className="bg-neutral-0 rounded-2xl p-6 shadow-card">
               <div className="flex items-center mb-4">
                 <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg" alt="Parent" className="w-12 h-12 rounded-full mr-4" />
                 <div>
-                  <div className="font-semibold text-neutral-700 dark:text-neutral-200">Sarah M.</div>
-                  <div className="text-sm text-neutral-500 dark:text-neutral-400">Mother of 2</div>
+                  <div className="font-semibold text-neutral-700">Sarah M.</div>
+                  <div className="text-sm text-neutral-500">Mother of 2</div>
                 </div>
               </div>
-              <p className="text-neutral-600 dark:text-neutral-300 italic">"Finally, I can see exactly how my daughter is progressing. The stress of not knowing where she stands has completely disappeared."</p>
+              <p className="text-neutral-600 italic">"Finally, I can see exactly how my daughter is progressing. The stress of not knowing where she stands has completely disappeared."</p>
             </div>
 
-            <div className="bg-neutral-0 dark:bg-neutral-800 rounded-2xl p-6 shadow-card">
+            <div className="bg-neutral-0 rounded-2xl p-6 shadow-card">
               <div className="flex items-center mb-4">
                 <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="Parent" className="w-12 h-12 rounded-full mr-4" />
                 <div>
-                  <div className="font-semibold text-neutral-700 dark:text-neutral-200">James K.</div>
-                  <div className="text-sm text-neutral-500 dark:text-neutral-400">Father of 1</div>
+                  <div className="font-semibold text-neutral-700">James K.</div>
+                  <div className="text-sm text-neutral-500">Father of 1</div>
                 </div>
               </div>
-              <p className="text-neutral-600 dark:text-neutral-300 italic">"My son went from dreading revision to actually enjoying it. The personalized approach really works."</p>
+              <p className="text-neutral-600 italic">"My son went from dreading revision to actually enjoying it. The personalized approach really works."</p>
             </div>
 
-            <div className="bg-neutral-0 dark:bg-neutral-800 rounded-2xl p-6 shadow-card">
+            <div className="bg-neutral-0 rounded-2xl p-6 shadow-card">
               <div className="flex items-center mb-4">
                 <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" alt="Parent" className="w-12 h-12 rounded-full mr-4" />
                 <div>
-                  <div className="font-semibold text-neutral-700 dark:text-neutral-200">Emma T.</div>
-                  <div className="text-sm text-neutral-500 dark:text-neutral-400">Mother of 3</div>
+                  <div className="font-semibold text-neutral-700">Emma T.</div>
+                  <div className="text-sm text-neutral-500">Mother of 3</div>
                 </div>
               </div>
-              <p className="text-neutral-600 dark:text-neutral-300 italic">"Having clear visibility into all three of my children's revision progress has been a game-changer for our family."</p>
+              <p className="text-neutral-600 italic">"Having clear visibility into all three of my children's revision progress has been a game-changer for our family."</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-primary-50 dark:bg-neutral-800">
+      <section className="py-20 bg-primary-50">
         <div className="max-w-[1120px] mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold text-primary-900 dark:text-neutral-100 mb-4">Ready to transform revision time?</h2>
-          <p className="text-xl text-neutral-600 dark:text-neutral-300 mb-8 max-w-2xl mx-auto">
+          <h2 className="text-3xl font-bold text-primary-900 mb-4">Ready to transform revision time?</h2>
+          <p className="text-xl text-neutral-600 mb-8 max-w-2xl mx-auto">
             Join thousands of parents who've already taken the stress out of GCSE preparation.
             Start your free trial today - no credit card required.
           </p>
@@ -219,7 +219,7 @@ export default function Landing() {
               Book a demo
             </button>
           </div>
-          <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-4">Free for 14 days. Cancel anytime.</p>
+          <p className="text-sm text-neutral-500 mt-4">Free for 14 days. Cancel anytime.</p>
         </div>
       </section>
 

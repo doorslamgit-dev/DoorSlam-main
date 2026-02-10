@@ -452,7 +452,7 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105 flex items-center justify-center z-50"
+        className="fixed bottom-20 right-6 w-14 h-14 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105 flex items-center justify-center z-50"
         aria-label="Open Study Buddy"
       >
         <AppIcon name={ICON_ROBOT} />
@@ -466,7 +466,7 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
 
   if (isMinimized) {
     return (
-      <div className="fixed bottom-6 right-6 z-50">
+      <div className="fixed bottom-20 right-6 z-50">
         <button
           type="button"
           onClick={() => setIsMinimized(false)}
@@ -489,7 +489,7 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
   // ===========================================================================
 
   return (
-    <div className="fixed bottom-6 right-6 w-80 sm:w-96 h-[500px] bg-neutral-50 rounded-2xl shadow-2xl flex flex-col overflow-hidden z-50 border border-neutral-200">
+    <div className="fixed bottom-20 right-6 w-80 sm:w-96 h-[500px] bg-neutral-50 rounded-2xl shadow-2xl flex flex-col overflow-hidden z-50 border border-neutral-200">
       {/* Header */}
       <div className="bg-gradient-to-r from-primary-500 to-primary-700 px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">

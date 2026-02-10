@@ -22,11 +22,11 @@ export function WeekView({
   const weekStart = getWeekStart(referenceDate);
 
   return (
-    <div className="bg-neutral-0 dark:bg-neutral-800 rounded-2xl shadow-card overflow-hidden mb-6">
+    <div className="bg-neutral-0 rounded-2xl shadow-card overflow-hidden mb-6">
       {/* Header Row */}
-      <div className="grid grid-cols-8 border-b border-neutral-200 dark:border-neutral-700">
-        <div className="p-4 border-r bg-neutral-50 dark:bg-neutral-900 border-neutral-200 dark:border-neutral-700">
-          <div className="text-sm font-medium text-neutral-700 dark:text-neutral-200">Time</div>
+      <div className="grid grid-cols-8 border-b border-neutral-200">
+        <div className="p-4 border-r bg-neutral-50 border-neutral-200">
+          <div className="text-sm font-medium text-neutral-700">Time</div>
         </div>
         {DAYS.map((day, index) => {
           const date = new Date(weekStart);
@@ -38,21 +38,21 @@ export function WeekView({
           return (
             <div
               key={day}
-              className={`p-4 text-center border-r last:border-r-0 border-neutral-200 dark:border-neutral-700 ${
+              className={`p-4 text-center border-r last:border-r-0 border-neutral-200 ${
                 isBlocked
-                  ? "bg-neutral-200 dark:bg-neutral-700"
+                  ? "bg-neutral-200"
                   : isToday
                   ? "bg-primary-50 dark:bg-primary-900/30"
-                  : "bg-neutral-0 dark:bg-neutral-800"
+                  : "bg-neutral-0"
               }`}
             >
               <div
                 className={`text-sm font-medium ${
                   isBlocked
-                    ? "text-neutral-500 dark:text-neutral-400"
+                    ? "text-neutral-500"
                     : isToday
                     ? "text-primary-600 dark:text-primary-400"
-                    : "text-neutral-700 dark:text-neutral-200"
+                    : "text-neutral-700"
                 }`}
               >
                 {day}
@@ -60,16 +60,16 @@ export function WeekView({
               <div
                 className={`text-xs ${
                   isBlocked
-                    ? "text-neutral-400 dark:text-neutral-500"
+                    ? "text-neutral-400"
                     : isToday
                     ? "text-primary-600 dark:text-primary-400"
-                    : "text-neutral-500 dark:text-neutral-400"
+                    : "text-neutral-500"
                 }`}
               >
                 {date.getDate()}
               </div>
               {isBlocked && (
-                <div className="text-xs text-neutral-400 dark:text-neutral-500 mt-1">Blocked</div>
+                <div className="text-xs text-neutral-400 mt-1">Blocked</div>
               )}
             </div>
           );
@@ -78,10 +78,10 @@ export function WeekView({
 
       {/* Session Row */}
       <div className="grid grid-cols-8 min-h-[200px]">
-        <div className="p-4 border-r flex items-start bg-neutral-50 dark:bg-neutral-900 border-neutral-200 dark:border-neutral-700">
+        <div className="p-4 border-r flex items-start bg-neutral-50 border-neutral-200">
           <div>
-            <div className="text-sm font-medium text-neutral-700 dark:text-neutral-200">Sessions</div>
-            <div className="text-xs text-neutral-500 dark:text-neutral-400">All day</div>
+            <div className="text-sm font-medium text-neutral-700">Sessions</div>
+            <div className="text-xs text-neutral-500">All day</div>
           </div>
         </div>
         {DAYS.map((_, dayIndex) => {
@@ -96,19 +96,19 @@ export function WeekView({
           return (
             <div
               key={dayIndex}
-              className={`p-3 border-r last:border-r-0 border-neutral-200 dark:border-neutral-700 ${
-                isBlocked ? "bg-neutral-100 dark:bg-neutral-900" : ""
+              className={`p-3 border-r last:border-r-0 border-neutral-200 ${
+                isBlocked ? "bg-neutral-100" : ""
               }`}
             >
               {isBlocked ? (
                 <div className="h-full flex items-center justify-center">
-                  <span className="text-xs text-neutral-400 dark:text-neutral-500 italic">
+                  <span className="text-xs text-neutral-400 italic">
                     No revision
                   </span>
                 </div>
               ) : daySessions.length === 0 ? (
                 <div className="h-full flex items-center justify-center">
-                  <span className="text-xs text-neutral-400 dark:text-neutral-500">No sessions</span>
+                  <span className="text-xs text-neutral-400">No sessions</span>
                 </div>
               ) : (
                 daySessions.map((session) => {
@@ -128,10 +128,10 @@ export function WeekView({
                       >
                         {session.subject_name}
                       </div>
-                      <div className="text-xs text-neutral-600 dark:text-neutral-300">
+                      <div className="text-xs text-neutral-600">
                         {getTopicNames(session)}
                       </div>
-                      <div className="text-xs mt-2 text-neutral-500 dark:text-neutral-400">
+                      <div className="text-xs mt-2 text-neutral-500">
                         {session.session_duration_minutes} mins
                       </div>
                       {session.status === "completed" && (
