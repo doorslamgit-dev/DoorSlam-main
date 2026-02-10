@@ -72,7 +72,7 @@ export default function AnalyticsSharingCard({
   };
 
   return (
-    <div className="rounded-2xl p-6 bg-neutral-0 dark:bg-neutral-800 shadow-xl">
+    <div className="rounded-2xl p-6 bg-neutral-0 shadow-xl">
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-start gap-4">

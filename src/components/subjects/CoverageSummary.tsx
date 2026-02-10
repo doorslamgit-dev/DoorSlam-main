@@ -79,11 +79,11 @@ export default function CoverageSummary({ subjects }: CoverageSummaryProps) {
   // If no sessions at all, show empty state
   if (grandTotal === 0) {
     return (
-      <div className="bg-neutral-0 dark:bg-neutral-800 rounded-2xl shadow-soft p-6">
-        <h3 className="text-lg font-semibold mb-4 text-neutral-700 dark:text-neutral-200">
+      <div className="bg-neutral-0 rounded-2xl shadow-soft p-6">
+        <h3 className="text-lg font-semibold mb-4 text-neutral-700">
           Session Distribution
         </h3>
-        <p className="text-sm text-center py-8 text-neutral-500 dark:text-neutral-400">
+        <p className="text-sm text-center py-8 text-neutral-500">
           No session data available
         </p>
       </div>
@@ -117,8 +117,8 @@ export default function CoverageSummary({ subjects }: CoverageSummaryProps) {
   });
 
   return (
-    <div className="bg-neutral-0 dark:bg-neutral-800 rounded-2xl shadow-soft p-6">
-      <h3 className="text-lg font-semibold mb-4 text-neutral-700 dark:text-neutral-200">
+    <div className="bg-neutral-0 rounded-2xl shadow-soft p-6">
+      <h3 className="text-lg font-semibold mb-4 text-neutral-700">
         Session Distribution
       </h3>
 
@@ -187,7 +187,7 @@ export default function CoverageSummary({ subjects }: CoverageSummaryProps) {
       </div>
 
       {/* Legend */}
-      <div className="mt-4 pt-4 border-t border-neutral-100 dark:border-neutral-700">
+      <div className="mt-4 pt-4 border-t border-neutral-100">
         <div className="grid grid-cols-2 gap-2">
           {slices.map((slice) => (
             <div key={slice.subject_name} className="flex items-center gap-2">
@@ -196,7 +196,7 @@ export default function CoverageSummary({ subjects }: CoverageSummaryProps) {
                 style={{ backgroundColor: slice.color }}
               />
               <span
-                className="text-xs truncate text-neutral-500 dark:text-neutral-400"
+                className="text-xs truncate text-neutral-500"
                 title={`${slice.subject_name}: ${slice.value} sessions (${slice.percentage}%)`}
               >
                 {slice.subject_name} ({slice.value})
@@ -207,9 +207,9 @@ export default function CoverageSummary({ subjects }: CoverageSummaryProps) {
       </div>
 
       {/* Total sessions summary */}
-      <div className="mt-3 pt-3 border-t border-neutral-100 dark:border-neutral-700 text-center">
-        <span className="text-sm text-neutral-500 dark:text-neutral-400">
-          Total: <span className="font-medium text-neutral-700 dark:text-neutral-200">{grandTotal} sessions</span> planned
+      <div className="mt-3 pt-3 border-t border-neutral-100 text-center">
+        <span className="text-sm text-neutral-500">
+          Total: <span className="font-medium text-neutral-700">{grandTotal} sessions</span> planned
         </span>
       </div>
     </div>

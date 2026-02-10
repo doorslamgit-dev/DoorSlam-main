@@ -15,18 +15,18 @@ export default function TodayProgressCard({
   currentStreak,
 }: TodayProgressCardProps) {
   return (
-    <div className="bg-neutral-0 dark:bg-neutral-800 rounded-2xl shadow-card p-6">
-      <h2 className="text-xl font-bold text-primary-900 dark:text-neutral-100 mb-4">This Week's Progress</h2>
+    <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
+      <h2 className="text-xl font-bold text-primary-900 mb-4">This Week's Progress</h2>
 
       {/* Progress bar */}
       <div className="mb-6">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-neutral-600 dark:text-neutral-300 font-medium">Sessions completed</span>
-          <span className="text-primary-900 dark:text-neutral-100 font-bold text-lg">
+          <span className="text-neutral-600 font-medium">Sessions completed</span>
+          <span className="text-primary-900 font-bold text-lg">
             {completedToday} / {totalToday}
           </span>
         </div>
-        <div className="w-full bg-neutral-200 dark:bg-neutral-700 rounded-full h-3 overflow-hidden">
+        <div className="w-full bg-neutral-200 rounded-full h-3 overflow-hidden">
           <div
             className="bg-accent-green h-full rounded-full transition-all duration-500"
             style={{
@@ -84,7 +84,7 @@ function WeekProgressGrid({
           <div key={day} className="flex flex-col items-center">
             <span
               className={`text-xs mb-2 ${
-                isCurrentDay ? "text-primary-700 dark:text-primary-400 font-semibold" : "text-neutral-500 dark:text-neutral-400"
+                isCurrentDay ? "text-primary-700 dark:text-primary-400 font-semibold" : "text-neutral-500"
               }`}
             >
               {isCurrentDay ? "Today" : day}
@@ -96,7 +96,7 @@ function WeekProgressGrid({
                   ? "bg-accent-green"
                   : isCurrentDay
                   ? "bg-primary-100 dark:bg-primary-900/30 border-2 border-primary-600 dark:border-primary-500"
-                  : "bg-neutral-100 dark:bg-neutral-700"
+                  : "bg-neutral-100"
               }`}
             >
               {isCompletedDay ? (
@@ -106,13 +106,13 @@ function WeekProgressGrid({
                   {completedToday}/{totalToday}
                 </span>
               ) : (
-                <span className="text-neutral-400 dark:text-neutral-500 font-bold">-</span>
+                <span className="text-neutral-400 font-bold">-</span>
               )}
             </div>
 
             <span
               className={`text-xs mt-1 font-medium ${
-                isCompletedDay ? "text-neutral-600 dark:text-neutral-300" : "text-neutral-400 dark:text-neutral-500"
+                isCompletedDay ? "text-neutral-600" : "text-neutral-400"
               }`}
             >
               {isCompletedDay ? "✓" : ""}
