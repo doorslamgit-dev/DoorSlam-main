@@ -3,6 +3,7 @@
 // UPDATED: 6-Step Session Model - January 2026
 
 import { supabase } from "../lib/supabase";
+import type { GeneratedPayload } from "../types/child/sessionTypes";
 
 // =============================================================================
 // Types
@@ -18,7 +19,7 @@ export type RevisionSessionStep = {
   step_key: StepKey;
   step_index: number;
   status: StepStatus;
-  answer_summary: Record<string, any>;
+  answer_summary: Record<string, unknown>;
   started_at: string | null;
   completed_at: string | null;
 };
@@ -38,7 +39,7 @@ export type RevisionSession = {
   status: "in_progress" | "completed" | "abandoned";
   current_step_key: StepKey;
   steps: RevisionSessionStep[];
-  generated_payload: Record<string, any>;
+  generated_payload: GeneratedPayload;
 };
 
 // =============================================================================
@@ -73,7 +74,7 @@ export async function getRevisionSession(revisionSessionId: string): Promise<Rev
 export async function patchRevisionSessionStep(
   revisionSessionId: string,
   stepKey: StepKey,
-  patch: Record<string, any>
+  patch: Record<string, unknown>
 ): Promise<void> {
   const { error } = await supabase.rpc("rpc_patch_revision_session_step", {
     p_revision_session_id: revisionSessionId,

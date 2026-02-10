@@ -40,6 +40,7 @@ export default function EditScheduleModal({
     if (isOpen && childId) {
       loadTemplate();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- load on modal open only
   }, [isOpen, childId]);
 
   async function loadTemplate() {
@@ -62,8 +63,8 @@ export default function EditScheduleModal({
         setTemplate(defaultTemplate);
         setOriginalTemplate(JSON.parse(JSON.stringify(defaultTemplate)));
       }
-    } catch (err: any) {
-      setError(err.message || "Failed to load schedule");
+    } catch (err: unknown) {
+      setError((err instanceof Error ? err.message : "Failed to load schedule"));
       const defaultTemplate = createEmptyTemplate();
       setTemplate(defaultTemplate);
       setOriginalTemplate(JSON.parse(JSON.stringify(defaultTemplate)));
@@ -106,8 +107,8 @@ export default function EditScheduleModal({
         setError(result.error || "Failed to save schedule");
         setShowSaveOptions(false);
       }
-    } catch (err: any) {
-      setError(err.message || "An error occurred");
+    } catch (err: unknown) {
+      setError((err instanceof Error ? err.message : "An error occurred"));
       setShowSaveOptions(false);
     } finally {
       setSaving(false);

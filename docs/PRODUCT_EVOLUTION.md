@@ -104,6 +104,33 @@ Single feature branch `feat/v3-layout-overhaul` (PR #7 to develop). The sidebar 
 
 ---
 
+## Unreleased — Zero-Warning Codebase (10 Feb 2026)
+
+### Why this change happened
+
+The codebase accumulated 192 ESLint warnings over the v1.0–v3.0 development cycle. Most were `@typescript-eslint/no-explicit-any` — meaning TypeScript's type safety was being bypassed in 165 places. The rest were missing React hook dependencies, raw `<img>` tags instead of Next.js `<Image>`, and stale `eslint-disable` comments. While none caused runtime bugs, they masked real issues and made the CI output noisy.
+
+### What changed
+
+Every ESLint warning was eliminated across 69 files:
+
+| Category | Count | What was done |
+|----------|-------|---------------|
+| `no-explicit-any` | 160 | Replaced `any` with `unknown`, `Record<string, unknown>`, or specific interfaces |
+| `react-hooks/exhaustive-deps` | 14 | Added missing dependencies to `useEffect` / `useCallback` arrays |
+| `@next/next/no-img-element` | 13 | Replaced `<img>` with Next.js `<Image>` for automatic optimisation |
+| Unused `eslint-disable` | 5 | Removed stale suppression comments |
+
+A pre-existing build error in `AvatarUpload.tsx` was also fixed — `import Image from "next/image"` was shadowing the browser's native `Image` constructor used by `new Image()`.
+
+### How it was developed
+
+Single feature branch `chore/fix-lint-warnings` from develop. Files were fixed in priority order: type definitions first (to stop `any` propagating), then services, then hooks, then components. `npm run lint`, `npx tsc --noEmit`, and `npx next build` all verified passing before merge. PR #15 to develop, squash-merged.
+
+The tracking document `docs/ANY_TYPE_BACKLOG.md` (created during the v2.0 codebase review) has been updated to mark all items as resolved.
+
+---
+
 ## Unreleased — Parent Dashboard v3 (In Progress)
 
 ### Why this change is happening

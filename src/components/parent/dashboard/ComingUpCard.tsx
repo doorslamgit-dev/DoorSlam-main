@@ -3,6 +3,7 @@
 // FEAT-010: AppIcon (lucide-react) + theme-ready classes (no FontAwesome, no hex)
 
 import React from "react";
+import Image from "next/image";
 import AppIcon from "../../ui/AppIcon";
 import type { ComingUpCardProps } from "../../../types/parent/parentDashboardTypes";
 
@@ -57,9 +58,11 @@ export function ComingUpCard({
           >
             {/* Avatar */}
             {session.child_avatar_url ? (
-              <img
+              <Image
                 src={session.child_avatar_url}
                 alt={session.child_name}
+                width={40}
+                height={40}
                 className="w-10 h-10 rounded-full object-cover"
               />
             ) : (

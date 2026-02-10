@@ -48,6 +48,7 @@ export default function AddSessionModal({
       setMode("choice");
       setError(null);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- load on modal open only
   }, [isOpen, childId]);
 
   useEffect(() => {

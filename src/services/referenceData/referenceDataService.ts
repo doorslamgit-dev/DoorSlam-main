@@ -75,7 +75,7 @@ export type Subject = {
    Helpers
 ============================ */
 
-function throwIfError(error: any) {
+function throwIfError(error: { message?: string; details?: string; hint?: string } | null) {
   if (error) {
     const msg =
       error.message +

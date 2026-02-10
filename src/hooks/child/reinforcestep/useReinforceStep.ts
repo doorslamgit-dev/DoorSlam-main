@@ -6,7 +6,7 @@ import { TeachingSlide, WorkedExample } from "../../../types/child/reinforcestep
 interface UseReinforceStepProps {
   slides: TeachingSlide[];
   workedExamples: WorkedExample[];
-  onPatch: (patch: Record<string, any>) => void;
+  onPatch: (patch: Record<string, unknown>) => void;
   onNext: () => void;
 }
 

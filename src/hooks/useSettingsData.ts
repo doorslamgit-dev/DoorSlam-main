@@ -81,9 +81,9 @@ export function useSettingsData(
       if (childrenError) throw childrenError;
 
       setChildren(childrenData || []);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Load error:", err);
-      setError(err.message || "Failed to load settings");
+      setError((err instanceof Error ? err.message : "Failed to load settings"));
     } finally {
       setLoading(false);
     }
@@ -91,6 +91,7 @@ export function useSettingsData(
 
   useEffect(() => {
     loadData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- loadData uses current state via closure
   }, [userId, isParent]);
 
   return {

@@ -209,9 +209,9 @@ export async function fetchChildrenForParent(
     }));
 
     return { data: children, error: null };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Error fetching children:", err);
-    return { data: null, error: err.message || "Failed to fetch children" };
+    return { data: null, error: (err instanceof Error ? err.message : "Failed to fetch children") };
   }
 }
 
@@ -228,15 +228,15 @@ export async function fetchWeekPlan(
     if (error) throw error;
 
     // Transform the data
-    const weekData: WeekDayData[] = (data || []).map((row: any) => ({
+    const weekData: WeekDayData[] = (data || []).map((row: Record<string, unknown>) => ({
       day_date: row.day_date,
       sessions: row.sessions || [],
     }));
 
     return { data: weekData, error: null };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Error fetching week plan:", err);
-    return { data: null, error: err.message || "Failed to fetch week plan" };
+    return { data: null, error: (err instanceof Error ? err.message : "Failed to fetch week plan") };
   }
 }
 
@@ -274,6 +274,7 @@ export async function fetchMonthSessions(
 
     if (error) throw error;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Supabase join returns nested objects typed as any
     const sessions: TimetableSession[] = (data || []).map((row: any, idx: number) => ({
       planned_session_id: row.id,
       session_date: row.session_date,
@@ -290,9 +291,9 @@ export async function fetchMonthSessions(
     }));
 
     return { data: sessions, error: null };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Error fetching month sessions:", err);
-    return { data: null, error: err.message || "Failed to fetch month sessions" };
+    return { data: null, error: (err instanceof Error ? err.message : "Failed to fetch month sessions") };
   }
 }
 
@@ -309,9 +310,9 @@ export async function fetchTodaySessions(
     if (error) throw error;
 
     return { data: data || [], error: null };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Error fetching today sessions:", err);
-    return { data: null, error: err.message || "Failed to fetch sessions" };
+    return { data: null, error: (err instanceof Error ? err.message : "Failed to fetch sessions") };
   }
 }
 
@@ -339,9 +340,9 @@ export async function fetchPlanCoverageOverview(
     }
 
     return { data: data as PlanCoverageOverview, error: null };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Error fetching plan coverage:", err);
-    return { data: null, error: err.message || "Failed to fetch plan coverage" };
+    return { data: null, error: (err instanceof Error ? err.message : "Failed to fetch plan coverage") };
   }
 }
 
@@ -425,9 +426,9 @@ export async function fetchFeasibilityStatus(
       },
       error: null,
     };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Error fetching feasibility:", err);
-    return { data: null, error: err.message || "Failed to fetch feasibility" };
+    return { data: null, error: (err instanceof Error ? err.message : "Failed to fetch feasibility") };
   }
 }
 
@@ -448,9 +449,9 @@ export async function fetchDateOverrides(
     if (error) throw error;
 
     return { data: data || [], error: null };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Error fetching date overrides:", err);
-    return { data: null, error: err.message || "Failed to fetch date overrides" };
+    return { data: null, error: (err instanceof Error ? err.message : "Failed to fetch date overrides") };
   }
 }
 
@@ -474,9 +475,9 @@ export async function addDateOverride(
     if (error) throw error;
 
     return { success: true, error: null };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Error adding date override:", err);
-    return { success: false, error: err.message || "Failed to add date override" };
+    return { success: false, error: (err instanceof Error ? err.message : "Failed to add date override") };
   }
 }
 
@@ -494,9 +495,9 @@ export async function removeDateOverride(
     if (error) throw error;
 
     return { success: true, error: null };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Error removing date override:", err);
-    return { success: false, error: err.message || "Failed to remove date override" };
+    return { success: false, error: (err instanceof Error ? err.message : "Failed to remove date override") };
   }
 }
 
@@ -525,6 +526,7 @@ export async function fetchChildSubjects(
 
     if (error) throw error;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Supabase join returns nested objects typed as any
     const subjects: ChildSubjectOption[] = (data || []).map((row: any) => ({
       subject_id: row.subject_id,
       subject_name: row.subjects?.subject_name || "Unknown",
@@ -533,9 +535,9 @@ export async function fetchChildSubjects(
     }));
 
     return { data: subjects, error: null };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Error fetching child subjects:", err);
-    return { data: null, error: err.message || "Failed to fetch subjects" };
+    return { data: null, error: (err instanceof Error ? err.message : "Failed to fetch subjects") };
   }
 }
 
@@ -596,9 +598,9 @@ export async function addSingleSession(params: {
     if (error) throw error;
 
     return { success: true, sessionId: data?.id || null, error: null };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Error adding session:", err);
-    return { success: false, sessionId: null, error: err.message || "Failed to add session" };
+    return { success: false, sessionId: null, error: (err instanceof Error ? err.message : "Failed to add session") };
   }
 }
 
@@ -689,9 +691,9 @@ export async function fetchWeeklyTemplate(
     });
 
     return { data: template, error: null };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Error fetching weekly template:", err);
-    return { data: null, error: err.message || "Failed to fetch weekly template" };
+    return { data: null, error: (err instanceof Error ? err.message : "Failed to fetch weekly template") };
   }
 }
 
@@ -756,9 +758,9 @@ export async function saveWeeklyTemplate(
     }
 
     return { success: true, error: null };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Error saving weekly template:", err);
-    return { success: false, error: err.message || "Failed to save weekly template" };
+    return { success: false, error: (err instanceof Error ? err.message : "Failed to save weekly template") };
   }
 }
 
@@ -843,12 +845,12 @@ export async function saveTemplateAndRegenerate(
       error: null,
       warning 
     };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("[saveTemplateAndRegenerate] Fatal error:", err);
     return { 
       success: false, 
       sessionsCreated: 0, 
-      error: err.message || "Failed to save schedule",
+      error: (err instanceof Error ? err.message : "Failed to save schedule"),
       warning: null 
     };
   }

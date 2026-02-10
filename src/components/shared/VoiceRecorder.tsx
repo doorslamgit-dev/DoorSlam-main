@@ -346,7 +346,6 @@ export default function VoiceRecorder({
         });
       }, 1000);
     } catch (err) {
-      // eslint-disable-next-line no-console
       console.error("[VoiceRecorder] Failed to start recording:", err);
 
       if (err instanceof DOMException && err.name === "NotAllowedError") {

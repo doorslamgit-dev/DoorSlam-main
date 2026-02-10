@@ -46,8 +46,8 @@ export async function fetchAllInsights(
     }
 
     return { data, error: null };
-  } catch (err: any) {
-    return { data: null, error: err.message || 'Failed to fetch insights' };
+  } catch (err: unknown) {
+    return { data: null, error: (err instanceof Error ? err.message : 'Failed to fetch insights') };
   }
 }
 
@@ -73,8 +73,8 @@ export async function fetchInsightsSummary(
     }
 
     return { data, error: null };
-  } catch (err: any) {
-    return { data: null, error: err.message || 'Failed to fetch summary' };
+  } catch (err: unknown) {
+    return { data: null, error: (err instanceof Error ? err.message : 'Failed to fetch summary') };
   }
 }
 
@@ -100,8 +100,8 @@ export async function fetchWeeklyProgress(
     }
 
     return { data, error: null };
-  } catch (err: any) {
-    return { data: null, error: err.message || 'Failed to fetch weekly progress' };
+  } catch (err: unknown) {
+    return { data: null, error: (err instanceof Error ? err.message : 'Failed to fetch weekly progress') };
   }
 }
 
@@ -127,8 +127,8 @@ export async function fetchFocusModeComparison(
     }
 
     return { data, error: null };
-  } catch (err: any) {
-    return { data: null, error: err.message || 'Failed to fetch focus comparison' };
+  } catch (err: unknown) {
+    return { data: null, error: (err instanceof Error ? err.message : 'Failed to fetch focus comparison') };
   }
 }
 
@@ -154,8 +154,8 @@ export async function fetchSubjectBalance(
     }
 
     return { data, error: null };
-  } catch (err: any) {
-    return { data: null, error: err.message || 'Failed to fetch subject balance' };
+  } catch (err: unknown) {
+    return { data: null, error: (err instanceof Error ? err.message : 'Failed to fetch subject balance') };
   }
 }
 
@@ -183,8 +183,8 @@ export async function fetchConfidenceTrend(
     }
 
     return { data, error: null };
-  } catch (err: any) {
-    return { data: null, error: err.message || 'Failed to fetch confidence trend' };
+  } catch (err: unknown) {
+    return { data: null, error: (err instanceof Error ? err.message : 'Failed to fetch confidence trend') };
   }
 }
 
@@ -212,8 +212,8 @@ export async function fetchConfidenceHeatmap(
     }
 
     return { data, error: null };
-  } catch (err: any) {
-    return { data: null, error: err.message || 'Failed to fetch heatmap' };
+  } catch (err: unknown) {
+    return { data: null, error: (err instanceof Error ? err.message : 'Failed to fetch heatmap') };
   }
 }
 
@@ -235,8 +235,8 @@ export async function getWidgetConfig(
     }
 
     return { data: data?.insights_widget_config || [], error: null };
-  } catch (err: any) {
-    return { data: null, error: err.message };
+  } catch (err: unknown) {
+    return { data: null, error: (err instanceof Error ? err.message : String(err)) };
   }
 }
 
@@ -258,8 +258,8 @@ export async function saveWidgetConfig(
     }
 
     return { success: true, error: null };
-  } catch (err: any) {
-    return { success: false, error: err.message };
+  } catch (err: unknown) {
+    return { success: false, error: (err instanceof Error ? err.message : String(err)) };
   }
 }
 
@@ -287,8 +287,8 @@ export async function generateTutorAdvice(
     }
 
     return { data: data as TutorAdvice, error: null };
-  } catch (err: any) {
-    return { data: null, error: err.message || 'Failed to generate advice' };
+  } catch (err: unknown) {
+    return { data: null, error: (err instanceof Error ? err.message : 'Failed to generate advice') };
   }
 }
 

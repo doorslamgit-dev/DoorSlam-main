@@ -36,7 +36,7 @@ export async function rpcAcceptInvite(
     return { ok: false, error: error?.message ?? "Failed to accept invite" };
   }
 
-  return { ok: true, child_id: (data as any).child_id as string };
+  return { ok: true, child_id: (data as Record<string, unknown>).child_id as string };
 }
 
 export async function rpcCreateChildInvite(

@@ -40,7 +40,6 @@ export function AdvancedAnalyticsSection({
 
     if (error) {
       setMessage("Failed to save setting");
-      // eslint-disable-next-line no-console
       console.error("Analytics toggle error:", error);
     } else {
       onAnalyticsChange(enabled);
@@ -80,7 +79,6 @@ export function AdvancedAnalyticsSection({
       .eq("id", childId);
 
     if (error) {
-      // eslint-disable-next-line no-console
       console.error("Failed to save child school info:", error);
       setChildSaveStatus((prev) => ({ ...prev, [childId]: "error" }));
       setTimeout(

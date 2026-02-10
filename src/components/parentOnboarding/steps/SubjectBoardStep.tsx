@@ -76,8 +76,14 @@ function formatIcon(dbIcon: string | null): string {
 ============================ */
 
 export default function SubjectBoardStep(props: Props) {
-  const examTypeIds = Array.isArray(props.examTypeIds) ? props.examTypeIds : [];
-  const selected = Array.isArray(props.value) ? props.value : [];
+  const examTypeIds = useMemo(
+    () => (Array.isArray(props.examTypeIds) ? props.examTypeIds : []),
+    [props.examTypeIds]
+  );
+  const selected = useMemo(
+    () => (Array.isArray(props.value) ? props.value : []),
+    [props.value]
+  );
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -128,14 +134,14 @@ export default function SubjectBoardStep(props: Props) {
 
         const safe = (Array.isArray(rows) ? rows : []).map((r) => ({
           ...r,
-          boards: Array.isArray((r as any).boards) ? (r as any).boards : [],
+          boards: Array.isArray(r.boards) ? r.boards : [],
         }));
 
         setGroups(safe);
         setActiveExamTypeIndex(0);
-      } catch (e: any) {
+      } catch (e: unknown) {
         if (cancelled) return;
-        setError(e?.message ?? "Failed to load subjects");
+        setError((e instanceof Error ? e.message : "Failed to load subjects"));
         setGroups([]);
         setExamTypes([]);
       } finally {
@@ -147,7 +153,7 @@ export default function SubjectBoardStep(props: Props) {
     return () => {
       cancelled = true;
     };
-  }, [examTypeKey]);
+  }, [examTypeKey, examTypeIds]);
 
   const activeExamType = examTypes[activeExamTypeIndex] ?? null;
   const activeExamTypeId = activeExamType?.id ?? null;
@@ -191,9 +197,9 @@ export default function SubjectBoardStep(props: Props) {
     setModalCtx({
       exam_type_id: String(group.exam_type_id),
       subject_name: String(group.subject_name),
-      icon: (group as any).icon ?? null,
-      color: (group as any).color ?? null,
-      boards: Array.isArray((group as any).boards) ? (group as any).boards : [],
+      icon: group.icon ?? null,
+      color: group.color ?? null,
+      boards: Array.isArray(group.boards) ? group.boards : [],
     });
     setModalOpen(true);
   }
@@ -218,9 +224,9 @@ export default function SubjectBoardStep(props: Props) {
       (s) => `${String(s.exam_type_id)}|${String(s.subject_name)}` !== groupKey
     );
 
-    const subject_id = String((chosen as any).subject_id ?? "");
-    const exam_board_id = String((chosen as any).exam_board_id ?? "");
-    const exam_board_name_raw = String((chosen as any).exam_board_name ?? "");
+    const subject_id = String(chosen.subject_id ?? "");
+    const exam_board_id = String(chosen.exam_board_id ?? "");
+    const exam_board_name_raw = String(chosen.exam_board_name ?? "");
 
     if (!subject_id || !exam_board_id || !exam_board_name_raw) {
       closeModal();
@@ -345,12 +351,12 @@ export default function SubjectBoardStep(props: Props) {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[400px] overflow-y-auto pr-1">
             {groupsForActiveExamType.map((g) => {
               const selectedFlag = isGroupSelected(g);
-              const boardsCount = Array.isArray((g as any).boards)
-                ? (g as any).boards.length
+              const boardsCount = Array.isArray(g.boards)
+                ? g.boards.length
                 : 0;
 
-              const icon = formatIcon((g as any).icon);
-              const color = (g as any).color || "#7C3AED";
+              const icon = formatIcon(g.icon);
+              const color = g.color || "#7C3AED";
 
               return (
                 <button
@@ -501,19 +507,19 @@ export default function SubjectBoardStep(props: Props) {
 
                 const boards = rawBoards
                   .map((b) => {
-                    const name = String((b as any).exam_board_name ?? "");
+                    const name = String(b.exam_board_name ?? "");
                     const n = normaliseNotSureLabel(name);
                     return { ...b, _label: n.label, _isNotSure: n.isNotSure };
                   })
-                  .filter((b) => (b as any).exam_board_id);
+                  .filter((b) => b.exam_board_id);
 
-                const normalBoards = boards.filter((b) => !(b as any)._isNotSure);
-                const notSureBoards = boards.filter((b) => (b as any)._isNotSure);
+                const normalBoards = boards.filter((b) => !b._isNotSure);
+                const notSureBoards = boards.filter((b) => b._isNotSure);
                 const notSureOne = notSureBoards.slice(0, 1);
 
                 return (
                   <>
-                    {normalBoards.map((b: any) => (
+                    {normalBoards.map((b) => (
                       <button
                         key={String(b.exam_board_id)}
                         type="button"
@@ -526,7 +532,7 @@ export default function SubjectBoardStep(props: Props) {
                       </button>
                     ))}
 
-                    {notSureOne.map((b: any) => (
+                    {notSureOne.map((b) => (
                       <button
                         key={`not-sure-${String(b.exam_board_id)}`}
                         type="button"

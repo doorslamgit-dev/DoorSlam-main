@@ -222,7 +222,7 @@ export default function AddSubjectModal({
   // Check if any selected subjects require pathways
   const subjectsRequiringPathways = useMemo(() => {
     return [];
-  }, [selectedSubjects]);
+  }, []);
 
   const hasPathwayStep = subjectsRequiringPathways.length > 0;
 
@@ -376,8 +376,8 @@ export default function AddSubjectModal({
 
       onSuccess();
       onClose();
-    } catch (err: any) {
-      setError(err.message || "An unexpected error occurred");
+    } catch (err: unknown) {
+      setError((err instanceof Error ? err.message : "An unexpected error occurred"));
     } finally {
       setBusy(false);
     }

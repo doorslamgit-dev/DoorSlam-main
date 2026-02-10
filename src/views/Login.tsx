@@ -28,7 +28,7 @@ export default function Login() {
       const { error } = await signIn(email, password);
 
       if (error) {
-        setError(error.message ?? "Login failed");
+        setError((error instanceof Error ? error.message : "Login failed"));
         setSubmitting(false);
         return;
       }
@@ -39,8 +39,8 @@ export default function Login() {
       setTimeout(() => {
         router.replace("/");
       }, 0);
-    } catch (e: any) {
-      setError(e?.message ?? "Login failed");
+    } catch (e: unknown) {
+      setError((e instanceof Error ? e.message : "Login failed"));
       setSubmitting(false);
     }
   };

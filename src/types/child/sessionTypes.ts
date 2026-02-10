@@ -27,7 +27,7 @@ export type SessionStep = {
   step_key: StepKey;
   step_index: number;
   status: StepStatus;
-  answer_summary: Record<string, any>;
+  answer_summary: Record<string, unknown>;
   started_at?: string | null;
   completed_at?: string | null;
 };
@@ -47,7 +47,7 @@ export type SessionData = {
   status: SessionStatus;
   current_step_key: StepKey;
   steps: SessionStep[];
-  generated_payload: GeneratedPayload | Record<string, any>;
+  generated_payload: GeneratedPayload;
 };
 
 // =============================================================================
@@ -134,8 +134,8 @@ export type GeneratedPayload = {
   practice: {
     questions: PracticeQuestion[];
   };
-  summary: Record<string, any>;
-  complete: Record<string, any>;
+  summary: Record<string, unknown>;
+  complete: Record<string, unknown>;
   generatedAt: string;
   plannedSessionId: string;
   examSpecVersionId: string;
@@ -162,14 +162,14 @@ export type StepOverview = {
 };
 
 export type StepPayload = GeneratedPayload & {
-  answers: Record<string, any>;
+  answers: Record<string, unknown>;
 };
 
 export type BaseStepProps = {
   overview: StepOverview;
   payload: StepPayload;
   saving: boolean;
-  onPatch: (patch: Record<string, any>) => void;
+  onPatch: (patch: Record<string, unknown>) => void;
   onNext: () => void;
   onBack: () => void;
   onExit: () => void;

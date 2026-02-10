@@ -91,9 +91,9 @@ export function useAccountData(
           avatar_url: childProfileData.avatar_url || null,
         });
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Load error:", err);
-      setError(err.message || "Failed to load account data");
+      setError((err instanceof Error ? err.message : "Failed to load account data"));
     } finally {
       setLoading(false);
     }
@@ -101,6 +101,7 @@ export function useAccountData(
 
   useEffect(() => {
     loadData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- loadData uses current state via closure
   }, [userId, isParent, isChild]);
 
   return {

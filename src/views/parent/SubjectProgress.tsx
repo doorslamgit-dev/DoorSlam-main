@@ -133,14 +133,15 @@ export default function SubjectProgress() {
   }
 
   // Centralised status
-  const rpcStatus = (data.child as any).status_indicator;
+  const childRecord = data.child as unknown as Record<string, unknown>;
+  const rpcStatus = childRecord.status_indicator;
   const childStatus = safeStatusIndicator(rpcStatus) ?? "on_track";
   const ui = getStatusUI(childStatus);
 
   // Prefer RPC-provided label/detail, fall back to central label
   const childStatusLabel =
-    (data.child as any).status_label || ui.badgeText || "On Track";
-  const childStatusDetail = (data.child as any).status_detail || "";
+    (childRecord.status_label as string) || ui.badgeText || "On Track";
+  const childStatusDetail = (childRecord.status_detail as string) || "";
 
   const totalSubjects = data.subjects.length;
   const subjectsNeedingAttention = data.subjects.filter(

@@ -38,8 +38,8 @@ type AuthContextValue = {
   isChild: boolean;
   isUnresolved: boolean;
 
-  signIn: (email: string, password: string) => Promise<{ error: any }>;
-  signUp: (email: string, password: string, fullName?: string) => Promise<{ data: any; error: any }>;
+  signIn: (email: string, password: string) => Promise<{ error: { message: string } | null }>;
+  signUp: (email: string, password: string, fullName?: string) => Promise<{ data: unknown; error: { message: string } | null }>;
   signOut: () => Promise<void>;
 
   refresh: () => Promise<void>;
@@ -288,6 +288,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       mounted = false;
       sub?.subscription?.unsubscribe();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- auth listener setup runs once on mount
   }, []);
 
   async function signIn(email: string, password: string) {
@@ -350,6 +351,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       signOut,
       refresh,
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- auth functions are stable
     [user, session, loading, profile, activeChildId, parentChildCount, isParent, isChild, isUnresolved]
   );
 
