@@ -159,7 +159,7 @@ const LoadingSpinner = forwardRef<HTMLDivElement, LoadingSpinnerProps>(
         <div className="text-center">
           <SpinnerComponent size={size} className="mx-auto" />
           {message && (
-            <p className={`mt-3 text-neutral-600 dark:text-neutral-400 ${sizeStyles[size].text}`}>
+            <p className={`mt-3 text-neutral-600 ${sizeStyles[size].text}`}>
               {message}
             </p>
           )}
@@ -188,7 +188,7 @@ function PageLoading({ message = "Loading..." }: PageLoadingProps) {
     <div className="flex items-center justify-center py-32">
       <div className="text-center">
         <Spinner size="lg" className="mx-auto mb-3" />
-        <p className="text-sm text-neutral-600 dark:text-neutral-400">{message}</p>
+        <p className="text-sm text-neutral-600">{message}</p>
       </div>
     </div>
   );

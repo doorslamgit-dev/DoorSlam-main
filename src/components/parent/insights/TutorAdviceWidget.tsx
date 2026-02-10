@@ -49,7 +49,7 @@ export default function TutorAdviceWidget({
             <h3 className="text-2xl font-bold">Your Tutor Advises</h3>
             {isAIGenerated && (
               <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-primary-500 rounded-full text-xs">
-                <AppIcon name="wand-sparkles" className="w-4 h-4 text-amber-300" />
+                <AppIcon name="wand-sparkles" className="w-4 h-4 text-warning" />
                 AI
               </span>
             )}
@@ -59,7 +59,7 @@ export default function TutorAdviceWidget({
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <div className="bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-5 border border-white border-opacity-20">
+        <div className="bg-neutral-0 bg-opacity-10 backdrop-blur-sm rounded-xl p-5 border border-white border-opacity-20">
           <h4 className="font-semibold text-white mb-3 flex items-center space-x-2">
             <AppIcon name="lightbulb" className="w-4 h-4 text-yellow-300" />
             <span>This Week's Focus</span>
@@ -74,7 +74,7 @@ export default function TutorAdviceWidget({
           </ul>
         </div>
 
-        <div className="bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-5 border border-white border-opacity-20">
+        <div className="bg-neutral-0 bg-opacity-10 backdrop-blur-sm rounded-xl p-5 border border-white border-opacity-20">
           <h4 className="font-semibold text-white mb-3 flex items-center space-x-2">
             <AppIcon name="triangle-alert" className="w-4 h-4 text-accent-amber" />
             <span>Watch Out For</span>
@@ -90,7 +90,7 @@ export default function TutorAdviceWidget({
         </div>
       </div>
 
-      <div className="bg-white rounded-xl p-6">
+      <div className="bg-neutral-0 rounded-xl p-6">
         <h4 className="font-semibold text-neutral-900 mb-4 flex items-center space-x-2">
           <AppIcon name="message-circle" className="w-5 h-5 text-primary-600" />
           <span>Try Saying...</span>

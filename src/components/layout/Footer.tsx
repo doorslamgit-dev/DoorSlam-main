@@ -2,7 +2,7 @@
 // Application footer
 // FEAT-010: AppIcon (lucide-react) + theme-ready classes (no FontAwesome, no hex)
 
-import { Link } from "react-router-dom";
+import Link from 'next/link';
 import AppIcon from "../ui/AppIcon";
 
 export default function Footer() {
@@ -34,24 +34,21 @@ export default function Footer() {
             <h4 className="font-semibold text-white mb-3">Product</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link
-                  to="/how-it-works"
+                <Link href="/how-it-works"
                   className="hover:text-white transition-colors"
                 >
                   How it works
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/pricing"
+                <Link href="/pricing"
                   className="hover:text-white transition-colors"
                 >
                   Pricing
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/features"
+                <Link href="/features"
                   className="hover:text-white transition-colors"
                 >
                   Features
@@ -65,24 +62,21 @@ export default function Footer() {
             <h4 className="font-semibold text-white mb-3">Support</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link
-                  to="/help"
+                <Link href="/help"
                   className="hover:text-white transition-colors"
                 >
                   Help centre
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/contact"
+                <Link href="/contact"
                   className="hover:text-white transition-colors"
                 >
                   Contact us
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/community"
+                <Link href="/community"
                   className="hover:text-white transition-colors"
                 >
                   Community
@@ -96,24 +90,21 @@ export default function Footer() {
             <h4 className="font-semibold text-white mb-3">Company</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link
-                  to="/about"
+                <Link href="/about"
                   className="hover:text-white transition-colors"
                 >
                   About
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/privacy"
+                <Link href="/privacy"
                   className="hover:text-white transition-colors"
                 >
                   Privacy
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/terms"
+                <Link href="/terms"
                   className="hover:text-white transition-colors"
                 >
                   Terms

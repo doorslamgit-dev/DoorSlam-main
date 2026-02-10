@@ -115,7 +115,7 @@ export const MNEMONIC_STYLES: Array<{
     name: "Hip-Hop",
     description: "Catchy rap beats",
     icon: "mic",
-    gradient: "from-purple-500 to-pink-500",
+    gradient: "from-primary-500 to-pink-500",
     styleReference: "street-anthem",
   },
   {
@@ -151,7 +151,7 @@ export function resolveAudioUrl(raw: string | null): string | null {
   if (!raw) return null;
   if (/^https?:\/\//i.test(raw)) return raw;
 
-  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined;
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string | undefined;
   if (!supabaseUrl) return raw;
 
   const AUDIO_BUCKET = "mnemonics";

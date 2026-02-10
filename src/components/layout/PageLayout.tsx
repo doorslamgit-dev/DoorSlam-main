@@ -20,10 +20,10 @@ interface PageLayoutProps {
 export default function PageLayout({
   children,
   hideFooter = false,
-  bgColor = "bg-neutral-50 dark:bg-neutral-900",
+  bgColor = "bg-neutral-50",
 }: PageLayoutProps) {
   return (
-    <div className={`min-h-[calc(100vh-73px)] flex flex-col ${bgColor}`}>
+    <div className={`min-h-screen flex flex-col ${bgColor}`}>
       <div className="flex-1">{children}</div>
       {!hideFooter && <Footer />}
     </div>

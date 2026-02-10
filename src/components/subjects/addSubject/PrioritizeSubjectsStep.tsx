@@ -50,7 +50,7 @@ export default function PrioritizeSubjectsStep({
             className={`flex items-center gap-3 p-4 rounded-xl border ${
               subject.is_new
                 ? "bg-primary-50 border-primary-200"
-                : "bg-white border-neutral-200"
+                : "bg-neutral-0 border-neutral-200"
             }`}
           >
             {/* Priority number */}
@@ -80,7 +80,7 @@ export default function PrioritizeSubjectsStep({
               <div className="text-sm text-neutral-500">
                 {subject.exam_board_name}
                 {subject.grade_gap && subject.grade_gap > 0 && (
-                  <span className="ml-2 text-amber-600">
+                  <span className="ml-2 text-warning">
                     • {subject.grade_gap} grade gap
                   </span>
                 )}

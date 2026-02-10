@@ -72,7 +72,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
         className={`max-w-[75%] rounded-2xl px-4 py-2 shadow-sm ${
           isChild
             ? "bg-accent-green text-white rounded-tr-none"
-            : "bg-white text-neutral-800 rounded-tl-none"
+            : "bg-neutral-0 text-neutral-800 rounded-tl-none"
         }`}
       >
         {/* Voice indicator for child messages */}

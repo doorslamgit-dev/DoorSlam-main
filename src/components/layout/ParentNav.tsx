@@ -2,33 +2,40 @@
 // Parent navigation for main dashboard sections
 // FEAT-010: No icons required; theme-ready classes only
 
-import { NavLink } from "react-router-dom";
+'use client';
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function ParentNav() {
-  const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-    `text-base font-semibold transition-all duration-200 pb-1 ${
-      isActive
+  const pathname = usePathname();
+
+  const linkClass = (href: string, exact = false) => {
+    const active = exact ? pathname === href : pathname.startsWith(href);
+    return `text-base font-semibold transition-all duration-200 pb-1 ${
+      active
         ? "text-primary-600 border-b-2 border-primary-600"
         : "text-neutral-600 hover:text-primary-600 hover:border-b-2 hover:border-primary-300 border-b-2 border-transparent"
     }`;
+  };
 
   return (
     <nav className="hidden md:flex items-center space-x-8">
-      <NavLink to="/parent" end className={navLinkClass}>
+      <Link href="/parent" className={linkClass("/parent", true)}>
         Dashboard
-      </NavLink>
-      <NavLink to="/parent/subjects" className={navLinkClass}>
+      </Link>
+      <Link href="/parent/subjects" className={linkClass("/parent/subjects")}>
         Subjects
-      </NavLink>
-      <NavLink to="/parent/timetable" className={navLinkClass}>
+      </Link>
+      <Link href="/parent/timetable" className={linkClass("/parent/timetable")}>
         Timetable
-      </NavLink>
-      <NavLink to="/parent/rewards" className={navLinkClass}>
+      </Link>
+      <Link href="/parent/rewards" className={linkClass("/parent/rewards")}>
         Rewards
-      </NavLink>
-      <NavLink to="/parent/insights" className={navLinkClass}>
+      </Link>
+      <Link href="/parent/insights" className={linkClass("/parent/insights")}>
         Insights
-      </NavLink>
+      </Link>
     </nav>
   );
 }

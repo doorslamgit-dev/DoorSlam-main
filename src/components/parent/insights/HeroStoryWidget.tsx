@@ -44,9 +44,9 @@ export default function HeroStoryWidget({
         <div className="h-8 bg-primary-100 rounded w-1/3 mb-4" />
         <div className="h-4 bg-primary-100 rounded w-2/3 mb-8" />
         <div className="grid grid-cols-3 gap-4">
-          <div className="h-24 bg-white rounded-xl" />
-          <div className="h-24 bg-white rounded-xl" />
-          <div className="h-24 bg-white rounded-xl" />
+          <div className="h-24 bg-neutral-0 rounded-xl" />
+          <div className="h-24 bg-neutral-0 rounded-xl" />
+          <div className="h-24 bg-neutral-0 rounded-xl" />
         </div>
       </div>
     );
@@ -73,7 +73,7 @@ export default function HeroStoryWidget({
             <select
               value={dateRange}
               onChange={(e) => onDateRangeChange(e.target.value as DateRangeType)}
-              className="appearance-none bg-white border border-neutral-200 rounded-lg px-4 py-2 pr-10 text-sm text-neutral-700 focus:outline-none focus:ring-2 focus:ring-primary-500 cursor-pointer"
+              className="appearance-none bg-neutral-0 border border-neutral-200 rounded-lg px-4 py-2 pr-10 text-sm text-neutral-700 focus:outline-none focus:ring-2 focus:ring-primary-500 cursor-pointer"
             >
               {DATE_RANGE_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -97,7 +97,7 @@ export default function HeroStoryWidget({
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div className="bg-white rounded-xl p-4 border border-neutral-200">
+        <div className="bg-neutral-0 rounded-xl p-4 border border-neutral-200">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm text-neutral-500">Sessions Completed</span>
             <AppIcon
@@ -115,7 +115,7 @@ export default function HeroStoryWidget({
           </div>
         </div>
 
-        <div className="bg-white rounded-xl p-4 border border-neutral-200">
+        <div className="bg-neutral-0 rounded-xl p-4 border border-neutral-200">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm text-neutral-500">Avg Confidence Change</span>
             <AppIcon
@@ -136,7 +136,7 @@ export default function HeroStoryWidget({
           <div className="text-xs text-neutral-500 mt-1">Pre → Post session growth</div>
         </div>
 
-        <div className="bg-white rounded-xl p-4 border border-neutral-200">
+        <div className="bg-neutral-0 rounded-xl p-4 border border-neutral-200">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm text-neutral-500">Focus Mode Usage</span>
             <AppIcon name="bolt" className="w-5 h-5 text-primary-600" />
@@ -151,11 +151,11 @@ export default function HeroStoryWidget({
       </div>
 
       {advice && (
-        <div className="bg-white rounded-xl p-5 border-2 border-primary-300">
+        <div className="bg-neutral-0 rounded-xl p-5 border-2 border-primary-300">
           <div className="flex items-start justify-between">
             <div className="flex-1">
               <div className="flex items-center space-x-2 mb-2">
-                <AppIcon name="lightbulb" className="w-4 h-4 text-amber-500" />
+                <AppIcon name="lightbulb" className="w-4 h-4 text-warning" />
                 <h3 className="font-semibold text-neutral-700">Next Best Action</h3>
               </div>
               <p className="text-sm text-neutral-600 mb-4">
@@ -170,13 +170,13 @@ export default function HeroStoryWidget({
                 </button>
                 <button
                   onClick={() => onActionClick?.("keep-plan")}
-                  className="px-5 py-2.5 bg-white border-2 border-neutral-200 text-neutral-700 rounded-lg hover:bg-neutral-50 transition font-medium text-sm"
+                  className="px-5 py-2.5 bg-neutral-0 border-2 border-neutral-200 text-neutral-700 rounded-lg hover:bg-neutral-50 transition font-medium text-sm"
                 >
                   Keep Plan As-Is
                 </button>
                 <button
                   onClick={() => onActionClick?.("review-topics")}
-                  className="px-5 py-2.5 bg-white border-2 border-neutral-200 text-neutral-700 rounded-lg hover:bg-neutral-50 transition font-medium text-sm"
+                  className="px-5 py-2.5 bg-neutral-0 border-2 border-neutral-200 text-neutral-700 rounded-lg hover:bg-neutral-50 transition font-medium text-sm"
                 >
                   Review Tricky Topics
                 </button>

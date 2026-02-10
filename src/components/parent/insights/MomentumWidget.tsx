@@ -64,7 +64,7 @@ function CircularProgress({
 export default function MomentumWidget({ summary, loading }: MomentumWidgetProps) {
   if (loading) {
     return (
-      <div className="bg-white rounded-2xl shadow-card p-6 border border-neutral-200 animate-pulse">
+      <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200 animate-pulse">
         <div className="h-6 bg-neutral-100 rounded w-1/3 mb-4" />
         <div className="grid grid-cols-2 gap-4">
           <div className="h-40 bg-neutral-100 rounded-full mx-auto" style={{ width: 160 }} />
@@ -98,7 +98,7 @@ export default function MomentumWidget({ summary, loading }: MomentumWidgetProps
   const paceStatus = getPaceStatus();
 
   return (
-    <div className="bg-white rounded-2xl shadow-card p-6 border border-neutral-200">
+    <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200">
       <div className="flex items-center justify-between mb-4">
         <div>
           <h3 className="text-lg font-bold text-primary-900 mb-1">Momentum Tracker</h3>

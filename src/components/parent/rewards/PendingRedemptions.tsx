@@ -59,16 +59,16 @@ export function PendingRedemptions({
 
   if (redemptions.length === 0) {
     return (
-      <div className="bg-white rounded-xl border border-gray-200 p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">
+      <div className="bg-neutral-0 rounded-xl border border-neutral-200 p-6">
+        <h3 className="text-lg font-semibold text-neutral-900 mb-2">
           Pending Approvals
         </h3>
         <div className="text-center py-8">
-          <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-green-100 flex items-center justify-center">
-            <AppIcon name="check" className="w-6 h-6 text-green-600" />
+          <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-success-bg flex items-center justify-center">
+            <AppIcon name="check" className="w-6 h-6 text-success" />
           </div>
-          <p className="text-gray-600">No pending requests</p>
-          <p className="text-sm text-gray-500">
+          <p className="text-neutral-600">No pending requests</p>
+          <p className="text-sm text-neutral-500">
             When your child requests a reward, it will appear here for your approval.
           </p>
         </div>
@@ -77,12 +77,12 @@ export function PendingRedemptions({
   }
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-6">
+    <div className="bg-neutral-0 rounded-xl border border-neutral-200 p-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-gray-900">
+        <h3 className="text-lg font-semibold text-neutral-900">
           Pending Approvals
         </h3>
-        <span className="bg-amber-100 text-amber-800 text-sm font-medium px-3 py-1 rounded-full">
+        <span className="bg-warning-bg text-warning text-sm font-medium px-3 py-1 rounded-full">
           {redemptions.length} waiting
         </span>
       </div>
@@ -91,30 +91,30 @@ export function PendingRedemptions({
         {redemptions.map((redemption) => (
           <div
             key={redemption.id}
-            className="border border-gray-200 rounded-lg p-4"
+            className="border border-neutral-200 rounded-lg p-4"
           >
             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1 flex-wrap">
-                  <span className="font-medium text-gray-900">
+                  <span className="font-medium text-neutral-900">
                     {redemption.child_name}
                   </span>
-                  <span className="text-gray-400">•</span>
-                  <span className="text-sm text-gray-500">
+                  <span className="text-neutral-400">•</span>
+                  <span className="text-sm text-neutral-500">
                     {formatTimeAgo(redemption.requested_at)}
                   </span>
                 </div>
-                <p className="text-lg font-semibold text-gray-900 truncate">
+                <p className="text-lg font-semibold text-neutral-900 truncate">
                   {redemption.reward_name}
                 </p>
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-sm">
-                  <span className="text-purple-600 font-medium">
+                  <span className="text-primary-600 font-medium">
                     {redemption.points_cost} points
                   </span>
-                  <span className="text-gray-500">
+                  <span className="text-neutral-500">
                     Balance: {redemption.child_current_balance} pts
                   </span>
-                  <span className="text-amber-600 flex items-center gap-1">
+                  <span className="text-warning flex items-center gap-1">
                     <AppIcon name="clock" className="w-3.5 h-3.5" />
                     {getExpiresIn(redemption.expires_at)}
                   </span>
@@ -123,7 +123,7 @@ export function PendingRedemptions({
 
               <div className="flex items-center gap-2 w-full sm:w-auto">
                 {isProcessing === redemption.id ? (
-                  <span className="text-gray-500 flex items-center gap-2">
+                  <span className="text-neutral-500 flex items-center gap-2">
                     <AppIcon name="loader" className="w-4 h-4 animate-spin" />
                     Processing...
                   </span>
@@ -131,14 +131,14 @@ export function PendingRedemptions({
                   <>
                     <button
                       onClick={() => onApprove(redemption.id)}
-                      className="flex-1 sm:flex-none px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-medium flex items-center justify-center gap-2"
+                      className="flex-1 sm:flex-none px-4 py-2 bg-success text-white rounded-lg hover:bg-success transition-colors text-sm font-medium flex items-center justify-center gap-2"
                     >
                       <AppIcon name="check" className="w-4 h-4" />
                       Approve
                     </button>
                     <button
                       onClick={() => handleDeclineClick(redemption.id)}
-                      className="flex-1 sm:flex-none px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium"
+                      className="flex-1 sm:flex-none px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 transition-colors text-sm font-medium"
                     >
                       {declineReasonId === redemption.id ? 'Confirm' : 'Decline'}
                     </button>
@@ -155,14 +155,14 @@ export function PendingRedemptions({
                   value={declineReason}
                   onChange={(e) => setDeclineReason(e.target.value)}
                   placeholder="Reason (optional)"
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="flex-1 px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
                 />
                 <button
                   onClick={() => {
                     setDeclineReasonId(null);
                     setDeclineReason('');
                   }}
-                  className="px-3 py-2 text-sm text-gray-500 hover:text-gray-700"
+                  className="px-3 py-2 text-sm text-neutral-500 hover:text-neutral-700"
                 >
                   Cancel
                 </button>

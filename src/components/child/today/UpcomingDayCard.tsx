@@ -21,11 +21,11 @@ export default function UpcomingDayCard({ day }: UpcomingDayCardProps) {
   }, 0);
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-4">
+    <div className="bg-neutral-0 rounded-xl border border-neutral-200 p-4">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="font-semibold text-gray-900">{formatDateShort(day.date)}</h3>
+        <h3 className="font-semibold text-neutral-900">{formatDateShort(day.date)}</h3>
 
-        <span className="text-sm text-gray-500">
+        <span className="text-sm text-neutral-500">
           {sessions.length} session{sessions.length !== 1 ? "s" : ""} •{" "}
           {sessions.length > 0 ? formatDuration(totalMinutes) : "—"}
         </span>
@@ -46,7 +46,7 @@ export default function UpcomingDayCard({ day }: UpcomingDayCardProps) {
           ))}
         </div>
       ) : (
-        <div className="text-sm text-gray-500">No sessions planned.</div>
+        <div className="text-sm text-neutral-500">No sessions planned.</div>
       )}
     </div>
   );

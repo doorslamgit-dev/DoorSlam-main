@@ -12,7 +12,7 @@ interface FocusModeWidgetProps {
 export default function FocusModeWidget({ data, loading }: FocusModeWidgetProps) {
   if (loading) {
     return (
-      <div className="bg-white rounded-2xl shadow-card p-6 border border-neutral-200 animate-pulse">
+      <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200 animate-pulse">
         <div className="h-6 bg-neutral-100 rounded w-1/3 mb-4" />
         <div className="grid grid-cols-2 gap-4">
           <div className="h-32 bg-neutral-100 rounded" />
@@ -30,7 +30,7 @@ export default function FocusModeWidget({ data, loading }: FocusModeWidgetProps)
     (focusOff?.avg_confidence_change_percent || 0);
 
   return (
-    <div className="bg-white rounded-2xl shadow-card p-6 border border-neutral-200">
+    <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200">
       <div className="flex items-center justify-between mb-4">
         <div>
           <h3 className="text-lg font-bold text-primary-900 mb-1">Focus Mode Impact</h3>

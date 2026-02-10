@@ -14,10 +14,6 @@ import {
   calculateSessionsForCoverageLocal,
   checkFeasibility,
   DEFAULT_COVERAGE_TARGETS,
-  type CoverageDistributionResult,
-  type SessionsForCoverageResult,
-  type FeasibilityResult,
-  type CoverageTargets,
 } from "../../../services/parentOnboarding/coverageService";
 import type { SubjectWithGrades } from "./SubjectPriorityGradesStep";
 import type { NeedClusterSelection } from "./NeedsStep";
@@ -121,14 +117,12 @@ function hasAnySlots(template: DayTemplate[]): boolean {
 
 export default function AvailabilityBuilderStep({
   weeklyTemplate,
-  dateOverrides,
   recommendation,
   revisionPeriod,
   subjects,
   goalCode,
   needClusters,
   onTemplateChange,
-  onOverridesChange,
   onNext,
   onBack,
 }: AvailabilityBuilderStepProps) {
@@ -376,7 +370,7 @@ export default function AvailabilityBuilderStep({
             type="button"
             onClick={handleQuickSetup}
             disabled={isGenerating}
-            className="mt-4 ml-9 flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary-600 bg-white border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors disabled:opacity-50"
+            className="mt-4 ml-9 flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary-600 bg-neutral-0 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors disabled:opacity-50"
           >
             {isGenerating ? (
               <>
@@ -428,7 +422,7 @@ export default function AvailabilityBuilderStep({
               <button
                 type="button"
                 onClick={handleCopyToWeekdays}
-                className="px-4 py-2 text-sm font-medium text-neutral-700 bg-white border border-neutral-300 rounded-lg hover:bg-neutral-100 transition-colors inline-flex items-center"
+                className="px-4 py-2 text-sm font-medium text-neutral-700 bg-neutral-0 border border-neutral-300 rounded-lg hover:bg-neutral-100 transition-colors inline-flex items-center"
               >
                 <AppIcon name="briefcase" className="w-4 h-4 mr-2 text-neutral-500" aria-hidden />
                 Weekdays
@@ -437,7 +431,7 @@ export default function AvailabilityBuilderStep({
               <button
                 type="button"
                 onClick={handleCopyToWeekdaysAndSaturday}
-                className="px-4 py-2 text-sm font-medium text-neutral-700 bg-white border border-neutral-300 rounded-lg hover:bg-neutral-100 transition-colors inline-flex items-center"
+                className="px-4 py-2 text-sm font-medium text-neutral-700 bg-neutral-0 border border-neutral-300 rounded-lg hover:bg-neutral-100 transition-colors inline-flex items-center"
               >
                 <AppIcon name="calendar-plus" className="w-4 h-4 mr-2 text-neutral-500" aria-hidden />
                 + Saturday
@@ -445,7 +439,7 @@ export default function AvailabilityBuilderStep({
               <button
                 type="button"
                 onClick={handleCopyToAllDays}
-                className="px-4 py-2 text-sm font-medium text-neutral-700 bg-white border border-neutral-300 rounded-lg hover:bg-neutral-100 transition-colors inline-flex items-center"
+                className="px-4 py-2 text-sm font-medium text-neutral-700 bg-neutral-0 border border-neutral-300 rounded-lg hover:bg-neutral-100 transition-colors inline-flex items-center"
               >
                 <AppIcon name="calendar-week" className="w-4 h-4 mr-2 text-neutral-500" aria-hidden />
                 All days

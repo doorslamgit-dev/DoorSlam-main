@@ -1,9 +1,7 @@
 import { useState } from "react";
-import AppIcon from "../../components/ui/AppIcon";
-import type { IconKey } from "../../components/ui/AppIcon";
-import { supabase } from "../../lib/supabase";
 import { SectionCard } from "./SectionCard";
-import { FormField } from "./FormField";
+import FormField from "../ui/FormField";
+import { updateParentProfile, updateChildProfile } from "../../services/accountService";
 import type { ProfileData, ChildProfileData } from "../../hooks/useAccountData";
 
 interface ProfileSectionProps {
@@ -62,40 +60,35 @@ export function ProfileSection({
     setSaving(true);
     onError("");
 
-    try {
-      if (isParent && localParentData) {
-        const { error: updateError } = await supabase
-          .from("profiles")
-          .update({
-            full_name: localParentData.full_name,
-            phone: localParentData.phone,
-            updated_at: new Date().toISOString(),
-          })
-          .eq("id", userId);
+    if (isParent && localParentData) {
+      const { success, error } = await updateParentProfile(userId, {
+        full_name: localParentData.full_name,
+        phone: localParentData.phone,
+      });
 
-        if (updateError) throw updateError;
-        onUpdate(localParentData);
-      } else if (isChild && localChildData && childId) {
-        const { error: updateError } = await supabase
-          .from("children")
-          .update({
-            preferred_name: localChildData.preferred_name,
-            updated_at: new Date().toISOString(),
-          })
-          .eq("id", childId);
-
-        if (updateError) throw updateError;
-        onUpdate(localChildData);
+      if (!success) {
+        onError(error || "Failed to save profile");
+        setSaving(false);
+        return;
       }
+      onUpdate(localParentData);
+    } else if (isChild && localChildData && childId) {
+      const { success, error } = await updateChildProfile(childId, {
+        preferred_name: localChildData.preferred_name,
+      });
 
-      setEditing(false);
-      setParentBackup(null);
-      setChildBackup(null);
-    } catch (err: any) {
-      onError(err.message || "Failed to save profile");
-    } finally {
-      setSaving(false);
+      if (!success) {
+        onError(error || "Failed to save profile");
+        setSaving(false);
+        return;
+      }
+      onUpdate(localChildData);
     }
+
+    setEditing(false);
+    setParentBackup(null);
+    setChildBackup(null);
+    setSaving(false);
   };
 
   return (
@@ -113,19 +106,19 @@ export function ProfileSection({
           <FormField
             label="Full name"
             value={localParentData.full_name}
-            onChange={(v) => setLocalParentData({ ...localParentData, full_name: v })}
+            onChange={(e) => setLocalParentData({ ...localParentData, full_name: e.target.value })}
             disabled={!editing}
           />
           <FormField
             label="Email"
             value={localParentData.email}
             disabled={true}
-            hint="Contact support to change your email"
+            helperText="Contact support to change your email"
           />
           <FormField
             label="Phone (optional)"
             value={localParentData.phone || ""}
-            onChange={(v) => setLocalParentData({ ...localParentData, phone: v || null })}
+            onChange={(e) => setLocalParentData({ ...localParentData, phone: e.target.value || null })}
             disabled={!editing}
             placeholder="+44 7700 900000"
           />
@@ -137,7 +130,7 @@ export function ProfileSection({
           <FormField
             label="Display name"
             value={localChildData.preferred_name || localChildData.first_name}
-            onChange={(v) => setLocalChildData({ ...localChildData, preferred_name: v })}
+            onChange={(e) => setLocalChildData({ ...localChildData, preferred_name: e.target.value })}
             disabled={!editing}
           />
           {localChildData.email && (

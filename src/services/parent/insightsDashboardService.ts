@@ -8,14 +8,12 @@ import type {
   InsightsSummary,
   WeeklyProgress,
   FocusModeComparison,
-  SubjectBalance,
   SubjectBalanceData,
   ConfidenceTrend,
   ConfidenceHeatmap,
   WidgetConfig,
   TutorAdvice,
 } from '../../types/parent/insightsDashboardTypes';
-import { COLORS } from '../../constants/colors';
 import {
   isAllInsightsData,
   isInsightsSummary,
@@ -40,7 +38,6 @@ export async function fetchAllInsights(
     });
 
     if (error) {
-      console.error('Error fetching insights:', error);
       return { data: null, error: error.message };
     }
 
@@ -50,7 +47,6 @@ export async function fetchAllInsights(
 
     return { data, error: null };
   } catch (err: any) {
-    console.error('Exception fetching insights:', err);
     return { data: null, error: err.message || 'Failed to fetch insights' };
   }
 }
@@ -283,7 +279,6 @@ export async function generateTutorAdvice(
     });
 
     if (error) {
-      console.error('Error generating tutor advice:', error);
       return { data: null, error: error.message };
     }
 
@@ -293,7 +288,6 @@ export async function generateTutorAdvice(
 
     return { data: data as TutorAdvice, error: null };
   } catch (err: any) {
-    console.error('Exception generating tutor advice:', err);
     return { data: null, error: err.message || 'Failed to generate advice' };
   }
 }
@@ -400,6 +394,51 @@ export function generateFallbackAdvice(
 }
 
 /**
+ * Fetch parent's children for the child selector
+ */
+export async function fetchParentChildren(
+  parentId: string
+): Promise<{ data: { id: string; first_name: string; preferred_name: string | null }[] | null; error: string | null }> {
+  const { data, error } = await supabase
+    .from('children')
+    .select('id, first_name, preferred_name')
+    .eq('parent_id', parentId)
+    .order('first_name');
+
+  return { data: data || null, error: error?.message || null };
+}
+
+/**
+ * Fetch parent's analytics sharing preference
+ */
+export async function fetchAnalyticsPreference(
+  userId: string
+): Promise<{ data: boolean; error: string | null }> {
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('share_anonymised_data')
+    .eq('id', userId)
+    .single();
+
+  return { data: data?.share_anonymised_data || false, error: error?.message || null };
+}
+
+/**
+ * Update parent's analytics sharing preference
+ */
+export async function updateAnalyticsPreference(
+  userId: string,
+  enabled: boolean
+): Promise<{ success: boolean; error: string | null }> {
+  const { error } = await supabase
+    .from('profiles')
+    .update({ share_anonymised_data: enabled })
+    .eq('id', userId);
+
+  return { success: !error, error: error?.message || null };
+}
+
+/**
  * Helper: Get date range label
  */
 export function getDateRangeLabel(range: DateRangeType): string {
@@ -410,24 +449,4 @@ export function getDateRangeLabel(range: DateRangeType): string {
     case 'last_month': return 'Last Month';
     case 'lifetime': return 'All Time';
   }
-}
-
-/**
- * Helper: Get confidence label from numeric value
- */
-export function getConfidenceLabel(value: number): string {
-  if (value <= 25) return 'need_help';
-  if (value <= 50) return 'bit_unsure';
-  if (value <= 75) return 'fairly_confident';
-  return 'very_confident';
-}
-
-/**
- * Helper: Get confidence color
- */
-export function getConfidenceColor(value: number): string {
-  if (value <= 25) return COLORS.accent.red; // red
-  if (value <= 50) return COLORS.accent.amber; // amber
-  if (value <= 75) return COLORS.neutral[400]; // neutral
-  return COLORS.accent.green; // green
 }

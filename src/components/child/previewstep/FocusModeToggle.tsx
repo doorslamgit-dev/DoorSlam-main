@@ -62,7 +62,7 @@ export function FocusModeToggle({ isActive, onToggle, disabled }: FocusModeToggl
         }`}
       >
         <span
-          className={`absolute top-1 w-6 h-6 bg-white rounded-full shadow transition-transform ${
+          className={`absolute top-1 w-6 h-6 bg-neutral-0 rounded-full shadow transition-transform ${
             isActive ? "translate-x-7" : "translate-x-1"
           }`}
         />

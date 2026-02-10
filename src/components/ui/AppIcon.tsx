@@ -435,7 +435,7 @@ export default function AppIcon({
     icon ?? (name && hasIcon(name) ? ICON_MAP[name] : undefined);
 
   if (!Icon) {
-    if (import.meta?.env?.DEV) {
+    if (process.env.NODE_ENV === 'development') {
       // eslint-disable-next-line no-console
       console.warn("[AppIcon] Missing icon for:", { name });
     }

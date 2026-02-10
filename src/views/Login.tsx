@@ -1,0 +1,107 @@
+'use client';
+
+// src/views/Login.tsx
+
+import { useState, type FormEvent } from "react";
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import Alert from "../components/ui/Alert";
+import Button from "../components/ui/Button";
+import FormField from "../components/ui/FormField";
+import { useAuth } from "../contexts/AuthContext";
+
+export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string>("");
+  const [submitting, setSubmitting] = useState(false);
+
+  const { signIn } = useAuth();
+  const router = useRouter();
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError("");
+    setSubmitting(true);
+
+    try {
+      const { error } = await signIn(email, password);
+
+      if (error) {
+        setError(error.message ?? "Login failed");
+        setSubmitting(false);
+        return;
+      }
+
+      // signIn now sets user/session state directly
+      // Navigate to home gate which will route based on role
+      // Use setTimeout to ensure React has processed the state update
+      setTimeout(() => {
+        router.replace("/");
+      }, 0);
+    } catch (e: any) {
+      setError(e?.message ?? "Login failed");
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="min-h-[calc(100vh-73px)] bg-gradient-to-br from-primary-400 via-primary-600 to-primary-700 flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        
+        <div className="bg-neutral-0 rounded-2xl shadow-2xl p-8">
+          <h2 className="text-2xl font-bold text-neutral-900 mb-6">Welcome back</h2>
+
+          {error && (
+            <Alert variant="error" className="mb-6" hideIcon>
+              {error}
+            </Alert>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <FormField
+              label="Email address"
+              id="email"
+              type="email"
+              required
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              disabled={submitting}
+            />
+
+            <FormField
+              label="Password"
+              id="password"
+              type="password"
+              required
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your password"
+              disabled={submitting}
+            />
+
+            <Button type="submit" size="lg" fullWidth loading={submitting}>
+              {submitting ? "Signing in…" : "Sign in"}
+            </Button>
+          </form>
+
+          <p className="mt-6 text-center text-sm text-neutral-600">
+            Don&apos;t have an account?{" "}
+            <Link href="/signup"
+              className="text-primary-600 font-semibold hover:text-primary-700"
+            >
+              Sign up
+            </Link>
+          </p>
+        </div>
+
+        <p className="text-center text-primary-100 text-sm mt-6">
+          Parent-led, child-used revision planning
+        </p>
+      </div>
+    </div>
+  );
+}

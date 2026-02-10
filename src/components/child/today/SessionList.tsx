@@ -20,7 +20,7 @@ export default function SessionList({
   const totalCount = sessions.length;
 
   return (
-    <div className="bg-white rounded-2xl shadow-card p-6">
+    <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold text-primary-900">Today's Sessions</h2>
         <div className="bg-primary-100 px-3 py-1 rounded-full">

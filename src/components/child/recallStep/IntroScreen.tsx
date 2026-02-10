@@ -22,7 +22,7 @@ export function IntroScreen({
   const heroIcon: IconKey = "lightbulb";
 
   return (
-    <div className="bg-white rounded-2xl shadow-card p-8 text-center">
+    <div className="bg-neutral-0 rounded-2xl shadow-card p-8 text-center">
       <div className="w-20 h-20 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-6">
         <AppIcon name={heroIcon} />
       </div>

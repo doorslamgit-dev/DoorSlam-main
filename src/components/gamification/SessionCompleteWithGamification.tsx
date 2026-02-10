@@ -61,7 +61,7 @@ export default function SessionCompleteWithGamification({
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 via-white to-indigo-50 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-green-50 via-white to-primary-50 relative overflow-hidden">
       {/* Confetti animation */}
       {showConfetti && <ConfettiEffect />}
 
@@ -73,11 +73,11 @@ export default function SessionCompleteWithGamification({
             <AppIcon name="check" className="w-12 h-12 text-white" aria-hidden />
           </div>
 
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Well Done! 🎉</h1>
-          <p className="text-xl text-gray-600">
+          <h1 className="text-4xl font-bold text-neutral-900 mb-2">Well Done! 🎉</h1>
+          <p className="text-xl text-neutral-600">
             You completed your {subjectName} session
           </p>
-          <p className="text-gray-500 mt-1">
+          <p className="text-neutral-500 mt-1">
             {topicCount > 1 ? `${topicCount} topics covered` : topicName}
           </p>
         </div>
@@ -87,16 +87,16 @@ export default function SessionCompleteWithGamification({
           <div className="space-y-4 mb-8">
             {/* Points earned card */}
             {points && (
-              <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+              <div className="bg-neutral-0 rounded-2xl border border-neutral-200 p-6 shadow-sm">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-sm text-gray-500 mb-1">Points earned</div>
+                    <div className="text-sm text-neutral-500 mb-1">Points earned</div>
                     <div className="flex items-baseline gap-2">
-                      <span className="text-3xl font-bold text-amber-600">
+                      <span className="text-3xl font-bold text-warning">
                         +{points.points_awarded}
                       </span>
                       {points.focus_bonus > 0 && (
-                        <span className="text-sm text-purple-600 font-medium">
+                        <span className="text-sm text-primary-600 font-medium">
                           (includes +{points.focus_bonus} focus bonus!)
                         </span>
                       )}
@@ -106,9 +106,9 @@ export default function SessionCompleteWithGamification({
                 </div>
 
                 {/* New balance */}
-                <div className="mt-4 pt-4 border-t border-gray-100">
+                <div className="mt-4 pt-4 border-t border-neutral-100">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-500">Total points</span>
+                    <span className="text-neutral-500">Total points</span>
                     <PointsDisplay
                       balance={points.new_balance}
                       lifetime={points.lifetime_points}
@@ -121,7 +121,7 @@ export default function SessionCompleteWithGamification({
 
             {/* Streak card */}
             {streak && streak.current_streak > 0 && (
-              <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+              <div className="bg-neutral-0 rounded-2xl border border-neutral-200 p-6 shadow-sm">
                 <StreakCelebration
                   streak={streak.current_streak}
                   isNewRecord={isNewStreakRecord}
@@ -131,7 +131,7 @@ export default function SessionCompleteWithGamification({
 
             {/* Achievement preview (if any unlocked) */}
             {hasNewAchievements && (
-              <div className="bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl p-6 text-white shadow-lg">
+              <div className="bg-gradient-to-r from-primary-500 to-primary-500 rounded-2xl p-6 text-white shadow-lg">
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="text-white/80 text-sm mb-1">
@@ -167,7 +167,7 @@ export default function SessionCompleteWithGamification({
         </button>
 
         {/* Motivational message */}
-        <p className="text-center text-gray-500 mt-6 text-sm">
+        <p className="text-center text-neutral-500 mt-6 text-sm">
           Every session counts. You're building great habits! 💪
         </p>
       </div>
@@ -190,10 +190,10 @@ function ConfettiEffect() {
     "bg-amber-400",
     "bg-rose-400",
     "bg-teal-400",
-    "bg-purple-500",
-    "bg-blue-500",
+    "bg-primary-500",
+    "bg-info",
     "bg-emerald-500",
-    "bg-amber-500",
+    "bg-warning",
   ] as const;
 
   return (

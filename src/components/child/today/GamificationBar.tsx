@@ -22,10 +22,10 @@ export default function GamificationBar({ gamification }: GamificationBarProps) 
       {streak.current > 0 && <StreakBadge streak={streak.current} />}
 
       {/* Level */}
-      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-purple-100 rounded-full">
-        <AppIcon name="star" className="w-4 h-4 text-purple-500" aria-hidden />
-        <span className="text-sm font-semibold text-purple-700">Lv.{level.level}</span>
-        <span className="text-xs text-purple-600">{level.title}</span>
+      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-primary-100 rounded-full">
+        <AppIcon name="star" className="w-4 h-4 text-primary-500" aria-hidden />
+        <span className="text-sm font-semibold text-primary-700">Lv.{level.level}</span>
+        <span className="text-xs text-primary-600">{level.title}</span>
       </div>
     </div>
   );
@@ -38,7 +38,7 @@ export function GamificationInline({ gamification }: GamificationBarProps) {
   return (
     <div className="flex items-center gap-2">
       {/* Points - minimal */}
-      <div className="flex items-center gap-1 text-amber-600">
+      <div className="flex items-center gap-1 text-warning">
         <AppIcon name="sparkles" className="w-4 h-4" aria-hidden />
         <span className="text-sm font-medium">{points.balance}</span>
       </div>

@@ -206,7 +206,7 @@ export default function WeeklyScheduleEditor({
               <button
                 type="button"
                 onClick={handleCopyToWeekdays}
-                className="px-4 py-2 text-sm font-medium text-neutral-700 bg-white border border-neutral-300 rounded-lg hover:bg-neutral-100 transition-colors"
+                className="px-4 py-2 text-sm font-medium text-neutral-700 bg-neutral-0 border border-neutral-300 rounded-lg hover:bg-neutral-100 transition-colors"
               >
                 <AppIcon name="briefcase" className="w-4 h-4 inline-block mr-2 text-neutral-500" aria-hidden />
                 Weekdays
@@ -216,7 +216,7 @@ export default function WeeklyScheduleEditor({
               <button
                 type="button"
                 onClick={handleCopyToWeekdaysAndSaturday}
-                className="px-4 py-2 text-sm font-medium text-neutral-700 bg-white border border-neutral-300 rounded-lg hover:bg-neutral-100 transition-colors"
+                className="px-4 py-2 text-sm font-medium text-neutral-700 bg-neutral-0 border border-neutral-300 rounded-lg hover:bg-neutral-100 transition-colors"
               >
                 <AppIcon name="calendar-plus" className="w-4 h-4 inline-block mr-2 text-neutral-500" aria-hidden />
                 + Saturday
@@ -225,7 +225,7 @@ export default function WeeklyScheduleEditor({
               <button
                 type="button"
                 onClick={handleCopyToAllDays}
-                className="px-4 py-2 text-sm font-medium text-neutral-700 bg-white border border-neutral-300 rounded-lg hover:bg-neutral-100 transition-colors"
+                className="px-4 py-2 text-sm font-medium text-neutral-700 bg-neutral-0 border border-neutral-300 rounded-lg hover:bg-neutral-100 transition-colors"
               >
                 <AppIcon name="calendar-week" className="w-4 h-4 inline-block mr-2 text-neutral-500" aria-hidden />
                 All days

@@ -1,9 +1,11 @@
+'use client';
+
 // src/components/parent/dashboard/QuickActionsSection.tsx
 // Quick action buttons for Parent Dashboard v2 (FEAT-009)
 // FEAT-010: AppIcon name-based keys (theme-ready)
 
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from 'next/navigation';
 import AppIcon from "../../ui/AppIcon";
 import type { IconKey } from "../../ui/AppIcon";
 
@@ -42,10 +44,10 @@ const actions: QuickAction[] = [
 ];
 
 export function QuickActionsSection() {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleNavigate = (path: string) => {
-    navigate(path);
+    router.push(path);
     window.scrollTo({ top: 0, behavior: "instant" });
   };
 

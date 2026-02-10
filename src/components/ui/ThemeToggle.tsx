@@ -29,12 +29,12 @@ export default function ThemeToggle({ variant = 'switch', className = '' }: Them
     return (
       <button
         onClick={toggleTheme}
-        className={`p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors ${className}`}
+        className={`p-2 rounded-lg hover:bg-neutral-100 transition-colors ${className}`}
         aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
         title={`Switch to ${isDark ? 'light' : 'dark'} mode`}
       >
         {isDark ? (
-          <AppIcon name="sun" className="w-5 h-5 text-amber-400" />
+          <AppIcon name="sun" className="w-5 h-5 text-warning" />
         ) : (
           <AppIcon name="moon" className="w-5 h-5 text-neutral-600" />
         )}
@@ -47,7 +47,7 @@ export default function ThemeToggle({ variant = 'switch', className = '' }: Them
     return (
       <button
         onClick={toggleTheme}
-        className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 border-neutral-200 dark:border-neutral-700 hover:border-primary-300 dark:hover:border-primary-600 hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-all ${className}`}
+        className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 border-neutral-200 hover:border-primary-300 dark:hover:border-primary-600 hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-all ${className}`}
         aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
       >
         <div className="w-10 h-10 rounded-lg bg-primary-100 dark:bg-primary-900 flex items-center justify-center">
@@ -58,10 +58,10 @@ export default function ThemeToggle({ variant = 'switch', className = '' }: Them
           )}
         </div>
         <div className="flex-1 text-left">
-          <div className="font-semibold text-neutral-700 dark:text-neutral-200">
+          <div className="font-semibold text-neutral-700">
             {isDark ? 'Dark Mode' : 'Light Mode'}
           </div>
-          <div className="text-sm text-neutral-500 dark:text-neutral-400">
+          <div className="text-sm text-neutral-500">
             {isDark ? 'Switch to light theme' : 'Switch to dark theme'}
           </div>
         </div>
@@ -79,9 +79,9 @@ export default function ThemeToggle({ variant = 'switch', className = '' }: Them
       aria-checked={isDark}
       aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
     >
-      <div className="relative w-14 h-8 bg-neutral-200 dark:bg-neutral-700 rounded-full transition-colors">
+      <div className="relative w-14 h-8 bg-neutral-200 rounded-full transition-colors">
         <div
-          className={`absolute top-1 left-1 w-6 h-6 bg-white dark:bg-neutral-200 rounded-full shadow-md transition-transform duration-200 flex items-center justify-center ${
+          className={`absolute top-1 left-1 w-6 h-6 bg-neutral-0 rounded-full shadow-md transition-transform duration-200 flex items-center justify-center ${
             isDark ? 'translate-x-6' : 'translate-x-0'
           }`}
         >
@@ -92,7 +92,7 @@ export default function ThemeToggle({ variant = 'switch', className = '' }: Them
           )}
         </div>
       </div>
-      <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
+      <span className="text-sm font-medium text-neutral-700">
         {isDark ? 'Dark' : 'Light'} Mode
       </span>
     </button>

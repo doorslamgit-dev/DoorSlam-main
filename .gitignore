@@ -9,10 +9,13 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+.next
+tsconfig.tsbuildinfo
 *.local
 
 .vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json
 .idea
 .DS_Store
 *.suo

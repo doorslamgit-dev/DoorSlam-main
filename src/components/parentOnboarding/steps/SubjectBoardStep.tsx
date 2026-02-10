@@ -275,7 +275,7 @@ export default function SubjectBoardStep(props: Props) {
           </div>
 
           {activeExamType && (
-            <div className="rounded-xl border border-neutral-200 bg-white px-4 py-2 text-sm flex-shrink-0">
+            <div className="rounded-xl border border-neutral-200 bg-neutral-0 px-4 py-2 text-sm flex-shrink-0">
               <div className="text-xs text-neutral-500">Selecting for</div>
               <div className="font-semibold text-neutral-900">{activeExamType.name}</div>
             </div>
@@ -306,7 +306,7 @@ export default function SubjectBoardStep(props: Props) {
                 className={`px-6 py-3 rounded-xl border-2 font-medium transition-all ${
                   idx === activeExamTypeIndex
                     ? "border-primary-600 bg-primary-50 text-primary-600"
-                    : "border-neutral-200 bg-white text-neutral-700 hover:border-neutral-300"
+                    : "border-neutral-200 bg-neutral-0 text-neutral-700 hover:border-neutral-300"
                 }`}
               >
                 {et.name}
@@ -360,7 +360,7 @@ export default function SubjectBoardStep(props: Props) {
                   className={`border-2 rounded-xl p-4 text-left transition-all hover:shadow-soft ${
                     selectedFlag
                       ? "border-primary-600 bg-primary-50"
-                      : "border-neutral-200 bg-white hover:border-primary-300"
+                      : "border-neutral-200 bg-neutral-0 hover:border-primary-300"
                   }`}
                 >
                   <div className="flex items-start justify-between gap-3">
@@ -392,7 +392,7 @@ export default function SubjectBoardStep(props: Props) {
                       className={`flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${
                         selectedFlag
                           ? "bg-primary-600 border-primary-600"
-                          : "border-neutral-300 bg-white"
+                          : "border-neutral-300 bg-neutral-0"
                       }`}
                     >
                       {selectedFlag && (
@@ -473,7 +473,7 @@ export default function SubjectBoardStep(props: Props) {
       {/* Board selection modal */}
       {modalOpen && modalCtx && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-neutral-900/40 p-4">
-          <div className="w-full max-w-md rounded-2xl bg-white shadow-card overflow-hidden">
+          <div className="w-full max-w-md rounded-2xl bg-neutral-0 shadow-card overflow-hidden">
             <div className="flex items-start justify-between gap-4 p-6 border-b border-neutral-200">
               <div>
                 <div className="text-sm text-neutral-500">Choose exam board</div>
@@ -518,7 +518,7 @@ export default function SubjectBoardStep(props: Props) {
                         key={String(b.exam_board_id)}
                         type="button"
                         onClick={() => setSelectionForGroup(modalCtx, b)}
-                        className="w-full rounded-xl border-2 border-neutral-200 bg-white px-4 py-3 text-left hover:border-primary-300 hover:bg-primary-50 transition-all"
+                        className="w-full rounded-xl border-2 border-neutral-200 bg-neutral-0 px-4 py-3 text-left hover:border-primary-300 hover:bg-primary-50 transition-all"
                       >
                         <div className="font-medium text-neutral-900">
                           {String(b._label)}

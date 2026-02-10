@@ -99,11 +99,11 @@ export function AdvancedAnalyticsSection({
   const getChildName = (child: Child) => child.preferred_name || child.first_name;
 
   return (
-    <div className="bg-white rounded-2xl shadow-card overflow-hidden">
+    <div className="bg-neutral-0 rounded-2xl shadow-card overflow-hidden">
       {/* Header */}
       <div className="px-6 py-4 border-b border-neutral-100">
         <div className="flex items-center gap-3">
-          <AppIcon name="chart-line" className="w-5 h-5 text-indigo-500" />
+          <AppIcon name="chart-line" className="w-5 h-5 text-primary-500" />
           <h2 className="text-lg font-semibold text-neutral-700">Advanced Analytics</h2>
         </div>
       </div>
@@ -132,12 +132,12 @@ export function AdvancedAnalyticsSection({
             onClick={() => handleToggle(!shareAnalytics)}
             disabled={saving}
             className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0 ${
-              shareAnalytics ? "bg-indigo-600" : "bg-neutral-200"
+              shareAnalytics ? "bg-primary-600" : "bg-neutral-200"
             } ${saving ? "opacity-50" : ""}`}
             aria-label="Toggle anonymised analytics sharing"
           >
             <span
-              className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+              className={`inline-block h-4 w-4 transform rounded-full bg-neutral-0 transition-transform ${
                 shareAnalytics ? "translate-x-6" : "translate-x-1"
               }`}
             />
@@ -148,7 +148,7 @@ export function AdvancedAnalyticsSection({
         {message && (
           <p
             className={`text-sm mt-3 ${
-              message.includes("Failed") ? "text-red-600" : "text-green-600"
+              message.includes("Failed") ? "text-danger" : "text-success"
             }`}
           >
             {message}
@@ -177,13 +177,13 @@ export function AdvancedAnalyticsSection({
                     </span>
                   )}
                   {childSaveStatus[child.id] === "saved" && (
-                    <span className="flex items-center gap-1.5 text-xs text-green-600">
+                    <span className="flex items-center gap-1.5 text-xs text-success">
                       <AppIcon name="check" className="w-4 h-4" />
                       Saved
                     </span>
                   )}
                   {childSaveStatus[child.id] === "error" && (
-                    <span className="flex items-center gap-1.5 text-xs text-red-600">
+                    <span className="flex items-center gap-1.5 text-xs text-danger">
                       <AppIcon name="triangle-alert" className="w-4 h-4" />
                       Failed to save
                     </span>
@@ -207,7 +207,7 @@ export function AdvancedAnalyticsSection({
                       }
                       onBlur={() => handleChildBlur(child.id)}
                       placeholder="e.g., St Mary's Academy"
-                      className="w-full px-3 py-2 text-sm border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 text-sm border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     />
                   </div>
 
@@ -227,7 +227,7 @@ export function AdvancedAnalyticsSection({
                       }
                       onBlur={() => handleChildBlur(child.id)}
                       placeholder="e.g., Manchester"
-                      className="w-full px-3 py-2 text-sm border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 text-sm border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     />
                   </div>
 
@@ -249,7 +249,7 @@ export function AdvancedAnalyticsSection({
                       onBlur={() => handleChildBlur(child.id)}
                       placeholder="e.g., M1, SW1"
                       maxLength={4}
-                      className="w-full px-3 py-2 text-sm border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 text-sm border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     />
                   </div>
                 </div>

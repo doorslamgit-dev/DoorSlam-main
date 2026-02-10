@@ -254,27 +254,27 @@ export function getStatusColors(status: FeasibilityStatus): {
   switch (status) {
     case "sufficient":
       return {
-        bg: "bg-green-50",
-        border: "border-green-200",
-        text: "text-green-800",
+        bg: "bg-success-bg",
+        border: "border-success-border",
+        text: "text-success",
         icon: "fa-circle-check",
-        iconClass: "text-green-600",
+        iconClass: "text-success",
       };
     case "marginal":
       return {
-        bg: "bg-amber-50",
-        border: "border-amber-200",
-        text: "text-amber-800",
+        bg: "bg-warning-bg",
+        border: "border-warning-border",
+        text: "text-warning",
         icon: "fa-triangle-exclamation",
-        iconClass: "text-amber-600",
+        iconClass: "text-warning",
       };
     case "insufficient":
       return {
-        bg: "bg-red-50",
-        border: "border-red-200",
-        text: "text-red-800",
+        bg: "bg-danger-bg",
+        border: "border-danger-border",
+        text: "text-danger",
         icon: "fa-circle-xmark",
-        iconClass: "text-red-600",
+        iconClass: "text-danger",
       };
   }
 }

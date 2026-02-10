@@ -14,13 +14,13 @@ interface ImpactAssessmentStepProps {
 const getRecommendationColor = (rec: string) => {
   switch (rec) {
     case "on_track":
-      return "text-green-700 bg-green-50 border-green-200";
+      return "text-success bg-success-bg border-success-border";
     case "tight_but_ok":
-      return "text-blue-700 bg-blue-50 border-blue-200";
+      return "text-info bg-info-bg border-info-border";
     case "add_sessions":
-      return "text-amber-700 bg-amber-50 border-amber-200";
+      return "text-warning bg-warning-bg border-warning-border";
     case "prioritize":
-      return "text-red-700 bg-red-50 border-red-200";
+      return "text-danger bg-danger-bg border-danger-border";
     default:
       return "text-neutral-700 bg-neutral-50 border-neutral-200";
   }

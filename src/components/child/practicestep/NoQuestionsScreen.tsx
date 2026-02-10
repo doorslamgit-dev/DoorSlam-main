@@ -13,7 +13,7 @@ const ICONS: { empty: IconKey } = {
 
 export function NoQuestionsScreen({ onNext }: NoQuestionsScreenProps) {
   return (
-    <div className="bg-white rounded-2xl shadow-card p-8 text-center">
+    <div className="bg-neutral-0 rounded-2xl shadow-card p-8 text-center">
       <div className="w-16 h-16 bg-neutral-100 rounded-full flex items-center justify-center mx-auto mb-4">
         <AppIcon name={ICONS.empty} className="text-neutral-400 text-2xl" />
       </div>

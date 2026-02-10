@@ -27,7 +27,7 @@ function getDisplayValue(value: number | null): string {
 export default function ConfidenceHeatmapWidget({ data, loading }: ConfidenceHeatmapWidgetProps) {
   if (loading) {
     return (
-      <div className="bg-white rounded-2xl shadow-card p-6 border border-neutral-200 animate-pulse">
+      <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200 animate-pulse">
         <div className="h-6 bg-neutral-100 rounded w-1/3 mb-4" />
         <div className="space-y-2">
           {[1, 2, 3].map((i) => (
@@ -45,7 +45,7 @@ export default function ConfidenceHeatmapWidget({ data, loading }: ConfidenceHea
     topics.length > 0 ? Math.max(5, ...topics.map((t) => t.sessions.length)) : 5;
 
   return (
-    <div className="bg-white rounded-2xl shadow-card p-6 border border-neutral-200">
+    <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div>

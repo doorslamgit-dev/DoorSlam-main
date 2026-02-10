@@ -16,14 +16,14 @@ export function AgreedRewardsCard({ rewards, onUpdatePoints }: AgreedRewardsCard
   }
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6">
+    <div className="bg-neutral-0 rounded-xl border border-neutral-200 p-4 sm:p-6">
       <div className="flex items-center gap-3 mb-4">
-        <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-green-100">
-          <AppIcon name="check-circle" className="w-5 h-5 text-green-600" />
+        <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-success-bg">
+          <AppIcon name="check-circle" className="w-5 h-5 text-success" />
         </div>
         <div>
-          <h2 className="font-semibold text-gray-900">Active Rewards</h2>
-          <p className="text-sm text-gray-500">
+          <h2 className="font-semibold text-neutral-900">Active Rewards</h2>
+          <p className="text-sm text-neutral-500">
             {rewards.length} reward{rewards.length !== 1 ? 's' : ''} your child can work towards
           </p>
         </div>
