@@ -6,14 +6,14 @@ import { supabase } from "../../lib/supabase";
    Shared helpers
 ========================= */
 
-function normaliseSupabaseError(error: any): Error {
+function normaliseSupabaseError(error: { message?: string; details?: string; hint?: string }): Error {
   const msg = error?.message ?? "RPC failed";
   const details = error?.details ? ` | ${error.details}` : "";
   const hint = error?.hint ? ` | ${error.hint}` : "";
   return new Error(`${msg}${details}${hint}`);
 }
 
-function asString(value: any, fallback = ""): string {
+function asString(value: unknown, fallback = ""): string {
   if (value === null || value === undefined) return fallback;
   return String(value);
 }
@@ -82,7 +82,7 @@ export type ParentCreateChildAndPlanPayload = {
   date_overrides?: DateOverridePayload[];
 
   // Legacy: settings object (for backward compatibility)
-  settings?: any;
+  settings?: Record<string, unknown>;
 };
 
 // Legacy payload type (for backward compatibility)
@@ -99,7 +99,7 @@ export type LegacyParentCreateChildAndPlanPayload = {
   exam_timeline?: string | null;
   subject_ids: string[];
   need_clusters: Array<{ cluster_code: string }>;
-  settings: any;
+  settings: Record<string, unknown>;
 };
 
 /* =========================
@@ -119,7 +119,7 @@ export async function rpcListExamTypes(): Promise<ExamTypeRow[]> {
   if (error) throw normaliseSupabaseError(error);
 
   const rows = Array.isArray(data) ? data : [];
-  return rows.map((r: any) => ({
+  return rows.map((r: Record<string, unknown>) => ({
     id: asString(r.id),
     code: asString(r.code),
     name: asString(r.name),
@@ -145,7 +145,7 @@ export async function rpcListGoals(): Promise<GoalRow[]> {
   if (error) throw normaliseSupabaseError(error);
 
   const rows = Array.isArray(data) ? data : [];
-  return rows.map((r: any) => ({
+  return rows.map((r: Record<string, unknown>) => ({
     id: asString(r.id),
     code: asString(r.code),
     name: asString(r.name),
@@ -171,11 +171,11 @@ export async function rpcListNeedClusters(): Promise<NeedClusterRow[]> {
   if (error) throw normaliseSupabaseError(error);
 
   const rows = Array.isArray(data) ? data : [];
-  return rows.map((r: any) => ({
+  return rows.map((r: Record<string, unknown>) => ({
     code: asString(r.code),
     name: asString(r.name),
     typical_behaviours: Array.isArray(r.typical_behaviours)
-      ? r.typical_behaviours.filter(Boolean).map((x: any) => String(x))
+      ? (r.typical_behaviours as unknown[]).filter(Boolean).map((x) => String(x))
       : [],
     sort_order: Number(r.sort_order ?? 0),
   }));
@@ -190,7 +190,7 @@ export async function rpcListNeedClusters(): Promise<NeedClusterRow[]> {
 
 export async function rpcParentCreateChildAndPlan(
   payload: ParentCreateChildAndPlanPayload | LegacyParentCreateChildAndPlanPayload
-): Promise<any> {
+): Promise<unknown> {
   const { data, error } = await supabase.rpc("rpc_parent_create_child_and_plan", {
     p_payload: payload,
   });
@@ -239,7 +239,7 @@ export async function rpcListSubjectGroupsForExamTypes(examTypeIds: string[]): P
 
   const rows = Array.isArray(data) ? data : [];
 
-  return rows.map((r: any) => {
+  return rows.map((r: Record<string, unknown>) => {
     const boardsRaw = Array.isArray(r.boards) ? r.boards : [];
 
     // De-dupe boards by exam_board_id (protects UI from duplicated subject rows / bad seeds)

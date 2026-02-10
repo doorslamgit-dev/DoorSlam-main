@@ -2,6 +2,7 @@
 // FEAT-008: Confidence Trend - Pre vs Post over sessions
 // FEAT-010: Icon standardisation (AppIcon + Lucide) + theme-ready chart colours
 
+import React from "react";
 import {
   LineChart,
   Line,
@@ -39,9 +40,9 @@ export default function ConfidenceTrendWidget({ data, loading }: ConfidenceTrend
     topic: session.topic_name,
   }));
 
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: Array<{ value?: number; payload?: Record<string, unknown> }>; label?: string }) => {
     if (active && payload && payload.length) {
-      const topic = payload[0]?.payload?.topic;
+      const topic = payload[0]?.payload?.topic as string | undefined;
       return (
         <div className="bg-neutral-0 p-3 border border-neutral-200 rounded-lg shadow-sm">
           <p className="text-xs font-medium text-neutral-700 mb-1">{topic || label}</p>
@@ -86,9 +87,9 @@ export default function ConfidenceTrendWidget({ data, loading }: ConfidenceTrend
             <div
               style={{
                 // Theme-ready color variables pointing to our design system
-                ["--chart-pre" as any]: COLORS.primary[300],
-                ["--chart-post" as any]: COLORS.primary[600],
-              }}
+                "--chart-pre": COLORS.primary[300],
+                "--chart-post": COLORS.primary[600],
+              } as React.CSSProperties}
               className="w-full h-full"
             >
               <LineChart data={chartData}>

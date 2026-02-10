@@ -11,7 +11,7 @@ import {
 
 interface UsePracticeStepProps {
   allQuestions: PracticeQuestion[];
-  onPatch: (patch: Record<string, any>) => void;
+  onPatch: (patch: Record<string, unknown>) => void;
   onNext: () => void;
 }
 

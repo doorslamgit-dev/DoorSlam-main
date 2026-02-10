@@ -42,15 +42,15 @@ export default function SignUp() {
       );
 
       if (result?.error) {
-        setError(result.error.message ?? "Sign up failed");
+        setError(result.error.message || "Sign up failed");
         setSubmitting(false);
         return;
       }
 
       // signUp now updates auth state immediately, so we can navigate directly
       router.replace("/parent/onboarding");
-    } catch (e: any) {
-      setError(e?.message ?? "Sign up failed");
+    } catch (e: unknown) {
+      setError((e instanceof Error ? e.message : "Sign up failed"));
       setSubmitting(false);
     }
   };

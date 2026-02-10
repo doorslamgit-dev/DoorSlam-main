@@ -118,7 +118,6 @@ export function AudioRecorder({
         });
       }, 1000);
     } catch (error) {
-      // eslint-disable-next-line no-console
       console.error("[AudioRecorder] Failed to start recording:", error);
       alert("Could not access microphone. Please check your permissions.");
     }

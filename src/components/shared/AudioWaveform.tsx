@@ -55,7 +55,7 @@ function drawRoundedRect(
   const radius = Math.max(0, Math.min(r, w / 2, h / 2));
 
   // Prefer native roundRect when available
-  const anyCtx = ctx as unknown as { roundRect?: (...args: any[]) => void };
+  const anyCtx = ctx as unknown as { roundRect?: (...args: unknown[]) => void };
   if (typeof anyCtx.roundRect === "function") {
     ctx.beginPath();
     anyCtx.roundRect(x, y, w, h, radius);

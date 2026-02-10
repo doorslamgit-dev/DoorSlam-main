@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- **Eliminate all 192 ESLint warnings** — zero-warning codebase
+  - Removed 5 unused `eslint-disable` directives
+  - Replaced 13 `<img>` elements with Next.js `<Image>` / `next/image`
+  - Fixed 14 `react-hooks/exhaustive-deps` missing dependency warnings
+  - Replaced 160 `@typescript-eslint/no-explicit-any` usages with proper types
+  - Fixed pre-existing `AvatarUpload.tsx` build error (Next.js `Image` import shadowing native `Image` constructor)
+  - 69 files changed across components, hooks, services, types, and views
+
 ### Added
 - **Parent Dashboard v3 — Child-Specific View** (PR #11 → develop)
   - Replaced family-aggregate dashboard with child-specific single-child view

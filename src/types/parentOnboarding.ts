@@ -88,7 +88,7 @@ export interface OnboardingPayload {
   revision_period: RevisionPeriodData;
   weekly_availability: Record<string, { enabled: boolean; slots: AvailabilitySlot[] }>;
   date_overrides?: DateOverride[];
-  settings?: Record<string, any>; // Legacy compatibility
+  settings?: Record<string, unknown>; // Legacy compatibility
 }
 
 // ============================================================================

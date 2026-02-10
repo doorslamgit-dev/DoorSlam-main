@@ -20,7 +20,7 @@ export async function updateFlashcardProgress(
 export function buildRecallSummary(
   totalCards: number,
   ratings: Map<string, CardRating>
-): Record<string, any> {
+): Record<string, unknown> {
   const knownCount = Array.from(ratings.values()).filter((r) => r === "known").length;
   const learningCount = Array.from(ratings.values()).filter((r) => r === "learning").length;
   

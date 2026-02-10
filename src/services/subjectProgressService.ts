@@ -27,9 +27,9 @@ export async function fetchChildrenForParent(
     }));
 
     return { data: children, error: null };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("[subjectProgress] fetchChildrenForParent exception:", err);
-    return { data: null, error: err.message || "Failed to fetch children" };
+    return { data: null, error: (err instanceof Error ? err.message : "Failed to fetch children") };
   }
 }
 
@@ -66,8 +66,8 @@ export async function fetchSubjectProgress(
     };
 
     return { data: result, error: null };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("[subjectProgress] fetchSubjectProgress exception:", err);
-    return { data: null, error: err.message || "Failed to fetch subject progress" };
+    return { data: null, error: (err instanceof Error ? err.message : "Failed to fetch subject progress") };
   }
 }

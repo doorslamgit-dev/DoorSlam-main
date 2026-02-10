@@ -187,14 +187,15 @@ export default function SessionRun() {
   //
   // Fix: Add answers as a separate property, preserving all original content
   const stepPayload: StepPayload = {
-    ...(sessionData.generated_payload as any),
+    ...sessionData.generated_payload,
     answers: currentStepData?.answer_summary ?? {},
-  } as StepPayload;
+  };
 
   // ===========================================================================
   // Render Step
   // ===========================================================================
 
+  /* eslint-disable @typescript-eslint/no-explicit-any -- step components share common props with minor type differences; shared spread is intentional */
   function renderStep() {
     if (!sessionData) return null;
 
@@ -202,7 +203,7 @@ export default function SessionRun() {
       overview: stepOverview,
       payload: stepPayload,
       saving,
-      onPatch: (patch: Record<string, any>) => handlePatchStep(currentStepKey, patch),
+      onPatch: (patch: Record<string, unknown>) => handlePatchStep(currentStepKey, patch),
       onNext: handleNextStep,
       onBack: handleBack,
       onExit: handleExit,
@@ -268,6 +269,7 @@ export default function SessionRun() {
         );
     }
   }
+  /* eslint-enable @typescript-eslint/no-explicit-any */
 
   // ===========================================================================
   // Main Render

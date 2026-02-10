@@ -3,6 +3,7 @@
 // Updated: FEAT-010 - AppIcon (lucide-react) + theme-ready classes (no FontAwesome, no hard-coded hex)
 
 import React from "react";
+import Image from "next/image";
 import AppIcon from "../../ui/AppIcon";
 import type { IconKey } from "../../ui/AppIcon";
 import type {
@@ -126,7 +127,7 @@ export function ChildHealthCard({
     window.scrollTo({ top: 0, behavior: "instant" });
   };
 
-  const insightIcon = insightIconKey((child as any).insight_icon);
+  const insightIcon = insightIconKey((child as unknown as Record<string, unknown>).insight_icon as string | undefined);
 
   const statusForUI =
     child.status_indicator === "keep_an_eye"
@@ -143,9 +144,11 @@ export function ChildHealthCard({
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-4">
           {child.avatar_url ? (
-            <img
+            <Image
               src={child.avatar_url}
               alt={child.child_name}
+              width={56}
+              height={56}
               className="w-14 h-14 rounded-full object-cover border-2 border-neutral-100"
             />
           ) : (

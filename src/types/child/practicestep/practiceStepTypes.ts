@@ -1,5 +1,7 @@
 // src/types/child/practicestep/practiceStepTypes.ts
 
+import type { StepPayload } from '../sessionTypes';
+
 export type MarkSchemeItem = {
   code: string;
   criterion: string;
@@ -63,9 +65,9 @@ export type PracticePayload = {
 
 export type PracticeStepProps = {
   overview: PracticeStepOverview;
-  payload: Record<string, any>;
+  payload: StepPayload;
   saving: boolean;
-  onPatch: (patch: Record<string, any>) => void;
+  onPatch: (patch: Record<string, unknown>) => void;
   onNext: () => void;
   onBack: () => void;
   onExit: () => void;

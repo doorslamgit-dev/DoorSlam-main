@@ -54,13 +54,14 @@ export default function ChildSignUp() {
           setError("Invalid or expired invitation code");
           setInvitation(null);
         } else {
+          const previewData = preview as Record<string, unknown>;
           setInvitation({
-            parent_name: (preview as any).parent_name || "Your parent",
-            child_name: (preview as any).child_first_name || "Student",
+            parent_name: (previewData.parent_name as string) || "Your parent",
+            child_name: (previewData.child_first_name as string) || "Student",
           });
         }
-      } catch (e: any) {
-        setError(e?.message || "Failed to load invitation");
+      } catch (e: unknown) {
+        setError(e instanceof Error ? e.message : "Failed to load invitation");
         setInvitation(null);
       } finally {
         if (mounted) setLoading(false);
@@ -119,8 +120,8 @@ export default function ChildSignUp() {
 
       // 4) Go to child area
       router.replace("/child/today");
-    } catch (err: any) {
-      setError(err?.message || "Failed to create account");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Failed to create account");
       setSubmitting(false);
     }
   }

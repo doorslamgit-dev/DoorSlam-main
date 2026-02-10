@@ -32,7 +32,7 @@ export type PathwaySelection = {
    Helpers
 ========================= */
 
-function normaliseSupabaseError(error: any): Error {
+function normaliseSupabaseError(error: { message?: string; details?: string; hint?: string }): Error {
   const msg = error?.message ?? "RPC failed";
   const details = error?.details ? ` | ${error.details}` : "";
   const hint = error?.hint ? ` | ${error.hint}` : "";
@@ -59,12 +59,12 @@ export async function rpcGetSubjectPathways(subjectIds: string[]): Promise<Subje
   // The RPC returns a jsonb array
   const rows = Array.isArray(data) ? data : [];
 
-  return rows.map((r: any) => ({
+  return rows.map((r: Record<string, unknown>) => ({
     subject_id: String(r.subject_id ?? ""),
     subject_name: String(r.subject_name ?? ""),
     requires_pathway_selection: Boolean(r.requires_pathway_selection),
     pathways: Array.isArray(r.pathways)
-      ? r.pathways.map((p: any) => ({
+      ? (r.pathways as Record<string, unknown>[]).map((p) => ({
           id: String(p.id ?? ""),
           pathway_code: String(p.pathway_code ?? ""),
           pathway_name: String(p.pathway_name ?? ""),
@@ -192,9 +192,9 @@ export async function rpcSaveChildPathways(
     return { success: false, error: normaliseSupabaseError(error).message };
   }
 
-  const result = data as any;
+  const result = data as Record<string, unknown> | null;
   return {
     success: Boolean(result?.success),
-    error: result?.error ?? undefined,
+    error: (result?.error as string | undefined) ?? undefined,
   };
 }

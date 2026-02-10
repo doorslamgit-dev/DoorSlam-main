@@ -91,6 +91,7 @@ export function RewardManagement() {
     }
 
     loadChildren();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- load children once when user changes
   }, [user]);
 
   // Handlers that wrap hook actions and refresh data
