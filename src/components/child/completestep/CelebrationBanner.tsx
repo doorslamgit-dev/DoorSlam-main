@@ -17,7 +17,7 @@ export function CelebrationBanner({
   const trophyIcon: IconKey = "trophy";
 
   return (
-    <div className="bg-gradient-to-br from-purple-50 via-primary-50 to-indigo-50 rounded-2xl shadow-card p-8 text-center border border-primary-200">
+    <div className="bg-gradient-to-br from-primary-50 via-primary-50 to-primary-50 rounded-2xl shadow-card p-8 text-center border border-primary-200">
       <div className="text-6xl mb-4">🎉</div>
 
       <h2 className="text-3xl font-bold text-neutral-900 mb-2">
@@ -31,7 +31,7 @@ export function CelebrationBanner({
       {/* Stats Row */}
       <div className="flex items-center justify-center gap-4">
         {/* XP Earned */}
-        <div className="bg-white rounded-xl p-4 shadow-sm min-w-[100px]">
+        <div className="bg-neutral-0 rounded-xl p-4 shadow-sm min-w-[100px]">
           <div className="text-2xl font-bold text-primary-600">
             +{gamification.xpEarned}
           </div>
@@ -39,7 +39,7 @@ export function CelebrationBanner({
         </div>
 
         {/* Streak */}
-        <div className="bg-white rounded-xl p-4 shadow-sm min-w-[100px]">
+        <div className="bg-neutral-0 rounded-xl p-4 shadow-sm min-w-[100px]">
           <div className="flex items-center justify-center gap-1">
             <AppIcon
               name={fireIcon}
@@ -55,7 +55,7 @@ export function CelebrationBanner({
 
         {/* Badge (if earned) */}
         {gamification.newBadge && (
-          <div className="bg-white rounded-xl p-4 shadow-sm min-w-[100px]">
+          <div className="bg-neutral-0 rounded-xl p-4 shadow-sm min-w-[100px]">
             <AppIcon
               name={trophyIcon}
               className="text-accent-amber text-2xl mx-auto"

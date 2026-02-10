@@ -559,7 +559,7 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center flex-shrink-0">
               <AppIcon name={ICON_ROBOT} />
             </div>
-            <div className="bg-white rounded-2xl rounded-tl-none px-4 py-2 shadow-sm flex items-center gap-2">
+            <div className="bg-neutral-0 rounded-2xl rounded-tl-none px-4 py-2 shadow-sm flex items-center gap-2">
               <span className="animate-spin">
                 <AppIcon name={ICON_SPINNER} />
               </span>
@@ -574,7 +574,7 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center flex-shrink-0">
               <AppIcon name={ICON_ROBOT} />
             </div>
-            <div className="bg-white rounded-2xl rounded-tl-none px-4 py-2 shadow-sm flex items-center gap-2">
+            <div className="bg-neutral-0 rounded-2xl rounded-tl-none px-4 py-2 shadow-sm flex items-center gap-2">
               <span className="animate-spin">
                 <AppIcon name={ICON_SPINNER} />
               </span>
@@ -611,7 +611,7 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
       )}
 
       {/* Input area */}
-      <div className="p-3 border-t border-neutral-200 bg-white">
+      <div className="p-3 border-t border-neutral-200 bg-neutral-0">
         {messagesRemaining > 0 ? (
           <>
             {/* Recording state */}

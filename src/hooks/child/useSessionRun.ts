@@ -182,8 +182,6 @@ export function useSessionRun({ plannedSessionId }: UseSessionRunOptions): UseSe
       const timestamp = Date.now();
       const fileName = `${user.id}/${revisionSessionId}_${timestamp}.webm`;
 
-      console.log("[useSessionRun] Uploading audio:", fileName, blob.size, "bytes");
-
       const { data, error: uploadError } = await supabase.storage
         .from("voice-notes")
         .upload(fileName, blob, {
@@ -200,7 +198,6 @@ export function useSessionRun({ plannedSessionId }: UseSessionRunOptions): UseSe
         .from("voice-notes")
         .getPublicUrl(data.path);
 
-      console.log("[useSessionRun] Audio uploaded successfully:", urlData.publicUrl);
       return urlData.publicUrl;
     },
     [sessionData, revisionSessionId]

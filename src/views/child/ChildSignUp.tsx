@@ -1,10 +1,13 @@
 'use client';
 
-// src/pages/child/ChildSignUp.tsx
+// src/views/child/ChildSignUp.tsx
 
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from 'next/navigation';
+import Alert from "../../components/ui/Alert";
 import AppIcon from "../../components/ui/AppIcon";
+import Button from "../../components/ui/Button";
+import FormField from "../../components/ui/FormField";
 import { rpcGetInvitePreview, rpcAcceptInvite, signUpChild } from "../../services/invitationService";
 import { useAuth } from "../../contexts/AuthContext";
 
@@ -124,10 +127,10 @@ export default function ChildSignUp() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-neutral-bg flex items-center justify-center">
+      <div className="min-h-screen bg-background-secondary flex items-center justify-center">
         <div className="text-center">
-          <AppIcon name="loader" className="w-10 h-10 text-calm-purple animate-spin mb-4 mx-auto" />
-          <p className="text-gray-600">Loading invitation...</p>
+          <AppIcon name="loader" className="w-10 h-10 text-primary-600 animate-spin mb-4 mx-auto" />
+          <p className="text-neutral-600">Loading invitation...</p>
         </div>
       </div>
     );
@@ -135,21 +138,18 @@ export default function ChildSignUp() {
 
   if (error && !invitation) {
     return (
-      <div className="min-h-screen bg-neutral-bg flex items-center justify-center p-6">
-        <div className="bg-white rounded-2xl shadow-lg p-8 max-w-md w-full text-center">
-          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-8 h-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <div className="min-h-screen bg-background-secondary flex items-center justify-center p-6">
+        <div className="bg-neutral-0 rounded-2xl shadow-lg p-8 max-w-md w-full text-center">
+          <div className="w-16 h-16 bg-danger-bg rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8 text-danger" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </div>
-          <h2 className="text-2xl font-semibold text-gray-800 mb-2">Invalid Invitation</h2>
-          <p className="text-gray-600 mb-6">{error}</p>
-          <button
-            onClick={() => router.replace("/")}
-            className="bg-calm-purple hover:bg-calm-purple-dark text-white font-medium py-3 px-6 rounded-xl transition"
-          >
+          <h2 className="text-2xl font-semibold text-neutral-800 mb-2">Invalid Invitation</h2>
+          <p className="text-neutral-600 mb-6">{error}</p>
+          <Button size="lg" onClick={() => router.replace("/")}>
             Go to Home
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -158,101 +158,75 @@ export default function ChildSignUp() {
   if (!invitation) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-calm-purple to-calm-purple-dark flex items-center justify-center p-6">
-      <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full">
+    <div className="min-h-screen bg-gradient-to-br from-primary-600 to-primary-700 flex items-center justify-center p-6">
+      <div className="bg-neutral-0 rounded-2xl shadow-2xl p-8 max-w-md w-full">
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-calm-purple rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-4">
             <AppIcon name="book-open" className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">Welcome to Doorslam</h1>
-          <p className="text-gray-600">{invitation.parent_name} has invited you to start your revision journey</p>
+          <h1 className="text-3xl font-bold text-neutral-800 mb-2">Welcome to Doorslam</h1>
+          <p className="text-neutral-600">{invitation.parent_name} has invited you to start your revision journey</p>
         </div>
 
-        <div className="bg-soft-green bg-opacity-10 border border-soft-green rounded-xl p-4 mb-6">
+        <div className="bg-success bg-opacity-10 border border-success rounded-xl p-4 mb-6">
           <div className="flex items-start space-x-3">
-            <AppIcon name="check-circle" className="w-6 h-6 text-soft-green mt-0.5" />
+            <AppIcon name="check-circle" className="w-6 h-6 text-success mt-0.5" />
             <div>
-              <p className="text-sm font-medium text-gray-800 mb-1">Account for: {invitation.child_name}</p>
-              <p className="text-sm text-gray-600">Use your email address to create a login</p>
+              <p className="text-sm font-medium text-neutral-800 mb-1">Account for: {invitation.child_name}</p>
+              <p className="text-sm text-neutral-600">Use your email address to create a login</p>
             </div>
           </div>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-              Email address
-            </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-calm-purple focus:border-transparent transition"
-              placeholder="you@example.com"
-              required
-              autoComplete="email"
-            />
-          </div>
+          <FormField
+            label="Email address"
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@example.com"
+            required
+            autoComplete="email"
+          />
 
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-              Create password
-            </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-calm-purple focus:border-transparent transition"
-              placeholder="At least 6 characters"
-              required
-              minLength={6}
-              autoComplete="new-password"
-            />
-          </div>
+          <FormField
+            label="Create password"
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="At least 6 characters"
+            required
+            minLength={6}
+            autoComplete="new-password"
+          />
 
-          <div>
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
-              Confirm password
-            </label>
-            <input
-              type="password"
-              id="confirmPassword"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-calm-purple focus:border-transparent transition"
-              placeholder="Re-enter your password"
-              required
-              minLength={6}
-              autoComplete="new-password"
-            />
-          </div>
+          <FormField
+            label="Confirm password"
+            type="password"
+            id="confirmPassword"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            placeholder="Re-enter your password"
+            required
+            minLength={6}
+            autoComplete="new-password"
+          />
 
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm">
+            <Alert variant="error" hideIcon>
               {error}
-            </div>
+            </Alert>
           )}
 
-          <button
-            type="submit"
-            disabled={submitting}
-            className="w-full bg-calm-purple hover:bg-calm-purple-dark text-white font-medium py-3 px-6 rounded-xl transition duration-200 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
-          >
-            {submitting ? (
-              <>
-                <AppIcon name="loader" className="w-4 h-4 animate-spin mr-2" />
-                <span>Creating account...</span>
-              </>
-            ) : (
-              "Create account and start"
-            )}
-          </button>
+          <Button type="submit" size="lg" fullWidth loading={submitting}>
+            {submitting ? "Creating account..." : "Create account and start"}
+          </Button>
         </form>
 
         <div className="mt-6 text-center">
-          <p className="text-xs text-gray-500">By creating an account, you agree to our Terms of Service and Privacy Policy</p>
+          <p className="text-xs text-neutral-500">By creating an account, you agree to our Terms of Service and Privacy Policy</p>
         </div>
       </div>
     </div>

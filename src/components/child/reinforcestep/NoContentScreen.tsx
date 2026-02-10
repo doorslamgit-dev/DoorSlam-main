@@ -17,7 +17,7 @@ export function NoContentScreen({ onNext }: NoContentScreenProps) {
   const icons = getNoContentIconKeys();
 
   return (
-    <div className="bg-white rounded-2xl shadow-card p-8 text-center">
+    <div className="bg-neutral-0 rounded-2xl shadow-card p-8 text-center">
       <div className="w-16 h-16 bg-neutral-100 rounded-full flex items-center justify-center mx-auto mb-4">
         <span className="text-neutral-500 text-2xl" aria-hidden="true">
           <AppIcon name={icons.bookOpen} />

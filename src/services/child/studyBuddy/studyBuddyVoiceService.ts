@@ -178,7 +178,6 @@ class StudyBuddyVoiceService {
       const cacheKey = this.hashText(text + voice);
       const cachedAudio = audioCache.get(cacheKey);
       if (cachedAudio) {
-        console.log("[VoiceService] Returning cached audio");
         return {
           success: true,
           audio_url: cachedAudio,

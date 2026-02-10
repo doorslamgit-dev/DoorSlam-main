@@ -25,7 +25,7 @@ export default function TodayTipCard() {
   const tip = TIPS[tipIndex];
 
   return (
-    <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-card p-6">
+    <div className="bg-neutral-0 dark:bg-neutral-800 rounded-2xl shadow-card p-6">
       <div className="flex items-start space-x-4">
         <div className="w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center flex-shrink-0">
           <AppIcon name="lightbulb" className="text-primary-600 dark:text-primary-400 w-6 h-6" />

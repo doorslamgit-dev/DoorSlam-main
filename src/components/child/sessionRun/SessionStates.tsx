@@ -28,7 +28,7 @@ type ErrorStateProps = {
 export function ErrorState({ message, onRetry }: ErrorStateProps) {
   return (
     <div className="min-h-screen bg-neutral-100 flex items-center justify-center">
-      <div className="bg-white rounded-2xl shadow-card p-8 max-w-md text-center">
+      <div className="bg-neutral-0 rounded-2xl shadow-card p-8 max-w-md text-center">
         <div className="text-accent-red text-4xl mb-4" aria-hidden="true">
           <AppIcon name={ICON_WARNING} />
         </div>

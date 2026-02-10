@@ -10,21 +10,21 @@ export default function SuggestionsCard({ suggestions }: SuggestionsCardProps) {
   // If no suggestions, show "pace is comfortable" message
   if (suggestions.length === 0) {
     return (
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <div className="bg-neutral-0 rounded-xl shadow-sm border border-neutral-200 p-6">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-semibold text-gray-900">
+          <h3 className="text-lg font-semibold text-neutral-900">
             Suggested Adjustments
           </h3>
-          <span className="text-xs text-gray-500">
+          <span className="text-xs text-neutral-500">
             Optional recommendations
           </span>
         </div>
 
-        <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
+        <div className="p-4 bg-primary-50 rounded-lg border border-primary-200">
           <div className="flex items-start gap-3">
-            <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
+            <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0">
               <svg
-                className="w-4 h-4 text-brand-purple"
+                className="w-4 h-4 text-primary-600"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -39,10 +39,10 @@ export default function SuggestionsCard({ suggestions }: SuggestionsCardProps) {
             </div>
 
             <div>
-              <p className="text-sm font-medium text-purple-900 mb-1">
+              <p className="text-sm font-medium text-primary-900 mb-1">
                 Pace is comfortable
               </p>
-              <p className="text-xs text-purple-700">
+              <p className="text-xs text-primary-700">
                 Current schedule allows for good coverage without rushing. No
                 changes needed.
               </p>
@@ -54,24 +54,24 @@ export default function SuggestionsCard({ suggestions }: SuggestionsCardProps) {
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+    <div className="bg-neutral-0 rounded-xl shadow-sm border border-neutral-200 p-6">
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-semibold text-gray-900">
+        <h3 className="text-lg font-semibold text-neutral-900">
           Suggested Adjustments
         </h3>
-        <span className="text-xs text-gray-500">Optional recommendations</span>
+        <span className="text-xs text-neutral-500">Optional recommendations</span>
       </div>
 
       <div className="space-y-4">
         {suggestions.map((suggestion, index) => (
           <div
             key={`${suggestion.type}-${index}`}
-            className="p-4 bg-blue-50 rounded-lg border border-blue-200"
+            className="p-4 bg-info-bg rounded-lg border border-info-border"
           >
             <div className="flex items-start gap-3">
-              <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+              <div className="w-8 h-8 rounded-full bg-info-bg flex items-center justify-center flex-shrink-0">
                 <svg
-                  className="w-4 h-4 text-blue-500"
+                  className="w-4 h-4 text-info"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -86,16 +86,16 @@ export default function SuggestionsCard({ suggestions }: SuggestionsCardProps) {
               </div>
 
               <div className="flex-1">
-                <p className="text-sm font-medium text-blue-900 mb-1">
+                <p className="text-sm font-medium text-info mb-1">
                   {suggestion.title}
                 </p>
-                <p className="text-xs text-blue-700 mb-3">
+                <p className="text-xs text-info mb-3">
                   {suggestion.message}
                 </p>
 
                 <button
                   type="button"
-                  className="text-xs font-medium text-blue-800 hover:text-blue-900 bg-white px-3 py-1.5 rounded border border-blue-200"
+                  className="text-xs font-medium text-info hover:text-info bg-neutral-0 px-3 py-1.5 rounded border border-info-border"
                 >
                   {suggestion.action_label}
                 </button>

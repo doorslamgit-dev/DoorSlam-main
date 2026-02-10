@@ -7,7 +7,7 @@ export interface TopicHeaderProps {
   subjectName: string;
   topicName: string;
   subjectIcon: IconKey | string;
-  /** CSS class like "bg-blue-600" or inline color like "#5B2CFF" */
+  /** CSS class like "bg-info" or inline color like "#5B2CFF" */
   subjectColor?: string;
   /** @deprecated Use subjectColor instead */
   subjectColorClass?: string;
@@ -29,7 +29,7 @@ export function TopicHeader({
   const isInlineColor = colorValue?.startsWith("#") || colorValue?.startsWith("rgb");
 
   return (
-    <div className="bg-white rounded-2xl shadow-card p-6">
+    <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
       <div className="flex items-center space-x-4">
         <div
           className={`w-16 h-16 rounded-xl flex items-center justify-center ${isInlineColor ? "" : colorValue || "bg-primary-500"}`}

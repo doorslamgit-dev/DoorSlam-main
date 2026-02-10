@@ -84,21 +84,21 @@ export default function FocusAreasCard({
   if (focusAreas.length === 0) return null;
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+    <div className="bg-neutral-0 rounded-xl shadow-sm border border-neutral-200 p-6">
       <div className="flex items-start gap-4 mb-5">
-        <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
+        <div className="w-12 h-12 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0">
           <AppIcon
             name="shield"
-            className="w-6 h-6 text-brand-purple"
+            className="w-6 h-6 text-primary-600"
             aria-hidden={true}
           />
         </div>
 
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">
+          <h3 className="text-lg font-semibold text-neutral-900 mb-2">
             Current Focus Areas
           </h3>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-neutral-600">
             {childName} is currently working through these key topics across
             their subjects.
           </p>
@@ -111,7 +111,7 @@ export default function FocusAreasCard({
           return (
             <div
               key={area.subject_id}
-              className="flex items-start gap-3 p-3 border border-gray-200 rounded-lg"
+              className="flex items-start gap-3 p-3 border border-neutral-200 rounded-lg"
             >
               <div
                 className="w-8 h-8 rounded flex items-center justify-center flex-shrink-0"
@@ -126,10 +126,10 @@ export default function FocusAreasCard({
               </div>
 
               <div>
-                <p className="text-sm font-medium text-gray-900">
+                <p className="text-sm font-medium text-neutral-900">
                   {area.subject_name}
                 </p>
-                <p className="text-xs text-gray-600 mt-1">
+                <p className="text-xs text-neutral-600 mt-1">
                   {area.focus_topics || "Topics scheduled"}
                 </p>
               </div>

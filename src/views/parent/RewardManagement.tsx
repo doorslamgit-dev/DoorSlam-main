@@ -1,11 +1,12 @@
-// src/pages/parent/RewardManagement.tsx
+// src/views/parent/RewardManagement.tsx
 // FEAT-013: Reward Management - Orchestrator Page
 // Composes components from src/components/parent/rewards/
 // Uses hooks from src/hooks/parent/rewards/
 
 import { useState, useEffect } from 'react';
 import AppIcon from '../../components/ui/AppIcon';
-import { supabase } from '../../lib/supabase';
+import { useAuth } from '../../contexts/AuthContext';
+import { fetchParentChildren } from '../../services/parent/insightsDashboardService';
 
 // Components
 import {
@@ -26,10 +27,12 @@ import {
 interface ChildInfo {
   id: string;
   first_name: string;
-  preferred_name: string;
+  preferred_name: string | null;
 }
 
 export function RewardManagement() {
+  const { user } = useAuth();
+
   // Local state for children
   const [childList, setChildList] = useState<ChildInfo[]>([]);
   const [selectedChildId, setSelectedChildId] = useState<string | null>(null);
@@ -70,18 +73,13 @@ export function RewardManagement() {
 
   // Fetch children on mount
   useEffect(() => {
-    async function fetchChildren() {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        setChildrenLoading(false);
-        return;
-      }
+    if (!user) {
+      setChildrenLoading(false);
+      return;
+    }
 
-      const { data, error } = await supabase
-        .from('children')
-        .select('id, first_name, preferred_name')
-        .eq('parent_id', user.id)
-        .order('first_name');
+    async function loadChildren() {
+      const { data, error } = await fetchParentChildren(user!.id);
 
       if (!error && data) {
         setChildList(data);
@@ -92,8 +90,8 @@ export function RewardManagement() {
       setChildrenLoading(false);
     }
 
-    fetchChildren();
-  }, []);
+    loadChildren();
+  }, [user]);
 
   // Handlers that wrap hook actions and refresh data
   const handleToggleTemplate = async (templateId: string, currentEnabled: boolean) => {
@@ -158,25 +156,25 @@ export function RewardManagement() {
   // Loading state
   if (childrenLoading || templatesLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
         <div className="text-center">
-          <AppIcon name="loader" className="w-8 h-8 text-purple-600 animate-spin mx-auto mb-4" />
-          <p className="text-gray-600">Loading rewards...</p>
+          <AppIcon name="loader" className="w-8 h-8 text-primary-600 animate-spin mx-auto mb-4" />
+          <p className="text-neutral-600">Loading rewards...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-neutral-50">
       {/* Error Banner */}
       {error && (
-        <div className="bg-red-50 border-b border-red-200 px-4 py-3">
+        <div className="bg-danger-bg border-b border-danger-border px-4 py-3">
           <div className="max-w-5xl mx-auto flex items-center justify-between">
-            <p className="text-red-800">{error}</p>
+            <p className="text-danger">{error}</p>
             <button 
               onClick={clearError}
-              className="text-red-600 hover:text-red-800 p-1"
+              className="text-danger hover:text-danger p-1"
             >
               <AppIcon name="x" className="w-4 h-4" />
             </button>
@@ -186,7 +184,7 @@ export function RewardManagement() {
 
       <main className="max-w-5xl mx-auto px-4 py-6 space-y-6">
         {/* Hero Header */}
-        <section className="bg-gradient-to-br from-purple-50 via-purple-100/50 to-white rounded-2xl shadow-sm p-6 border border-purple-200/30">
+        <section className="bg-gradient-to-br from-primary-50 via-primary-100/50 to-white rounded-2xl shadow-sm p-6 border border-primary-200/30">
           <RewardHeroHeader
             childList={childList}
             selectedChildId={selectedChildId}

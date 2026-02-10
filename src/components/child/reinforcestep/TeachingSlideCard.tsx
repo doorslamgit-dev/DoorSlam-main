@@ -38,7 +38,7 @@ export function TeachingSlideCard({
       {/* Progress indicator */}
       <div className="flex items-center justify-between text-sm text-neutral-500">
         <span className="flex items-center gap-2">
-          <span className="text-blue-600" aria-hidden="true">
+          <span className="text-info" aria-hidden="true">
             <AppIcon name={icons.bookOpen} />
           </span>
           Explanation {currentIndex + 1} of {totalSlides}
@@ -50,7 +50,7 @@ export function TeachingSlideCard({
               key={i}
               className={`w-2 h-2 rounded-full transition-colors ${
                 i === currentIndex
-                  ? "bg-blue-600"
+                  ? "bg-info"
                   : i < currentIndex
                   ? "bg-blue-300"
                   : "bg-neutral-200"
@@ -61,9 +61,9 @@ export function TeachingSlideCard({
       </div>
 
       {/* Main slide card */}
-      <div className="bg-white rounded-2xl shadow-card overflow-hidden">
+      <div className="bg-neutral-0 rounded-2xl shadow-card overflow-hidden">
         {/* Title bar */}
-        <div className="bg-blue-600 px-6 py-4">
+        <div className="bg-info px-6 py-4">
           <h3 className="text-xl font-bold text-white">{slide.title}</h3>
         </div>
 
@@ -74,17 +74,17 @@ export function TeachingSlideCard({
 
           {/* Key points */}
           {slide.key_points && slide.key_points.length > 0 && (
-            <div className="bg-blue-50 rounded-xl p-4">
-              <h4 className="font-semibold text-blue-900 mb-3 flex items-center gap-2">
-                <span className="text-blue-700" aria-hidden="true">
+            <div className="bg-info-bg rounded-xl p-4">
+              <h4 className="font-semibold text-info mb-3 flex items-center gap-2">
+                <span className="text-info" aria-hidden="true">
                   <AppIcon name={icons.lightbulb} />
                 </span>
                 Key Points
               </h4>
               <ul className="space-y-2">
                 {slide.key_points.map((point, i) => (
-                  <li key={i} className="flex items-start gap-2 text-blue-800">
-                    <span className="text-blue-600 mt-1" aria-hidden="true">
+                  <li key={i} className="flex items-start gap-2 text-info">
+                    <span className="text-info mt-1" aria-hidden="true">
                       •
                     </span>
                     <span>{point}</span>
@@ -96,14 +96,14 @@ export function TeachingSlideCard({
 
           {/* Examiner tip */}
           {slide.examiner_tip && (
-            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+            <div className="bg-warning-bg border border-warning-border rounded-xl p-4">
               <h4 className="font-semibold text-amber-900 mb-2 flex items-center gap-2">
-                <span className="text-amber-700" aria-hidden="true">
+                <span className="text-warning" aria-hidden="true">
                   <AppIcon name={icons.graduationCap} />
                 </span>
                 Exam Tip
               </h4>
-              <p className="text-amber-800 text-sm">{slide.examiner_tip}</p>
+              <p className="text-warning text-sm">{slide.examiner_tip}</p>
             </div>
           )}
         </div>

@@ -22,7 +22,7 @@ export function WeekView({
   const weekStart = getWeekStart(referenceDate);
 
   return (
-    <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-card overflow-hidden mb-6">
+    <div className="bg-neutral-0 dark:bg-neutral-800 rounded-2xl shadow-card overflow-hidden mb-6">
       {/* Header Row */}
       <div className="grid grid-cols-8 border-b border-neutral-200 dark:border-neutral-700">
         <div className="p-4 border-r bg-neutral-50 dark:bg-neutral-900 border-neutral-200 dark:border-neutral-700">
@@ -43,7 +43,7 @@ export function WeekView({
                   ? "bg-neutral-200 dark:bg-neutral-700"
                   : isToday
                   ? "bg-primary-50 dark:bg-primary-900/30"
-                  : "bg-white dark:bg-neutral-800"
+                  : "bg-neutral-0 dark:bg-neutral-800"
               }`}
             >
               <div

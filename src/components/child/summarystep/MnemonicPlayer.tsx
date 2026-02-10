@@ -353,7 +353,7 @@ export function MnemonicPlayer({ mnemonic, sessionId }: MnemonicPlayerProps) {
             disabled={!mnemonic.mnemonicId || favBusy}
             aria-pressed={isFav}
             aria-label={isFav ? "Remove from favourites" : "Add to favourites"}
-            className="w-10 h-10 rounded-full bg-white flex items-center justify-center hover:bg-primary-50 transition disabled:opacity-50"
+            className="w-10 h-10 rounded-full bg-neutral-0 flex items-center justify-center hover:bg-primary-50 transition disabled:opacity-50"
             title={isFav ? "Remove from favourites" : "Add to favourites"}
           >
             <AppIcon name={"heart" as IconKey} className={isFav ? "text-accent-red" : "text-primary-600"} />
@@ -364,7 +364,7 @@ export function MnemonicPlayer({ mnemonic, sessionId }: MnemonicPlayerProps) {
             onClick={handleDownload}
             disabled={!resolvedAudioUrl}
             aria-label="Download audio"
-            className="w-10 h-10 rounded-full bg-white flex items-center justify-center hover:bg-primary-50 transition disabled:opacity-50"
+            className="w-10 h-10 rounded-full bg-neutral-0 flex items-center justify-center hover:bg-primary-50 transition disabled:opacity-50"
             title="Download"
           >
             <AppIcon name={"download" as IconKey} className="text-primary-600" />
@@ -373,7 +373,7 @@ export function MnemonicPlayer({ mnemonic, sessionId }: MnemonicPlayerProps) {
       </div>
 
       {/* Audio Player */}
-      <div className="bg-white rounded-xl p-4 mb-4">
+      <div className="bg-neutral-0 rounded-xl p-4 mb-4">
         <div className="flex items-center space-x-4">
           <button
             type="button"
@@ -425,7 +425,7 @@ export function MnemonicPlayer({ mnemonic, sessionId }: MnemonicPlayerProps) {
       </div>
 
       {/* Lyrics */}
-      <div className="bg-white rounded-xl p-5">
+      <div className="bg-neutral-0 rounded-xl p-5">
         <h4 className="font-semibold text-neutral-700 mb-3 flex items-center space-x-2">
           <AppIcon name={"disc" as IconKey} className="text-primary-600" />
           <span>Lyrics</span>

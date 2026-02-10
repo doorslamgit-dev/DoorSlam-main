@@ -80,19 +80,19 @@ export interface CardProps extends HTMLAttributes<HTMLDivElement> {
  */
 const variantStyles: Record<CardVariant, string> = {
   default: [
-    "bg-white dark:bg-neutral-800",
+    "bg-neutral-0 dark:bg-neutral-800",
     "shadow-card",
     "border border-neutral-100 dark:border-neutral-700",
   ].join(" "),
 
   elevated: [
-    "bg-white dark:bg-neutral-800",
+    "bg-neutral-0 dark:bg-neutral-800",
     "shadow-lg",
     "border border-neutral-100 dark:border-neutral-700",
   ].join(" "),
 
   outlined: [
-    "bg-white dark:bg-neutral-800",
+    "bg-neutral-0 dark:bg-neutral-800",
     "border-2 border-neutral-200 dark:border-neutral-600",
   ].join(" "),
 

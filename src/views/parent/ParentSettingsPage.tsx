@@ -1,11 +1,12 @@
 'use client';
 
-// src/pages/parent/ParentSettingsPage.tsx
+// src/views/parent/ParentSettingsPage.tsx
 // Refactored: Extracted components and hooks for better maintainability
 // January 2026
 
 import { useEffect } from "react";
 import { useRouter } from 'next/navigation';
+import Alert from "../../components/ui/Alert";
 import AppIcon from "../../components/ui/AppIcon";
 import { useAuth } from "../../contexts/AuthContext";
 import { PageLayout } from "../../components/layout";
@@ -78,16 +79,9 @@ export default function ParentSettingsPage() {
 
         {/* Error banner */}
         {error && (
-          <div className="mb-6 p-4 rounded-xl flex items-center gap-3 bg-red-50 border border-red-200">
-            <AppIcon
-              name="triangle-alert"
-              className="w-4 h-4 text-accent-red"
-            />
-            <p className="text-sm text-accent-red">{error}</p>
-            <button onClick={() => setError(null)} className="ml-auto">
-              <AppIcon name="x" className="w-4 h-4 text-accent-red" />
-            </button>
-          </div>
+          <Alert variant="error" className="mb-6" onClose={() => setError(null)}>
+            {error}
+          </Alert>
         )}
 
         <div className="space-y-6">

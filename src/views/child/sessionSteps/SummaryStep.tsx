@@ -1,4 +1,4 @@
-// src/pages/child/sessionSteps/SummaryStep.tsx
+// src/views/child/sessionSteps/SummaryStep.tsx
 // Step 5: Key takeaways + mnemonic
 // UPDATED: January 2026
 // REFACTORED: January 2026 - Modular structure with extracted components
@@ -218,7 +218,7 @@ export default function SummaryStep({
 
       {/* Key Takeaways */}
       <section>
-        <div className="bg-white rounded-2xl shadow-card p-6">
+        <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
           <div className="flex items-center space-x-3 mb-5">
             <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
               <AppIcon name="lightbulb" className="text-primary-600 w-6 h-6" />
@@ -239,7 +239,7 @@ export default function SummaryStep({
 
       {/* Help Me Remember (Memory Tools) */}
       <section>
-        <div className="bg-white rounded-2xl shadow-card p-6">
+        <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
           <div className="flex items-center space-x-3 mb-5">
             <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
               <AppIcon name="brain" className="text-primary-600 w-6 h-6" />
@@ -289,8 +289,8 @@ export default function SummaryStep({
               </div>
 
               {mnemonic?.status === "failed" && (
-                <div className="p-4 bg-amber-50 border border-amber-200 rounded-xl">
-                  <p className="text-amber-800 text-sm flex items-center">
+                <div className="p-4 bg-warning-bg border border-warning-border rounded-xl">
+                  <p className="text-warning text-sm flex items-center">
                     <AppIcon name="triangle-alert" className="mr-2 w-4 h-4" />
                     The last attempt didn't work. Try a different style or continue without a song.
                   </p>
@@ -327,7 +327,7 @@ export default function SummaryStep({
 
       {/* Continue */}
       <section>
-        <div className="bg-white rounded-2xl shadow-card p-6">
+        <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
           <div className="flex items-center justify-between">
             <div>
               <h3 className="font-bold text-primary-900 mb-1">Ready to wrap up?</h3>

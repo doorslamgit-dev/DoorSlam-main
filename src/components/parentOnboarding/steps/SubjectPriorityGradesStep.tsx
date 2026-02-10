@@ -101,7 +101,7 @@ function SortableCard({ subject, index, onGradeChange }: SortableCardProps) {
     <div
       ref={setNodeRef}
       style={style}
-      className={`bg-white border-2 rounded-xl p-5 transition-all ${
+      className={`bg-neutral-0 border-2 rounded-xl p-5 transition-all ${
         isDragging
           ? "border-primary-400 shadow-lg ring-2 ring-primary-200 rotate-1 z-50"
           : "border-neutral-200 hover:border-primary-300 hover:shadow-soft"
@@ -149,7 +149,7 @@ function SortableCard({ subject, index, onGradeChange }: SortableCardProps) {
                   const val = e.target.value === "" ? null : parseInt(e.target.value, 10);
                   onGradeChange("current_grade", val);
                 }}
-                className="w-full px-3 py-2 border border-neutral-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent transition-all"
+                className="w-full px-3 py-2 border border-neutral-200 rounded-lg text-sm bg-neutral-0 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent transition-all"
               >
                 {GRADE_OPTIONS.map((opt) => (
                   <option key={opt.label} value={opt.value ?? ""}>
@@ -170,7 +170,7 @@ function SortableCard({ subject, index, onGradeChange }: SortableCardProps) {
                   const val = e.target.value === "" ? null : parseInt(e.target.value, 10);
                   onGradeChange("target_grade", val);
                 }}
-                className="w-full px-3 py-2 border border-neutral-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent transition-all"
+                className="w-full px-3 py-2 border border-neutral-200 rounded-lg text-sm bg-neutral-0 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent transition-all"
               >
                 <option value="">Select target</option>
                 {TARGET_GRADE_OPTIONS.map((opt) => (

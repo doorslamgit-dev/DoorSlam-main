@@ -76,7 +76,7 @@ export function WorkedExampleCard({
       </div>
 
       {/* Main card */}
-      <div className="bg-white rounded-2xl shadow-card overflow-hidden">
+      <div className="bg-neutral-0 rounded-2xl shadow-card overflow-hidden">
         {/* Title bar */}
         <div className="bg-teal-600 px-6 py-4">
           <h3 className="text-xl font-bold text-white">{example.title}</h3>
@@ -113,7 +113,7 @@ export function WorkedExampleCard({
                   <div className="flex-1">
                     <p className="text-teal-900">{step.content}</p>
                     {step.marks > 0 && (
-                      <span className="inline-block mt-1 text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded">
+                      <span className="inline-block mt-1 text-xs bg-primary-100 text-primary-700 px-2 py-0.5 rounded">
                         {step.marks} mark{step.marks > 1 ? "s" : ""}
                       </span>
                     )}
@@ -136,14 +136,14 @@ export function WorkedExampleCard({
 
           {/* Final answer - only show after all steps */}
           {showAnswer && example.final_answer && (
-            <div className="bg-green-50 border border-green-200 rounded-xl p-4 animate-fadeIn">
+            <div className="bg-success-bg border border-success-border rounded-xl p-4 animate-fadeIn">
               <h4 className="font-semibold text-green-900 mb-2 flex items-center gap-2">
-                <span className="text-green-700" aria-hidden="true">
+                <span className="text-success" aria-hidden="true">
                   <AppIcon name={icons.checkCircle} />
                 </span>
                 Final Answer
               </h4>
-              <p className="text-green-800 font-medium text-lg">{example.final_answer}</p>
+              <p className="text-success font-medium text-lg">{example.final_answer}</p>
             </div>
           )}
 
@@ -152,7 +152,7 @@ export function WorkedExampleCard({
             <button
               type="button"
               onClick={() => setShowAnswer(true)}
-              className="w-full py-3 bg-green-100 text-green-800 font-medium rounded-lg hover:bg-green-200 transition"
+              className="w-full py-3 bg-success-bg text-success font-medium rounded-lg hover:bg-green-200 transition"
             >
               Show final answer
             </button>
@@ -165,22 +165,22 @@ export function WorkedExampleCard({
                 <button
                   type="button"
                   onClick={() => setShowMistake(true)}
-                  className="text-sm text-amber-700 hover:text-amber-800 flex items-center gap-2"
+                  className="text-sm text-warning hover:text-warning flex items-center gap-2"
                 >
-                  <span className="text-amber-700" aria-hidden="true">
+                  <span className="text-warning" aria-hidden="true">
                     <AppIcon name={icons.warning} />
                   </span>
                   Show common mistake to avoid
                 </button>
               ) : (
-                <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 animate-fadeIn">
+                <div className="bg-warning-bg border border-warning-border rounded-xl p-4 animate-fadeIn">
                   <h4 className="font-semibold text-amber-900 mb-2 flex items-center gap-2">
-                    <span className="text-amber-700" aria-hidden="true">
+                    <span className="text-warning" aria-hidden="true">
                       <AppIcon name={icons.warning} />
                     </span>
                     Common Mistake
                   </h4>
-                  <p className="text-amber-800 text-sm">{example.common_mistake}</p>
+                  <p className="text-warning text-sm">{example.common_mistake}</p>
                 </div>
               )}
             </div>

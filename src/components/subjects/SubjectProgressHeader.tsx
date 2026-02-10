@@ -80,7 +80,7 @@ export function SubjectProgressHeader({
         <div className="flex items-center space-x-3">
           <span className="text-sm text-neutral-500 dark:text-neutral-400">Child:</span>
 
-          <div className="relative flex items-center px-4 py-2 rounded-full border bg-white dark:bg-neutral-700 border-primary-200 dark:border-neutral-600 shadow-sm">
+          <div className="relative flex items-center px-4 py-2 rounded-full border bg-neutral-0 dark:bg-neutral-700 border-primary-200 dark:border-neutral-600 shadow-sm">
             <select
               value={selectedChildId || ""}
               onChange={(e) => onChildChange(e.target.value)}
@@ -117,7 +117,7 @@ export function SubjectProgressHeader({
         <button
           type="button"
           onClick={onScheduleClick}
-          className="px-6 py-3 bg-white dark:bg-neutral-700 text-primary-600 dark:text-neutral-200 font-medium rounded-full border-2 border-primary-200 dark:border-neutral-600 hover:border-primary-300 dark:hover:border-neutral-500 transition-colors"
+          className="px-6 py-3 bg-neutral-0 dark:bg-neutral-700 text-primary-600 dark:text-neutral-200 font-medium rounded-full border-2 border-primary-200 dark:border-neutral-600 hover:border-primary-300 dark:hover:border-neutral-500 transition-colors"
         >
           View Schedule
         </button>
@@ -125,7 +125,7 @@ export function SubjectProgressHeader({
         <button
           type="button"
           onClick={onAddSubject}
-          className="ml-auto flex items-center gap-2 px-4 py-2 bg-white dark:bg-neutral-700 text-primary-600 dark:text-neutral-200 font-medium rounded-full border border-neutral-200 dark:border-neutral-600 hover:border-primary-300 dark:hover:border-neutral-500 transition-colors shadow-sm"
+          className="ml-auto flex items-center gap-2 px-4 py-2 bg-neutral-0 dark:bg-neutral-700 text-primary-600 dark:text-neutral-200 font-medium rounded-full border border-neutral-200 dark:border-neutral-600 hover:border-primary-300 dark:hover:border-neutral-500 transition-colors shadow-sm"
         >
           <AppIcon name="plus" className="w-4 h-4" />
           Add Subject

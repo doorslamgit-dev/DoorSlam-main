@@ -27,12 +27,12 @@ function getCategoryStyle(code: CategoryCode | string): {
   lightBg: string 
 } {
   const styles: Record<string, { bg: string; text: string; border: string; lightBg: string }> = {
-    screen_time: { bg: 'bg-blue-100', text: 'text-blue-600', border: 'border-blue-200', lightBg: 'bg-blue-50' },
+    screen_time: { bg: 'bg-info-bg', text: 'text-info', border: 'border-info-border', lightBg: 'bg-info-bg' },
     treats: { bg: 'bg-pink-100', text: 'text-pink-600', border: 'border-pink-200', lightBg: 'bg-pink-50' },
-    activities: { bg: 'bg-green-100', text: 'text-green-600', border: 'border-green-200', lightBg: 'bg-green-50' },
-    pocket_money: { bg: 'bg-amber-100', text: 'text-amber-600', border: 'border-amber-200', lightBg: 'bg-amber-50' },
-    privileges: { bg: 'bg-purple-100', text: 'text-purple-600', border: 'border-purple-200', lightBg: 'bg-purple-50' },
-    custom: { bg: 'bg-gray-100', text: 'text-gray-600', border: 'border-gray-200', lightBg: 'bg-gray-50' },
+    activities: { bg: 'bg-success-bg', text: 'text-success', border: 'border-success-border', lightBg: 'bg-success-bg' },
+    pocket_money: { bg: 'bg-warning-bg', text: 'text-warning', border: 'border-warning-border', lightBg: 'bg-warning-bg' },
+    privileges: { bg: 'bg-primary-100', text: 'text-primary-600', border: 'border-primary-200', lightBg: 'bg-primary-50' },
+    custom: { bg: 'bg-neutral-100', text: 'text-neutral-600', border: 'border-neutral-200', lightBg: 'bg-neutral-50' },
   };
   return styles[code] || styles.custom;
 }
@@ -100,13 +100,13 @@ export function RewardTemplateCard({
             <AppIcon name={icon} className={`w-4 h-4 ${style.text}`} />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-gray-900 truncate">{name}</p>
-            <p className="text-sm font-bold text-purple-600">{pointsCost} pts</p>
+            <p className="text-sm font-medium text-neutral-900 truncate">{name}</p>
+            <p className="text-sm font-bold text-primary-600">{pointsCost} pts</p>
           </div>
           {showEditPoints && childRewardId && onUpdatePoints && (
             <button
               onClick={handleStartEdit}
-              className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-white/50 rounded"
+              className="p-1.5 text-neutral-400 hover:text-neutral-600 hover:bg-white/50 rounded"
               aria-label="Edit points"
             >
               <AppIcon name="pencil" className="w-3.5 h-3.5" />
@@ -123,17 +123,17 @@ export function RewardTemplateCard({
       className={`rounded-xl border-2 p-4 transition-all ${
         isEnabled
           ? `${style.lightBg} ${style.border}`
-          : 'bg-gray-50 border-gray-200'
+          : 'bg-neutral-50 border-neutral-200'
       }`}
     >
       {/* Card Header */}
       <div className="flex items-start justify-between mb-3">
         <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-          isEnabled ? 'bg-white/80' : 'bg-white'
+          isEnabled ? 'bg-white/80' : 'bg-neutral-0'
         }`}>
           <AppIcon 
             name={icon} 
-            className={`w-5 h-5 ${isEnabled ? style.text : 'text-gray-400'}`} 
+            className={`w-5 h-5 ${isEnabled ? style.text : 'text-neutral-400'}`} 
           />
         </div>
 
@@ -143,14 +143,14 @@ export function RewardTemplateCard({
             onClick={() => onToggle(id, isEnabled)}
             disabled={isToggling}
             className={`relative w-11 h-6 rounded-full transition-colors ${
-              isEnabled ? 'bg-purple-600' : 'bg-gray-300'
+              isEnabled ? 'bg-primary-600' : 'bg-neutral-300'
             } ${isToggling ? 'opacity-50' : ''}`}
             role="switch"
             aria-checked={isEnabled}
             aria-label={`Toggle ${name}`}
           >
             <span
-              className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow transition-transform ${
+              className={`absolute top-1 left-1 w-4 h-4 bg-neutral-0 rounded-full shadow transition-transform ${
                 isEnabled ? 'translate-x-5' : 'translate-x-0'
               }`}
             />
@@ -159,7 +159,7 @@ export function RewardTemplateCard({
       </div>
 
       {/* Name */}
-      <h3 className={`font-medium mb-1 ${isEnabled ? 'text-gray-900' : 'text-gray-500'}`}>
+      <h3 className={`font-medium mb-1 ${isEnabled ? 'text-neutral-900' : 'text-neutral-500'}`}>
         {name}
       </h3>
 
@@ -173,13 +173,13 @@ export function RewardTemplateCard({
         />
       ) : (
         <div className="flex items-center gap-2">
-          <p className={`text-lg font-bold ${isEnabled ? 'text-purple-600' : 'text-gray-400'}`}>
+          <p className={`text-lg font-bold ${isEnabled ? 'text-primary-600' : 'text-neutral-400'}`}>
             {pointsCost} pts
           </p>
           {showEditPoints && isEnabled && childRewardId && onUpdatePoints && (
             <button
               onClick={handleStartEdit}
-              className="p-1 text-gray-400 hover:text-gray-600 hover:bg-white/50 rounded"
+              className="p-1 text-neutral-400 hover:text-neutral-600 hover:bg-white/50 rounded"
               aria-label="Edit points"
             >
               <AppIcon name="pencil" className="w-3.5 h-3.5" />
@@ -190,7 +190,7 @@ export function RewardTemplateCard({
 
       {/* Suggested points hint if different */}
       {isEnabled && suggestedPoints && pointsCost !== suggestedPoints && (
-        <p className="text-xs text-gray-400 mt-1">
+        <p className="text-xs text-neutral-400 mt-1">
           Suggested: {suggestedPoints} pts
         </p>
       )}

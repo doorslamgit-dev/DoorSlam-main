@@ -10,11 +10,11 @@ interface TimelineViewProps {
 export default function TimelineView({ timeline }: TimelineViewProps) {
   if (timeline.length === 0) {
     return (
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+      <div className="bg-neutral-0 rounded-xl shadow-sm border border-neutral-200 p-6">
+        <h3 className="text-lg font-semibold text-neutral-900 mb-4">
           Next Two Weeks Timeline
         </h3>
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-neutral-500">
           No sessions scheduled for the next two weeks.
         </p>
       </div>
@@ -22,21 +22,21 @@ export default function TimelineView({ timeline }: TimelineViewProps) {
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+    <div className="bg-neutral-0 rounded-xl shadow-sm border border-neutral-200 p-6">
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-semibold text-gray-900">
+        <h3 className="text-lg font-semibold text-neutral-900">
           Next Two Weeks Timeline
         </h3>
         <div className="flex items-center gap-2">
           <button
             type="button"
-            className="px-3 py-1.5 text-xs font-medium text-brand-purple bg-purple-50 rounded-lg"
+            className="px-3 py-1.5 text-xs font-medium text-primary-600 bg-primary-50 rounded-lg"
           >
             This View
           </button>
           <button
             type="button"
-            className="px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-50 rounded-lg"
+            className="px-3 py-1.5 text-xs font-medium text-neutral-600 hover:bg-neutral-50 rounded-lg"
           >
             Month View
           </button>
@@ -48,10 +48,10 @@ export default function TimelineView({ timeline }: TimelineViewProps) {
           <div
             key={group.group_label}
             className={`border-l-4 pl-4 py-2 ${
-              groupIndex === 0 ? "border-brand-purple" : "border-gray-300"
+              groupIndex === 0 ? "border-primary-600" : "border-neutral-300"
             }`}
           >
-            <p className="text-xs font-medium text-gray-500 mb-2">
+            <p className="text-xs font-medium text-neutral-500 mb-2">
               {group.group_label}
             </p>
 
@@ -65,7 +65,7 @@ export default function TimelineView({ timeline }: TimelineViewProps) {
                     className="w-2 h-2 rounded-full"
                     style={{ backgroundColor: getSubjectColor(session.subject_name) }}
                   />
-                  <p className="text-sm text-gray-900">
+                  <p className="text-sm text-neutral-900">
                     {session.subject_name}: {session.topic_name || "Topic TBD"}
                   </p>
                 </div>

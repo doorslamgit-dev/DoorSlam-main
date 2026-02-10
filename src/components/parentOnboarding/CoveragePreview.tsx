@@ -33,7 +33,7 @@ function getProgressBarColor(coverage: number, priorityTier: string): string {
   // High priority needs higher coverage to be "good"
   const threshold = priorityTier === "high" ? 80 : priorityTier === "medium" ? 60 : 40;
 
-  if (coverage >= threshold + 15) return "bg-green-500";
+  if (coverage >= threshold + 15) return "bg-success";
   if (coverage >= threshold) return "bg-green-400";
   if (coverage >= threshold - 15) return "bg-amber-400";
   return "bg-red-400";
@@ -44,7 +44,7 @@ function getPriorityLabel(tier: string): { label: string; color: string } {
     case "high":
       return { label: "High", color: "text-primary-700 bg-primary-100" };
     case "medium":
-      return { label: "Medium", color: "text-amber-700 bg-amber-100" };
+      return { label: "Medium", color: "text-warning bg-warning-bg" };
     case "low":
       return { label: "Low", color: "text-neutral-600 bg-neutral-100" };
     default:
@@ -116,7 +116,7 @@ function SubjectRow({ subject, compact = false }: SubjectRowProps) {
   }
 
   return (
-    <div className="p-4 bg-white rounded-xl border border-neutral-200">
+    <div className="p-4 bg-neutral-0 rounded-xl border border-neutral-200">
       {/* Header */}
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1 min-w-0">
@@ -174,10 +174,10 @@ function OverallStatus({ status, percent }: { status: CoverageStatus; percent: n
 
   const circleBg =
     status === "excellent" || status === "good"
-      ? "bg-green-100"
+      ? "bg-success-bg"
       : status === "adequate"
-      ? "bg-amber-100"
-      : "bg-red-100";
+      ? "bg-warning-bg"
+      : "bg-danger-bg";
 
   return (
     <div className={`p-4 rounded-xl border ${info.bgColor} ${info.borderColor}`}>
@@ -273,7 +273,7 @@ export default function CoveragePreview({
       {groupedSubjects.medium?.length > 0 && (
         <div>
           <div className="flex items-center gap-2 mb-3">
-            <div className="w-2 h-2 rounded-full bg-amber-500" />
+            <div className="w-2 h-2 rounded-full bg-warning" />
             <h3 className="text-sm font-semibold text-neutral-700">Medium Priority Subjects</h3>
             <span className="text-xs text-neutral-400">(Target: 70%+ coverage)</span>
           </div>

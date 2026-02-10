@@ -33,7 +33,7 @@ export function NotificationToggle({
         } ${enabled ? "bg-accent-green" : "bg-neutral-200"}`}
       >
         <div
-          className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
+          className={`absolute top-0.5 w-5 h-5 bg-neutral-0 rounded-full shadow transition-transform ${
             enabled ? "translate-x-5" : "translate-x-0.5"
           }`}
         />

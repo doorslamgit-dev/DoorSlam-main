@@ -90,29 +90,29 @@ export function RewardToast({
       <div
         className={`flex items-center gap-3 px-5 py-4 rounded-2xl shadow-lg border ${
           isApproved
-            ? 'bg-gradient-to-r from-green-50 to-emerald-50 border-green-200'
-            : 'bg-gradient-to-r from-amber-50 to-orange-50 border-amber-200'
+            ? 'bg-gradient-to-r from-green-50 to-emerald-50 border-success-border'
+            : 'bg-gradient-to-r from-amber-50 to-orange-50 border-warning-border'
         }`}
       >
         {/* Icon */}
         <div
           className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
-            isApproved ? 'bg-green-100' : 'bg-amber-100'
+            isApproved ? 'bg-success-bg' : 'bg-warning-bg'
           }`}
         >
           {isApproved ? (
-            <AppIcon name="party-popper" className="w-5 h-5 text-green-600" />
+            <AppIcon name="party-popper" className="w-5 h-5 text-success" />
           ) : (
-            <AppIcon name="clock" className="w-5 h-5 text-amber-600" />
+            <AppIcon name="clock" className="w-5 h-5 text-warning" />
           )}
         </div>
 
         {/* Content */}
         <div className="flex-1 min-w-0">
-          <p className={`font-semibold ${isApproved ? 'text-green-800' : 'text-amber-800'}`}>
+          <p className={`font-semibold ${isApproved ? 'text-success' : 'text-warning'}`}>
             {isApproved ? 'Reward Approved!' : 'Request Sent!'}
           </p>
-          <p className="text-sm text-gray-600 truncate">
+          <p className="text-sm text-neutral-600 truncate">
             {rewardEmoji} {rewardName}
           </p>
         </div>
@@ -123,7 +123,7 @@ export function RewardToast({
             setIsExiting(true);
             setTimeout(onClose, 300);
           }}
-          className="text-gray-400 hover:text-gray-600 p-1"
+          className="text-neutral-400 hover:text-neutral-600 p-1"
         >
           <AppIcon name="x" className="w-4 h-4" />
         </button>

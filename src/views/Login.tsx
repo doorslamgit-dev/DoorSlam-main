@@ -1,10 +1,13 @@
 'use client';
 
-// src/pages/Login.tsx
+// src/views/Login.tsx
 
-import { useState, type FormEvent, type ChangeEvent } from "react";
+import { useState, type FormEvent } from "react";
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import Alert from "../components/ui/Alert";
+import Button from "../components/ui/Button";
+import FormField from "../components/ui/FormField";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function Login() {
@@ -43,83 +46,59 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-73px)] bg-gradient-to-br from-brand-purple-light via-brand-purple to-brand-purple-dark flex items-center justify-center p-4">
+    <div className="min-h-[calc(100vh-73px)] bg-gradient-to-br from-primary-400 via-primary-600 to-primary-700 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         
-        <div className="bg-white rounded-2xl shadow-2xl p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Welcome back</h2>
+        <div className="bg-neutral-0 rounded-2xl shadow-2xl p-8">
+          <h2 className="text-2xl font-bold text-neutral-900 mb-6">Welcome back</h2>
 
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl mb-6">
+            <Alert variant="error" className="mb-6" hideIcon>
               {error}
-            </div>
+            </Alert>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Email address
-              </label>
-              <input
-                id="email"
-                type="email"
-                required
-                autoComplete="email"
-                value={email}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setEmail(e.target.value)
-                }
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-purple focus:border-transparent outline-none transition-all"
-                placeholder="you@example.com"
-                disabled={submitting}
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Password
-              </label>
-              <input
-                id="password"
-                type="password"
-                required
-                autoComplete="current-password"
-                value={password}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setPassword(e.target.value)
-                }
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-purple focus:border-transparent outline-none transition-all"
-                placeholder="Enter your password"
-                disabled={submitting}
-              />
-            </div>
-
-            <button
-              type="submit"
+            <FormField
+              label="Email address"
+              id="email"
+              type="email"
+              required
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
               disabled={submitting}
-              className="w-full bg-brand-purple text-white py-3 px-6 rounded-xl font-semibold hover:bg-brand-purple-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
+            />
+
+            <FormField
+              label="Password"
+              id="password"
+              type="password"
+              required
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your password"
+              disabled={submitting}
+            />
+
+            <Button type="submit" size="lg" fullWidth loading={submitting}>
               {submitting ? "Signing in…" : "Sign in"}
-            </button>
+            </Button>
           </form>
 
-          <p className="mt-6 text-center text-sm text-gray-600">
+          <p className="mt-6 text-center text-sm text-neutral-600">
             Don&apos;t have an account?{" "}
             <Link href="/signup"
-              className="text-brand-purple font-semibold hover:text-brand-purple-dark"
+              className="text-primary-600 font-semibold hover:text-primary-700"
             >
               Sign up
             </Link>
           </p>
         </div>
 
-        <p className="text-center text-purple-100 text-sm mt-6">
+        <p className="text-center text-primary-100 text-sm mt-6">
           Parent-led, child-used revision planning
         </p>
       </div>

@@ -48,7 +48,7 @@ export function MonthView({
     today.getFullYear() === year && today.getMonth() === month;
 
   return (
-    <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-card overflow-hidden mb-6">
+    <div className="bg-neutral-0 dark:bg-neutral-800 rounded-2xl shadow-card overflow-hidden mb-6">
       <div className="p-6">
         <div className="grid grid-cols-7 gap-1 mb-2">
           {DAYS.map((day) => (
@@ -79,7 +79,7 @@ export function MonthView({
                     ? "border-neutral-300 dark:border-neutral-600 bg-neutral-100 dark:bg-neutral-700"
                     : isToday
                     ? "border-primary-600 dark:border-primary-500 bg-primary-50 dark:bg-primary-900/30"
-                    : "border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800"
+                    : "border-neutral-200 dark:border-neutral-700 bg-neutral-0 dark:bg-neutral-800"
                 }`}
               >
                 <div

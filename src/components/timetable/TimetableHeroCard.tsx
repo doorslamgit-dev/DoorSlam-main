@@ -19,7 +19,7 @@ export default function TimetableHeroCard({
   // Loading state
   if (loading) {
     return (
-      <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-card p-6 mb-6 animate-pulse">
+      <div className="bg-neutral-0 dark:bg-neutral-800 rounded-2xl shadow-card p-6 mb-6 animate-pulse">
         <div className="flex items-start gap-6 mb-6">
           <div className="w-24 h-24 bg-neutral-200 dark:bg-neutral-700 rounded-2xl" />
           <div className="flex-1 space-y-3">
@@ -39,7 +39,7 @@ export default function TimetableHeroCard({
   // No data state
   if (!planOverview || planOverview.status === "no_plan") {
     return (
-      <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-card p-6 mb-6">
+      <div className="bg-neutral-0 dark:bg-neutral-800 rounded-2xl shadow-card p-6 mb-6">
         <div className="flex items-start gap-6">
           <div className="w-24 h-24 bg-neutral-100 dark:bg-neutral-700 rounded-2xl flex flex-col items-center justify-center text-neutral-400 dark:text-neutral-500">
             <AppIcon name="triangle-alert" className="w-8 h-8 mb-1" />
@@ -83,7 +83,7 @@ export default function TimetableHeroCard({
         color: "bg-accent-green",
         textColor: "text-accent-green",
         borderColor: "border-accent-green",
-        bgLight: "bg-green-50",
+        bgLight: "bg-success-bg",
         icon: "circle-check",
         label: "Complete!",
         description: "All sessions completed. Excellent work!",
@@ -97,7 +97,7 @@ export default function TimetableHeroCard({
         color: "bg-accent-green",
         textColor: "text-accent-green", 
         borderColor: "border-accent-green",
-        bgLight: "bg-green-50",
+        bgLight: "bg-success-bg",
         icon: "circle-check",
         label: "On Track",
         description: `Your schedule covers ${scheduledPerWeek} sessions/week`,
@@ -111,7 +111,7 @@ export default function TimetableHeroCard({
         color: "bg-accent-amber",
         textColor: "text-accent-amber",
         borderColor: "border-accent-amber",
-        bgLight: "bg-amber-50",
+        bgLight: "bg-warning-bg",
         icon: "triangle-alert",
         label: "Needs Attention",
         description: `${Math.abs(scheduleGap)} more sessions/week recommended`,
@@ -124,7 +124,7 @@ export default function TimetableHeroCard({
       color: "bg-accent-red",
       textColor: "text-accent-red",
       borderColor: "border-accent-red",
-      bgLight: "bg-red-50",
+      bgLight: "bg-danger-bg",
       icon: "flame",
       label: "Behind Schedule",
       description: `${Math.abs(scheduleGap)} more sessions/week needed`,
@@ -152,7 +152,7 @@ export default function TimetableHeroCard({
   }, [] as typeof subjects);
 
   return (
-    <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-card p-6 mb-6">
+    <div className="bg-neutral-0 dark:bg-neutral-800 rounded-2xl shadow-card p-6 mb-6">
       {/* Header Row: Status Badge + Title + Key Stats */}
       <div className="flex items-start gap-5 mb-6">
         {/* Status Indicator */}
@@ -256,7 +256,7 @@ export default function TimetableHeroCard({
           {!status.isHealthy && onEditSchedule && (
             <button
               onClick={onEditSchedule}
-              className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-neutral-700 border border-neutral-300 dark:border-neutral-600 rounded-lg text-sm font-medium text-neutral-700 dark:text-neutral-200 hover:bg-neutral-50 dark:hover:bg-neutral-600 hover:border-neutral-400 dark:hover:border-neutral-500 transition-colors shrink-0"
+              className="flex items-center gap-2 px-4 py-2 bg-neutral-0 dark:bg-neutral-700 border border-neutral-300 dark:border-neutral-600 rounded-lg text-sm font-medium text-neutral-700 dark:text-neutral-200 hover:bg-neutral-50 dark:hover:bg-neutral-600 hover:border-neutral-400 dark:hover:border-neutral-500 transition-colors shrink-0"
             >
               <AppIcon name="sliders-horizontal" className="w-3 h-3" />
               Adjust Schedule

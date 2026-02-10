@@ -1,4 +1,4 @@
-// src/pages/child/ChildRewardsCatalog.tsx
+// src/views/child/ChildRewardsCatalog.tsx
 // FEAT-013 Phase 3b: Full child rewards experience
 // Hero card, catalog browse, my rewards, pending, history
 
@@ -19,11 +19,11 @@ import type {
 // Category styling
 function getCategoryStyle(code: string): { bg: string; text: string; icon: string } {
   const styles: Record<string, { bg: string; text: string; icon: string }> = {
-    screen_time: { bg: 'bg-blue-100', text: 'text-blue-600', icon: 'monitor' },
+    screen_time: { bg: 'bg-info-bg', text: 'text-info', icon: 'monitor' },
     treats: { bg: 'bg-pink-100', text: 'text-pink-600', icon: 'candy' },
-    activities: { bg: 'bg-green-100', text: 'text-green-600', icon: 'ticket' },
-    pocket_money: { bg: 'bg-amber-100', text: 'text-amber-600', icon: 'wallet' },
-    privileges: { bg: 'bg-purple-100', text: 'text-purple-600', icon: 'crown' },
+    activities: { bg: 'bg-success-bg', text: 'text-success', icon: 'ticket' },
+    pocket_money: { bg: 'bg-warning-bg', text: 'text-warning', icon: 'wallet' },
+    privileges: { bg: 'bg-primary-100', text: 'text-primary-600', icon: 'crown' },
     custom: { bg: 'bg-neutral-100', text: 'text-neutral-600', icon: 'gift' },
   };
   return styles[code] || styles.custom;
@@ -199,8 +199,8 @@ export function ChildRewardsCatalog() {
     return (
       <PageLayout bgColor="bg-neutral-100">
         <div className="max-w-2xl mx-auto px-4 py-8">
-          <div className="bg-red-50 border border-red-100 rounded-2xl p-6 text-center">
-            <p className="text-red-600 font-medium">{error}</p>
+          <div className="bg-danger-bg border border-danger-border rounded-2xl p-6 text-center">
+            <p className="text-danger font-medium">{error}</p>
           </div>
         </div>
       </PageLayout>
@@ -232,7 +232,7 @@ export function ChildRewardsCatalog() {
               {/* Points Balance - Large */}
               <div className="col-span-2 lg:col-span-1 bg-white/10 rounded-xl p-4">
                 <div className="flex items-center gap-2 mb-1">
-                  <AppIcon name="star" className="w-5 h-5 text-amber-300" />
+                  <AppIcon name="star" className="w-5 h-5 text-warning" />
                   <span className="text-white/80 text-sm">Points Balance</span>
                 </div>
                 <p className="text-4xl font-bold">{dashboard.points_balance}</p>
@@ -261,14 +261,14 @@ export function ChildRewardsCatalog() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
           {/* Pending Redemptions */}
           {pendingRedemptions.length > 0 && (
-            <div className="bg-amber-50 rounded-2xl p-5 border border-amber-200">
+            <div className="bg-warning-bg rounded-2xl p-5 border border-warning-border">
               <h3 className="font-semibold text-primary-900 mb-3 flex items-center gap-2">
-                <AppIcon name="clock" className="w-5 h-5 text-amber-600" />
+                <AppIcon name="clock" className="w-5 h-5 text-warning" />
                 Waiting for Parent Approval
               </h3>
               <div className="space-y-2">
                 {pendingRedemptions.map((item) => (
-                  <div key={item.id} className="bg-white rounded-xl p-3 flex items-center justify-between">
+                  <div key={item.id} className="bg-neutral-0 rounded-xl p-3 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <span className="text-xl">{item.emoji || '🎁'}</span>
                       <div>
@@ -279,7 +279,7 @@ export function ChildRewardsCatalog() {
                     <button
                       onClick={() => handleCancelRedemption(item.id)}
                       disabled={actionLoading === item.id}
-                      className="text-xs text-neutral-500 hover:text-red-600 px-2 py-1"
+                      className="text-xs text-neutral-500 hover:text-danger px-2 py-1"
                     >
                       Cancel
                     </button>
@@ -291,14 +291,14 @@ export function ChildRewardsCatalog() {
 
           {/* Pending Addition Requests */}
           {pendingAdditions.length > 0 && (
-            <div className="bg-purple-50 rounded-2xl p-5 border border-purple-200">
+            <div className="bg-primary-50 rounded-2xl p-5 border border-primary-200">
               <h3 className="font-semibold text-primary-900 mb-3 flex items-center gap-2">
-                <AppIcon name="send" className="w-5 h-5 text-purple-600" />
+                <AppIcon name="send" className="w-5 h-5 text-primary-600" />
                 Requests Sent to Parent
               </h3>
               <div className="space-y-2">
                 {pendingAdditions.map((item) => (
-                  <div key={item.id} className="bg-white rounded-xl p-3 flex items-center gap-3">
+                  <div key={item.id} className="bg-neutral-0 rounded-xl p-3 flex items-center gap-3">
                     <span className="text-xl">{item.category_icon || '🎁'}</span>
                     <div>
                       <p className="font-medium text-neutral-900 text-sm">{item.template_name}</p>
@@ -352,7 +352,7 @@ export function ChildRewardsCatalog() {
           {activeTab === 'my-rewards' && (
             <>
               {myRewards.length === 0 ? (
-                <div className="bg-white rounded-2xl shadow-card p-8 text-center">
+                <div className="bg-neutral-0 rounded-2xl shadow-card p-8 text-center">
                   <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <AppIcon name="gift" className="w-8 h-8 text-primary-600" />
                   </div>
@@ -371,7 +371,7 @@ export function ChildRewardsCatalog() {
                 <>
                   {/* Unlocked - Ready to claim */}
                   {unlockedRewards.length > 0 && (
-                    <div className="bg-white rounded-2xl shadow-card p-6">
+                    <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
                       <h3 className="text-lg font-semibold text-primary-900 mb-4 flex items-center gap-2">
                         <AppIcon name="unlock" className="w-5 h-5 text-accent-green" />
                         Ready to Claim!
@@ -392,7 +392,7 @@ export function ChildRewardsCatalog() {
                               <p className="font-medium text-neutral-900 text-sm mb-1 line-clamp-2">
                                 {reward.name}
                               </p>
-                              <p className="text-amber-600 font-bold text-sm">
+                              <p className="text-warning font-bold text-sm">
                                 {reward.points_cost} pts
                               </p>
                             </button>
@@ -404,7 +404,7 @@ export function ChildRewardsCatalog() {
 
                   {/* Locked - Need more points */}
                   {myRewards.filter(r => !r.can_afford).length > 0 && (
-                    <div className="bg-white rounded-2xl shadow-card p-6">
+                    <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
                       <h3 className="text-lg font-semibold text-neutral-500 mb-4">
                         Keep Working Towards
                       </h3>
@@ -440,7 +440,7 @@ export function ChildRewardsCatalog() {
 
           {/* CATALOG TAB */}
           {activeTab === 'catalog' && (
-            <div className="bg-white rounded-2xl shadow-card p-6">
+            <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
               <p className="text-neutral-600 mb-4">
                 Browse all available rewards. Ask your parent to add ones you'd like!
               </p>
@@ -458,7 +458,7 @@ export function ChildRewardsCatalog() {
                         isAdded 
                           ? 'bg-accent-green/5 border-accent-green/30' 
                           : isPending
-                          ? 'bg-purple-50 border-purple-200'
+                          ? 'bg-primary-50 border-primary-200'
                           : 'bg-neutral-50 border-neutral-200 hover:border-primary-300'
                       }`}
                     >
@@ -469,7 +469,7 @@ export function ChildRewardsCatalog() {
                         {item.name}
                       </p>
                       <p className="text-xs text-neutral-500 mb-2">{item.category_name}</p>
-                      <p className="text-amber-600 font-bold text-sm mb-3">
+                      <p className="text-warning font-bold text-sm mb-3">
                         ~{item.suggested_points} pts
                       </p>
 
@@ -479,7 +479,7 @@ export function ChildRewardsCatalog() {
                           In your list
                         </span>
                       ) : isPending ? (
-                        <span className="inline-flex items-center gap-1 text-xs text-purple-600 font-medium">
+                        <span className="inline-flex items-center gap-1 text-xs text-primary-600 font-medium">
                           <AppIcon name="clock" className="w-3 h-3" />
                           Request sent
                         </span>
@@ -501,7 +501,7 @@ export function ChildRewardsCatalog() {
 
           {/* HISTORY TAB */}
           {activeTab === 'history' && (
-            <div className="bg-white rounded-2xl shadow-card p-6">
+            <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
               {history.length === 0 ? (
                 <div className="text-center py-8">
                   <div className="w-16 h-16 bg-neutral-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -526,10 +526,10 @@ export function ChildRewardsCatalog() {
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-amber-600 font-medium text-sm">-{item.points_cost}</span>
+                        <span className="text-warning font-medium text-sm">-{item.points_cost}</span>
                         <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
-                          item.status === 'approved' ? 'bg-green-100 text-green-700' :
-                          item.status === 'declined' ? 'bg-red-100 text-red-700' :
+                          item.status === 'approved' ? 'bg-success-bg text-success' :
+                          item.status === 'declined' ? 'bg-danger-bg text-danger' :
                           'bg-neutral-100 text-neutral-600'
                         }`}>
                           {item.status}

@@ -47,7 +47,7 @@ export function FlashcardViewer({
       >
         {/* Front of card */}
         <div
-          className="absolute inset-0 w-full h-full rounded-2xl bg-white shadow-lg border border-neutral-200 p-6 flex flex-col"
+          className="absolute inset-0 w-full h-full rounded-2xl bg-neutral-0 shadow-lg border border-neutral-200 p-6 flex flex-col"
           style={{ backfaceVisibility: "hidden" }}
         >
           <div className="flex items-center justify-between text-sm text-neutral-400 mb-4">
@@ -78,7 +78,7 @@ export function FlashcardViewer({
 
         {/* Back of card */}
         <div
-          className="absolute inset-0 w-full h-full rounded-2xl bg-slate-100 shadow-lg border border-neutral-200 p-6 flex flex-col"
+          className="absolute inset-0 w-full h-full rounded-2xl bg-neutral-100 shadow-lg border border-neutral-200 p-6 flex flex-col"
           style={{
             backfaceVisibility: "hidden",
             transform: "rotateY(180deg)",

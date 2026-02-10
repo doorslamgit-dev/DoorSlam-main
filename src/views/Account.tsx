@@ -1,12 +1,13 @@
 'use client';
 
-// src/pages/Account.tsx
+// src/views/Account.tsx
 // Refactored: Extracted components and hooks for better maintainability
 // January 2026
 
 import { useEffect } from "react";
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import Alert from "../components/ui/Alert";
 import AppIcon from "../components/ui/AppIcon";
 import { useAuth } from "../contexts/AuthContext";
 import { PageLayout } from "../components/layout";
@@ -113,23 +114,16 @@ export default function Account() {
 
         {/* Error banner */}
         {error && (
-          <div className="mb-6 p-4 rounded-xl flex items-center gap-3 bg-red-50 border border-red-200">
-            <AppIcon
-              name="triangle-alert"
-              className="w-4 h-4 text-accent-red"
-            />
-            <p className="text-sm text-accent-red">{error}</p>
-            <button onClick={() => setError(null)} className="ml-auto">
-              <AppIcon name="x" className="w-4 h-4 text-accent-red" />
-            </button>
-          </div>
+          <Alert variant="error" className="mb-6" onClose={() => setError(null)}>
+            {error}
+          </Alert>
         )}
 
         {/* Two-column layout */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left column - Avatar */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-2xl shadow-card p-6 sticky top-6">
+            <div className="bg-neutral-0 rounded-2xl shadow-card p-6 sticky top-6">
               <AvatarUpload
                 currentAvatarUrl={avatarUrl || null}
                 userId={userId || ""}

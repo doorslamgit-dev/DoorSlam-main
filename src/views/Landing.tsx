@@ -1,4 +1,4 @@
-// src/pages/Landing.tsx
+// src/views/Landing.tsx
 
 import Link from 'next/link';
 import AppIcon from "../components/ui/AppIcon";
@@ -40,15 +40,15 @@ export default function Landing() {
                 </div>
 
                 <div className="grid grid-cols-3 gap-3">
-                  <div className="bg-white p-4 rounded-xl text-center border border-neutral-200/50 shadow-sm">
+                  <div className="bg-neutral-0 p-4 rounded-xl text-center border border-neutral-200/50 shadow-sm">
                     <div className="text-3xl font-bold text-accent-green mb-1">85%</div>
                     <div className="text-xs text-neutral-600 font-medium">Maths</div>
                   </div>
-                  <div className="bg-white p-4 rounded-xl text-center border border-neutral-200/50 shadow-sm">
+                  <div className="bg-neutral-0 p-4 rounded-xl text-center border border-neutral-200/50 shadow-sm">
                     <div className="text-3xl font-bold text-primary-600 mb-1">92%</div>
                     <div className="text-xs text-neutral-600 font-medium">English</div>
                   </div>
-                  <div className="bg-white p-4 rounded-xl text-center border border-neutral-200/50 shadow-sm">
+                  <div className="bg-neutral-0 p-4 rounded-xl text-center border border-neutral-200/50 shadow-sm">
                     <div className="text-3xl font-bold text-accent-amber mb-1">78%</div>
                     <div className="text-xs text-neutral-600 font-medium">Science</div>
                   </div>
@@ -78,7 +78,7 @@ export default function Landing() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white dark:bg-neutral-800 border-2 border-primary-200 dark:border-primary-700 rounded-2xl p-8 text-center hover:border-primary-400 hover:shadow-lg transition-all shadow-soft">
+            <div className="bg-neutral-0 dark:bg-neutral-800 border-2 border-primary-200 dark:border-primary-700 rounded-2xl p-8 text-center hover:border-primary-400 hover:shadow-lg transition-all shadow-soft">
               <div className="w-16 h-16 bg-primary-100 dark:bg-primary-900 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <AppIcon name="heart" className="w-8 h-8 text-primary-600" />
               </div>
@@ -91,7 +91,7 @@ export default function Landing() {
               </Link>
             </div>
 
-            <div className="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-2xl p-8 text-center hover:border-primary-300 transition-colors shadow-soft">
+            <div className="bg-neutral-0 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-2xl p-8 text-center hover:border-primary-300 transition-colors shadow-soft">
               <div className="w-16 h-16 bg-neutral-100 dark:bg-neutral-700 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <AppIcon name="graduation-cap" className="w-8 h-8 text-neutral-600 dark:text-neutral-300" />
               </div>
@@ -104,7 +104,7 @@ export default function Landing() {
               </Link>
             </div>
 
-            <div className="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-2xl p-8 text-center hover:border-primary-300 transition-colors shadow-soft">
+            <div className="bg-neutral-0 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-2xl p-8 text-center hover:border-primary-300 transition-colors shadow-soft">
               <div className="w-16 h-16 bg-neutral-100 dark:bg-neutral-700 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <AppIcon name="user" className="w-8 h-8 text-neutral-600 dark:text-neutral-300" />
               </div>
@@ -165,7 +165,7 @@ export default function Landing() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-white dark:bg-neutral-800 rounded-2xl p-6 shadow-card">
+            <div className="bg-neutral-0 dark:bg-neutral-800 rounded-2xl p-6 shadow-card">
               <div className="flex items-center mb-4">
                 <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg" alt="Parent" className="w-12 h-12 rounded-full mr-4" />
                 <div>
@@ -176,7 +176,7 @@ export default function Landing() {
               <p className="text-neutral-600 dark:text-neutral-300 italic">"Finally, I can see exactly how my daughter is progressing. The stress of not knowing where she stands has completely disappeared."</p>
             </div>
 
-            <div className="bg-white dark:bg-neutral-800 rounded-2xl p-6 shadow-card">
+            <div className="bg-neutral-0 dark:bg-neutral-800 rounded-2xl p-6 shadow-card">
               <div className="flex items-center mb-4">
                 <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="Parent" className="w-12 h-12 rounded-full mr-4" />
                 <div>
@@ -187,7 +187,7 @@ export default function Landing() {
               <p className="text-neutral-600 dark:text-neutral-300 italic">"My son went from dreading revision to actually enjoying it. The personalized approach really works."</p>
             </div>
 
-            <div className="bg-white dark:bg-neutral-800 rounded-2xl p-6 shadow-card">
+            <div className="bg-neutral-0 dark:bg-neutral-800 rounded-2xl p-6 shadow-card">
               <div className="flex items-center mb-4">
                 <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" alt="Parent" className="w-12 h-12 rounded-full mr-4" />
                 <div>

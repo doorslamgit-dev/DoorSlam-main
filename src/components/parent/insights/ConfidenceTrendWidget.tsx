@@ -24,7 +24,7 @@ interface ConfidenceTrendWidgetProps {
 export default function ConfidenceTrendWidget({ data, loading }: ConfidenceTrendWidgetProps) {
   if (loading) {
     return (
-      <div className="bg-white rounded-2xl shadow-card p-6 border border-neutral-200 animate-pulse">
+      <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200 animate-pulse">
         <div className="h-6 bg-neutral-100 rounded w-1/3 mb-4" />
         <div className="h-60 bg-neutral-100 rounded" />
       </div>
@@ -43,7 +43,7 @@ export default function ConfidenceTrendWidget({ data, loading }: ConfidenceTrend
     if (active && payload && payload.length) {
       const topic = payload[0]?.payload?.topic;
       return (
-        <div className="bg-white p-3 border border-neutral-200 rounded-lg shadow-sm">
+        <div className="bg-neutral-0 p-3 border border-neutral-200 rounded-lg shadow-sm">
           <p className="text-xs font-medium text-neutral-700 mb-1">{topic || label}</p>
           <p className="text-xs text-neutral-500">
             Pre:{" "}
@@ -64,7 +64,7 @@ export default function ConfidenceTrendWidget({ data, loading }: ConfidenceTrend
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-card p-6 border border-neutral-200">
+    <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div>

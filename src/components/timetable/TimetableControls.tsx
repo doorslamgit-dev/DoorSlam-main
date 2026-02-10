@@ -27,7 +27,7 @@ export function TimetableControls({
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-soft p-4 mb-6">
+    <div className="bg-neutral-0 rounded-2xl shadow-soft p-4 mb-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <button
@@ -60,7 +60,7 @@ export function TimetableControls({
               className={`px-4 py-2 border rounded-full text-sm transition-colors ${
                 viewMode === mode
                   ? "bg-primary-50 border-primary-600 text-primary-600"
-                  : "bg-white border-neutral-200 text-neutral-600"
+                  : "bg-neutral-0 border-neutral-200 text-neutral-600"
               }`}
             >
               {mode.charAt(0).toUpperCase() + mode.slice(1)}

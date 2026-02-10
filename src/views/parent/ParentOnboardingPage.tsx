@@ -1,6 +1,6 @@
 'use client';
 
-// src/pages/parent/ParentOnboardingPage.tsx
+// src/views/parent/ParentOnboardingPage.tsx
 // Multi-step onboarding flow for parents to set up their child's revision plan
 // Steps: Child Details → Goal → Needs → Exam Type → Subjects → Pathways → Priority/Grades → Revision Period → Availability → Confirm → Invite
 
