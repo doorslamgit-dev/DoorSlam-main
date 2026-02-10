@@ -39,7 +39,6 @@ function HeroSkeleton() {
 }
 
 function generateHeroSentence(child: ChildSummary): string {
-  const name = child.preferred_name || child.first_name;
   const completed = child.week_sessions_completed;
   const total = child.week_sessions_total;
 
@@ -70,7 +69,7 @@ function getISOWeek(date: Date): number {
 export function DashboardHeroCard({
   child,
   dailyPattern,
-  childCoverage,
+  childCoverage: _childCoverage,
   onActionClick,
   loading = false,
 }: DashboardHeroCardProps) {
@@ -79,7 +78,6 @@ export function DashboardHeroCard({
   const heroSentence = child.hero_sentence || generateHeroSentence(child);
   const sessionsCompleted = child.week_sessions_completed;
   const sessionsTotal = child.week_sessions_total;
-  const subjectsActive = childCoverage.length;
 
   // Determine today's day index (0=Mon ... 6=Sun)
   const todayIdx = (new Date().getDay() + 6) % 7;
