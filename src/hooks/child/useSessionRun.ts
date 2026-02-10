@@ -2,7 +2,7 @@
 // Custom hook for session runner state management
 
 import { useState, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from 'next/navigation';
 import {
   getRevisionSession,
   patchRevisionSessionStep,
@@ -40,7 +40,7 @@ type UseSessionRunReturn = {
 };
 
 export function useSessionRun({ plannedSessionId }: UseSessionRunOptions): UseSessionRunReturn {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const [sessionData, setSessionData] = useState<SessionData | null>(null);
   const [revisionSessionId, setRevisionSessionId] = useState<string | null>(null);
@@ -150,8 +150,8 @@ export function useSessionRun({ plannedSessionId }: UseSessionRunOptions): UseSe
   }, [currentStepIndex]);
 
   const handleExit = useCallback(() => {
-    navigate("/child/today");
-  }, [navigate]);
+    router.push("/child/today");
+  }, [router]);
 
   const handleFinish = useCallback(async () => {
     if (!revisionSessionId) return;
@@ -159,13 +159,13 @@ export function useSessionRun({ plannedSessionId }: UseSessionRunOptions): UseSe
     setSaving(true);
     try {
       await completeRevisionSession(revisionSessionId);
-      navigate("/child/today", { state: { sessionCompleted: true } });
+      router.push("/child/today?sessionCompleted=true");
     } catch (err) {
       console.error("[useSessionRun] Failed to complete session:", err);
     } finally {
       setSaving(false);
     }
-  }, [revisionSessionId, navigate]);
+  }, [revisionSessionId, router]);
 
   const handleUploadAudio = useCallback(
     async (blob: Blob): Promise<string> => {
@@ -181,8 +181,6 @@ export function useSessionRun({ plannedSessionId }: UseSessionRunOptions): UseSe
 
       const timestamp = Date.now();
       const fileName = `${user.id}/${revisionSessionId}_${timestamp}.webm`;
-
-      console.log("[useSessionRun] Uploading audio:", fileName, blob.size, "bytes");
 
       const { data, error: uploadError } = await supabase.storage
         .from("voice-notes")
@@ -200,7 +198,6 @@ export function useSessionRun({ plannedSessionId }: UseSessionRunOptions): UseSe
         .from("voice-notes")
         .getPublicUrl(data.path);
 
-      console.log("[useSessionRun] Audio uploaded successfully:", urlData.publicUrl);
       return urlData.publicUrl;
     },
     [sessionData, revisionSessionId]

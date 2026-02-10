@@ -58,11 +58,11 @@ export default function RecentActivity({ subjects }: RecentActivityProps) {
 
   if (recentActivities.length === 0) {
     return (
-      <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-soft p-6">
-        <h3 className="text-lg font-semibold mb-4 text-neutral-700 dark:text-neutral-200">
+      <div className="bg-neutral-0 rounded-2xl shadow-soft p-6">
+        <h3 className="text-lg font-semibold mb-4 text-neutral-700">
           Recent Activity
         </h3>
-        <p className="text-sm text-center py-4 text-neutral-500 dark:text-neutral-400">
+        <p className="text-sm text-center py-4 text-neutral-500">
           No recent activity
         </p>
       </div>
@@ -70,8 +70,8 @@ export default function RecentActivity({ subjects }: RecentActivityProps) {
   }
 
   return (
-    <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-soft p-6">
-      <h3 className="text-lg font-semibold mb-4 text-neutral-700 dark:text-neutral-200">
+    <div className="bg-neutral-0 rounded-2xl shadow-soft p-6">
+      <h3 className="text-lg font-semibold mb-4 text-neutral-700">
         Recent Activity
       </h3>
 
@@ -92,10 +92,10 @@ export default function RecentActivity({ subjects }: RecentActivityProps) {
             </div>
 
             <div>
-              <div className="text-sm font-medium text-neutral-700 dark:text-neutral-200">
+              <div className="text-sm font-medium text-neutral-700">
                 {getActivityTitle(activity.type, activity.subject)}
               </div>
-              <div className="text-xs text-neutral-500 dark:text-neutral-400">
+              <div className="text-xs text-neutral-500">
                 {activity.topic} • {activity.timeAgo}
               </div>
             </div>

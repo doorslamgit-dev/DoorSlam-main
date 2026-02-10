@@ -122,7 +122,7 @@ export default function ChildDetailsStep({
                 id="year-group"
                 value={String(value.year_group ?? 11)}
                 onChange={(e) => set("year_group", Number(e.target.value))}
-                className="w-full px-4 py-3 pr-10 border border-neutral-200 rounded-xl text-neutral-900 bg-white focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent transition-all appearance-none cursor-pointer"
+                className="w-full px-4 py-3 pr-10 border border-neutral-200 rounded-xl text-neutral-900 bg-neutral-0 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent transition-all appearance-none cursor-pointer"
               >
                 {[7, 8, 9, 10, 11, 12, 13].map((y) => (
                   <option key={y} value={String(y)}>

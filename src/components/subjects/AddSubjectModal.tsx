@@ -3,6 +3,7 @@
 // Modal for adding subjects to an existing child
 
 import { useState, useEffect, useMemo, useCallback } from "react";
+import Alert from "../ui/Alert";
 import AppIcon from "../ui/AppIcon";
 
 import {
@@ -397,7 +398,7 @@ export default function AddSubjectModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-      <div className="w-full max-w-2xl bg-white rounded-2xl shadow-xl overflow-hidden max-h-[90vh] flex flex-col">
+      <div className="w-full max-w-2xl bg-neutral-0 rounded-2xl shadow-xl overflow-hidden max-h-[90vh] flex flex-col">
         {/* Header */}
         <div className="px-8 pt-8 pb-6 border-b border-neutral-200 flex-shrink-0">
           <div className="flex items-center justify-between mb-4">
@@ -436,12 +437,9 @@ export default function AddSubjectModal({
 
         {/* Error display */}
         {error && (
-          <div className="mx-8 mt-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 flex-shrink-0">
-            <p className="text-sm font-medium text-red-800">
-              Something went wrong
-            </p>
-            <p className="text-sm text-red-700 mt-1">{error}</p>
-          </div>
+          <Alert variant="error" title="Something went wrong" className="mx-8 mt-6 flex-shrink-0">
+            {error}
+          </Alert>
         )}
 
         {/* Content */}

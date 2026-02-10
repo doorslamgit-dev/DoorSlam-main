@@ -94,7 +94,7 @@ export default function DayCard({
     <div
       className={`border-2 rounded-xl transition-all ${
         day.is_enabled
-          ? "border-neutral-200 bg-white"
+          ? "border-neutral-200 bg-neutral-0"
           : "border-neutral-100 bg-neutral-50"
       }`}
     >
@@ -114,7 +114,7 @@ export default function DayCard({
             aria-label={`${day.is_enabled ? "Disable" : "Enable"} ${day.day_name}`}
           >
             <div
-              className={`absolute top-[2px] left-[2px] w-5 h-5 bg-white rounded-full shadow transition-transform ${
+              className={`absolute top-[2px] left-[2px] w-5 h-5 bg-neutral-0 rounded-full shadow transition-transform ${
                 day.is_enabled ? "translate-x-5" : "translate-x-0"
               }`}
             />
@@ -169,7 +169,7 @@ export default function DayCard({
                   onChange={(e) =>
                     onUpdateSlot(idx, "time_of_day", e.target.value)
                   }
-                  className="w-full px-3 py-2 text-sm border border-neutral-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
+                  className="w-full px-3 py-2 text-sm border border-neutral-200 rounded-lg bg-neutral-0 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
                 >
                   {TIME_OF_DAY_OPTIONS.map((opt) => (
                     <option key={opt.value} value={opt.value}>
@@ -188,7 +188,7 @@ export default function DayCard({
                   onChange={(e) =>
                     onUpdateSlot(idx, "session_pattern", e.target.value)
                   }
-                  className="w-full px-3 py-2 text-sm border border-neutral-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
+                  className="w-full px-3 py-2 text-sm border border-neutral-200 rounded-lg bg-neutral-0 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
                 >
                   {SESSION_PATTERN_OPTIONS.map((opt) => (
                     <option key={opt.value} value={opt.value}>
@@ -201,7 +201,7 @@ export default function DayCard({
               <button
                 type="button"
                 onClick={() => onRemoveSlot(idx)}
-                className="w-8 h-8 flex items-center justify-center text-neutral-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors flex-shrink-0 mt-5"
+                className="w-8 h-8 flex items-center justify-center text-neutral-400 hover:text-danger hover:bg-danger-bg rounded-lg transition-colors flex-shrink-0 mt-5"
                 aria-label="Remove session"
               >
                 <AppIcon name="trash" className="w-4 h-4" aria-hidden />

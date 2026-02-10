@@ -1,6 +1,6 @@
 // src/services/child/completestep.ts
 
-import { ConfidenceOption, ConfidenceLevel } from "../../types/child/completestep";
+import { ConfidenceOption } from "../../types/child/completestep";
 import { getSubjectIcon } from "../../constants/icons";
 
 // Export for backward compatibility
@@ -14,9 +14,9 @@ export const CONFIDENCE_OPTIONS: ConfidenceOption[] = [
     emoji: "😊",
     description: "I could teach this to a friend",
     icon: "rocket",
-    bgColor: "bg-white",
-    selectedBg: "bg-green-50",
-    selectedBorder: "border-green-500",
+    bgColor: "bg-neutral-0",
+    selectedBg: "bg-success-bg",
+    selectedBorder: "border-success",
   },
   {
     id: "fairly_confident",
@@ -24,8 +24,8 @@ export const CONFIDENCE_OPTIONS: ConfidenceOption[] = [
     emoji: "🙂",
     description: "I understand most of it",
     icon: "check",
-    bgColor: "bg-white",
-    selectedBg: "bg-blue-50",
+    bgColor: "bg-neutral-0",
+    selectedBg: "bg-info-bg",
     selectedBorder: "border-blue-500",
   },
   {
@@ -34,8 +34,8 @@ export const CONFIDENCE_OPTIONS: ConfidenceOption[] = [
     emoji: "🤔",
     description: "Some parts are still unclear",
     icon: "circle-question",
-    bgColor: "bg-white",
-    selectedBg: "bg-amber-50",
+    bgColor: "bg-neutral-0",
+    selectedBg: "bg-warning-bg",
     selectedBorder: "border-amber-500",
   },
   {
@@ -44,8 +44,8 @@ export const CONFIDENCE_OPTIONS: ConfidenceOption[] = [
     emoji: "😅",
     description: "I'd like to go over this again",
     icon: "hand-heart",
-    bgColor: "bg-white",
-    selectedBg: "bg-red-50",
-    selectedBorder: "border-red-400",
+    bgColor: "bg-neutral-0",
+    selectedBg: "bg-danger-bg",
+    selectedBorder: "border-danger",
   },
 ];

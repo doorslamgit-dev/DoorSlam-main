@@ -13,7 +13,7 @@ export function StartButton({ canStart, isStarting, onStart }: StartButtonProps)
   const arrowIcon: IconKey = "arrow-right";
 
   return (
-    <div className="bg-white rounded-2xl shadow-card p-6">
+    <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
       <div className="flex items-center justify-between">
         <div>
           <h3 className="font-bold text-primary-900 mb-1">Ready to begin?</h3>

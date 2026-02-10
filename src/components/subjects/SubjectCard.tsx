@@ -4,7 +4,7 @@
 
 import AppIcon from "../ui/AppIcon";
 import type { SubjectProgress } from "../../types/subjectProgress";
-import { COLORS, STATUS_COLORS, getSubjectColor } from "../../constants/colors";
+import { STATUS_COLORS, getSubjectColor } from "../../constants/colors";
 
 interface SubjectCardProps {
   subject: SubjectProgress;
@@ -77,7 +77,7 @@ export default function SubjectCard({ subject }: SubjectCardProps) {
   const iconKey = mapSubjectIconToAppIcon(subject.subject_icon);
 
   return (
-    <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-soft p-6">
+    <div className="bg-neutral-0 rounded-2xl shadow-soft p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-3">
@@ -90,16 +90,15 @@ export default function SubjectCard({ subject }: SubjectCardProps) {
               className="w-5 h-5"
               aria-hidden
               // Lucide icons take currentColor; we set via style for per-subject colour
-              // eslint-disable-next-line react/forbid-dom-props
               style={{ color: subjectColor } as any}
             />
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-neutral-700 dark:text-neutral-200">
+            <h3 className="text-lg font-semibold text-neutral-700">
               {subject.subject_name}
             </h3>
-            <p className="text-sm text-neutral-500 dark:text-neutral-400">
+            <p className="text-sm text-neutral-500">
               {subject.exam_type || "GCSE"} • {subject.exam_board_name || "Edexcel"}
             </p>
           </div>
@@ -117,18 +116,18 @@ export default function SubjectCard({ subject }: SubjectCardProps) {
       {/* Content */}
       <div className="space-y-4">
         <div>
-          <div className="text-sm mb-2 text-neutral-600 dark:text-neutral-300">
+          <div className="text-sm mb-2 text-neutral-600">
             <span className="font-medium">Recently covered:</span>{" "}
-            <span className="text-neutral-500 dark:text-neutral-400">
+            <span className="text-neutral-500">
               {recentlyCovered.length > 0
                 ? recentlyCovered.map((t) => t.topic_name).join(", ")
                 : "No topics covered yet"}
             </span>
           </div>
 
-          <div className="text-sm text-neutral-600 dark:text-neutral-300">
+          <div className="text-sm text-neutral-600">
             <span className="font-medium">Coming up next:</span>{" "}
-            <span className="text-neutral-500 dark:text-neutral-400">
+            <span className="text-neutral-500">
               {comingUp.length > 0
                 ? comingUp.map((t) => t.topic_name).join(", ")
                 : "No upcoming topics scheduled"}
@@ -139,13 +138,13 @@ export default function SubjectCard({ subject }: SubjectCardProps) {
         {/* Progress Bar */}
         <div className="space-y-2">
           <div className="flex items-center justify-between text-sm">
-            <span className="text-neutral-500 dark:text-neutral-400">Coverage progress</span>
-            <span className="font-medium text-neutral-700 dark:text-neutral-200">
+            <span className="text-neutral-500">Coverage progress</span>
+            <span className="font-medium text-neutral-700">
               {subject.completion_percentage}% complete
             </span>
           </div>
 
-          <div className="w-full rounded-full h-2 bg-neutral-200 dark:bg-neutral-700">
+          <div className="w-full rounded-full h-2 bg-neutral-200">
             <div
               className="h-2 rounded-full transition-all duration-300"
               style={{

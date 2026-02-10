@@ -85,7 +85,7 @@ export interface EmptyStateProps extends HTMLAttributes<HTMLDivElement> {
 const variantStyles: Record<EmptyStateVariant, string> = {
   default: "py-8",
   minimal: "py-6",
-  card: "bg-white dark:bg-neutral-800 rounded-2xl shadow-card p-8",
+  card: "bg-neutral-0 rounded-2xl shadow-card p-8",
 };
 
 // ============================================================================
@@ -147,13 +147,13 @@ const EmptyState = forwardRef<HTMLDivElement, EmptyStateProps>(
         )}
 
         {/* Title */}
-        <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
+        <h3 className="text-lg font-semibold text-neutral-900 mb-2">
           {title}
         </h3>
 
         {/* Description */}
         {description && (
-          <p className="text-neutral-600 dark:text-neutral-400 mb-4 max-w-sm mx-auto">
+          <p className="text-neutral-600 mb-4 max-w-sm mx-auto">
             {description}
           </p>
         )}

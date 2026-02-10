@@ -80,24 +80,24 @@ export interface CardProps extends HTMLAttributes<HTMLDivElement> {
  */
 const variantStyles: Record<CardVariant, string> = {
   default: [
-    "bg-white dark:bg-neutral-800",
+    "bg-neutral-0",
     "shadow-card",
-    "border border-neutral-100 dark:border-neutral-700",
+    "border border-neutral-100",
   ].join(" "),
 
   elevated: [
-    "bg-white dark:bg-neutral-800",
+    "bg-neutral-0",
     "shadow-lg",
-    "border border-neutral-100 dark:border-neutral-700",
+    "border border-neutral-100",
   ].join(" "),
 
   outlined: [
-    "bg-white dark:bg-neutral-800",
-    "border-2 border-neutral-200 dark:border-neutral-600",
+    "bg-neutral-0",
+    "border-2 border-neutral-200",
   ].join(" "),
 
   flat: [
-    "bg-neutral-50 dark:bg-neutral-800/50",
+    "bg-neutral-50",
   ].join(" "),
 };
 
@@ -108,7 +108,7 @@ const interactiveStyles: Record<CardVariant, string> = {
   default: "hover:shadow-card-hover hover:border-neutral-200 cursor-pointer",
   elevated: "hover:shadow-xl cursor-pointer",
   outlined: "hover:border-primary-400 dark:hover:border-primary-500 cursor-pointer",
-  flat: "hover:bg-neutral-100 dark:hover:bg-neutral-700 cursor-pointer",
+  flat: "hover:bg-neutral-100 cursor-pointer",
 };
 
 /**
@@ -180,12 +180,12 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
           >
             <div>
               {title && (
-                <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
+                <h3 className="text-lg font-semibold text-neutral-900">
                   {title}
                 </h3>
               )}
               {subtitle && (
-                <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-0.5">
+                <p className="text-sm text-neutral-500 mt-0.5">
                   {subtitle}
                 </p>
               )}

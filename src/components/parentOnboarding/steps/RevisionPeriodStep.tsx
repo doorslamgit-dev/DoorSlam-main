@@ -125,7 +125,7 @@ export default function RevisionPeriodStep({
             id="start-date"
             value={revisionPeriod.start_date || ""}
             onChange={(e) => handleChange("start_date", e.target.value)}
-            className="w-full px-4 py-3 border border-neutral-200 rounded-xl text-neutral-900 bg-white focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent transition-all"
+            className="w-full px-4 py-3 border border-neutral-200 rounded-xl text-neutral-900 bg-neutral-0 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent transition-all"
           />
           <p className="mt-1.5 text-xs text-neutral-500">
             When do you want to begin the revision plan?
@@ -146,7 +146,7 @@ export default function RevisionPeriodStep({
             value={revisionPeriod.end_date || ""}
             onChange={(e) => handleChange("end_date", e.target.value)}
             min={revisionPeriod.start_date || ""}
-            className="w-full px-4 py-3 border border-neutral-200 rounded-xl text-neutral-900 bg-white focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent transition-all"
+            className="w-full px-4 py-3 border border-neutral-200 rounded-xl text-neutral-900 bg-neutral-0 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent transition-all"
           />
           <p className="mt-1.5 text-xs text-neutral-500">
             Date of the first exam or mock test

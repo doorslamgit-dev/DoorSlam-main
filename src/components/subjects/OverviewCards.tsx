@@ -11,8 +11,8 @@ export default function OverviewCards({ overview }: OverviewCardsProps) {
   const cards = [
     {
       icon: (
-        <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center">
-          <AppIcon name="shield" className="w-6 h-6 text-brand-purple" />
+        <div className="w-12 h-12 rounded-full bg-primary-100 flex items-center justify-center">
+          <AppIcon name="shield" className="w-6 h-6 text-primary-600" />
         </div>
       ),
       label: "Coverage Status",
@@ -26,8 +26,8 @@ export default function OverviewCards({ overview }: OverviewCardsProps) {
     },
     {
       icon: (
-        <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
-          <AppIcon name="rotate-cw" className="w-6 h-6 text-blue-500" />
+        <div className="w-12 h-12 rounded-full bg-info-bg flex items-center justify-center">
+          <AppIcon name="rotate-cw" className="w-6 h-6 text-info" />
         </div>
       ),
       label: "Recently Revisited",
@@ -38,8 +38,8 @@ export default function OverviewCards({ overview }: OverviewCardsProps) {
     },
     {
       icon: (
-        <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
-          <AppIcon name="trending-up" className="w-6 h-6 text-green-500" />
+        <div className="w-12 h-12 rounded-full bg-success-bg flex items-center justify-center">
+          <AppIcon name="trending-up" className="w-6 h-6 text-success" />
         </div>
       ),
       label: "Next Week's Focus",
@@ -57,14 +57,14 @@ export default function OverviewCards({ overview }: OverviewCardsProps) {
       {cards.map((card, index) => (
         <div
           key={index}
-          className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
+          className="bg-neutral-0 rounded-xl shadow-sm border border-neutral-200 p-6"
         >
           <div className="mb-4">{card.icon}</div>
-          <p className="text-sm text-gray-500 mb-1">{card.label}</p>
-          <p className="text-2xl font-semibold text-gray-900 mb-3">
+          <p className="text-sm text-neutral-500 mb-1">{card.label}</p>
+          <p className="text-2xl font-semibold text-neutral-900 mb-3">
             {card.value}
           </p>
-          <p className="text-xs text-gray-600">{card.subtext}</p>
+          <p className="text-xs text-neutral-600">{card.subtext}</p>
         </div>
       ))}
     </div>

@@ -87,8 +87,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       errorInfo,
     });
 
-    // TODO: Send to error tracking service (e.g., Sentry)
-    // Example: logErrorToService(error, errorInfo);
+    // Future: send to error tracking service (e.g. Sentry)
   }
 
   componentDidUpdate(prevProps: ErrorBoundaryProps): void {
@@ -118,7 +117,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       // Render default error UI
       return (
         <div className="min-h-screen flex items-center justify-center bg-neutral-50 p-4">
-          <div className="max-w-md w-full bg-white rounded-2xl shadow-lg border border-neutral-200 p-8">
+          <div className="max-w-md w-full bg-neutral-0 rounded-2xl shadow-lg border border-neutral-200 p-8">
             {/* Error Icon */}
             <div className="w-16 h-16 rounded-full bg-accent-red/10 flex items-center justify-center mx-auto mb-6">
               <AppIcon

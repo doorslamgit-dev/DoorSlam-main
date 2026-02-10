@@ -134,9 +134,7 @@ export function useParentDashboardData(
           table: "revision_sessions",
           filter: `child_id=in.(${childIds.join(",")})`,
         },
-        (payload) => {
-          console.log("[useParentDashboardData] Session change detected:", payload.eventType);
-          // Refresh data when a session is completed or updated
+        (_payload) => {
           fetchData(false);
         }
       )
@@ -148,16 +146,11 @@ export function useParentDashboardData(
           table: "planned_sessions",
           filter: `child_id=in.(${childIds.join(",")})`,
         },
-        (payload) => {
-          console.log("[useParentDashboardData] Planned session change:", payload.eventType);
+        (_payload) => {
           fetchData(false);
         }
       )
-      .subscribe((status) => {
-        if (status === "SUBSCRIBED") {
-          console.log("[useParentDashboardData] Real-time subscription active");
-        }
-      });
+      .subscribe();
 
     channelRef.current = channel;
 
@@ -177,8 +170,7 @@ export function useParentDashboardData(
 
     const handleVisibilityChange = () => {
       if (document.visibilityState === "visible") {
-        console.log("[useParentDashboardData] Tab became visible, checking for refresh");
-        fetchData(false); // Throttled refresh
+        fetchData(false);
       }
     };
 
@@ -213,8 +205,7 @@ export function useParentDashboardData(
   // Focus handler - refresh when window regains focus
   useEffect(() => {
     const handleFocus = () => {
-      console.log("[useParentDashboardData] Window focused, checking for refresh");
-      fetchData(false); // Throttled refresh
+      fetchData(false);
     };
 
     window.addEventListener("focus", handleFocus);

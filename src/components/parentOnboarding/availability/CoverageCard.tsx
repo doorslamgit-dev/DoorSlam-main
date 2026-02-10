@@ -59,7 +59,7 @@ export interface CoverageCardProps {
   feasibility: FeasibilityResult;
 }
 
-export function CoverageCard({ coverage, required, feasibility }: CoverageCardProps) {
+export function CoverageCard({ coverage, required: _required, feasibility }: CoverageCardProps) {
   const statusInfo = getCoverageStatusInfo(coverage.coverage_status);
   const [showDetails, setShowDetails] = useState(false);
 
@@ -155,7 +155,7 @@ export function CoverageCard({ coverage, required, feasibility }: CoverageCardPr
               );
 
               return (
-                <div key={subject.subject_id} className="p-3 bg-white rounded-lg">
+                <div key={subject.subject_id} className="p-3 bg-neutral-0 rounded-lg">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
                       <span className="text-sm font-medium text-neutral-900">

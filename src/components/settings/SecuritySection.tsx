@@ -1,6 +1,9 @@
 import { useState } from "react";
+import Alert from "../ui/Alert";
 import AppIcon from "../ui/AppIcon";
-import { supabase } from "../../lib/supabase";
+import Button from "../ui/Button";
+import FormField from "../ui/FormField";
+import { updatePassword } from "../../services/accountService";
 
 export function SecuritySection() {
   const [showPasswordForm, setShowPasswordForm] = useState(false);
@@ -26,23 +29,19 @@ export function SecuritySection() {
 
     setSavingPassword(true);
 
-    try {
-      const { error } = await supabase.auth.updateUser({
-        password: newPassword,
-      });
+    const { success, error } = await updatePassword(newPassword);
 
-      if (error) throw error;
-
+    if (success) {
       setPasswordSuccess(true);
       setShowPasswordForm(false);
       setNewPassword("");
       setConfirmPassword("");
       setTimeout(() => setPasswordSuccess(false), 3000);
-    } catch (err: any) {
-      setPasswordError(err.message || "Failed to change password");
-    } finally {
-      setSavingPassword(false);
+    } else {
+      setPasswordError(error || "Failed to change password");
     }
+
+    setSavingPassword(false);
   };
 
   const handleCancel = () => {
@@ -53,17 +52,16 @@ export function SecuritySection() {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-card p-6">
+    <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
       <div className="flex items-center gap-3 mb-6">
         <AppIcon name="lock" className="w-5 h-5 text-primary-600" />
         <h2 className="text-lg font-semibold text-neutral-700">Security</h2>
       </div>
 
       {passwordSuccess && (
-        <div className="mb-4 p-3 rounded-xl flex items-center gap-2 bg-green-100">
-          <AppIcon name="check" className="w-4 h-4 text-accent-green" />
-          <p className="text-sm text-green-800">Password changed successfully</p>
-        </div>
+        <Alert variant="success" className="mb-4">
+          Password changed successfully
+        </Alert>
       )}
 
       {!showPasswordForm ? (
@@ -75,48 +73,30 @@ export function SecuritySection() {
         </button>
       ) : (
         <div className="space-y-4">
-          <div>
-            <label className="text-sm font-medium mb-1 block text-neutral-700">
-              New password
-            </label>
-            <input
-              type="password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-primary-600 bg-neutral-50"
-            />
-          </div>
-          <div>
-            <label className="text-sm font-medium mb-1 block text-neutral-700">
-              Confirm new password
-            </label>
-            <input
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-primary-600 bg-neutral-50"
-            />
-          </div>
+          <FormField
+            label="New password"
+            type="password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+          />
+          <FormField
+            label="Confirm new password"
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
           {passwordError && (
-            <p className="text-sm text-accent-red">{passwordError}</p>
+            <Alert variant="error" hideIcon>
+              {passwordError}
+            </Alert>
           )}
           <div className="flex gap-3">
-            <button
-              onClick={handleCancel}
-              className="px-4 py-2 rounded-xl border border-neutral-200 text-neutral-700 font-medium"
-            >
+            <Button variant="secondary" onClick={handleCancel}>
               Cancel
-            </button>
-            <button
-              onClick={handlePasswordChange}
-              disabled={savingPassword}
-              className="px-4 py-2 rounded-xl bg-primary-600 text-white font-medium flex items-center gap-2 hover:bg-primary-700 transition-colors"
-            >
-              {savingPassword && (
-                <AppIcon name="loader" className="w-4 h-4 animate-spin" />
-              )}
+            </Button>
+            <Button onClick={handlePasswordChange} loading={savingPassword}>
               Update password
-            </button>
+            </Button>
           </div>
         </div>
       )}

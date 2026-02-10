@@ -13,9 +13,9 @@ interface SubjectBalanceWidgetProps {
 export default function SubjectBalanceWidget({ data, loading }: SubjectBalanceWidgetProps) {
   if (loading) {
     return (
-      <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-card p-6 border border-neutral-200 dark:border-neutral-700 animate-pulse">
-        <div className="h-6 bg-neutral-100 dark:bg-neutral-700 rounded w-1/3 mb-4" />
-        <div className="h-48 bg-neutral-100 dark:bg-neutral-700 rounded-full mx-auto" style={{ width: 192 }} />
+      <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200 animate-pulse">
+        <div className="h-6 bg-neutral-100 rounded w-1/3 mb-4" />
+        <div className="h-48 bg-neutral-100 rounded-full mx-auto" style={{ width: 192 }} />
       </div>
     );
   }
@@ -30,7 +30,7 @@ export default function SubjectBalanceWidget({ data, loading }: SubjectBalanceWi
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white p-3 border border-neutral-200 rounded-lg shadow-sm">
+        <div className="bg-neutral-0 p-3 border border-neutral-200 rounded-lg shadow-sm">
           <p className="text-sm font-medium text-neutral-700">{payload[0].name}</p>
           <p className="text-xs text-neutral-500">
             {payload[0].value} sessions ({payload[0].payload.percentage}%)
@@ -42,12 +42,12 @@ export default function SubjectBalanceWidget({ data, loading }: SubjectBalanceWi
   };
 
   return (
-    <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-card p-6 border border-neutral-200 dark:border-neutral-700">
+    <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="text-lg font-bold text-primary-900 dark:text-neutral-100 mb-1">Subject Balance</h3>
-          <p className="text-xs text-neutral-500 dark:text-neutral-400">Time distribution</p>
+          <h3 className="text-lg font-bold text-primary-900 mb-1">Subject Balance</h3>
+          <p className="text-xs text-neutral-500">Time distribution</p>
         </div>
       </div>
 
@@ -73,7 +73,7 @@ export default function SubjectBalanceWidget({ data, loading }: SubjectBalanceWi
             </PieChart>
           </ResponsiveContainer>
         ) : (
-          <div className="h-full flex items-center justify-center text-neutral-400 dark:text-neutral-500">
+          <div className="h-full flex items-center justify-center text-neutral-400">
             No subject data for this period
           </div>
         )}
@@ -84,21 +84,21 @@ export default function SubjectBalanceWidget({ data, loading }: SubjectBalanceWi
         {data?.subjects?.map((subject, index) => (
           <div
             key={subject.subject_id}
-            className="flex items-center justify-between p-3 bg-neutral-50 dark:bg-neutral-900 rounded-lg"
+            className="flex items-center justify-between p-3 bg-neutral-50 rounded-lg"
           >
             <div className="flex items-center space-x-2">
               <div className="w-3 h-3 rounded" style={{ backgroundColor: COLORS.chart[index % COLORS.chart.length] }} />
-              <span className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">{subject.subject_name}</span>
+              <span className="text-sm font-semibold text-neutral-900">{subject.subject_name}</span>
             </div>
-            <span className="text-lg font-bold text-primary-900 dark:text-neutral-100">{subject.percentage}%</span>
+            <span className="text-lg font-bold text-primary-900">{subject.percentage}%</span>
           </div>
         ))}
       </div>
 
       {/* Summary */}
       {data && (
-        <div className="mt-4 pt-4 border-t border-neutral-200 dark:border-neutral-700 text-center">
-          <p className="text-xs text-neutral-500 dark:text-neutral-400">
+        <div className="mt-4 pt-4 border-t border-neutral-200 text-center">
+          <p className="text-xs text-neutral-500">
             {data.total_sessions} sessions • {data.total_minutes} minutes total
           </p>
         </div>

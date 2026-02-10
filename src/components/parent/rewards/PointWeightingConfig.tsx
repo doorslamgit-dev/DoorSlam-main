@@ -33,28 +33,28 @@ export function PointWeightingConfig({
   };
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">
+    <div className="bg-neutral-0 rounded-xl border border-neutral-200 p-4 sm:p-6">
+      <h3 className="text-lg font-semibold text-neutral-900 mb-4">
         Point Weighting
       </h3>
       
-      <p className="text-sm text-gray-600 mb-6">
+      <p className="text-sm text-neutral-600 mb-6">
         Control how points are calculated when your child completes a session. 
         This helps ensure they're not just rushing through to collect points.
       </p>
 
       {/* Mode Toggle */}
       <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-6">
-        <label className="text-sm font-medium text-gray-700">Mode:</label>
-        <div className="flex rounded-lg border border-gray-300 overflow-hidden">
+        <label className="text-sm font-medium text-neutral-700">Mode:</label>
+        <div className="flex rounded-lg border border-neutral-300 overflow-hidden">
           <button
             type="button"
             onClick={() => onChange('mode', 'auto')}
             disabled={disabled}
             className={`flex-1 sm:flex-none px-4 py-2 text-sm font-medium transition-colors ${
               mode === 'auto'
-                ? 'bg-purple-600 text-white'
-                : 'bg-white text-gray-700 hover:bg-gray-50'
+                ? 'bg-primary-600 text-white'
+                : 'bg-neutral-0 text-neutral-700 hover:bg-neutral-50'
             } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             Auto
@@ -65,8 +65,8 @@ export function PointWeightingConfig({
             disabled={disabled}
             className={`flex-1 sm:flex-none px-4 py-2 text-sm font-medium transition-colors ${
               mode === 'manual'
-                ? 'bg-purple-600 text-white'
-                : 'bg-white text-gray-700 hover:bg-gray-50'
+                ? 'bg-primary-600 text-white'
+                : 'bg-neutral-0 text-neutral-700 hover:bg-neutral-50'
             } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             Manual
@@ -75,8 +75,8 @@ export function PointWeightingConfig({
       </div>
 
       {mode === 'auto' ? (
-        <div className="bg-gray-50 rounded-lg p-4 text-sm text-gray-600">
-          <p className="font-medium text-gray-900 mb-2">Auto Mode</p>
+        <div className="bg-neutral-50 rounded-lg p-4 text-sm text-neutral-600">
+          <p className="font-medium text-neutral-900 mb-2">Auto Mode</p>
           <p>
             Doorslam will use balanced defaults: 40% Completion, 35% Accuracy, 25% Focus.
             This ensures a good mix of finishing sessions, getting answers right, and staying focused.
@@ -87,10 +87,10 @@ export function PointWeightingConfig({
           {/* Completion Slider */}
           <div>
             <div className="flex justify-between items-center mb-2">
-              <label className="text-sm font-medium text-gray-700">
+              <label className="text-sm font-medium text-neutral-700">
                 Completion
               </label>
-              <span className="text-sm font-semibold text-purple-600">
+              <span className="text-sm font-semibold text-primary-600">
                 {completionWeight}%
               </span>
             </div>
@@ -101,9 +101,9 @@ export function PointWeightingConfig({
               value={completionWeight}
               onChange={(e) => handleSliderChange('completion_weight', parseInt(e.target.value))}
               disabled={disabled}
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-purple-600"
+              className="w-full h-2 bg-neutral-200 rounded-lg appearance-none cursor-pointer accent-primary-600"
             />
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-neutral-500 mt-1">
               Did they finish the session?
             </p>
           </div>
@@ -111,10 +111,10 @@ export function PointWeightingConfig({
           {/* Accuracy Slider */}
           <div>
             <div className="flex justify-between items-center mb-2">
-              <label className="text-sm font-medium text-gray-700">
+              <label className="text-sm font-medium text-neutral-700">
                 Accuracy
               </label>
-              <span className="text-sm font-semibold text-green-600">
+              <span className="text-sm font-semibold text-success">
                 {accuracyWeight}%
               </span>
             </div>
@@ -125,9 +125,9 @@ export function PointWeightingConfig({
               value={accuracyWeight}
               onChange={(e) => handleSliderChange('accuracy_weight', parseInt(e.target.value))}
               disabled={disabled}
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-green-600"
+              className="w-full h-2 bg-neutral-200 rounded-lg appearance-none cursor-pointer accent-green-600"
             />
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-neutral-500 mt-1">
               Did they get practice questions right?
             </p>
           </div>
@@ -135,10 +135,10 @@ export function PointWeightingConfig({
           {/* Focus Slider */}
           <div>
             <div className="flex justify-between items-center mb-2">
-              <label className="text-sm font-medium text-gray-700">
+              <label className="text-sm font-medium text-neutral-700">
                 Focus
               </label>
-              <span className="text-sm font-semibold text-blue-600">
+              <span className="text-sm font-semibold text-info">
                 {focusWeight}%
               </span>
             </div>
@@ -149,20 +149,20 @@ export function PointWeightingConfig({
               value={focusWeight}
               onChange={(e) => handleSliderChange('focus_weight', parseInt(e.target.value))}
               disabled={disabled}
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+              className="w-full h-2 bg-neutral-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
             />
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-neutral-500 mt-1">
               Was Focus Mode on? Did they stay on task?
             </p>
           </div>
 
           {/* Total Indicator */}
           <div className={`flex justify-between items-center p-3 rounded-lg ${
-            isValid ? 'bg-green-50' : 'bg-red-50'
+            isValid ? 'bg-success-bg' : 'bg-danger-bg'
           }`}>
-            <span className="text-sm font-medium text-gray-700">Total:</span>
+            <span className="text-sm font-medium text-neutral-700">Total:</span>
             <span className={`text-lg font-bold ${
-              isValid ? 'text-green-600' : 'text-red-600'
+              isValid ? 'text-success' : 'text-danger'
             }`}>
               {total}%
               {!isValid && <span className="text-sm font-normal ml-2">(must equal 100%)</span>}
@@ -172,12 +172,12 @@ export function PointWeightingConfig({
       )}
 
       {/* Auto-Approve Threshold */}
-      <div className="mt-6 pt-6 border-t border-gray-200">
+      <div className="mt-6 pt-6 border-t border-neutral-200">
         <div className="flex justify-between items-center mb-2">
-          <label className="text-sm font-medium text-gray-700">
+          <label className="text-sm font-medium text-neutral-700">
             Auto-Approve Threshold
           </label>
-          <span className="text-sm font-semibold text-gray-900">
+          <span className="text-sm font-semibold text-neutral-900">
             {autoApproveThreshold === 0 ? 'Off' : `${autoApproveThreshold} points`}
           </span>
         </div>
@@ -189,9 +189,9 @@ export function PointWeightingConfig({
           value={autoApproveThreshold}
           onChange={(e) => onChange('auto_approve_threshold', parseInt(e.target.value))}
           disabled={disabled}
-          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-gray-600"
+          className="w-full h-2 bg-neutral-200 rounded-lg appearance-none cursor-pointer accent-neutral-600"
         />
-        <p className="text-xs text-gray-500 mt-1">
+        <p className="text-xs text-neutral-500 mt-1">
           {autoApproveThreshold === 0 
             ? 'All redemption requests require your approval.'
             : `Rewards costing ${autoApproveThreshold} points or less will be auto-approved.`

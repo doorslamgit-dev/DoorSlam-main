@@ -68,7 +68,7 @@ export default function TrafficLight({
               ? "bg-accent-green/15"
               : status === "marginal"
               ? "bg-accent-amber/15"
-              : "bg-red-100"
+              : "bg-danger-bg"
           }`}
         >
           <AppIcon

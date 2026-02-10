@@ -4,7 +4,7 @@
 interface ChildInfo {
   id: string;
   first_name: string;
-  preferred_name: string;
+  preferred_name: string | null;
 }
 
 interface RewardHeroHeaderProps {
@@ -26,10 +26,10 @@ export function RewardHeroHeader({
   return (
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">
+        <h1 className="text-2xl font-bold text-neutral-900">
           {childName}'s Rewards
         </h1>
-        <p className="text-gray-600 mt-1">
+        <p className="text-neutral-600 mt-1">
           {enabledCount === 0 
             ? 'No rewards set up yet' 
             : `${enabledCount} reward${enabledCount !== 1 ? 's' : ''} active`
@@ -46,8 +46,8 @@ export function RewardHeroHeader({
               onClick={() => onSelectChild(child.id)}
               className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                 selectedChildId === child.id
-                  ? 'bg-purple-600 text-white'
-                  : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'
+                  ? 'bg-primary-600 text-white'
+                  : 'bg-neutral-0 text-neutral-700 hover:bg-neutral-50 border border-neutral-200'
               }`}
             >
               {child.preferred_name || child.first_name}

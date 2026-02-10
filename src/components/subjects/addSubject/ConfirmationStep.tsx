@@ -26,7 +26,7 @@ export default function ConfirmationStep({
         {subjectsWithGrades.map((subject) => (
           <div
             key={subject.subject_id}
-            className="flex items-center justify-between bg-white rounded-lg p-3 border border-neutral-200"
+            className="flex items-center justify-between bg-neutral-0 rounded-lg p-3 border border-neutral-200"
           >
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-primary-100 flex items-center justify-center">
@@ -58,8 +58,8 @@ export default function ConfirmationStep({
         ))}
       </div>
 
-      <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
-        <p className="text-sm text-blue-800">
+      <div className="bg-info-bg border border-info-border rounded-xl p-4">
+        <p className="text-sm text-info">
           <strong>What happens next:</strong> Sessions will be automatically
           redistributed across all subjects based on your priority order.{" "}
           {childName} will see the updated schedule right away.

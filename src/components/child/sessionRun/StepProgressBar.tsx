@@ -27,7 +27,7 @@ export default function StepProgressBar({
   const progressPercent = (safeCurrent / safeTotal) * 100;
 
   return (
-    <div className="bg-white border-b border-neutral-200 py-4">
+    <div className="bg-neutral-0 border-b border-neutral-200 py-4">
       <div className="max-w-4xl mx-auto px-4">
         <div className="flex items-center justify-between mb-3">
           <p className="text-neutral-600 text-sm">

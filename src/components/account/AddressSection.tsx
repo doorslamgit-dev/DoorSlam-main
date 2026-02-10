@@ -1,10 +1,8 @@
 import { useState } from "react";
-import AppIcon from "../../components/ui/AppIcon";
-import { supabase } from "../../lib/supabase";
 import { SectionCard } from "./SectionCard";
-import { FormField } from "./FormField";
+import FormField from "../ui/FormField";
+import { updateParentAddress } from "../../services/accountService";
 import type { ProfileData } from "../../hooks/useAccountData";
-import type { IconKey } from "../../components/ui/AppIcon";
 
 interface AddressSectionProps {
   parentData: ProfileData;
@@ -48,29 +46,24 @@ export function AddressSection({
     setSaving(true);
     onError("");
 
-    try {
-      const { error: updateError } = await supabase
-        .from("profiles")
-        .update({
-          address_line1: localData.address_line1,
-          address_line2: localData.address_line2,
-          city: localData.city,
-          postcode: localData.postcode,
-          timezone: localData.timezone,
-          updated_at: new Date().toISOString(),
-        })
-        .eq("id", userId);
+    const { success, error } = await updateParentAddress(userId, {
+      address_line1: localData.address_line1,
+      address_line2: localData.address_line2,
+      city: localData.city,
+      postcode: localData.postcode,
+      timezone: localData.timezone,
+    });
 
-      if (updateError) throw updateError;
-
-      onUpdate(localData);
-      setEditing(false);
-      setBackup(null);
-    } catch (err: any) {
-      onError(err.message || "Failed to save address");
-    } finally {
+    if (!success) {
+      onError(error || "Failed to save address");
       setSaving(false);
+      return;
     }
+
+    onUpdate(localData);
+    setEditing(false);
+    setBackup(null);
+    setSaving(false);
   };
 
   return (
@@ -87,16 +80,16 @@ export function AddressSection({
         <FormField
           label="Address line 1"
           value={localData.address_line1 || ""}
-          onChange={(v) =>
-            setLocalData({ ...localData, address_line1: v || null })
+          onChange={(e) =>
+            setLocalData({ ...localData, address_line1: e.target.value || null })
           }
           disabled={!editing}
         />
         <FormField
           label="Address line 2 (optional)"
           value={localData.address_line2 || ""}
-          onChange={(v) =>
-            setLocalData({ ...localData, address_line2: v || null })
+          onChange={(e) =>
+            setLocalData({ ...localData, address_line2: e.target.value || null })
           }
           disabled={!editing}
         />
@@ -104,14 +97,14 @@ export function AddressSection({
           <FormField
             label="City"
             value={localData.city || ""}
-            onChange={(v) => setLocalData({ ...localData, city: v || null })}
+            onChange={(e) => setLocalData({ ...localData, city: e.target.value || null })}
             disabled={!editing}
           />
           <FormField
             label="Postcode"
             value={localData.postcode || ""}
-            onChange={(v) =>
-              setLocalData({ ...localData, postcode: v || null })
+            onChange={(e) =>
+              setLocalData({ ...localData, postcode: e.target.value || null })
             }
             disabled={!editing}
           />

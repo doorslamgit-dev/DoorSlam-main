@@ -645,7 +645,6 @@ export async function fetchWeeklyTemplate(
 
     // If no template exists, return default empty template
     if (!templateData || templateData.length === 0) {
-      console.log("No template found for child, returning default");
       const emptyTemplate: DayTemplate[] = DAY_NAMES.map((name, i) => ({
         day_of_week: i,
         day_name: name,
@@ -689,7 +688,6 @@ export async function fetchWeeklyTemplate(
       };
     });
 
-    console.log("Loaded template:", template);
     return { data: template, error: null };
   } catch (err: any) {
     console.error("Error fetching weekly template:", err);
@@ -774,21 +772,16 @@ export async function saveTemplateAndRegenerate(
 ): Promise<{ success: boolean; sessionsCreated: number; error: string | null; warning: string | null }> {
   let warning: string | null = null;
   
-  console.log("[saveTemplateAndRegenerate] Starting for child:", childId);
-  console.log("[saveTemplateAndRegenerate] Template:", JSON.stringify(template, null, 2));
   
   try {
     // 1. Save the template - this is the critical part
-    console.log("[saveTemplateAndRegenerate] Step 1: Saving template...");
     const saveResult = await saveWeeklyTemplate(childId, template);
     if (!saveResult.success) {
       console.error("[saveTemplateAndRegenerate] Template save failed:", saveResult.error);
       return { success: false, sessionsCreated: 0, error: saveResult.error, warning: null };
     }
-    console.log("[saveTemplateAndRegenerate] Template saved successfully");
 
     // 2. Sync to legacy revision_schedules (optional - don't fail if this errors)
-    console.log("[saveTemplateAndRegenerate] Step 2: Syncing to revision_schedules...");
     try {
       const { error: syncError } = await supabase.rpc(
         "rpc_set_revision_schedules_from_weekly_template",
@@ -797,8 +790,6 @@ export async function saveTemplateAndRegenerate(
       if (syncError) {
         console.warn("[saveTemplateAndRegenerate] Sync warning:", syncError);
         warning = "Schedule saved but legacy sync failed";
-      } else {
-        console.log("[saveTemplateAndRegenerate] Sync completed");
       }
     } catch (syncErr) {
       console.warn("[saveTemplateAndRegenerate] Sync exception:", syncErr);
@@ -806,9 +797,8 @@ export async function saveTemplateAndRegenerate(
 
     // 3. Delete future planned sessions (not started/completed)
     const today = new Date().toISOString().split("T")[0];
-    console.log("[saveTemplateAndRegenerate] Step 3: Deleting future sessions from:", today);
     try {
-      const { data: deleteData, error: deleteError, count: deleteCount } = await supabase
+      const { error: deleteError } = await supabase
         .from("planned_sessions")
         .delete()
         .eq("child_id", childId)
@@ -819,8 +809,6 @@ export async function saveTemplateAndRegenerate(
       if (deleteError) {
         console.warn("[saveTemplateAndRegenerate] Delete warning:", deleteError);
         warning = "Schedule saved but could not clear future sessions";
-      } else {
-        console.log("[saveTemplateAndRegenerate] Deleted sessions:", deleteData?.length || 0);
       }
     } catch (delErr) {
       console.warn("[saveTemplateAndRegenerate] Delete exception:", delErr);
@@ -828,7 +816,6 @@ export async function saveTemplateAndRegenerate(
 
     // 4. Regenerate sessions using new RPC that handles full revision period
     let sessionsCreated = 0;
-    console.log("[saveTemplateAndRegenerate] Step 4: Calling rpc_regenerate_child_plan...");
     try {
       const { data: regenResult, error: regenError } = await supabase.rpc(
         "rpc_regenerate_child_plan",
@@ -842,7 +829,6 @@ export async function saveTemplateAndRegenerate(
         console.warn("[saveTemplateAndRegenerate] Regeneration failed:", regenResult?.error);
         warning = regenResult?.error || "Schedule saved but session regeneration failed.";
       } else {
-        console.log("[saveTemplateAndRegenerate] Regeneration success:", regenResult);
         sessionsCreated = regenResult.sessions_created || 0;
       }
     } catch (regenErr) {
@@ -851,7 +837,6 @@ export async function saveTemplateAndRegenerate(
     }
 
     // Template was saved successfully - return success even if regeneration had issues
-    console.log("[saveTemplateAndRegenerate] Complete. Success:", true, "Sessions:", sessionsCreated, "Warning:", warning);
     return { 
       success: true, 
       sessionsCreated, 

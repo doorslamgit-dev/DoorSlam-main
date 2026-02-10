@@ -62,8 +62,8 @@ const ICON_CHAT: IconKey = "chat";
 const ICON_CHEVRON_DOWN: IconKey = "chevronDown";
 const ICON_MIC: IconKey = "microphone";
 const ICON_STOP: IconKey = "stop";
-const ICON_VOLUME_UP: IconKey = "volumeUp";
-const ICON_VOLUME_MUTE: IconKey = "volumeMute";
+const _ICON_VOLUME_UP: IconKey = "volumeUp";
+const _ICON_VOLUME_MUTE: IconKey = "volumeMute";
 
 // =============================================================================
 // Component
@@ -452,7 +452,7 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105 flex items-center justify-center z-50"
+        className="fixed bottom-20 right-6 w-14 h-14 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105 flex items-center justify-center z-50"
         aria-label="Open Study Buddy"
       >
         <AppIcon name={ICON_ROBOT} />
@@ -466,7 +466,7 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
 
   if (isMinimized) {
     return (
-      <div className="fixed bottom-6 right-6 z-50">
+      <div className="fixed bottom-20 right-6 z-50">
         <button
           type="button"
           onClick={() => setIsMinimized(false)}
@@ -489,7 +489,7 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
   // ===========================================================================
 
   return (
-    <div className="fixed bottom-6 right-6 w-80 sm:w-96 h-[500px] bg-neutral-50 rounded-2xl shadow-2xl flex flex-col overflow-hidden z-50 border border-neutral-200">
+    <div className="fixed bottom-20 right-6 w-80 sm:w-96 h-[500px] bg-neutral-50 rounded-2xl shadow-2xl flex flex-col overflow-hidden z-50 border border-neutral-200">
       {/* Header */}
       <div className="bg-gradient-to-r from-primary-500 to-primary-700 px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -559,7 +559,7 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center flex-shrink-0">
               <AppIcon name={ICON_ROBOT} />
             </div>
-            <div className="bg-white rounded-2xl rounded-tl-none px-4 py-2 shadow-sm flex items-center gap-2">
+            <div className="bg-neutral-0 rounded-2xl rounded-tl-none px-4 py-2 shadow-sm flex items-center gap-2">
               <span className="animate-spin">
                 <AppIcon name={ICON_SPINNER} />
               </span>
@@ -574,7 +574,7 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center flex-shrink-0">
               <AppIcon name={ICON_ROBOT} />
             </div>
-            <div className="bg-white rounded-2xl rounded-tl-none px-4 py-2 shadow-sm flex items-center gap-2">
+            <div className="bg-neutral-0 rounded-2xl rounded-tl-none px-4 py-2 shadow-sm flex items-center gap-2">
               <span className="animate-spin">
                 <AppIcon name={ICON_SPINNER} />
               </span>
@@ -611,7 +611,7 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
       )}
 
       {/* Input area */}
-      <div className="p-3 border-t border-neutral-200 bg-white">
+      <div className="p-3 border-t border-neutral-200 bg-neutral-0">
         {messagesRemaining > 0 ? (
           <>
             {/* Recording state */}

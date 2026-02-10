@@ -60,7 +60,7 @@ class StudyBuddyVoiceService {
   private baseUrl: string;
 
   constructor() {
-    this.baseUrl = import.meta.env.VITE_SUPABASE_URL || "";
+    this.baseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
   }
 
   // ===========================================================================
@@ -178,7 +178,6 @@ class StudyBuddyVoiceService {
       const cacheKey = this.hashText(text + voice);
       const cachedAudio = audioCache.get(cacheKey);
       if (cachedAudio) {
-        console.log("[VoiceService] Returning cached audio");
         return {
           success: true,
           audio_url: cachedAudio,
@@ -272,7 +271,7 @@ class StudyBuddyVoiceService {
     return new Promise((resolve, reject) => {
       const audio = new Audio(audioUrl);
       audio.onended = () => resolve();
-      audio.onerror = (e) => reject(new Error("Audio playback failed"));
+      audio.onerror = (_e) => reject(new Error("Audio playback failed"));
       audio.play().catch(reject);
     });
   }

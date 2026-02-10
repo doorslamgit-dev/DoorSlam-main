@@ -78,7 +78,7 @@ export async function requestRedemption(
  * Cancel a pending redemption request
  */
 export async function cancelRedemption(redemptionId: string): Promise<{ success: boolean }> {
-  const { data, error } = await supabase.rpc('rpc_cancel_redemption_request', {
+  const { data: _data, error } = await supabase.rpc('rpc_cancel_redemption_request', {
     p_redemption_id: redemptionId,
   });
 

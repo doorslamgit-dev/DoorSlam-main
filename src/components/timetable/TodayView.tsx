@@ -30,7 +30,7 @@ export default function TodayView({
 
   if (loading) {
     return (
-      <div className="bg-white rounded-2xl shadow-card p-6 animate-pulse">
+      <div className="bg-neutral-0 rounded-2xl shadow-card p-6 animate-pulse">
         <div className="h-8 bg-neutral-200 rounded w-64 mb-6" />
         <div className="space-y-4">
           {[1, 2, 3].map((i) => (
@@ -42,7 +42,7 @@ export default function TodayView({
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-card overflow-hidden">
+    <div className="bg-neutral-0 rounded-2xl shadow-card overflow-hidden">
       {/* Header */}
       <div className={`px-6 py-4 border-b ${isToday ? "bg-primary-50 border-primary-200" : "bg-neutral-50 border-neutral-200"}`}>
         <div className="flex items-center justify-between">
@@ -110,7 +110,7 @@ export default function TodayView({
                       ? "bg-accent-green/5 border-accent-green/30"
                       : isStarted
                       ? "bg-primary-50 border-primary-300"
-                      : "bg-white border-neutral-200 hover:border-primary-300"
+                      : "bg-neutral-0 border-neutral-200 hover:border-primary-300"
                   }`}
                 >
                   <div className="flex items-start gap-4">

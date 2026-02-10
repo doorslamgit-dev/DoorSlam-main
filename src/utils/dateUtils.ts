@@ -74,16 +74,16 @@ const subjectIcons: Record<string, string> = {
 
 const subjectColors: Record<string, string> = {
   chemistry: "bg-emerald-100 text-emerald-700",
-  physics: "bg-blue-100 text-blue-700",
-  biology: "bg-green-100 text-green-700",
-  mathematics: "bg-purple-100 text-purple-700",
-  maths: "bg-purple-100 text-purple-700",
-  english: "bg-amber-100 text-amber-700",
-  "english literature": "bg-amber-100 text-amber-700",
+  physics: "bg-info-bg text-info",
+  biology: "bg-success-bg text-success",
+  mathematics: "bg-primary-100 text-primary-700",
+  maths: "bg-primary-100 text-primary-700",
+  english: "bg-warning-bg text-warning",
+  "english literature": "bg-warning-bg text-warning",
   history: "bg-orange-100 text-orange-700",
   geography: "bg-teal-100 text-teal-700",
-  "religious studies": "bg-indigo-100 text-indigo-700",
-  "computer science": "bg-slate-100 text-slate-700",
+  "religious studies": "bg-primary-100 text-primary-700",
+  "computer science": "bg-neutral-100 text-neutral-700",
 };
 
 export function getSubjectIcon(subjectName: string | null): string {
@@ -93,5 +93,5 @@ export function getSubjectIcon(subjectName: string | null): string {
 
 export function getSubjectColorClass(subjectName: string | null): string {
   const key = (subjectName || "").toLowerCase();
-  return subjectColors[key] || "bg-gray-100 text-gray-700";
+  return subjectColors[key] || "bg-neutral-100 text-neutral-700";
 }

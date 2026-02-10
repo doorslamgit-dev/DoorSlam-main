@@ -69,7 +69,7 @@ export function DayCard({
   return (
     <div
       className={`border-2 rounded-xl transition-all ${
-        day.is_enabled ? "border-neutral-200 bg-white" : "border-neutral-100 bg-neutral-50"
+        day.is_enabled ? "border-neutral-200 bg-neutral-0" : "border-neutral-100 bg-neutral-50"
       }`}
     >
       {/* Day Header */}
@@ -84,7 +84,7 @@ export function DayCard({
             aria-label={`${day.is_enabled ? "Disable" : "Enable"} ${day.day_name}`}
           >
             <div
-              className={`absolute top-[2px] left-[2px] w-5 h-5 bg-white rounded-full shadow transition-transform ${
+              className={`absolute top-[2px] left-[2px] w-5 h-5 bg-neutral-0 rounded-full shadow transition-transform ${
                 day.is_enabled ? "translate-x-5" : "translate-x-0"
               }`}
             />
@@ -132,7 +132,7 @@ export function DayCard({
                 <select
                   value={slot.time_of_day}
                   onChange={(e) => onUpdateSlot(idx, "time_of_day", e.target.value)}
-                  className="w-full px-3 py-2 text-sm border border-neutral-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
+                  className="w-full px-3 py-2 text-sm border border-neutral-200 rounded-lg bg-neutral-0 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
                 >
                   {TIME_OF_DAY_OPTIONS.map((opt) => (
                     <option key={opt.value} value={opt.value}>
@@ -149,7 +149,7 @@ export function DayCard({
                 <select
                   value={slot.session_pattern}
                   onChange={(e) => onUpdateSlot(idx, "session_pattern", e.target.value)}
-                  className="w-full px-3 py-2 text-sm border border-neutral-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
+                  className="w-full px-3 py-2 text-sm border border-neutral-200 rounded-lg bg-neutral-0 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
                 >
                   {SESSION_PATTERN_OPTIONS.map((opt) => (
                     <option key={opt.value} value={opt.value}>

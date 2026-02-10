@@ -23,18 +23,18 @@ export function SectionCard({
   onCancel,
 }: SectionCardProps) {
   return (
-    <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-card p-6">
+    <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <AppIcon name={icon} className="w-5 h-5 text-primary-600 dark:text-primary-400" aria-hidden />
-          <h2 className="text-lg font-semibold text-neutral-700 dark:text-neutral-200">{title}</h2>
+          <h2 className="text-lg font-semibold text-neutral-700">{title}</h2>
         </div>
 
         {!editing ? (
           <button
             onClick={onEdit}
             type="button"
-            className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium text-primary-600 dark:text-primary-400 hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium text-primary-600 dark:text-primary-400 hover:bg-neutral-50 transition-colors"
           >
             <AppIcon name="pencil" className="w-4 h-4" aria-hidden />
             Edit
@@ -45,7 +45,7 @@ export function SectionCard({
               onClick={onCancel}
               disabled={saving}
               type="button"
-              className="px-3 py-1.5 rounded-lg text-sm font-medium border border-neutral-200 dark:border-neutral-700 text-neutral-600 dark:text-neutral-300 transition-colors disabled:cursor-not-allowed"
+              className="px-3 py-1.5 rounded-lg text-sm font-medium border border-neutral-200 text-neutral-600 transition-colors disabled:cursor-not-allowed"
             >
               Cancel
             </button>

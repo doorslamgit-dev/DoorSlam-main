@@ -19,9 +19,9 @@ export function IntroScreen({
   onStart,
 }: IntroScreenProps) {
   return (
-    <div className="bg-white rounded-2xl shadow-card p-8 text-center">
-      <div className="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
-        <AppIcon name={ICONS.practice} className="text-purple-600 text-3xl" />
+    <div className="bg-neutral-0 rounded-2xl shadow-card p-8 text-center">
+      <div className="w-20 h-20 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-6">
+        <AppIcon name={ICONS.practice} className="text-primary-600 text-3xl" />
       </div>
 
       <h2 className="text-2xl font-bold text-neutral-900 mb-3">
