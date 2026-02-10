@@ -57,8 +57,8 @@ export function NotificationsSection({
       onUpdate(localNotifications);
       setEditing(false);
       setBackup(null);
-    } catch (err: any) {
-      onError(err.message || "Failed to save notifications");
+    } catch (err: unknown) {
+      onError((err instanceof Error ? err.message : "Failed to save notifications"));
     } finally {
       setSaving(false);
     }

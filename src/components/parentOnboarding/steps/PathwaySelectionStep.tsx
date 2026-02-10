@@ -280,9 +280,9 @@ export default function PathwaySelectionStep({
         const data = await rpcGetSubjectPathways(subjectIds);
         if (cancelled) return;
         setSubjectsWithPathways(data);
-      } catch (e: any) {
+      } catch (e: unknown) {
         if (cancelled) return;
-        setError(e?.message ?? "Failed to load pathway options");
+        setError((e instanceof Error ? e.message : "Failed to load pathway options"));
       } finally {
         if (!cancelled) setLoading(false);
       }

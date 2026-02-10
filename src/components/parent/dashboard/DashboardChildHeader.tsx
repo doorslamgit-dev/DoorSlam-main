@@ -3,6 +3,7 @@
 
 'use client';
 
+import Image from 'next/image';
 import AppIcon from '../../ui/AppIcon';
 import type { ChildSummary } from '../../../types/parent/parentDashboardTypes';
 
@@ -39,9 +40,11 @@ export function DashboardChildHeader({
       <div className="flex items-center gap-3">
         {/* Avatar */}
         {child.avatar_url ? (
-          <img
+          <Image
             src={child.avatar_url}
             alt={displayName}
+            width={40}
+            height={40}
             className="w-10 h-10 rounded-full object-cover"
           />
         ) : (

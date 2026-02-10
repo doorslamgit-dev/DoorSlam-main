@@ -43,6 +43,7 @@ export function RewardToast({
   // Play a simple celebration sound (Web Audio API)
   function playSuccessSound() {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- webkitAudioContext is a vendor-prefixed API
       const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
       if (!AudioContext) return;
       

@@ -10,9 +10,9 @@ type ReflectionStepProps = {
     step_key: string;
     step_percent: number;
   };
-  payload: any;
+  payload: Record<string, unknown>;
   saving: boolean;
-  onPatch: (patch: Record<string, any>) => Promise<void>;
+  onPatch: (patch: Record<string, unknown>) => Promise<void>;
   onNext: () => Promise<void>;
   onBack: () => Promise<void>;
   onExit: () => void;
@@ -26,12 +26,12 @@ export default function ReflectionStep({
   onBack,
   onFinish,
 }: ReflectionStepProps) {
-  const reflection = payload?.reflection ?? {};
+  const reflection = (payload?.reflection ?? {}) as Record<string, unknown>;
 
-  const [confidenceLevel, setConfidenceLevel] = useState(
-    reflection.confidenceLevel ?? "on_track"
+  const [confidenceLevel, setConfidenceLevel] = useState<string>(
+    (reflection.confidenceLevel as string) ?? "on_track"
   );
-  const [notes, setNotes] = useState(reflection.notes ?? "");
+  const [notes, setNotes] = useState<string>((reflection.notes as string) ?? "");
 
   const handleFinish = async () => {
     await onFinish({ confidenceLevel, notes });

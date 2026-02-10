@@ -7,7 +7,7 @@ import { updateFlashcardProgress, buildRecallSummary } from "../../../services/c
 
 type UseRecallStepProps = {
   cards: Flashcard[];
-  onPatch: (patch: Record<string, any>) => void;
+  onPatch: (patch: Record<string, unknown>) => void;
   onNext: () => void;
   onUpdateFlashcardProgress: (cardId: string, status: CardRating) => Promise<void>;
 };

@@ -90,7 +90,7 @@ export default function SubjectCard({ subject }: SubjectCardProps) {
               className="w-5 h-5"
               aria-hidden
               // Lucide icons take currentColor; we set via style for per-subject colour
-              style={{ color: subjectColor } as any}
+              style={{ color: subjectColor }}
             />
           </div>
 

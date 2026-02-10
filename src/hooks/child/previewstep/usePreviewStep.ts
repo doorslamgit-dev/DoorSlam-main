@@ -5,7 +5,7 @@ import { ConfidenceLevel, PreviewPayload } from "../../../types/child/previewste
 
 interface UsePreviewStepProps {
   initialPayload?: PreviewPayload;
-  onPatch: (patch: Record<string, any>) => Promise<void>;
+  onPatch: (patch: Record<string, unknown>) => Promise<void>;
   onNext: () => Promise<void>;
 }
 

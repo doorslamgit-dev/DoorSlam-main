@@ -36,9 +36,9 @@ export async function fetchTodayData(childId: string): Promise<{
       },
       error: null,
     };
-  } catch (e: any) {
+  } catch (e: unknown) {
     console.error("[todayService] fetchTodayData error:", e);
-    return { data: null, error: e?.message ?? "Failed to load data" };
+    return { data: null, error: (e instanceof Error ? e.message : "Failed to load data") };
   }
 }
 
@@ -80,9 +80,9 @@ async function fetchTodaySessions(
     );
 
     return { sessions: enrichedSessions, error: null };
-  } catch (e: any) {
+  } catch (e: unknown) {
     console.error("[todayService] fetchTodaySessions error:", e);
-    return { sessions: [], error: e?.message ?? "Failed to load sessions" };
+    return { sessions: [], error: (e instanceof Error ? e.message : "Failed to load sessions") };
   }
 }
 
@@ -162,9 +162,9 @@ async function fetchChildGamification(
       },
       error: null,
     };
-  } catch (e: any) {
+  } catch (e: unknown) {
     console.error("[todayService] fetchChildGamification error:", e);
-    return { data: null, error: e?.message ?? "Failed to load gamification" };
+    return { data: null, error: (e instanceof Error ? e.message : "Failed to load gamification") };
   }
 }
 
@@ -172,9 +172,10 @@ async function fetchChildGamification(
  * Calculate progress toward next likely achievement
  */
 function calculateNextAchievement(
-  data: any
+  data: Record<string, unknown>
 ): { name: string; description: string; icon: string; progress: number } | null {
-  const currentStreak = data.streak?.current ?? 0;
+  const streak = data.streak as Record<string, unknown> | undefined;
+  const currentStreak = (streak?.current as number) ?? 0;
 
   // Streak-based achievements
   if (currentStreak < 3) {

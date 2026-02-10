@@ -64,7 +64,7 @@ export interface UseFormFieldResult<T> {
  * @param initialData - Initial form values
  * @returns Form management utilities
  */
-export function useFormField<T extends Record<string, any>>(
+export function useFormField<T extends Record<string, unknown>>(
   initialData: T
 ): UseFormFieldResult<T> {
   const [data, setDataInternal] = useState<T>(initialData);

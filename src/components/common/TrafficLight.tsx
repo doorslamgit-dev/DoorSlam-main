@@ -15,7 +15,7 @@ interface TrafficLightProps {
   compact?: boolean;
 }
 
-function statusIcon(status: FeasibilityStatus) {
+function statusIcon(status: FeasibilityStatus): string {
   switch (status) {
     case "sufficient":
       return "check-circle";
@@ -28,7 +28,7 @@ function statusIcon(status: FeasibilityStatus) {
   }
 }
 
-function suggestionIcon() {
+function suggestionIcon(): string {
   return "lightbulb";
 }
 
@@ -48,7 +48,7 @@ export default function TrafficLight({
         className={`flex items-center gap-2 px-3 py-2 rounded-lg ${colors.bg} ${colors.border} border`}
       >
         <AppIcon
-          name={icon as any}
+          name={icon}
           className={`w-4 h-4 ${colors.iconClass}`}
           aria-hidden
         />
@@ -72,7 +72,7 @@ export default function TrafficLight({
           }`}
         >
           <AppIcon
-            name={icon as any}
+            name={icon}
             className={`w-4 h-4 ${colors.iconClass}`}
             aria-hidden
           />
@@ -89,7 +89,7 @@ export default function TrafficLight({
           {suggestion && (
             <div className="mt-3 flex items-start gap-2 p-3 bg-white/50 rounded-lg">
               <AppIcon
-                name={suggestionIcon() as any}
+                name={suggestionIcon()}
                 className="w-4 h-4 text-primary-600 mt-0.5"
                 aria-hidden
               />

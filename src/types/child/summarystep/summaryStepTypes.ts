@@ -57,7 +57,7 @@ export type SummaryStepProps = {
     summary?: SummaryPayload;
   };
   saving: boolean;
-  onPatch: (patch: Record<string, any>) => Promise<void>;
+  onPatch: (patch: Record<string, unknown>) => Promise<void>;
   onNext: () => Promise<void>;
   onBack: () => void;
   onExit: () => void;

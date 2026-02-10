@@ -3,6 +3,7 @@
 // src/components/session/SessionHeader.tsx
 
 import { useMemo } from "react";
+import Image from "next/image";
 import { useRouter } from 'next/navigation';
 import { useAuth } from "../../contexts/AuthContext";
 
@@ -16,7 +17,7 @@ interface SessionHeaderProps {
   onHelp?: () => void;
 }
 
-function getDisplayName(profile: any): string {
+function getDisplayName(profile: Record<string, unknown> | null): string {
   const raw =
     profile?.preferred_name ||
     profile?.first_name ||
@@ -126,9 +127,11 @@ export default function SessionHeader({
 
           <div className="flex items-center gap-3 pl-4 border-l border-neutral-200">
             {avatarUrl ? (
-              <img
+              <Image
                 src={avatarUrl}
                 alt={childName}
+                width={36}
+                height={36}
                 className="w-9 h-9 rounded-full object-cover"
               />
             ) : (

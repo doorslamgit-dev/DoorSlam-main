@@ -31,7 +31,7 @@ type UseSessionRunReturn = {
 
   // Actions
   loadSession: () => Promise<void>;
-  handlePatchStep: (stepKey: StepKey, patch: Record<string, any>) => Promise<void>;
+  handlePatchStep: (stepKey: StepKey, patch: Record<string, unknown>) => Promise<void>;
   handleNextStep: () => Promise<void>;
   handleBack: () => void;
   handleExit: () => void;
@@ -83,7 +83,7 @@ export function useSessionRun({ plannedSessionId }: UseSessionRunOptions): UseSe
   }, [loadSession]);
 
   const handlePatchStep = useCallback(
-    async (stepKey: StepKey, patch: Record<string, any>) => {
+    async (stepKey: StepKey, patch: Record<string, unknown>) => {
       if (!sessionData || !revisionSessionId) return;
 
       setSaving(true);

@@ -164,11 +164,11 @@ export async function addSubjectsToChild(
     }
 
     return data;
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Exception adding subjects:", err);
     return {
       success: false,
-      error: err.message || "Failed to add subjects",
+      error: (err instanceof Error ? err.message : "Failed to add subjects"),
     };
   }
 }
@@ -196,9 +196,9 @@ export async function getImpactAssessment(
     }
 
     return { data, error: null };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Exception fetching impact assessment:", err);
-    return { data: null, error: err.message || "Failed to get impact assessment" };
+    return { data: null, error: (err instanceof Error ? err.message : "Failed to get impact assessment") };
   }
 }
 
@@ -223,9 +223,9 @@ export async function getSubjectsForPrioritization(
     }
 
     return { data, error: null };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Exception fetching subjects:", err);
-    return { data: null, error: err.message || "Failed to fetch subjects" };
+    return { data: null, error: (err instanceof Error ? err.message : "Failed to fetch subjects") };
   }
 }
 
@@ -252,9 +252,9 @@ export async function updateSubjectPriorities(
     }
 
     return { success: data.success ?? true, error: null };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Exception updating priorities:", err);
-    return { success: false, error: err.message || "Failed to update priorities" };
+    return { success: false, error: (err instanceof Error ? err.message : "Failed to update priorities") };
   }
 }
 
@@ -281,9 +281,9 @@ export async function getAvailableSubjectsForChild(
     }
 
     return { data: data as AvailableSubject[], error: null };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Exception fetching available subjects:", err);
-    return { data: null, error: err.message || "Failed to fetch subjects" };
+    return { data: null, error: (err instanceof Error ? err.message : "Failed to fetch subjects") };
   }
 }
 
@@ -308,9 +308,9 @@ export async function getChildExamTypes(
     }
 
     return { data: data as ChildExamType[], error: null };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Exception fetching child exam types:", err);
-    return { data: null, error: err.message || "Failed to fetch exam types" };
+    return { data: null, error: (err instanceof Error ? err.message : "Failed to fetch exam types") };
   }
 }
 
@@ -332,7 +332,7 @@ export async function getAllExamTypes(): Promise<{
     }
 
     return { data, error: null };
-  } catch (err: any) {
-    return { data: null, error: err.message };
+  } catch (err: unknown) {
+    return { data: null, error: (err instanceof Error ? err.message : String(err)) };
   }
 }
