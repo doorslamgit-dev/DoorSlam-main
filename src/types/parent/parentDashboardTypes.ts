@@ -216,3 +216,6 @@ export interface WeeklyRhythmChartProps {
   onViewDetailedBreakdown: () => void;
 }
 
+// Re-export health score types for convenience
+export type { HealthScoreResult, HealthRAG } from '../../utils/healthScore';
+
