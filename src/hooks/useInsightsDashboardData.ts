@@ -90,8 +90,8 @@ export function useInsightsDashboardData({
 
         const { data: analyticsEnabled } = await fetchAnalyticsPreference(userId!);
         setShareAnalytics(analyticsEnabled);
-      } catch (err: any) {
-        setError(err.message);
+      } catch (err: unknown) {
+        setError((err instanceof Error ? err.message : String(err)));
       } finally {
         setLoadingChildren(false);
       }
@@ -127,8 +127,8 @@ export function useInsightsDashboardData({
 
           generateAIAdviceInBackground(selectedChildId, childName, data);
         }
-      } catch (err: any) {
-        setError(err.message);
+      } catch (err: unknown) {
+        setError((err instanceof Error ? err.message : String(err)));
       } finally {
         setLoadingInsights(false);
       }

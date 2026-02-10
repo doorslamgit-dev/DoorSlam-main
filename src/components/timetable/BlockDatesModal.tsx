@@ -59,6 +59,7 @@ export default function BlockDatesModal({
       resetForm();
       setDatesAddedThisSession(0);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- load on modal open only
   }, [isOpen, childId]);
 
   function resetForm() {

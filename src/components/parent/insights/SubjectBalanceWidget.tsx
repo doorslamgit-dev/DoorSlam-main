@@ -27,13 +27,13 @@ export default function SubjectBalanceWidget({ data, loading }: SubjectBalanceWi
       percentage: s.percentage,
     })) || [];
 
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: Array<{ name?: string; value?: number; payload?: Record<string, unknown> }> }) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-neutral-0 p-3 border border-neutral-200 rounded-lg shadow-sm">
           <p className="text-sm font-medium text-neutral-700">{payload[0].name}</p>
           <p className="text-xs text-neutral-500">
-            {payload[0].value} sessions ({payload[0].payload.percentage}%)
+            {payload[0].value} sessions ({String(payload[0].payload?.percentage)}%)
           </p>
         </div>
       );

@@ -105,7 +105,7 @@ export default function GoalStep(props: {
                   {/* Icon */}
                   <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary-50 flex items-center justify-center mt-0.5">
                     <AppIcon
-                      name={iconKey as any}
+                      name={iconKey}
                       className="w-5 h-5 text-primary-600"
                       aria-hidden
                     />

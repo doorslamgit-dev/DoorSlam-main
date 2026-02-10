@@ -1,5 +1,6 @@
 // src/views/Landing.tsx
 
+import Image from 'next/image';
 import Link from 'next/link';
 import AppIcon from "../components/ui/AppIcon";
 import Footer from "../components/layout/Footer";
@@ -167,7 +168,7 @@ export default function Landing() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="bg-neutral-0 rounded-2xl p-6 shadow-card">
               <div className="flex items-center mb-4">
-                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg" alt="Parent" className="w-12 h-12 rounded-full mr-4" />
+                <Image src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg" alt="Parent" width={48} height={48} className="w-12 h-12 rounded-full mr-4" />
                 <div>
                   <div className="font-semibold text-neutral-700">Sarah M.</div>
                   <div className="text-sm text-neutral-500">Mother of 2</div>
@@ -178,7 +179,7 @@ export default function Landing() {
 
             <div className="bg-neutral-0 rounded-2xl p-6 shadow-card">
               <div className="flex items-center mb-4">
-                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="Parent" className="w-12 h-12 rounded-full mr-4" />
+                <Image src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="Parent" width={48} height={48} className="w-12 h-12 rounded-full mr-4" />
                 <div>
                   <div className="font-semibold text-neutral-700">James K.</div>
                   <div className="text-sm text-neutral-500">Father of 1</div>
@@ -189,7 +190,7 @@ export default function Landing() {
 
             <div className="bg-neutral-0 rounded-2xl p-6 shadow-card">
               <div className="flex items-center mb-4">
-                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" alt="Parent" className="w-12 h-12 rounded-full mr-4" />
+                <Image src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" alt="Parent" width={48} height={48} className="w-12 h-12 rounded-full mr-4" />
                 <div>
                   <div className="font-semibold text-neutral-700">Emma T.</div>
                   <div className="text-sm text-neutral-500">Mother of 3</div>

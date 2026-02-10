@@ -60,6 +60,7 @@ export function ChildRewardsCatalog() {
       return;
     }
     loadAllData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- loadAllData uses current state via closure
   }, [childId]);
 
   async function loadAllData() {
@@ -90,8 +91,8 @@ export function ChildRewardsCatalog() {
       const { data: pendData, error: pendErr } = await supabase
         .rpc('rpc_get_redemption_history', { p_child_id: childId, p_limit: 50 });
       if (!pendErr && pendData) {
-        setPendingRedemptions(pendData.filter((r: any) => r.status === 'pending'));
-        setHistory(pendData.filter((r: any) => r.status !== 'pending'));
+        setPendingRedemptions(pendData.filter((r: Record<string, unknown>) => r.status === 'pending'));
+        setHistory(pendData.filter((r: Record<string, unknown>) => r.status !== 'pending'));
       }
 
       // Fetch addition requests
@@ -101,9 +102,9 @@ export function ChildRewardsCatalog() {
         setAdditionRequests(addData || []);
       }
 
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error loading rewards data:', err);
-      setError(err.message || 'Failed to load rewards');
+      setError((err instanceof Error ? err.message : 'Failed to load rewards'));
     } finally {
       setLoading(false);
     }
@@ -129,7 +130,7 @@ export function ChildRewardsCatalog() {
 
       // Refresh data
       await loadAllData();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error requesting addition:', err);
       alert('Failed to send request');
     } finally {
@@ -156,7 +157,7 @@ export function ChildRewardsCatalog() {
       }
 
       await loadAllData();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error requesting redemption:', err);
       alert('Failed to request reward');
     } finally {

@@ -1,5 +1,7 @@
 // src/types/child/reinforcestep/reinforceStepTypes.ts
 
+import type { StepPayload } from '../sessionTypes';
+
 export type TeachingSlide = {
   id: string;
   title: string;
@@ -49,9 +51,9 @@ export type ReinforcePayload = {
 
 export type ReinforceStepProps = {
   overview: ReinforceStepOverview;
-  payload: Record<string, any>;
+  payload: StepPayload;
   saving: boolean;
-  onPatch: (patch: Record<string, any>) => void;
+  onPatch: (patch: Record<string, unknown>) => void;
   onNext: () => void;
   onBack: () => void;
   onExit: () => void;

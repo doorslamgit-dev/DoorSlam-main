@@ -1,6 +1,8 @@
 // src/types/child/recallStep/recallStepTypes.ts
 // Type definitions for RecallStep component
 
+import type { StepPayload } from '../sessionTypes';
+
 export type Flashcard = {
   id: string;
   front: string;
@@ -31,9 +33,9 @@ export type StepOverview = {
 
 export type RecallStepProps = {
   overview: StepOverview;
-  payload: Record<string, any>;
+  payload: StepPayload;
   saving: boolean;
-  onPatch: (patch: Record<string, any>) => void;
+  onPatch: (patch: Record<string, unknown>) => void;
   onNext: () => void;
   onBack: () => void;
   onExit: () => void;

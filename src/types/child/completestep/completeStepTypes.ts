@@ -47,7 +47,7 @@ export type CompleteStepProps = {
     complete?: CompletePayload;
   };
   saving: boolean;
-  onPatch: (patch: Record<string, any>) => Promise<void>;
+  onPatch: (patch: Record<string, unknown>) => Promise<void>;
   onFinish: () => Promise<void>;
   onStartNextSession?: () => void;
   onUploadAudio?: (blob: Blob) => Promise<string>;

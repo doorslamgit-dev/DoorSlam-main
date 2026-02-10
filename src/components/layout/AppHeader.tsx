@@ -4,6 +4,7 @@
 
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function AppHeader() {
@@ -15,14 +16,18 @@ export default function AppHeader() {
           href="/"
           className="flex items-center gap-3 hover:opacity-80 transition-opacity"
         >
-          <img
+          <Image
             src="/images/logo-dark.png"
             alt="Doorslam"
+            width={120}
+            height={56}
             className="h-14 w-auto dark:hidden"
           />
-          <img
+          <Image
             src="/images/logo-light.png"
             alt="Doorslam"
+            width={120}
+            height={56}
             className="h-14 w-auto hidden dark:block"
           />
           <div>

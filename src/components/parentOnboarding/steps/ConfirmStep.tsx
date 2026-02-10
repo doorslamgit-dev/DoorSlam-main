@@ -192,7 +192,7 @@ function getGradeDisplay(grade: number | null): string {
 ============================ */
 
 export default function ConfirmStep(props: {
-  payload: any;
+  payload: Record<string, unknown>;
   busy: boolean;
   onSubmit: () => Promise<void> | void;
 }) {

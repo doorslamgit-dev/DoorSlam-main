@@ -92,11 +92,12 @@ function normaliseStringArray(value: unknown): string[] {
   return [String(value)];
 }
 
-function formatSupabaseError(e: any): string {
+function formatSupabaseError(e: unknown): string {
   if (!e) return "Failed to build plan";
-  const msg = e.message ?? "Failed to build plan";
-  const details = e.details ? `\n\nDetails: ${e.details}` : "";
-  const hint = e.hint ? `\n\nHint: ${e.hint}` : "";
+  const msg = (e instanceof Error ? e.message : "Failed to build plan");
+  const err = e as Record<string, unknown>;
+  const details = err.details ? `\n\nDetails: ${err.details}` : "";
+  const hint = err.hint ? `\n\nHint: ${err.hint}` : "";
   return `${msg}${details}${hint}`;
 }
 
@@ -382,14 +383,14 @@ export default function ParentOnboardingPage() {
     setInvite(null);
 
     try {
-      const result: any = await rpcParentCreateChildAndPlan(payload as any);
+      const result = await rpcParentCreateChildAndPlan(payload as Parameters<typeof rpcParentCreateChildAndPlan>[0]) as Record<string, unknown> | null;
 
       await refresh();
 
       const childId =
-        result?.child_id ||
-        result?.childId ||
-        result?.child?.id ||
+        (result?.child_id as string) ||
+        (result?.childId as string) ||
+        ((result?.child as Record<string, unknown> | undefined)?.id as string) ||
         (await resolveLatestChildIdForThisParent());
 
       const inviteResult = await rpcCreateChildInvite(childId);
@@ -402,7 +403,7 @@ export default function ParentOnboardingPage() {
       setInvite(inviteResult.invite);
       setOnboardingComplete(true);
       setStep(STEPS.INVITE);
-    } catch (e: any) {
+    } catch (e: unknown) {
       setError(formatSupabaseError(e));
     } finally {
       setBusy(false);

@@ -54,9 +54,9 @@ export default function InsightsReport() {
 
         if (rpcError) throw rpcError;
         setReportData(data);
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error('Error fetching report data:', err);
-        setError(err.message);
+        setError((err instanceof Error ? err.message : String(err)));
       } finally {
         setLoading(false);
       }

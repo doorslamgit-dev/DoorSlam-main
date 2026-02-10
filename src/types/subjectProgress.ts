@@ -103,11 +103,11 @@ export interface FocusArea {
   subject_name?: string;
   subject_color?: string;
   subject_icon?: string;
-  focus_topics?: any[];
+  focus_topics?: string | string[];
 }
 
 export interface TimelineGroup {
   date: string;
   group_label?: string;
-  sessions: any[];
+  sessions: TimelineSession[];
 }

@@ -25,7 +25,7 @@ export interface PreviewStepProps {
     preview?: PreviewPayload;
   };
   saving: boolean;
-  onPatch: (patch: Record<string, any>) => Promise<void>;
+  onPatch: (patch: Record<string, unknown>) => Promise<void>;
   onNext: () => Promise<void>;
   onExit: () => void;
 }
