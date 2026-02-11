@@ -60,7 +60,7 @@ export function useAuth() {
 async function fetchProfile(userId: string): Promise<Profile | null> {
   const { data, error } = await supabase
     .from("profiles")
-    .select("id, email, full_name, role, country, created_at, updated_at, avatar_url, subscription_tier, subscription_status, trial_ends_at, stripe_customer_id")
+    .select("id, email, full_name, role, country, created_at, updated_at, avatar_url")
     .eq("id", userId)
     .maybeSingle();
 
