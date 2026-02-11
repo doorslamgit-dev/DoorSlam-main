@@ -79,7 +79,7 @@ export function useSubscription(): UseSubscriptionResult {
       const status = await getSubscriptionStatus();
       setSubscription(status);
     } catch (err: unknown) {
-      console.error("[useSubscription] Error fetching status:", err);
+      console.warn("[useSubscription] Error fetching status:", err);
       setError(err instanceof Error ? err.message : String(err));
       setSubscription(DEFAULT_SUBSCRIPTION);
     } finally {

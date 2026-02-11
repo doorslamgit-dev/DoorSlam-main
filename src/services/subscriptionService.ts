@@ -4,14 +4,29 @@
 import { supabase } from "../lib/supabase";
 import type { SubscriptionInfo } from "../types/subscription";
 
+/** Default subscription info returned when the RPC is not yet available. */
+const DEFAULT_STATUS: SubscriptionInfo = {
+  tier: "trial",
+  status: "trialing",
+  trial_ends_at: null,
+  has_stripe_customer: false,
+  usage: { children_count: 0, subjects_count: 0, token_balance: 0 },
+  limits: { max_children: 1, max_subjects: 1, can_buy_tokens: false },
+};
+
 /**
  * Get full subscription status including limits and usage.
  * Calls the `rpc_get_subscription_status` Postgres function.
+ * Returns defaults silently if the RPC does not exist yet (migration not applied).
  */
 export async function getSubscriptionStatus(): Promise<SubscriptionInfo> {
   const { data, error } = await supabase.rpc("rpc_get_subscription_status");
 
   if (error) {
+    // PGRST202 = function not found (migration not applied yet) — return defaults silently
+    if (error.code === "PGRST202") {
+      return DEFAULT_STATUS;
+    }
     console.error("[subscription] getSubscriptionStatus error:", error);
     throw new Error("Failed to get subscription status");
   }
