@@ -23,6 +23,10 @@ export type Profile = {
   avatar_url?: string | null;
   first_name?: string | null;
   preferred_name?: string | null;
+  subscription_tier?: string | null;
+  subscription_status?: string | null;
+  trial_ends_at?: string | null;
+  stripe_customer_id?: string | null;
 };
 
 type AuthContextValue = {
@@ -56,7 +60,7 @@ export function useAuth() {
 async function fetchProfile(userId: string): Promise<Profile | null> {
   const { data, error } = await supabase
     .from("profiles")
-    .select("id, email, full_name, role, country, created_at, updated_at, avatar_url")
+    .select("id, email, full_name, role, country, created_at, updated_at, avatar_url, subscription_tier, subscription_status, trial_ends_at, stripe_customer_id")
     .eq("id", userId)
     .maybeSingle();
 
