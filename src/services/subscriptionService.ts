@@ -14,17 +14,25 @@ const DEFAULT_STATUS: SubscriptionInfo = {
   limits: { max_children: 1, max_subjects: 1, can_buy_tokens: false },
 };
 
+// Cache: once we discover the RPC is missing, skip future calls in this session
+let rpcUnavailable = false;
+
 /**
  * Get full subscription status including limits and usage.
  * Calls the `rpc_get_subscription_status` Postgres function.
  * Returns defaults silently if the RPC does not exist yet (migration not applied).
  */
 export async function getSubscriptionStatus(): Promise<SubscriptionInfo> {
+  // Skip the network call entirely if we already know the RPC is missing
+  if (rpcUnavailable) return DEFAULT_STATUS;
+
   const { data, error } = await supabase.rpc("rpc_get_subscription_status");
 
   if (error) {
-    // PGRST202 = function not found (migration not applied yet) — return defaults silently
+    // PGRST202 = function not found (migration not applied yet)
+    // Cache this so we don't fire more 404s in the browser console
     if (error.code === "PGRST202") {
+      rpcUnavailable = true;
       return DEFAULT_STATUS;
     }
     console.error("[subscription] getSubscriptionStatus error:", error);
