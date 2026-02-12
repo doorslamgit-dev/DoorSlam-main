@@ -58,4 +58,3 @@ supabase/
   migrations/    # Database migration files
   config.toml    # Supabase CLI configuration
 ```
-
