@@ -167,6 +167,42 @@ See [ADR-003: Dashboard v3 — Child-Specific View](decisions/ADR-003-dashboard-
 
 ---
 
+## Unreleased — Streamlined Onboarding (12 Feb 2026)
+
+### Why this change is happening
+
+The original onboarding flow required parents to complete 11 steps before seeing the dashboard. This created friction — parents had to configure goals, learning needs, grades, availability, and the full revision schedule before they could land on their home base. Feedback showed parents wanted to see the dashboard sooner, then complete the schedule at their own pace.
+
+### What the new flow does
+
+The onboarding is now split into two phases:
+
+**Phase 1 (3 steps) — Get to the dashboard fast:**
+1. Add child details (name, year group)
+2. Select exam type (GCSE, iGCSE, etc.)
+3. Choose subjects
+
+The child is created in the database immediately. The parent lands on the dashboard. No revision period, no plan, no sessions yet.
+
+**Phase 2 (from the dashboard) — Set up the schedule:**
+A "Complete Schedule" CTA appears in the dashboard's Next Best Action area. Clicking it opens a 7-step wizard (Goal → Needs → Pathways → Grades → Revision Period → Availability → Confirm). On completion, the revision period, plan, and sessions are generated.
+
+**Invite (from the dashboard) — Separate concern:**
+Once the schedule is set up, the Next Best Action switches to "Invite [child]". Clicking it opens a modal with copy-link, copy-code, and email options. Previously this was the last step of onboarding.
+
+### How it was developed
+
+- **Backend**: 4 new Supabase SQL functions deployed via Supabase CLI (`supabase db push`). `rpc_parent_create_child_basic` creates a child with subjects only (no plan). Three helper RPCs fill the gaps for Phase 2: `rpc_set_child_goal`, `rpc_update_child_subject_grades`, `rpc_init_child_revision_period`.
+- **Frontend orchestration**: `ParentOnboardingPage.tsx` reads a `?phase=schedule&child=<id>` query parameter to determine which step sequence to show. All 11 existing step components remain untouched — only the parent page's orchestration changed.
+- **Dashboard integration**: `DashboardHeroCard.tsx` detects three states based on `planOverview` and `auth_user_id`: (A) schedule needed, (B) invite pending, (C) fully set up. Each shows different action buttons.
+- **Invite modal**: New `DashboardInviteModal.tsx` extracted from the existing `InviteChildStep.tsx` UI, wrapped in a modal overlay. Generates an invitation code on mount if one doesn't exist.
+
+### Architecture decision
+
+See [ADR-004: Two-Phase Onboarding](decisions/ADR-004-two-phase-onboarding.md)
+
+---
+
 ## How to Document Future Changes
 
 When adding a new feature, bug fix, or change:
