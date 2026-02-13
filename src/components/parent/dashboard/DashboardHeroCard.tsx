@@ -9,6 +9,7 @@ import type {
   DailyPattern,
   SubjectCoverage,
 } from '../../../types/parent/parentDashboardTypes';
+import type { PlanCoverageOverview } from '../../../services/timetableService';
 
 interface DashboardHeroCardProps {
   child: ChildSummary | null;
@@ -16,6 +17,9 @@ interface DashboardHeroCardProps {
   childCoverage: SubjectCoverage[];
   onActionClick: (action: string) => void;
   onViewDetailedBreakdown: () => void;
+  planOverview?: PlanCoverageOverview | null;
+  onSetupSchedule?: () => void;
+  onInviteChild?: () => void;
   loading?: boolean;
 }
 
@@ -66,11 +70,130 @@ function getISOWeek(date: Date): number {
   return Math.ceil(((d.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
 }
 
+function NextBestAction({
+  child,
+  planOverview,
+  onSetupSchedule,
+  onInviteChild,
+  onActionClick,
+}: {
+  child: ChildSummary;
+  planOverview?: PlanCoverageOverview | null;
+  onSetupSchedule?: () => void;
+  onInviteChild?: () => void;
+  onActionClick: (action: string) => void;
+}) {
+  const needsSchedule =
+    !planOverview ||
+    planOverview.status === 'no_plan' ||
+    planOverview.totals.planned_sessions === 0;
+  const needsInvite = !needsSchedule && child.auth_user_id === null;
+
+  if (needsSchedule) {
+    return (
+      <div className="bg-primary-50 rounded-lg p-3 mt-auto border border-primary-200/50">
+        <div className="flex items-center gap-1.5 mb-1">
+          <AppIcon name="calendar-plus" className="w-3.5 h-3.5 text-primary-600" />
+          <span className="text-xs font-semibold text-neutral-700">Next Best Action</span>
+        </div>
+        <p className="text-xs text-neutral-500 mb-2.5">
+          Complete {child.first_name}&apos;s revision schedule to start generating sessions.
+        </p>
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={onSetupSchedule}
+            className="px-3 py-1.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition font-medium text-xs"
+          >
+            Complete Schedule Setup
+          </button>
+          <button
+            disabled
+            className="px-3 py-1.5 bg-neutral-100 text-neutral-400 rounded-lg font-medium text-xs cursor-not-allowed"
+            title="Complete the schedule first"
+          >
+            Invite {child.first_name}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (needsInvite) {
+    return (
+      <div className="bg-accent-green/5 rounded-lg p-3 mt-auto border border-accent-green/20">
+        <div className="flex items-center gap-1.5 mb-1">
+          <AppIcon name="user-plus" className="w-3.5 h-3.5 text-accent-green" />
+          <span className="text-xs font-semibold text-neutral-700">Next Best Action</span>
+        </div>
+        <p className="text-xs text-neutral-500 mb-2.5">
+          Schedule is ready! Invite {child.first_name} so they can start their sessions.
+        </p>
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={onInviteChild}
+            className="px-3 py-1.5 bg-accent-green text-white rounded-lg hover:opacity-90 transition font-medium text-xs"
+          >
+            Invite {child.first_name}
+          </button>
+          <button
+            onClick={() => onActionClick('adjust-plan')}
+            className="px-3 py-1.5 bg-neutral-0 border border-neutral-200 text-neutral-600 rounded-lg hover:bg-neutral-100 transition font-medium text-xs"
+          >
+            Review Schedule
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Fully set up — normal action buttons
+  return (
+    <div className="bg-neutral-50 rounded-lg p-3 mt-auto">
+      <div className="flex items-center gap-1.5 mb-1">
+        <AppIcon name="lightbulb" className="w-3.5 h-3.5 text-warning" />
+        <span className="text-xs font-semibold text-neutral-700">Next Best Action</span>
+      </div>
+      <p className="text-xs text-neutral-500 mb-2.5">
+        {child.insight_message || 'Keep up the current routine.'}
+      </p>
+      <div className="flex flex-wrap gap-2">
+        <button
+          onClick={() => onActionClick('adjust-plan')}
+          className="px-3 py-1.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition font-medium text-xs"
+        >
+          Adjust Next Week&apos;s Plan
+        </button>
+        <button
+          onClick={() => onActionClick('keep-plan')}
+          className="px-3 py-1.5 bg-neutral-0 border border-neutral-200 text-neutral-600 rounded-lg hover:bg-neutral-100 transition font-medium text-xs"
+        >
+          Keep Plan As-Is
+        </button>
+        <button
+          onClick={() => onActionClick('review-topics')}
+          className="px-3 py-1.5 bg-neutral-0 border border-neutral-200 text-neutral-600 rounded-lg hover:bg-neutral-100 transition font-medium text-xs"
+        >
+          Review Tricky Topics
+        </button>
+        <button
+          onClick={() => onActionClick('export')}
+          className="px-3 py-1.5 bg-neutral-0 border border-neutral-200 text-neutral-600 rounded-lg hover:bg-neutral-100 transition font-medium text-xs"
+        >
+          Export Report
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export function DashboardHeroCard({
   child,
   dailyPattern,
   childCoverage: _childCoverage,
   onActionClick,
+  planOverview,
+  onSetupSchedule,
+  onInviteChild,
   loading = false,
 }: DashboardHeroCardProps) {
   if (loading || !child) return <HeroSkeleton />;
@@ -161,42 +284,14 @@ export function DashboardHeroCard({
         </div>
       </div>
 
-      {/* Next Best Action — compact */}
-      <div className="bg-neutral-50 rounded-lg p-3 mt-auto">
-        <div className="flex items-center gap-1.5 mb-1">
-          <AppIcon name="lightbulb" className="w-3.5 h-3.5 text-warning" />
-          <span className="text-xs font-semibold text-neutral-700">Next Best Action</span>
-        </div>
-        <p className="text-xs text-neutral-500 mb-2.5">
-          {child.insight_message || 'Keep up the current routine.'}
-        </p>
-        <div className="flex flex-wrap gap-2">
-          <button
-            onClick={() => onActionClick('adjust-plan')}
-            className="px-3 py-1.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition font-medium text-xs"
-          >
-            Adjust Next Week&apos;s Plan
-          </button>
-          <button
-            onClick={() => onActionClick('keep-plan')}
-            className="px-3 py-1.5 bg-neutral-0 border border-neutral-200 text-neutral-600 rounded-lg hover:bg-neutral-100 transition font-medium text-xs"
-          >
-            Keep Plan As-Is
-          </button>
-          <button
-            onClick={() => onActionClick('review-topics')}
-            className="px-3 py-1.5 bg-neutral-0 border border-neutral-200 text-neutral-600 rounded-lg hover:bg-neutral-100 transition font-medium text-xs"
-          >
-            Review Tricky Topics
-          </button>
-          <button
-            onClick={() => onActionClick('export')}
-            className="px-3 py-1.5 bg-neutral-0 border border-neutral-200 text-neutral-600 rounded-lg hover:bg-neutral-100 transition font-medium text-xs"
-          >
-            Export Report
-          </button>
-        </div>
-      </div>
+      {/* Next Best Action — conditional based on setup state */}
+      <NextBestAction
+        child={child}
+        planOverview={planOverview}
+        onSetupSchedule={onSetupSchedule}
+        onInviteChild={onInviteChild}
+        onActionClick={onActionClick}
+      />
     </div>
   );
 }

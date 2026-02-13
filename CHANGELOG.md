@@ -9,6 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- **Streamlined Parent Onboarding — Two-Phase Flow**
+  - Phase 1 (3 steps): Child Details → Exam Type → Subjects → Dashboard (parent reaches dashboard immediately)
+  - Phase 2 (from dashboard CTA): Goal → Needs → Pathways → Grades → Revision Period → Availability → Confirm
+  - Invite moved from onboarding wizard to dashboard modal
+  - 4 new Supabase RPCs: `rpc_parent_create_child_basic`, `rpc_set_child_goal`, `rpc_update_child_subject_grades`, `rpc_init_child_revision_period`
+  - 5 new service wrappers in `parentOnboardingService.ts`
+  - `ParentOnboardingPage.tsx` refactored: reads `?phase=schedule&child=<id>` for Phase 2
+  - `DashboardHeroCard.tsx`: conditional Next Best Action (Complete Schedule → Invite Child → Normal)
+  - New `DashboardInviteModal.tsx` component for inviting child from dashboard
+  - `ParentDashboardV3.tsx`: wired up schedule CTA + invite modal
+  - See: [ADR-004](docs/decisions/ADR-004-two-phase-onboarding.md)
+
 ### Fixed
 - **Eliminate all 192 ESLint warnings** — zero-warning codebase
   - Removed 5 unused `eslint-disable` directives
