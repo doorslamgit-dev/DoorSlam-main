@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   images: { unoptimized: true },
   turbopack: {
-    root: process.cwd(),
+    root: __dirname,
   },
 };
 
