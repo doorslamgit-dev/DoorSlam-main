@@ -2,10 +2,8 @@
 // Composite data hook for the child-specific parent dashboard (V3)
 // Orchestrates: family data + child filtering + plan overview + rewards
 
-'use client';
-
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'react-router-dom';
 import { useParentDashboardData } from './useParentDashboardData';
 import { useRewardTemplates } from './rewards/useRewardTemplates';
 import { fetchPlanCoverageOverview } from '../../services/timetableService';
@@ -66,8 +64,7 @@ export interface UseChildDashboardDataResult {
 export function useChildDashboardData(
   options: UseChildDashboardDataOptions = {}
 ): UseChildDashboardDataResult {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   // Base family data from existing hook
   const {
@@ -112,11 +109,9 @@ export function useChildDashboardData(
   const setSelectedChildId = useCallback(
     (id: string) => {
       setSelectedChildIdInternal(id);
-      const params = new URLSearchParams(searchParams.toString());
-      params.set('child', id);
-      router.replace(`/parent?${params.toString()}`, { scroll: false });
+      setSearchParams({ child: id }, { replace: true });
     },
-    [router, searchParams]
+    [setSearchParams]
   );
 
   // Fetch plan overview when child changes

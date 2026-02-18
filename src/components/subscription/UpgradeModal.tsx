@@ -1,9 +1,8 @@
 // src/components/subscription/UpgradeModal.tsx
 // Modal shown when users hit subscription limits
 
-"use client";
 
-import { useRouter } from "next/navigation";
+import { useNavigate } from "react-router-dom";
 import AppIcon from "../ui/AppIcon";
 
 export type UpgradeReason =
@@ -84,14 +83,14 @@ const UPGRADE_MESSAGES: Record<
 };
 
 export function UpgradeModal({ reason, isOpen, onClose }: UpgradeModalProps) {
-  const router = useRouter();
+  const navigate = useNavigate();
   const message = UPGRADE_MESSAGES[reason];
 
   if (!isOpen) return null;
 
   const handleUpgrade = () => {
     onClose();
-    router.push("/pricing");
+    navigate("/pricing");
   };
 
   return (

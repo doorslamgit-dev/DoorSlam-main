@@ -1,7 +1,6 @@
 // src/contexts/SidebarContext.tsx
 // Layout state management for sidebar, mobile menu, and AI panel
 
-'use client';
 
 import {
   createContext,

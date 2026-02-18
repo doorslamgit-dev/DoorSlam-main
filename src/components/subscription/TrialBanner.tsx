@@ -1,9 +1,8 @@
 // src/components/subscription/TrialBanner.tsx
 // Banner showing trial status and days remaining
 
-"use client";
 
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { useSubscription } from "../../hooks/useSubscription";
 import AppIcon from "../ui/AppIcon";
 
@@ -33,7 +32,7 @@ export function TrialBanner() {
                 : "Your free trial has ended. Subscribe now to continue using Doorslam with your family."}
             </p>
             <Link
-              href="/pricing"
+              to="/pricing"
               className="inline-flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 transition-colors"
             >
               {isPastDue ? "Update Payment" : "View Plans"}
@@ -93,7 +92,7 @@ export function TrialBanner() {
             </div>
           </div>
           <Link
-            href="/pricing"
+            to="/pricing"
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 transition-colors"
           >
             Upgrade Now

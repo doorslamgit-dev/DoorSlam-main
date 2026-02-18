@@ -1,11 +1,11 @@
-'use client';
+
 
 // src/views/child/Today.tsx
 // REFACTORED: January 2026 - Componentized structure
 // FEAT-013: Added RewardsMiniCard alongside StreakMomentumCard
 
 import { useEffect, useMemo, useState } from "react";
-import { useRouter } from 'next/navigation';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../../contexts/AuthContext";
 import { PageLayout } from "../../components/layout";
 import { fetchTodayData } from "../../services/todayService";
@@ -25,7 +25,7 @@ import {
 } from "../../components/child/today";
 
 export default function Today() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { user, activeChildId, isParent, profile, loading: authLoading } = useAuth();
   const [data, setData] = useState<TodayData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -49,9 +49,9 @@ export default function Today() {
     if (authLoading || redirected) return;
     if (isParent) {
       setRedirected(true);
-      router.replace("/parent");
+      navigate("/parent", { replace: true });
     }
-  }, [authLoading, isParent, router, redirected]);
+  }, [authLoading, isParent, navigate, redirected]);
 
   // Load data
   useEffect(() => {
@@ -96,7 +96,7 @@ export default function Today() {
   }, [authLoading, user, childId]);
 
   const handleStartSession = (plannedSessionId: string) => {
-    router.push(`/child/session/${plannedSessionId}`);
+    navigate(`/child/session/${plannedSessionId}`);
   };
 
   // Extract data for rendering

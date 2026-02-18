@@ -1,7 +1,6 @@
 // src/components/layout/AppLayout.tsx
 // Conditional layout: authenticated users get AppShell (sidebar), others get AppHeader
 
-'use client';
 
 import type React from "react";
 import { useAuth } from "../../contexts/AuthContext";

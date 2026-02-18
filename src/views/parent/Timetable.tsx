@@ -1,11 +1,11 @@
-'use client';
+
 
 // src/views/parent/Timetable.tsx
 // Refactored: Extracted components and hooks for better maintainability
 // January 2026
 
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from "../../contexts/AuthContext";
 import { PageLayout } from "../../components/layout";
 import {
@@ -24,8 +24,8 @@ import {
 import { useTimetableData } from "../../hooks/useTimetableData";
 
 export default function Timetable() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { user, activeChildId, loading: authLoading } = useAuth();
 
   const {
@@ -69,15 +69,15 @@ export default function Timetable() {
     if (authLoading) return;
 
     if (!user) {
-      router.replace("/");
+      navigate("/", { replace: true });
       return;
     }
 
     if (activeChildId) {
-      router.replace("/child/today");
+      navigate("/child/today", { replace: true });
       return;
     }
-  }, [authLoading, user, activeChildId, router]);
+  }, [authLoading, user, activeChildId, navigate]);
 
   // Handlers
   const handleSessionAdded = () => {

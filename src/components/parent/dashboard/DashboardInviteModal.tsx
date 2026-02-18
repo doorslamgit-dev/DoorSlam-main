@@ -1,7 +1,6 @@
 // src/components/parent/dashboard/DashboardInviteModal.tsx
 // Modal overlay for inviting a child from the dashboard
 
-'use client';
 
 import { useCallback, useEffect, useState } from 'react';
 import { rpcCreateChildInvite } from '../../../services/invitationService';

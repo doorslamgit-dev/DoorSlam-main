@@ -1,10 +1,10 @@
-'use client';
+
 
 // src/components/session/SessionHeader.tsx
 
 import { useMemo } from "react";
-import Image from "next/image";
-import { useRouter } from 'next/navigation';
+
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../../contexts/AuthContext";
 
 interface SessionHeaderProps {
@@ -37,7 +37,7 @@ export default function SessionHeader({
   onExit,
   onHelp,
 }: SessionHeaderProps) {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { profile } = useAuth();
 
   const childName = useMemo(() => getDisplayName(profile), [profile]);
@@ -52,7 +52,7 @@ export default function SessionHeader({
           {showBack ? (
             <button
               type="button"
-              onClick={() => router.back()}
+              onClick={() => navigate(-1)}
               className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
               aria-label="Go back"
             >
@@ -118,7 +118,7 @@ export default function SessionHeader({
           {showExit ? (
             <button
               type="button"
-              onClick={onExit ?? (() => router.push("/child/today"))}
+              onClick={onExit ?? (() => navigate("/child/today"))}
               className="px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors"
             >
               Exit session
@@ -127,7 +127,7 @@ export default function SessionHeader({
 
           <div className="flex items-center gap-3 pl-4 border-l border-neutral-200">
             {avatarUrl ? (
-              <Image
+              <img
                 src={avatarUrl}
                 alt={childName}
                 width={36}

@@ -1,7 +1,6 @@
 // src/components/parent/dashboard/DashboardRevisionPlan.tsx
 // Dashboard-specific Revision Plan: progress by subject (left) + coming up sessions (right)
 
-'use client';
 
 import AppIcon from '../../ui/AppIcon';
 import { getSubjectIcon } from '../../../constants/icons';

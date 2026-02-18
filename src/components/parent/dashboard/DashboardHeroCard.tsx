@@ -1,7 +1,6 @@
 // src/components/parent/dashboard/DashboardHeroCard.tsx
 // "This Week's Story" — compact hero card matching design wireframe
 
-'use client';
 
 import AppIcon from '../../ui/AppIcon';
 import type {

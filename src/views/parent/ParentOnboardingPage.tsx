@@ -1,4 +1,4 @@
-'use client';
+
 
 // src/views/parent/ParentOnboardingPage.tsx
 // Two-phase onboarding flow for parents:
@@ -6,7 +6,7 @@
 // Phase 2 (?phase=schedule&child=<id>): Goal → Needs → Pathways → Grades → Period → Availability → Confirm → Dashboard
 
 import { useMemo, useState, useEffect, useCallback } from "react";
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import OnboardingModal from "../../components/parentOnboarding/OnboardingModal";
 import ChildDetailsStep, {
@@ -168,8 +168,8 @@ const P2_TOTAL_STEPS = 7;
 ============================ */
 
 export default function ParentOnboardingPage() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { refresh, parentChildCount } = useAuth();
 
   // Phase detection from URL
@@ -220,9 +220,9 @@ export default function ParentOnboardingPage() {
   useEffect(() => {
     if (pendingDashboardNav && parentChildCount !== null && parentChildCount > 0) {
       setPendingDashboardNav(false);
-      router.replace("/parent");
+      navigate("/parent", { replace: true });
     }
-  }, [pendingDashboardNav, parentChildCount, router]);
+  }, [pendingDashboardNav, parentChildCount, navigate]);
 
   // Phase 2: Load enrolled subjects from DB on mount
   useEffect(() => {
@@ -516,7 +516,7 @@ export default function ParentOnboardingPage() {
       await saveTemplateAndRegenerate(phase2ChildId, weeklyTemplate);
 
       // Navigate to dashboard
-      router.replace("/parent");
+      navigate("/parent", { replace: true });
     } catch (e: unknown) {
       setError(formatSupabaseError(e));
     } finally {
@@ -607,7 +607,7 @@ export default function ParentOnboardingPage() {
       totalSteps={totalSteps}
       showProgress={showProgress}
       error={error}
-      onClose={() => router.push(phase === 2 ? "/parent" : "/")}
+      onClose={() => navigate(phase === 2 ? "/parent" : "/")}
       backButton={
         showDefaultNav
           ? {

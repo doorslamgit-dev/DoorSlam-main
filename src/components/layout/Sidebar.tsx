@@ -1,8 +1,7 @@
 // src/components/layout/Sidebar.tsx
 
-'use client';
 
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import AppIcon from '../ui/AppIcon';
 import { useSidebar } from '../../contexts/SidebarContext';
 import SidebarNav from './sidebar/SidebarNav';
@@ -45,7 +44,7 @@ export default function Sidebar() {
         {/* Logo + collapse toggle */}
         <div className={`flex items-center h-16 border-b border-neutral-200/60 ${isCollapsed ? 'justify-center px-2' : 'justify-between px-4'}`}>
           {!isCollapsed && (
-            <Link href="/" className="flex items-center gap-2 min-w-0">
+            <Link to="/" className="flex items-center gap-2 min-w-0">
               <span className="text-lg font-bold text-primary-700 truncate">
                 DoorSlam
               </span>
