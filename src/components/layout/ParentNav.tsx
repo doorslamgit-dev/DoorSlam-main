@@ -2,13 +2,12 @@
 // Parent navigation for main dashboard sections
 // FEAT-010: No icons required; theme-ready classes only
 
-'use client';
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link, useLocation } from "react-router-dom";
+
 
 export default function ParentNav() {
-  const pathname = usePathname();
+  const { pathname } = useLocation();
 
   const linkClass = (href: string, exact = false) => {
     const active = exact ? pathname === href : pathname.startsWith(href);
@@ -21,19 +20,19 @@ export default function ParentNav() {
 
   return (
     <nav className="hidden md:flex items-center space-x-8">
-      <Link href="/parent" className={linkClass("/parent", true)}>
+      <Link to="/parent" className={linkClass("/parent", true)}>
         Dashboard
       </Link>
-      <Link href="/parent/subjects" className={linkClass("/parent/subjects")}>
+      <Link to="/parent/subjects" className={linkClass("/parent/subjects")}>
         Subjects
       </Link>
-      <Link href="/parent/timetable" className={linkClass("/parent/timetable")}>
+      <Link to="/parent/timetable" className={linkClass("/parent/timetable")}>
         Timetable
       </Link>
-      <Link href="/parent/rewards" className={linkClass("/parent/rewards")}>
+      <Link to="/parent/rewards" className={linkClass("/parent/rewards")}>
         Rewards
       </Link>
-      <Link href="/parent/insights" className={linkClass("/parent/insights")}>
+      <Link to="/parent/insights" className={linkClass("/parent/insights")}>
         Insights
       </Link>
     </nav>

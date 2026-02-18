@@ -1,11 +1,11 @@
-'use client';
+
 
 // src/views/parent/ParentDashboardV2.tsx
 // Parent Dashboard v2 - Multi-child family dashboard (FEAT-009)
 // Updated: Real-time data refresh with visibility/focus handling
 
 import React from "react";
-import { useRouter } from 'next/navigation';
+import { useNavigate } from 'react-router-dom';
 import { useParentDashboardData } from "../../hooks/parent/useParentDashboardData";
 import { HeroStatusBanner } from "../../components/parent/dashboard/HeroStatusBanner";
 import { ChildHealthCardGrid } from "../../components/parent/dashboard/ChildHealthCardGrid";
@@ -80,7 +80,7 @@ function ErrorState({ message, onRetry }: { message: string; onRetry: () => void
 }
 
 export function ParentDashboardV2() {
-  const router = useRouter();
+  const navigate = useNavigate();
 
   // Use the comprehensive data hook with real-time updates
   const { data, loading, error, refresh, lastFetchedAt: _lastFetchedAt, isStale: _isStale } = useParentDashboardData({
@@ -91,7 +91,7 @@ export function ParentDashboardV2() {
 
   // Helper to navigate and scroll to top
   const navigateWithScroll = (path: string) => {
-    router.push(path);
+    navigate(path);
     window.scrollTo({ top: 0, behavior: "instant" });
   };
 

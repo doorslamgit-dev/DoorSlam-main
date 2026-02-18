@@ -1,29 +1,27 @@
-'use client';
-
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import Landing from '@/views/Landing';
 
 export default function HomePage() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { loading, user, isParent, isChild, isUnresolved, parentChildCount } = useAuth();
 
   useEffect(() => {
     if (loading) return;
     if (!user || isUnresolved) return;
     if (isChild) {
-      router.replace('/child/today');
+      navigate('/child/today', { replace: true });
       return;
     }
     if (isParent) {
       if (parentChildCount === 0) {
-        router.replace('/parent/onboarding');
+        navigate('/parent/onboarding', { replace: true });
       } else {
-        router.replace('/parent');
+        navigate('/parent', { replace: true });
       }
     }
-  }, [loading, user, isParent, isChild, isUnresolved, parentChildCount, router]);
+  }, [loading, user, isParent, isChild, isUnresolved, parentChildCount, navigate]);
 
   if (loading) {
     return (

@@ -1,4 +1,4 @@
-'use client';
+
 
 // src/views/parent/SubjectProgress.tsx
 // Refactored: Extracted components and hooks for better maintainability
@@ -6,7 +6,7 @@
 // Updated (fix): Remove local STATUS_COLORS / STATUS_CONTENT. Use centralised statusStyles.
 
 import { useEffect, useState } from "react";
-import { useRouter } from 'next/navigation';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../../contexts/AuthContext";
 import { PageLayout } from "../../components/layout";
 import {
@@ -35,7 +35,7 @@ function safeStatusIndicator(value: unknown): StatusIndicator | null {
 }
 
 export default function SubjectProgress() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { user, activeChildId, loading: authLoading } = useAuth();
 
   const {
@@ -56,15 +56,15 @@ export default function SubjectProgress() {
     if (authLoading) return;
 
     if (!user) {
-      router.replace("/");
+      navigate("/", { replace: true });
       return;
     }
 
     if (activeChildId) {
-      router.replace("/child/today");
+      navigate("/child/today", { replace: true });
       return;
     }
-  }, [authLoading, user, activeChildId, router]);
+  }, [authLoading, user, activeChildId, navigate]);
 
   const handleAddSubject = () => {
     setIsAddSubjectModalOpen(true);
@@ -121,7 +121,7 @@ export default function SubjectProgress() {
               No children found. Please add a child first.
             </p>
             <button
-              onClick={() => router.push("/parent/onboarding")}
+              onClick={() => navigate("/parent/onboarding")}
               className="mt-4 px-4 py-2 text-white rounded-full hover:opacity-90 bg-primary-600"
             >
               Add Child
@@ -231,8 +231,8 @@ export default function SubjectProgress() {
             headline={headlineContent.headline}
             message={headlineContent.message}
             onChildChange={setSelectedChildId}
-            onDashboardClick={() => router.push("/parent/dashboard")}
-            onScheduleClick={() => router.push("/parent/timetable")}
+            onDashboardClick={() => navigate("/parent/dashboard")}
+            onScheduleClick={() => navigate("/parent/timetable")}
             onAddSubject={handleAddSubject}
           />
 

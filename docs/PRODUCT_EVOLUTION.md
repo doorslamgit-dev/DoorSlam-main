@@ -7,6 +7,27 @@ For architecture decisions, see [docs/decisions/](decisions/).
 
 ---
 
+## Vite Migration (18 Feb 2026)
+
+**Why this change is happening**: The Next.js dev server was repeatedly hanging during development, causing significant productivity loss. An audit revealed that the app was a fully client-rendered SPA — every page had `'use client'`, there were zero server components, zero API routes, and zero middleware. Next.js was providing nothing beyond a routing layer and a dev server that didn't work reliably.
+
+**What it does**: Replaces the Next.js framework with Vite (bundler/dev server) and React Router (client-side routing). The app now starts in ~200ms instead of hanging. All existing routes, authentication flows, and UI remain identical — this is a developer experience improvement with zero user-facing changes.
+
+**How it was developed**: The migration was entirely mechanical with no business logic changes:
+- Created new entry point (`index.html` + `src/main.tsx`) and route definitions (`src/router.tsx`)
+- Replaced Next.js navigation hooks with React Router equivalents (`useNavigate`, `useSearchParams`, `useLocation`, `useParams`)
+- Replaced `next/link` `Link` with `react-router-dom` `Link` (changed `href` to `to` prop)
+- Replaced `next/image` `Image` with plain `<img>` elements (images were already unoptimized)
+- Replaced `next/dynamic` with `React.lazy`
+- Changed environment variables from `NEXT_PUBLIC_*` to `VITE_*` prefix
+- Removed all `'use client'` directives (no longer meaningful outside Next.js)
+- Deleted the entire `app/` directory, `next.config.ts`, and Next.js ESLint plugin
+- Updated build toolchain: `vite` for dev/build, merged Vitest config into `vite.config.ts`
+- Key files: `src/router.tsx`, `src/main.tsx`, `src/providers.tsx`, `vite.config.ts`, `index.html`
+- Architecture decision: [ADR-004](decisions/ADR-004-vite-migration.md)
+
+---
+
 ## Baseline — v1.0.0 (2 Feb 2026)
 
 ### What the product is

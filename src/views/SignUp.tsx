@@ -1,10 +1,9 @@
-'use client';
+
 
 // src/views/SignUp.tsx
 
 import { useState, type FormEvent } from "react";
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { Link, useNavigate } from 'react-router-dom';
 import Alert from "../components/ui/Alert";
 import AppIcon from "../components/ui/AppIcon";
 import Button from "../components/ui/Button";
@@ -28,7 +27,7 @@ export default function SignUp() {
   const [submitting, setSubmitting] = useState(false);
 
   const { signUp } = useAuth();
-  const router = useRouter();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -48,7 +47,7 @@ export default function SignUp() {
       }
 
       // signUp now updates auth state immediately, so we can navigate directly
-      router.replace("/parent/onboarding");
+      navigate("/parent/onboarding", { replace: true });
     } catch (e: unknown) {
       setError((e instanceof Error ? e.message : "Sign up failed"));
       setSubmitting(false);
@@ -121,7 +120,7 @@ export default function SignUp() {
 
           <p className="mt-6 text-center text-sm text-neutral-600">
             Already have an account?{" "}
-            <Link href="/login"
+            <Link to="/login"
               className="text-primary-600 font-semibold hover:text-primary-700"
             >
               Sign in

@@ -1,7 +1,7 @@
-'use client';
+
 
 import { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../lib/supabase';
 import { ReportData } from '../../types/parent/insightsReportTypes';
@@ -21,8 +21,8 @@ import {
 } from '../../components/parent/report';
 
 export default function InsightsReport() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { user, isParent, loading: authLoading } = useAuth();
 
   const [reportData, setReportData] = useState<ReportData | null>(null);
@@ -34,11 +34,11 @@ export default function InsightsReport() {
   useEffect(() => {
     if (authLoading) return;
     if (!user) {
-      router.replace('/');
+      navigate('/', { replace: true });
     } else if (!isParent) {
-      router.replace('/child/today');
+      navigate('/child/today', { replace: true });
     }
-  }, [authLoading, user, isParent, router]);
+  }, [authLoading, user, isParent, navigate]);
 
   useEffect(() => {
     if (!childId || !user) return;
@@ -70,7 +70,7 @@ export default function InsightsReport() {
   };
 
   const handleBack = () => {
-    router.push('/parent/insights');
+    navigate('/parent/insights');
   };
 
   if (authLoading || loading) {

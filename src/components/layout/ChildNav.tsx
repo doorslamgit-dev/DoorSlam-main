@@ -3,13 +3,12 @@
 // FEAT-010: Theme-ready classes only
 // FEAT-013: Added Rewards link
 
-'use client';
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link, useLocation } from "react-router-dom";
+
 
 export default function ChildNav() {
-  const pathname = usePathname();
+  const { pathname } = useLocation();
 
   const linkClass = (href: string, exact = false) => {
     const active = exact ? pathname === href : pathname.startsWith(href);
@@ -22,10 +21,10 @@ export default function ChildNav() {
 
   return (
     <nav className="hidden md:flex items-center space-x-8">
-      <Link href="/child/today" className={linkClass("/child/today", true)}>
+      <Link to="/child/today" className={linkClass("/child/today", true)}>
         Your revision
       </Link>
-      <Link href="/child/rewards" className={linkClass("/child/rewards")}>
+      <Link to="/child/rewards" className={linkClass("/child/rewards")}>
         Rewards
       </Link>
     </nav>

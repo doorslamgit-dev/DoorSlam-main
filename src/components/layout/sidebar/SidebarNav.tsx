@@ -1,6 +1,5 @@
 // src/components/layout/sidebar/SidebarNav.tsx
 
-'use client';
 
 import { useAuth } from '../../../contexts/AuthContext';
 import { useSubscription } from '../../../hooks/useSubscription';

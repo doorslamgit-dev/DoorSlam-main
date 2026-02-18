@@ -13,6 +13,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Public pricing navigation** — added "Pricing" link to the public header (`AppHeader.tsx`) so unauthenticated visitors can reach the pricing page directly from the landing page navigation
 
 ### Changed
+- **Migrated from Next.js to Vite + React Router** — replaced Next.js 16 App Router with Vite 5 + React Router v7
+  - App was already a fully client-rendered SPA (zero server components, zero API routes, zero middleware)
+  - Dev server starts in ~200ms (was hanging indefinitely with Next.js)
+  - New entry point: `index.html` + `src/main.tsx` + `src/router.tsx`
+  - Replaced `next/navigation` hooks with `react-router-dom` equivalents across ~35 files
+  - Replaced `next/link` `Link` with `react-router-dom` `Link` (12 files)
+  - Replaced `next/image` `Image` with plain `<img>` (9 files, images were already unoptimized)
+  - Replaced `next/dynamic` with `React.lazy` (1 file)
+  - Replaced `process.env.NEXT_PUBLIC_*` with `import.meta.env.VITE_*` (4 files)
+  - Removed `'use client'` directives from ~40 files
+  - Deleted `app/` directory (22 files), `next.config.ts`, `next-env.d.ts`
+  - Updated ESLint config to remove `@next/eslint-plugin-next`
+  - See: [ADR-004](docs/decisions/ADR-004-vite-migration.md)
+
+
 - **Streamlined Parent Onboarding — Two-Phase Flow**
   - Phase 1 (3 steps): Child Details → Exam Type → Subjects → Dashboard (parent reaches dashboard immediately)
   - Phase 2 (from dashboard CTA): Goal → Needs → Pathways → Grades → Revision Period → Availability → Confirm

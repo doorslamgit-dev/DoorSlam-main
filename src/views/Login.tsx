@@ -1,10 +1,9 @@
-'use client';
+
 
 // src/views/Login.tsx
 
 import { useState, type FormEvent } from "react";
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { Link, useNavigate } from 'react-router-dom';
 import Alert from "../components/ui/Alert";
 import Button from "../components/ui/Button";
 import FormField from "../components/ui/FormField";
@@ -17,7 +16,7 @@ export default function Login() {
   const [submitting, setSubmitting] = useState(false);
 
   const { signIn } = useAuth();
-  const router = useRouter();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -37,7 +36,7 @@ export default function Login() {
       // Navigate to home gate which will route based on role
       // Use setTimeout to ensure React has processed the state update
       setTimeout(() => {
-        router.replace("/");
+        navigate("/", { replace: true });
       }, 0);
     } catch (e: unknown) {
       setError((e instanceof Error ? e.message : "Login failed"));
@@ -90,7 +89,7 @@ export default function Login() {
 
           <p className="mt-6 text-center text-sm text-neutral-600">
             Don&apos;t have an account?{" "}
-            <Link href="/signup"
+            <Link to="/signup"
               className="text-primary-600 font-semibold hover:text-primary-700"
             >
               Sign up

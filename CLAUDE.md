@@ -10,7 +10,7 @@
 | Key | Value |
 |-----|-------|
 | **Project** | Doorslam — GCSE revision platform |
-| **Stack** | React 18 · Next.js 16 (App Router) · TypeScript 5.3 · Tailwind 3 · Supabase |
+| **Stack** | React 18 · Vite 5 · React Router 7 · TypeScript 5.3 · Tailwind 3 · Supabase |
 | **Repository** | `doorslamgit-dev/DoorSlam-main` (origin) |
 | **Branches** | `main` (production) · `staging` (pre-prod) · `develop` (active dev, default) |
 | **Supabase** | Project ref `hpdoircrqgoqabhnsuav` (eu-west-3) |
@@ -22,19 +22,22 @@
 ## 2. Architecture
 
 ```
-Pages (app/)
-  └─ Components (src/components/)
-       └─ Hooks & Contexts (src/hooks/, src/contexts/)
-            └─ Services (src/services/)
-                 └─ Types & Utils (src/types/, src/utils/)
-                      └─ Supabase (src/lib/supabase.ts)
+Entry (index.html → src/main.tsx)
+  └─ Router (src/router.tsx)
+       └─ Views (src/views/)
+            └─ Components (src/components/)
+                 └─ Hooks & Contexts (src/hooks/, src/contexts/)
+                      └─ Services (src/services/)
+                           └─ Types & Utils (src/types/, src/utils/)
+                                └─ Supabase (src/lib/supabase.ts)
 ```
 
 ### Directory conventions
 
 | Directory | Purpose |
 |-----------|---------|
-| `app/` | Next.js App Router pages and layouts |
+| `src/router.tsx` | React Router route definitions |
+| `src/main.tsx` | App entry point (ReactDOM, BrowserRouter, Providers) |
 | `src/components/ui/` | Reusable base components (Button, Modal, FormField, etc.) |
 | `src/components/<domain>/` | Domain components (child/, parent/, session/, etc.) |
 | `src/components/layout/` | AppShell, Sidebar, AppLayout |
@@ -55,7 +58,7 @@ Pages (app/)
 - **Child selection**: `activeChildId` in AuthContext, synced with `?child=<id>` URL param
 - **Service layer**: All Supabase calls wrapped in typed service functions — never call Supabase directly from components
 - **State management**: React Context only (Auth, Theme, Sidebar) — no Redux
-- **Components**: server components by default, `'use client'` only for interactive components
+- **Components**: all components are client-rendered (Vite SPA — no server components)
 - **Design tokens**: CSS custom properties in `src/styles/themes.css`, extended by Tailwind config
 - **Dark mode**: `darkMode: 'class'` on `<html>`, toggled via ThemeContext
 
@@ -99,9 +102,9 @@ semi: true | singleQuote: true | trailingComma: es5 | printWidth: 100 | tabWidth
 ### Import order
 
 ```typescript
-// 1. React / Next.js
+// 1. React / React Router
 import React from 'react';
-import { useRouter } from 'next/navigation';
+import { useNavigate } from 'react-router-dom';
 
 // 2. External libraries
 import { BarChart } from 'recharts';
@@ -364,7 +367,7 @@ Change types: `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`, `Security`
 
 File: `docs/decisions/ADR-NNN-short-description.md`
 
-Numbering: sequential, never reuse. **Next available: ADR-004**
+Numbering: sequential, never reuse. **Next available: ADR-005**
 
 ```markdown
 # ADR-NNN: Short Title
@@ -427,10 +430,11 @@ npm run lint && npm run type-check && npm run test && npm run build
 
 | Script | Purpose |
 |--------|---------|
-| `npm run dev` | Local dev server |
-| `npm run build` | Production build |
-| `npm run build:check` | Type-check + build |
-| `npm run lint` | ESLint (src + app) |
+| `npm run dev` | Vite dev server |
+| `npm run build` | Type-check + Vite production build |
+| `npm run build:check` | Type-check + Vite build (same as build) |
+| `npm run preview` | Preview production build locally |
+| `npm run lint` | ESLint (src) |
 | `npm run type-check` | TypeScript `tsc --noEmit` |
 | `npm test` | Vitest (single run) |
 | `npm run test:watch` | Vitest (watch mode) |
@@ -528,20 +532,19 @@ Prefer PRs under **400 lines changed**. For larger work, split into stacked PRs 
 
 - `.env` is gitignored — **NEVER commit secrets**
 - `.env.example` is the template — update it when adding new env vars
-- All browser-safe vars use `NEXT_PUBLIC_` prefix
-- Server-only secrets must NOT have `NEXT_PUBLIC_` prefix
+- All browser-exposed vars use `VITE_` prefix (Vite convention)
 
 ### Required variables
 
 ```
-NEXT_PUBLIC_SUPABASE_URL=https://<project-ref>.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon-key>
+VITE_SUPABASE_URL=https://<project-ref>.supabase.co
+VITE_SUPABASE_ANON_KEY=<anon-key>
 ```
 
 ### Optional variables
 
 ```
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_<key>
+VITE_STRIPE_PUBLISHABLE_KEY=pk_test_<key>
 ```
 
 ---
@@ -611,6 +614,7 @@ npm run lint && npm run type-check && npm run test && npm run build
 | `docs/decisions/ADR-*.md` | Architectural decisions |
 | `.github/pull_request_template.md` | PR checklist |
 | `.github/workflows/ci.yml` | CI pipeline definition |
+| `vite.config.ts` | Vite + Vitest config |
 | `eslint.config.js` | Linting rules |
 | `tsconfig.json` | TypeScript config |
 | `.prettierrc` | Formatting config |

@@ -1,10 +1,9 @@
 // src/views/parent/Pricing.tsx
 // Subscription pricing page with tier comparison
 
-"use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { useSubscription } from "../../hooks/useSubscription";
 import {
@@ -21,7 +20,7 @@ import {
 import AppIcon from "../../components/ui/AppIcon";
 
 export default function Pricing() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { user } = useAuth();
   const { tier, isActive } = useSubscription();
   const [selectedDuration, setSelectedDuration] =
@@ -70,7 +69,7 @@ export default function Pricing() {
 
   const handleSubscribe = async (tierType: "family" | "premium") => {
     if (!user) {
-      router.push("/signup?redirect=/pricing");
+      navigate("/signup?redirect=/pricing");
       return;
     }
 

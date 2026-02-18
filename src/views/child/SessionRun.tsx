@@ -1,4 +1,4 @@
-'use client';
+
 
 // src/views/child/SessionRun.tsx
 // REFACTORED: January 2026
@@ -8,7 +8,7 @@
 // FEAT-011 Phase 3: Added childId prop for voice input
 
 import { useMemo } from "react";
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useNavigate } from 'react-router-dom';
 
 // Components
 import {
@@ -53,8 +53,8 @@ import type { StepContext } from "../../types/child/studyBuddy/studyBuddyTypes";
 // =============================================================================
 
 export default function SessionRun() {
-  const { plannedSessionId } = useParams<{ plannedSessionId: string }>();
-  const router = useRouter();
+  const { plannedSessionId } = useParams();
+  const navigate = useNavigate();
 
   const {
     sessionData,
@@ -256,7 +256,7 @@ export default function SessionRun() {
           <CompleteStep
             {...commonProps as any}
             onFinish={handleFinish}
-            onStartNextSession={() => router.push("/child/today")}
+            onStartNextSession={() => navigate("/child/today")}
             onUploadAudio={handleUploadAudio}
           />
         );

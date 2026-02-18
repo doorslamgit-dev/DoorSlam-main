@@ -9,7 +9,7 @@ import type {
   StepContext 
 } from '../../../types/child/studyBuddy/studyBuddyTypes';
 
-const EDGE_FUNCTION_URL = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1`;
+const EDGE_FUNCTION_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1`;
 
 export const studyBuddyService = {
   /**
