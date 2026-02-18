@@ -203,6 +203,22 @@ See [ADR-004: Two-Phase Onboarding](decisions/ADR-004-two-phase-onboarding.md)
 
 ---
 
+## Unreleased — Public Pricing Navigation (18 Feb 2026)
+
+### Why this change is happening
+
+The pricing page (`/pricing`) already existed and handled both logged-in and logged-out visitors, but there was no way to reach it from the public header. The `AppHeader` only showed "Log in" and "Sign up" — the only link to pricing was buried in the footer. Visitors comparing plans had no obvious path to find pricing information.
+
+### What it does
+
+A "Pricing" text link now appears in the public header navigation, between the logo and the Log in / Sign up buttons. Clicking it takes visitors to the existing pricing page showing Family and Premium plans with duration options and "Start Free Trial" CTAs.
+
+### How it was developed
+
+Single-line addition to `src/components/layout/AppHeader.tsx`. The link uses the same styling as the existing "Log in" link for visual consistency. No new components, services, or routes were needed — the pricing page and its logged-out behaviour already existed.
+
+---
+
 ## How to Document Future Changes
 
 When adding a new feature, bug fix, or change:

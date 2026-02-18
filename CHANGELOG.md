@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Public pricing navigation** — added "Pricing" link to the public header (`AppHeader.tsx`) so unauthenticated visitors can reach the pricing page directly from the landing page navigation
+
 ### Changed
 - **Streamlined Parent Onboarding — Two-Phase Flow**
   - Phase 1 (3 steps): Child Details → Exam Type → Subjects → Dashboard (parent reaches dashboard immediately)

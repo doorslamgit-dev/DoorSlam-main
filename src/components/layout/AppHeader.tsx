@@ -38,8 +38,14 @@ export default function AppHeader() {
           </div>
         </Link>
 
-        {/* Auth buttons */}
+        {/* Navigation + Auth buttons */}
         <div className="flex items-center gap-2">
+          <Link
+            href="/pricing"
+            className="px-4 py-2 rounded-xl text-neutral-700 hover:bg-neutral-50 text-sm font-medium"
+          >
+            Pricing
+          </Link>
           <Link
             href="/login"
             className="px-4 py-2 rounded-xl text-neutral-700 hover:bg-neutral-50 text-sm font-medium"
