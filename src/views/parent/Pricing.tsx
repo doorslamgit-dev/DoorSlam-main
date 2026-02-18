@@ -2,8 +2,8 @@
 // Subscription pricing page with tier comparison
 
 
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { useSubscription } from "../../hooks/useSubscription";
 import {
@@ -21,13 +21,23 @@ import AppIcon from "../../components/ui/AppIcon";
 
 export default function Pricing() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { user } = useAuth();
-  const { tier, isActive } = useSubscription();
+  const { tier, isActive, refresh } = useSubscription();
   const [selectedDuration, setSelectedDuration] =
     useState<PriceDuration>("annual");
   const [payUpfront, setPayUpfront] = useState(false);
   const [loadingTier, setLoadingTier] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  // After Stripe Checkout success, refresh subscription and redirect to dashboard
+  useEffect(() => {
+    if (searchParams.get("subscription") === "success" && user) {
+      refresh().then(() => {
+        navigate("/parent", { replace: true });
+      });
+    }
+  }, [searchParams, user, refresh, navigate]);
 
   const familyPrice = FAMILY_PRICES.find(
     (p) => p.duration === selectedDuration

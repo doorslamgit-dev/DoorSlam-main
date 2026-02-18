@@ -117,26 +117,26 @@ export interface AnnualUpfrontPrice {
 }
 
 export const FAMILY_PRICES: PriceOption[] = [
-  { duration: "monthly", label: "Monthly", monthlyRate: 14.99, total: 14.99, stripePriceId: "" },
-  { duration: "quarterly", label: "Quarterly", monthlyRate: 11.99, total: 35.97, stripePriceId: "", savings: "Save 20%" },
-  { duration: "annual", label: "Annual", monthlyRate: 6.99, total: 83.88, stripePriceId: "", savings: "Save 53%" },
+  { duration: "monthly", label: "Monthly", monthlyRate: 14.99, total: 14.99, stripePriceId: "price_1T2DyT9ekvh9y28oKGFQPH9W" },
+  { duration: "quarterly", label: "Quarterly", monthlyRate: 11.99, total: 35.97, stripePriceId: "price_1T2Dyd9ekvh9y28oaxxH7Ob2", savings: "Save 20%" },
+  { duration: "annual", label: "Annual", monthlyRate: 6.99, total: 83.88, stripePriceId: "price_1T2Dyg9ekvh9y28otXEF5rPV", savings: "Save 53%" },
 ];
 
 export const FAMILY_ANNUAL_UPFRONT: AnnualUpfrontPrice = {
   total: 59.99,
-  stripePriceId: "",
+  stripePriceId: "price_1T2Dyj9ekvh9y28oZsY9pb82",
   savings: "Save 67%",
 };
 
 export const PREMIUM_PRICES: PriceOption[] = [
-  { duration: "monthly", label: "Monthly", monthlyRate: 19.99, total: 19.99, stripePriceId: "" },
-  { duration: "quarterly", label: "Quarterly", monthlyRate: 16.99, total: 50.97, stripePriceId: "", savings: "Save 15%" },
-  { duration: "annual", label: "Annual", monthlyRate: 11.99, total: 143.88, stripePriceId: "", savings: "Save 40%" },
+  { duration: "monthly", label: "Monthly", monthlyRate: 19.99, total: 19.99, stripePriceId: "price_1T2Dys9ekvh9y28obsL45Hsr" },
+  { duration: "quarterly", label: "Quarterly", monthlyRate: 16.99, total: 50.97, stripePriceId: "price_1T2Dyv9ekvh9y28oY93U11ig", savings: "Save 15%" },
+  { duration: "annual", label: "Annual", monthlyRate: 11.99, total: 143.88, stripePriceId: "price_1T2Dyz9ekvh9y28o0t3ZNGg6", savings: "Save 40%" },
 ];
 
 export const PREMIUM_ANNUAL_UPFRONT: AnnualUpfrontPrice = {
   total: 99.99,
-  stripePriceId: "",
+  stripePriceId: "price_1T2Dz29ekvh9y28oH88qdIkh",
   savings: "Save 58%",
 };
 
@@ -151,7 +151,7 @@ export interface TokenBundle {
 }
 
 export const TOKEN_BUNDLES: TokenBundle[] = [
-  { tokens: 500, price: 4.99, stripePriceId: "" },
-  { tokens: 1000, price: 8.99, stripePriceId: "" },
-  { tokens: 2500, price: 19.99, stripePriceId: "" },
+  { tokens: 500, price: 4.99, stripePriceId: "price_1T2DzD9ekvh9y28oaPcJXIKZ" },
+  { tokens: 1000, price: 8.99, stripePriceId: "price_1T2DzG9ekvh9y28oryXFrp0I" },
+  { tokens: 2500, price: 19.99, stripePriceId: "price_1T2DzJ9ekvh9y28otSuF4i2u" },
 ];

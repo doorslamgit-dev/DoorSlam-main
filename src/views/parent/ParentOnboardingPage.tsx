@@ -216,11 +216,12 @@ export default function ParentOnboardingPage() {
      Effects
   ============================ */
 
-  // Navigate to dashboard once parentChildCount updates
+  // Navigate to pricing page once Phase 1 completes (child created)
+  // User must choose a plan before accessing the dashboard
   useEffect(() => {
     if (pendingDashboardNav && parentChildCount !== null && parentChildCount > 0) {
       setPendingDashboardNav(false);
-      navigate("/parent", { replace: true });
+      navigate("/pricing", { replace: true });
     }
   }, [pendingDashboardNav, parentChildCount, navigate]);
 
