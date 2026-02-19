@@ -104,11 +104,20 @@ serve(async (req: Request) => {
     }
 
     // Create Checkout session
-    // New customers get a 14-day free trial; returning customers are billed immediately
+    // New customers get a 14-day free trial on Family plan only.
+    // Premium requires payment upfront. Returning customers are always billed immediately.
+    const FAMILY_PRICE_IDS = new Set([
+      "price_1T2DyT9ekvh9y28oKGFQPH9W", // Family 1-month
+      "price_1T2Dyd9ekvh9y28oaxxH7Ob2", // Family 3-month (monthly billing)
+      "price_1T2ZIT9ekvh9y28o5Sm9Ee4i", // Family 3-month (upfront)
+      "price_1T2Dyg9ekvh9y28otXEF5rPV", // Family 12-month (monthly billing)
+      "price_1T2Dyj9ekvh9y28oZsY9pb82", // Family 12-month (upfront)
+    ]);
+
     const subscriptionData: Record<string, unknown> = {
       metadata: { supabase_user_id: user.id },
     };
-    if (!isReturningCustomer) {
+    if (!isReturningCustomer && FAMILY_PRICE_IDS.has(price_id)) {
       subscriptionData.trial_period_days = 14;
     }
 

@@ -7,6 +7,59 @@ For architecture decisions, see [docs/decisions/](decisions/).
 
 ---
 
+## Subscription Trial Gating & Upgrade/Downgrade (19 Feb 2026)
+
+**Why this change is happening**: The initial Stripe integration offered a 14-day free trial on both Family and Premium plans, and upgrade/downgrade actions opened the Stripe Customer Portal which gave limited control over trial behaviour. Specifically, upgrading mid-trial through the portal would continue the trial on the new plan — meaning users could get 14 days of Premium for free. Business rules require: trial only on Family, immediate trial end on upgrade, no re-trialing, and proper proration on plan changes.
+
+**What it does**: Restricts the free trial to Family plan only. When a trialing Family user upgrades to Premium, the trial ends immediately and billing starts. Downgrades apply prorated credit. Expired users who return cannot re-trial. The pricing page buttons adapt to the user's current state (Current Plan, Upgrade, Downgrade, Resubscribe, Subscribe, or Start Free Trial). A "Manage Billing" link gives access to Stripe's portal for payment methods and cancellation.
+
+**How it was developed**:
+- New `stripe-update-subscription` edge function uses the Stripe Subscriptions API to change plans in-app, setting `trial_end: 'now'` for trialing users and `proration_behavior: 'always_invoice'` for immediate billing
+- `stripe-create-checkout` updated: `trial_period_days: 14` only applied when the price is a Family price AND the user is new (no `stripe_customer_id`)
+- `useSubscription` hook now exposes `hasStripeCustomer` so the UI can distinguish new users from expired returning users
+- `Pricing.tsx` button logic rebuilt with a state matrix covering all user states
+- Customer Portal kept for billing admin (payment methods, invoices, cancellation) but no longer used for plan changes
+- Key files: `supabase/functions/stripe-update-subscription/index.ts`, `supabase/functions/stripe-create-checkout/index.ts`, `src/views/parent/Pricing.tsx`, `src/services/subscriptionService.ts`, `src/hooks/useSubscription.ts`
+
+**Subsequent changes — Upgrade/Downgrade UX & Billing Interval Lock (19 Feb 2026)**:
+Testing revealed three issues: (1) no confirmation before plan change, (2) no success feedback, (3) sidebar badge didn't update because each `useSubscription()` hook maintained independent state. Additionally, the monthly/quarterly/annual selector represented commitment lengths, not just billing frequency — allowing users to switch interval during upgrade would let them game discount rates.
+
+Fixes applied:
+- Created `SubscriptionContext` so all components (sidebar, nav, pricing page) share subscription state — calling `refresh()` anywhere updates every consumer
+- Added a confirmation modal before plan changes showing target plan, price, and a warning that trial ends immediately if upgrading from trial
+- Added dismissible success/error alerts after plan change completion
+- Duration selector is now hidden for existing subscribers — their billing interval is locked
+- `stripe_price_id` stored in the profiles table (new migration + updated RPC) so the frontend knows the user's current billing interval
+- Edge function rewritten to accept `target_tier` instead of `price_id` — it reads the subscription's current price, determines the billing interval, and maps to the target tier's equivalent price
+- New files: `src/contexts/SubscriptionContext.tsx`, migration `20260219120000_add_stripe_price_id.sql`
+- Modified files: `src/hooks/useSubscription.ts` (re-export from context), `src/providers.tsx` (wire provider), `src/types/subscription.ts` (interval mapping helpers), `src/services/subscriptionService.ts` (target_tier API), `src/views/parent/Pricing.tsx` (modal + alerts + interval lock), `supabase/functions/stripe-update-subscription/index.ts` (interval mapping), `supabase/functions/stripe-webhook/index.ts` (store price ID)
+
+**Subsequent changes — Subscription Model Refactor: Plan Length + Billing Method (19 Feb 2026)**:
+Testing revealed the pricing model was incorrectly treating "Monthly/Quarterly/Annual" tabs as billing frequency. They actually represent **plan length** — the commitment period (1-month, 3-month, or 12-month). The "pay monthly / pay in full" toggle is the **billing method** within that commitment. Both dimensions are locked once a user subscribes. Subscribers can upgrade to a longer plan length in-app (1→3, 1→12, 3→12), but downgrading plan length requires cancel + re-subscribe.
+
+Changes applied:
+- **Type system refactored**: Replaced `BillingInterval` with two new types: `PlanLength` (`1_month | 3_months | 12_months`) and `BillingMethod` (`monthly | upfront`). Products now defined by 3 dimensions: tier × plan length × billing method (10 unique Stripe prices)
+- **2 new Stripe prices created**: Family 3-month upfront (£29.99, saves 33%) and Premium 3-month upfront (£39.99, saves 33%). "Pay in full" toggle now available for both 3-month and 12-month plans (was 12-month only)
+- **Tab labels renamed**: "Monthly / Quarterly / Annual" → "1 Month / 3 Months / 12 Months" to correctly communicate commitment length
+- **Subscriber plan length control**: Shorter plan lengths shown disabled in tabs, current plan selected, longer plan lengths clickable. Clicking a longer tab updates prices and enables "Extend Plan" buttons
+- **Billing method locked**: Upfront toggle shown disabled for subscribers, reflecting their current billing method
+- **Button logic expanded**: 5 states — Current Plan, Extend Plan, Upgrade, Downgrade, Subscribe/Start Free Trial
+- **Edge function rewritten**: `stripe-update-subscription` accepts optional `target_plan_length` alongside `target_tier`. Validates plan length can only go up. Resolves new price via 3-key lookup (`tier:planLength:billingMethod`), always preserving the subscriber's billing method
+- **Polling for UI sync**: After plan change, pricing page polls `getSubscriptionStatus()` (up to 10 attempts × 500ms) to wait for webhook sync before refreshing UI — eliminates the manual refresh requirement
+- Key files: `src/types/subscription.ts` (complete type rewrite), `src/views/parent/Pricing.tsx` (full UI rewrite), `src/contexts/SubscriptionContext.tsx` (planLength + billingMethod), `supabase/functions/stripe-update-subscription/index.ts` (3-key model), `supabase/functions/stripe-webhook/index.ts` (+2 prices), `supabase/functions/stripe-create-checkout/index.ts` (+1 Family trial price)
+
+**Subsequent changes — Pricing Page UX Refinements (19 Feb 2026)**:
+User testing revealed the subscriber pricing page was cluttered and unintuitive: generic "Your Plan" title, tabs and toggle appeared clickable when they should be locked, buttons like "Extend Plan" lacked context, and the sidebar showed a pointless "Parent" role label.
+
+Fixes applied:
+- Subscriber header replaced with a direct statement: "You are on the 3 Month Premium plan" with dynamic upgrade guidance ("You can upgrade to a 12 Month plan") and inline Manage Billing link
+- Tabs and toggle now initialise from subscriber data on page load, and lock correctly even when `stripe_price_id` hasn't synced yet (null-safe guards)
+- Button labels include the target plan length: "Extend to 12 Months", "Upgrade to Premium 12 Months"
+- Sidebar "Parent" role label removed — now shows avatar, name, and tier badge only
+- Modified files: `src/views/parent/Pricing.tsx`, `src/components/layout/sidebar/SidebarBottomSection.tsx`
+
+---
+
 ## Vite Migration (18 Feb 2026)
 
 **Why this change is happening**: The Next.js dev server was repeatedly hanging during development, causing significant productivity loss. An audit revealed that the app was a fully client-rendered SPA — every page had `'use client'`, there were zero server components, zero API routes, and zero middleware. Next.js was providing nothing beyond a routing layer and a dev server that didn't work reliably.

@@ -2,7 +2,7 @@
 // Service for Stripe subscription and token operations
 
 import { supabase } from "../lib/supabase";
-import type { SubscriptionInfo } from "../types/subscription";
+import type { SubscriptionInfo, PlanLength } from "../types/subscription";
 
 /** Default subscription info returned when the RPC is not yet available. */
 const DEFAULT_STATUS: SubscriptionInfo = {
@@ -10,6 +10,7 @@ const DEFAULT_STATUS: SubscriptionInfo = {
   status: "trialing",
   trial_ends_at: null,
   has_stripe_customer: false,
+  stripe_price_id: null,
   usage: { children_count: 0, subjects_count: 0, token_balance: 0 },
   limits: { max_children: 1, max_subjects: 1, can_buy_tokens: false },
 };
@@ -53,6 +54,7 @@ export async function getSubscriptionStatus(): Promise<SubscriptionInfo> {
     status: result.status as SubscriptionInfo["status"],
     trial_ends_at: (result.trial_ends_at as string) ?? null,
     has_stripe_customer: Boolean(result.has_stripe_customer),
+    stripe_price_id: (result.stripe_price_id as string) ?? null,
     usage: {
       children_count: Number(usage.children_count ?? 0),
       subjects_count: Number(usage.subjects_count ?? 0),
@@ -106,6 +108,33 @@ export async function openCustomerPortal(): Promise<string> {
   }
 
   return result.url as string;
+}
+
+/**
+ * Change subscription tier and/or plan length.
+ * Keeps billing method (monthly/upfront) locked. Ends trial immediately if trialing.
+ * Plan length can only go up (1→3, 1→12, 3→12); downgrades require cancel + re-subscribe.
+ */
+export async function updateSubscription(
+  targetTier: "family" | "premium",
+  targetPlanLength?: PlanLength
+): Promise<void> {
+  const { data, error } = await supabase.functions.invoke("stripe-update-subscription", {
+    body: {
+      target_tier: targetTier,
+      target_plan_length: targetPlanLength ?? null,
+    },
+  });
+
+  if (error) {
+    throw new Error(error.message || "Failed to update subscription");
+  }
+
+  const result = data as Record<string, unknown>;
+
+  if (result.error) {
+    throw new Error((result.error as string) || "Failed to update subscription");
+  }
 }
 
 /**
