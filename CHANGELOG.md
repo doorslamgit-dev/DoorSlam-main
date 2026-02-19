@@ -53,6 +53,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Button labels include plan length: "Extend to 12 Months", "Upgrade to Premium 12 Months"
   - "Current" indicator on subscriber's plan length tab
   - Removed "Parent" role label from sidebar — now shows avatar, name, and tier badge only
+- **Stripe branding & wallet payments** — configured via Stripe Dashboard (no code changes)
+  - Business branding (logo, colours, name) applied to Checkout, Customer Portal, receipts, and emails
+  - Customer Portal: payment methods, invoices, and cancellation enabled; subscription switching disabled (handled in-app)
+  - Google Pay and Apple Pay enabled; domains registered (`app.doorslam.io`, `staging.doorslam.io`, `dev.doorslam.io`)
+  - Wallet buttons appear automatically on Stripe-hosted Checkout — no client-side SDK needed
 
 ### Changed
 - **Migrated from Next.js to Vite + React Router** — replaced Next.js 16 App Router with Vite 5 + React Router v7
