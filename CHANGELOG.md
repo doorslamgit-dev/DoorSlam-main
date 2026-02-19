@@ -21,6 +21,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - 4 edge functions deployed: `stripe-create-checkout`, `stripe-webhook`, `stripe-customer-portal`, `stripe-buy-tokens`
   - Stripe webhook endpoint registered for 6 events (checkout, subscription CRUD, invoice)
   - Database trial trigger removed — trial is now 100% Stripe-managed
+- **Subscription trial gating & upgrade/downgrade flow** — enforces trial-only-on-Family policy with controlled plan switching
+  - Free 14-day trial restricted to Family plan only; Premium requires payment upfront
+  - New `stripe-update-subscription` edge function handles in-app upgrade/downgrade via Stripe Subscriptions API
+  - Trial ends immediately on upgrade (`trial_end: 'now'`); proration applied for active subscribers
+  - Pricing page buttons are context-aware: Current Plan / Upgrade / Downgrade / Resubscribe / Subscribe / Start Free Trial
+  - "Manage Billing" link opens Stripe Customer Portal for payment methods, invoices, and cancellation
+  - Returning customers (expired) cannot re-trial — checkout skips trial if `stripe_customer_id` exists
+- **Upgrade/downgrade UX + billing interval lock** — polished plan-change experience with shared state
+  - Confirmation modal before plan change shows target plan, price, and trial-end warning
+  - Success/error alerts after plan change with dismissible feedback
+  - `SubscriptionContext` replaces independent hook instances — sidebar badge, nav, and pricing page share state
+  - `stripe_price_id` stored in profiles for frontend interval awareness
+  - New migration: `stripe_price_id` column + updated `rpc_get_subscription_status` RPC
+- **Subscription model refactor — plan length + billing method** — restructured pricing around commitment length and payment method
+  - Products now defined by 3 dimensions: tier (Family/Premium), plan length (1/3/12 months), billing method (monthly/upfront)
+  - 2 new Stripe prices: Family 3-month upfront (£29.99), Premium 3-month upfront (£39.99)
+  - "Pay in full" toggle now available for both 3-month and 12-month plans (was 12-month only)
+  - Tab labels renamed from "Monthly/Quarterly/Annual" to "1 Month / 3 Months / 12 Months"
+  - Plan length upgrades (1→3, 1→12, 3→12) allowed in-app; downgrades require cancel + re-subscribe
+  - Subscribers see shorter plan lengths disabled, current selected, longer clickable
+  - Billing method locked for subscribers (toggle shown disabled)
+  - Edge function accepts `target_plan_length` for combined tier + length changes
+  - Type system refactored: `BillingInterval` replaced with `PlanLength` + `BillingMethod` types
+- **Pricing page UX refinements** — cleaner subscriber experience with contextual guidance
+  - Subscriber header: "You are on the 3 Month Premium plan" replaces generic title + banner
+  - Dynamic upgrade guidance: "You can upgrade to a 12 Month plan" (adapts to current plan length)
+  - Inline Manage Billing link replaces separate section
+  - Tabs + toggle initialise from subscriber data on load (was defaulting to 12-month/monthly)
+  - Tabs/toggle lock correctly even when `stripe_price_id` is not yet synced
+  - Button labels include plan length: "Extend to 12 Months", "Upgrade to Premium 12 Months"
+  - "Current" indicator on subscriber's plan length tab
+  - Removed "Parent" role label from sidebar — now shows avatar, name, and tier badge only
 
 ### Changed
 - **Migrated from Next.js to Vite + React Router** — replaced Next.js 16 App Router with Vite 5 + React Router v7

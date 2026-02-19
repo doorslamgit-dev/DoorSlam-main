@@ -25,6 +25,7 @@ export interface SubscriptionInfo {
   status: SubscriptionStatus;
   trial_ends_at: string | null;
   has_stripe_customer: boolean;
+  stripe_price_id: string | null;
   usage: SubscriptionUsage;
   limits: SubscriptionLimits;
 }
@@ -96,13 +97,21 @@ export function getTrialDaysRemaining(info: SubscriptionInfo): number {
 }
 
 // ---------------------------------------------------------------------------
-// Pricing
+// Plan length + billing method model
 // ---------------------------------------------------------------------------
 
-export type PriceDuration = "monthly" | "quarterly" | "annual";
+/** How long the subscription commitment is */
+export type PlanLength = "1_month" | "3_months" | "12_months";
+
+/** How the subscriber pays for the commitment */
+export type BillingMethod = "monthly" | "upfront";
+
+// ---------------------------------------------------------------------------
+// Pricing constants
+// ---------------------------------------------------------------------------
 
 export interface PriceOption {
-  duration: PriceDuration;
+  planLength: PlanLength;
   label: string;
   monthlyRate: number;
   total: number;
@@ -110,35 +119,38 @@ export interface PriceOption {
   savings?: string;
 }
 
-export interface AnnualUpfrontPrice {
+export interface UpfrontPrice {
+  planLength: PlanLength;
   total: number;
   stripePriceId: string;
   savings: string;
 }
 
+// Family tier — monthly-billed prices
 export const FAMILY_PRICES: PriceOption[] = [
-  { duration: "monthly", label: "Monthly", monthlyRate: 14.99, total: 14.99, stripePriceId: "price_1T2DyT9ekvh9y28oKGFQPH9W" },
-  { duration: "quarterly", label: "Quarterly", monthlyRate: 11.99, total: 35.97, stripePriceId: "price_1T2Dyd9ekvh9y28oaxxH7Ob2", savings: "Save 20%" },
-  { duration: "annual", label: "Annual", monthlyRate: 6.99, total: 83.88, stripePriceId: "price_1T2Dyg9ekvh9y28otXEF5rPV", savings: "Save 53%" },
+  { planLength: "1_month", label: "1 Month", monthlyRate: 14.99, total: 14.99, stripePriceId: "price_1T2DyT9ekvh9y28oKGFQPH9W" },
+  { planLength: "3_months", label: "3 Months", monthlyRate: 11.99, total: 35.97, stripePriceId: "price_1T2Dyd9ekvh9y28oaxxH7Ob2", savings: "Save 20%" },
+  { planLength: "12_months", label: "12 Months", monthlyRate: 6.99, total: 83.88, stripePriceId: "price_1T2Dyg9ekvh9y28otXEF5rPV", savings: "Save 53%" },
 ];
 
-export const FAMILY_ANNUAL_UPFRONT: AnnualUpfrontPrice = {
-  total: 59.99,
-  stripePriceId: "price_1T2Dyj9ekvh9y28oZsY9pb82",
-  savings: "Save 67%",
-};
+// Family tier — upfront prices
+export const FAMILY_UPFRONT: UpfrontPrice[] = [
+  { planLength: "3_months", total: 29.99, stripePriceId: "price_1T2ZIT9ekvh9y28o5Sm9Ee4i", savings: "Save 33%" },
+  { planLength: "12_months", total: 59.99, stripePriceId: "price_1T2Dyj9ekvh9y28oZsY9pb82", savings: "Save 67%" },
+];
 
+// Premium tier — monthly-billed prices
 export const PREMIUM_PRICES: PriceOption[] = [
-  { duration: "monthly", label: "Monthly", monthlyRate: 19.99, total: 19.99, stripePriceId: "price_1T2Dys9ekvh9y28obsL45Hsr" },
-  { duration: "quarterly", label: "Quarterly", monthlyRate: 16.99, total: 50.97, stripePriceId: "price_1T2Dyv9ekvh9y28oY93U11ig", savings: "Save 15%" },
-  { duration: "annual", label: "Annual", monthlyRate: 11.99, total: 143.88, stripePriceId: "price_1T2Dyz9ekvh9y28o0t3ZNGg6", savings: "Save 40%" },
+  { planLength: "1_month", label: "1 Month", monthlyRate: 19.99, total: 19.99, stripePriceId: "price_1T2Dys9ekvh9y28obsL45Hsr" },
+  { planLength: "3_months", label: "3 Months", monthlyRate: 16.99, total: 50.97, stripePriceId: "price_1T2Dyv9ekvh9y28oY93U11ig", savings: "Save 15%" },
+  { planLength: "12_months", label: "12 Months", monthlyRate: 11.99, total: 143.88, stripePriceId: "price_1T2Dyz9ekvh9y28o0t3ZNGg6", savings: "Save 40%" },
 ];
 
-export const PREMIUM_ANNUAL_UPFRONT: AnnualUpfrontPrice = {
-  total: 99.99,
-  stripePriceId: "price_1T2Dz29ekvh9y28oH88qdIkh",
-  savings: "Save 58%",
-};
+// Premium tier — upfront prices
+export const PREMIUM_UPFRONT: UpfrontPrice[] = [
+  { planLength: "3_months", total: 39.99, stripePriceId: "price_1T2ZIb9ekvh9y28oNbr6xSdl", savings: "Save 33%" },
+  { planLength: "12_months", total: 99.99, stripePriceId: "price_1T2Dz29ekvh9y28oH88qdIkh", savings: "Save 58%" },
+];
 
 // ---------------------------------------------------------------------------
 // Token bundles (Premium only)
@@ -155,3 +167,112 @@ export const TOKEN_BUNDLES: TokenBundle[] = [
   { tokens: 1000, price: 8.99, stripePriceId: "price_1T2DzG9ekvh9y28oryXFrp0I" },
   { tokens: 2500, price: 19.99, stripePriceId: "price_1T2DzJ9ekvh9y28otSuF4i2u" },
 ];
+
+// ---------------------------------------------------------------------------
+// Price ↔ (tier, planLength, billingMethod) mapping
+// ---------------------------------------------------------------------------
+
+export interface PriceMapping {
+  tier: "family" | "premium";
+  planLength: PlanLength;
+  billingMethod: BillingMethod;
+}
+
+/** Forward lookup: Stripe price ID → product dimensions */
+const PRICE_ID_MAP: Record<string, PriceMapping> = {
+  // Family
+  "price_1T2DyT9ekvh9y28oKGFQPH9W": { tier: "family", planLength: "1_month", billingMethod: "monthly" },
+  "price_1T2Dyd9ekvh9y28oaxxH7Ob2": { tier: "family", planLength: "3_months", billingMethod: "monthly" },
+  "price_1T2ZIT9ekvh9y28o5Sm9Ee4i": { tier: "family", planLength: "3_months", billingMethod: "upfront" },
+  "price_1T2Dyg9ekvh9y28otXEF5rPV": { tier: "family", planLength: "12_months", billingMethod: "monthly" },
+  "price_1T2Dyj9ekvh9y28oZsY9pb82": { tier: "family", planLength: "12_months", billingMethod: "upfront" },
+  // Premium
+  "price_1T2Dys9ekvh9y28obsL45Hsr": { tier: "premium", planLength: "1_month", billingMethod: "monthly" },
+  "price_1T2Dyv9ekvh9y28oY93U11ig": { tier: "premium", planLength: "3_months", billingMethod: "monthly" },
+  "price_1T2ZIb9ekvh9y28oNbr6xSdl": { tier: "premium", planLength: "3_months", billingMethod: "upfront" },
+  "price_1T2Dyz9ekvh9y28o0t3ZNGg6": { tier: "premium", planLength: "12_months", billingMethod: "monthly" },
+  "price_1T2Dz29ekvh9y28oH88qdIkh": { tier: "premium", planLength: "12_months", billingMethod: "upfront" },
+};
+
+/** Reverse lookup: (tier:planLength:billingMethod) → Stripe price ID */
+const PRICE_LOOKUP: Record<string, string> = {
+  "family:1_month:monthly": "price_1T2DyT9ekvh9y28oKGFQPH9W",
+  "family:3_months:monthly": "price_1T2Dyd9ekvh9y28oaxxH7Ob2",
+  "family:3_months:upfront": "price_1T2ZIT9ekvh9y28o5Sm9Ee4i",
+  "family:12_months:monthly": "price_1T2Dyg9ekvh9y28otXEF5rPV",
+  "family:12_months:upfront": "price_1T2Dyj9ekvh9y28oZsY9pb82",
+  "premium:1_month:monthly": "price_1T2Dys9ekvh9y28obsL45Hsr",
+  "premium:3_months:monthly": "price_1T2Dyv9ekvh9y28oY93U11ig",
+  "premium:3_months:upfront": "price_1T2ZIb9ekvh9y28oNbr6xSdl",
+  "premium:12_months:monthly": "price_1T2Dyz9ekvh9y28o0t3ZNGg6",
+  "premium:12_months:upfront": "price_1T2Dz29ekvh9y28oH88qdIkh",
+};
+
+// ---------------------------------------------------------------------------
+// Mapping helpers
+// ---------------------------------------------------------------------------
+
+/** Get all dimensions for a Stripe price ID */
+export function getPriceMapping(priceId: string | null): PriceMapping | null {
+  if (!priceId) return null;
+  return PRICE_ID_MAP[priceId] ?? null;
+}
+
+/** Get the plan length for a Stripe price ID */
+export function getPlanLength(priceId: string | null): PlanLength | null {
+  return getPriceMapping(priceId)?.planLength ?? null;
+}
+
+/** Get the billing method for a Stripe price ID */
+export function getBillingMethod(priceId: string | null): BillingMethod | null {
+  return getPriceMapping(priceId)?.billingMethod ?? null;
+}
+
+/** Reverse lookup: (tier, planLength, billingMethod) → Stripe price ID */
+export function lookupPriceId(
+  tier: "family" | "premium",
+  planLength: PlanLength,
+  billingMethod: BillingMethod
+): string | null {
+  return PRICE_LOOKUP[`${tier}:${planLength}:${billingMethod}`] ?? null;
+}
+
+/** Plan length ordering for upgrade validation */
+const PLAN_LENGTH_ORDER: Record<PlanLength, number> = {
+  "1_month": 1,
+  "3_months": 3,
+  "12_months": 12,
+};
+
+/** Can the user upgrade from current plan length to target? (same or longer = yes) */
+export function canUpgradePlanLength(current: PlanLength, target: PlanLength): boolean {
+  return PLAN_LENGTH_ORDER[target] >= PLAN_LENGTH_ORDER[current];
+}
+
+/** Get display price info for a specific tier, plan length, and billing method */
+export function getDisplayPrice(
+  tier: "family" | "premium",
+  planLength: PlanLength,
+  billingMethod: BillingMethod
+): { monthlyRate: number | null; total: number; savings?: string } | null {
+  if (billingMethod === "upfront") {
+    const upfrontList = tier === "family" ? FAMILY_UPFRONT : PREMIUM_UPFRONT;
+    const match = upfrontList.find((p) => p.planLength === planLength);
+    if (!match) return null;
+    return { monthlyRate: null, total: match.total, savings: match.savings };
+  }
+
+  const prices = tier === "family" ? FAMILY_PRICES : PREMIUM_PRICES;
+  const match = prices.find((p) => p.planLength === planLength);
+  if (!match) return null;
+  return { monthlyRate: match.monthlyRate, total: match.total, savings: match.savings };
+}
+
+/** Human-readable plan length label */
+export function planLengthLabel(pl: PlanLength): string {
+  switch (pl) {
+    case "1_month": return "1 Month";
+    case "3_months": return "3 Months";
+    case "12_months": return "12 Months";
+  }
+}

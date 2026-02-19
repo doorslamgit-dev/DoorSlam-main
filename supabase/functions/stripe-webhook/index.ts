@@ -25,14 +25,16 @@ const stripe = new Stripe(STRIPE_SECRET_KEY, {
 // =============================================================================
 
 const PRICE_TO_TIER: Record<string, string> = {
-  // Family tier — monthly, quarterly, annual (billed monthly), annual (upfront)
+  // Family tier — 1-month, 3-month (monthly + upfront), 12-month (monthly + upfront)
   "price_1T2DyT9ekvh9y28oKGFQPH9W": "family",
   "price_1T2Dyd9ekvh9y28oaxxH7Ob2": "family",
+  "price_1T2ZIT9ekvh9y28o5Sm9Ee4i": "family",  // 3-month upfront
   "price_1T2Dyg9ekvh9y28otXEF5rPV": "family",
   "price_1T2Dyj9ekvh9y28oZsY9pb82": "family",
-  // Premium tier — monthly, quarterly, annual (billed monthly), annual (upfront)
+  // Premium tier — 1-month, 3-month (monthly + upfront), 12-month (monthly + upfront)
   "price_1T2Dys9ekvh9y28obsL45Hsr": "premium",
   "price_1T2Dyv9ekvh9y28oY93U11ig": "premium",
+  "price_1T2ZIb9ekvh9y28oNbr6xSdl": "premium",  // 3-month upfront
   "price_1T2Dyz9ekvh9y28o0t3ZNGg6": "premium",
   "price_1T2Dz29ekvh9y28oH88qdIkh": "premium",
 };
@@ -256,6 +258,7 @@ async function updateSubscriptionStatus(
     .update({
       subscription_tier: tier,
       subscription_status: status,
+      stripe_price_id: priceId || null,
       trial_ends_at: subscription.trial_end
         ? new Date(subscription.trial_end * 1000).toISOString()
         : null,

@@ -101,14 +101,11 @@ export default function SidebarBottomSection() {
             <>
               <div className="flex-1 text-left min-w-0">
                 <p className="text-sm font-medium text-neutral-700 truncate">{displayName}</p>
-                <div className="flex items-center gap-1.5">
-                  <p className="text-xs text-neutral-400">{isParent ? 'Parent' : 'Student'}</p>
-                  {tierInfo && (
-                    <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${tierInfo.color}`}>
-                      {tierInfo.label}
-                    </span>
-                  )}
-                </div>
+                {tierInfo && (
+                  <span className={`inline-block text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${tierInfo.color}`}>
+                    {tierInfo.label}
+                  </span>
+                )}
               </div>
               <AppIcon name="chevron-up" className="w-4 h-4 text-neutral-400 flex-shrink-0" />
             </>
