@@ -11,6 +11,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - **Public pricing navigation** — added "Pricing" link to the public header (`AppHeader.tsx`) so unauthenticated visitors can reach the pricing page directly from the landing page navigation
+- **Stripe sandbox integration** — complete payment flow wired up in Stripe test mode
+  - 3 Stripe products (Family, Premium, Tokens) with 11 prices created in test mode
+  - Price IDs populated in `src/types/subscription.ts` and `supabase/functions/stripe-webhook/index.ts`
+  - Payment step inserted into onboarding: Phase 1 → Pricing → Dashboard
+  - Subscription gate: parents without a Stripe customer redirected to `/pricing`
+  - Post-checkout redirect: `?subscription=success` → refresh subscription → dashboard
+  - Returning customer protection: 14-day trial skipped if user already has a `stripe_customer_id`
+  - 4 edge functions deployed: `stripe-create-checkout`, `stripe-webhook`, `stripe-customer-portal`, `stripe-buy-tokens`
+  - Stripe webhook endpoint registered for 6 events (checkout, subscription CRUD, invoice)
+  - Database trial trigger removed — trial is now 100% Stripe-managed
 
 ### Changed
 - **Migrated from Next.js to Vite + React Router** — replaced Next.js 16 App Router with Vite 5 + React Router v7

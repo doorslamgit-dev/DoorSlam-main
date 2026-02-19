@@ -82,6 +82,7 @@ serve(async (req: Request) => {
       .single();
 
     let stripeCustomerId = profile?.stripe_customer_id;
+    const isReturningCustomer = !!stripeCustomerId;
 
     if (!stripeCustomerId) {
       // Create new Stripe customer
@@ -103,6 +104,14 @@ serve(async (req: Request) => {
     }
 
     // Create Checkout session
+    // New customers get a 14-day free trial; returning customers are billed immediately
+    const subscriptionData: Record<string, unknown> = {
+      metadata: { supabase_user_id: user.id },
+    };
+    if (!isReturningCustomer) {
+      subscriptionData.trial_period_days = 14;
+    }
+
     const session = await stripe.checkout.sessions.create({
       customer: stripeCustomerId,
       mode: "subscription",
@@ -114,13 +123,7 @@ serve(async (req: Request) => {
       ],
       success_url: SUCCESS_URL,
       cancel_url: CANCEL_URL,
-      subscription_data: {
-        metadata: {
-          supabase_user_id: user.id,
-        },
-        // 14-day trial for new subscriptions
-        trial_period_days: 14,
-      },
+      subscription_data: subscriptionData,
       metadata: {
         supabase_user_id: user.id,
       },

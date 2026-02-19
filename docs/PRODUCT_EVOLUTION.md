@@ -240,6 +240,33 @@ Single-line addition to `src/components/layout/AppHeader.tsx`. The link uses the
 
 ---
 
+## Unreleased — Stripe Sandbox Integration (18 Feb 2026)
+
+### Why this change is happening
+
+Doorslam needs a payment system before launch. Parents must choose a plan (Family or Premium) to access the platform beyond onboarding. The 14-day free trial is managed by Stripe — no separate database trial. This change wires up the complete payment flow in Stripe's test environment so the signup-to-subscription journey can be tested end-to-end.
+
+### What it does
+
+After completing Phase 1 onboarding (child details → exam type → subjects), parents are redirected to the pricing page where they must choose a plan. Clicking "Start Free Trial" opens Stripe's hosted checkout page with a 14-day trial. On successful checkout, the parent is redirected to the dashboard. The webhook updates the database with subscription tier, status, and trial end date. Parents who cancel or never subscribe are redirected back to pricing from any protected route.
+
+Returning customers (those who previously had a Stripe customer ID) do not get another free trial — they are billed immediately.
+
+### How it was developed
+
+- **Stripe setup**: 3 products and 11 prices created via Stripe API in test mode (Family: 4 billing options, Premium: 4 billing options, Tokens: 3 one-time bundles)
+- **Price ID wiring**: All `stripePriceId` fields in `src/types/subscription.ts` and `PRICE_TO_TIER` / `TOKEN_BUNDLES` maps in the webhook handler populated with real Stripe price IDs
+- **Onboarding flow change**: `ParentOnboardingPage.tsx` redirects to `/pricing` after Phase 1 (was `/parent`)
+- **Subscription gate**: `AppLayout.tsx` checks `has_stripe_customer` for parent users and redirects to `/pricing` if false. Exempt routes: `/pricing`, `/parent/onboarding`, `/account`, `/login`, `/signup`, `/child`
+- **Post-checkout handling**: `Pricing.tsx` detects `?subscription=success`, refreshes subscription data, and redirects to `/parent`
+- **Returning customer protection**: `stripe-create-checkout/index.ts` only sets `trial_period_days: 14` for first-time customers
+- **Database cleanup**: Removed `trigger_set_trial_end_date` and `set_trial_end_date()` — trial is now 100% Stripe-managed via webhook
+- **Edge functions deployed**: `stripe-create-checkout`, `stripe-webhook` (--no-verify-jwt), `stripe-customer-portal`, `stripe-buy-tokens`
+- **Webhook**: Registered for `checkout.session.completed`, `customer.subscription.created`, `customer.subscription.updated`, `customer.subscription.deleted`, `invoice.paid`, `invoice.payment_failed`
+- **Environment**: Stripe secret key and all redirect URLs set as Supabase secrets; publishable key in `.env`
+
+---
+
 ## How to Document Future Changes
 
 When adding a new feature, bug fix, or change:

@@ -26,22 +26,22 @@ const stripe = new Stripe(STRIPE_SECRET_KEY, {
 
 const PRICE_TO_TIER: Record<string, string> = {
   // Family tier — monthly, quarterly, annual (billed monthly), annual (upfront)
-  "price_family_monthly": "family",
-  "price_family_quarterly": "family",
-  "price_family_annual": "family",
-  "price_family_annual_upfront": "family",
+  "price_1T2DyT9ekvh9y28oKGFQPH9W": "family",
+  "price_1T2Dyd9ekvh9y28oaxxH7Ob2": "family",
+  "price_1T2Dyg9ekvh9y28otXEF5rPV": "family",
+  "price_1T2Dyj9ekvh9y28oZsY9pb82": "family",
   // Premium tier — monthly, quarterly, annual (billed monthly), annual (upfront)
-  "price_premium_monthly": "premium",
-  "price_premium_quarterly": "premium",
-  "price_premium_annual": "premium",
-  "price_premium_annual_upfront": "premium",
+  "price_1T2Dys9ekvh9y28obsL45Hsr": "premium",
+  "price_1T2Dyv9ekvh9y28oY93U11ig": "premium",
+  "price_1T2Dyz9ekvh9y28o0t3ZNGg6": "premium",
+  "price_1T2Dz29ekvh9y28oH88qdIkh": "premium",
 };
 
 // Token bundles (one-time payments)
 const TOKEN_BUNDLES: Record<string, number> = {
-  "price_tokens_500": 500,
-  "price_tokens_1000": 1000,
-  "price_tokens_2500": 2500,
+  "price_1T2DzD9ekvh9y28oaPcJXIKZ": 500,
+  "price_1T2DzG9ekvh9y28oryXFrp0I": 1000,
+  "price_1T2DzJ9ekvh9y28otSuF4i2u": 2500,
 };
 
 // =============================================================================
