@@ -3,7 +3,7 @@
 // Updated: FEAT-010 - AppIcon (lucide-react) + theme-ready classes (no FontAwesome, no hard-coded hex)
 
 import React from "react";
-import Image from "next/image";
+
 import AppIcon from "../../ui/AppIcon";
 import type { IconKey } from "../../ui/AppIcon";
 import type {
@@ -144,7 +144,7 @@ export function ChildHealthCard({
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-4">
           {child.avatar_url ? (
-            <Image
+            <img
               src={child.avatar_url}
               alt={child.child_name}
               width={56}

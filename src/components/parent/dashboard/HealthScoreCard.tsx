@@ -1,7 +1,6 @@
 // src/components/parent/dashboard/HealthScoreCard.tsx
 // Health Score widget — compact version matching wireframe
 
-'use client';
 
 import AppIcon from '../../ui/AppIcon';
 import { calculateHealthScore } from '../../../utils/healthScore';

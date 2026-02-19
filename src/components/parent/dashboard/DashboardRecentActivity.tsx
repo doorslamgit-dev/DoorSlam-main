@@ -1,7 +1,6 @@
 // src/components/parent/dashboard/DashboardRecentActivity.tsx
 // Recent activity card for dashboard context, using ComingUpSession and SubjectCoverage data
 
-'use client';
 
 import AppIcon from '../../ui/AppIcon';
 import type { IconKey } from '../../ui/AppIcon';

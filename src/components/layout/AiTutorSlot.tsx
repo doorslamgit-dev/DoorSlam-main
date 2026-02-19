@@ -1,6 +1,5 @@
 // src/components/layout/AiTutorSlot.tsx
 
-'use client';
 
 import AppIcon from '../ui/AppIcon';
 import { useSidebar } from '../../contexts/SidebarContext';

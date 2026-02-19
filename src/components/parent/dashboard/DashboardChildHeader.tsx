@@ -1,9 +1,8 @@
 // src/components/parent/dashboard/DashboardChildHeader.tsx
 // Page header: "Dashboard" title + selected child info + child selector
 
-'use client';
 
-import Image from 'next/image';
+
 import AppIcon from '../../ui/AppIcon';
 import type { ChildSummary } from '../../../types/parent/parentDashboardTypes';
 
@@ -40,7 +39,7 @@ export function DashboardChildHeader({
       <div className="flex items-center gap-3">
         {/* Avatar */}
         {child.avatar_url ? (
-          <Image
+          <img
             src={child.avatar_url}
             alt={displayName}
             width={40}

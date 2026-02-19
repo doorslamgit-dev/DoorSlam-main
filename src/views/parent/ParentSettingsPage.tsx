@@ -1,11 +1,11 @@
-'use client';
+
 
 // src/views/parent/ParentSettingsPage.tsx
 // Refactored: Extracted components and hooks for better maintainability
 // January 2026
 
 import { useEffect } from "react";
-import { useRouter } from 'next/navigation';
+import { useNavigate } from 'react-router-dom';
 import Alert from "../../components/ui/Alert";
 import AppIcon from "../../components/ui/AppIcon";
 import { useAuth } from "../../contexts/AuthContext";
@@ -19,7 +19,7 @@ import {
 import { useSettingsData } from "../../hooks/useSettingsData";
 
 export default function ParentSettingsPage() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { user, isParent, loading: authLoading } = useAuth();
 
   const {
@@ -38,11 +38,11 @@ export default function ParentSettingsPage() {
   useEffect(() => {
     if (authLoading) return;
     if (!user) {
-      router.replace("/");
+      navigate("/", { replace: true });
     } else if (!isParent) {
-      router.replace("/child/today");
+      navigate("/child/today", { replace: true });
     }
-  }, [authLoading, user, isParent, router]);
+  }, [authLoading, user, isParent, navigate]);
 
   // Loading state
   if (authLoading || loading) {

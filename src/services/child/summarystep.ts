@@ -151,7 +151,7 @@ export function resolveAudioUrl(raw: string | null): string | null {
   if (!raw) return null;
   if (/^https?:\/\//i.test(raw)) return raw;
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string | undefined;
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined;
   if (!supabaseUrl) return raw;
 
   const AUDIO_BUCKET = "mnemonics";

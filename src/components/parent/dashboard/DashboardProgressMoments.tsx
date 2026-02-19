@@ -1,7 +1,6 @@
 // src/components/parent/dashboard/DashboardProgressMoments.tsx
 // Compact progress moments card for dashboard context
 
-'use client';
 
 import AppIcon from '../../ui/AppIcon';
 import type { IconKey } from '../../ui/AppIcon';

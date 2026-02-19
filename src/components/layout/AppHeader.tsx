@@ -2,10 +2,9 @@
 // Unauthenticated header: logo + login/signup buttons
 // Used on landing, login, and signup pages only
 
-'use client';
 
-import Image from 'next/image';
-import Link from 'next/link';
+
+import { Link } from 'react-router-dom';
 
 export default function AppHeader() {
   return (
@@ -13,17 +12,17 @@ export default function AppHeader() {
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
         <Link
-          href="/"
+          to="/"
           className="flex items-center gap-3 hover:opacity-80 transition-opacity"
         >
-          <Image
+          <img
             src="/images/logo-dark.png"
             alt="Doorslam"
             width={120}
             height={56}
             className="h-14 w-auto dark:hidden"
           />
-          <Image
+          <img
             src="/images/logo-light.png"
             alt="Doorslam"
             width={120}
@@ -38,16 +37,22 @@ export default function AppHeader() {
           </div>
         </Link>
 
-        {/* Auth buttons */}
+        {/* Navigation + Auth buttons */}
         <div className="flex items-center gap-2">
           <Link
-            href="/login"
+            to="/pricing"
+            className="px-4 py-2 rounded-xl text-neutral-700 hover:bg-neutral-50 text-sm font-medium"
+          >
+            Pricing
+          </Link>
+          <Link
+            to="/login"
             className="px-4 py-2 rounded-xl text-neutral-700 hover:bg-neutral-50 text-sm font-medium"
           >
             Log in
           </Link>
           <Link
-            href="/signup"
+            to="/signup"
             className="px-4 py-2 rounded-xl bg-primary-600 text-white text-sm font-semibold hover:bg-primary-700 transition-colors"
           >
             Sign up

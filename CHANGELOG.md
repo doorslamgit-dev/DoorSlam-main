@@ -9,6 +9,47 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Public pricing navigation** — added "Pricing" link to the public header (`AppHeader.tsx`) so unauthenticated visitors can reach the pricing page directly from the landing page navigation
+- **Stripe sandbox integration** — complete payment flow wired up in Stripe test mode
+  - 3 Stripe products (Family, Premium, Tokens) with 11 prices created in test mode
+  - Price IDs populated in `src/types/subscription.ts` and `supabase/functions/stripe-webhook/index.ts`
+  - Payment step inserted into onboarding: Phase 1 → Pricing → Dashboard
+  - Subscription gate: parents without a Stripe customer redirected to `/pricing`
+  - Post-checkout redirect: `?subscription=success` → refresh subscription → dashboard
+  - Returning customer protection: 14-day trial skipped if user already has a `stripe_customer_id`
+  - 4 edge functions deployed: `stripe-create-checkout`, `stripe-webhook`, `stripe-customer-portal`, `stripe-buy-tokens`
+  - Stripe webhook endpoint registered for 6 events (checkout, subscription CRUD, invoice)
+  - Database trial trigger removed — trial is now 100% Stripe-managed
+
+### Changed
+- **Migrated from Next.js to Vite + React Router** — replaced Next.js 16 App Router with Vite 5 + React Router v7
+  - App was already a fully client-rendered SPA (zero server components, zero API routes, zero middleware)
+  - Dev server starts in ~200ms (was hanging indefinitely with Next.js)
+  - New entry point: `index.html` + `src/main.tsx` + `src/router.tsx`
+  - Replaced `next/navigation` hooks with `react-router-dom` equivalents across ~35 files
+  - Replaced `next/link` `Link` with `react-router-dom` `Link` (12 files)
+  - Replaced `next/image` `Image` with plain `<img>` (9 files, images were already unoptimized)
+  - Replaced `next/dynamic` with `React.lazy` (1 file)
+  - Replaced `process.env.NEXT_PUBLIC_*` with `import.meta.env.VITE_*` (4 files)
+  - Removed `'use client'` directives from ~40 files
+  - Deleted `app/` directory (22 files), `next.config.ts`, `next-env.d.ts`
+  - Updated ESLint config to remove `@next/eslint-plugin-next`
+  - See: [ADR-004](docs/decisions/ADR-004-vite-migration.md)
+
+
+- **Streamlined Parent Onboarding — Two-Phase Flow**
+  - Phase 1 (3 steps): Child Details → Exam Type → Subjects → Dashboard (parent reaches dashboard immediately)
+  - Phase 2 (from dashboard CTA): Goal → Needs → Pathways → Grades → Revision Period → Availability → Confirm
+  - Invite moved from onboarding wizard to dashboard modal
+  - 4 new Supabase RPCs: `rpc_parent_create_child_basic`, `rpc_set_child_goal`, `rpc_update_child_subject_grades`, `rpc_init_child_revision_period`
+  - 5 new service wrappers in `parentOnboardingService.ts`
+  - `ParentOnboardingPage.tsx` refactored: reads `?phase=schedule&child=<id>` for Phase 2
+  - `DashboardHeroCard.tsx`: conditional Next Best Action (Complete Schedule → Invite Child → Normal)
+  - New `DashboardInviteModal.tsx` component for inviting child from dashboard
+  - `ParentDashboardV3.tsx`: wired up schedule CTA + invite modal
+  - See: [ADR-004](docs/decisions/ADR-004-two-phase-onboarding.md)
+
 ### Fixed
 - **Eliminate all 192 ESLint warnings** — zero-warning codebase
   - Removed 5 unused `eslint-disable` directives

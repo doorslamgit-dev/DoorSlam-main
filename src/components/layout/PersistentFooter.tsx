@@ -1,6 +1,5 @@
 // src/components/layout/PersistentFooter.tsx
 
-'use client';
 
 import AppIcon from '../ui/AppIcon';
 import { useAuth } from '../../contexts/AuthContext';
