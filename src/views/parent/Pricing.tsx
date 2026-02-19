@@ -282,11 +282,18 @@ export default function Pricing() {
 
           {tier === "family" && isActive ? (
             <button
+              disabled
+              className="w-full py-3 border-2 border-primary-600 text-primary-600 rounded-xl font-semibold bg-primary-50 cursor-default"
+            >
+              Current Plan
+            </button>
+          ) : tier === "premium" && isActive ? (
+            <button
               onClick={handleManageSubscription}
               disabled={loadingTier === "manage"}
-              className="w-full py-3 border border-primary-600 text-primary-600 rounded-xl font-semibold hover:bg-primary-50 transition-colors disabled:opacity-50"
+              className="w-full py-3 border border-neutral-300 text-neutral-600 rounded-xl font-semibold hover:bg-neutral-50 transition-colors disabled:opacity-50"
             >
-              {loadingTier === "manage" ? "Loading..." : "Manage Subscription"}
+              {loadingTier === "manage" ? "Loading..." : "Downgrade"}
             </button>
           ) : (
             <button
@@ -369,11 +376,18 @@ export default function Pricing() {
 
           {tier === "premium" && isActive ? (
             <button
+              disabled
+              className="w-full py-3 border-2 border-primary-600 text-primary-600 rounded-xl font-semibold bg-primary-50 cursor-default"
+            >
+              Current Plan
+            </button>
+          ) : tier === "family" && isActive ? (
+            <button
               onClick={handleManageSubscription}
               disabled={loadingTier === "manage"}
-              className="w-full py-3 border border-primary-600 text-primary-600 rounded-xl font-semibold hover:bg-primary-50 transition-colors disabled:opacity-50"
+              className="w-full py-3 bg-primary-600 text-white rounded-xl font-semibold hover:bg-primary-700 transition-colors disabled:opacity-50"
             >
-              {loadingTier === "manage" ? "Loading..." : "Manage Subscription"}
+              {loadingTier === "manage" ? "Loading..." : "Upgrade"}
             </button>
           ) : (
             <button
