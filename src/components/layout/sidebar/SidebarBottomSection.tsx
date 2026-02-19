@@ -8,6 +8,7 @@ import AppIcon from '../../ui/AppIcon';
 import ThemeToggle from '../../ui/ThemeToggle';
 import { useAuth } from '../../../contexts/AuthContext';
 import { useSidebar } from '../../../contexts/SidebarContext';
+import { useSubscription } from '../../../hooks/useSubscription';
 import type { IconKey } from '../../ui/AppIcon';
 
 interface HelpLink {
@@ -23,12 +24,21 @@ const HELP_LINKS: HelpLink[] = [
   { href: '/parent/settings', icon: 'settings', label: 'Settings' },
 ];
 
+const TIER_LABELS: Record<string, { label: string; color: string }> = {
+  trial: { label: 'Trial', color: 'bg-amber-100 text-amber-700' },
+  family: { label: 'Family', color: 'bg-primary-100 text-primary-700' },
+  premium: { label: 'Premium', color: 'bg-purple-100 text-purple-700' },
+  expired: { label: 'Expired', color: 'bg-red-100 text-red-700' },
+};
+
 export default function SidebarBottomSection() {
   const { profile, isParent, isChild, signOut } = useAuth();
   const { sidebarState } = useSidebar();
+  const { tier } = useSubscription();
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const isCollapsed = sidebarState === 'collapsed';
+  const tierInfo = isParent ? TIER_LABELS[tier] : null;
 
   const displayName = isChild
     ? profile?.preferred_name || profile?.first_name || 'Student'
@@ -91,7 +101,14 @@ export default function SidebarBottomSection() {
             <>
               <div className="flex-1 text-left min-w-0">
                 <p className="text-sm font-medium text-neutral-700 truncate">{displayName}</p>
-                <p className="text-xs text-neutral-400">{isParent ? 'Parent' : 'Student'}</p>
+                <div className="flex items-center gap-1.5">
+                  <p className="text-xs text-neutral-400">{isParent ? 'Parent' : 'Student'}</p>
+                  {tierInfo && (
+                    <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${tierInfo.color}`}>
+                      {tierInfo.label}
+                    </span>
+                  )}
+                </div>
               </div>
               <AppIcon name="chevron-up" className="w-4 h-4 text-neutral-400 flex-shrink-0" />
             </>
