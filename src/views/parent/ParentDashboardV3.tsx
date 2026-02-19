@@ -1,10 +1,8 @@
 // src/views/parent/ParentDashboardV3.tsx
 // Parent Dashboard v3 — Child-specific dashboard with hero, health score, revision plan, activity
 
-'use client';
-
-import { Suspense } from 'react';
-import { useRouter } from 'next/navigation';
+import { lazy, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useChildDashboardData } from '../../hooks/parent/useChildDashboardData';
 import { DashboardChildHeader } from '../../components/parent/dashboard/DashboardChildHeader';
 import { DashboardHeroCard } from '../../components/parent/dashboard/DashboardHeroCard';
@@ -14,6 +12,10 @@ import { DashboardProgressMoments } from '../../components/parent/dashboard/Dash
 import { DashboardRecentActivity } from '../../components/parent/dashboard/DashboardRecentActivity';
 import { DashboardActiveRewards } from '../../components/parent/dashboard/DashboardActiveRewards';
 import AppIcon from '../../components/ui/AppIcon';
+
+const DashboardInviteModal = lazy(
+  () => import('../../components/parent/dashboard/DashboardInviteModal')
+);
 
 function DashboardSkeleton() {
   return (
@@ -66,7 +68,7 @@ function ErrorState({ message, onRetry }: { message: string; onRetry: () => void
 }
 
 function ParentDashboardV3Inner() {
-  const router = useRouter();
+  const navigate = useNavigate();
 
   const {
     data,
@@ -86,10 +88,20 @@ function ParentDashboardV3Inner() {
     refresh,
   } = useChildDashboardData({ enableRealtime: true, enableVisibilityRefresh: true });
 
+  const [showInviteModal, setShowInviteModal] = useState(false);
+
   // Navigation helpers
   const navigateWithScroll = (path: string) => {
-    router.push(path);
+    navigate(path);
     window.scrollTo({ top: 0, behavior: 'instant' });
+  };
+
+  const handleSetupSchedule = () => {
+    navigateWithScroll(`/parent/onboarding?phase=schedule&child=${selectedChildId}`);
+  };
+
+  const handleInviteChild = () => {
+    setShowInviteModal(true);
   };
 
   const handleActionClick = (action: string) => {
@@ -165,6 +177,9 @@ function ParentDashboardV3Inner() {
               childCoverage={childCoverage}
               onActionClick={handleActionClick}
               onViewDetailedBreakdown={handleViewDetailedBreakdown}
+              planOverview={planOverview}
+              onSetupSchedule={handleSetupSchedule}
+              onInviteChild={handleInviteChild}
               loading={false}
             />
           </div>
@@ -199,18 +214,23 @@ function ParentDashboardV3Inner() {
             onConfigureRewards={handleConfigureRewards}
           />
         </div>
+
+        {/* Invite child modal (lazy-loaded) */}
+        {showInviteModal && selectedChild && (
+          <DashboardInviteModal
+            childId={selectedChild.child_id}
+            childName={selectedChild.first_name}
+            invitationCode={selectedChild.invitation_code ?? null}
+            onClose={() => setShowInviteModal(false)}
+          />
+        )}
       </main>
     </div>
   );
 }
 
-// Wrap with Suspense for useSearchParams
 export function ParentDashboardV3() {
-  return (
-    <Suspense fallback={<DashboardSkeleton />}>
-      <ParentDashboardV3Inner />
-    </Suspense>
-  );
+  return <ParentDashboardV3Inner />;
 }
 
 export default ParentDashboardV3;

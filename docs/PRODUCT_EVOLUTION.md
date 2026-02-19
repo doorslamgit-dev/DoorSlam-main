@@ -7,6 +7,27 @@ For architecture decisions, see [docs/decisions/](decisions/).
 
 ---
 
+## Vite Migration (18 Feb 2026)
+
+**Why this change is happening**: The Next.js dev server was repeatedly hanging during development, causing significant productivity loss. An audit revealed that the app was a fully client-rendered SPA — every page had `'use client'`, there were zero server components, zero API routes, and zero middleware. Next.js was providing nothing beyond a routing layer and a dev server that didn't work reliably.
+
+**What it does**: Replaces the Next.js framework with Vite (bundler/dev server) and React Router (client-side routing). The app now starts in ~200ms instead of hanging. All existing routes, authentication flows, and UI remain identical — this is a developer experience improvement with zero user-facing changes.
+
+**How it was developed**: The migration was entirely mechanical with no business logic changes:
+- Created new entry point (`index.html` + `src/main.tsx`) and route definitions (`src/router.tsx`)
+- Replaced Next.js navigation hooks with React Router equivalents (`useNavigate`, `useSearchParams`, `useLocation`, `useParams`)
+- Replaced `next/link` `Link` with `react-router-dom` `Link` (changed `href` to `to` prop)
+- Replaced `next/image` `Image` with plain `<img>` elements (images were already unoptimized)
+- Replaced `next/dynamic` with `React.lazy`
+- Changed environment variables from `NEXT_PUBLIC_*` to `VITE_*` prefix
+- Removed all `'use client'` directives (no longer meaningful outside Next.js)
+- Deleted the entire `app/` directory, `next.config.ts`, and Next.js ESLint plugin
+- Updated build toolchain: `vite` for dev/build, merged Vitest config into `vite.config.ts`
+- Key files: `src/router.tsx`, `src/main.tsx`, `src/providers.tsx`, `vite.config.ts`, `index.html`
+- Architecture decision: [ADR-004](decisions/ADR-004-vite-migration.md)
+
+---
+
 ## Baseline — v1.0.0 (2 Feb 2026)
 
 ### What the product is
@@ -164,6 +185,85 @@ The parent navigates to `/parent` and sees a dashboard focused on their selected
 ### Architecture decision
 
 See [ADR-003: Dashboard v3 — Child-Specific View](decisions/ADR-003-dashboard-v3-child-specific.md)
+
+---
+
+## Unreleased — Streamlined Onboarding (12 Feb 2026)
+
+### Why this change is happening
+
+The original onboarding flow required parents to complete 11 steps before seeing the dashboard. This created friction — parents had to configure goals, learning needs, grades, availability, and the full revision schedule before they could land on their home base. Feedback showed parents wanted to see the dashboard sooner, then complete the schedule at their own pace.
+
+### What the new flow does
+
+The onboarding is now split into two phases:
+
+**Phase 1 (3 steps) — Get to the dashboard fast:**
+1. Add child details (name, year group)
+2. Select exam type (GCSE, iGCSE, etc.)
+3. Choose subjects
+
+The child is created in the database immediately. The parent lands on the dashboard. No revision period, no plan, no sessions yet.
+
+**Phase 2 (from the dashboard) — Set up the schedule:**
+A "Complete Schedule" CTA appears in the dashboard's Next Best Action area. Clicking it opens a 7-step wizard (Goal → Needs → Pathways → Grades → Revision Period → Availability → Confirm). On completion, the revision period, plan, and sessions are generated.
+
+**Invite (from the dashboard) — Separate concern:**
+Once the schedule is set up, the Next Best Action switches to "Invite [child]". Clicking it opens a modal with copy-link, copy-code, and email options. Previously this was the last step of onboarding.
+
+### How it was developed
+
+- **Backend**: 4 new Supabase SQL functions deployed via Supabase CLI (`supabase db push`). `rpc_parent_create_child_basic` creates a child with subjects only (no plan). Three helper RPCs fill the gaps for Phase 2: `rpc_set_child_goal`, `rpc_update_child_subject_grades`, `rpc_init_child_revision_period`.
+- **Frontend orchestration**: `ParentOnboardingPage.tsx` reads a `?phase=schedule&child=<id>` query parameter to determine which step sequence to show. All 11 existing step components remain untouched — only the parent page's orchestration changed.
+- **Dashboard integration**: `DashboardHeroCard.tsx` detects three states based on `planOverview` and `auth_user_id`: (A) schedule needed, (B) invite pending, (C) fully set up. Each shows different action buttons.
+- **Invite modal**: New `DashboardInviteModal.tsx` extracted from the existing `InviteChildStep.tsx` UI, wrapped in a modal overlay. Generates an invitation code on mount if one doesn't exist.
+
+### Architecture decision
+
+See [ADR-004: Two-Phase Onboarding](decisions/ADR-004-two-phase-onboarding.md)
+
+---
+
+## Unreleased — Public Pricing Navigation (18 Feb 2026)
+
+### Why this change is happening
+
+The pricing page (`/pricing`) already existed and handled both logged-in and logged-out visitors, but there was no way to reach it from the public header. The `AppHeader` only showed "Log in" and "Sign up" — the only link to pricing was buried in the footer. Visitors comparing plans had no obvious path to find pricing information.
+
+### What it does
+
+A "Pricing" text link now appears in the public header navigation, between the logo and the Log in / Sign up buttons. Clicking it takes visitors to the existing pricing page showing Family and Premium plans with duration options and "Start Free Trial" CTAs.
+
+### How it was developed
+
+Single-line addition to `src/components/layout/AppHeader.tsx`. The link uses the same styling as the existing "Log in" link for visual consistency. No new components, services, or routes were needed — the pricing page and its logged-out behaviour already existed.
+
+---
+
+## Unreleased — Stripe Sandbox Integration (18 Feb 2026)
+
+### Why this change is happening
+
+Doorslam needs a payment system before launch. Parents must choose a plan (Family or Premium) to access the platform beyond onboarding. The 14-day free trial is managed by Stripe — no separate database trial. This change wires up the complete payment flow in Stripe's test environment so the signup-to-subscription journey can be tested end-to-end.
+
+### What it does
+
+After completing Phase 1 onboarding (child details → exam type → subjects), parents are redirected to the pricing page where they must choose a plan. Clicking "Start Free Trial" opens Stripe's hosted checkout page with a 14-day trial. On successful checkout, the parent is redirected to the dashboard. The webhook updates the database with subscription tier, status, and trial end date. Parents who cancel or never subscribe are redirected back to pricing from any protected route.
+
+Returning customers (those who previously had a Stripe customer ID) do not get another free trial — they are billed immediately.
+
+### How it was developed
+
+- **Stripe setup**: 3 products and 11 prices created via Stripe API in test mode (Family: 4 billing options, Premium: 4 billing options, Tokens: 3 one-time bundles)
+- **Price ID wiring**: All `stripePriceId` fields in `src/types/subscription.ts` and `PRICE_TO_TIER` / `TOKEN_BUNDLES` maps in the webhook handler populated with real Stripe price IDs
+- **Onboarding flow change**: `ParentOnboardingPage.tsx` redirects to `/pricing` after Phase 1 (was `/parent`)
+- **Subscription gate**: `AppLayout.tsx` checks `has_stripe_customer` for parent users and redirects to `/pricing` if false. Exempt routes: `/pricing`, `/parent/onboarding`, `/account`, `/login`, `/signup`, `/child`
+- **Post-checkout handling**: `Pricing.tsx` detects `?subscription=success`, refreshes subscription data, and redirects to `/parent`
+- **Returning customer protection**: `stripe-create-checkout/index.ts` only sets `trial_period_days: 14` for first-time customers
+- **Database cleanup**: Removed `trigger_set_trial_end_date` and `set_trial_end_date()` — trial is now 100% Stripe-managed via webhook
+- **Edge functions deployed**: `stripe-create-checkout`, `stripe-webhook` (--no-verify-jwt), `stripe-customer-portal`, `stripe-buy-tokens`
+- **Webhook**: Registered for `checkout.session.completed`, `customer.subscription.created`, `customer.subscription.updated`, `customer.subscription.deleted`, `invoice.paid`, `invoice.payment_failed`
+- **Environment**: Stripe secret key and all redirect URLs set as Supabase secrets; publishable key in `.env`
 
 ---
 

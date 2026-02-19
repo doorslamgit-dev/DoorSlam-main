@@ -1,12 +1,11 @@
-'use client';
+
 
 // src/views/Account.tsx
 // Refactored: Extracted components and hooks for better maintainability
 // January 2026
 
 import { useEffect } from "react";
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { Link, useNavigate } from 'react-router-dom';
 import Alert from "../components/ui/Alert";
 import AppIcon from "../components/ui/AppIcon";
 import { useAuth } from "../contexts/AuthContext";
@@ -20,7 +19,7 @@ import { useAccountData } from "../hooks/useAccountData";
 import type { ProfileData, ChildProfileData } from "../hooks/useAccountData";
 
 export default function Account() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { user, isChild, isParent, loading: authLoading, refresh } = useAuth();
 
   const {
@@ -38,9 +37,9 @@ export default function Account() {
   useEffect(() => {
     if (authLoading) return;
     if (!user) {
-      router.replace("/");
+      navigate("/", { replace: true });
     }
-  }, [authLoading, user, router]);
+  }, [authLoading, user, navigate]);
 
   // Handle avatar change - refresh header
   const handleAvatarChange = async (newUrl: string | null) => {
@@ -103,7 +102,7 @@ export default function Account() {
 
           {/* Settings link for parents */}
           {isParent && (
-            <Link href="/parent/settings"
+            <Link to="/parent/settings"
               className="flex items-center gap-2 px-4 py-2 rounded-xl bg-neutral-100 text-neutral-700 hover:bg-neutral-200 transition-colors"
             >
               <AppIcon name="settings" className="w-4 h-4" />
@@ -180,7 +179,7 @@ export default function Account() {
                       These settings have moved to a dedicated page
                     </p>
                   </div>
-                  <Link href="/parent/settings"
+                  <Link to="/parent/settings"
                     className="flex items-center gap-2 px-4 py-2 rounded-xl bg-primary-600 text-white font-medium hover:bg-primary-700 transition-colors"
                   >
                     <AppIcon name="settings" className="w-4 h-4" />

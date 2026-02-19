@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from "react";
-import NextImage from "next/image";
+
 import Alert from "../ui/Alert";
 import AppIcon from "../ui/AppIcon";
 import { supabase } from "../../lib/supabase";
@@ -313,7 +313,6 @@ export default function AvatarUpload({
               onMouseDown={handleDragStart}
               onTouchStart={handleDragStart}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element -- data URL with dynamic inline positioning */}
               <img
                 src={imageSrc}
                 alt="Crop preview"
@@ -377,7 +376,7 @@ export default function AvatarUpload({
     <div className="flex items-center gap-4">
       <div className="relative">
         {currentAvatarUrl ? (
-          <NextImage
+          <img
             src={currentAvatarUrl}
             alt={userName}
             width={80}

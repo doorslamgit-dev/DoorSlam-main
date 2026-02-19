@@ -1,9 +1,9 @@
-'use client';
+
 
 // src/views/child/ChildSignUp.tsx
 
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import Alert from "../../components/ui/Alert";
 import AppIcon from "../../components/ui/AppIcon";
 import Button from "../../components/ui/Button";
@@ -17,9 +17,9 @@ type InvitationPreviewState = {
 };
 
 export default function ChildSignUp() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { refresh } = useAuth();
-  const searchParams = useSearchParams();
+  const [searchParams] = useSearchParams();
   const code = (searchParams.get("code") || "").trim();
 
   const [loading, setLoading] = useState(true);
@@ -119,7 +119,7 @@ export default function ChildSignUp() {
       await refresh();
 
       // 4) Go to child area
-      router.replace("/child/today");
+      navigate("/child/today", { replace: true });
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Failed to create account");
       setSubmitting(false);
@@ -148,7 +148,7 @@ export default function ChildSignUp() {
           </div>
           <h2 className="text-2xl font-semibold text-neutral-800 mb-2">Invalid Invitation</h2>
           <p className="text-neutral-600 mb-6">{error}</p>
-          <Button size="lg" onClick={() => router.replace("/")}>
+          <Button size="lg" onClick={() => navigate("/", { replace: true })}>
             Go to Home
           </Button>
         </div>

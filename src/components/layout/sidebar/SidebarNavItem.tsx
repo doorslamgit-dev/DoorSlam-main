@@ -1,9 +1,7 @@
 // src/components/layout/sidebar/SidebarNavItem.tsx
 
-'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { Link, useLocation } from 'react-router-dom';
 import AppIcon from '../../ui/AppIcon';
 import type { IconKey } from '../../ui/AppIcon';
 import { useSidebar } from '../../../contexts/SidebarContext';
@@ -16,14 +14,14 @@ interface SidebarNavItemProps {
 }
 
 export default function SidebarNavItem({ href, icon, label, exact = false }: SidebarNavItemProps) {
-  const pathname = usePathname();
+  const { pathname } = useLocation();
   const { sidebarState, setMobileOpen } = useSidebar();
   const isCollapsed = sidebarState === 'collapsed';
   const isActive = exact ? pathname === href : pathname.startsWith(href);
 
   return (
     <Link
-      href={href}
+      to={href}
       onClick={() => setMobileOpen(false)}
       title={isCollapsed ? label : undefined}
       className={`

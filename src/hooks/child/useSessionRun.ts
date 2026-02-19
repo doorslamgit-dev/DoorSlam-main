@@ -2,7 +2,7 @@
 // Custom hook for session runner state management
 
 import { useState, useEffect, useCallback } from "react";
-import { useRouter } from 'next/navigation';
+import { useNavigate } from 'react-router-dom';
 import {
   getRevisionSession,
   patchRevisionSessionStep,
@@ -40,7 +40,7 @@ type UseSessionRunReturn = {
 };
 
 export function useSessionRun({ plannedSessionId }: UseSessionRunOptions): UseSessionRunReturn {
-  const router = useRouter();
+  const navigate = useNavigate();
 
   const [sessionData, setSessionData] = useState<SessionData | null>(null);
   const [revisionSessionId, setRevisionSessionId] = useState<string | null>(null);
@@ -150,8 +150,8 @@ export function useSessionRun({ plannedSessionId }: UseSessionRunOptions): UseSe
   }, [currentStepIndex]);
 
   const handleExit = useCallback(() => {
-    router.push("/child/today");
-  }, [router]);
+    navigate("/child/today");
+  }, [navigate]);
 
   const handleFinish = useCallback(async () => {
     if (!revisionSessionId) return;
@@ -159,13 +159,13 @@ export function useSessionRun({ plannedSessionId }: UseSessionRunOptions): UseSe
     setSaving(true);
     try {
       await completeRevisionSession(revisionSessionId);
-      router.push("/child/today?sessionCompleted=true");
+      navigate("/child/today?sessionCompleted=true");
     } catch (err) {
       console.error("[useSessionRun] Failed to complete session:", err);
     } finally {
       setSaving(false);
     }
-  }, [revisionSessionId, router]);
+  }, [revisionSessionId, navigate]);
 
   const handleUploadAudio = useCallback(
     async (blob: Blob): Promise<string> => {

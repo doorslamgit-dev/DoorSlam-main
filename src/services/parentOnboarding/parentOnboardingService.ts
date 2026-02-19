@@ -200,6 +200,106 @@ export async function rpcParentCreateChildAndPlan(
 }
 
 /* =========================
+   Phase 1: Create child + enrol subjects (lightweight)
+   No revision period, no plan, no sessions.
+========================= */
+
+export type CreateChildBasicPayload = {
+  child: {
+    first_name: string;
+    last_name?: string;
+    preferred_name?: string;
+    country?: string;
+    year_group?: number;
+  };
+  subjects: Array<{ subject_id: string; sort_order: number }>;
+  exam_type_ids: string[];
+};
+
+export async function rpcParentCreateChildBasic(
+  payload: CreateChildBasicPayload
+): Promise<{ child_id: string }> {
+  const { data, error } = await supabase.rpc("rpc_parent_create_child_basic", {
+    p_payload: payload,
+  });
+
+  if (error) throw normaliseSupabaseError(error);
+  return data as { child_id: string };
+}
+
+/* =========================
+   Phase 2: Schedule setup RPCs
+   Fill gaps where no existing RPC exists.
+========================= */
+
+/** Upsert child goal — accepts goal_code, resolves to goal_id internally */
+export async function rpcSetChildGoal(
+  childId: string,
+  goalCode: string
+): Promise<void> {
+  const { error } = await supabase.rpc("rpc_set_child_goal", {
+    p_child_id: childId,
+    p_goal_code: goalCode,
+  });
+
+  if (error) throw normaliseSupabaseError(error);
+}
+
+/** Update grades (TEXT values) on already-enrolled child_subjects */
+export async function rpcUpdateChildSubjectGrades(
+  childId: string,
+  grades: Array<{
+    subject_id: string;
+    current_grade: string | null;
+    target_grade: string | null;
+    grade_confidence?: string;
+  }>
+): Promise<void> {
+  const { error } = await supabase.rpc("rpc_update_child_subject_grades", {
+    p_child_id: childId,
+    p_grades: grades,
+  });
+
+  if (error) throw normaliseSupabaseError(error);
+}
+
+/** Create revision period + revision plan, link period to child */
+export async function rpcInitChildRevisionPeriod(
+  childId: string,
+  period: {
+    start_date: string;
+    end_date: string;
+    contingency_percent: number;
+    feeling_code: string | null;
+    history_code: string | null;
+  }
+): Promise<{ revision_period_id: string; plan_id: string }> {
+  const { data, error } = await supabase.rpc("rpc_init_child_revision_period", {
+    p_child_id: childId,
+    p_period: period,
+  });
+
+  if (error) throw normaliseSupabaseError(error);
+  return data as { revision_period_id: string; plan_id: string };
+}
+
+/** Set need clusters — wraps existing RPC, calls once per cluster */
+export async function setChildNeedClusters(
+  childId: string,
+  clusters: Array<{ cluster_code: string }>
+): Promise<void> {
+  for (const cluster of clusters) {
+    const { error } = await supabase.rpc("rpc_set_child_need_cluster", {
+      p_child_id: childId,
+      p_cluster_code: cluster.cluster_code,
+      p_source: "observed",
+    });
+
+    if (error) throw normaliseSupabaseError(error);
+  }
+}
+
+/* =========================
    Subjects grouped by subject name
    (one card per subject, boards in modal)
 ========================= */

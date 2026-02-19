@@ -1,11 +1,9 @@
 // src/components/layout/sidebar/SidebarBottomSection.tsx
 
-'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+
+import { Link, useNavigate } from 'react-router-dom';
 import AppIcon from '../../ui/AppIcon';
 import ThemeToggle from '../../ui/ThemeToggle';
 import { useAuth } from '../../../contexts/AuthContext';
@@ -28,7 +26,7 @@ const HELP_LINKS: HelpLink[] = [
 export default function SidebarBottomSection() {
   const { profile, isParent, isChild, signOut } = useAuth();
   const { sidebarState } = useSidebar();
-  const router = useRouter();
+  const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const isCollapsed = sidebarState === 'collapsed';
 
@@ -42,7 +40,7 @@ export default function SidebarBottomSection() {
   const handleSignOut = async () => {
     setShowMenu(false);
     await signOut();
-    router.replace('/');
+    navigate('/', { replace: true });
   };
 
   return (
@@ -56,7 +54,7 @@ export default function SidebarBottomSection() {
           {HELP_LINKS.map((link) => (
             <Link
               key={link.href}
-              href={link.href}
+              to={link.href}
               className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-neutral-500 hover:text-neutral-700 hover:bg-neutral-100 transition-colors"
             >
               <AppIcon name={link.icon} className="w-4 h-4 flex-shrink-0" />
@@ -83,7 +81,7 @@ export default function SidebarBottomSection() {
           `}
         >
           {avatarUrl ? (
-            <Image src={avatarUrl} alt={displayName} width={32} height={32} className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
+            <img src={avatarUrl} alt={displayName} width={32} height={32} className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
           ) : (
             <div className="w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center text-white text-sm font-semibold flex-shrink-0">
               {initials}
@@ -115,7 +113,7 @@ export default function SidebarBottomSection() {
             >
               <button
                 type="button"
-                onClick={() => { setShowMenu(false); router.push('/account'); }}
+                onClick={() => { setShowMenu(false); navigate('/account'); }}
                 className="w-full px-4 py-2.5 text-left text-sm text-neutral-700 hover:bg-neutral-50 flex items-center gap-3"
               >
                 <AppIcon name="user" className="w-4 h-4 text-neutral-400" />
@@ -124,7 +122,7 @@ export default function SidebarBottomSection() {
               {isParent && (
                 <button
                   type="button"
-                  onClick={() => { setShowMenu(false); router.push('/parent/settings'); }}
+                  onClick={() => { setShowMenu(false); navigate('/parent/settings'); }}
                   className="w-full px-4 py-2.5 text-left text-sm text-neutral-700 hover:bg-neutral-50 flex items-center gap-3"
                 >
                   <AppIcon name="settings" className="w-4 h-4 text-neutral-400" />

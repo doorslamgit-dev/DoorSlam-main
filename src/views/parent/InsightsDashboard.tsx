@@ -1,9 +1,9 @@
-'use client';
+
 
 // src/views/parent/InsightsDashboard.tsx
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { PageLayout } from '../../components/layout';
 import Alert from '../../components/ui/Alert';
@@ -25,7 +25,7 @@ import {
 } from '../../components/parent/insights';
 
 export default function InsightsDashboard() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { user, isParent, loading: authLoading } = useAuth();
 
   const {
@@ -49,11 +49,11 @@ export default function InsightsDashboard() {
   useEffect(() => {
     if (authLoading) return;
     if (!user) {
-      router.replace('/');
+      navigate('/', { replace: true });
     } else if (!isParent) {
-      router.replace('/child/today');
+      navigate('/child/today', { replace: true });
     }
-  }, [authLoading, user, isParent, router]);
+  }, [authLoading, user, isParent, navigate]);
 
   const handleExport = () => {
     if (selectedChildId) {

@@ -3,7 +3,7 @@
 // FEAT-010: AppIcon + stable icon mapping (no FontAwesome)
 
 import React from "react";
-import Image from "next/image";
+
 import AppIcon from "../../ui/AppIcon";
 import type { IconKey } from "../../ui/AppIcon";
 import type {
@@ -96,7 +96,7 @@ export function ProgressMomentsCard({ moments }: ProgressMomentsCardProps) {
             >
               {/* Avatar */}
               {moment.avatar_url ? (
-                <Image
+                <img
                   src={moment.avatar_url}
                   alt={moment.child_name}
                   width={40}

@@ -1,7 +1,6 @@
 // src/components/layout/AppShell.tsx
 // Authenticated layout shell: sidebar + main content + persistent footer + AI panel slot
 
-'use client';
 
 import { useSidebar } from '../../contexts/SidebarContext';
 import Sidebar from './Sidebar';

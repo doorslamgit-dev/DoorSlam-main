@@ -1,7 +1,7 @@
 // src/views/Landing.tsx
 
-import Image from 'next/image';
-import Link from 'next/link';
+
+import { Link } from 'react-router-dom';
 import AppIcon from "../components/ui/AppIcon";
 import Footer from "../components/layout/Footer";
 
@@ -22,7 +22,7 @@ export default function Landing() {
                 Get clear insights into their progress and never worry about exam prep again.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                <Link href="/signup"
+                <Link to="/signup"
                   className="px-7 py-3 bg-primary-600 text-white rounded-full hover:bg-primary-700 transition-colors font-semibold text-center shadow-sm"
                 >
                   Get started free
@@ -85,7 +85,7 @@ export default function Landing() {
               </div>
               <h3 className="text-xl font-semibold text-neutral-800 mb-3">I'm a parent</h3>
               <p className="text-neutral-600 mb-6">Monitor your child's progress, get insights, and ensure they're prepared for their GCSEs.</p>
-              <Link href="/signup"
+              <Link to="/signup"
                 className="block w-full px-6 py-3 bg-primary-600 text-white rounded-full hover:bg-primary-700 transition-colors font-semibold shadow-sm"
               >
                 Start as parent
@@ -98,7 +98,7 @@ export default function Landing() {
               </div>
               <h3 className="text-xl font-semibold text-neutral-700 mb-3">I'm a student</h3>
               <p className="text-neutral-600 mb-6">Access personalized revision plans, track your progress, and ace your GCSE exams.</p>
-              <Link href="/signup"
+              <Link to="/signup"
                 className="block w-full px-6 py-3 border border-neutral-300 text-neutral-700 rounded-full hover:border-primary-300 hover:text-primary-600 transition-colors"
               >
                 Start as student
@@ -111,7 +111,7 @@ export default function Landing() {
               </div>
               <h3 className="text-xl font-semibold text-neutral-700 mb-3">I'm a teacher</h3>
               <p className="text-neutral-600 mb-6">Help your students succeed with classroom tools and progress monitoring.</p>
-              <Link href="/signup"
+              <Link to="/signup"
                 className="block w-full px-6 py-3 border border-neutral-300 text-neutral-700 rounded-full hover:border-primary-300 hover:text-primary-600 transition-colors"
               >
                 Start as teacher
@@ -168,7 +168,7 @@ export default function Landing() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="bg-neutral-0 rounded-2xl p-6 shadow-card">
               <div className="flex items-center mb-4">
-                <Image src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg" alt="Parent" width={48} height={48} className="w-12 h-12 rounded-full mr-4" />
+                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg" alt="Parent" width={48} height={48} className="w-12 h-12 rounded-full mr-4" />
                 <div>
                   <div className="font-semibold text-neutral-700">Sarah M.</div>
                   <div className="text-sm text-neutral-500">Mother of 2</div>
@@ -179,7 +179,7 @@ export default function Landing() {
 
             <div className="bg-neutral-0 rounded-2xl p-6 shadow-card">
               <div className="flex items-center mb-4">
-                <Image src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="Parent" width={48} height={48} className="w-12 h-12 rounded-full mr-4" />
+                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="Parent" width={48} height={48} className="w-12 h-12 rounded-full mr-4" />
                 <div>
                   <div className="font-semibold text-neutral-700">James K.</div>
                   <div className="text-sm text-neutral-500">Father of 1</div>
@@ -190,7 +190,7 @@ export default function Landing() {
 
             <div className="bg-neutral-0 rounded-2xl p-6 shadow-card">
               <div className="flex items-center mb-4">
-                <Image src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" alt="Parent" width={48} height={48} className="w-12 h-12 rounded-full mr-4" />
+                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" alt="Parent" width={48} height={48} className="w-12 h-12 rounded-full mr-4" />
                 <div>
                   <div className="font-semibold text-neutral-700">Emma T.</div>
                   <div className="text-sm text-neutral-500">Mother of 3</div>
@@ -211,7 +211,7 @@ export default function Landing() {
             Start your free trial today - no credit card required.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/signup"
+            <Link to="/signup"
               className="px-8 py-3 bg-primary-600 text-white rounded-full hover:bg-primary-700 transition-colors font-medium"
             >
               Start free trial
