@@ -31,16 +31,19 @@ export default function SidebarNav() {
   const { tier } = useSubscription();
   const items = isChild ? CHILD_NAV : PARENT_NAV;
 
-  const showUpgrade =
-    isParent && (tier === "trial" || tier === "expired");
+  const needsUpgrade = isParent && (tier === "trial" || tier === "expired");
+  const hasPlan = isParent && (tier === "family" || tier === "premium");
 
   return (
     <nav className="flex flex-col gap-1 px-3">
       {items.map((item) => (
         <SidebarNavItem key={item.href} {...item} />
       ))}
-      {showUpgrade && (
+      {needsUpgrade && (
         <SidebarNavItem href="/pricing" icon="sparkles" label="Upgrade" />
+      )}
+      {hasPlan && (
+        <SidebarNavItem href="/pricing" icon="wallet" label="Manage Plan" />
       )}
     </nav>
   );
