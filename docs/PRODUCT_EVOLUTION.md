@@ -7,6 +7,33 @@ For architecture decisions, see [docs/decisions/](decisions/).
 
 ---
 
+## Timetable Redesign — Time-Slot Grid + Drag-and-Drop Topics (20 Feb 2026)
+
+**Why this change is happening**: The original timetable showed sessions as flat cards stacked under each day in an "All day" row. This didn't communicate when during the day each session happens, and parents couldn't rearrange topics between sessions. The redesign gives parents visual control over their child's revision schedule.
+
+**What it does**: The week view is now a proper time-slot grid — rows are time slots (Early Morning, Morning, Afternoon, After School, Evening) and columns are days. Each cell shows individual topic cards (not session cards), so a 45-minute session displays 2 topic cards. Parents can drag topics between any cells using drag-and-drop, with capacity validation (can't exceed session pattern limits). Topic cards show a coloured status dot (green=completed, orange=pending, red=missed) and a small X for deletion. The "Revision Plan Card" has been removed, with its status label ("On Track", etc.) moved into the page header as a compact badge. Action buttons are now a slim button row instead of large cards. The subject legend is integrated into the controls bar.
+
+Children can also access the timetable at `/child/timetable`. Their editing access is controlled by a new Parental Controls system in Settings — parents can set each feature to Off, Requires Approval, or Auto-Approved per child. In "Requires Approval" mode, drag-and-drop actions create approval requests that the parent can approve or reject.
+
+**How it was developed**:
+- **Data model**: Added `time_of_day TEXT` column to `planned_sessions` via migration. Created `parental_controls` and `parental_control_requests` tables with RLS policies. Added RPCs for topic moves, topic removal, and all parental controls CRUD.
+- **TypeScript types**: Added `time_of_day: string | null` to `TimetableSession`. Added `after_school` to `TimeOfDay` type. Created `src/types/parentalControls.ts` and `src/services/parentalControlsService.ts`.
+- **UI components**: New `TopicCard` (draggable via `useDraggable`, delete X, status dot), `TimeSlotRow` (droppable cells via `useDroppable`), and complete `WeekView` rewrite with `DndContext` wrapper. `TodayView` now groups sessions by time slot.
+- **Parental controls UI**: `ParentalControlsSection` in `ParentSettingsPage` with 3-way toggle per feature, pending approval queue with approve/reject actions. Subscription-gated via `canUseParentalControls()`.
+- **Child access**: `ChildTimetable` view at `/child/timetable` adapts based on access level. `useChildAccess()` hook checks permissions.
+- **Key files**: `src/components/timetable/WeekView.tsx`, `TopicCard.tsx`, `TimeSlotRow.tsx`, `TodayView.tsx`, `TimetableHeader.tsx`, `TimetableActionCards.tsx`, `TimetableControls.tsx`, `src/utils/timetableUtils.ts`, `src/views/child/ChildTimetable.tsx`, `src/components/parent/settings/ParentalControlsSection.tsx`, `src/hooks/useParentalControls.ts`
+
+**Subsequent changes (20 Feb 2026) — Data pipeline fixes + Layout restructure:**
+
+The initial implementation had several data pipeline issues and the page layout needed restructuring to match the updated design:
+
+- **Data pipeline**: The Supabase RPCs (`rpc_get_week_plan`, `rpc_get_todays_sessions`) didn't return the new `time_of_day` column, causing all sessions to display in an "Unscheduled" row. Fixed by replacing RPC calls with direct Supabase table queries. The `AddSessionModal` was also missing a time slot selector. A `backfillTimeOfDay()` function now runs after plan regeneration to populate `time_of_day` from the weekly template.
+- **Drag-and-drop**: Collision detection switched from `closestCenter` to `pointerWithin` for reliable grid targeting. The entire topic card is now draggable (not just a tiny grip icon). Drops on empty cells auto-create a session on the fly. Move/remove operations replaced with direct Supabase queries (no RPC dependency). Background refreshes no longer flash a loading spinner.
+- **Layout restructure**: Child selector moved from timetable header into the sidebar via a new `SelectedChildContext` (ADR-006). Timetable header simplified to title + status subtitle. New `NudgeBanner` component for plan alerts (dark card, top-right). Status badge repositioned to the action buttons row. `TimetableControls` made more compact (no card wrapper, date nav + view toggle inline). `PersistentFooter` links restyled as bordered button pills with navigation.
+- **New key files**: `src/contexts/SelectedChildContext.tsx`, `src/components/timetable/NudgeBanner.tsx`
+
+---
+
 ## Subscription Trial Gating & Upgrade/Downgrade (19 Feb 2026)
 
 **Why this change is happening**: The initial Stripe integration offered a 14-day free trial on both Family and Premium plans, and upgrade/downgrade actions opened the Stripe Customer Portal which gave limited control over trial behaviour. Specifically, upgrading mid-trial through the portal would continue the trial on the new plan — meaning users could get 14 days of Premium for free. Business rules require: trial only on Family, immediate trial end on upgrade, no re-trialing, and proper proration on plan changes.

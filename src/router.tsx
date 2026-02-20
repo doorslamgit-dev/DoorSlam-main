@@ -22,6 +22,7 @@ const SubjectProgress = lazy(() => import('@/views/parent/SubjectProgress'));
 const Timetable = lazy(() => import('@/views/parent/Timetable'));
 
 const Today = lazy(() => import('@/views/child/Today'));
+const ChildTimetable = lazy(() => import('@/views/child/ChildTimetable'));
 const ChildRewardsCatalog = lazy(() =>
   import('@/views/child/ChildRewardsCatalog').then((m) => ({ default: m.ChildRewardsCatalog }))
 );
@@ -63,6 +64,7 @@ export function AppRouter() {
 
           {/* Child routes */}
           <Route path="/child/today" element={<Today />} />
+          <Route path="/child/timetable" element={<ChildTimetable />} />
           <Route path="/child/rewards" element={<ChildRewardsCatalog />} />
           <Route path="/child/signup" element={<ChildSignUp />} />
           <Route path="/child/session/:plannedSessionId" element={<SessionRun />} />

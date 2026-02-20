@@ -9,7 +9,7 @@ import AppIcon from "../../ui/AppIcon";
    Types
 ============================ */
 
-export type TimeOfDay = "early_morning" | "morning" | "afternoon" | "evening";
+export type TimeOfDay = "early_morning" | "morning" | "afternoon" | "after_school" | "evening";
 export type SessionPattern = "p20" | "p45" | "p70";
 
 export interface AvailabilitySlot {
@@ -33,6 +33,7 @@ export const TIME_OF_DAY_OPTIONS: { value: TimeOfDay; label: string }[] = [
   { value: "early_morning", label: "Early morning" },
   { value: "morning", label: "Morning" },
   { value: "afternoon", label: "Afternoon" },
+  { value: "after_school", label: "After school" },
   { value: "evening", label: "Evening" },
 ];
 

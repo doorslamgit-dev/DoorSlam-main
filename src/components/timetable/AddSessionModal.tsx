@@ -9,6 +9,7 @@ import {
   addSingleSession,
   type ChildSubjectOption,
 } from "../../services/timetableService";
+import { TIME_SLOT_LABELS, TIME_SLOT_ORDER } from "../../utils/timetableUtils";
 
 type ModalMode = "choice" | "single" | "recurring";
 
@@ -40,6 +41,7 @@ export default function AddSessionModal({
     date: selectedDate ? formatDate(selectedDate) : formatDate(new Date()),
     subjectId: "",
     sessionPattern: "DOUBLE_45",
+    timeOfDay: "afternoon" as string,
   });
 
   useEffect(() => {
@@ -99,6 +101,7 @@ export default function AddSessionModal({
       subjectId: formData.subjectId,
       sessionPattern: formData.sessionPattern,
       sessionDurationMinutes: durationMap[formData.sessionPattern] || 45,
+      timeOfDay: formData.timeOfDay,
     });
 
     setSaving(false);
@@ -233,6 +236,26 @@ export default function AddSessionModal({
                   min={formatDate(new Date())}
                   className="w-full px-4 py-2.5 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 />
+              </div>
+
+              {/* Time Slot */}
+              <div>
+                <label className="block text-sm font-medium text-neutral-700 mb-1.5">
+                  Time Slot
+                </label>
+                <select
+                  value={formData.timeOfDay}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, timeOfDay: e.target.value }))
+                  }
+                  className="w-full px-4 py-2.5 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                >
+                  {TIME_SLOT_ORDER.map((slot) => (
+                    <option key={slot} value={slot}>
+                      {TIME_SLOT_LABELS[slot]}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               {/* Subject */}

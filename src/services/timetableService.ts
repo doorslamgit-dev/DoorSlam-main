@@ -20,6 +20,7 @@ export interface TimetableSession {
   color: string;
   topic_count: number;
   topics_preview: Array<{ id: string; topic_name: string; order_index: number }>;
+  time_of_day: string | null;
 }
 
 export interface WeekDayData {
@@ -220,18 +221,117 @@ export async function fetchWeekPlan(
   weekStartDate: string
 ): Promise<{ data: WeekDayData[] | null; error: string | null }> {
   try {
-    const { data, error } = await supabase.rpc("rpc_get_week_plan", {
-      p_child_id: childId,
-      p_week_start_date: weekStartDate,
-    });
+    // Calculate week end (7 days from start)
+    const start = new Date(weekStartDate);
+    const end = new Date(start);
+    end.setDate(end.getDate() + 6);
+    const weekEndDate = end.toISOString().split("T")[0];
+
+    // Direct query — includes time_of_day (RPC doesn't)
+    const { data: rows, error } = await supabase
+      .from("planned_sessions")
+      .select(
+        `
+        id,
+        session_date,
+        session_index,
+        session_pattern,
+        session_duration_minutes,
+        status,
+        subject_id,
+        topic_ids,
+        time_of_day,
+        subjects!inner (
+          subject_name,
+          icon,
+          color
+        )
+      `
+      )
+      .eq("child_id", childId)
+      .gte("session_date", weekStartDate)
+      .lte("session_date", weekEndDate)
+      .order("session_date")
+      .order("session_index");
 
     if (error) throw error;
 
-    // Transform the data
-    const weekData: WeekDayData[] = (data || []).map((row: Record<string, unknown>) => ({
-      day_date: row.day_date,
-      sessions: row.sessions || [],
-    }));
+    // Collect all topic IDs for a batch lookup
+    const allTopicIds: string[] = [];
+    for (const row of rows || []) {
+      if (row.topic_ids && Array.isArray(row.topic_ids)) {
+        for (const tid of row.topic_ids) {
+          if (tid && !allTopicIds.includes(tid)) {
+            allTopicIds.push(tid);
+          }
+        }
+      }
+    }
+
+    // Fetch topic names in one batch
+    const topicMap = new Map<string, { id: string; topic_name: string; order_index: number }>();
+    if (allTopicIds.length > 0) {
+      const { data: topicsData } = await supabase
+        .from("topics")
+        .select("id, topic_name, order_index")
+        .in("id", allTopicIds);
+
+      if (topicsData) {
+        for (const t of topicsData) {
+          topicMap.set(t.id, {
+            id: t.id,
+            topic_name: t.topic_name,
+            order_index: t.order_index ?? 0,
+          });
+        }
+      }
+    }
+
+    // Build sessions grouped by date
+    const dayMap = new Map<string, TimetableSession[]>();
+
+    // Pre-populate all 7 days
+    for (let d = 0; d < 7; d++) {
+      const date = new Date(start);
+      date.setDate(date.getDate() + d);
+      const dateStr = date.toISOString().split("T")[0];
+      dayMap.set(dateStr, []);
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Supabase join returns nested objects typed as any
+    for (const row of (rows || []) as any[]) {
+      const topicIds: string[] = row.topic_ids || [];
+      const topicsPreview = topicIds
+        .map((tid: string) => topicMap.get(tid))
+        .filter(Boolean) as { id: string; topic_name: string; order_index: number }[];
+
+      const session: TimetableSession = {
+        planned_session_id: row.id,
+        session_date: row.session_date,
+        session_index: row.session_index ?? 1,
+        session_pattern: row.session_pattern,
+        session_duration_minutes: row.session_duration_minutes,
+        status: row.status,
+        subject_id: row.subject_id,
+        subject_name: row.subjects?.subject_name || "Unknown",
+        icon: row.subjects?.icon || "book",
+        color: row.subjects?.color || COLORS.neutral[500],
+        topic_count: topicIds.length,
+        topics_preview: topicsPreview,
+        time_of_day: row.time_of_day ?? null,
+      };
+
+      const dateStr = row.session_date;
+      if (!dayMap.has(dateStr)) {
+        dayMap.set(dateStr, []);
+      }
+      dayMap.get(dateStr)!.push(session);
+    }
+
+    // Convert to WeekDayData array, sorted by date
+    const weekData: WeekDayData[] = Array.from(dayMap.entries())
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([day_date, sessions]) => ({ day_date, sessions }));
 
     return { data: weekData, error: null };
   } catch (err: unknown) {
@@ -260,6 +360,7 @@ export async function fetchMonthSessions(
         status,
         subject_id,
         topic_ids,
+        time_of_day,
         subjects!inner (
           subject_name,
           icon,
@@ -288,6 +389,7 @@ export async function fetchMonthSessions(
       color: row.subjects?.color || COLORS.neutral[500],
       topic_count: row.topic_ids?.length || 0,
       topics_preview: [],
+      time_of_day: row.time_of_day ?? null,
     }));
 
     return { data: sessions, error: null };
@@ -302,14 +404,89 @@ export async function fetchTodaySessions(
   date: string
 ): Promise<{ data: TimetableSession[] | null; error: string | null }> {
   try {
-    const { data, error } = await supabase.rpc("rpc_get_todays_sessions", {
-      p_child_id: childId,
-      p_session_date: date,
-    });
+    // Direct query — includes time_of_day (RPC doesn't)
+    const { data: rows, error } = await supabase
+      .from("planned_sessions")
+      .select(
+        `
+        id,
+        session_date,
+        session_index,
+        session_pattern,
+        session_duration_minutes,
+        status,
+        subject_id,
+        topic_ids,
+        time_of_day,
+        subjects!inner (
+          subject_name,
+          icon,
+          color
+        )
+      `
+      )
+      .eq("child_id", childId)
+      .eq("session_date", date)
+      .order("session_index");
 
     if (error) throw error;
 
-    return { data: data || [], error: null };
+    // Collect all topic IDs for batch lookup
+    const allTopicIds: string[] = [];
+    for (const row of rows || []) {
+      if (row.topic_ids && Array.isArray(row.topic_ids)) {
+        for (const tid of row.topic_ids) {
+          if (tid && !allTopicIds.includes(tid)) {
+            allTopicIds.push(tid);
+          }
+        }
+      }
+    }
+
+    // Fetch topic names
+    const topicMap = new Map<string, { id: string; topic_name: string; order_index: number }>();
+    if (allTopicIds.length > 0) {
+      const { data: topicsData } = await supabase
+        .from("topics")
+        .select("id, topic_name, order_index")
+        .in("id", allTopicIds);
+
+      if (topicsData) {
+        for (const t of topicsData) {
+          topicMap.set(t.id, {
+            id: t.id,
+            topic_name: t.topic_name,
+            order_index: t.order_index ?? 0,
+          });
+        }
+      }
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Supabase join returns nested objects typed as any
+    const sessions: TimetableSession[] = ((rows || []) as any[]).map((row, idx) => {
+      const topicIds: string[] = row.topic_ids || [];
+      const topicsPreview = topicIds
+        .map((tid: string) => topicMap.get(tid))
+        .filter(Boolean) as { id: string; topic_name: string; order_index: number }[];
+
+      return {
+        planned_session_id: row.id,
+        session_date: row.session_date,
+        session_index: row.session_index ?? idx + 1,
+        session_pattern: row.session_pattern,
+        session_duration_minutes: row.session_duration_minutes,
+        status: row.status,
+        subject_id: row.subject_id,
+        subject_name: row.subjects?.subject_name || "Unknown",
+        icon: row.subjects?.icon || "book",
+        color: row.subjects?.color || COLORS.neutral[500],
+        topic_count: topicIds.length,
+        topics_preview: topicsPreview,
+        time_of_day: row.time_of_day ?? null,
+      };
+    });
+
+    return { data: sessions, error: null };
   } catch (err: unknown) {
     console.error("Error fetching today sessions:", err);
     return { data: null, error: (err instanceof Error ? err.message : "Failed to fetch sessions") };
@@ -548,6 +725,7 @@ export async function addSingleSession(params: {
   subjectId: string;
   sessionPattern: string;
   sessionDurationMinutes: number;
+  timeOfDay?: string | null;
 }): Promise<{ success: boolean; sessionId: string | null; error: string | null }> {
   try {
     // Get active plan if not provided
@@ -591,6 +769,7 @@ export async function addSingleSession(params: {
         session_index: sessionIndex,
         status: "planned",
         topic_ids: [],
+        time_of_day: params.timeOfDay ?? null,
       })
       .select("id")
       .single();
@@ -608,7 +787,7 @@ export async function addSingleSession(params: {
 // Weekly Schedule Template
 // ============================================================================
 
-export type TimeOfDay = "early_morning" | "morning" | "afternoon" | "evening";
+export type TimeOfDay = "early_morning" | "morning" | "afternoon" | "after_school" | "evening";
 export type SessionPattern = "p20" | "p45" | "p70";
 
 export interface AvailabilitySlot {
@@ -838,20 +1017,261 @@ export async function saveTemplateAndRegenerate(
       warning = "Schedule saved but session regeneration failed.";
     }
 
+    // 5. Backfill time_of_day on newly generated sessions
+    //    The RPC doesn't set time_of_day — we do it client-side from the template.
+    try {
+      await backfillTimeOfDay(childId, template);
+    } catch (backfillErr) {
+      console.warn("[saveTemplateAndRegenerate] time_of_day backfill failed:", backfillErr);
+      // Non-fatal — sessions still exist, just in "Unscheduled" row
+    }
+
     // Template was saved successfully - return success even if regeneration had issues
-    return { 
-      success: true, 
-      sessionsCreated, 
+    return {
+      success: true,
+      sessionsCreated,
       error: null,
-      warning 
+      warning
     };
   } catch (err: unknown) {
     console.error("[saveTemplateAndRegenerate] Fatal error:", err);
-    return { 
-      success: false, 
-      sessionsCreated: 0, 
+    return {
+      success: false,
+      sessionsCreated: 0,
       error: (err instanceof Error ? err.message : "Failed to save schedule"),
-      warning: null 
+      warning: null
     };
+  }
+}
+
+/**
+ * Backfill time_of_day on planned sessions that don't have it set.
+ * Matches sessions to template slots by day_of_week + session_index order.
+ */
+async function backfillTimeOfDay(
+  childId: string,
+  template: DayTemplate[]
+): Promise<void> {
+  const today = new Date().toISOString().split("T")[0];
+
+  // Fetch future planned sessions without time_of_day
+  const { data: sessions, error } = await supabase
+    .from("planned_sessions")
+    .select("id, session_date, day_of_week, session_index")
+    .eq("child_id", childId)
+    .eq("status", "planned")
+    .gte("session_date", today)
+    .is("time_of_day", null)
+    .order("session_date")
+    .order("session_index");
+
+  if (error || !sessions || sessions.length === 0) return;
+
+  // Build a map of day_of_week -> ordered slot time_of_day values
+  // Template day_of_week: 0=Monday, 1=Tuesday, ... 6=Sunday
+  const daySlotMap = new Map<string, string[]>();
+  for (const day of template) {
+    if (day.is_enabled && day.slots.length > 0) {
+      const dayName = day.day_name.toLowerCase();
+      daySlotMap.set(dayName, day.slots.map((s) => s.time_of_day));
+    }
+  }
+
+  // Group sessions by date, then assign time_of_day from slots in order
+  const dateGroups = new Map<string, typeof sessions>();
+  for (const s of sessions) {
+    const key = s.session_date;
+    if (!dateGroups.has(key)) dateGroups.set(key, []);
+    dateGroups.get(key)!.push(s);
+  }
+
+  for (const [_dateStr, dateSessions] of dateGroups) {
+    // Sort by session_index
+    dateSessions.sort((a, b) => (a.session_index ?? 0) - (b.session_index ?? 0));
+
+    // Get slots for this day of week
+    const dayOfWeek = dateSessions[0]?.day_of_week;
+    if (!dayOfWeek) continue;
+
+    const slots = daySlotMap.get(dayOfWeek);
+    if (!slots || slots.length === 0) continue;
+
+    // Assign time_of_day from template slots
+    for (let i = 0; i < dateSessions.length; i++) {
+      const timeOfDay = slots[i] ?? slots[slots.length - 1]; // Fall back to last slot
+      await supabase
+        .from("planned_sessions")
+        .update({ time_of_day: timeOfDay })
+        .eq("id", dateSessions[i].id);
+    }
+  }
+}
+
+// ============================================================================
+// Topic Management
+// ============================================================================
+
+/**
+ * Move a topic from one session to another.
+ * Uses direct queries instead of RPC for reliability.
+ */
+export async function moveTopicBetweenSessions(
+  topicId: string,
+  sourceSessionId: string,
+  targetSessionId: string
+): Promise<{ success: boolean; error: string | null }> {
+  try {
+    // Fetch both sessions
+    const { data: sessions, error: fetchError } = await supabase
+      .from("planned_sessions")
+      .select("id, topic_ids, session_pattern")
+      .in("id", [sourceSessionId, targetSessionId]);
+
+    if (fetchError) throw fetchError;
+    if (!sessions || sessions.length < 2) {
+      return { success: false, error: "Source or target session not found" };
+    }
+
+    const source = sessions.find((s) => s.id === sourceSessionId);
+    const target = sessions.find((s) => s.id === targetSessionId);
+    if (!source || !target) {
+      return { success: false, error: "Source or target session not found" };
+    }
+
+    // Verify topic exists in source
+    const sourceTopics: string[] = source.topic_ids ?? [];
+    if (!sourceTopics.includes(topicId)) {
+      return { success: false, error: "Topic not found in source session" };
+    }
+
+    // Check capacity on target
+    const targetTopics: string[] = target.topic_ids ?? [];
+    const maxTopics = getMaxTopicsForPattern(target.session_pattern);
+    if (targetTopics.length >= maxTopics) {
+      return { success: false, error: "Target session is full" };
+    }
+
+    // Remove from source
+    const newSourceTopics = sourceTopics.filter((id) => id !== topicId);
+    const { error: updateSourceErr } = await supabase
+      .from("planned_sessions")
+      .update({ topic_ids: newSourceTopics })
+      .eq("id", sourceSessionId);
+
+    if (updateSourceErr) throw updateSourceErr;
+
+    // Add to target
+    const newTargetTopics = [...targetTopics, topicId];
+    const { error: updateTargetErr } = await supabase
+      .from("planned_sessions")
+      .update({ topic_ids: newTargetTopics })
+      .eq("id", targetSessionId);
+
+    if (updateTargetErr) throw updateTargetErr;
+
+    return { success: true, error: null };
+  } catch (err: unknown) {
+    console.error("Error moving topic between sessions:", err);
+    return {
+      success: false,
+      error: err instanceof Error ? err.message : "Failed to move topic",
+    };
+  }
+}
+
+/**
+ * Remove a topic from a session.
+ * Uses direct queries instead of RPC for reliability.
+ */
+export async function removeTopicFromSession(
+  topicId: string,
+  sessionId: string
+): Promise<{ success: boolean; error: string | null }> {
+  try {
+    const { data, error: fetchError } = await supabase
+      .from("planned_sessions")
+      .select("topic_ids")
+      .eq("id", sessionId)
+      .single();
+
+    if (fetchError) throw fetchError;
+
+    const currentTopics: string[] = data?.topic_ids ?? [];
+    const newTopics = currentTopics.filter((id) => id !== topicId);
+
+    const { error: updateError } = await supabase
+      .from("planned_sessions")
+      .update({ topic_ids: newTopics })
+      .eq("id", sessionId);
+
+    if (updateError) throw updateError;
+
+    return { success: true, error: null };
+  } catch (err: unknown) {
+    console.error("Error removing topic from session:", err);
+    return {
+      success: false,
+      error: err instanceof Error ? err.message : "Failed to remove topic",
+    };
+  }
+}
+
+/**
+ * Create a new session in a target cell and move a topic into it.
+ * Used when dropping a topic on an empty grid cell (no session exists).
+ */
+export async function createSessionAndMoveTopic(params: {
+  childId: string;
+  topicId: string;
+  sourceSessionId: string;
+  targetDate: string;
+  targetTimeOfDay: string;
+  subjectId: string;
+  sessionPattern: string;
+  sessionDurationMinutes: number;
+}): Promise<{ success: boolean; error: string | null }> {
+  try {
+    // Step 1: Create a new session in the target cell
+    const { success, sessionId, error: createError } = await addSingleSession({
+      childId: params.childId,
+      planId: null,
+      sessionDate: params.targetDate,
+      subjectId: params.subjectId,
+      sessionPattern: params.sessionPattern,
+      sessionDurationMinutes: params.sessionDurationMinutes,
+      timeOfDay: params.targetTimeOfDay,
+    });
+
+    if (!success || !sessionId) {
+      return { success: false, error: createError || "Failed to create target session" };
+    }
+
+    // Step 2: Move the topic from source session to the new session
+    return await moveTopicBetweenSessions(params.topicId, params.sourceSessionId, sessionId);
+  } catch (err: unknown) {
+    console.error("Error creating session and moving topic:", err);
+    return {
+      success: false,
+      error: err instanceof Error ? err.message : "Failed to move topic to new cell",
+    };
+  }
+}
+
+/**
+ * Get the maximum number of topics for a given session pattern.
+ */
+export function getMaxTopicsForPattern(sessionPattern: string): number {
+  switch (sessionPattern) {
+    case "SINGLE_20":
+    case "p20":
+      return 1;
+    case "DOUBLE_45":
+    case "p45":
+      return 2;
+    case "TRIPLE_70":
+    case "p70":
+      return 3;
+    default:
+      return 3;
   }
 }

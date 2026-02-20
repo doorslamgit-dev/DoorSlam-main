@@ -82,6 +82,11 @@ export function canBuyTokens(info: SubscriptionInfo): boolean {
   return info.tier === "premium";
 }
 
+/** Parental controls — per-child feature gating. Family + Premium. */
+export function canUseParentalControls(info: SubscriptionInfo): boolean {
+  return info.tier === "family" || info.tier === "premium";
+}
+
 /** Is the user's trial expired? */
 export function isTrialExpired(info: SubscriptionInfo): boolean {
   if (info.tier !== "trial") return false;

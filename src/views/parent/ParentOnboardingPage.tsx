@@ -318,7 +318,7 @@ export default function ParentOnboardingPage() {
     const weekly_availability: Record<string, {
       enabled: boolean;
       slots: Array<{
-        time_of_day: 'early_morning' | 'morning' | 'afternoon' | 'evening';
+        time_of_day: 'early_morning' | 'morning' | 'afternoon' | 'after_school' | 'evening';
         session_pattern: 'p20' | 'p45' | 'p70';
       }>
     }> = {};
@@ -327,7 +327,7 @@ export default function ParentOnboardingPage() {
       weekly_availability[day.day_of_week.toString()] = {
         enabled: day.is_enabled,
         slots: day.slots.map(s => ({
-          time_of_day: s.time_of_day as 'early_morning' | 'morning' | 'afternoon' | 'evening',
+          time_of_day: s.time_of_day as 'early_morning' | 'morning' | 'afternoon' | 'after_school' | 'evening',
           session_pattern: s.session_pattern as 'p20' | 'p45' | 'p70',
         })),
       };
