@@ -1,20 +1,30 @@
--- Migration: Update RPCs to include time_of_day
--- Run this in Supabase Dashboard SQL editor to update existing RPCs.
+-- Migration: Add time_of_day column + Update RPCs
+-- Run this in Supabase Dashboard SQL editor.
 --
--- Fixes:
--- 1. rpc_get_week_plan — adds time_of_day to sessions JSONB
--- 2. rpc_get_todays_sessions — adds time_of_day to return table
--- 3. rpc_regenerate_child_plan — populates time_of_day from weekly template slots
+-- This is a SELF-CONTAINED migration. Run the whole file at once.
 --
--- NOTE: The frontend has been updated to use direct table queries as a
--- fallback, so these RPC updates improve server-side consistency but are
--- not strictly required for the UI to function.
+-- What it does:
+-- 0. Adds the time_of_day column to planned_sessions (safe if already exists)
+-- 1. Updates rpc_get_todays_sessions to return time_of_day
+-- 2. Updates rpc_get_week_plan to include time_of_day in sessions JSONB
+-- 3. Backfills time_of_day on existing sessions from the weekly template
+
+-- ============================================================================
+-- 0. Add time_of_day column (idempotent — skips if already exists)
+-- ============================================================================
+
+ALTER TABLE public.planned_sessions
+  ADD COLUMN IF NOT EXISTS time_of_day TEXT;
+
+COMMENT ON COLUMN public.planned_sessions.time_of_day IS
+  'Time slot for this session (early_morning, morning, afternoon, after_school, evening). Populated from weekly_availability_slots during plan generation.';
+
 
 -- ============================================================================
 -- 1. Update rpc_get_todays_sessions to include time_of_day
 -- ============================================================================
 
--- Drop old version (different return type)
+-- Drop old version (different return type — cannot just CREATE OR REPLACE)
 DROP FUNCTION IF EXISTS public.rpc_get_todays_sessions(uuid, date);
 
 CREATE OR REPLACE FUNCTION public.rpc_get_todays_sessions(
@@ -147,8 +157,8 @@ $$;
 -- 3. Backfill time_of_day on existing planned sessions
 -- ============================================================================
 
--- This sets time_of_day on sessions that currently have NULL, using the
--- weekly template slots. Matches by day_of_week + session_index order.
+-- Sets time_of_day on sessions that have NULL, using the weekly template slots.
+-- Matches by day_of_week + session_index order within each date.
 DO $$
 DECLARE
   v_child RECORD;
@@ -162,7 +172,7 @@ BEGIN
     FROM planned_sessions
     WHERE time_of_day IS NULL
   LOOP
-    -- For each day-of-week, get the template slots in order
+    -- For each session without time_of_day, assign from template
     FOR v_session IN
       SELECT ps.id, ps.day_of_week, ps.session_index,
              ROW_NUMBER() OVER (
