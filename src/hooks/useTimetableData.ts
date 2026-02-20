@@ -96,6 +96,13 @@ export function useTimetableData({
     loadChildren();
   }, [userId, initialChildId]);
 
+  // Sync when the global child context changes (sidebar selector)
+  useEffect(() => {
+    if (initialChildId) {
+      setSelectedChildId(initialChildId);
+    }
+  }, [initialChildId]);
+
   // Load plan overview when child changes
   useEffect(() => {
     if (!selectedChildId) return;

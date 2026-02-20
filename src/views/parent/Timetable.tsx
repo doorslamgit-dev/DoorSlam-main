@@ -1,9 +1,10 @@
 // src/views/parent/Timetable.tsx
-// Timetable page — redesigned with time-slot grid, compact actions, inline status badge
+// Timetable page — time-slot grid, compact layout, nudge banner
 
 import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import { useSelectedChild } from "../../contexts/SelectedChildContext";
 import { PageLayout } from "../../components/layout";
 import {
   TimetableHeader,
@@ -12,6 +13,7 @@ import {
   TodayView,
   WeekView,
   MonthView,
+  NudgeBanner,
   AddSessionModal,
   BlockDatesModal,
   EditScheduleModal,
@@ -20,15 +22,13 @@ import { useTimetableData } from "../../hooks/useTimetableData";
 
 export default function Timetable() {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
   const { user, activeChildId, loading: authLoading } = useAuth();
+  const { selectedChildId } = useSelectedChild();
 
   const {
     weekData,
     todaySessions,
     monthSessions,
-    children,
-    selectedChildId,
     viewMode,
     referenceDate,
     loading,
@@ -36,7 +36,6 @@ export default function Timetable() {
     planOverview,
     planOverviewLoading,
     dateOverrides,
-    setSelectedChildId,
     setViewMode,
     goToPrevious,
     goToNext,
@@ -47,7 +46,7 @@ export default function Timetable() {
     isDateBlocked,
   } = useTimetableData({
     userId: user?.id,
-    initialChildId: searchParams.get("child"),
+    initialChildId: selectedChildId,
   });
 
   // Modal state
@@ -55,9 +54,8 @@ export default function Timetable() {
   const [showBlockDatesModal, setShowBlockDatesModal] = useState(false);
   const [showEditScheduleModal, setShowEditScheduleModal] = useState(false);
 
-  // Get selected child name
-  const selectedChildName =
-    children.find((c) => c.child_id === selectedChildId)?.child_name || "Child";
+  // Get selected child name from context
+  const { selectedChildName } = useSelectedChild();
 
   // Redirect if not logged in or is a child
   useEffect(() => {
@@ -117,24 +115,29 @@ export default function Timetable() {
 
   return (
     <PageLayout>
-      <main className="max-w-7xl mx-auto px-6 py-8">
-        {/* 1. Page Header with status badge */}
-        <TimetableHeader
-          children={children}
-          selectedChildId={selectedChildId}
-          onChildChange={setSelectedChildId}
-          planOverview={planOverview}
-          planOverviewLoading={planOverviewLoading}
-        />
+      <main className="max-w-7xl mx-auto px-6 py-6">
+        {/* Row 1: Title + Nudge banner */}
+        <div className="flex items-start justify-between mb-4">
+          <TimetableHeader
+            planOverview={planOverview}
+            planOverviewLoading={planOverviewLoading}
+          />
+          <NudgeBanner
+            planOverview={planOverview}
+            planOverviewLoading={planOverviewLoading}
+          />
+        </div>
 
-        {/* 2. Compact action buttons */}
+        {/* Row 2: Action buttons + status badge */}
         <TimetableActionCards
           onAddSession={() => setShowAddSessionModal(true)}
           onEditSchedule={handleEditSchedule}
           onBlockDates={() => setShowBlockDatesModal(true)}
+          planOverview={planOverview}
+          planOverviewLoading={planOverviewLoading}
         />
 
-        {/* 3. Date nav + view toggle + inline subject legend */}
+        {/* Row 3: Date nav + view toggle + subject legend */}
         <TimetableControls
           viewMode={viewMode}
           referenceDate={referenceDate}
@@ -145,7 +148,7 @@ export default function Timetable() {
           subjectLegend={subjectLegend}
         />
 
-        {/* 4. Calendar views */}
+        {/* Row 4: Calendar views */}
         {viewMode === "today" && (
           <TodayView
             sessions={todaySessions}
