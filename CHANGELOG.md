@@ -14,13 +14,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - WeekView rewritten as a time-slot grid (rows = early morning/morning/afternoon/after school/evening, columns = days)
   - Individual TopicCards per topic within each session, with delete X and colour-coded status dot (green=done, orange=pending, red=missed)
   - Drag-and-drop via @dnd-kit: move topics between any cell with capacity validation
+  - Dropping on empty cells auto-creates a session on the fly
+  - Entire topic card is draggable (not just a small grip icon)
   - TodayView grouped by time slot instead of flat list
   - `time_of_day` column added to `planned_sessions` table (migration)
   - New `after_school` time slot added to `TimeOfDay` type
-  - Status badge (On Track / Needs Attention / Behind) moved from hero card into header bar
-  - Action buttons redesigned as compact button row using `Button` component
-  - Subject legend integrated into controls bar
+  - `backfillTimeOfDay()` populates time_of_day after plan regeneration
+  - AddSessionModal includes time slot selector dropdown
   - `TimetableHeroCard` removed from page layout
+- **Timetable layout restructure** — matches updated page design
+  - `SelectedChildContext` — global child selection shared across sidebar and all parent pages (ADR-006)
+  - Child selector moved from timetable header into sidebar navigation
+  - `NudgeBanner` component — dark card in top-right for plan status alerts (needs_attention/behind only)
+  - Status badge (On Track / Needs Attention / Behind) positioned on action buttons row (right side)
+  - Action buttons redesigned as compact button row using `Button` component
+  - TimetableControls: date nav + view toggle inline (no card wrapper), subject legend right-aligned
+  - PersistentFooter: Schedule / Add New Subject / Progress Report as bordered button pills with navigation
 - **Parental Controls system** — generic per-child, per-feature access control
   - New `parental_controls` and `parental_control_requests` tables with RLS policies
   - Three access levels: Off / Requires Approval / Auto-Approved
@@ -32,6 +41,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Adapts based on parental controls: read-only, requires-approval, or auto-approved editing
   - Requires-approval mode submits move requests to parent approval queue
   - Access level banners for children
+
+### Fixed
+- **Timetable data pipeline** — `fetchWeekPlan` and `fetchTodaySessions` replaced with direct queries (bypassing RPCs that didn't return `time_of_day`), fixing empty "Unscheduled" grid rows
+- **Drag-and-drop collision detection** — switched from `closestCenter` to `pointerWithin` for reliable grid cell targeting
+- **Drop on empty cells** — drops no longer silently rejected when target cell has no session; a new session is auto-created
+- **Move/remove topic operations** — replaced RPC-dependent `moveTopicBetweenSessions` and `removeTopicFromSession` with direct Supabase queries for reliability
+- **Refresh flash eliminated** — background refreshes (after drag-drop) no longer trigger loading spinner; grid stays visible while data reloads
+- **Onboarding `after_school` type** — added missing `after_school` to phase2 payload type cast in `ParentOnboardingPage`
+- **Migration ordering** — `ALTER TABLE ADD COLUMN time_of_day` must run before the backfill `DO` block (Supabase SQL editor transaction limitation)
 
 ### Changed
 - **Public pricing navigation** — added "Pricing" link to the public header (`AppHeader.tsx`) so unauthenticated visitors can reach the pricing page directly from the landing page navigation

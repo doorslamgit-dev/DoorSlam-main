@@ -23,6 +23,15 @@ Children can also access the timetable at `/child/timetable`. Their editing acce
 - **Child access**: `ChildTimetable` view at `/child/timetable` adapts based on access level. `useChildAccess()` hook checks permissions.
 - **Key files**: `src/components/timetable/WeekView.tsx`, `TopicCard.tsx`, `TimeSlotRow.tsx`, `TodayView.tsx`, `TimetableHeader.tsx`, `TimetableActionCards.tsx`, `TimetableControls.tsx`, `src/utils/timetableUtils.ts`, `src/views/child/ChildTimetable.tsx`, `src/components/parent/settings/ParentalControlsSection.tsx`, `src/hooks/useParentalControls.ts`
 
+**Subsequent changes (20 Feb 2026) — Data pipeline fixes + Layout restructure:**
+
+The initial implementation had several data pipeline issues and the page layout needed restructuring to match the updated design:
+
+- **Data pipeline**: The Supabase RPCs (`rpc_get_week_plan`, `rpc_get_todays_sessions`) didn't return the new `time_of_day` column, causing all sessions to display in an "Unscheduled" row. Fixed by replacing RPC calls with direct Supabase table queries. The `AddSessionModal` was also missing a time slot selector. A `backfillTimeOfDay()` function now runs after plan regeneration to populate `time_of_day` from the weekly template.
+- **Drag-and-drop**: Collision detection switched from `closestCenter` to `pointerWithin` for reliable grid targeting. The entire topic card is now draggable (not just a tiny grip icon). Drops on empty cells auto-create a session on the fly. Move/remove operations replaced with direct Supabase queries (no RPC dependency). Background refreshes no longer flash a loading spinner.
+- **Layout restructure**: Child selector moved from timetable header into the sidebar via a new `SelectedChildContext` (ADR-006). Timetable header simplified to title + status subtitle. New `NudgeBanner` component for plan alerts (dark card, top-right). Status badge repositioned to the action buttons row. `TimetableControls` made more compact (no card wrapper, date nav + view toggle inline). `PersistentFooter` links restyled as bordered button pills with navigation.
+- **New key files**: `src/contexts/SelectedChildContext.tsx`, `src/components/timetable/NudgeBanner.tsx`
+
 ---
 
 ## Subscription Trial Gating & Upgrade/Downgrade (19 Feb 2026)
