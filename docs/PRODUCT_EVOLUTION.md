@@ -85,6 +85,16 @@ Fixes applied:
 - Sidebar "Parent" role label removed — now shows avatar, name, and tier badge only
 - Modified files: `src/views/parent/Pricing.tsx`, `src/components/layout/sidebar/SidebarBottomSection.tsx`
 
+**Subsequent changes — Stripe Branding, Customer Portal & Wallet Payments (19 Feb 2026)**:
+Before going live, we reviewed the Stripe integration to ensure we weren't over-engineering. The review confirmed we're using Stripe's recommended approach for SaaS subscription apps: hosted Checkout (redirect), hosted Customer Portal (redirect), and in-app plan changes via edge function. No Stripe.js, no embedded forms, no custom payment UI.
+
+Configuration applied (all Stripe Dashboard, no code changes):
+- **Branding**: Business name, logo, brand colour, and accent colour set in Settings → Branding. Automatically applies to Checkout, Customer Portal, receipts, invoices, and email notifications
+- **Customer Portal**: Payment methods, invoice history, and subscription cancellation enabled. Subscription switching disabled (plan changes handled in-app via `stripe-update-subscription` edge function)
+- **Google Pay**: Enabled in Settings → Payment Methods. Domains registered: `app.doorslam.io`, `staging.doorslam.io`, `dev.doorslam.io`. Button appears automatically on hosted Checkout when the customer has Google Pay available
+- **Apple Pay**: Enabled in Settings → Payment Methods. Same domains registered. Stripe handles Apple merchant validation automatically for hosted Checkout — no domain verification file needed on our end
+- **No code changes required**: All wallet payment buttons appear automatically on Stripe's hosted Checkout page when enabled in the Dashboard. Our redirect-based integration means we don't need Stripe.js, PaymentElement, or any client-side payment SDK
+
 ---
 
 ## Vite Migration (18 Feb 2026)
