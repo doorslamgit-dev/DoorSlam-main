@@ -10,6 +10,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Timetable redesign — time-slot grid with drag-and-drop topics** (FEAT-TBL)
+  - WeekView rewritten as a time-slot grid (rows = early morning/morning/afternoon/after school/evening, columns = days)
+  - Individual TopicCards per topic within each session, with delete X and colour-coded status dot (green=done, orange=pending, red=missed)
+  - Drag-and-drop via @dnd-kit: move topics between any cell with capacity validation
+  - TodayView grouped by time slot instead of flat list
+  - `time_of_day` column added to `planned_sessions` table (migration)
+  - New `after_school` time slot added to `TimeOfDay` type
+  - Status badge (On Track / Needs Attention / Behind) moved from hero card into header bar
+  - Action buttons redesigned as compact button row using `Button` component
+  - Subject legend integrated into controls bar
+  - `TimetableHeroCard` removed from page layout
+- **Parental Controls system** — generic per-child, per-feature access control
+  - New `parental_controls` and `parental_control_requests` tables with RLS policies
+  - Three access levels: Off / Requires Approval / Auto-Approved
+  - Settings UI: `ParentalControlsSection` in ParentSettingsPage with 3-way toggle per feature
+  - Approval queue: pending requests with approve/reject actions
+  - Subscription gated: Family+ and Premium only (`canUseParentalControls()`)
+  - Reusable for future features via `feature_key` pattern
+- **Child timetable access** — `/child/timetable` route
+  - Adapts based on parental controls: read-only, requires-approval, or auto-approved editing
+  - Requires-approval mode submits move requests to parent approval queue
+  - Access level banners for children
+
+### Changed
 - **Public pricing navigation** — added "Pricing" link to the public header (`AppHeader.tsx`) so unauthenticated visitors can reach the pricing page directly from the landing page navigation
 - **Stripe sandbox integration** — complete payment flow wired up in Stripe test mode
   - 3 Stripe products (Family, Premium, Tokens) with 11 prices created in test mode

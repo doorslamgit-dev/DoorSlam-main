@@ -1,6 +1,6 @@
 // src/components/timetable/TimetableActionCards.tsx
 
-import AppIcon from "../ui/AppIcon";
+import Button from "../ui/Button";
 
 interface TimetableActionCardsProps {
   onAddSession: () => void;
@@ -13,46 +13,32 @@ export default function TimetableActionCards({
   onEditSchedule,
   onBlockDates,
 }: TimetableActionCardsProps) {
-  const cards = [
-    {
-      icon: "plus",
-      title: "Add Session",
-      description: "Quick add a one-time revision session",
-      onClick: onAddSession,
-    },
-    {
-      icon: "calendar",
-      title: "Edit Schedule",
-      description: "Change weekly availability pattern",
-      onClick: onEditSchedule,
-    },
-    {
-      icon: "umbrella",
-      title: "Block Dates",
-      description: "Mark holidays, events, or time off",
-      onClick: onBlockDates,
-    },
-  ];
-
   return (
-    <div className="grid grid-cols-3 gap-4 mb-6">
-      {cards.map((card) => (
-        <button
-          key={card.title}
-          onClick={card.onClick}
-          className="bg-primary-50 hover:bg-primary-100 border border-primary-200 rounded-xl p-4 text-left transition-all hover:shadow-md hover:-translate-y-0.5 group"
-        >
-          <div className="flex items-start gap-3">
-            <div className="w-10 h-10 bg-primary-100 group-hover:bg-primary-200 rounded-lg flex items-center justify-center shrink-0 transition">
-              <AppIcon name={card.icon} className="w-5 h-5 text-primary-600" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-sm mb-0.5 text-primary-900">{card.title}</h3>
-              <p className="text-xs text-neutral-600">{card.description}</p>
-            </div>
-          </div>
-        </button>
-      ))}
+    <div className="flex items-center gap-3 mb-6">
+      <Button
+        variant="secondary"
+        size="sm"
+        leftIcon="plus-circle"
+        onClick={onAddSession}
+      >
+        Add Session
+      </Button>
+      <Button
+        variant="secondary"
+        size="sm"
+        leftIcon="calendar"
+        onClick={onEditSchedule}
+      >
+        Edit Schedule
+      </Button>
+      <Button
+        variant="secondary"
+        size="sm"
+        leftIcon="calendar-x"
+        onClick={onBlockDates}
+      >
+        Block Dates
+      </Button>
     </div>
   );
 }

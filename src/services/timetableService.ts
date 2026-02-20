@@ -20,6 +20,7 @@ export interface TimetableSession {
   color: string;
   topic_count: number;
   topics_preview: Array<{ id: string; topic_name: string; order_index: number }>;
+  time_of_day: string | null;
 }
 
 export interface WeekDayData {
@@ -260,6 +261,7 @@ export async function fetchMonthSessions(
         status,
         subject_id,
         topic_ids,
+        time_of_day,
         subjects!inner (
           subject_name,
           icon,
@@ -288,6 +290,7 @@ export async function fetchMonthSessions(
       color: row.subjects?.color || COLORS.neutral[500],
       topic_count: row.topic_ids?.length || 0,
       topics_preview: [],
+      time_of_day: row.time_of_day ?? null,
     }));
 
     return { data: sessions, error: null };
@@ -608,7 +611,7 @@ export async function addSingleSession(params: {
 // Weekly Schedule Template
 // ============================================================================
 
-export type TimeOfDay = "early_morning" | "morning" | "afternoon" | "evening";
+export type TimeOfDay = "early_morning" | "morning" | "afternoon" | "after_school" | "evening";
 export type SessionPattern = "p20" | "p45" | "p70";
 
 export interface AvailabilitySlot {
@@ -847,11 +850,97 @@ export async function saveTemplateAndRegenerate(
     };
   } catch (err: unknown) {
     console.error("[saveTemplateAndRegenerate] Fatal error:", err);
-    return { 
-      success: false, 
-      sessionsCreated: 0, 
+    return {
+      success: false,
+      sessionsCreated: 0,
       error: (err instanceof Error ? err.message : "Failed to save schedule"),
-      warning: null 
+      warning: null
     };
+  }
+}
+
+// ============================================================================
+// Topic Management
+// ============================================================================
+
+/**
+ * Move a topic from one session to another.
+ * Validates capacity on the target session server-side.
+ */
+export async function moveTopicBetweenSessions(
+  topicId: string,
+  sourceSessionId: string,
+  targetSessionId: string
+): Promise<{ success: boolean; error: string | null }> {
+  try {
+    const { data, error } = await supabase.rpc("rpc_move_topic_between_sessions", {
+      p_topic_id: topicId,
+      p_source_session_id: sourceSessionId,
+      p_target_session_id: targetSessionId,
+    });
+
+    if (error) throw error;
+
+    const result = data as { success: boolean; error?: string } | null;
+    if (!result?.success) {
+      return { success: false, error: result?.error ?? "Move failed" };
+    }
+
+    return { success: true, error: null };
+  } catch (err: unknown) {
+    console.error("Error moving topic between sessions:", err);
+    return {
+      success: false,
+      error: err instanceof Error ? err.message : "Failed to move topic",
+    };
+  }
+}
+
+/**
+ * Remove a topic from a session.
+ */
+export async function removeTopicFromSession(
+  topicId: string,
+  sessionId: string
+): Promise<{ success: boolean; error: string | null }> {
+  try {
+    const { data, error } = await supabase.rpc("rpc_remove_topic_from_session", {
+      p_topic_id: topicId,
+      p_session_id: sessionId,
+    });
+
+    if (error) throw error;
+
+    const result = data as { success: boolean; error?: string } | null;
+    if (!result?.success) {
+      return { success: false, error: result?.error ?? "Remove failed" };
+    }
+
+    return { success: true, error: null };
+  } catch (err: unknown) {
+    console.error("Error removing topic from session:", err);
+    return {
+      success: false,
+      error: err instanceof Error ? err.message : "Failed to remove topic",
+    };
+  }
+}
+
+/**
+ * Get the maximum number of topics for a given session pattern.
+ */
+export function getMaxTopicsForPattern(sessionPattern: string): number {
+  switch (sessionPattern) {
+    case "SINGLE_20":
+    case "p20":
+      return 1;
+    case "DOUBLE_45":
+    case "p45":
+      return 2;
+    case "TRIPLE_70":
+    case "p70":
+      return 3;
+    default:
+      return 3;
   }
 }

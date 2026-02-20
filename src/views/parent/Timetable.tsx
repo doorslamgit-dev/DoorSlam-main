@@ -1,22 +1,17 @@
-
-
 // src/views/parent/Timetable.tsx
-// Refactored: Extracted components and hooks for better maintainability
-// January 2026
+// Timetable page — redesigned with time-slot grid, compact actions, inline status badge
 
 import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { PageLayout } from "../../components/layout";
 import {
   TimetableHeader,
-  TimetableHeroCard,
   TimetableActionCards,
   TimetableControls,
   TodayView,
   WeekView,
   MonthView,
-  SubjectLegend,
   AddSessionModal,
   BlockDatesModal,
   EditScheduleModal,
@@ -123,27 +118,23 @@ export default function Timetable() {
   return (
     <PageLayout>
       <main className="max-w-7xl mx-auto px-6 py-8">
-        {/* Page Header */}
+        {/* 1. Page Header with status badge */}
         <TimetableHeader
           children={children}
           selectedChildId={selectedChildId}
           onChildChange={setSelectedChildId}
-        />
-
-        {/* Hero Card - Plan Overview */}
-        <TimetableHeroCard
           planOverview={planOverview}
-          loading={planOverviewLoading}
+          planOverviewLoading={planOverviewLoading}
         />
 
-        {/* Action Cards */}
+        {/* 2. Compact action buttons */}
         <TimetableActionCards
           onAddSession={() => setShowAddSessionModal(true)}
           onEditSchedule={handleEditSchedule}
           onBlockDates={() => setShowBlockDatesModal(true)}
         />
 
-        {/* Timetable Controls */}
+        {/* 3. Date nav + view toggle + inline subject legend */}
         <TimetableControls
           viewMode={viewMode}
           referenceDate={referenceDate}
@@ -151,9 +142,10 @@ export default function Timetable() {
           onNext={goToNext}
           onViewModeChange={handleViewModeChange}
           onTodayClick={goToToday}
+          subjectLegend={subjectLegend}
         />
 
-        {/* Today View */}
+        {/* 4. Calendar views */}
         {viewMode === "today" && (
           <TodayView
             sessions={todaySessions}
@@ -163,16 +155,16 @@ export default function Timetable() {
           />
         )}
 
-        {/* Week View Grid */}
         {viewMode === "week" && (
           <WeekView
             weekData={weekData}
             referenceDate={referenceDate}
             isDateBlocked={isDateBlocked}
+            canEdit={true}
+            onDataChanged={handleSessionAdded}
           />
         )}
 
-        {/* Month View */}
         {viewMode === "month" && (
           <MonthView
             referenceDate={referenceDate}
@@ -182,9 +174,6 @@ export default function Timetable() {
               .map((o) => o.override_date)}
           />
         )}
-
-        {/* Subject Legend */}
-        <SubjectLegend subjects={subjectLegend} />
       </main>
 
       {/* Modals */}

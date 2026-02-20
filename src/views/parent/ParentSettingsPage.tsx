@@ -17,10 +17,13 @@ import {
   DangerZoneSection,
 } from "../../components/settings";
 import { useSettingsData } from "../../hooks/useSettingsData";
+import ParentalControlsSection from "../../components/parent/settings/ParentalControlsSection";
+import { useSubscriptionContext } from "../../contexts/SubscriptionContext";
 
 export default function ParentSettingsPage() {
   const navigate = useNavigate();
   const { user, isParent, loading: authLoading } = useAuth();
+  const { canUseParentalControls } = useSubscriptionContext();
 
   const {
     shareAnalytics,
@@ -101,6 +104,16 @@ export default function ParentSettingsPage() {
             userId={user.id}
             onUpdate={setNotifications}
             onError={setError}
+          />
+
+          {/* Parental Controls Section */}
+          <ParentalControlsSection
+            parentId={user.id}
+            children={children.map((c) => ({
+              child_id: c.id,
+              child_name: c.preferred_name || c.first_name,
+            }))}
+            canUse={canUseParentalControls}
           />
 
           {/* Security Section */}

@@ -15,6 +15,7 @@ import {
   canUseAdvancedAnalytics,
   canUseBenchmarks,
   canBuyTokens,
+  canUseParentalControls,
   getTrialDaysRemaining,
   getPlanLength,
   getBillingMethod,
@@ -43,6 +44,7 @@ export interface SubscriptionContextValue {
   canUseAdvancedAnalytics: boolean;
   canUseBenchmarks: boolean;
   canBuyTokens: boolean;
+  canUseParentalControls: boolean;
 
   hasStripeCustomer: boolean;
   currentPriceId: string | null;
@@ -131,6 +133,7 @@ export function SubscriptionProvider({ children }: { children: ReactNode }) {
     canUseAdvancedAnalytics: canUseAdvancedAnalytics(sub),
     canUseBenchmarks: canUseBenchmarks(sub),
     canBuyTokens: canBuyTokens(sub),
+    canUseParentalControls: canUseParentalControls(sub),
 
     hasStripeCustomer: sub.has_stripe_customer,
     currentPriceId: sub.stripe_price_id,

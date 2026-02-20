@@ -1,24 +1,46 @@
 import AppIcon from "../ui/AppIcon";
-import type { ChildOption } from "../../services/timetableService";
+import Badge from "../ui/Badge";
+import type { ChildOption, PlanCoverageOverview } from "../../services/timetableService";
+import { getTimetableStatus } from "../../utils/timetableUtils";
 
 interface TimetableHeaderProps {
   children: ChildOption[];
   selectedChildId: string | null;
   onChildChange: (childId: string) => void;
+  planOverview: PlanCoverageOverview | null;
+  planOverviewLoading?: boolean;
 }
 
 export function TimetableHeader({
   children,
   selectedChildId,
   onChildChange,
+  planOverview,
+  planOverviewLoading = false,
 }: TimetableHeaderProps) {
+  const status = getTimetableStatus(planOverview);
+
   return (
     <div className="flex items-center justify-between mb-6">
-      <div>
-        <h1 className="text-3xl font-bold text-primary-900">
-          Revision Timetable
-        </h1>
-        <p className="text-neutral-600">Weekly schedule and session planning</p>
+      <div className="flex items-center gap-4">
+        <div>
+          <h1 className="text-3xl font-bold text-primary-900">
+            Revision Timetable
+          </h1>
+          <p className="text-neutral-600">Weekly schedule and session planning</p>
+        </div>
+
+        {/* Status Badge */}
+        {!planOverviewLoading && status.key !== "no_plan" && (
+          <Badge
+            variant={status.badgeVariant}
+            badgeStyle="soft"
+            size="md"
+            icon={status.icon}
+          >
+            {status.label}
+          </Badge>
+        )}
       </div>
 
       {/* Child Selector */}
