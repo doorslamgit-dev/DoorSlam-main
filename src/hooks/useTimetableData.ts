@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   fetchChildrenForParent,
   fetchWeekPlan,
@@ -71,6 +71,7 @@ export function useTimetableData({
   const [planOverviewLoading, setPlanOverviewLoading] = useState(true);
   const [dateOverrides, setDateOverrides] = useState<DateOverride[]>([]);
   const [refreshKey, setRefreshKey] = useState(0);
+  const skipNextLoading = useRef(false);
 
   // Load children
   useEffect(() => {
@@ -120,7 +121,10 @@ export function useTimetableData({
     if (!selectedChildId) return;
 
     async function loadSessions() {
-      setLoading(true);
+      if (!skipNextLoading.current) {
+        setLoading(true);
+      }
+      skipNextLoading.current = false;
       setError(null);
 
       if (viewMode === "today") {
@@ -226,6 +230,7 @@ export function useTimetableData({
   };
 
   const refreshData = () => {
+    skipNextLoading.current = true;
     setRefreshKey((k) => k + 1);
   };
 

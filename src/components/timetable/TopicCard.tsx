@@ -64,6 +64,8 @@ export default function TopicCard({
       },
     });
 
+  const isCardDraggable = isDragEnabled && sessionStatus !== "completed";
+
   const style = {
     backgroundColor: `${subjectColor}15`,
     borderLeft: `3px solid ${subjectColor}`,
@@ -74,48 +76,31 @@ export default function TopicCard({
   return (
     <div
       ref={setNodeRef}
+      {...(isCardDraggable ? { ...attributes, ...listeners } : {})}
       className={`relative rounded-lg p-2 mb-1.5 last:mb-0 transition-all group ${
         isDragging
           ? "shadow-lg ring-2 ring-primary-200 z-50"
           : "hover:opacity-90"
-      }`}
+      } ${isCardDraggable ? "cursor-grab active:cursor-grabbing touch-none" : ""}`}
       style={style}
     >
-      {/* Drag handle + Delete X row */}
-      {canEdit && (
-        <div className="absolute top-1 right-1 flex items-center gap-0.5">
-          {/* Drag handle */}
-          {isDragEnabled && sessionStatus !== "completed" && (
-            <button
-              {...attributes}
-              {...listeners}
-              type="button"
-              className="w-4 h-4 flex items-center justify-center cursor-grab touch-none opacity-0 group-hover:opacity-100 transition-opacity"
-              aria-label="Drag to move"
-            >
-              <AppIcon
-                name="grip-vertical"
-                className="w-2.5 h-2.5 text-neutral-400"
-              />
-            </button>
-          )}
-
-          {/* Delete X */}
-          {onDelete && (
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onDelete(topicId, plannedSessionId);
-              }}
-              className="w-4 h-4 flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-neutral-200"
-              aria-label={`Remove ${topicName}`}
-            >
-              <AppIcon
-                name="x"
-                className="w-2.5 h-2.5 text-neutral-500 hover:text-danger"
-              />
-            </button>
-          )}
+      {/* Delete X — onPointerDown stops drag from activating on the button */}
+      {canEdit && onDelete && (
+        <div className="absolute top-1 right-1">
+          <button
+            onPointerDown={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete(topicId, plannedSessionId);
+            }}
+            className="w-4 h-4 flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-neutral-200"
+            aria-label={`Remove ${topicName}`}
+          >
+            <AppIcon
+              name="x"
+              className="w-2.5 h-2.5 text-neutral-500 hover:text-danger"
+            />
+          </button>
         </div>
       )}
 
