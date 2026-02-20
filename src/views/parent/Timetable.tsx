@@ -161,6 +161,7 @@ export default function Timetable() {
             referenceDate={referenceDate}
             isDateBlocked={isDateBlocked}
             canEdit={true}
+            childId={selectedChildId || undefined}
             onDataChanged={handleSessionAdded}
           />
         )}

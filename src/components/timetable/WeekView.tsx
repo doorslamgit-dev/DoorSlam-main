@@ -5,7 +5,7 @@
 import { useMemo, useCallback, useState } from "react";
 import {
   DndContext,
-  closestCenter,
+  pointerWithin,
   PointerSensor,
   KeyboardSensor,
   useSensor,
@@ -19,6 +19,7 @@ import {
   formatDateISO,
   removeTopicFromSession,
   moveTopicBetweenSessions,
+  createSessionAndMoveTopic,
   getMaxTopicsForPattern,
   type WeekDayData,
   type TimetableSession,
@@ -34,6 +35,7 @@ export interface WeekViewProps {
   referenceDate: Date;
   isDateBlocked: (dateStr: string) => boolean;
   canEdit?: boolean;
+  childId?: string;
   onDataChanged?: () => void;
   /** For child "requires_approval" mode: instead of moving, submit a request */
   onMoveRequiresApproval?: (
@@ -73,6 +75,7 @@ export function WeekView({
   referenceDate,
   isDateBlocked,
   canEdit = true,
+  childId,
   onDataChanged,
   onMoveRequiresApproval,
 }: WeekViewProps) {
@@ -164,7 +167,20 @@ export function WeekView({
     []
   );
 
-  // Drag end — move topic between sessions
+  // Find a session by ID across all week data
+  const findSourceSession = useCallback(
+    (sessionId: string): TimetableSession | null => {
+      for (const day of weekData) {
+        for (const session of day.sessions) {
+          if (session.planned_session_id === sessionId) return session;
+        }
+      }
+      return null;
+    },
+    [weekData]
+  );
+
+  // Drag end — move topic between sessions (or create new session for empty cells)
   const handleDragEnd = useCallback(
     async (event: DragEndEvent) => {
       setActiveDragData(null);
@@ -177,54 +193,78 @@ export function WeekView({
       const [sourceSessionId, topicId] = activeIdStr.split(":");
       if (!sourceSessionId || !topicId) return;
 
-      // Parse target: droppable ID = "dateStr:timeSlot"
+      // Parse target data from droppable
       const overIdStr = String(over.id);
       const overData = over.data.current;
       const targetSession = overData?.session as TimetableSession | null;
+      const targetDateStr = overData?.dateStr as string | undefined;
 
       // If dropped on the same session, do nothing
       if (targetSession?.planned_session_id === sourceSessionId) return;
 
-      // If no target session exists in this cell, can't drop
-      if (!targetSession) return;
+      if (targetSession) {
+        // --- Drop on existing session ---
+        const maxTopics = getMaxTopicsForPattern(targetSession.session_pattern);
+        const currentCount = targetSession.topics_preview?.length ?? 0;
+        if (currentCount >= maxTopics) {
+          console.warn("Target session is full");
+          return;
+        }
 
-      // Check capacity
-      const maxTopics = getMaxTopicsForPattern(targetSession.session_pattern);
-      const currentCount = targetSession.topics_preview?.length ?? 0;
-      if (currentCount >= maxTopics) {
-        console.warn("Target session is full");
-        return;
-      }
+        // If requires approval mode, delegate to parent
+        if (onMoveRequiresApproval) {
+          const activeData = active.data.current;
+          onMoveRequiresApproval(
+            topicId,
+            (activeData?.topicName as string) || "Topic",
+            (activeData?.subjectName as string) || "Subject",
+            sourceSessionId,
+            targetSession.planned_session_id,
+            activeIdStr,
+            overIdStr
+          );
+          return;
+        }
 
-      // If requires approval mode, delegate to parent
-      if (onMoveRequiresApproval) {
-        const activeData = active.data.current;
-        onMoveRequiresApproval(
+        const result = await moveTopicBetweenSessions(
           topicId,
-          (activeData?.topicName as string) || "Topic",
-          (activeData?.subjectName as string) || "Subject",
           sourceSessionId,
-          targetSession.planned_session_id,
-          activeIdStr,
-          overIdStr
+          targetSession.planned_session_id
         );
-        return;
-      }
 
-      // Execute the move
-      const result = await moveTopicBetweenSessions(
-        topicId,
-        sourceSessionId,
-        targetSession.planned_session_id
-      );
+        if (result.success) {
+          onDataChanged?.();
+        } else {
+          console.error("Failed to move topic:", result.error);
+        }
+      } else if (childId && targetDateStr) {
+        // --- Drop on empty cell — create session on the fly ---
+        const sourceSession = findSourceSession(sourceSessionId);
+        if (!sourceSession) return;
 
-      if (result.success) {
-        onDataChanged?.();
-      } else {
-        console.error("Failed to move topic:", result.error);
+        // Parse the time slot from the droppable ID (format: "dateStr:timeSlot")
+        const parts = overIdStr.split(":");
+        const targetTimeSlot = parts.length > 1 ? parts[parts.length - 1] : "afternoon";
+
+        const result = await createSessionAndMoveTopic({
+          childId,
+          topicId,
+          sourceSessionId,
+          targetDate: targetDateStr,
+          targetTimeOfDay: targetTimeSlot,
+          subjectId: sourceSession.subject_id,
+          sessionPattern: sourceSession.session_pattern,
+          sessionDurationMinutes: sourceSession.session_duration_minutes,
+        });
+
+        if (result.success) {
+          onDataChanged?.();
+        } else {
+          console.error("Failed to create session and move topic:", result.error);
+        }
       }
     },
-    [onDataChanged, onMoveRequiresApproval]
+    [childId, onDataChanged, onMoveRequiresApproval, findSourceSession]
   );
 
   const gridContent = (
@@ -309,7 +349,7 @@ export function WeekView({
   return (
     <DndContext
       sensors={sensors}
-      collisionDetection={closestCenter}
+      collisionDetection={pointerWithin}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >

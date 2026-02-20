@@ -56,7 +56,7 @@ function DroppableCell({
         day.isBlocked
           ? "bg-neutral-100"
           : isOver
-            ? "bg-primary-100/50 ring-1 ring-primary-300 ring-inset"
+            ? "bg-primary-100/50 ring-2 ring-primary-400 ring-inset"
             : day.isToday
               ? "bg-primary-50/30"
               : ""
@@ -66,6 +66,13 @@ function DroppableCell({
         <div className="h-full flex items-center justify-center">
           <span className="text-[10px] text-neutral-400 italic">
             No revision
+          </span>
+        </div>
+      ) : isOver && !session ? (
+        /* Empty cell with drag hover — show drop indicator */
+        <div className="h-full flex items-center justify-center">
+          <span className="text-[10px] text-primary-500 font-medium">
+            Drop here
           </span>
         </div>
       ) : !session ? (

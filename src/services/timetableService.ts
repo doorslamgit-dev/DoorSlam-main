@@ -1113,7 +1113,7 @@ async function backfillTimeOfDay(
 
 /**
  * Move a topic from one session to another.
- * Validates capacity on the target session server-side.
+ * Uses direct queries instead of RPC for reliability.
  */
 export async function moveTopicBetweenSessions(
   topicId: string,
@@ -1121,18 +1121,53 @@ export async function moveTopicBetweenSessions(
   targetSessionId: string
 ): Promise<{ success: boolean; error: string | null }> {
   try {
-    const { data, error } = await supabase.rpc("rpc_move_topic_between_sessions", {
-      p_topic_id: topicId,
-      p_source_session_id: sourceSessionId,
-      p_target_session_id: targetSessionId,
-    });
+    // Fetch both sessions
+    const { data: sessions, error: fetchError } = await supabase
+      .from("planned_sessions")
+      .select("id, topic_ids, session_pattern")
+      .in("id", [sourceSessionId, targetSessionId]);
 
-    if (error) throw error;
-
-    const result = data as { success: boolean; error?: string } | null;
-    if (!result?.success) {
-      return { success: false, error: result?.error ?? "Move failed" };
+    if (fetchError) throw fetchError;
+    if (!sessions || sessions.length < 2) {
+      return { success: false, error: "Source or target session not found" };
     }
+
+    const source = sessions.find((s) => s.id === sourceSessionId);
+    const target = sessions.find((s) => s.id === targetSessionId);
+    if (!source || !target) {
+      return { success: false, error: "Source or target session not found" };
+    }
+
+    // Verify topic exists in source
+    const sourceTopics: string[] = source.topic_ids ?? [];
+    if (!sourceTopics.includes(topicId)) {
+      return { success: false, error: "Topic not found in source session" };
+    }
+
+    // Check capacity on target
+    const targetTopics: string[] = target.topic_ids ?? [];
+    const maxTopics = getMaxTopicsForPattern(target.session_pattern);
+    if (targetTopics.length >= maxTopics) {
+      return { success: false, error: "Target session is full" };
+    }
+
+    // Remove from source
+    const newSourceTopics = sourceTopics.filter((id) => id !== topicId);
+    const { error: updateSourceErr } = await supabase
+      .from("planned_sessions")
+      .update({ topic_ids: newSourceTopics })
+      .eq("id", sourceSessionId);
+
+    if (updateSourceErr) throw updateSourceErr;
+
+    // Add to target
+    const newTargetTopics = [...targetTopics, topicId];
+    const { error: updateTargetErr } = await supabase
+      .from("planned_sessions")
+      .update({ topic_ids: newTargetTopics })
+      .eq("id", targetSessionId);
+
+    if (updateTargetErr) throw updateTargetErr;
 
     return { success: true, error: null };
   } catch (err: unknown) {
@@ -1146,23 +1181,30 @@ export async function moveTopicBetweenSessions(
 
 /**
  * Remove a topic from a session.
+ * Uses direct queries instead of RPC for reliability.
  */
 export async function removeTopicFromSession(
   topicId: string,
   sessionId: string
 ): Promise<{ success: boolean; error: string | null }> {
   try {
-    const { data, error } = await supabase.rpc("rpc_remove_topic_from_session", {
-      p_topic_id: topicId,
-      p_session_id: sessionId,
-    });
+    const { data, error: fetchError } = await supabase
+      .from("planned_sessions")
+      .select("topic_ids")
+      .eq("id", sessionId)
+      .single();
 
-    if (error) throw error;
+    if (fetchError) throw fetchError;
 
-    const result = data as { success: boolean; error?: string } | null;
-    if (!result?.success) {
-      return { success: false, error: result?.error ?? "Remove failed" };
-    }
+    const currentTopics: string[] = data?.topic_ids ?? [];
+    const newTopics = currentTopics.filter((id) => id !== topicId);
+
+    const { error: updateError } = await supabase
+      .from("planned_sessions")
+      .update({ topic_ids: newTopics })
+      .eq("id", sessionId);
+
+    if (updateError) throw updateError;
 
     return { success: true, error: null };
   } catch (err: unknown) {
@@ -1170,6 +1212,47 @@ export async function removeTopicFromSession(
     return {
       success: false,
       error: err instanceof Error ? err.message : "Failed to remove topic",
+    };
+  }
+}
+
+/**
+ * Create a new session in a target cell and move a topic into it.
+ * Used when dropping a topic on an empty grid cell (no session exists).
+ */
+export async function createSessionAndMoveTopic(params: {
+  childId: string;
+  topicId: string;
+  sourceSessionId: string;
+  targetDate: string;
+  targetTimeOfDay: string;
+  subjectId: string;
+  sessionPattern: string;
+  sessionDurationMinutes: number;
+}): Promise<{ success: boolean; error: string | null }> {
+  try {
+    // Step 1: Create a new session in the target cell
+    const { success, sessionId, error: createError } = await addSingleSession({
+      childId: params.childId,
+      planId: null,
+      sessionDate: params.targetDate,
+      subjectId: params.subjectId,
+      sessionPattern: params.sessionPattern,
+      sessionDurationMinutes: params.sessionDurationMinutes,
+      timeOfDay: params.targetTimeOfDay,
+    });
+
+    if (!success || !sessionId) {
+      return { success: false, error: createError || "Failed to create target session" };
+    }
+
+    // Step 2: Move the topic from source session to the new session
+    return await moveTopicBetweenSessions(params.topicId, params.sourceSessionId, sessionId);
+  } catch (err: unknown) {
+    console.error("Error creating session and moving topic:", err);
+    return {
+      success: false,
+      error: err instanceof Error ? err.message : "Failed to move topic to new cell",
     };
   }
 }
