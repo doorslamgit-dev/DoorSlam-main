@@ -34,3 +34,43 @@ class DoneEvent(BaseModel):
 
     conversation_id: str
     message_id: str
+
+
+# ---------------------------------------------------------------------------
+# Conversation history models
+# ---------------------------------------------------------------------------
+
+
+class ConversationSummary(BaseModel):
+    """A conversation in the list view."""
+
+    id: str
+    title: str | None = None
+    message_count: int
+    last_active_at: str
+    created_at: str
+    subject_id: str | None = None
+
+
+class ConversationListResponse(BaseModel):
+    """Response for GET /conversations."""
+
+    conversations: list[ConversationSummary]
+    has_more: bool
+
+
+class MessageSummary(BaseModel):
+    """A message returned when loading a conversation."""
+
+    id: str
+    role: Literal["user", "assistant", "system"]
+    content: str
+    created_at: str
+
+
+class ConversationDetail(BaseModel):
+    """Response for GET /conversations/{id}/messages."""
+
+    conversation_id: str
+    title: str | None = None
+    messages: list[MessageSummary]

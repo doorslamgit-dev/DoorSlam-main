@@ -5,8 +5,13 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from .config import settings
 from .api.chat import router as chat_router
+from .api.conversations import router as conversations_router
 
-app = FastAPI(title="Doorslam AI Tutor API", version="0.1.0")
+app = FastAPI(
+    title="Doorslam AI Tutor API",
+    version="0.1.0",
+    redirect_slashes=False,
+)
 
 app.add_middleware(
     CORSMiddleware,
@@ -17,6 +22,7 @@ app.add_middleware(
 )
 
 app.include_router(chat_router, prefix="/chat", tags=["chat"])
+app.include_router(conversations_router, prefix="/conversations", tags=["conversations"])
 
 
 @app.get("/health")

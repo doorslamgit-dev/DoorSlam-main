@@ -1,13 +1,14 @@
 // src/components/layout/AiTutorSlot.tsx
-// AI Tutor chat panel — slides in from the right.
+// AI Tutor chat panel — slides in from the right with collapsible history drawer.
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import AppIcon from '../ui/AppIcon';
 import { useSidebar } from '../../contexts/SidebarContext';
 import { useAuth } from '../../contexts/AuthContext';
-import { streamChat } from '../../services/aiAssistantService';
+import { streamChat, fetchConversationMessages } from '../../services/aiAssistantService';
 import MessageBubble from './ai-tutor/MessageBubble';
 import ChatInput from './ai-tutor/ChatInput';
+import ConversationList from './ai-tutor/ConversationList';
 
 type PanelState = 'idle' | 'streaming' | 'error';
 
@@ -23,13 +24,19 @@ function nextId(): string {
 }
 
 export default function AiTutorSlot() {
-  const { isAiPanelOpen, setAiPanelOpen } = useSidebar();
+  const {
+    isAiPanelOpen,
+    setAiPanelOpen,
+    aiTutorConversationId,
+    setAiTutorConversationId,
+  } = useSidebar();
   const { isParent, isChild, activeChildId } = useAuth();
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [panelState, setPanelState] = useState<PanelState>('idle');
-  const [conversationId, setConversationId] = useState<string | null>(null);
+  const [conversationTitle, setConversationTitle] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [historyOpen, setHistoryOpen] = useState(false);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const streamingContentRef = useRef('');
@@ -39,16 +46,57 @@ export default function AiTutorSlot() {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
   }, [messages]);
 
+  // Reload messages when panel reopens with an existing conversation
+  useEffect(() => {
+    if (isAiPanelOpen && aiTutorConversationId && messages.length === 0) {
+      loadConversation(aiTutorConversationId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAiPanelOpen]);
+
+  const loadConversation = useCallback(async (conversationId: string) => {
+    try {
+      setPanelState('idle');
+      setErrorMessage(null);
+      const detail = await fetchConversationMessages(conversationId);
+      setMessages(
+        detail.messages.map((m) => ({
+          id: m.id,
+          role: m.role as 'user' | 'assistant',
+          content: m.content,
+        }))
+      );
+      setAiTutorConversationId(conversationId);
+      setConversationTitle(detail.title);
+    } catch {
+      setErrorMessage('Failed to load conversation');
+      setPanelState('error');
+    }
+  }, [setAiTutorConversationId]);
+
   const handleNewConversation = useCallback(() => {
     setMessages([]);
-    setConversationId(null);
+    setAiTutorConversationId(null);
+    setConversationTitle(null);
     setPanelState('idle');
     setErrorMessage(null);
-  }, []);
+    setHistoryOpen(false);
+  }, [setAiTutorConversationId]);
+
+  const handleSelectConversation = useCallback(
+    (id: string) => {
+      setHistoryOpen(false);
+      loadConversation(id);
+    },
+    [loadConversation]
+  );
 
   const handleSend = useCallback(
     async (text: string) => {
       if (panelState === 'streaming') return;
+
+      // Collapse history drawer when sending
+      setHistoryOpen(false);
 
       // Add user message
       const userMsg: Message = { id: nextId(), role: 'user', content: text };
@@ -65,7 +113,7 @@ export default function AiTutorSlot() {
 
       await streamChat({
         message: text,
-        conversationId,
+        conversationId: aiTutorConversationId,
         role: isChild ? 'child' : 'parent',
         childId: activeChildId ?? null,
         onToken: (content) => {
@@ -76,7 +124,7 @@ export default function AiTutorSlot() {
           );
         },
         onDone: (data) => {
-          setConversationId(data.conversationId);
+          setAiTutorConversationId(data.conversationId);
           setPanelState('idle');
         },
         onError: (error) => {
@@ -93,7 +141,7 @@ export default function AiTutorSlot() {
         },
       });
     },
-    [panelState, conversationId, isChild, activeChildId]
+    [panelState, aiTutorConversationId, isChild, activeChildId, setAiTutorConversationId]
   );
 
   if (!isAiPanelOpen) return null;
@@ -109,6 +157,19 @@ export default function AiTutorSlot() {
           <span className="text-sm font-semibold text-neutral-700">AI Tutor</span>
         </div>
         <div className="flex items-center gap-1">
+          <button
+            type="button"
+            onClick={() => setHistoryOpen((prev) => !prev)}
+            className={`p-1.5 rounded-lg transition-colors ${
+              historyOpen
+                ? 'text-primary-600 bg-primary-50'
+                : 'text-neutral-400 hover:text-neutral-600 hover:bg-neutral-100'
+            }`}
+            aria-label="Conversation history"
+            title="Conversation history"
+          >
+            <AppIcon name="history" className="w-4 h-4" />
+          </button>
           <button
             type="button"
             onClick={handleNewConversation}
@@ -129,6 +190,26 @@ export default function AiTutorSlot() {
         </div>
       </div>
 
+      {/* Collapsible history drawer */}
+      <div
+        className={`overflow-hidden border-b border-neutral-200/60 transition-all duration-200 ease-in-out ${
+          historyOpen ? 'max-h-[200px] overflow-y-auto' : 'max-h-0 border-b-0'
+        }`}
+      >
+        <ConversationList
+          activeConversationId={aiTutorConversationId}
+          onSelect={handleSelectConversation}
+          onNewConversation={handleNewConversation}
+        />
+      </div>
+
+      {/* Conversation title */}
+      {conversationTitle && (
+        <div className="px-4 py-1.5 border-b border-neutral-100 flex-shrink-0">
+          <p className="text-xs text-neutral-400 truncate">{conversationTitle}</p>
+        </div>
+      )}
+
       {/* Messages */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto px-3 py-4 space-y-4">
         {messages.length === 0 && (
@@ -142,6 +223,13 @@ export default function AiTutorSlot() {
                 ? 'Ask me anything about your child\u2019s GCSE subjects, revision strategies, or exam preparation.'
                 : 'Ask me about any topic you\u2019re revising. I\u2019ll help you understand and remember it.'}
             </p>
+            <button
+              type="button"
+              onClick={() => setHistoryOpen(true)}
+              className="mt-4 text-xs text-primary-600 hover:text-primary-700 hover:underline transition-colors"
+            >
+              View past conversations
+            </button>
           </div>
         )}
 

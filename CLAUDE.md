@@ -444,7 +444,92 @@ npm run lint && npm run type-check && npm run test && npm run build
 
 ---
 
-## 8. Testing Policy
+## 8. AI Tutor Development
+
+The AI Tutor is a RAG-powered revision assistant with a Python/FastAPI backend and React frontend. Both run together in development.
+
+### Starting the dev environment
+
+```bash
+# Option 1: Single script (starts both servers, Ctrl+C stops both)
+./scripts/dev-start.sh
+
+# Option 2: API only
+./scripts/dev-start.sh --api
+
+# Option 3: Manual — two terminals
+# Terminal 1 — FastAPI backend (from repo root)
+cd ai-tutor-api && source venv/bin/activate && uvicorn src.main:app --reload --port 8000
+
+# Terminal 2 — Vite frontend (from repo root)
+npm run dev
+```
+
+### Architecture
+
+| Component | Location | Port | Purpose |
+|-----------|----------|------|---------|
+| Vite dev server | `/` | 5173 | React SPA frontend |
+| FastAPI backend | `ai-tutor-api/` | 8000 | AI Tutor chat + ingestion API |
+| Supabase | Remote | — | Auth, database (`public` + `rag` schemas) |
+
+Vite proxies `/api/ai-tutor/*` → `localhost:8000` in development (configured in `vite.config.ts`).
+
+### Environment variables
+
+Two `.env` files are required:
+
+| File | Key variables |
+|------|---------------|
+| `.env` (repo root) | `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` |
+| `ai-tutor-api/.env` | `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_JWT_SECRET`, `OPENAI_API_KEY`, `OPENAI_MODEL`, `LANGCHAIN_*` |
+
+Templates: `.env.example` (root) and `ai-tutor-api/.env.example`.
+
+### Backend testing
+
+```bash
+cd ai-tutor-api && ./venv/bin/python -m pytest tests/ -v
+```
+
+Note: tests must run from the `ai-tutor-api/` directory so Pydantic Settings can find `.env`.
+
+### Backend directory structure
+
+```
+ai-tutor-api/
+├── src/
+│   ├── main.py             # FastAPI app, CORS, routes
+│   ├── config.py           # Pydantic Settings (env vars)
+│   ├── auth.py             # JWT validation dependency
+│   ├── api/chat.py         # POST /chat/stream — SSE streaming
+│   └── models/chat.py      # Request/response Pydantic models
+├── tests/
+├── venv/                   # Python virtual environment (gitignored)
+├── .env                    # Secrets (gitignored)
+├── .env.example            # Template
+├── pyproject.toml          # Project metadata
+└── requirements.txt        # pip dependencies
+```
+
+### Key endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/health` | Health check |
+| POST | `/chat/stream` | SSE streaming chat (requires JWT) |
+
+### Adding Python dependencies
+
+```bash
+cd ai-tutor-api && ./venv/bin/pip install <package> && ./venv/bin/pip freeze > requirements.txt
+```
+
+Or edit `requirements.txt` manually and run `./venv/bin/pip install -r requirements.txt`.
+
+---
+
+## 9. Testing Policy
 
 ### When tests are required
 
@@ -473,7 +558,7 @@ npm run lint && npm run type-check && npm run test && npm run build
 
 ---
 
-## 9. Code Review Standards
+## 10. Code Review Standards
 
 ### Reviewer checklist
 
@@ -499,7 +584,7 @@ Prefer PRs under **400 lines changed**. For larger work, split into stacked PRs 
 
 ---
 
-## 10. Release & Versioning
+## 11. Release & Versioning
 
 ### Semantic Versioning
 
@@ -526,7 +611,7 @@ Prefer PRs under **400 lines changed**. For larger work, split into stacked PRs 
 
 ---
 
-## 11. Environment & Secrets
+## 12. Environment & Secrets
 
 ### Rules
 
@@ -549,7 +634,7 @@ VITE_STRIPE_PUBLISHABLE_KEY=pk_test_<key>
 
 ---
 
-## 12. Additional Policies
+## 13. Additional Policies
 
 ### Dependency management
 
@@ -584,6 +669,18 @@ If a deploy to staging or main causes issues:
 - New types → `src/types/` or `src/types/<domain>/`
 - New hooks → `src/hooks/` or `src/hooks/<domain>/`
 - New utilities → `src/utils/`
+
+---
+
+## 14. Test Accounts
+
+These are Supabase test accounts for local development and testing. All agents should use these when testing authenticated flows.
+
+| Role | Email | Password |
+|------|-------|----------|
+| **Parent** | `jsmith@example.com` | `N0rt0nBavant!` |
+| **Child** | `hannah@example.com` | `N0rt0nBavant!` |
+| **Child** | `johnny@example.com` | `N0rt0nBavant!` |
 
 ---
 

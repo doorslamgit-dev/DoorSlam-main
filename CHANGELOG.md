@@ -28,10 +28,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Frontend: `AiTutorSlot` rewritten with SSE streaming, `MessageBubble` + `ChatInput` sub-components
   - Service layer: `aiAssistantService.ts` with `streamChat()` function using EventSource-based SSE parser
   - Auth: FastAPI validates Supabase JWTs locally via PyJWT (no network round-trip)
+  - Observability: LangSmith tracing via `wrap_openai` — all LLM calls traced automatically (validated 23 Feb 2026)
+  - Fix: added `load_dotenv()` to `config.py` so `LANGSMITH_*` env vars are exported to `os.environ` (required by LangSmith SDK)
   - Role-aware system prompts: parent (tutor) vs child (study buddy) modes
   - Vite dev proxy: `/api/ai-tutor` → `localhost:8000`
   - Database: `rag` schema migration with conversations, messages tables, indexes, RLS policies
   - See ADR-007 for architectural decisions
+  - **Conversation history (threaded conversations)**:
+    - Backend: 3 new endpoints — `GET /conversations` (paginated list), `GET /conversations/{id}/messages` (load history), `DELETE /conversations/{id}` (with ownership checks)
+    - Async AI title generation: GPT-4o-mini generates 3–5 word title after first response, stored permanently — zero user-facing latency
+    - Frontend: collapsible history drawer in 320px panel (slides down from header, auto-collapses on send)
+    - `ConversationList` + `ConversationListItem` components with delete, load-more pagination, relative timestamps
+    - `SidebarContext` extended with `aiTutorConversationId` — persists active conversation across panel open/close
+    - Backend tests: 4 new tests for conversations endpoints (`test_conversations.py`)
 
 ### Fixed
 - **Subscription gate too aggressive** — trial users were redirected to pricing page on every load; now only `tier === "expired"` triggers redirect

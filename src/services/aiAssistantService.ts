@@ -5,6 +5,10 @@ import { supabase } from '../lib/supabase';
 
 const AI_API = import.meta.env.VITE_AI_TUTOR_API_URL || '/api/ai-tutor';
 
+// ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
+
 export interface ChatStreamOptions {
   message: string;
   conversationId?: string | null;
@@ -17,12 +21,49 @@ export interface ChatStreamOptions {
   onError: (error: string) => void;
 }
 
-export async function streamChat(options: ChatStreamOptions): Promise<void> {
+export interface ConversationSummary {
+  id: string;
+  title: string | null;
+  messageCount: number;
+  lastActiveAt: string;
+  createdAt: string;
+  subjectId: string | null;
+}
+
+export interface ConversationMessage {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  createdAt: string;
+}
+
+export interface ConversationDetail {
+  conversationId: string;
+  title: string | null;
+  messages: ConversationMessage[];
+}
+
+// ---------------------------------------------------------------------------
+// Shared auth helper
+// ---------------------------------------------------------------------------
+
+async function getAuthToken(): Promise<string> {
   const {
     data: { session },
   } = await supabase.auth.getSession();
+  if (!session?.access_token) throw new Error('Not authenticated');
+  return session.access_token;
+}
 
-  if (!session?.access_token) {
+// ---------------------------------------------------------------------------
+// Chat streaming
+// ---------------------------------------------------------------------------
+
+export async function streamChat(options: ChatStreamOptions): Promise<void> {
+  let token: string;
+  try {
+    token = await getAuthToken();
+  } catch {
     options.onError('Not authenticated');
     return;
   }
@@ -33,7 +74,7 @@ export async function streamChat(options: ChatStreamOptions): Promise<void> {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${session.access_token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         message: options.message,
@@ -114,4 +155,73 @@ export async function streamChat(options: ChatStreamOptions): Promise<void> {
   } finally {
     reader.releaseLock();
   }
+}
+
+// ---------------------------------------------------------------------------
+// Conversation history
+// ---------------------------------------------------------------------------
+
+export async function fetchConversations(
+  limit = 20,
+  offset = 0
+): Promise<{ conversations: ConversationSummary[]; hasMore: boolean }> {
+  const token = await getAuthToken();
+  const response = await fetch(
+    `${AI_API}/conversations?limit=${limit}&offset=${offset}`,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+
+  if (!response.ok) throw new Error(`Failed to fetch conversations: ${response.status}`);
+
+  const data = (await response.json()) as Record<string, unknown>;
+  const raw = data.conversations as Array<Record<string, unknown>>;
+
+  return {
+    conversations: raw.map((c) => ({
+      id: c.id as string,
+      title: (c.title as string) || null,
+      messageCount: (c.message_count as number) || 0,
+      lastActiveAt: c.last_active_at as string,
+      createdAt: c.created_at as string,
+      subjectId: (c.subject_id as string) || null,
+    })),
+    hasMore: data.has_more as boolean,
+  };
+}
+
+export async function fetchConversationMessages(
+  conversationId: string
+): Promise<ConversationDetail> {
+  const token = await getAuthToken();
+  const response = await fetch(`${AI_API}/conversations/${conversationId}/messages`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (!response.ok) throw new Error(`Failed to fetch messages: ${response.status}`);
+
+  const data = (await response.json()) as Record<string, unknown>;
+  const raw = data.messages as Array<Record<string, unknown>>;
+
+  return {
+    conversationId: data.conversation_id as string,
+    title: (data.title as string) || null,
+    messages: raw.map((m) => ({
+      id: m.id as string,
+      role: m.role as 'user' | 'assistant',
+      content: m.content as string,
+      createdAt: m.created_at as string,
+    })),
+  };
+}
+
+export async function deleteConversation(conversationId: string): Promise<void> {
+  const token = await getAuthToken();
+  const response = await fetch(`${AI_API}/conversations/${conversationId}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (!response.ok) throw new Error(`Failed to delete conversation: ${response.status}`);
 }

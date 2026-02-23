@@ -1,6 +1,10 @@
 # ai-tutor-api/src/config.py
 
+from dotenv import load_dotenv
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+# Load .env into os.environ so third-party SDKs (LangSmith, etc.) can read their vars
+load_dotenv()
 
 
 class Settings(BaseSettings):

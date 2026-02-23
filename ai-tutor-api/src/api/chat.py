@@ -1,11 +1,14 @@
 # ai-tutor-api/src/api/chat.py
 
+import asyncio
 import json
+import logging
 import uuid
 from datetime import datetime, timezone
 
 from fastapi import APIRouter, Depends
 from sse_starlette.sse import EventSourceResponse
+from langsmith.wrappers import wrap_openai
 from openai import AsyncOpenAI
 from supabase import create_client
 
@@ -112,6 +115,48 @@ async def _save_message(
     return msg_id
 
 
+logger = logging.getLogger(__name__)
+
+
+async def _generate_title(conversation_id: str, user_message: str) -> None:
+    """Generate an AI title for a new conversation in the background.
+
+    Fires after the first exchange completes. Uses GPT-4o-mini for speed/cost.
+    Falls back to truncated user message if the call fails.
+    """
+    try:
+        client = AsyncOpenAI(
+            api_key=settings.openai_api_key,
+            base_url=settings.openai_base_url,
+        )
+        response = await client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "Generate a concise 3-5 word title for this conversation. "
+                    "Return ONLY the title, no quotes, no punctuation at the end.",
+                },
+                {"role": "user", "content": user_message},
+            ],
+            max_tokens=20,
+        )
+        title = (response.choices[0].message.content or "").strip()
+        if not title:
+            raise ValueError("Empty title response")
+    except Exception:
+        # Fallback: truncate first user message
+        title = user_message[:50].strip()
+        if len(user_message) > 50:
+            title = title.rsplit(" ", 1)[0] + "..."
+        logger.warning("Title generation failed for %s, using fallback", conversation_id)
+
+    sb = _get_supabase()
+    sb.schema("rag").table("conversations").update({"title": title}).eq(
+        "id", conversation_id
+    ).execute()
+
+
 @router.post("/stream")
 async def chat_stream(req: ChatRequest, user: dict = Depends(get_current_user)):
     """Stream a chat response via SSE."""
@@ -146,10 +191,10 @@ async def chat_stream(req: ChatRequest, user: dict = Depends(get_current_user)):
                 messages.append({"role": "user", "content": req.message})
 
             # Stream from OpenAI
-            client = AsyncOpenAI(
+            client = wrap_openai(AsyncOpenAI(
                 api_key=settings.openai_api_key,
                 base_url=settings.openai_base_url,
-            )
+            ))
 
             stream = await client.chat.completions.create(
                 model=settings.openai_model,
@@ -188,6 +233,10 @@ async def chat_stream(req: ChatRequest, user: dict = Depends(get_current_user)):
                     "message_id": msg_id,
                 }),
             }
+
+            # Generate title asynchronously for new conversations
+            if not req.conversation_id:
+                asyncio.create_task(_generate_title(conversation_id, req.message))
 
         except Exception as exc:
             yield {
