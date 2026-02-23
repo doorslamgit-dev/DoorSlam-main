@@ -24,6 +24,40 @@ For architecture decisions, see [docs/decisions/](decisions/).
 
 ---
 
+## AI Tutor Platform — RAG-Powered Revision Assistant (23 Feb 2026)
+
+**Why this change is happening**: Parents and children need intelligent, contextual help with GCSE revision — not generic AI chat, but answers grounded in the actual revision materials, exam board content, and teacher guidance that Doorslam uses. The existing Study Buddy (v1) is a simple chatbot without access to this content. The AI Tutor platform creates a shared RAG (Retrieval-Augmented Generation) pipeline that both parents and children can query against the full corpus of educational content.
+
+**What it does**: A shared knowledge base of teacher-created revision content (guides, flashcards, diagrams, past papers, marking schemes, grade thresholds, examiner reports, sample papers) is ingested from a structured Google Drive into a vector database. Parents access the **AI Tutor** via the existing fly-in/fly-out panel to ask questions about subjects, exam strategies, and their child's revision. Children will later access **StudyBuddy v2** via the same panel, with responses scoped to their current study topic, exam board, and subject. Both query the same corpus but receive role-appropriate, context-filtered answers.
+
+**How it was developed**:
+- **Architecture**: Same Supabase project with a dedicated `rag` schema for all RAG tables (documents, chunks, embeddings, conversations, messages). The `public` schema is untouched. Python/FastAPI backend in `ai-tutor-api/` subdirectory handles ingestion, retrieval, and chat. Frontend communicates via Vite dev proxy (`/api/ai-tutor`) in development, environment variable URL in production.
+- **Auth**: FastAPI validates Supabase JWTs locally using the shared JWT secret — no network round-trip to Supabase Auth per request. The `sub` claim in the JWT is `auth.uid()`, used to resolve parent/child identity.
+- **Content model**: Shared corpus, not per-user uploads. All authenticated users can read documents. Only the service role (Python backend) writes content during ingestion. Conversations and messages are per-user with standard RLS.
+- **Retrieval scoping**: Children's queries filtered by their current `subject_id`, `topic_id`, and exam board (looked up from `public.child_subjects`). Parents get broader access across all subjects their children study.
+- **8-module build plan**: App Shell, BYO Retrieval, Record Manager, Metadata Extraction, Multi-Format Support, Hybrid Search, Additional Tools, Subagents. Each module follows Plan, Build, Validate, Iterate cycle with full documentation.
+- **Key decisions**: ADR-007 (RAG architecture). No LangChain framework — raw SDK calls with Pydantic structured outputs. LangSmith used for observability/tracing only (`wrap_openai` patches the OpenAI client). SSE streaming for chat. Supabase Realtime for ingestion status. Docling for multi-format document processing.
+- **Key files**: `ai-tutor-api/` (Python backend), `src/components/layout/AiTutorSlot.tsx` (chat panel), `src/services/aiAssistantService.ts` (frontend service), `supabase/migrations/*_rag_schema.sql` (database)
+
+**Subsequent changes — LangSmith tracing validation (23 Feb 2026)**:
+End-to-end validation confirmed LangSmith tracing is operational. A bug was found and fixed: Pydantic Settings reads `.env` for its own fields only, but does not export extra variables (like `LANGSMITH_*`) to `os.environ`. The LangSmith SDK reads directly from `os.environ`, so traces were silently not being sent. Fix: added `load_dotenv()` call in `ai-tutor-api/src/config.py` before Settings initialisation. Validated by sending a test OpenAI call through `wrap_openai` and confirming the trace appeared in the LangSmith EU dashboard under the "Doorslam" project (1 run, `ChatOpenAI`, status: success, 58 tokens).
+
+**Subsequent changes — Conversation history / threaded conversations (23 Feb 2026)**:
+Module 1 (App Shell) saved conversations and messages to the database but had no UI for listing, loading, or revisiting past chats — every panel close lost the conversation. This change adds the full conversation history experience.
+
+**Backend**: Three new endpoints in `ai-tutor-api/src/api/conversations.py`: `GET /conversations` returns a paginated list of the user's conversations (most recent first, with `limit`/`offset` query params); `GET /conversations/{id}/messages` loads full message history with ownership verification; `DELETE /conversations/{id}` removes a conversation and its messages with ownership checks. All endpoints validate the JWT via the existing `get_current_user` dependency.
+
+**Async title generation**: After the first assistant response in a new conversation, a background `asyncio.create_task()` calls GPT-4o-mini to generate a concise 3–5 word title from the user's message. The `done` SSE event fires immediately — title generation happens asynchronously with zero user-facing delay. Titles are generated once and stored permanently in `rag.conversations.title`. Fallback: if the GPT call fails, the title is set to the first 50 characters of the user message (truncated at a word boundary).
+
+**Frontend — collapsible history drawer**: The 320px AI Tutor panel is too narrow for a persistent sidebar, so the history is a collapsible drawer that slides down from below the header (~200px max-height, CSS `transition-all`). A history icon button in the header toggles the drawer. Clicking a conversation collapses the drawer and loads its messages. The drawer auto-collapses when sending a new message. The empty state includes a "View past conversations" link that opens the drawer.
+
+**Frontend — conversation persistence**: `SidebarContext` was extended with `aiTutorConversationId` and `setAiTutorConversationId`. The active conversation ID persists across panel open/close within the same page session. When the panel reopens with an existing conversation ID and no messages loaded, it automatically reloads from the backend.
+
+**New files**: `ai-tutor-api/src/api/conversations.py` (backend router), `src/components/layout/ai-tutor/ConversationList.tsx` (history list), `src/components/layout/ai-tutor/ConversationListItem.tsx` (compact row with relative timestamps, delete with double-click confirmation), `ai-tutor-api/tests/test_conversations.py` (4 backend tests).
+**Modified files**: `ai-tutor-api/src/models/chat.py` (4 new Pydantic models), `ai-tutor-api/src/main.py` (registered router), `ai-tutor-api/src/api/chat.py` (title generation), `src/services/aiAssistantService.ts` (3 new service functions), `src/contexts/SidebarContext.tsx` (conversation ID state), `src/components/layout/AiTutorSlot.tsx` (collapsible drawer, history loading).
+
+---
+
 ## Timetable Redesign — Time-Slot Grid + Drag-and-Drop Topics (20 Feb 2026)
 
 **Why this change is happening**: The original timetable showed sessions as flat cards stacked under each day in an "All day" row. This didn't communicate when during the day each session happens, and parents couldn't rearrange topics between sessions. The redesign gives parents visual control over their child's revision schedule.

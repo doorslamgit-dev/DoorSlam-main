@@ -17,11 +17,13 @@ interface SidebarContextType {
   sidebarState: SidebarState;
   isMobileOpen: boolean;
   isAiPanelOpen: boolean;
+  aiTutorConversationId: string | null;
 
   toggleSidebar: () => void;
   setSidebarState: (state: SidebarState) => void;
   setMobileOpen: (open: boolean) => void;
   setAiPanelOpen: (open: boolean) => void;
+  setAiTutorConversationId: (id: string | null) => void;
 }
 
 const STORAGE_KEY = 'doorslam-sidebar-state';
@@ -32,6 +34,7 @@ export function SidebarProvider({ children }: { children: ReactNode }) {
   const [sidebarState, setSidebarStateInternal] = useState<SidebarState>('expanded');
   const [isMobileOpen, setMobileOpen] = useState(false);
   const [isAiPanelOpen, setAiPanelOpen] = useState(false);
+  const [aiTutorConversationId, setAiTutorConversationId] = useState<string | null>(null);
   const [hydrated, setHydrated] = useState(false);
 
   // Hydrate from localStorage after mount
@@ -78,10 +81,12 @@ export function SidebarProvider({ children }: { children: ReactNode }) {
         sidebarState,
         isMobileOpen,
         isAiPanelOpen,
+        aiTutorConversationId,
         toggleSidebar,
         setSidebarState,
         setMobileOpen,
         setAiPanelOpen,
+        setAiTutorConversationId,
       }}
     >
       {children}
