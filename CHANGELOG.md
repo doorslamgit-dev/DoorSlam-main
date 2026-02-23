@@ -21,11 +21,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Removed in-page child selectors from SubjectProgress and RewardManagement
   - InsightsDashboard hook refactored to accept `childId`/`childName` params from context
   - Dark site footer hidden on Subjects, Timetable, and Insights pages (persistent footer replaces it)
+- **AI Tutor Platform — RAG-powered assistant** (FEAT-AI-TUTOR)
+  - Architecture: Python/FastAPI backend in `ai-tutor-api/`, shared Supabase with `rag` schema, pgvector embeddings
+  - Shared knowledge base: teacher-created revision guides, flashcards, past papers, marking schemes, examiner reports
+  - Parent-facing AI Tutor in existing AiTutorSlot panel (fly-in/fly-out)
+  - SSE streaming for chat responses
+  - JWT auth: FastAPI validates Supabase tokens locally
+  - Foundation for future StudyBuddy v2 migration
+  - See ADR-007 for architectural decisions
 
 ### Fixed
 - **Subscription gate too aggressive** — trial users were redirected to pricing page on every load; now only `tier === "expired"` triggers redirect
 - **Dashboard not updating on child change** — `useChildDashboardData` now syncs with URL `?child=` param changes via useEffect
-
 - **Timetable redesign — time-slot grid with drag-and-drop topics** (FEAT-TBL)
   - WeekView rewritten as a time-slot grid (rows = early morning/morning/afternoon/after school/evening, columns = days)
   - Individual TopicCards per topic within each session, with delete X and colour-coded status dot (green=done, orange=pending, red=missed)

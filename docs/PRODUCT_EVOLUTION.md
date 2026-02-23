@@ -24,6 +24,23 @@ For architecture decisions, see [docs/decisions/](decisions/).
 
 ---
 
+## AI Tutor Platform — RAG-Powered Revision Assistant (23 Feb 2026)
+
+**Why this change is happening**: Parents and children need intelligent, contextual help with GCSE revision — not generic AI chat, but answers grounded in the actual revision materials, exam board content, and teacher guidance that Doorslam uses. The existing Study Buddy (v1) is a simple chatbot without access to this content. The AI Tutor platform creates a shared RAG (Retrieval-Augmented Generation) pipeline that both parents and children can query against the full corpus of educational content.
+
+**What it does**: A shared knowledge base of teacher-created revision content (guides, flashcards, diagrams, past papers, marking schemes, grade thresholds, examiner reports, sample papers) is ingested from a structured Google Drive into a vector database. Parents access the **AI Tutor** via the existing fly-in/fly-out panel to ask questions about subjects, exam strategies, and their child's revision. Children will later access **StudyBuddy v2** via the same panel, with responses scoped to their current study topic, exam board, and subject. Both query the same corpus but receive role-appropriate, context-filtered answers.
+
+**How it was developed**:
+- **Architecture**: Same Supabase project with a dedicated `rag` schema for all RAG tables (documents, chunks, embeddings, conversations, messages). The `public` schema is untouched. Python/FastAPI backend in `ai-tutor-api/` subdirectory handles ingestion, retrieval, and chat. Frontend communicates via Vite dev proxy (`/api/ai-tutor`) in development, environment variable URL in production.
+- **Auth**: FastAPI validates Supabase JWTs locally using the shared JWT secret — no network round-trip to Supabase Auth per request. The `sub` claim in the JWT is `auth.uid()`, used to resolve parent/child identity.
+- **Content model**: Shared corpus, not per-user uploads. All authenticated users can read documents. Only the service role (Python backend) writes content during ingestion. Conversations and messages are per-user with standard RLS.
+- **Retrieval scoping**: Children's queries filtered by their current `subject_id`, `topic_id`, and exam board (looked up from `public.child_subjects`). Parents get broader access across all subjects their children study.
+- **8-module build plan**: App Shell, BYO Retrieval, Record Manager, Metadata Extraction, Multi-Format Support, Hybrid Search, Additional Tools, Subagents. Each module follows Plan, Build, Validate, Iterate cycle with full documentation.
+- **Key decisions**: ADR-007 (RAG architecture). No LangChain — raw SDK calls with Pydantic structured outputs. SSE streaming for chat. Supabase Realtime for ingestion status. Docling for multi-format document processing.
+- **Key files**: `ai-tutor-api/` (Python backend), `src/components/layout/AiTutorSlot.tsx` (chat panel), `src/services/aiAssistantService.ts` (frontend service), `supabase/migrations/*_rag_schema.sql` (database)
+
+---
+
 ## Timetable Redesign — Time-Slot Grid + Drag-and-Drop Topics (20 Feb 2026)
 
 **Why this change is happening**: The original timetable showed sessions as flat cards stacked under each day in an "All day" row. This didn't communicate when during the day each session happens, and parents couldn't rearrange topics between sessions. The redesign gives parents visual control over their child's revision schedule.
