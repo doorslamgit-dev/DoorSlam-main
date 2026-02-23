@@ -9,6 +9,7 @@ interface SelectedChildContextValue {
   children: ChildOption[];
   selectedChildId: string | null;
   selectedChildName: string;
+  selectedChildAvatarUrl: string | null;
   setSelectedChildId: (id: string) => void;
   loading: boolean;
 }
@@ -17,6 +18,7 @@ const SelectedChildContext = createContext<SelectedChildContextValue>({
   children: [],
   selectedChildId: null,
   selectedChildName: 'Child',
+  selectedChildAvatarUrl: null,
   setSelectedChildId: () => {},
   loading: true,
 });
@@ -49,8 +51,9 @@ export function SelectedChildProvider({ children: reactChildren }: { children: R
     setSelectedChildIdState(id);
   }, []);
 
-  const selectedChildName =
-    childList.find((c) => c.child_id === selectedChildId)?.child_name || 'Child';
+  const selectedChild = childList.find((c) => c.child_id === selectedChildId);
+  const selectedChildName = selectedChild?.child_name || 'Child';
+  const selectedChildAvatarUrl = selectedChild?.avatar_url ?? null;
 
   return (
     <SelectedChildContext.Provider
@@ -58,6 +61,7 @@ export function SelectedChildProvider({ children: reactChildren }: { children: R
         children: childList,
         selectedChildId,
         selectedChildName,
+        selectedChildAvatarUrl,
         setSelectedChildId,
         loading,
       }}

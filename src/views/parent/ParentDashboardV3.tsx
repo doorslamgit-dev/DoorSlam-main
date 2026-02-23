@@ -1,17 +1,18 @@
 // src/views/parent/ParentDashboardV3.tsx
 // Parent Dashboard v3 — Child-specific dashboard with hero, health score, revision plan, activity
 
-import { lazy, useState } from 'react';
+import { lazy, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useChildDashboardData } from '../../hooks/parent/useChildDashboardData';
-import { DashboardChildHeader } from '../../components/parent/dashboard/DashboardChildHeader';
 import { DashboardHeroCard } from '../../components/parent/dashboard/DashboardHeroCard';
 import { HealthScoreCard } from '../../components/parent/dashboard/HealthScoreCard';
 import { DashboardRevisionPlan } from '../../components/parent/dashboard/DashboardRevisionPlan';
 import { DashboardProgressMoments } from '../../components/parent/dashboard/DashboardProgressMoments';
 import { DashboardRecentActivity } from '../../components/parent/dashboard/DashboardRecentActivity';
 import { DashboardActiveRewards } from '../../components/parent/dashboard/DashboardActiveRewards';
+import { DashboardMessageBanner } from '../../components/parent/dashboard/DashboardMessageBanner';
 import AppIcon from '../../components/ui/AppIcon';
+import type { BannerMessage } from '../../components/parent/dashboard/DashboardMessageBanner';
 
 const DashboardInviteModal = lazy(
   () => import('../../components/parent/dashboard/DashboardInviteModal')
@@ -21,16 +22,7 @@ function DashboardSkeleton() {
   return (
     <div className="min-h-screen bg-neutral-50">
       <div className="max-w-content mx-auto px-6 py-8">
-        <div className="flex items-center justify-between mb-8 animate-pulse">
-          <div className="h-8 bg-neutral-200 rounded w-40" />
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-neutral-200 rounded-full" />
-            <div className="space-y-1">
-              <div className="h-4 bg-neutral-200 rounded w-24" />
-              <div className="h-3 bg-neutral-100 rounded w-20" />
-            </div>
-          </div>
-        </div>
+        <div className="h-8 bg-neutral-200 rounded w-40 mb-4 animate-pulse" />
         <div className="bg-neutral-0 rounded-2xl shadow-card p-8 animate-pulse mb-8">
           <div className="h-8 bg-primary-100 rounded w-1/3 mb-4" />
           <div className="h-4 bg-primary-100 rounded w-2/3 mb-8" />
@@ -74,11 +66,11 @@ function ParentDashboardV3Inner() {
     data,
     selectedChild,
     selectedChildId,
-    setSelectedChildId,
     dailyPattern,
     childComingUp,
     childCoverage,
     childMoments,
+    childReminders,
     planOverview,
     planOverviewLoading,
     enabledRewards,
@@ -87,6 +79,18 @@ function ParentDashboardV3Inner() {
     error,
     refresh,
   } = useChildDashboardData({ enableRealtime: true, enableVisibilityRefresh: true });
+
+  // Derive banner message from first child reminder (placeholder logic)
+  const bannerMessage = useMemo((): BannerMessage | null => {
+    if (childReminders.length === 0) return null;
+    const reminder = childReminders[0];
+    return {
+      variant: 'nudge',
+      icon: 'lightbulb',
+      title: reminder.message,
+      detail: reminder.status_detail ?? undefined,
+    };
+  }, [childReminders]);
 
   const [showInviteModal, setShowInviteModal] = useState(false);
 
@@ -161,12 +165,11 @@ function ParentDashboardV3Inner() {
   return (
     <div className="min-h-screen bg-neutral-50">
       <main className="max-w-content mx-auto px-4 py-4 lg:px-6 lg:py-5">
-        {/* Page Header: Dashboard title + child selector */}
-        <DashboardChildHeader
-          child={selectedChild}
-          children={data.children}
-          onChildChange={setSelectedChildId}
-        />
+        {/* Page Header: title + message banner */}
+        <div className="flex items-center justify-between mb-4">
+          <h1 className="text-2xl font-bold text-neutral-800">Dashboard</h1>
+          <DashboardMessageBanner message={bannerMessage} />
+        </div>
 
         {/* Row 1: Hero (2/3) + Health Score (1/3) — stacks on mobile */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">

@@ -8,6 +8,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../../contexts/AuthContext";
+import { useSelectedChild } from "../../contexts/SelectedChildContext";
 import { PageLayout } from "../../components/layout";
 import {
   SubjectCard,
@@ -37,17 +38,16 @@ function safeStatusIndicator(value: unknown): StatusIndicator | null {
 export default function SubjectProgress() {
   const navigate = useNavigate();
   const { user, activeChildId, loading: authLoading } = useAuth();
+  const { selectedChildId, selectedChildName } = useSelectedChild();
 
   const {
     data,
-    children,
-    selectedChildId,
     loading,
     error,
-    setSelectedChildId,
     refreshData,
   } = useSubjectProgressData({
     userId: user?.id,
+    childId: selectedChildId,
   });
 
   const [isAddSubjectModalOpen, setIsAddSubjectModalOpen] = useState(false);
@@ -76,7 +76,7 @@ export default function SubjectProgress() {
 
   if (authLoading || loading) {
     return (
-      <PageLayout>
+      <PageLayout hideFooter>
         <div className="flex items-center justify-center py-32">
           <div className="text-center">
             <div className="w-8 h-8 border-2 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
@@ -93,7 +93,7 @@ export default function SubjectProgress() {
 
   if (error) {
     return (
-      <PageLayout>
+      <PageLayout hideFooter>
         <div className="max-w-6xl mx-auto px-6 py-8">
           <div className="rounded-2xl p-6 text-center bg-danger-bg border border-danger-border">
             <p className="font-medium text-accent-red">
@@ -114,7 +114,7 @@ export default function SubjectProgress() {
 
   if (!data || !data.child) {
     return (
-      <PageLayout>
+      <PageLayout hideFooter>
         <div className="max-w-6xl mx-auto px-6 py-8">
           <div className="bg-neutral-0 rounded-2xl shadow-card p-8 text-center">
             <p className="text-neutral-600">
@@ -213,24 +213,19 @@ export default function SubjectProgress() {
 
   const headlineContent = getHeadlineContent();
   const existingSubjectIds = data.subjects.map((s) => s.subject_id);
-  const selectedChild = children.find((c) => c.child_id === selectedChildId);
-  const childName =
-    selectedChild?.child_name || data.child.child_name || "Your child";
+  const childName = selectedChildName || data.child.child_name || "Your child";
 
   return (
-    <PageLayout>
+    <PageLayout hideFooter>
       <main className="max-w-6xl mx-auto px-6 py-8">
         {/* Hero Section */}
         <section className="mb-8">
           <SubjectProgressHeader
-            children={children}
-            selectedChildId={selectedChildId}
             totalSubjects={totalSubjects}
             childStatus={childStatus}
             childStatusLabel={childStatusLabel}
             headline={headlineContent.headline}
             message={headlineContent.message}
-            onChildChange={setSelectedChildId}
             onDashboardClick={() => navigate("/parent/dashboard")}
             onScheduleClick={() => navigate("/parent/timetable")}
             onAddSubject={handleAddSubject}

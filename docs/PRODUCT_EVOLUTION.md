@@ -7,6 +7,23 @@ For architecture decisions, see [docs/decisions/](decisions/).
 
 ---
 
+## Dashboard Header Redesign — Sidebar Child Selector & Message Banner (23 Feb 2026)
+
+**Why this change is happening**: The parent dashboard had two child selectors — one in the sidebar and one in the dashboard header — and they were completely disconnected (sidebar used `SelectedChildContext`, dashboard used URL-based state). Changing child in the sidebar didn't update the dashboard. Additionally, each parent page (Subjects, Rewards, Insights) maintained its own child list fetching, creating duplicate API calls and inconsistent selection state across pages.
+
+**What it does**: The sidebar child selector is now the single source of child switching across all parent pages. It shows an avatar (uploaded image or initials fallback) next to the child's name. Switching child stays on the current page rather than redirecting to the dashboard. The redundant child selector has been removed from the dashboard header, the Subjects page, and the Rewards page. In its place, the dashboard header now has a message banner component for nudges, alerts, achievements, and reminders. The dark site footer is also hidden on Subjects, Timetable, and Insights pages since the persistent footer bar now provides navigation.
+
+**How it was developed**:
+- **Avatar support**: Added `avatar_url` to `ChildOption` type and `fetchChildrenForParent()` query in `timetableService.ts`. Extended `SelectedChildContext` with `selectedChildAvatarUrl`. Sidebar renders `<img>` if URL exists, initials `<div>` if not.
+- **Navigation fix**: Sidebar `handleChildChange` now navigates to `${pathname}?child=${childId}` (stays on current page). `useChildDashboardData` gained a `useEffect` to sync from URL param changes.
+- **Subscription gate fix**: `AppLayout.tsx` subscription gate changed from `!has_stripe_customer` (blocked trial users) to `tier === "expired"` only.
+- **Child selector consolidation**: Removed local child fetching from `useSubjectProgressData`, `RewardManagement`, and `useInsightsDashboardData`. All now receive `childId` from `useSelectedChild()` context. Removed child selector UI from `SubjectProgressHeader` and `RewardHeroHeader`.
+- **Message banner**: New `DashboardMessageBanner` component with 4 variants (nudge/alert/achievement/reminder). Currently derives messages from `childReminders` data.
+- **Key files modified**: `SidebarNav.tsx`, `SelectedChildContext.tsx`, `ParentDashboardV3.tsx`, `SubjectProgressHeader.tsx`, `RewardHeroHeader.tsx`, `InsightsDashboard.tsx`, `useChildDashboardData.ts`, `useSubjectProgressData.ts`, `useInsightsDashboardData.ts`, `AppLayout.tsx`
+- **New file**: `src/components/parent/dashboard/DashboardMessageBanner.tsx`
+
+---
+
 ## Timetable Redesign — Time-Slot Grid + Drag-and-Drop Topics (20 Feb 2026)
 
 **Why this change is happening**: The original timetable showed sessions as flat cards stacked under each day in an "All day" row. This didn't communicate when during the day each session happens, and parents couldn't rearrange topics between sessions. The redesign gives parents visual control over their child's revision schedule.

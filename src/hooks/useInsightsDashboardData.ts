@@ -1,11 +1,10 @@
 // src/hooks/useInsightsDashboardData.ts
 
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import {
   fetchAllInsights,
   generateTutorAdvice,
   generateFallbackAdvice,
-  fetchParentChildren,
   fetchAnalyticsPreference,
   updateAnalyticsPreference,
 } from '../services/parent/insightsDashboardService';
@@ -16,102 +15,73 @@ import type {
   TopicInsight,
 } from '../types/parent/insightsDashboardTypes';
 
-interface Child {
-  id: string;
-  first_name: string;
-  preferred_name: string | null;
-}
-
 interface UseInsightsDashboardDataProps {
   userId: string | undefined;
   isParent: boolean;
+  childId: string | null;
+  childName: string;
 }
 
 interface UseInsightsDashboardDataReturn {
-  children: Child[];
-  selectedChildId: string | null;
-  setSelectedChildId: (id: string | null) => void;
   dateRange: DateRangeType;
   setDateRange: (range: DateRangeType) => void;
   insightsData: AllInsightsData | null;
   tutorAdvice: TutorAdvice | null;
   shareAnalytics: boolean;
   isAIAdvice: boolean;
-  loadingChildren: boolean;
   loadingInsights: boolean;
   loadingAdvice: boolean;
   error: string | null;
   handleAnalyticsToggle: (enabled: boolean) => Promise<void>;
-  getChildName: (childId: string) => string;
   getTopicInsights: () => TopicInsight[];
 }
 
 export function useInsightsDashboardData({
   userId,
   isParent,
+  childId,
+  childName,
 }: UseInsightsDashboardDataProps): UseInsightsDashboardDataReturn {
-  const [children, setChildren] = useState<Child[]>([]);
-  const [selectedChildId, setSelectedChildId] = useState<string | null>(null);
   const [dateRange, setDateRange] = useState<DateRangeType>('this_week');
   const [insightsData, setInsightsData] = useState<AllInsightsData | null>(null);
   const [tutorAdvice, setTutorAdvice] = useState<TutorAdvice | null>(null);
   const [shareAnalytics, setShareAnalytics] = useState(false);
   const [isAIAdvice, setIsAIAdvice] = useState(false);
 
-  const [loadingChildren, setLoadingChildren] = useState(true);
   const [loadingInsights, setLoadingInsights] = useState(false);
   const [loadingAdvice, setLoadingAdvice] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const aiRequestId = useRef(0);
 
-  const getChildName = useCallback((childId: string) => {
-    const child = children.find(c => c.id === childId);
-    return child?.preferred_name || child?.first_name || 'Child';
-  }, [children]);
-
-  // Load children on mount
+  // Load analytics preference on mount
   useEffect(() => {
     if (!userId || !isParent) return;
 
-    async function loadChildren() {
-      setLoadingChildren(true);
-
+    async function loadPreference() {
       try {
-        const { data: childrenData, error: childrenError } = await fetchParentChildren(userId!);
-
-        if (childrenError) throw new Error(childrenError);
-
-        setChildren(childrenData || []);
-
-        if (childrenData && childrenData.length > 0) {
-          setSelectedChildId(childrenData[0].id);
-        }
-
         const { data: analyticsEnabled } = await fetchAnalyticsPreference(userId!);
         setShareAnalytics(analyticsEnabled);
       } catch (err: unknown) {
         setError((err instanceof Error ? err.message : String(err)));
-      } finally {
-        setLoadingChildren(false);
       }
     }
 
-    loadChildren();
+    loadPreference();
   }, [userId, isParent]);
 
   // Load insights when child or date range changes
   useEffect(() => {
-    if (!selectedChildId) return;
+    if (!childId) return;
 
     async function loadInsights() {
-      if (!selectedChildId) return;
+      if (!childId) return;
 
       setLoadingInsights(true);
       setError(null);
 
       try {
-        const { data, error: insightsError } = await fetchAllInsights(selectedChildId, dateRange);
+        const { data, error: insightsError } = await fetchAllInsights(childId!, dateRange);
 
         if (insightsError) {
           throw new Error(insightsError);
@@ -120,12 +90,11 @@ export function useInsightsDashboardData({
         setInsightsData(data);
 
         if (data) {
-          const childName = getChildName(selectedChildId);
           const fallback = generateFallbackAdvice(childName, data);
           setTutorAdvice(fallback);
           setIsAIAdvice(false);
 
-          generateAIAdviceInBackground(selectedChildId, childName, data);
+          generateAIAdviceInBackground(childId!, childName, data);
         }
       } catch (err: unknown) {
         setError((err instanceof Error ? err.message : String(err)));
@@ -135,7 +104,7 @@ export function useInsightsDashboardData({
     }
 
     loadInsights();
-  }, [selectedChildId, dateRange, getChildName]);
+  }, [childId, childName, dateRange]);
 
   async function generateAIAdviceInBackground(
     childId: string,
@@ -185,21 +154,16 @@ export function useInsightsDashboardData({
   };
 
   return {
-    children,
-    selectedChildId,
-    setSelectedChildId,
     dateRange,
     setDateRange,
     insightsData,
     tutorAdvice,
     shareAnalytics,
     isAIAdvice,
-    loadingChildren,
     loadingInsights,
     loadingAdvice,
     error,
     handleAnalyticsToggle,
-    getChildName,
     getTopicInsights,
   };
 }
