@@ -10,6 +10,15 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  server: {
+    proxy: {
+      '/api/ai-tutor': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+        rewrite: (p) => p.replace(/^\/api\/ai-tutor/, ''),
+      },
+    },
+  },
   test: {
     globals: true,
     environment: 'jsdom',

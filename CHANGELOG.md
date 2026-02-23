@@ -22,12 +22,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - InsightsDashboard hook refactored to accept `childId`/`childName` params from context
   - Dark site footer hidden on Subjects, Timetable, and Insights pages (persistent footer replaces it)
 - **AI Tutor Platform — RAG-powered assistant** (FEAT-AI-TUTOR)
+  - **Module 1 (App Shell) complete**: end-to-end chat pipeline operational
   - Architecture: Python/FastAPI backend in `ai-tutor-api/`, shared Supabase with `rag` schema, pgvector embeddings
-  - Shared knowledge base: teacher-created revision guides, flashcards, past papers, marking schemes, examiner reports
-  - Parent-facing AI Tutor in existing AiTutorSlot panel (fly-in/fly-out)
-  - SSE streaming for chat responses
-  - JWT auth: FastAPI validates Supabase tokens locally
-  - Foundation for future StudyBuddy v2 migration
+  - Backend: FastAPI with Pydantic Settings, async OpenAI streaming, conversation persistence to `rag.conversations` + `rag.messages`
+  - Frontend: `AiTutorSlot` rewritten with SSE streaming, `MessageBubble` + `ChatInput` sub-components
+  - Service layer: `aiAssistantService.ts` with `streamChat()` function using EventSource-based SSE parser
+  - Auth: FastAPI validates Supabase JWTs locally via PyJWT (no network round-trip)
+  - Role-aware system prompts: parent (tutor) vs child (study buddy) modes
+  - Vite dev proxy: `/api/ai-tutor` → `localhost:8000`
+  - Database: `rag` schema migration with conversations, messages tables, indexes, RLS policies
   - See ADR-007 for architectural decisions
 
 ### Fixed

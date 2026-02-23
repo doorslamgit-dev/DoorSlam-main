@@ -5,7 +5,7 @@
 
 | # | Module | Status | Complexity | Notes |
 |---|--------|--------|-----------|-------|
-| 1 | App Shell — Auth, chat UI, SSE streaming | Pending | TBD | FastAPI scaffold, JWT auth, AiTutorSlot replacement |
+| 1 | App Shell — Auth, chat UI, SSE streaming | **Done** | Medium | FastAPI + JWT auth + SSE chat + Supabase persistence |
 | 2 | BYO Retrieval + Memory — Ingestion, pgvector | Pending | TBD | Google Drive loader, chunking, embedding, retriever |
 | 3 | Record Manager — Content hashing, deduplication | Pending | TBD | |
 | 4 | Metadata Extraction — LLM-extracted metadata | Pending | TBD | Subject/topic/exam board from Drive path + content |
