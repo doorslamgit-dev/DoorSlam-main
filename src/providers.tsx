@@ -3,6 +3,7 @@ import { AuthProvider } from '@/contexts/AuthContext';
 import { SidebarProvider } from '@/contexts/SidebarContext';
 import { SubscriptionProvider } from '@/contexts/SubscriptionContext';
 import { SelectedChildProvider } from '@/contexts/SelectedChildContext';
+import { ToastProvider } from '@/components/ui/Toast';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -10,7 +11,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <AuthProvider>
         <SubscriptionProvider>
           <SelectedChildProvider>
-            <SidebarProvider>{children}</SidebarProvider>
+            <SidebarProvider>
+              <ToastProvider>{children}</ToastProvider>
+            </SidebarProvider>
           </SelectedChildProvider>
         </SubscriptionProvider>
       </AuthProvider>

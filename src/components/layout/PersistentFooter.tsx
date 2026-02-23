@@ -2,6 +2,7 @@
 
 import { useNavigate } from 'react-router-dom';
 import AppIcon from '../ui/AppIcon';
+import Button from '../ui/Button';
 import { useAuth } from '../../contexts/AuthContext';
 import { useSidebar } from '../../contexts/SidebarContext';
 
@@ -31,30 +32,15 @@ export default function PersistentFooter() {
       <div className="flex items-center gap-2">
         {isParent && (
           <>
-            <button
-              type="button"
-              onClick={() => navigate('/parent/timetable')}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-lg text-sm font-medium border border-neutral-200 text-neutral-700 bg-neutral-0 hover:bg-neutral-50 transition-colors"
-            >
-              <AppIcon name="calendar" className="w-4 h-4" />
+            <Button variant="secondary" size="sm" leftIcon="calendar" onClick={() => navigate('/parent/timetable')}>
               Schedule
-            </button>
-            <button
-              type="button"
-              onClick={() => navigate('/parent/subjects')}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-lg text-sm font-medium border border-neutral-200 text-neutral-700 bg-neutral-0 hover:bg-neutral-50 transition-colors"
-            >
-              <AppIcon name="plus" className="w-4 h-4" />
+            </Button>
+            <Button variant="secondary" size="sm" leftIcon="plus" onClick={() => navigate('/parent/subjects')}>
               Add New Subject
-            </button>
-            <button
-              type="button"
-              onClick={() => navigate('/parent/insights')}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-lg text-sm font-medium border border-neutral-200 text-neutral-700 bg-neutral-0 hover:bg-neutral-50 transition-colors"
-            >
-              <AppIcon name="chart-bar" className="w-4 h-4" />
+            </Button>
+            <Button variant="secondary" size="sm" leftIcon="chart-bar" onClick={() => navigate('/parent/insights')}>
               Progress Report
-            </button>
+            </Button>
           </>
         )}
       </div>

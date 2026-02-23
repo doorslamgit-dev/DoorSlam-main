@@ -4,6 +4,9 @@
 
 import { useMemo } from "react";
 import AppIcon from "../../ui/AppIcon";
+import Button from "../../ui/Button";
+import Toggle from "../../ui/Toggle";
+import Select from "../../ui/Select";
 
 /* ============================
    Types
@@ -106,20 +109,7 @@ export default function DayCard({
         } border-b border-neutral-100`}
       >
         <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={onToggle}
-            className={`relative w-11 h-6 rounded-full transition-colors ${
-              day.is_enabled ? "bg-primary-600" : "bg-neutral-200"
-            }`}
-            aria-label={`${day.is_enabled ? "Disable" : "Enable"} ${day.day_name}`}
-          >
-            <div
-              className={`absolute top-[2px] left-[2px] w-5 h-5 bg-neutral-0 rounded-full shadow transition-transform ${
-                day.is_enabled ? "translate-x-5" : "translate-x-0"
-              }`}
-            />
-          </button>
+          <Toggle checked={day.is_enabled} onChange={() => onToggle()} />
           <span
             className={`font-medium ${
               day.is_enabled ? "text-neutral-900" : "text-neutral-400"
@@ -137,14 +127,9 @@ export default function DayCard({
             </span>
           )}
           {day.is_enabled && (
-            <button
-              type="button"
-              onClick={onAddSlot}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-primary-600 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors"
-            >
-              <AppIcon name="plus" className="w-3 h-3" aria-hidden />
+            <Button variant="ghost" size="sm" leftIcon="plus" onClick={onAddSlot}>
               Add
-            </button>
+            </Button>
           )}
         </div>
       </div>
@@ -161,43 +146,26 @@ export default function DayCard({
                 {idx + 1}
               </div>
 
-              <div className="flex-1 min-w-0">
-                <label className="block text-[10px] font-medium text-neutral-500 uppercase tracking-wide mb-1">
-                  Time
-                </label>
-                <select
-                  value={slot.time_of_day}
-                  onChange={(e) =>
-                    onUpdateSlot(idx, "time_of_day", e.target.value)
-                  }
-                  className="w-full px-3 py-2 text-sm border border-neutral-200 rounded-lg bg-neutral-0 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
-                >
-                  {TIME_OF_DAY_OPTIONS.map((opt) => (
-                    <option key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              <Select
+                label="Time"
+                options={TIME_OF_DAY_OPTIONS}
+                value={slot.time_of_day}
+                onChange={(val) => onUpdateSlot(idx, "time_of_day", val)}
+                size="sm"
+                className="flex-1 min-w-0"
+              />
 
-              <div className="flex-1 min-w-0">
-                <label className="block text-[10px] font-medium text-neutral-500 uppercase tracking-wide mb-1">
-                  Duration
-                </label>
-                <select
-                  value={slot.session_pattern}
-                  onChange={(e) =>
-                    onUpdateSlot(idx, "session_pattern", e.target.value)
-                  }
-                  className="w-full px-3 py-2 text-sm border border-neutral-200 rounded-lg bg-neutral-0 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
-                >
-                  {SESSION_PATTERN_OPTIONS.map((opt) => (
-                    <option key={opt.value} value={opt.value}>
-                      {opt.label} ({opt.topics} topic{opt.topics !== 1 ? "s" : ""})
-                    </option>
-                  ))}
-                </select>
-              </div>
+              <Select
+                label="Duration"
+                options={SESSION_PATTERN_OPTIONS.map((opt) => ({
+                  value: opt.value,
+                  label: `${opt.label} (${opt.topics} topic${opt.topics !== 1 ? "s" : ""})`,
+                }))}
+                value={slot.session_pattern}
+                onChange={(val) => onUpdateSlot(idx, "session_pattern", val)}
+                size="sm"
+                className="flex-1 min-w-0"
+              />
 
               <button
                 type="button"
@@ -215,14 +183,9 @@ export default function DayCard({
       {day.is_enabled && day.slots.length === 0 && (
         <div className={`${compact ? "p-4" : "p-6"} text-center`}>
           <p className="text-sm text-neutral-400 mb-3">No sessions</p>
-          <button
-            type="button"
-            onClick={onAddSlot}
-            className="text-sm text-primary-600 hover:text-primary-700 font-medium inline-flex items-center"
-          >
-            <AppIcon name="plus" className="w-4 h-4 mr-1.5" aria-hidden />
+          <Button variant="ghost" size="sm" leftIcon="plus" onClick={onAddSlot}>
             Add session
-          </button>
+          </Button>
         </div>
       )}
 

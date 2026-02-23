@@ -1,6 +1,7 @@
 import { useState } from "react";
 import AppIcon from "../ui/AppIcon";
 import Button from "../ui/Button";
+import FormField from "../ui/FormField";
 
 export function DangerZoneSection() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -24,24 +25,19 @@ export function DangerZoneSection() {
       </p>
 
       {!showDeleteConfirm ? (
-        <button
-          type="button"
-          onClick={() => setShowDeleteConfirm(true)}
-          className="px-4 py-2 rounded-xl border-2 border-accent-red text-accent-red font-medium hover:bg-danger-bg transition-colors"
-        >
+        <Button variant="danger" onClick={() => setShowDeleteConfirm(true)}>
           Delete my account
-        </button>
+        </Button>
       ) : (
         <div className="space-y-4">
           <p className="text-sm font-medium text-accent-red">
-            Type "DELETE" to confirm:
+            Type &quot;DELETE&quot; to confirm:
           </p>
 
-          <input
-            type="text"
+          <FormField
             value={deleteConfirmText}
             onChange={(e) => setDeleteConfirmText(e.target.value)}
-            className="w-full px-4 py-2.5 rounded-xl border border-accent-red focus:outline-none"
+            className="border-accent-red"
           />
 
           <div className="flex gap-3">

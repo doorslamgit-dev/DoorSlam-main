@@ -52,6 +52,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Migration ordering** — `ALTER TABLE ADD COLUMN time_of_day` must run before the backfill `DO` block (Supabase SQL editor transaction limitation)
 
 ### Changed
+- **Codebase cleanup — UI component consistency** (pre-design overhaul prep)
+  - Deleted 7 dead code files: ParentDashboardV2, HelpfulNudgesCard, TimetableHeroCard, SubjectLegend, AvailabilityStep, ExamTimelineStep, InviteChildStep (-2046 lines)
+  - Created 4 new shared UI components: Toggle, Select, Toast/ToastProvider, DropdownMenu
+  - Replaced raw `<button>`, `<select>`, `<input>`, and toggle switch elements with shared components across 10 files
+  - Fixed design token usage: replaced hardcoded Tailwind colours with semantic tokens in dateUtils.ts
+  - Extracted `hexToRgba()` to shared `colorUtils.ts` utility
+  - Fixed navigation: replaced `window.location.reload()` with state-based refetch in Today.tsx and SubjectProgress.tsx
 - **Public pricing navigation** — added "Pricing" link to the public header (`AppHeader.tsx`) so unauthenticated visitors can reach the pricing page directly from the landing page navigation
 - **Stripe sandbox integration** — complete payment flow wired up in Stripe test mode
   - 3 Stripe products (Family, Premium, Tokens) with 11 prices created in test mode

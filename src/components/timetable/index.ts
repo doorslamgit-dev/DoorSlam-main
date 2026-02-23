@@ -4,7 +4,6 @@ export { TimetableHeader } from "./TimetableHeader";
 export { TimetableControls } from "./TimetableControls";
 export { WeekView } from "./WeekView";
 export { MonthView } from "./MonthView";
-export { SubjectLegend } from "./SubjectLegend";
 export { default as TimetableActionCards } from "./TimetableActionCards";
 export { default as NudgeBanner } from "./NudgeBanner";
 export { default as TodayView } from "./TodayView";

@@ -2,6 +2,8 @@ import { useState } from "react";
 import { supabase } from "../../lib/supabase";
 import type { Child } from "../../hooks/useSettingsData";
 import AppIcon from "../ui/AppIcon";
+import Toggle from "../ui/Toggle";
+import FormField from "../ui/FormField";
 
 type SaveStatus = "idle" | "saving" | "saved" | "error";
 
@@ -124,22 +126,11 @@ export function AdvancedAnalyticsSection({
             </p>
           </div>
 
-          {/* Toggle Switch */}
-          <button
-            type="button"
-            onClick={() => handleToggle(!shareAnalytics)}
+          <Toggle
+            checked={shareAnalytics}
+            onChange={handleToggle}
             disabled={saving}
-            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0 ${
-              shareAnalytics ? "bg-primary-600" : "bg-neutral-200"
-            } ${saving ? "opacity-50" : ""}`}
-            aria-label="Toggle anonymised analytics sharing"
-          >
-            <span
-              className={`inline-block h-4 w-4 transform rounded-full bg-neutral-0 transition-transform ${
-                shareAnalytics ? "translate-x-6" : "translate-x-1"
-              }`}
-            />
-          </button>
+          />
         </div>
 
         {/* Save message */}
@@ -189,67 +180,38 @@ export function AdvancedAnalyticsSection({
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                  {/* School Name */}
-                  <div>
-                    <label className="block text-xs text-neutral-500 mb-1">
-                      <span className="inline-flex items-center gap-1">
-                        <AppIcon name="graduation-cap" className="w-3.5 h-3.5" />
-                        School name
-                      </span>
-                    </label>
-                    <input
-                      type="text"
-                      value={child.school_name || ""}
-                      onChange={(e) =>
-                        handleChildFieldUpdate(child.id, "school_name", e.target.value)
-                      }
-                      onBlur={() => handleChildBlur(child.id)}
-                      placeholder="e.g., St Mary's Academy"
-                      className="w-full px-3 py-2 text-sm border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                    />
-                  </div>
-
-                  {/* School Town */}
-                  <div>
-                    <label className="block text-xs text-neutral-500 mb-1">
-                      <span className="inline-flex items-center gap-1">
-                        <AppIcon name="map-pin" className="w-3.5 h-3.5" />
-                        Town/City
-                      </span>
-                    </label>
-                    <input
-                      type="text"
-                      value={child.school_town || ""}
-                      onChange={(e) =>
-                        handleChildFieldUpdate(child.id, "school_town", e.target.value)
-                      }
-                      onBlur={() => handleChildBlur(child.id)}
-                      placeholder="e.g., Manchester"
-                      className="w-full px-3 py-2 text-sm border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                    />
-                  </div>
-
-                  {/* Postcode Prefix */}
-                  <div>
-                    <label className="block text-xs text-neutral-500 mb-1">
-                      Postcode area
-                    </label>
-                    <input
-                      type="text"
-                      value={child.school_postcode_prefix || ""}
-                      onChange={(e) =>
-                        handleChildFieldUpdate(
-                          child.id,
-                          "school_postcode_prefix",
-                          e.target.value.toUpperCase()
-                        )
-                      }
-                      onBlur={() => handleChildBlur(child.id)}
-                      placeholder="e.g., M1, SW1"
-                      maxLength={4}
-                      className="w-full px-3 py-2 text-sm border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                    />
-                  </div>
+                  <FormField
+                    label="School name"
+                    value={child.school_name || ""}
+                    onChange={(e) =>
+                      handleChildFieldUpdate(child.id, "school_name", e.target.value)
+                    }
+                    onBlur={() => handleChildBlur(child.id)}
+                    placeholder="e.g., St Mary's Academy"
+                  />
+                  <FormField
+                    label="Town/City"
+                    value={child.school_town || ""}
+                    onChange={(e) =>
+                      handleChildFieldUpdate(child.id, "school_town", e.target.value)
+                    }
+                    onBlur={() => handleChildBlur(child.id)}
+                    placeholder="e.g., Manchester"
+                  />
+                  <FormField
+                    label="Postcode area"
+                    value={child.school_postcode_prefix || ""}
+                    onChange={(e) =>
+                      handleChildFieldUpdate(
+                        child.id,
+                        "school_postcode_prefix",
+                        e.target.value.toUpperCase()
+                      )
+                    }
+                    onBlur={() => handleChildBlur(child.id)}
+                    placeholder="e.g., M1, SW1"
+                    maxLength={4}
+                  />
                 </div>
 
                 <p className="text-xs text-neutral-400 mt-3">Changes are saved automatically</p>

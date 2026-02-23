@@ -2,6 +2,7 @@ import { useState, useRef, useCallback, useEffect } from "react";
 
 import Alert from "../ui/Alert";
 import AppIcon from "../ui/AppIcon";
+import Button from "../ui/Button";
 import { supabase } from "../../lib/supabase";
 
 interface AvatarUploadProps {
@@ -349,20 +350,12 @@ export default function AvatarUpload({
             )}
 
             <div className="flex gap-3 w-full">
-              <button
-                onClick={handleCancel}
-                disabled={uploading}
-                className="flex-1 px-4 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-50 disabled:opacity-50"
-              >
+              <Button variant="secondary" fullWidth onClick={handleCancel} disabled={uploading}>
                 Cancel
-              </button>
-              <button
-                onClick={handleCropAndUpload}
-                disabled={uploading}
-                className="flex-1 px-4 py-2 bg-info text-white rounded-lg hover:bg-info disabled:opacity-50"
-              >
-                {uploading ? "Uploading..." : "Save"}
-              </button>
+              </Button>
+              <Button variant="primary" fullWidth onClick={handleCropAndUpload} loading={uploading}>
+                Save
+              </Button>
             </div>
           </div>
 
@@ -408,14 +401,9 @@ export default function AvatarUpload({
             {currentAvatarUrl ? "Change Photo" : "Upload Photo"}
           </label>
           {currentAvatarUrl && (
-            <button
-              onClick={handleRemoveAvatar}
-              disabled={uploading}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-neutral-0 border border-danger text-danger rounded-lg hover:bg-danger-bg disabled:opacity-50"
-            >
-              <AppIcon name="trash" className="w-4 h-4" />
+            <Button variant="danger" size="sm" leftIcon="trash" onClick={handleRemoveAvatar} disabled={uploading}>
               Remove
-            </button>
+            </Button>
           )}
         </div>
         <p className="text-xs text-neutral-500 mt-2">
