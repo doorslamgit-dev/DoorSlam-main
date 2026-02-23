@@ -6,7 +6,6 @@ export { ChildHealthCard } from "./ChildHealthCard";
 export { ChildHealthCardGrid } from "./ChildHealthCardGrid";
 export { WeeklyFocusStrip } from "./WeeklyFocusStrip";
 export { ComingUpCard } from "./ComingUpCard";
-export { default as HelpfulNudgesCard } from "./HelpfulNudgesCard";
 export { ProgressMomentsCard } from "./ProgressMomentsCard";
 export { SupportTipCard } from "./SupportTipCard";
 export { QuickActionsSection } from "./QuickActionsSection";

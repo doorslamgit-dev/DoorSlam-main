@@ -65,12 +65,9 @@ export function SecuritySection() {
       )}
 
       {!showPasswordForm ? (
-        <button
-          onClick={() => setShowPasswordForm(true)}
-          className="text-sm font-medium text-primary-600 hover:underline"
-        >
+        <Button variant="ghost" size="sm" onClick={() => setShowPasswordForm(true)}>
           Change password
-        </button>
+        </Button>
       ) : (
         <div className="space-y-4">
           <FormField

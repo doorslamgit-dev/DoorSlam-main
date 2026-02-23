@@ -31,6 +31,7 @@ export default function Today() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>("");
   const [redirected, setRedirected] = useState(false);
+  const [retryKey, setRetryKey] = useState(0);
 
   const childId = useMemo(() => {
     if (activeChildId) return activeChildId;
@@ -93,7 +94,7 @@ export default function Today() {
     return () => {
       mounted = false;
     };
-  }, [authLoading, user, childId]);
+  }, [authLoading, user, childId, retryKey]);
 
   const handleStartSession = (plannedSessionId: string) => {
     navigate(`/child/session/${plannedSessionId}`);
@@ -129,7 +130,7 @@ export default function Today() {
   if (error) {
     return (
       <PageLayout>
-        <ErrorState message={error} onRetry={() => window.location.reload()} />
+        <ErrorState message={error} onRetry={() => setRetryKey((k) => k + 1)} />
       </PageLayout>
     );
   }

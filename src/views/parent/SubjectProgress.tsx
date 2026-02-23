@@ -101,7 +101,7 @@ export default function SubjectProgress() {
             </p>
             <p className="text-sm mt-1 text-danger">{error}</p>
             <button
-              onClick={() => window.location.reload()}
+              onClick={() => refreshData()}
               className="mt-4 px-4 py-2 text-white rounded-lg hover:opacity-90 bg-accent-red"
             >
               Try Again

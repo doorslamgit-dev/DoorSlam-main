@@ -31,6 +31,12 @@ export type { BadgeProps, BadgeVariant, BadgeSize, BadgeStyle } from "./Badge";
 export { default as FormField } from "./FormField";
 export type { InputProps, TextareaProps } from "./FormField";
 
+export { default as Select } from "./Select";
+export type { SelectProps, SelectOption, SelectSize } from "./Select";
+
+export { default as Toggle } from "./Toggle";
+export type { ToggleProps, ToggleSize } from "./Toggle";
+
 // Feedback Components
 export { default as LoadingSpinner } from "./LoadingSpinner";
 export type { LoadingSpinnerProps, SpinnerSize, SpinnerVariant } from "./LoadingSpinner";
@@ -43,5 +49,12 @@ export { default as AppIcon } from "./AppIcon";
 export type { IconKey } from "./AppIcon";
 
 export { default as ThemeToggle } from "./ThemeToggle";
+
+// Overlay Components
+export { default as DropdownMenu } from "./DropdownMenu";
+export type { DropdownMenuProps, DropdownMenuItem } from "./DropdownMenu";
+
+export { ToastProvider, useToast } from "./Toast";
+export type { ToastData, ToastInput, ToastVariant } from "./Toast";
 
 // Note: ErrorBoundary is at src/components/ErrorBoundary.tsx (not in ui folder)

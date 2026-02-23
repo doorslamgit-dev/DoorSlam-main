@@ -3,6 +3,7 @@ import { supabase } from "../../lib/supabase";
 import { NotificationToggle } from "./NotificationToggle";
 import type { NotificationSettings } from "../../hooks/useSettingsData";
 import AppIcon from "../ui/AppIcon";
+import Button from "../ui/Button";
 
 interface NotificationsSectionProps {
   notifications: NotificationSettings;
@@ -73,37 +74,23 @@ export function NotificationsSection({
         </div>
 
         {!editing ? (
-          <button
-            type="button"
-            onClick={startEdit}
-            className="px-3 py-1.5 rounded-lg text-sm font-medium text-primary-600 hover:bg-neutral-50 transition-colors"
-          >
+          <Button variant="ghost" size="sm" onClick={startEdit}>
             Edit
-          </button>
+          </Button>
         ) : (
           <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={cancelEdit}
-              disabled={saving}
-              className="px-3 py-1.5 rounded-lg text-sm font-medium border border-neutral-200 text-neutral-600 disabled:opacity-50"
-            >
+            <Button variant="secondary" size="sm" onClick={cancelEdit} disabled={saving}>
               Cancel
-            </button>
-
-            <button
-              type="button"
+            </Button>
+            <Button
+              variant="primary"
+              size="sm"
               onClick={save}
-              disabled={saving}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium text-white bg-accent-green disabled:opacity-50"
+              loading={saving}
+              leftIcon="check"
             >
-              {saving ? (
-                <AppIcon name="loader" className="w-4 h-4 animate-spin" />
-              ) : (
-                <AppIcon name="check" className="w-4 h-4" />
-              )}
               Save
-            </button>
+            </Button>
           </div>
         )}
       </div>

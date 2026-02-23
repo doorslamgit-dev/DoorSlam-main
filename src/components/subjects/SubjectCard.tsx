@@ -5,18 +5,10 @@
 import AppIcon from "../ui/AppIcon";
 import type { SubjectProgress } from "../../types/subjectProgress";
 import { STATUS_COLORS, getSubjectColor } from "../../constants/colors";
+import { hexToRgba } from "../../utils/colorUtils";
 
 interface SubjectCardProps {
   subject: SubjectProgress;
-}
-
-// Convert hex color to rgba with alpha
-function hexToRgba(hex: string, alpha: number): string {
-  const cleanHex = hex.replace("#", "");
-  const r = parseInt(cleanHex.substring(0, 2), 16);
-  const g = parseInt(cleanHex.substring(2, 4), 16);
-  const b = parseInt(cleanHex.substring(4, 6), 16);
-  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
 // FEAT-010: Consistent status colors

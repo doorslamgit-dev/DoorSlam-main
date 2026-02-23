@@ -3,11 +3,14 @@
 
 import React, { useState } from 'react';
 import AppIcon from '../../ui/AppIcon';
-import type { 
-  ChildReward, 
-  RewardCategory, 
+import Button from '../../ui/Button';
+import FormField from '../../ui/FormField';
+import Select from '../../ui/Select';
+import type {
+  ChildReward,
+  RewardCategory,
   RewardFormData,
-  LimitType 
+  LimitType
 } from '../../../types/parent/rewardTypes';
 
 interface RewardEditorProps {
@@ -157,85 +160,62 @@ export function RewardEditor({
           )}
 
           {/* Reward Name */}
-          <div>
-            <label className="block text-sm font-medium text-neutral-700 mb-2">
-              Reward Name
-            </label>
-            <input
-              type="text"
-              value={formData.name}
-              onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-              placeholder="e.g., 30 minutes extra gaming"
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 ${
-                errors.name ? 'border-danger' : 'border-neutral-300'
-              }`}
-            />
-            {errors.name && (
-              <p className="text-danger text-sm mt-1">{errors.name}</p>
-            )}
-          </div>
+          <FormField
+            label="Reward Name"
+            value={formData.name}
+            onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+            placeholder="e.g., 30 minutes extra gaming"
+            error={errors.name}
+          />
 
           {/* Points Cost */}
-          <div>
-            <label className="block text-sm font-medium text-neutral-700 mb-2">
-              Points Cost
-            </label>
-            <input
-              type="number"
-              min="1"
-              value={formData.points_cost}
-              onChange={(e) => setFormData(prev => ({ 
-                ...prev, 
-                points_cost: parseInt(e.target.value) || 0 
-              }))}
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 ${
-                errors.points_cost ? 'border-danger' : 'border-neutral-300'
-              }`}
-            />
-            {errors.points_cost && (
-              <p className="text-danger text-sm mt-1">{errors.points_cost}</p>
-            )}
-          </div>
+          <FormField
+            label="Points Cost"
+            type="number"
+            min={1}
+            value={formData.points_cost}
+            onChange={(e) => setFormData(prev => ({
+              ...prev,
+              points_cost: parseInt(e.target.value) || 0
+            }))}
+            error={errors.points_cost}
+          />
 
           {/* Limit Settings */}
           <div>
-            <label className="block text-sm font-medium text-neutral-700 mb-2">
-              Limit (Optional)
-            </label>
             <div className="flex gap-2">
-              <select
+              <Select
+                label="Limit (Optional)"
+                options={[
+                  { value: '', label: 'No limit' },
+                  { value: 'per_day', label: 'Per day' },
+                  { value: 'per_week', label: 'Per week' },
+                  { value: 'per_month', label: 'Per month' },
+                ]}
                 value={formData.limit_type || ''}
-                onChange={(e) => setFormData(prev => ({ 
-                  ...prev, 
-                  limit_type: (e.target.value || null) as LimitType,
-                  limit_count: e.target.value ? (prev.limit_count || 1) : undefined,
+                onChange={(val) => setFormData(prev => ({
+                  ...prev,
+                  limit_type: (val || null) as LimitType,
+                  limit_count: val ? (prev.limit_count || 1) : undefined,
                 }))}
-                className="flex-1 px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-              >
-                <option value="">No limit</option>
-                <option value="per_day">Per day</option>
-                <option value="per_week">Per week</option>
-                <option value="per_month">Per month</option>
-              </select>
+                className="flex-1"
+              />
               {formData.limit_type && (
-                <input
+                <FormField
+                  label="Max"
                   type="number"
-                  min="1"
+                  min={1}
                   value={formData.limit_count || ''}
-                  onChange={(e) => setFormData(prev => ({ 
-                    ...prev, 
-                    limit_count: parseInt(e.target.value) || undefined 
+                  onChange={(e) => setFormData(prev => ({
+                    ...prev,
+                    limit_count: parseInt(e.target.value) || undefined
                   }))}
                   placeholder="Max"
-                  className={`w-24 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 ${
-                    errors.limit_count ? 'border-danger' : 'border-neutral-300'
-                  }`}
+                  error={errors.limit_count}
+                  wrapperClassName="w-24"
                 />
               )}
             </div>
-            {errors.limit_count && (
-              <p className="text-danger text-sm mt-1">{errors.limit_count}</p>
-            )}
             {formData.limit_type && formData.limit_count && (
               <p className="text-xs text-neutral-500 mt-1">
                 Maximum {formData.limit_count} time{formData.limit_count > 1 ? 's' : ''} {' '}
@@ -246,28 +226,12 @@ export function RewardEditor({
 
           {/* Actions */}
           <div className="flex gap-3 pt-4 sticky bottom-0 bg-neutral-0 pb-2 -mx-4 sm:-mx-6 px-4 sm:px-6 border-t border-neutral-100 mt-6">
-            <button
-              type="button"
-              onClick={onCancel}
-              disabled={isSaving}
-              className="flex-1 px-4 py-2.5 border border-neutral-300 rounded-lg text-neutral-700 hover:bg-neutral-50 transition-colors disabled:opacity-50 text-sm font-medium"
-            >
+            <Button variant="secondary" fullWidth onClick={onCancel} disabled={isSaving}>
               Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={isSaving}
-              className="flex-1 px-4 py-2.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2 text-sm font-medium"
-            >
-              {isSaving ? (
-                <>
-                  <AppIcon name="loader" className="w-4 h-4 animate-spin" />
-                  Saving...
-                </>
-              ) : (
-                reward ? 'Save Changes' : 'Add Reward'
-              )}
-            </button>
+            </Button>
+            <Button variant="primary" fullWidth type="submit" loading={isSaving}>
+              {reward ? 'Save Changes' : 'Add Reward'}
+            </Button>
           </div>
         </form>
       </div>

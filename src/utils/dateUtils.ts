@@ -73,15 +73,15 @@ const subjectIcons: Record<string, string> = {
 };
 
 const subjectColors: Record<string, string> = {
-  chemistry: "bg-emerald-100 text-emerald-700",
+  chemistry: "bg-success-bg text-success",
   physics: "bg-info-bg text-info",
   biology: "bg-success-bg text-success",
   mathematics: "bg-primary-100 text-primary-700",
   maths: "bg-primary-100 text-primary-700",
   english: "bg-warning-bg text-warning",
   "english literature": "bg-warning-bg text-warning",
-  history: "bg-orange-100 text-orange-700",
-  geography: "bg-teal-100 text-teal-700",
+  history: "bg-warning-bg text-warning",
+  geography: "bg-info-bg text-info",
   "religious studies": "bg-primary-100 text-primary-700",
   "computer science": "bg-neutral-100 text-neutral-700",
 };

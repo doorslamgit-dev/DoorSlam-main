@@ -2,6 +2,7 @@
 
 
 import AppIcon from '../ui/AppIcon';
+import Button from '../ui/Button';
 import { useSidebar } from '../../contexts/SidebarContext';
 
 export default function AiTutorSlot() {
@@ -19,14 +20,14 @@ export default function AiTutorSlot() {
           <AppIcon name="sparkles" className="w-5 h-5 text-primary-600" />
           <span className="text-sm font-semibold text-neutral-700">AI Tutor</span>
         </div>
-        <button
-          type="button"
+        <Button
+          variant="ghost"
+          size="sm"
           onClick={() => setAiPanelOpen(false)}
-          className="p-1.5 rounded-lg hover:bg-neutral-100 text-neutral-400 hover:text-neutral-600 transition-colors"
           aria-label="Close AI Tutor"
         >
           <AppIcon name="close" className="w-4 h-4" />
-        </button>
+        </Button>
       </div>
 
       {/* Body placeholder */}
