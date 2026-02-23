@@ -200,7 +200,7 @@ export function QuestionCard({
                       onClick={() => onSelfAssess("got_it")}
                       className="flex-1 max-w-[140px] py-4 px-4 bg-neutral-0 hover:bg-success-bg border-2 border-success-border hover:border-green-400 text-success rounded-xl transition flex flex-col items-center gap-2 shadow-sm"
                     >
-                      <span className="text-2xl">😊</span>
+                      <AppIcon name="check-circle" className="w-7 h-7" aria-hidden />
                       <span className="text-sm font-semibold">Nailed it!</span>
                     </button>
                     <button
@@ -208,7 +208,7 @@ export function QuestionCard({
                       onClick={() => onSelfAssess("unsure")}
                       className="flex-1 max-w-[140px] py-4 px-4 bg-neutral-0 hover:bg-warning-bg border-2 border-warning-border hover:border-amber-400 text-warning rounded-xl transition flex flex-col items-center gap-2 shadow-sm"
                     >
-                      <span className="text-2xl">🤔</span>
+                      <AppIcon name="circle-help" className="w-7 h-7" aria-hidden />
                       <span className="text-sm font-semibold">Not sure</span>
                     </button>
                     <button
@@ -216,7 +216,7 @@ export function QuestionCard({
                       onClick={() => onSelfAssess("not_quite")}
                       className="flex-1 max-w-[140px] py-4 px-4 bg-neutral-0 hover:bg-danger-bg border-2 border-danger-border hover:border-danger text-danger rounded-xl transition flex flex-col items-center gap-2 shadow-sm"
                     >
-                      <span className="text-2xl">😅</span>
+                      <AppIcon name="alert-circle" className="w-7 h-7" aria-hidden />
                       <span className="text-sm font-semibold">Missed it</span>
                     </button>
                   </div>
@@ -231,7 +231,7 @@ export function QuestionCard({
           <div className="border-t border-neutral-200 p-6 bg-neutral-50 space-y-4">
             {/* Self-assessment result badge */}
             <div
-              className={`p-3 rounded-xl text-center ${
+              className={`p-3 rounded-xl flex items-center justify-center gap-2 ${
                 selfAssessment === "got_it"
                   ? "bg-success-bg text-success"
                   : selfAssessment === "not_quite"
@@ -239,9 +239,11 @@ export function QuestionCard({
                   : "bg-warning-bg text-warning"
               }`}
             >
-              <span className="text-lg mr-2">
-                {selfAssessment === "got_it" ? "😊" : selfAssessment === "not_quite" ? "😅" : "🤔"}
-              </span>
+              <AppIcon
+                name={selfAssessment === "got_it" ? "check-circle" : selfAssessment === "not_quite" ? "alert-circle" : "circle-help"}
+                className="w-5 h-5 flex-shrink-0"
+                aria-hidden
+              />
               <span className="font-medium">
                 {selfAssessment === "got_it"
                   ? "You said: Nailed it!"

@@ -1,6 +1,8 @@
 // src/views/child/sessionSteps/ReflectionStep.tsx
 
 import { useState } from "react";
+import AppIcon from "../../../components/ui/AppIcon";
+import type { IconKey } from "../../../components/ui/AppIcon";
 
 type ReflectionStepProps = {
   overview: {
@@ -37,11 +39,11 @@ export default function ReflectionStep({
     await onFinish({ confidenceLevel, notes });
   };
 
-  const confidenceLevels = [
-    { value: "confident", label: "Confident", emoji: "😊", color: "green" },
-    { value: "on_track", label: "On Track", emoji: "🙂", color: "blue" },
-    { value: "needs_practice", label: "Needs Practice", emoji: "😐", color: "yellow" },
-    { value: "struggling", label: "Struggling", emoji: "😟", color: "red" },
+  const confidenceLevels: Array<{ value: string; label: string; icon: IconKey; color: string }> = [
+    { value: "confident", label: "Confident", icon: "check-circle", color: "green" },
+    { value: "on_track", label: "On Track", icon: "circle-check", color: "blue" },
+    { value: "needs_practice", label: "Needs Practice", icon: "circle-help", color: "yellow" },
+    { value: "struggling", label: "Struggling", icon: "alert-circle", color: "red" },
   ];
 
   return (
@@ -82,7 +84,7 @@ export default function ReflectionStep({
               }`}
             >
               <div className="flex items-center gap-3">
-                <span className="text-2xl">{level.emoji}</span>
+                <AppIcon name={level.icon} className="w-6 h-6 flex-shrink-0" aria-hidden />
                 <span className="font-semibold text-neutral-900">{level.label}</span>
               </div>
             </button>

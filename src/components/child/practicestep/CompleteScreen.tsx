@@ -28,7 +28,7 @@ export function CompleteScreen({
   const notQuiteCount = answers.filter((a) => a.selfAssessment === "not_quite").length;
   const unsureCount = answers.filter((a) => a.selfAssessment === "unsure").length;
 
-  const { message, emoji } = getEncouragementMessage(
+  const { message, icon: encouragementIcon } = getEncouragementMessage(
     gotItCount,
     notQuiteCount,
     unsureCount,
@@ -44,7 +44,7 @@ export function CompleteScreen({
     <div className="bg-neutral-0 rounded-2xl shadow-card p-8">
       <div className="text-center mb-8">
         <div className="w-20 h-20 bg-success-bg rounded-full flex items-center justify-center mx-auto mb-4">
-          <span className="text-4xl">{emoji}</span>
+          <AppIcon name={encouragementIcon as IconKey} className="w-10 h-10 text-success" aria-hidden />
         </div>
         <h2 className="text-2xl font-bold text-neutral-900 mb-2">Practice complete!</h2>
         <p className="text-neutral-600">{message}</p>

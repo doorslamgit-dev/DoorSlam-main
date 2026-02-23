@@ -155,7 +155,7 @@ export default function CompleteStep({
         <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
           <div className="flex items-center space-x-3 mb-5">
             <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
-              <span className="text-2xl">🤔</span>
+              <AppIcon name="circle-help" className="w-6 h-6 text-primary-600" aria-hidden />
             </div>
             <div>
               <h2 className="text-xl font-bold text-primary-900">How do you feel about this topic?</h2>
@@ -223,7 +223,7 @@ export default function CompleteStep({
                 done today!
               </p>
               <p className="text-primary-200 text-xs flex items-center gap-2">
-                <span>💡</span>
+                <AppIcon name="lightbulb" className="w-4 h-4 text-primary-200 flex-shrink-0" aria-hidden />
                 <span>Top tip: Tell someone what you learned - it helps it stick!</span>
               </p>
             </div>

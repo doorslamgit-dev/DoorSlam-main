@@ -50,11 +50,10 @@ export default function SessionCard({
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-4">
             <div
-              className={`w-14 h-14 rounded-xl flex items-center justify-center text-2xl ${colorClass}`}
+              className={`w-14 h-14 rounded-xl flex items-center justify-center ${colorClass}`}
               aria-hidden
             >
-              {/* If getSubjectIcon returns emoji/text, keep it. If you later switch to icon keys, swap this for <AppIcon /> */}
-              {icon}
+              <AppIcon name={icon} className="w-7 h-7" aria-hidden />
             </div>
 
             <div>

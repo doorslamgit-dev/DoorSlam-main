@@ -2,6 +2,8 @@
 
 import { DifficultyLevel, QuestionCounts } from "../../../types/child/practicestep";
 import { DIFFICULTY_OPTIONS } from "../../../services/child/practicestep";
+import AppIcon from "../../ui/AppIcon";
+import type { IconKey } from "../../ui/AppIcon";
 
 interface DifficultySelectorProps {
   selected: DifficultyLevel;
@@ -35,7 +37,9 @@ export function DifficultySelector({
                 ${isDisabled ? "opacity-40 cursor-not-allowed" : "hover:border-neutral-300 cursor-pointer"}
               `}
             >
-              <div className="text-lg mb-1">{opt.emoji}</div>
+              <div className="flex justify-center mb-1">
+                <AppIcon name={opt.icon as IconKey} className="w-5 h-5" aria-hidden />
+              </div>
               <div className="text-sm font-medium">{opt.label}</div>
               {count > 0 && (
                 <div className="text-xs opacity-70">{count} Q{count > 1 ? "s" : ""}</div>

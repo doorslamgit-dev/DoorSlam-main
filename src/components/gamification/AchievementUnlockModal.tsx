@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from "react";
 import AppIcon from "../ui/AppIcon";
+import type { IconKey } from "../ui/AppIcon";
 import { getAchievementIcon } from "../../services/gamificationService";
 import type { NewlyEarnedAchievement } from "../../types/gamification";
 
@@ -42,9 +43,7 @@ export default function AchievementUnlockModal({
 
   if (!currentAchievement) return null;
 
-  // Achievement “icon” is currently emoji-based via service.
-  // We keep that as content (not a UI icon library concern).
-  const icon = getAchievementIcon(currentAchievement.icon);
+  const icon: IconKey = getAchievementIcon(currentAchievement.icon);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -87,8 +86,8 @@ export default function AchievementUnlockModal({
             }`}
           >
             {/* Icon */}
-            <div className="w-20 h-20 mx-auto mb-4 bg-accent-amber/15 rounded-2xl flex items-center justify-center text-4xl shadow-inner">
-              {icon}
+            <div className="w-20 h-20 mx-auto mb-4 bg-accent-amber/15 rounded-2xl flex items-center justify-center shadow-inner">
+              <AppIcon name={icon} className="w-10 h-10 text-accent-amber" aria-hidden />
             </div>
 
             {/* Name */}
@@ -148,7 +147,7 @@ export function AchievementBadge({
   icon: string;
   earned?: boolean;
 }) {
-  const iconEmoji = getAchievementIcon(icon);
+  const iconKey: IconKey = getAchievementIcon(icon);
 
   return (
     <div
@@ -158,7 +157,7 @@ export function AchievementBadge({
           : "bg-neutral-50 border-neutral-200 opacity-50"
       }`}
     >
-      <span className="text-2xl">{iconEmoji}</span>
+      <AppIcon name={iconKey} className="w-6 h-6 text-accent-amber flex-shrink-0" aria-hidden />
 
       <span
         className={`font-medium ${earned ? "text-primary-900" : "text-neutral-500"}`}

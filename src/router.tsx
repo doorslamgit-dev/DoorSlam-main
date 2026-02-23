@@ -18,6 +18,7 @@ const RewardManagement = lazy(() =>
   import('@/views/parent/RewardManagement').then((m) => ({ default: m.RewardManagement }))
 );
 const ParentSettingsPage = lazy(() => import('@/views/parent/ParentSettingsPage'));
+const DesignGuidelines = lazy(() => import('@/views/parent/DesignGuidelines'));
 const SubjectProgress = lazy(() => import('@/views/parent/SubjectProgress'));
 const Timetable = lazy(() => import('@/views/parent/Timetable'));
 
@@ -59,6 +60,7 @@ export function AppRouter() {
           <Route path="/parent/insights/report" element={<InsightsReport />} />
           <Route path="/parent/rewards" element={<RewardManagement />} />
           <Route path="/parent/settings" element={<ParentSettingsPage />} />
+          <Route path="/parent/design-guidelines" element={<DesignGuidelines />} />
           <Route path="/parent/subjects" element={<SubjectProgress />} />
           <Route path="/parent/timetable" element={<Timetable />} />
 

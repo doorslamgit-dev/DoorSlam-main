@@ -73,7 +73,7 @@ export default function SessionCompleteWithGamification({
             <AppIcon name="check" className="w-12 h-12 text-white" aria-hidden />
           </div>
 
-          <h1 className="text-4xl font-bold text-neutral-900 mb-2">Well Done! 🎉</h1>
+          <h1 className="text-4xl font-bold text-neutral-900 mb-2">Well Done!</h1>
           <p className="text-xl text-neutral-600">
             You completed your {subjectName} session
           </p>
@@ -102,7 +102,7 @@ export default function SessionCompleteWithGamification({
                       )}
                     </div>
                   </div>
-                  <div className="text-4xl">✨</div>
+                  <AppIcon name="sparkles" className="w-8 h-8 text-warning" aria-hidden />
                 </div>
 
                 {/* New balance */}
@@ -144,7 +144,7 @@ export default function SessionCompleteWithGamification({
                         : `${achievements.newly_earned.length} new achievements`}
                     </div>
                   </div>
-                  <div className="text-4xl">🏆</div>
+                  <AppIcon name="trophy" className="w-8 h-8 text-warning" aria-hidden />
                 </div>
                 <button
                   onClick={() => setShowAchievements(true)}
@@ -168,7 +168,7 @@ export default function SessionCompleteWithGamification({
 
         {/* Motivational message */}
         <p className="text-center text-neutral-500 mt-6 text-sm">
-          Every session counts. You're building great habits! 💪
+          Every session counts. You're building great habits!
         </p>
       </div>
 

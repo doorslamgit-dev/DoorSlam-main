@@ -157,7 +157,7 @@ export function RewardManagement() {
   // Loading state
   if (childrenLoading || templatesLoading) {
     return (
-      <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
+      <div className="min-h-screen bg-transparent flex items-center justify-center">
         <div className="text-center">
           <AppIcon name="loader" className="w-8 h-8 text-primary-600 animate-spin mx-auto mb-4" />
           <p className="text-neutral-600">Loading rewards...</p>
@@ -167,7 +167,7 @@ export function RewardManagement() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <div className="min-h-screen bg-transparent">
       {/* Error Banner */}
       {error && (
         <div className="bg-danger-bg border-b border-danger-border px-4 py-3">

@@ -1,8 +1,13 @@
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    path.join(__dirname, "index.html"),
+    path.join(__dirname, "src/**/*.{js,ts,jsx,tsx}"),
   ],
   darkMode: 'class',
   theme: {
@@ -57,8 +62,8 @@ export default {
           pink:  'var(--color-accent-pink)',
         },
         brand: {
-          purple: 'var(--color-primary-600)',
-          "purple-dark": 'var(--color-primary-700)',
+          sky: 'var(--color-primary-600)',
+          "sky-dark": 'var(--color-primary-700)',
         },
         // Semantic status colors with background/border variants
         success: {
@@ -111,6 +116,7 @@ export default {
       // SEMANTIC BORDER COLORS
       // ========================================================================
       borderColor: {
+        DEFAULT: 'var(--color-border)',
         'default': 'var(--color-border)',
         'light': 'var(--color-border-light)',
         'heavy': 'var(--color-border-dark)',

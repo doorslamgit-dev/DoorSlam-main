@@ -44,4 +44,20 @@ export type { IconKey } from "./AppIcon";
 
 export { default as ThemeToggle } from "./ThemeToggle";
 
+// Primitive Components (extracted from repeated inline patterns)
+export { default as ProgressBar } from "./ProgressBar";
+export type { ProgressBarProps, ProgressBarColor, ProgressBarSize } from "./ProgressBar";
+
+export { default as StatCard } from "./StatCard";
+export type { StatCardProps, StatCardSize, StatCardValueColor, StatCardBackground } from "./StatCard";
+
+export { default as IconCircle } from "./IconCircle";
+export type { IconCircleProps, IconCircleSize, IconCircleColor, IconCircleVariant } from "./IconCircle";
+
+export { default as CircularProgress } from "./CircularProgress";
+export type { CircularProgressProps, CircularProgressColorToken, CircularProgressSizePreset } from "./CircularProgress";
+
+export { default as AvatarCircle } from "./AvatarCircle";
+export type { AvatarCircleProps, AvatarCircleSize, AvatarCircleColor } from "./AvatarCircle";
+
 // Note: ErrorBoundary is at src/components/ErrorBoundary.tsx (not in ui folder)

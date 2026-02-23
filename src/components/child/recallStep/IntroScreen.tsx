@@ -28,7 +28,7 @@ export function IntroScreen({
       </div>
 
       <h2 className="text-2xl font-bold text-neutral-900 mb-3">
-        Hey {firstName}! 👋
+        Hey {firstName}!
       </h2>
 
       <p className="text-lg text-neutral-600 mb-2">
@@ -43,9 +43,10 @@ export function IntroScreen({
       <button
         type="button"
         onClick={onStart}
-        className="px-8 py-4 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition text-lg"
+        className="inline-flex items-center gap-2 px-8 py-4 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition text-lg"
       >
-        Let's go! 🚀
+        Let's go!
+        <AppIcon name="rocket" className="w-5 h-5" aria-hidden />
       </button>
     </div>
   );

@@ -21,7 +21,7 @@ export default function AppShell({ children }: AppShellProps) {
     <div className="min-h-screen bg-background-secondary">
       <Sidebar />
 
-      <div className={`flex flex-col min-h-screen transition-all duration-300 ${sidebarPadding} ${aiPanelPadding}`}>
+      <div className={`flex flex-col min-h-screen transition-all duration-300 [background:var(--gradient-main)] ${sidebarPadding} ${aiPanelPadding}`}>
         <main className="flex-1 pb-14">
           {children}
         </main>

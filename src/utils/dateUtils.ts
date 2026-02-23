@@ -1,4 +1,5 @@
 // src/utils/dateUtils.ts
+import type { IconKey } from "../components/ui/AppIcon";
 
 export function todayIsoDate(): string {
   const d = new Date();
@@ -58,18 +59,18 @@ export function getPatternLabel(pattern: string): string {
 }
 
 // Subject visual helpers
-const subjectIcons: Record<string, string> = {
-  chemistry: "🧪",
-  mathematics: "🔢",
-  maths: "🔢",
-  "english literature": "📚",
-  english: "📚",
-  physics: "⚛️",
-  biology: "🧬",
-  history: "📜",
-  geography: "🌍",
-  "religious studies": "🕊️",
-  "computer science": "💻",
+const subjectIcons: Record<string, IconKey> = {
+  chemistry: "flask-conical",
+  mathematics: "calculator",
+  maths: "calculator",
+  "english literature": "book",
+  english: "book",
+  physics: "atom",
+  biology: "dna",
+  history: "landmark",
+  geography: "globe",
+  "religious studies": "heart",
+  "computer science": "laptop",
 };
 
 const subjectColors: Record<string, string> = {
@@ -86,9 +87,9 @@ const subjectColors: Record<string, string> = {
   "computer science": "bg-neutral-100 text-neutral-700",
 };
 
-export function getSubjectIcon(subjectName: string | null): string {
+export function getSubjectIcon(subjectName: string | null): IconKey {
   const key = (subjectName || "").toLowerCase();
-  return subjectIcons[key] || "📖";
+  return subjectIcons[key] || "book-open";
 }
 
 export function getSubjectColorClass(subjectName: string | null): string {

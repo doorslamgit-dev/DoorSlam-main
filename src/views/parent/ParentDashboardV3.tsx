@@ -19,7 +19,7 @@ const DashboardInviteModal = lazy(
 
 function DashboardSkeleton() {
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <div className="min-h-screen bg-transparent">
       <div className="max-w-content mx-auto px-6 py-8">
         <div className="flex items-center justify-between mb-8 animate-pulse">
           <div className="h-8 bg-neutral-200 rounded w-40" />
@@ -139,7 +139,7 @@ function ParentDashboardV3Inner() {
   // Error state
   if (error) {
     return (
-      <div className="min-h-screen bg-neutral-50">
+      <div className="min-h-screen bg-transparent">
         <div className="max-w-content mx-auto px-6 py-8">
           <ErrorState message={error} onRetry={refresh} />
         </div>
@@ -150,7 +150,7 @@ function ParentDashboardV3Inner() {
   // No data state
   if (!data) {
     return (
-      <div className="min-h-screen bg-neutral-50">
+      <div className="min-h-screen bg-transparent">
         <div className="max-w-content mx-auto px-6 py-8">
           <ErrorState message="No data available" onRetry={refresh} />
         </div>
@@ -159,7 +159,7 @@ function ParentDashboardV3Inner() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <div className="min-h-screen bg-transparent">
       <main className="max-w-content mx-auto px-4 py-4 lg:px-6 lg:py-5">
         {/* Page Header: Dashboard title + child selector */}
         <DashboardChildHeader

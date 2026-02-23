@@ -1,61 +1,62 @@
 // src/services/gamificationService.ts
 
 import { supabase } from "../lib/supabase";
+import type { IconKey } from "../components/ui/AppIcon";
 
 /**
- * Get emoji/icon for achievement based on icon code
+ * Get Lucide icon key for achievement based on icon code
  */
-export function getAchievementIcon(iconCode: string): string {
-  const icons: Record<string, string> = {
+export function getAchievementIcon(iconCode: string): IconKey {
+  const icons: Record<string, IconKey> = {
     // Streaks
-    fire: "🔥",
-    flame: "🔥",
-    streak: "🔥",
-    
+    fire: "flame",
+    flame: "flame",
+    streak: "flame",
+
     // Sessions
-    star: "⭐",
-    check: "✅",
-    checkmark: "✓",
-    complete: "✅",
-    
+    star: "star",
+    check: "check-circle",
+    checkmark: "check-circle",
+    complete: "check-circle",
+
     // Focus
-    target: "🎯",
-    focus: "🎯",
-    bullseye: "🎯",
-    
+    target: "target",
+    focus: "target",
+    bullseye: "target",
+
     // Subject mastery
-    book: "📚",
-    books: "📚",
-    subject: "📖",
-    
+    book: "book",
+    books: "book",
+    subject: "book-open",
+
     // Achievement levels
-    trophy: "🏆",
-    medal: "🏅",
-    award: "🏆",
-    crown: "👑",
-    
+    trophy: "trophy",
+    medal: "trophy",
+    award: "trophy",
+    crown: "crown",
+
     // Progress
-    rocket: "🚀",
-    lightning: "⚡",
-    bolt: "⚡",
-    
+    rocket: "rocket",
+    lightning: "zap",
+    bolt: "zap",
+
     // Time-based
-    clock: "⏰",
-    calendar: "📅",
-    week: "📅",
-    
+    clock: "clock",
+    calendar: "calendar",
+    week: "calendar",
+
     // Celebration
-    party: "🎉",
-    celebrate: "🎉",
-    confetti: "🎊",
-    
+    party: "party-popper",
+    celebrate: "party-popper",
+    confetti: "party-popper",
+
     // Learning
-    brain: "🧠",
-    lightbulb: "💡",
-    idea: "💡",
-    
+    brain: "brain",
+    lightbulb: "lightbulb",
+    idea: "lightbulb",
+
     // Default
-    default: "🏅",
+    default: "trophy",
   };
   return icons[iconCode.toLowerCase()] || icons.default;
 }
@@ -123,10 +124,10 @@ export function getStreakMessage(currentStreak: number, longestStreak?: number):
     return "Start a streak by completing a session!";
   }
   if (longestStreak !== undefined && currentStreak === longestStreak && currentStreak >= 3) {
-    return `Personal best! ${currentStreak} day streak 🎉`;
+    return `Personal best! ${currentStreak} day streak`;
   }
   if (currentStreak >= 7) {
-    return `Amazing! ${currentStreak} day streak 🔥`;
+    return `Amazing! ${currentStreak} day streak`;
   }
   if (currentStreak >= 3) {
     return `Great progress! ${currentStreak} day streak`;

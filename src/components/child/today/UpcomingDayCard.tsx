@@ -6,6 +6,7 @@ import {
   getSubjectIcon,
   getSubjectColorClass,
 } from "../../../utils/dateUtils";
+import AppIcon from "../../ui/AppIcon";
 import type { UpcomingDay } from "../../../types/today";
 
 type UpcomingDayCardProps = {
@@ -40,7 +41,7 @@ export default function UpcomingDayCard({ day }: UpcomingDayCardProps) {
                 session.subject_name
               )}`}
             >
-              <span>{getSubjectIcon(session.subject_name)}</span>
+              <AppIcon name={getSubjectIcon(session.subject_name)} className="w-4 h-4" aria-hidden />
               <span className="text-sm font-medium">{session.subject_name}</span>
             </div>
           ))}

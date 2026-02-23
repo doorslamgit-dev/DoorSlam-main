@@ -141,8 +141,9 @@ export default function RewardsMiniCard({ childId }: RewardsMiniCardProps) {
       {!summary.next_goal && (
         <div className="mb-4">
           {summary.unlocked_count > 0 ? (
-            <p className="text-sm text-accent-green font-medium">
-              🎉 {summary.unlocked_count} reward{summary.unlocked_count !== 1 ? 's' : ''} ready to claim!
+            <p className="text-sm text-accent-green font-medium flex items-center gap-1.5">
+              <AppIcon name="party-popper" className="w-4 h-4 flex-shrink-0" aria-hidden />
+              {summary.unlocked_count} reward{summary.unlocked_count !== 1 ? 's' : ''} ready to claim!
             </p>
           ) : (
             <p className="text-sm text-neutral-600">

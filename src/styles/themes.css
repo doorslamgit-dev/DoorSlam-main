@@ -63,7 +63,7 @@
   --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --shadow-card-hover: 0 4px 12px 0 rgb(0 0 0 / 0.15), 0 2px 4px -1px rgb(0 0 0 / 0.1);
   --shadow-soft: 0 2px 8px 0 rgb(0 0 0 / 0.08);
-  --shadow-button: 0 2px 8px 0 rgb(91 44 255 / 0.25);
+  --shadow-button: 0 2px 8px 0 rgb(3 105 161 / 0.30);  /* sky-700 glow */
 
   /* Transitions */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -87,17 +87,17 @@
    ---------------------------------------------------------------------------- */
 
 :root {
-  /* Primary Colors */
-  --color-primary-50: #F7F4FF;
-  --color-primary-100: #EDE7FF;
-  --color-primary-200: #DDD3FF;
-  --color-primary-300: #C3B5FF;
-  --color-primary-400: #A890FF;
-  --color-primary-500: #8C6CFF;
-  --color-primary-600: #5B2CFF;
-  --color-primary-700: #4A1FDB;
-  --color-primary-800: #3D1AB3;
-  --color-primary-900: #32168A;
+  /* Primary Colors — Tailwind Sky, base at sky-700 (primary-600) */
+  --color-primary-50:  #f0f9ff;   /* sky-50  */
+  --color-primary-100: #e0f2fe;   /* sky-100 */
+  --color-primary-200: #bae6fd;   /* sky-200 */
+  --color-primary-300: #7dd3fc;   /* sky-300 */
+  --color-primary-400: #38bdf8;   /* sky-400 */
+  --color-primary-500: #0ea5e9;   /* sky-500 */
+  --color-primary-600: #0369a1;   /* sky-700 — primary action base */
+  --color-primary-700: #075985;   /* sky-800 */
+  --color-primary-800: #0c4a6e;   /* sky-900 */
+  --color-primary-900: #082f49;   /* sky-950 */
 
   /* Neutral Colors */
   --color-neutral-0: #FFFFFF;
@@ -122,9 +122,10 @@
 
   /* Semantic Colors - Light Mode */
   --color-background: var(--color-neutral-0);
-  --color-background-soft: #F0F7FF;
+  --color-background-soft: #f0f9ff; /* sky-50 */
   --color-background-secondary: var(--color-neutral-50);
   --color-background-tertiary: var(--color-neutral-100);
+  --gradient-main: linear-gradient(135deg, #aad1e8 0%, #a3e6da 100%);
 
   --color-surface: var(--color-neutral-0);
   --color-surface-elevated: var(--color-neutral-0);
@@ -162,17 +163,17 @@
    ---------------------------------------------------------------------------- */
 
 .dark {
-  /* Primary Colors - Adjusted for dark mode */
-  --color-primary-50: #1A0F33;
-  --color-primary-100: #2A1A4D;
-  --color-primary-200: #3D2866;
-  --color-primary-300: #5A3D99;
-  --color-primary-400: #7B5DCC;
-  --color-primary-500: #9A84FF;
-  --color-primary-600: #A890FF;
-  --color-primary-700: #C3B5FF;
-  --color-primary-800: #DDD3FF;
-  --color-primary-900: #EDE7FF;
+  /* Primary Colors — Sky palette inverted for dark mode */
+  --color-primary-50:  #082f49;   /* sky-950 — darkest surface */
+  --color-primary-100: #0c4a6e;   /* sky-900 */
+  --color-primary-200: #075985;   /* sky-800 */
+  --color-primary-300: #0369a1;   /* sky-700 */
+  --color-primary-400: #0284c7;   /* sky-600 */
+  --color-primary-500: #0ea5e9;   /* sky-500 */
+  --color-primary-600: #38bdf8;   /* sky-400 — primary action base (dark) */
+  --color-primary-700: #7dd3fc;   /* sky-300 */
+  --color-primary-800: #bae6fd;   /* sky-200 */
+  --color-primary-900: #e0f2fe;   /* sky-100 — lightest on dark */
 
   /* Neutral Colors - Inverted for dark mode */
   --color-neutral-0: #111318;
@@ -200,6 +201,7 @@
   --color-background-soft: #1A1D28;
   --color-background-secondary: var(--color-neutral-50);
   --color-background-tertiary: var(--color-neutral-100);
+  --gradient-main: none;
 
   --color-surface: var(--color-neutral-50);
   --color-surface-elevated: var(--color-neutral-100);
@@ -239,7 +241,7 @@
   --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
   --shadow-card-hover: 0 4px 12px 0 rgb(0 0 0 / 0.4), 0 2px 4px -1px rgb(0 0 0 / 0.3);
   --shadow-soft: 0 2px 8px 0 rgb(0 0 0 / 0.25);
-  --shadow-button: 0 2px 8px 0 rgb(168 144 255 / 0.3);
+  --shadow-button: 0 2px 8px 0 rgb(56 189 248 / 0.35); /* sky-400 glow */
 }
 
 /* ----------------------------------------------------------------------------

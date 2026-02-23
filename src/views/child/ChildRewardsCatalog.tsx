@@ -220,7 +220,7 @@ export function ChildRewardsCatalog() {
         
         {/* Page Header */}
         <section className="mb-6">
-          <h1 className="text-3xl font-bold text-primary-900 mb-2">My Rewards 🎁</h1>
+          <h1 className="text-3xl font-bold text-primary-900 mb-2">My Rewards</h1>
           <p className="text-neutral-500">
             Earn points from your revision sessions and spend them on rewards!
           </p>
@@ -271,7 +271,7 @@ export function ChildRewardsCatalog() {
                 {pendingRedemptions.map((item) => (
                   <div key={item.id} className="bg-neutral-0 rounded-xl p-3 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <span className="text-xl">{item.emoji || '🎁'}</span>
+                      <AppIcon name="gift" className="w-5 h-5 text-warning flex-shrink-0" aria-hidden />
                       <div>
                         <p className="font-medium text-neutral-900 text-sm">{item.reward_name}</p>
                         <p className="text-xs text-neutral-500">{item.points_cost} points</p>
@@ -300,7 +300,7 @@ export function ChildRewardsCatalog() {
               <div className="space-y-2">
                 {pendingAdditions.map((item) => (
                   <div key={item.id} className="bg-neutral-0 rounded-xl p-3 flex items-center gap-3">
-                    <span className="text-xl">{item.category_icon || '🎁'}</span>
+                    <AppIcon name={getCategoryStyle(item.category_code).icon as import('../../components/ui/AppIcon').IconKey} className="w-5 h-5 flex-shrink-0" aria-hidden />
                     <div>
                       <p className="font-medium text-neutral-900 text-sm">{item.template_name}</p>
                       <p className="text-xs text-neutral-500">{item.category_name}</p>
@@ -388,7 +388,7 @@ export function ChildRewardsCatalog() {
                               className="bg-neutral-50 rounded-2xl p-4 border-2 border-accent-green/30 hover:border-accent-green hover:shadow-md transition-all text-left disabled:opacity-50"
                             >
                               <div className={`w-12 h-12 ${style.bg} rounded-xl flex items-center justify-center mb-3`}>
-                                <span className="text-2xl">{reward.emoji || '🎁'}</span>
+                                <AppIcon name={style.icon as import('../../components/ui/AppIcon').IconKey} className={`w-6 h-6 ${style.text}`} aria-hidden />
                               </div>
                               <p className="font-medium text-neutral-900 text-sm mb-1 line-clamp-2">
                                 {reward.name}
@@ -418,7 +418,7 @@ export function ChildRewardsCatalog() {
                           return (
                             <div key={reward.id} className="bg-neutral-50 rounded-2xl p-4 border border-neutral-200">
                               <div className={`w-12 h-12 ${style.bg} rounded-xl flex items-center justify-center mb-3 opacity-50`}>
-                                <span className="text-2xl grayscale">{reward.emoji || '🎁'}</span>
+                                <AppIcon name={style.icon as import('../../components/ui/AppIcon').IconKey} className={`w-6 h-6 ${style.text}`} aria-hidden />
                               </div>
                               <p className="font-medium text-neutral-700 text-sm mb-1 line-clamp-2">
                                 {reward.name}
@@ -464,7 +464,7 @@ export function ChildRewardsCatalog() {
                       }`}
                     >
                       <div className={`w-12 h-12 ${style.bg} rounded-xl flex items-center justify-center mb-3`}>
-                        <span className="text-2xl">{item.category_icon || '🎁'}</span>
+                        <AppIcon name={style.icon as import('../../components/ui/AppIcon').IconKey} className={`w-6 h-6 ${style.text}`} aria-hidden />
                       </div>
                       <p className="font-medium text-neutral-900 text-sm mb-1 line-clamp-2">
                         {item.name}
@@ -518,7 +518,7 @@ export function ChildRewardsCatalog() {
                   {history.map((item) => (
                     <div key={item.id} className="flex items-center justify-between p-3 bg-neutral-50 rounded-xl">
                       <div className="flex items-center gap-3">
-                        <span className="text-xl">{item.emoji || '🎁'}</span>
+                        <AppIcon name="gift" className="w-5 h-5 text-warning flex-shrink-0" aria-hidden />
                         <div>
                           <p className="font-medium text-neutral-900 text-sm">{item.reward_name}</p>
                           <p className="text-xs text-neutral-500">

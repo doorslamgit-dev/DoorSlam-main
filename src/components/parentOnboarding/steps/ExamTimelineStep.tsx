@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import AppIcon from "../../ui/AppIcon";
+import type { IconKey } from "../../ui/AppIcon";
 
 /* ============================
    Types
@@ -35,57 +36,67 @@ type Step = "when" | "feeling" | "history";
    Constants
 ============================ */
 
-const FEELING_OPTIONS = [
+const FEELING_OPTIONS: Array<{
+  code: ExamTimeline["feeling_code"] & string;
+  label: string;
+  description: string;
+  icon: IconKey;
+}> = [
   {
-    code: "feeling_on_track" as const,
+    code: "feeling_on_track",
     label: "We're on track",
     description: "Revision is going well, we want to stay organised",
-    emoji: "😊",
+    icon: "check-circle",
   },
   {
-    code: "feeling_behind" as const,
+    code: "feeling_behind",
     label: "A bit behind",
     description: "We've started but need to catch up",
-    emoji: "😅",
+    icon: "clock",
   },
   {
-    code: "feeling_overwhelmed" as const,
+    code: "feeling_overwhelmed",
     label: "Not sure where to start",
     description: "It feels overwhelming and we need a clear plan",
-    emoji: "😰",
+    icon: "triangle-alert",
   },
   {
-    code: "feeling_crisis" as const,
+    code: "feeling_crisis",
     label: "In crisis mode",
     description: "Exams are soon and we're really behind",
-    emoji: "😱",
+    icon: "alert-circle",
   },
 ];
 
-const HISTORY_OPTIONS = [
+const HISTORY_OPTIONS: Array<{
+  code: ExamTimeline["history_code"] & string;
+  label: string;
+  description: string;
+  icon: IconKey;
+}> = [
   {
-    code: "history_good" as const,
+    code: "history_good",
     label: "Really well",
     description: "Previous revision went smoothly",
-    emoji: "⭐",
+    icon: "star",
   },
   {
-    code: "history_mixed" as const,
+    code: "history_mixed",
     label: "OK but could be better",
     description: "Some things worked, others didn't",
-    emoji: "🤔",
+    icon: "circle-help",
   },
   {
-    code: "history_struggled" as const,
+    code: "history_struggled",
     label: "It was a struggle",
     description: "We found it difficult last time",
-    emoji: "😓",
+    icon: "alert-circle",
   },
   {
-    code: "history_first" as const,
+    code: "history_first",
     label: "This is our first time",
     description: "No previous revision experience",
-    emoji: "🆕",
+    icon: "plus-circle",
   },
 ];
 
@@ -264,7 +275,7 @@ function FeelingScreen(props: {
               }`}
             >
               <div className="flex items-center gap-3">
-                <span className="text-2xl">{option.emoji}</span>
+                <AppIcon name={option.icon} className="w-6 h-6 flex-shrink-0" aria-hidden />
                 <div>
                   <p className="font-medium text-neutral-900">{option.label}</p>
                   <p className="text-sm text-neutral-500">{option.description}</p>
@@ -321,7 +332,7 @@ function HistoryScreen(props: {
               }`}
             >
               <div className="flex items-center gap-3">
-                <span className="text-2xl">{option.emoji}</span>
+                <AppIcon name={option.icon} className="w-6 h-6 flex-shrink-0" aria-hidden />
                 <div>
                   <p className="font-medium text-neutral-900">{option.label}</p>
                   <p className="text-sm text-neutral-500">{option.description}</p>

@@ -531,7 +531,7 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
             <div className="mx-auto w-fit text-neutral-300 mb-3">
               <AppIcon name={ICON_CHAT} />
             </div>
-            <p className="text-sm">Hi! I’m your Study Buddy 👋</p>
+            <p className="text-sm">Hi! I’m your Study Buddy</p>
             <p className="text-xs mt-1">
               Ask me anything about what you’re learning!
             </p>
@@ -668,7 +668,7 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
                   onChange={(e) => setInputText(e.target.value)}
                   onKeyDown={handleKeyDown}
                   placeholder={
-                    canUseVoice ? "Type or hold 🎤 to speak…" : "Ask me anything…"
+                    canUseVoice ? "Type or hold mic to speak…" : "Ask me anything…"
                   }
                   className="flex-1 resize-none border border-neutral-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent min-h-[40px] max-h-[100px]"
                   rows={1}
@@ -692,7 +692,7 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
           <div className="text-center text-neutral-500 text-sm py-2">
             You’ve used all your questions for this session.
             <br />
-            Keep revising! 💪
+            Keep revising!
           </div>
         )}
       </div>

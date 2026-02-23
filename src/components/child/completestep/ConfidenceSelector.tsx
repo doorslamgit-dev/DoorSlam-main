@@ -36,7 +36,7 @@ export function ConfidenceSelector({
             } ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
           >
             <div className="flex items-center gap-3 mb-2">
-              <span className="text-2xl">{option.emoji}</span>
+              <AppIcon name={option.icon as IconKey} className="w-6 h-6 flex-shrink-0" aria-hidden />
               <span className="font-semibold text-neutral-900">{option.label}</span>
 
               {isSelected && (

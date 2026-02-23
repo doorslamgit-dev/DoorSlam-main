@@ -18,7 +18,9 @@ export function CelebrationBanner({
 
   return (
     <div className="bg-gradient-to-br from-primary-50 via-primary-50 to-primary-50 rounded-2xl shadow-card p-8 text-center border border-primary-200">
-      <div className="text-6xl mb-4">🎉</div>
+      <div className="w-20 h-20 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <AppIcon name="party-popper" className="w-10 h-10 text-primary-600" aria-hidden />
+      </div>
 
       <h2 className="text-3xl font-bold text-neutral-900 mb-2">
         You did it, {childName}!

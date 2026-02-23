@@ -23,16 +23,16 @@ export function CompleteScreen({
   let supportMessage = "";
 
   if (knownCount === totalCards) {
-    headlineMessage = "Amazing! You knew them all! 🌟";
+    headlineMessage = "Amazing! You knew them all!";
     supportMessage = "You're already a pro at this topic. Let's build on what you know!";
   } else if (knownCount > learningCount) {
-    headlineMessage = "Great job! You know loads already! 💪";
+    headlineMessage = "Great job! You know loads already!";
     supportMessage = "Now let's focus on the bits you're still learning.";
   } else if (knownCount > 0) {
-    headlineMessage = "Nice work! Good effort! 👍";
+    headlineMessage = "Nice work! Good effort!";
     supportMessage = "Don't worry about the ones you didn't know yet – that's what we're here for!";
   } else {
-    headlineMessage = "Thanks for trying! 🙌";
+    headlineMessage = "Thanks for trying!";
     supportMessage = "This is all new to you, and that's totally fine. Let's learn it together!";
   }
 
@@ -40,7 +40,7 @@ export function CompleteScreen({
     <div className="bg-neutral-0 rounded-2xl shadow-card p-8">
       <div className="text-center mb-8">
         <div className="w-20 h-20 bg-success-bg rounded-full flex items-center justify-center mx-auto mb-4">
-          <span className="text-4xl">🎉</span>
+          <AppIcon name="party-popper" className="w-10 h-10 text-accent-green" aria-hidden />
         </div>
         <h2 className="text-2xl font-bold text-neutral-900 mb-2">{headlineMessage}</h2>
         <p className="text-neutral-600">{supportMessage}</p>
