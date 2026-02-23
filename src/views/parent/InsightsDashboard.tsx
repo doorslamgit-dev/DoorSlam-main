@@ -5,6 +5,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { useSelectedChild } from '../../contexts/SelectedChildContext';
 import { PageLayout } from '../../components/layout';
 import Alert from '../../components/ui/Alert';
 import AppIcon from '../../components/ui/AppIcon';
@@ -27,23 +28,26 @@ import {
 export default function InsightsDashboard() {
   const navigate = useNavigate();
   const { user, isParent, loading: authLoading } = useAuth();
+  const { selectedChildId, selectedChildName } = useSelectedChild();
 
   const {
-    children,
-    selectedChildId,
     dateRange,
     setDateRange,
     insightsData,
     tutorAdvice,
     shareAnalytics,
     isAIAdvice,
-    loadingChildren,
     loadingInsights,
     loadingAdvice,
     error,
     handleAnalyticsToggle,
     getTopicInsights,
-  } = useInsightsDashboardData({ userId: user?.id, isParent });
+  } = useInsightsDashboardData({
+    userId: user?.id,
+    isParent,
+    childId: selectedChildId,
+    childName: selectedChildName,
+  });
 
   // Redirect if not parent
   useEffect(() => {
@@ -61,9 +65,9 @@ export default function InsightsDashboard() {
     }
   };
 
-  if (authLoading || loadingChildren) {
+  if (authLoading) {
     return (
-      <PageLayout>
+      <PageLayout hideFooter>
         <div className="flex items-center justify-center py-32">
           <div className="text-center">
             <AppIcon name="loader" className="text-primary-600 text-2xl animate-spin mb-3" />
@@ -76,11 +80,8 @@ export default function InsightsDashboard() {
 
   if (!user || !isParent) return null;
 
-  const selectedChild = children.find(c => c.id === selectedChildId);
-  const childName = selectedChild?.preferred_name || selectedChild?.first_name || 'Child';
-
   return (
-    <PageLayout>
+    <PageLayout hideFooter>
       <main className="max-w-6xl mx-auto px-6 py-8">
         {error && (
           <Alert variant="error" className="mb-6">
@@ -90,7 +91,7 @@ export default function InsightsDashboard() {
 
         <section className="mb-8">
           <HeroStoryWidget
-            childName={childName}
+            childName={selectedChildName}
             summary={insightsData?.summary || null}
             advice={tutorAdvice}
             loading={loadingInsights}

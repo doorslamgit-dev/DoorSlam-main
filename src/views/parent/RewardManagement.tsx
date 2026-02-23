@@ -3,10 +3,8 @@
 // Composes components from src/components/parent/rewards/
 // Uses hooks from src/hooks/parent/rewards/
 
-import { useState, useEffect } from 'react';
 import AppIcon from '../../components/ui/AppIcon';
-import { useAuth } from '../../contexts/AuthContext';
-import { fetchParentChildren } from '../../services/parent/insightsDashboardService';
+import { useSelectedChild } from '../../contexts/SelectedChildContext';
 
 // Components
 import {
@@ -24,19 +22,8 @@ import {
   useRewardActions,
 } from '../../hooks/parent/rewards';
 
-interface ChildInfo {
-  id: string;
-  first_name: string;
-  preferred_name: string | null;
-}
-
 export function RewardManagement() {
-  const { user } = useAuth();
-
-  // Local state for children
-  const [childList, setChildList] = useState<ChildInfo[]>([]);
-  const [selectedChildId, setSelectedChildId] = useState<string | null>(null);
-  const [childrenLoading, setChildrenLoading] = useState(true);
+  const { selectedChildId, selectedChildName } = useSelectedChild();
 
   // Hooks
   const {
@@ -70,29 +57,6 @@ export function RewardManagement() {
     error: actionError,
     clearError,
   } = useRewardActions();
-
-  // Fetch children on mount
-  useEffect(() => {
-    if (!user) {
-      setChildrenLoading(false);
-      return;
-    }
-
-    async function loadChildren() {
-      const { data, error } = await fetchParentChildren(user!.id);
-
-      if (!error && data) {
-        setChildList(data);
-        if (data.length > 0 && !selectedChildId) {
-          setSelectedChildId(data[0].id);
-        }
-      }
-      setChildrenLoading(false);
-    }
-
-    loadChildren();
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- load children once when user changes
-  }, [user]);
 
   // Handlers that wrap hook actions and refresh data
   const handleToggleTemplate = async (templateId: string, currentEnabled: boolean) => {
@@ -155,7 +119,7 @@ export function RewardManagement() {
   const error = templatesError || actionError;
 
   // Loading state
-  if (childrenLoading || templatesLoading) {
+  if (templatesLoading) {
     return (
       <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
         <div className="text-center">
@@ -187,9 +151,7 @@ export function RewardManagement() {
         {/* Hero Header */}
         <section className="bg-gradient-to-br from-primary-50 via-primary-100/50 to-white rounded-2xl shadow-sm p-6 border border-primary-200/30">
           <RewardHeroHeader
-            childList={childList}
-            selectedChildId={selectedChildId}
-            onSelectChild={setSelectedChildId}
+            childName={selectedChildName}
             enabledCount={enabledCount}
           />
 

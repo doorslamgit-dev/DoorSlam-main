@@ -10,6 +10,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Dashboard header redesign — sidebar child selector, message banner** (FEAT-DASH)
+  - Sidebar child selector now shows avatar (image or initials fallback) next to child name
+  - `SelectedChildContext` extended with `selectedChildAvatarUrl`
+  - `ChildOption` type and `fetchChildrenForParent()` now include `avatar_url`
+  - New `DashboardMessageBanner` component — 4 variants (nudge, alert, achievement, reminder), dark themed
+  - Dashboard header: removed `DashboardChildHeader` (redundant child selector), replaced with title + message banner
+  - Sidebar child selector is now the single source of child switching for all parent pages
+  - Switching child in sidebar stays on the current page (not redirected to dashboard)
+  - Removed in-page child selectors from SubjectProgress and RewardManagement
+  - InsightsDashboard hook refactored to accept `childId`/`childName` params from context
+  - Dark site footer hidden on Subjects, Timetable, and Insights pages (persistent footer replaces it)
+
+### Fixed
+- **Subscription gate too aggressive** — trial users were redirected to pricing page on every load; now only `tier === "expired"` triggers redirect
+- **Dashboard not updating on child change** — `useChildDashboardData` now syncs with URL `?child=` param changes via useEffect
+
 - **Timetable redesign — time-slot grid with drag-and-drop topics** (FEAT-TBL)
   - WeekView rewritten as a time-slot grid (rows = early morning/morning/afternoon/after school/evening, columns = days)
   - Individual TopicCards per topic within each session, with delete X and colour-coded status dot (green=done, orange=pending, red=missed)

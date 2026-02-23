@@ -100,7 +100,7 @@ export default function Timetable() {
   // Loading state
   if (authLoading || loading) {
     return (
-      <PageLayout>
+      <PageLayout hideFooter>
         <div className="flex items-center justify-center py-32">
           <div className="text-center">
             <div className="w-8 h-8 border-2 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
@@ -114,7 +114,7 @@ export default function Timetable() {
   if (!user) return null;
 
   return (
-    <PageLayout>
+    <PageLayout hideFooter>
       <main className="max-w-7xl mx-auto px-6 py-6">
         {/* Row 1: Title + Nudge banner */}
         <div className="flex items-start justify-between mb-4">

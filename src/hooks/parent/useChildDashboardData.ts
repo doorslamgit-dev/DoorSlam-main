@@ -87,6 +87,14 @@ export function useChildDashboardData(
   const [planOverview, setPlanOverview] = useState<PlanCoverageOverview | null>(null);
   const [planOverviewLoading, setPlanOverviewLoading] = useState(false);
 
+  // Sync from URL param when it changes (e.g. sidebar navigation)
+  const childParam = searchParams.get('child');
+  useEffect(() => {
+    if (childParam && childParam !== selectedChildId) {
+      setSelectedChildIdInternal(childParam);
+    }
+  }, [childParam, selectedChildId]);
+
   // Auto-select first child when data loads and no child is selected
   useEffect(() => {
     if (data?.children?.length && !selectedChildId) {

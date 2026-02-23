@@ -47,5 +47,5 @@ Rejected — the project uses React Context exclusively for state management (Au
 - Child list is fetched on app mount even if the parent navigates to a page that doesn't need it (minimal cost — single lightweight query)
 
 ### Follow-up work
-- Sync `selectedChildId` with URL `?child=<id>` parameter for deep-linkable child views
-- Use `SelectedChildContext` in other parent pages (dashboard, insights, settings) to replace their local child selection logic
+- ~~Sync `selectedChildId` with URL `?child=<id>` parameter for deep-linkable child views~~ — Done (PR #43, 23 Feb 2026). Sidebar navigates to `${pathname}?child=${childId}`. Dashboard hook syncs from URL param changes.
+- ~~Use `SelectedChildContext` in other parent pages (dashboard, insights, settings) to replace their local child selection logic~~ — Done (PR #43, 23 Feb 2026). SubjectProgress, RewardManagement, InsightsDashboard all use context. In-page child selectors removed from Subjects and Rewards.

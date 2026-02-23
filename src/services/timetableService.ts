@@ -31,6 +31,7 @@ export interface WeekDayData {
 export interface ChildOption {
   child_id: string;
   child_name: string;
+  avatar_url: string | null;
 }
 
 export interface SubjectLegend {
@@ -198,7 +199,7 @@ export async function fetchChildrenForParent(
   try {
     const { data, error } = await supabase
       .from("children")
-      .select("id, first_name, preferred_name")
+      .select("id, first_name, preferred_name, avatar_url")
       .eq("parent_id", parentId)
       .order("created_at");
 
@@ -207,6 +208,7 @@ export async function fetchChildrenForParent(
     const children: ChildOption[] = (data || []).map((c) => ({
       child_id: c.id,
       child_name: c.preferred_name || c.first_name,
+      avatar_url: c.avatar_url ?? null,
     }));
 
     return { data: children, error: null };
