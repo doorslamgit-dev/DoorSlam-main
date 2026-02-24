@@ -9,6 +9,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **AI Tutor — Markdown rendering in chat responses**
+  - Assistant messages now render via `react-markdown`: bold, numbered lists, bullet points, headings all display correctly
+  - User messages remain plain text
+  - System prompts updated to request Markdown formatting and plain text equations (no LaTeX)
+
+### Changed
+- **AI Tutor — Performance optimisation + provider migration**
+  - Parallelised pre-stream operations (embed, history load, message save) via `asyncio.gather` — TTFT reduced from 8.38s to 0.84s
+  - Split API providers: chat LLM (OpenAI direct, gpt-4o-mini) and embeddings (OpenAI direct, text-embedding-3-large at 2000 dims)
+  - Added `max_tokens=400` cap (~250 words) to prevent runaway response generation
+  - Lowered similarity threshold from 0.7 to 0.2 (calibrated for OpenAI embedding cosine scores)
+  - RAG always-on: removed subject_id gate so retrieval runs on every query
+  - System prompts tightened: inline citations `(Source N)`, no generic study tips
+  - Deferred post-stream saves (sources metadata, conversation count) to background tasks
+  - New `scripts/reembed.py` script for re-embedding all chunks after model migration
+  - Total latency reduced from 42s to ~3-4s end-to-end
+
 ---
 
 ## [0.2.0] - 2026-02-24

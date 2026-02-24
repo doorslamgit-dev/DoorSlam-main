@@ -22,6 +22,19 @@ For architecture decisions, see [docs/decisions/](decisions/).
 - Drive walker fixed for Shared Drives, CLI accepts `--root-path` for subfolder ingestion
 - Validated with AQA Biology 8461 specification: 110 chunks, Storage upload, vector search, deduplication all confirmed working
 
+**Subsequent changes — Performance optimisation + provider migration (24 Feb 2026)**:
+Initial testing revealed severe latency: 21.46s total with 8.38s to first token, caused by sequential pre-stream operations and slow API round-trips through OpenRouter. Responses were also too long (42s) and contained no RAG citations.
+
+Fixes applied in three rounds:
+1. **Parallelisation**: Embed query, load history, and save user message now run concurrently via `asyncio.gather`. Post-stream metadata saves (sources, conversation count) deferred to background tasks. TTFT dropped to 0.84s.
+2. **Provider migration**: Switched from OpenRouter to OpenAI direct for both chat (gpt-4o-mini) and embeddings (text-embedding-3-large, 2000 dimensions). Eliminates the middleman latency. All 110 existing chunks re-embedded via new `scripts/reembed.py` script.
+3. **Threshold calibration**: OpenAI embeddings produce cosine similarities of 0.25-0.38 for relevant content (vs 0.7+ with Qwen). Lowered `retrieval_similarity_threshold` from 0.7 to 0.2. RAG gate removed — retrieval runs on every query regardless of subject_id.
+
+Additional changes: `max_tokens=400` hard cap on LLM responses, system prompts tightened with 250-word limit, inline `(Source N)` citation instructions, and explicit "Do NOT add generic study tips" rule. End-to-end latency reduced from 42s to ~3-4s.
+
+**Subsequent changes — Markdown rendering in chat (24 Feb 2026)**:
+Assistant responses were rendering as raw text — bold markers, numbered lists, and LaTeX equations all displayed literally. Added `react-markdown` to `MessageBubble` so assistant messages render formatted Markdown (bold, lists, headings). User messages remain plain text. System prompts updated to request Markdown formatting and plain text equations with arrows (e.g., "carbon dioxide + water -> glucose + oxygen") instead of LaTeX notation.
+
 ---
 
 ## AI Tutor Module 2 — BYO Retrieval + Memory (24 Feb 2026)
