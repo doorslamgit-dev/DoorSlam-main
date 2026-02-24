@@ -1,14 +1,17 @@
 // src/components/layout/ai-tutor/MessageBubble.tsx
 
 import AppIcon from '../../ui/AppIcon';
+import SourceChips from './SourceChips';
+import type { SourceCitation } from '../../../services/aiAssistantService';
 
 interface MessageBubbleProps {
   role: 'user' | 'assistant';
   content: string;
   isStreaming?: boolean;
+  sources?: SourceCitation[];
 }
 
-export default function MessageBubble({ role, content, isStreaming }: MessageBubbleProps) {
+export default function MessageBubble({ role, content, isStreaming, sources }: MessageBubbleProps) {
   const isUser = role === 'user';
 
   return (
@@ -25,20 +28,23 @@ export default function MessageBubble({ role, content, isStreaming }: MessageBub
         />
       </div>
 
-      {/* Bubble */}
-      <div
-        className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed ${
-          isUser
-            ? 'bg-primary-600 text-white rounded-br-md'
-            : 'bg-neutral-100 text-neutral-800 rounded-bl-md'
-        }`}
-      >
-        <p className="whitespace-pre-wrap break-words">
-          {content}
-          {isStreaming && (
-            <span className="inline-block w-1.5 h-4 ml-0.5 bg-current animate-pulse rounded-sm align-text-bottom" />
-          )}
-        </p>
+      {/* Bubble + sources */}
+      <div className="max-w-[85%]">
+        <div
+          className={`rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed ${
+            isUser
+              ? 'bg-primary-600 text-white rounded-br-md'
+              : 'bg-neutral-100 text-neutral-800 rounded-bl-md'
+          }`}
+        >
+          <p className="whitespace-pre-wrap break-words">
+            {content}
+            {isStreaming && (
+              <span className="inline-block w-1.5 h-4 ml-0.5 bg-current animate-pulse rounded-sm align-text-bottom" />
+            )}
+          </p>
+        </div>
+        {!isUser && sources && sources.length > 0 && <SourceChips sources={sources} />}
       </div>
     </div>
   );

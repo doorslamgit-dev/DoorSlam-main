@@ -18,6 +18,20 @@ class Settings(BaseSettings):
     openai_base_url: str = "https://api.openai.com/v1"
     openai_model: str = "gpt-4o-mini"
 
+    # Embedding (separate from chat model — may use different provider)
+    embedding_model: str = "text-embedding-3-small"
+    embedding_base_url: str = "https://api.openai.com/v1"
+    embedding_api_key: str = ""  # falls back to openai_api_key if empty
+    embedding_dimensions: int = 1536
+
+    # Retrieval
+    retrieval_match_count: int = 5
+    retrieval_similarity_threshold: float = 0.7
+    max_history_tokens: int = 4000
+
+    # Google Drive (service account)
+    google_service_account_file: str = ""
+
     cors_origins: str = "http://localhost:5173"
 
     @property
