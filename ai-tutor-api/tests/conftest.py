@@ -222,13 +222,15 @@ def mock_supabase(monkeypatch):
         "src.api.chat.create_client", lambda _url, _key: builder
     )
 
-    # Mock retrieve_context to return empty list (no RAG results in unit tests)
-    async def _mock_retrieve_context(*_args, **_kwargs):
+    # Mock embed_query + search_chunks (no RAG results in unit tests)
+    async def _mock_embed_query(*_args, **_kwargs):
+        return [0.0] * 2000
+
+    async def _mock_search_chunks(*_args, **_kwargs):
         return []
 
-    monkeypatch.setattr(
-        "src.api.chat.retrieve_context", _mock_retrieve_context
-    )
+    monkeypatch.setattr("src.api.chat.embed_query", _mock_embed_query)
+    monkeypatch.setattr("src.api.chat.search_chunks", _mock_search_chunks)
 
     return builder
 

@@ -32,27 +32,18 @@ def _get_supabase():
     return create_client(settings.supabase_url, settings.supabase_service_role_key)
 
 
-async def retrieve_context(
-    query: str,
+async def search_chunks(
+    query_embedding: list[float],
     subject_id: str | None = None,
     topic_id: str | None = None,
     exam_board_id: str | None = None,
 ) -> list[RetrievedChunk]:
-    """Retrieve relevant chunks for a user query via vector similarity search.
+    """Search for chunks using a pre-computed embedding vector.
 
-    Args:
-        query: The user's question text.
-        subject_id: Optional filter to scope results by subject.
-        topic_id: Optional filter to scope results by topic.
-        exam_board_id: Optional filter to scope results by exam board.
-
-    Returns:
-        List of RetrievedChunk objects sorted by similarity (highest first).
+    Use this when you already have the query embedding (e.g., from a parallel
+    embed call). For the convenience wrapper that embeds + searches in one call,
+    use retrieve_context().
     """
-    # Embed the query
-    query_embedding = await embed_query(query)
-
-    # Call the search_chunks Postgres function
     sb = _get_supabase()
     result = sb.schema("rag").rpc(
         "search_chunks",
@@ -90,6 +81,19 @@ async def retrieve_context(
     return chunks
 
 
+async def retrieve_context(
+    query: str,
+    subject_id: str | None = None,
+    topic_id: str | None = None,
+    exam_board_id: str | None = None,
+) -> list[RetrievedChunk]:
+    """Convenience wrapper: embed query then search. For parallel pipelines, use
+    embed_query() + search_chunks() separately.
+    """
+    query_embedding = await embed_query(query)
+    return await search_chunks(query_embedding, subject_id, topic_id, exam_board_id)
+
+
 def format_retrieval_context(chunks: list[RetrievedChunk]) -> str:
     """Format retrieved chunks into a context string for the LLM system message.
 
@@ -102,15 +106,14 @@ def format_retrieval_context(chunks: list[RetrievedChunk]) -> str:
             "you don't have specific materials on this topic yet."
         )
 
-    lines = ["Here are relevant excerpts from revision materials:\n"]
+    lines = ["Relevant revision materials (cite as (Source N) when used):\n"]
     for i, chunk in enumerate(chunks, 1):
         lines.append(f"[Source {i}: {chunk.document_title} ({chunk.source_type})]")
         lines.append(chunk.content)
         lines.append("")
 
     lines.append(
-        "Use these sources to inform your answer. Reference specific documents "
-        "when appropriate. If the sources don't fully answer the question, "
-        "supplement with your general knowledge."
+        "Cite sources inline when you use them, e.g. (Source 1). "
+        "If the sources don't answer the question, say so and use general knowledge."
     )
     return "\n".join(lines)

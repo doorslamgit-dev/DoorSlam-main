@@ -14,22 +14,27 @@ class Settings(BaseSettings):
     supabase_service_role_key: str
     supabase_jwt_secret: str
 
-    # LLM provider (OpenRouter — OpenAI-compatible API)
-    openrouter_api_key: str = ""
-    openrouter_base_url: str = "https://openrouter.ai/api/v1"
-    chat_model: str = "z-ai/glm-4.7"
+    # Chat LLM (defaults to OpenAI direct — fast, reliable)
+    chat_api_key: str = ""
+    chat_base_url: str = "https://api.openai.com/v1"
+    chat_model: str = "gpt-4o-mini"
 
-    # Embedding (via OpenRouter)
-    embedding_model: str = "qwen/qwen3-embedding-8b"
+    # Embedding (defaults to OpenAI direct — fast query embedding)
+    embedding_api_key: str = ""
+    embedding_base_url: str = "https://api.openai.com/v1"
+    embedding_model: str = "text-embedding-3-large"
     embedding_dimensions: int = 2000
 
     # Chunking
     chunk_size: int = 512
     chunk_overlap: int = 64
 
+    # Response
+    max_response_tokens: int = 400
+
     # Retrieval
     retrieval_match_count: int = 5
-    retrieval_similarity_threshold: float = 0.7
+    retrieval_similarity_threshold: float = 0.2
     max_history_tokens: int = 4000
 
     # Google Drive (OAuth2)

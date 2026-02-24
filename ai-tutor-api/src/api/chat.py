@@ -15,27 +15,33 @@ from supabase import create_client
 from ..auth import get_current_user
 from ..config import settings
 from ..models.chat import ChatRequest
+from ..services.embedder import embed_query
 from ..services.memory import trim_history
-from ..services.retrieval import format_retrieval_context, retrieve_context
+from ..services.retrieval import format_retrieval_context, search_chunks
 
 router = APIRouter()
 
-PARENT_SYSTEM_PROMPT = """You are an AI revision tutor helping a GCSE parent understand their child's subjects and revision progress. You provide:
-- Clear explanations of GCSE topics at a parent-friendly level
-- Advice on how to support their child's revision
-- Insight into exam techniques and what examiners look for
-- Encouragement and practical suggestions
+PARENT_SYSTEM_PROMPT = """You are an AI revision tutor helping a GCSE parent understand their child's subjects.
 
-Keep responses concise, warm, and actionable. Use British English spelling conventions."""
+Rules:
+- Keep responses under 250 words. Be direct and factual.
+- When you use information from the provided sources, cite them inline: (Source 1), (Source 2), etc.
+- If no sources are relevant, say so honestly and answer from general knowledge.
+- Use British English spelling conventions.
+- Use Markdown formatting: **bold** for key terms, numbered lists, bullet points.
+- Write equations in plain text with arrows, e.g. "carbon dioxide + water → glucose + oxygen". Never use LaTeX notation.
+- Do NOT add generic study tips, revision advice, or encouragement at the end."""
 
-CHILD_SYSTEM_PROMPT = """You are a friendly study buddy helping a GCSE student revise. You:
-- Explain topics clearly with examples
-- Ask questions to check understanding
-- Use encouraging, age-appropriate language
-- Break complex topics into manageable chunks
-- Suggest memory techniques and revision strategies
+CHILD_SYSTEM_PROMPT = """You are a GCSE study buddy helping a student revise.
 
-Keep responses focused and not too long. Use British English spelling conventions."""
+Rules:
+- Keep responses under 250 words. Short paragraphs, bullet points where helpful.
+- When you use information from the provided sources, cite them inline: (Source 1), (Source 2), etc.
+- If no sources are relevant, say so honestly and answer from general knowledge.
+- Use British English spelling conventions.
+- Use Markdown formatting: **bold** for key terms, numbered lists, bullet points.
+- Write equations in plain text with arrows, e.g. "carbon dioxide + water → glucose + oxygen". Never use LaTeX notation.
+- Do NOT add generic study tips, revision advice, or encouragement at the end."""
 
 
 def _get_system_prompt(role: str) -> str:
@@ -89,7 +95,11 @@ async def _save_message(
     token_count: int | None = None,
     latency_ms: int | None = None,
 ) -> str:
-    """Save a message to the rag.messages table. Returns the message ID."""
+    """Save a message to the rag.messages table. Returns the message ID.
+
+    Only performs the INSERT — call _update_conversation_metadata() separately
+    to avoid blocking the critical path with a count subquery.
+    """
     sb = _get_supabase()
     msg_id = str(uuid.uuid4())
     sb.schema("rag").table("messages").insert({
@@ -102,19 +112,24 @@ async def _save_message(
         "latency_ms": latency_ms,
         "created_at": datetime.now(timezone.utc).isoformat(),
     }).execute()
+    return msg_id
 
-    # Update conversation metadata
-    sb.schema("rag").table("conversations").update({
-        "last_active_at": datetime.now(timezone.utc).isoformat(),
-        "message_count": sb.schema("rag")
+
+async def _update_conversation_metadata(conversation_id: str) -> None:
+    """Update conversation last_active_at and message_count. Non-critical — run after stream."""
+    sb = _get_supabase()
+    count = (
+        sb.schema("rag")
         .table("messages")
         .select("id", count="exact")
         .eq("conversation_id", conversation_id)
         .execute()
-        .count or 0,
+        .count or 0
+    )
+    sb.schema("rag").table("conversations").update({
+        "last_active_at": datetime.now(timezone.utc).isoformat(),
+        "message_count": count,
     }).eq("id", conversation_id).execute()
-
-    return msg_id
 
 
 logger = logging.getLogger(__name__)
@@ -128,8 +143,8 @@ async def _generate_title(conversation_id: str, user_message: str) -> None:
     """
     try:
         client = AsyncOpenAI(
-            api_key=settings.openrouter_api_key,
-            base_url=settings.openrouter_base_url,
+            api_key=settings.chat_api_key,
+            base_url=settings.chat_base_url,
         )
         response = await client.chat.completions.create(
             model=settings.chat_model,
@@ -171,17 +186,27 @@ async def chat_stream(req: ChatRequest, user: dict = Depends(get_current_user)):
         try:
             # Resolve or create conversation
             conversation_id = req.conversation_id
+            is_new_conversation = not conversation_id
             if not conversation_id:
                 conversation_id = await _create_conversation(
                     user["user_id"], req.child_id, req.subject_id
                 )
 
-            # Save user message
-            await _save_message(conversation_id, "user", req.message)
+            # --- Parallel phase: embed + load history + save user message ---
+            # All three are independent — run concurrently
+            embed_task = asyncio.create_task(embed_query(req.message))
+            history_task = asyncio.create_task(_load_history(conversation_id))
+            save_task = asyncio.create_task(
+                _save_message(conversation_id, "user", req.message)
+            )
 
-            # Retrieve relevant context via RAG
-            chunks = await retrieve_context(
-                query=req.message,
+            query_embedding, raw_history, _ = await asyncio.gather(
+                embed_task, history_task, save_task
+            )
+
+            # Vector search (scoped by subject/topic if provided)
+            chunks = await search_chunks(
+                query_embedding=query_embedding,
                 subject_id=req.subject_id,
                 topic_id=req.topic_id,
             )
@@ -203,30 +228,30 @@ async def chat_stream(req: ChatRequest, user: dict = Depends(get_current_user)):
 
             # Build messages array with retrieval context + trimmed history
             system_prompt = _get_system_prompt(req.role)
-            context_prompt = format_retrieval_context(chunks)
-            raw_history = await _load_history(conversation_id)
             trimmed = trim_history(raw_history, max_tokens=settings.max_history_tokens)
 
-            messages = [
-                {"role": "system", "content": system_prompt},
-                {"role": "system", "content": context_prompt},
-                *[m for m in trimmed if m["role"] != "system"],
-            ]
+            messages = [{"role": "system", "content": system_prompt}]
+            if chunks:
+                messages.append(
+                    {"role": "system", "content": format_retrieval_context(chunks)}
+                )
+            messages.extend(m for m in trimmed if m["role"] != "system")
             # Ensure the latest user message is included
             # (it was just saved, so history might not have it yet)
             if not trimmed or trimmed[-1]["content"] != req.message:
                 messages.append({"role": "user", "content": req.message})
 
-            # Stream from OpenRouter
+            # Stream from chat LLM
             client = wrap_openai(AsyncOpenAI(
-                api_key=settings.openrouter_api_key,
-                base_url=settings.openrouter_base_url,
+                api_key=settings.chat_api_key,
+                base_url=settings.chat_base_url,
             ))
 
             stream = await client.chat.completions.create(
                 model=settings.chat_model,
                 messages=messages,
                 stream=True,
+                max_tokens=settings.max_response_tokens,
             )
 
             full_response = ""
@@ -242,7 +267,7 @@ async def chat_stream(req: ChatRequest, user: dict = Depends(get_current_user)):
                         "data": json.dumps({"content": delta.content}),
                     }
 
-            # Save assistant response with sources metadata
+            # --- Post-stream saves (non-blocking where possible) ---
             elapsed_ms = int((time.monotonic() - start) * 1000)
             msg_id = await _save_message(
                 conversation_id,
@@ -253,12 +278,16 @@ async def chat_stream(req: ChatRequest, user: dict = Depends(get_current_user)):
                 latency_ms=elapsed_ms,
             )
 
-            # Save sources to message metadata if available
-            if sources_payload:
-                sb = _get_supabase()
-                sb.schema("rag").table("messages").update({
-                    "sources": sources_payload,
-                }).eq("id", msg_id).execute()
+            # Save sources + update conversation metadata in background
+            async def _post_stream_saves():
+                if sources_payload:
+                    sb = _get_supabase()
+                    sb.schema("rag").table("messages").update({
+                        "sources": sources_payload,
+                    }).eq("id", msg_id).execute()
+                await _update_conversation_metadata(conversation_id)
+
+            asyncio.create_task(_post_stream_saves())
 
             yield {
                 "event": "done",
@@ -269,7 +298,7 @@ async def chat_stream(req: ChatRequest, user: dict = Depends(get_current_user)):
             }
 
             # Generate title asynchronously for new conversations
-            if not req.conversation_id:
+            if is_new_conversation:
                 asyncio.create_task(_generate_title(conversation_id, req.message))
 
         except Exception as exc:
