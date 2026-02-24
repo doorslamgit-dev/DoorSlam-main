@@ -1,6 +1,18 @@
 -- Module 2: BYO Retrieval + Memory — Documents, chunks, ingestion jobs
 -- Adds document metadata, text chunks with embeddings, and batch job tracking
 
+-- Enable pgvector extension for vector similarity search
+CREATE EXTENSION IF NOT EXISTS vector WITH SCHEMA extensions;
+
+-- Make vector type available without schema prefix
+SET search_path TO rag, public, extensions;
+
+-- Clean up any partial state from failed migration attempts
+DROP TABLE IF EXISTS rag.ingestion_jobs CASCADE;
+DROP TABLE IF EXISTS rag.chunks CASCADE;
+DROP TABLE IF EXISTS rag.documents CASCADE;
+DROP FUNCTION IF EXISTS rag.search_chunks;
+
 -- =========================================================================
 -- rag.documents — Ingested file metadata
 -- =========================================================================
@@ -40,7 +52,7 @@ CREATE TABLE rag.chunks (
     content TEXT NOT NULL,
     content_hash TEXT NOT NULL,
     token_count INTEGER,
-    embedding vector(4096),
+    embedding vector(2000),
     subject_id UUID REFERENCES public.subjects(id),
     topic_id UUID REFERENCES public.topics(id),
     exam_board_id UUID REFERENCES public.exam_boards(id),
@@ -70,9 +82,9 @@ CREATE TABLE rag.ingestion_jobs (
 -- Indexes
 -- =========================================================================
 
--- Vector similarity (IVFFlat — adequate for <100K chunks)
+-- Vector similarity (HNSW — 2000 dims, better recall than IVFFlat)
 CREATE INDEX idx_chunks_embedding ON rag.chunks
-    USING ivfflat (embedding vector_cosine_ops) WITH (lists = 100);
+    USING hnsw (embedding vector_cosine_ops);
 
 -- Pre-filter indexes for scoped retrieval
 CREATE INDEX idx_chunks_subject ON rag.chunks(subject_id);
@@ -92,7 +104,7 @@ CREATE INDEX idx_ingestion_jobs_status ON rag.ingestion_jobs(status);
 -- rag.search_chunks() — Vector similarity search function
 -- =========================================================================
 CREATE OR REPLACE FUNCTION rag.search_chunks(
-    query_embedding vector(4096),
+    query_embedding vector(2000),
     match_count INTEGER DEFAULT 5,
     similarity_threshold FLOAT DEFAULT 0.7,
     filter_subject_id UUID DEFAULT NULL,

@@ -21,7 +21,7 @@ class Settings(BaseSettings):
 
     # Embedding (via OpenRouter)
     embedding_model: str = "qwen/qwen3-embedding-8b"
-    embedding_dimensions: int = 4096
+    embedding_dimensions: int = 2000
 
     # Chunking
     chunk_size: int = 512
