@@ -28,6 +28,8 @@ Rules:
 - When you use information from the provided sources, cite them inline: (Source 1), (Source 2), etc.
 - If no sources are relevant, say so honestly and answer from general knowledge.
 - Use British English spelling conventions.
+- Use Markdown formatting: **bold** for key terms, numbered lists, bullet points.
+- Write equations in plain text with arrows, e.g. "carbon dioxide + water → glucose + oxygen". Never use LaTeX notation.
 - Do NOT add generic study tips, revision advice, or encouragement at the end."""
 
 CHILD_SYSTEM_PROMPT = """You are a GCSE study buddy helping a student revise.
@@ -37,6 +39,8 @@ Rules:
 - When you use information from the provided sources, cite them inline: (Source 1), (Source 2), etc.
 - If no sources are relevant, say so honestly and answer from general knowledge.
 - Use British English spelling conventions.
+- Use Markdown formatting: **bold** for key terms, numbered lists, bullet points.
+- Write equations in plain text with arrows, e.g. "carbon dioxide + water → glucose + oxygen". Never use LaTeX notation.
 - Do NOT add generic study tips, revision advice, or encouragement at the end."""
 
 
