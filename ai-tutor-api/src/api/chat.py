@@ -15,6 +15,8 @@ from supabase import create_client
 from ..auth import get_current_user
 from ..config import settings
 from ..models.chat import ChatRequest
+from ..services.memory import trim_history
+from ..services.retrieval import format_retrieval_context, retrieve_context
 
 router = APIRouter()
 
@@ -177,17 +179,42 @@ async def chat_stream(req: ChatRequest, user: dict = Depends(get_current_user)):
             # Save user message
             await _save_message(conversation_id, "user", req.message)
 
-            # Build messages array
+            # Retrieve relevant context via RAG
+            chunks = await retrieve_context(
+                query=req.message,
+                subject_id=req.subject_id,
+                topic_id=req.topic_id,
+            )
+
+            # Send sources to frontend via SSE (before streaming response)
+            sources_payload = [
+                {
+                    "document_title": c.document_title,
+                    "source_type": c.source_type,
+                    "similarity": round(c.similarity, 3),
+                }
+                for c in chunks
+            ]
+            if sources_payload:
+                yield {
+                    "event": "sources",
+                    "data": json.dumps({"sources": sources_payload}),
+                }
+
+            # Build messages array with retrieval context + trimmed history
             system_prompt = _get_system_prompt(req.role)
-            history = await _load_history(conversation_id)
+            context_prompt = format_retrieval_context(chunks)
+            raw_history = await _load_history(conversation_id)
+            trimmed = trim_history(raw_history, max_tokens=settings.max_history_tokens)
 
             messages = [
                 {"role": "system", "content": system_prompt},
-                *[m for m in history if m["role"] != "system"],
+                {"role": "system", "content": context_prompt},
+                *[m for m in trimmed if m["role"] != "system"],
             ]
             # Ensure the latest user message is included
             # (it was just saved, so history might not have it yet)
-            if not history or history[-1]["content"] != req.message:
+            if not trimmed or trimmed[-1]["content"] != req.message:
                 messages.append({"role": "user", "content": req.message})
 
             # Stream from OpenAI
@@ -215,7 +242,7 @@ async def chat_stream(req: ChatRequest, user: dict = Depends(get_current_user)):
                         "data": json.dumps({"content": delta.content}),
                     }
 
-            # Save assistant response
+            # Save assistant response with sources metadata
             elapsed_ms = int((time.monotonic() - start) * 1000)
             msg_id = await _save_message(
                 conversation_id,
@@ -225,6 +252,13 @@ async def chat_stream(req: ChatRequest, user: dict = Depends(get_current_user)):
                 token_count=token_count,
                 latency_ms=elapsed_ms,
             )
+
+            # Save sources to message metadata if available
+            if sources_payload:
+                sb = _get_supabase()
+                sb.schema("rag").table("messages").update({
+                    "sources": sources_payload,
+                }).eq("id", msg_id).execute()
 
             yield {
                 "event": "done",
