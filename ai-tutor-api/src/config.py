@@ -34,7 +34,7 @@ class Settings(BaseSettings):
 
     # Retrieval
     retrieval_match_count: int = 5
-    retrieval_similarity_threshold: float = 0.7
+    retrieval_similarity_threshold: float = 0.2
     max_history_tokens: int = 4000
 
     # Google Drive (OAuth2)
