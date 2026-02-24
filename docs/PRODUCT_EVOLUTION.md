@@ -7,6 +7,23 @@ For architecture decisions, see [docs/decisions/](decisions/).
 
 ---
 
+## AI Tutor Module 2b — Schema Alignment + Ingestion Enhancement (25 Feb 2026)
+
+**Why this change is happening**: Module 2 built the RAG pipeline but without awareness of the existing database schema (exam_spec_versions, exam_pathways, exam_papers) or the structured naming conventions used in the Google Drive document collection. Documents were chunked and embedded but original PDFs were discarded, and metadata like exam session, paper number, and tier weren't captured.
+
+**What it does**: Extends the ingestion pipeline so that every uploaded document is (a) stored as an original downloadable PDF in Supabase Storage, and (b) enriched with structured metadata extracted from both the Drive folder path and the filename. The vector search function now supports filtering by source type, year, exam pathway, and document type.
+
+**How it was developed**:
+- Database migration adds 6 new columns to `rag.documents` with FK constraints to `exam_spec_versions` and `exam_pathways`, CHECK constraints for session/doc_type, and 7 new indexes
+- Private `exam-documents` Storage bucket created for original PDFs (signed URL access, 50MB limit)
+- Token-scanning filename parser handles all naming patterns from the document collection guide: tiered/untiered papers, mark schemes, examiner reports, specifications, revision notes, sample papers
+- Metadata resolver extended with `_lookup_current_spec_version()` and `_lookup_pathway()` functions
+- Ingestion pipeline uploads to Storage before chunking, stores all metadata columns
+- Drive walker fixed for Shared Drives, CLI accepts `--root-path` for subfolder ingestion
+- Validated with AQA Biology 8461 specification: 110 chunks, Storage upload, vector search, deduplication all confirmed working
+
+---
+
 ## AI Tutor Module 2 — BYO Retrieval + Memory (24 Feb 2026)
 
 **Why this change is happening**: Module 1 gave the AI Tutor a working chat pipeline, but it answered purely from GPT's general knowledge — it had no access to actual GCSE revision materials. Students asking about specific exam topics got generic answers rather than responses grounded in past papers, specifications, and revision notes. Additionally, long conversations could exceed the model's context window.

@@ -57,6 +57,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Chunking: reduced to 512 tokens / 64 overlap for more precise GCSE retrieval
     - Google Drive: switched from service account to OAuth2 refresh token auth
     - OAuth helper: `scripts/google_oauth.py` for one-time token acquisition
+    - **Schema alignment + ingestion pipeline enhancement**:
+      - Database: `rag.documents` extended with `exam_spec_version_id`, `exam_pathway_id`, `session`, `paper_number`, `doc_type`, `file_key` columns with FK constraints, CHECK constraints, and indexes
+      - Storage: private `exam-documents` Supabase Storage bucket for original exam PDFs (signed URL access)
+      - Filename parser: token-scanning parser for structured exam filenames (`{spec_code}_{year}_{session}_{paper}_{tier}_{type}.pdf`), handles board-prefixed names, 22 test cases
+      - `search_chunks()` enhanced with `filter_source_type`, `filter_year`, `filter_exam_pathway_id`, `filter_doc_type` parameters and new return columns
+      - Metadata resolver: added spec_version and pathway lookups from `exam_spec_versions` / `exam_pathways` tables
+      - Path parser: `refine_source_type()` uses `doc_type` from filename for finer-grained source_type (e.g., mark schemes in papers/ folder get `marking_scheme` not `past_paper`)
+      - Drive walker: added Shared Drive support (`supportsAllDrives`), `root_path` prefix parameter
+      - Ingestion: uploads original PDF to Storage bucket before chunking, stores all new metadata columns
+      - CLI: `--root-path` flag for ingesting from Drive subfolders with ancestor path context
+      - Validated: AQA Biology 8461 specification ingested (110 chunks, Storage upload, vector search, dedup confirmed)
 
 ### Fixed
 - **Subscription gate too aggressive** — trial users were redirected to pricing page on every load; now only `tier === "expired"` triggers redirect
