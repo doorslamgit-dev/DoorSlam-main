@@ -163,6 +163,9 @@ async def ingest_from_drive(
                         paper_number=resolved.paper_number,
                         doc_type=resolved.doc_type,
                         file_key=file_key,
+                        drive_file_id=drive_file.file_id,
+                        drive_md5_checksum=drive_file.md5_checksum,
+                        drive_modified_time=drive_file.modified_time,
                     )
 
                     processed += 1
