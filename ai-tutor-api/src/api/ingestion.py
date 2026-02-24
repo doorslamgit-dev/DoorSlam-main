@@ -10,11 +10,17 @@ from ..config import settings
 from ..models.ingestion import (
     BatchIngestRequest,
     BatchIngestResponse,
+    CleanupRequest,
+    CleanupResponse,
     DocumentListItem,
     DocumentListResponse,
     JobStatusResponse,
+    SyncRequest,
+    SyncResponse,
 )
 from ..services.batch_ingestion import ingest_from_drive
+from ..services.ingestion import cleanup_deleted_documents
+from ..services.sync import sync_from_drive
 
 router = APIRouter()
 
@@ -96,6 +102,9 @@ async def get_job_status(
         error_log=job.get("error_log", []),
         started_at=job.get("started_at"),
         completed_at=job.get("completed_at"),
+        job_type=job.get("job_type", "batch"),
+        sync_stats=job.get("sync_stats"),
+        root_folder_id=job.get("root_folder_id"),
     )
 
 
@@ -142,3 +151,55 @@ async def list_documents(
         ],
         has_more=len(docs) == limit + 1,
     )
+
+
+@router.post("/sync", response_model=SyncResponse)
+async def start_sync(
+    req: SyncRequest,
+    authorization: str = Header(...),
+):
+    """Start an incremental sync from a Google Drive folder.
+
+    Compares Drive state against DB, processes only new/modified/deleted files.
+    Auth: requires service_role key in Authorization header.
+    """
+    _verify_service_key(authorization)
+
+    job_id_future: asyncio.Future[str] = asyncio.get_event_loop().create_future()
+
+    async def run_sync():
+        try:
+            job_id = await sync_from_drive(
+                root_folder_id=req.root_folder_id,
+                batch_label=req.batch_label,
+                concurrency=req.concurrency,
+                root_path=req.root_path,
+            )
+            if not job_id_future.done():
+                job_id_future.set_result(job_id)
+        except Exception as exc:
+            if not job_id_future.done():
+                job_id_future.set_exception(exc)
+
+    asyncio.create_task(run_sync())
+
+    try:
+        job_id = await asyncio.wait_for(job_id_future, timeout=5.0)
+    except asyncio.TimeoutError:
+        raise HTTPException(status_code=500, detail="Sync failed to start")
+
+    return SyncResponse(job_id=job_id)
+
+
+@router.post("/cleanup", response_model=CleanupResponse)
+async def cleanup_stale(
+    req: CleanupRequest,
+    authorization: str = Header(...),
+):
+    """Hard-delete documents that were soft-deleted more than N days ago.
+
+    Auth: requires service_role key in Authorization header.
+    """
+    _verify_service_key(authorization)
+    count = cleanup_deleted_documents(older_than_days=req.older_than_days)
+    return CleanupResponse(deleted_count=count)
