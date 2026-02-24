@@ -15,8 +15,9 @@ from supabase import create_client
 from ..auth import get_current_user
 from ..config import settings
 from ..models.chat import ChatRequest
+from ..services.embedder import embed_query
 from ..services.memory import trim_history
-from ..services.retrieval import format_retrieval_context, retrieve_context
+from ..services.retrieval import format_retrieval_context, search_chunks
 
 router = APIRouter()
 
@@ -89,7 +90,11 @@ async def _save_message(
     token_count: int | None = None,
     latency_ms: int | None = None,
 ) -> str:
-    """Save a message to the rag.messages table. Returns the message ID."""
+    """Save a message to the rag.messages table. Returns the message ID.
+
+    Only performs the INSERT — call _update_conversation_metadata() separately
+    to avoid blocking the critical path with a count subquery.
+    """
     sb = _get_supabase()
     msg_id = str(uuid.uuid4())
     sb.schema("rag").table("messages").insert({
@@ -102,19 +107,24 @@ async def _save_message(
         "latency_ms": latency_ms,
         "created_at": datetime.now(timezone.utc).isoformat(),
     }).execute()
+    return msg_id
 
-    # Update conversation metadata
-    sb.schema("rag").table("conversations").update({
-        "last_active_at": datetime.now(timezone.utc).isoformat(),
-        "message_count": sb.schema("rag")
+
+async def _update_conversation_metadata(conversation_id: str) -> None:
+    """Update conversation last_active_at and message_count. Non-critical — run after stream."""
+    sb = _get_supabase()
+    count = (
+        sb.schema("rag")
         .table("messages")
         .select("id", count="exact")
         .eq("conversation_id", conversation_id)
         .execute()
-        .count or 0,
+        .count or 0
+    )
+    sb.schema("rag").table("conversations").update({
+        "last_active_at": datetime.now(timezone.utc).isoformat(),
+        "message_count": count,
     }).eq("id", conversation_id).execute()
-
-    return msg_id
 
 
 logger = logging.getLogger(__name__)
@@ -171,17 +181,27 @@ async def chat_stream(req: ChatRequest, user: dict = Depends(get_current_user)):
         try:
             # Resolve or create conversation
             conversation_id = req.conversation_id
+            is_new_conversation = not conversation_id
             if not conversation_id:
                 conversation_id = await _create_conversation(
                     user["user_id"], req.child_id, req.subject_id
                 )
 
-            # Save user message
-            await _save_message(conversation_id, "user", req.message)
+            # --- Parallel phase: embed query + load history + save user message ---
+            # These three operations are independent — run concurrently to cut ~1-2s
+            embed_task = asyncio.create_task(embed_query(req.message))
+            history_task = asyncio.create_task(_load_history(conversation_id))
+            save_task = asyncio.create_task(
+                _save_message(conversation_id, "user", req.message)
+            )
 
-            # Retrieve relevant context via RAG
-            chunks = await retrieve_context(
-                query=req.message,
+            query_embedding, raw_history, _ = await asyncio.gather(
+                embed_task, history_task, save_task
+            )
+
+            # --- Vector search (needs embedding result) ---
+            chunks = await search_chunks(
+                query_embedding=query_embedding,
                 subject_id=req.subject_id,
                 topic_id=req.topic_id,
             )
@@ -204,7 +224,6 @@ async def chat_stream(req: ChatRequest, user: dict = Depends(get_current_user)):
             # Build messages array with retrieval context + trimmed history
             system_prompt = _get_system_prompt(req.role)
             context_prompt = format_retrieval_context(chunks)
-            raw_history = await _load_history(conversation_id)
             trimmed = trim_history(raw_history, max_tokens=settings.max_history_tokens)
 
             messages = [
@@ -242,7 +261,7 @@ async def chat_stream(req: ChatRequest, user: dict = Depends(get_current_user)):
                         "data": json.dumps({"content": delta.content}),
                     }
 
-            # Save assistant response with sources metadata
+            # --- Post-stream saves (non-blocking where possible) ---
             elapsed_ms = int((time.monotonic() - start) * 1000)
             msg_id = await _save_message(
                 conversation_id,
@@ -253,12 +272,16 @@ async def chat_stream(req: ChatRequest, user: dict = Depends(get_current_user)):
                 latency_ms=elapsed_ms,
             )
 
-            # Save sources to message metadata if available
-            if sources_payload:
-                sb = _get_supabase()
-                sb.schema("rag").table("messages").update({
-                    "sources": sources_payload,
-                }).eq("id", msg_id).execute()
+            # Save sources + update conversation metadata in background
+            async def _post_stream_saves():
+                if sources_payload:
+                    sb = _get_supabase()
+                    sb.schema("rag").table("messages").update({
+                        "sources": sources_payload,
+                    }).eq("id", msg_id).execute()
+                await _update_conversation_metadata(conversation_id)
+
+            asyncio.create_task(_post_stream_saves())
 
             yield {
                 "event": "done",
@@ -269,7 +292,7 @@ async def chat_stream(req: ChatRequest, user: dict = Depends(get_current_user)):
             }
 
             # Generate title asynchronously for new conversations
-            if not req.conversation_id:
+            if is_new_conversation:
                 asyncio.create_task(_generate_title(conversation_id, req.message))
 
         except Exception as exc:

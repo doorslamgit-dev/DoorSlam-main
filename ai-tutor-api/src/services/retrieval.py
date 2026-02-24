@@ -32,27 +32,18 @@ def _get_supabase():
     return create_client(settings.supabase_url, settings.supabase_service_role_key)
 
 
-async def retrieve_context(
-    query: str,
+async def search_chunks(
+    query_embedding: list[float],
     subject_id: str | None = None,
     topic_id: str | None = None,
     exam_board_id: str | None = None,
 ) -> list[RetrievedChunk]:
-    """Retrieve relevant chunks for a user query via vector similarity search.
+    """Search for chunks using a pre-computed embedding vector.
 
-    Args:
-        query: The user's question text.
-        subject_id: Optional filter to scope results by subject.
-        topic_id: Optional filter to scope results by topic.
-        exam_board_id: Optional filter to scope results by exam board.
-
-    Returns:
-        List of RetrievedChunk objects sorted by similarity (highest first).
+    Use this when you already have the query embedding (e.g., from a parallel
+    embed call). For the convenience wrapper that embeds + searches in one call,
+    use retrieve_context().
     """
-    # Embed the query
-    query_embedding = await embed_query(query)
-
-    # Call the search_chunks Postgres function
     sb = _get_supabase()
     result = sb.schema("rag").rpc(
         "search_chunks",
@@ -88,6 +79,19 @@ async def retrieve_context(
         len(chunks), subject_id, topic_id,
     )
     return chunks
+
+
+async def retrieve_context(
+    query: str,
+    subject_id: str | None = None,
+    topic_id: str | None = None,
+    exam_board_id: str | None = None,
+) -> list[RetrievedChunk]:
+    """Convenience wrapper: embed query then search. For parallel pipelines, use
+    embed_query() + search_chunks() separately.
+    """
+    query_embedding = await embed_query(query)
+    return await search_chunks(query_embedding, subject_id, topic_id, exam_board_id)
 
 
 def format_retrieval_context(chunks: list[RetrievedChunk]) -> str:
