@@ -7,6 +7,25 @@ For architecture decisions, see [docs/decisions/](decisions/).
 
 ---
 
+## AI Tutor Module 3 — Record Manager: Change Detection & Incremental Sync (24 Feb 2026)
+
+**Why this change is happening**: Module 2 could only do full batch ingestion — every sync re-processed all files. When a file was modified on Drive, the system either skipped it (if content was identical) or created a duplicate document row. There was no mechanism to detect changes, update existing documents, or clean up removed content. As the corpus grows, re-embedding unchanged documents wastes time and API costs.
+
+**What it does**: Adds incremental sync so only new, modified, or deleted files are processed. Documents maintain stable UUIDs so chat message history references remain valid even after content updates. Files removed from Drive are soft-deleted and excluded from search immediately, with deferred hard-delete after a configurable retention period.
+
+**How it was developed**:
+- Database migration adds Drive identity columns (`drive_file_id`, `drive_md5_checksum`, `drive_modified_time`, `deleted_at`) to `rag.documents` with UNIQUE constraint on `drive_file_id`. Status CHECK expanded to include `'deleted'`. `ingestion_jobs` extended with `job_type`, `sync_stats`, and `root_folder_id`.
+- `DriveFile` dataclass extended with `md5_checksum` and `modified_time` fields; Drive API now requests `md5Checksum` and `modifiedTime`.
+- New `update_document()` function: deletes old chunks, re-parses/chunks/embeds from new content, updates the document row while preserving the same UUID.
+- New `soft_delete_document()` and `cleanup_deleted_documents()` functions for the soft-delete lifecycle.
+- Sync orchestrator (`sync.py`): walks Drive, loads existing DB docs, classifies each file as new/modified/deleted/unchanged using `drive_file_id` and `md5_checksum`, then processes only the changes.
+- New API endpoints: `POST /ingestion/sync` and `POST /ingestion/cleanup`.
+- CLI extended with `--sync` and `--cleanup` commands.
+- Batch ingestion updated to store Drive identity on all new documents.
+- 20 new tests covering sync classification, API endpoints, and retrieval service.
+
+---
+
 ## AI Tutor Module 2b — Schema Alignment + Ingestion Enhancement (25 Feb 2026)
 
 **Why this change is happening**: Module 2 built the RAG pipeline but without awareness of the existing database schema (exam_spec_versions, exam_pathways, exam_papers) or the structured naming conventions used in the Google Drive document collection. Documents were chunked and embedded but original PDFs were discarded, and metadata like exam session, paper number, and tier weren't captured.

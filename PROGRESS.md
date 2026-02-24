@@ -7,7 +7,7 @@
 |---|--------|--------|-----------|-------|
 | 1 | App Shell — Auth, chat UI, SSE streaming | **Done** | Medium | FastAPI + JWT auth + SSE chat + Supabase persistence |
 | 2 | BYO Retrieval + Memory — Ingestion, pgvector | **Done** | High | Drive walker, chunker, embedder, retrieval, source citations, memory trimming. E2E validated: AQA Biology 8461 (110 chunks), 3-4s latency, markdown rendering, inline citations |
-| 3 | Record Manager — Content hashing, deduplication | Pending | TBD | |
+| 3 | Record Manager — Change detection, incremental sync | **Done** | Medium | Drive identity tracking, sync orchestrator, soft-delete lifecycle, 20 new tests. 118 backend tests passing |
 | 4 | Metadata Extraction — LLM-extracted metadata | Pending | TBD | Subject/topic/exam board from Drive path + content |
 | 5 | Multi-Format Support — PDF, DOCX, HTML, Markdown | Pending | TBD | Docling integration |
 | 6 | Hybrid Search & Reranking — Keyword + vector, RRF | Pending | TBD | |
