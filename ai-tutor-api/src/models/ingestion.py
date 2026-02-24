@@ -18,6 +18,33 @@ class BatchIngestResponse(BaseModel):
     job_id: str
 
 
+class SyncRequest(BaseModel):
+    """Request body for POST /ingestion/sync."""
+
+    root_folder_id: str
+    batch_label: str | None = None
+    concurrency: int = 5
+    root_path: str = ""
+
+
+class SyncResponse(BaseModel):
+    """Response for POST /ingestion/sync."""
+
+    job_id: str
+
+
+class CleanupRequest(BaseModel):
+    """Request body for POST /ingestion/cleanup."""
+
+    older_than_days: int = 30
+
+
+class CleanupResponse(BaseModel):
+    """Response for POST /ingestion/cleanup."""
+
+    deleted_count: int
+
+
 class JobStatusResponse(BaseModel):
     """Response for GET /ingestion/jobs/{job_id}."""
 
@@ -31,6 +58,9 @@ class JobStatusResponse(BaseModel):
     error_log: list
     started_at: str | None
     completed_at: str | None
+    job_type: str = "batch"
+    sync_stats: dict | None = None
+    root_folder_id: str | None = None
 
 
 class DocumentListItem(BaseModel):

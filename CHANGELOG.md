@@ -10,6 +10,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **AI Tutor Module 3: Record Manager — Change detection & incremental sync**
+  - Drive identity tracking: `drive_file_id`, `drive_md5_checksum`, `drive_modified_time` on `rag.documents`
+  - Incremental sync: `POST /ingestion/sync` compares Drive vs DB, processes only new/modified/deleted files
+  - Document update flow: re-chunks and re-embeds modified content while preserving document UUID
+  - Soft-delete with deferred cleanup: `POST /ingestion/cleanup` hard-deletes stale docs after N days
+  - CLI extensions: `--sync` and `--cleanup` commands on `scripts/ingest.py`
+  - 20 new tests: sync classification, API endpoints, retrieval service
+
 - **AI Tutor — Markdown rendering in chat responses**
   - Assistant messages now render via `react-markdown`: bold, numbered lists, bullet points, headings all display correctly
   - User messages remain plain text
