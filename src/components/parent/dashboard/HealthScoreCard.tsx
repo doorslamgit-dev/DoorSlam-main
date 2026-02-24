@@ -138,6 +138,12 @@ export function HealthScoreCard({
           </span>
         </div>
       </div>
+
+      {/* Ask AI Tutor CTA */}
+      <button className="mt-4 w-full flex items-center justify-center gap-2 px-3 py-2 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl text-xs font-semibold transition-colors">
+        <AppIcon name="bot" className="w-3.5 h-3.5" />
+        Ask AI Tutor
+      </button>
     </div>
   );
 }

@@ -259,7 +259,7 @@ const MOCK_CHILD: ChildSummary = {
  hero_sentence: '4 of 6 sessions done — strong progress.',
 };
 
-const MOCK_DAILY_PATTERN: DailyPattern[] = [
+const _MOCK_DAILY_PATTERN: DailyPattern[] = [
  { day_of_week: 'Monday', day_name_short: 'Mon', day_index: 0, sessions_completed: 1, sessions_total: 1, total_minutes: 45, is_rest_day: false },
  { day_of_week: 'Tuesday', day_name_short: 'Tue', day_index: 1, sessions_completed: 1, sessions_total: 1, total_minutes: 60, is_rest_day: false },
  { day_of_week: 'Wednesday', day_name_short: 'Wed', day_index: 2, sessions_completed: 1, sessions_total: 1, total_minutes: 45, is_rest_day: false },
@@ -299,7 +299,7 @@ const MOCK_PLAN_OVERVIEW: PlanCoverageOverview = {
  pace: { sessions_per_week_needed: 3, hours_per_week_needed: 3 },
 };
 
-const MOCK_COMING_UP: ComingUpSession[] = [
+const _MOCK_COMING_UP: ComingUpSession[] = [
  { planned_session_id: '1', child_id: 'mock-child-1', child_name: 'Alex Johnson', child_avatar_url: null, subject_id: 's1', subject_name: 'Mathematics', subject_color: '#5B2CFF', subject_icon: 'calculator', topic_name: 'Quadratic Equations', session_date: '2025-02-24', session_duration_minutes: 45, is_today: true, is_tomorrow: false, day_label: 'Mon' },
  { planned_session_id: '2', child_id: 'mock-child-1', child_name: 'Alex Johnson', child_avatar_url: null, subject_id: 's2', subject_name: 'English Literature', subject_color: '#1EC592', subject_icon: 'book', topic_name: 'Macbeth Act II', session_date: '2025-02-25', session_duration_minutes: 60, is_today: false, is_tomorrow: true, day_label: 'Tue' },
  { planned_session_id: '3', child_id: 'mock-child-1', child_name: 'Alex Johnson', child_avatar_url: null, subject_id: 's3', subject_name: 'Biology', subject_color: '#3B82F6', subject_icon: 'atom', topic_name: 'Cell Division', session_date: '2025-02-26', session_duration_minutes: 45, is_today: false, is_tomorrow: false, day_label: 'Wed' },
@@ -1454,7 +1454,6 @@ export default function DesignGuidelines() {
            <div className="max-w-lg">
              <DashboardHeroCard
                child={MOCK_CHILD}
-               dailyPattern={MOCK_DAILY_PATTERN}
                childCoverage={MOCK_DASHBOARD_COVERAGE}
                onActionClick={() => undefined}
                onViewDetailedBreakdown={() => undefined}
@@ -1482,7 +1481,6 @@ export default function DesignGuidelines() {
            <SourceTag path="src/components/parent/dashboard/DashboardRevisionPlan.tsx" />
            <DashboardRevisionPlan
              planOverview={MOCK_PLAN_OVERVIEW}
-             comingUp={MOCK_COMING_UP}
            />
          </SubSection>
        </Section>

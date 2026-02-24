@@ -5,14 +5,12 @@
 import AppIcon from '../../ui/AppIcon';
 import type {
   ChildSummary,
-  DailyPattern,
   SubjectCoverage,
 } from '../../../types/parent/parentDashboardTypes';
 import type { PlanCoverageOverview } from '../../../services/timetableService';
 
 interface DashboardHeroCardProps {
   child: ChildSummary | null;
-  dailyPattern: DailyPattern[];
   childCoverage: SubjectCoverage[];
   onActionClick: (action: string) => void;
   onViewDetailedBreakdown: () => void;
@@ -187,7 +185,6 @@ function NextBestAction({
 
 export function DashboardHeroCard({
   child,
-  dailyPattern,
   childCoverage: _childCoverage,
   onActionClick,
   planOverview,
@@ -200,9 +197,6 @@ export function DashboardHeroCard({
   const heroSentence = child.hero_sentence || generateHeroSentence(child);
   const sessionsCompleted = child.week_sessions_completed;
   const sessionsTotal = child.week_sessions_total;
-
-  // Determine today's day index (0=Mon ... 6=Sun)
-  const todayIdx = (new Date().getDay() + 6) % 7;
 
   return (
     <div className="bg-neutral-0 rounded-2xl shadow-card p-5 border border-neutral-200/50 h-full flex flex-col">
@@ -223,38 +217,6 @@ export function DashboardHeroCard({
 
       {/* Narrative one-liner */}
       <p className="text-sm text-neutral-500 mb-3">{heroSentence}</p>
-
-      {/* Compact day strip */}
-      {dailyPattern.length > 0 && (
-        <div className="flex gap-1.5 mb-4">
-          {dailyPattern.map((day, idx) => {
-            const isToday = idx === todayIdx;
-            const isDone = day.sessions_completed >= day.sessions_total && day.sessions_total > 0;
-            const inProgress = !isDone && day.sessions_completed > 0;
-
-            let pillClass = 'bg-neutral-100 text-neutral-500';
-            let label = day.day_name_short;
-
-            if (isDone) {
-              pillClass = 'bg-primary-600 text-white';
-            } else if (inProgress) {
-              pillClass = 'bg-primary-100 text-primary-700';
-              label = 'In Progress';
-            } else if (isToday) {
-              pillClass = 'bg-neutral-200 text-neutral-700';
-            }
-
-            return (
-              <div
-                key={day.day_of_week}
-                className={`flex-1 text-center py-1.5 rounded-lg text-xs font-medium ${pillClass}`}
-              >
-                {label}
-              </div>
-            );
-          })}
-        </div>
-      )}
 
       {/* 3 compact KPI cards */}
       <div className="grid grid-cols-3 gap-3 mb-4">

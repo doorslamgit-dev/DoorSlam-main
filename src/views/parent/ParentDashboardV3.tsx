@@ -1,5 +1,5 @@
 // src/views/parent/ParentDashboardV3.tsx
-// Parent Dashboard v3 — Child-specific dashboard with hero, health score, revision plan, activity
+// Parent Dashboard v3 — Child-specific dashboard matching Figma design
 
 import { lazy, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -7,10 +7,14 @@ import { useChildDashboardData } from '../../hooks/parent/useChildDashboardData'
 import { DashboardChildHeader } from '../../components/parent/dashboard/DashboardChildHeader';
 import { DashboardHeroCard } from '../../components/parent/dashboard/DashboardHeroCard';
 import { HealthScoreCard } from '../../components/parent/dashboard/HealthScoreCard';
+import { DashboardWeeklyProgress } from '../../components/parent/dashboard/DashboardWeeklyProgress';
+import { DashboardTodaySessions } from '../../components/parent/dashboard/DashboardTodaySessions';
 import { DashboardRevisionPlan } from '../../components/parent/dashboard/DashboardRevisionPlan';
-import { DashboardProgressMoments } from '../../components/parent/dashboard/DashboardProgressMoments';
 import { DashboardRecentActivity } from '../../components/parent/dashboard/DashboardRecentActivity';
+import { DashboardProgressMoments } from '../../components/parent/dashboard/DashboardProgressMoments';
+import { DashboardComingUpNext } from '../../components/parent/dashboard/DashboardComingUpNext';
 import { DashboardActiveRewards } from '../../components/parent/dashboard/DashboardActiveRewards';
+import { DashboardNotificationBanner } from '../../components/parent/dashboard/DashboardNotificationBanner';
 import AppIcon from '../../components/ui/AppIcon';
 
 const DashboardInviteModal = lazy(
@@ -79,6 +83,7 @@ function ParentDashboardV3Inner() {
     childComingUp,
     childCoverage,
     childMoments,
+    childReminders,
     planOverview,
     planOverviewLoading,
     enabledRewards,
@@ -90,7 +95,6 @@ function ParentDashboardV3Inner() {
 
   const [showInviteModal, setShowInviteModal] = useState(false);
 
-  // Navigation helpers
   const navigateWithScroll = (path: string) => {
     navigate(path);
     window.scrollTo({ top: 0, behavior: 'instant' });
@@ -116,7 +120,6 @@ function ParentDashboardV3Inner() {
         navigateWithScroll(`/parent/insights${selectedChildId ? `?child=${selectedChildId}` : ''}`);
         break;
       case 'keep-plan':
-        // No-op — plan stays as-is
         break;
     }
   };
@@ -133,10 +136,16 @@ function ParentDashboardV3Inner() {
     navigateWithScroll(`/parent/rewards${selectedChildId ? `?child=${selectedChildId}` : ''}`);
   };
 
-  // Loading state
+  const handleAddSubject = () => {
+    navigateWithScroll(`/parent/subjects${selectedChildId ? `?child=${selectedChildId}` : ''}`);
+  };
+
+  const handleProgressReport = () => {
+    navigateWithScroll(`/parent/insights/report${selectedChildId ? `?child=${selectedChildId}` : ''}`);
+  };
+
   if (loading) return <DashboardSkeleton />;
 
-  // Error state
   if (error) {
     return (
       <div className="min-h-screen bg-transparent">
@@ -147,7 +156,6 @@ function ParentDashboardV3Inner() {
     );
   }
 
-  // No data state
   if (!data) {
     return (
       <div className="min-h-screen bg-transparent">
@@ -160,20 +168,22 @@ function ParentDashboardV3Inner() {
 
   return (
     <div className="min-h-screen bg-transparent">
-      <main className="max-w-content mx-auto px-4 py-4 lg:px-6 lg:py-5">
-        {/* Page Header: Dashboard title + child selector */}
+      <main className="max-w-content mx-auto px-4 py-4 lg:px-6 lg:py-5 pb-24">
+        {/* Contextual notification banner — shown when child needs attention */}
+        {selectedChild && <DashboardNotificationBanner child={selectedChild} />}
+
+        {/* Page Header: Dashboard title + subtitle + child selector */}
         <DashboardChildHeader
           child={selectedChild}
           children={data.children}
           onChildChange={setSelectedChildId}
         />
 
-        {/* Row 1: Hero (2/3) + Health Score (1/3) — stacks on mobile */}
+        {/* Row 1: Hero (2/3) + Health Score (1/3) */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
           <div className="lg:col-span-2">
             <DashboardHeroCard
               child={selectedChild}
-              dailyPattern={dailyPattern}
               childCoverage={childCoverage}
               onActionClick={handleActionClick}
               onViewDetailedBreakdown={handleViewDetailedBreakdown}
@@ -191,29 +201,34 @@ function ParentDashboardV3Inner() {
           />
         </div>
 
-        {/* Row 2: Revision Plan — full width */}
+        {/* Row 2: This Week's Progress — full width */}
         <div className="mb-4">
+          <DashboardWeeklyProgress child={selectedChild} dailyPattern={dailyPattern} />
+        </div>
+
+        {/* Row 3: Today's Sessions (left) + Revision Plan (right) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+          <DashboardTodaySessions sessions={childComingUp} reminders={childReminders} />
           <DashboardRevisionPlan
             planOverview={planOverview}
-            comingUp={childComingUp}
             loading={planOverviewLoading}
             onEditSchedule={handleEditSchedule}
           />
         </div>
 
-        {/* Row 3: Recent Activity + Progress Moments + Active Rewards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <DashboardRecentActivity
-            comingUp={childComingUp}
-            coverage={childCoverage}
-          />
+        {/* Row 4: Recent Activity + Progress Moments + Coming Up Next */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          <DashboardRecentActivity comingUp={childComingUp} coverage={childCoverage} />
           <DashboardProgressMoments moments={childMoments} />
-          <DashboardActiveRewards
-            rewards={enabledRewards}
-            loading={rewardsLoading}
-            onConfigureRewards={handleConfigureRewards}
-          />
+          <DashboardComingUpNext sessions={childComingUp} />
         </div>
+
+        {/* Row 5: Active Rewards — full width */}
+        <DashboardActiveRewards
+          rewards={enabledRewards}
+          loading={rewardsLoading}
+          onConfigureRewards={handleConfigureRewards}
+        />
 
         {/* Invite child modal (lazy-loaded) */}
         {showInviteModal && selectedChild && (
@@ -225,6 +240,37 @@ function ParentDashboardV3Inner() {
           />
         )}
       </main>
+
+      {/* Sticky bottom action bar */}
+      <div className="fixed bottom-0 left-0 right-0 z-sticky pointer-events-none">
+        <div className="max-w-content mx-auto px-4 lg:px-6 pb-4 flex justify-end pointer-events-auto">
+          <div className="flex items-center gap-2 bg-neutral-0 border border-neutral-200 rounded-2xl shadow-lg px-3 py-2">
+            <button
+              onClick={handleEditSchedule}
+              className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-neutral-700 hover:bg-neutral-100 rounded-xl transition-colors"
+            >
+              <AppIcon name="calendar" className="w-4 h-4" />
+              Schedule
+            </button>
+            <div className="w-px h-5 bg-neutral-200" />
+            <button
+              onClick={handleAddSubject}
+              className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-neutral-700 hover:bg-neutral-100 rounded-xl transition-colors"
+            >
+              <AppIcon name="plus-circle" className="w-4 h-4" />
+              Add New Subject
+            </button>
+            <div className="w-px h-5 bg-neutral-200" />
+            <button
+              onClick={handleProgressReport}
+              className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-neutral-700 hover:bg-neutral-100 rounded-xl transition-colors"
+            >
+              <AppIcon name="chart-bar" className="w-4 h-4" />
+              Progress Report
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -30,10 +30,15 @@ export function DashboardChildHeader({
   const examLabel = child.exam_type || 'GCSE';
   const yearLabel = `Year ${child.year_group}`;
 
+  const subtitle = child.insight_message || `${displayName} is getting started with revision sessions`;
+
   return (
     <div className="flex items-center justify-between mb-4">
-      {/* Left: Page title */}
-      <h1 className="text-2xl font-bold text-neutral-800">Dashboard</h1>
+      {/* Left: Page title + subtitle */}
+      <div>
+        <h1 className="text-2xl font-bold text-neutral-800">Dashboard</h1>
+        <p className="text-sm text-neutral-500 mt-0.5">{subtitle}</p>
+      </div>
 
       {/* Right: Child info */}
       <div className="flex items-center gap-3">

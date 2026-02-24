@@ -72,9 +72,13 @@ export function DashboardActiveRewards({
     );
   }
 
+  const count = Math.min(rewards.length, 4);
   return (
     <div className="bg-neutral-0 rounded-2xl shadow-card p-4 border border-neutral-200/50">
-      <h3 className="text-sm font-bold text-neutral-800 mb-3">Active Rewards</h3>
+      <h3 className="text-sm font-bold text-neutral-800">Active Rewards</h3>
+      <p className="text-xs text-neutral-500 mb-3">
+        {count} reward{count !== 1 ? 's' : ''} your child can work towards
+      </p>
       <div className="space-y-2">
         {rewards.slice(0, 4).map((reward) => {
           const color = getCategoryColor(reward.category_code);
@@ -96,6 +100,13 @@ export function DashboardActiveRewards({
               <span className="text-[10px] font-semibold text-primary-600 bg-primary-50 px-1.5 py-0.5 rounded shrink-0">
                 {reward.points_cost} pts
               </span>
+              <button
+                onClick={onConfigureRewards}
+                className="w-6 h-6 flex items-center justify-center rounded-md hover:bg-neutral-100 transition-colors shrink-0"
+                aria-label={`Edit ${reward.name}`}
+              >
+                <AppIcon name="pencil" className="w-3 h-3 text-neutral-400" />
+              </button>
             </div>
           );
         })}
