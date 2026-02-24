@@ -62,23 +62,34 @@ def parse_filename(filename: str) -> FilenameMetadata:
     if not tokens or not tokens[0]:
         raise ValueError(f"Empty filename: {filename}")
 
-    # Token 0 is always spec_code
-    spec_code = tokens[0]
+    # Token 0 is usually spec_code (contains digits, e.g., "8461", "1MA1").
+    # If leading tokens are pure alpha (e.g., "AQA", "pearson_gcse"), skip
+    # them as board/qualification prefixes until we find the spec_code.
+    idx = 0
+    while idx < len(tokens) - 1 and tokens[idx].isalpha():
+        idx += 1
+
+    spec_code = tokens[idx]
     result = FilenameMetadata(spec_code=spec_code)
 
-    if len(tokens) < 2:
+    if len(tokens) < idx + 2:
         return result
 
-    # Handle "specification" — e.g. 8461_specification.pdf
-    if tokens[1].lower() == "specification":
+    # Handle "specification" — e.g. 8461_specification.pdf or AQA_8461_specification_2016.pdf
+    next_idx = idx + 1
+    if tokens[next_idx].lower() == "specification":
         result.doc_type = "spec"
+        # Scan remaining tokens for year (e.g., AQA_8461_specification_2016.pdf)
+        for token in tokens[next_idx + 1:]:
+            if _YEAR_RE.match(token):
+                result.year = int(token)
         return result
 
     # Handle "sample" — e.g. 8300_sample_p1_foundation_qp.pdf
-    start_idx = 1
-    if tokens[1].lower() == "sample":
+    start_idx = next_idx
+    if tokens[next_idx].lower() == "sample":
         result.is_sample = True
-        start_idx = 2
+        start_idx = next_idx + 1
 
     # Scan remaining tokens by matching against known sets
     unmatched: list[str] = []

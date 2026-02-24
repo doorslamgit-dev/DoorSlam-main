@@ -55,18 +55,21 @@ def _get_service():
     return build("drive", "v3", credentials=credentials)
 
 
-def walk_drive(root_folder_id: str) -> list[DriveFile]:
+def walk_drive(root_folder_id: str, root_path: str = "") -> list[DriveFile]:
     """Recursively traverse a Google Drive folder and return all supported files.
 
     Args:
         root_folder_id: The Google Drive folder ID to start from.
+        root_path: Optional path prefix for ancestor folders above the start folder.
+            e.g., "AQA/GCSE/Biology(8461)/spec" when starting from a spec subfolder.
+            This ensures the path parser can extract board/qual/subject from the path.
 
     Returns:
         Flat list of DriveFile objects with full path metadata.
     """
     service = _get_service()
     files: list[DriveFile] = []
-    _walk_recursive(service, root_folder_id, "", files)
+    _walk_recursive(service, root_folder_id, root_path, files)
     logger.info("Discovered %d files in Drive folder %s", len(files), root_folder_id)
     return files
 
@@ -85,6 +88,8 @@ def _walk_recursive(
                 fields="nextPageToken, files(id, name, mimeType, size, parents)",
                 pageSize=100,
                 pageToken=page_token,
+                supportsAllDrives=True,
+                includeItemsFromAllDrives=True,
             )
             .execute()
         )

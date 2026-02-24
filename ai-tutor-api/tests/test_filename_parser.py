@@ -118,6 +118,21 @@ class TestSpecification:
         assert result.year is None
         assert result.session is None
 
+    def test_specification_with_board_prefix_and_year(self):
+        """AQA_8461_specification_2016.pdf — real-world naming with board prefix."""
+        result = parse_filename("AQA_8461_specification_2016.pdf")
+        assert result.spec_code == "8461"
+        assert result.doc_type == "spec"
+        assert result.year == 2016
+
+    def test_board_prefixed_spec(self):
+        """pearson_gcse_1FR1_specification_2024.pdf — multi-token board prefix."""
+        result = parse_filename("pearson_gcse_1FR1_specification_2024.pdf")
+        # "pearson" is alpha → skip, "gcse" is alpha → skip, "1FR1" has digits → spec_code
+        assert result.spec_code == "1FR1"
+        assert result.doc_type == "spec"
+        assert result.year == 2024
+
 
 class TestRevisionNotes:
     """Revision notes from providers."""

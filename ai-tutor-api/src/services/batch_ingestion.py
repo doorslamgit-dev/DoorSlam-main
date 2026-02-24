@@ -61,6 +61,7 @@ async def ingest_from_drive(
     root_folder_id: str,
     batch_label: str | None = None,
     concurrency: int = 5,
+    root_path: str = "",
 ) -> str:
     """Walk Drive folder, download, and ingest all files.
 
@@ -68,6 +69,8 @@ async def ingest_from_drive(
         root_folder_id: Google Drive folder ID to start from.
         batch_label: Optional label for this ingestion batch.
         concurrency: Max parallel document processing tasks.
+        root_path: Path prefix for folders above the start folder.
+            e.g., "AQA/GCSE/Biology(8461)" when starting from a subject folder.
 
     Returns:
         The ingestion job ID.
@@ -86,7 +89,7 @@ async def ingest_from_drive(
 
     try:
         # Walk Drive to discover files
-        files = walk_drive(root_folder_id)
+        files = walk_drive(root_folder_id, root_path=root_path)
 
         sb.schema("rag").table("ingestion_jobs").update({
             "total_documents": len(files),

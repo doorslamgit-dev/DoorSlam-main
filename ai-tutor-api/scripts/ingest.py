@@ -2,11 +2,14 @@
 """CLI for ingesting documents from Google Drive into the RAG pipeline.
 
 Usage:
-    # Ingest all files from a Drive folder
-    ./venv/bin/python scripts/ingest.py --folder-id <FOLDER_ID> --label "AQA-GCSE-full"
+    # Ingest all files from the shared drive root
+    ./venv/bin/python scripts/ingest.py --folder-id <ROOT_FOLDER_ID> --label "full-corpus"
 
-    # Ingest with higher concurrency
-    ./venv/bin/python scripts/ingest.py --folder-id <FOLDER_ID> --label "batch" --concurrency 10
+    # Ingest from a subfolder (provide ancestor path for metadata)
+    ./venv/bin/python scripts/ingest.py \
+        --folder-id <SPEC_FOLDER_ID> \
+        --root-path "AQA/GCSE/Biology(8461)/spec" \
+        --label "test-biology-spec" --concurrency 1
 
     # Check job status
     ./venv/bin/python scripts/ingest.py --status <JOB_ID>
@@ -56,11 +59,15 @@ def check_status(job_id: str) -> None:
             print(f"  ... and {len(errors) - 10} more")
 
 
-async def run_ingestion(folder_id: str, label: str | None, concurrency: int) -> None:
+async def run_ingestion(
+    folder_id: str, label: str | None, concurrency: int, root_path: str
+) -> None:
     """Run the batch ingestion pipeline."""
     from src.services.batch_ingestion import ingest_from_drive
 
     print(f"Starting ingestion from Drive folder: {folder_id}")
+    if root_path:
+        print(f"Root path prefix: {root_path}")
     print(f"Label: {label or 'N/A'}, Concurrency: {concurrency}")
     print()
 
@@ -68,6 +75,7 @@ async def run_ingestion(folder_id: str, label: str | None, concurrency: int) -> 
         root_folder_id=folder_id,
         batch_label=label,
         concurrency=concurrency,
+        root_path=root_path,
     )
 
     print(f"\nIngestion complete. Job ID: {job_id}")
@@ -80,13 +88,24 @@ def main():
     parser.add_argument("--label", help="Batch label for this ingestion run")
     parser.add_argument("--concurrency", type=int, default=5, help="Max parallel tasks")
     parser.add_argument("--status", help="Check status of a job by ID")
+    parser.add_argument(
+        "--root-path",
+        default="",
+        help=(
+            "Path prefix for ancestor folders above the start folder. "
+            'e.g., "AQA/GCSE/Biology(8461)/spec" when starting from a spec subfolder. '
+            "Required when --folder-id is not the root shared drive folder."
+        ),
+    )
 
     args = parser.parse_args()
 
     if args.status:
         check_status(args.status)
     elif args.folder_id:
-        asyncio.run(run_ingestion(args.folder_id, args.label, args.concurrency))
+        asyncio.run(
+            run_ingestion(args.folder_id, args.label, args.concurrency, args.root_path)
+        )
     else:
         parser.print_help()
         sys.exit(1)
