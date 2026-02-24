@@ -188,28 +188,24 @@ async def chat_stream(req: ChatRequest, user: dict = Depends(get_current_user)):
                     user["user_id"], req.child_id, req.subject_id
                 )
 
-            # --- Parallel phase: load history + save user message ---
-            # RAG only runs when subject_id is provided (adds ~2-4s for embed call)
-            use_rag = bool(req.subject_id)
-
+            # --- Parallel phase: embed + load history + save user message ---
+            # All three are independent — run concurrently
+            embed_task = asyncio.create_task(embed_query(req.message))
             history_task = asyncio.create_task(_load_history(conversation_id))
             save_task = asyncio.create_task(
                 _save_message(conversation_id, "user", req.message)
             )
 
-            if use_rag:
-                embed_task = asyncio.create_task(embed_query(req.message))
-                query_embedding, raw_history, _ = await asyncio.gather(
-                    embed_task, history_task, save_task
-                )
-                chunks = await search_chunks(
-                    query_embedding=query_embedding,
-                    subject_id=req.subject_id,
-                    topic_id=req.topic_id,
-                )
-            else:
-                raw_history, _ = await asyncio.gather(history_task, save_task)
-                chunks = []
+            query_embedding, raw_history, _ = await asyncio.gather(
+                embed_task, history_task, save_task
+            )
+
+            # Vector search (scoped by subject/topic if provided)
+            chunks = await search_chunks(
+                query_embedding=query_embedding,
+                subject_id=req.subject_id,
+                topic_id=req.topic_id,
+            )
 
             # Send sources to frontend via SSE (before streaming response)
             sources_payload = [

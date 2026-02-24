@@ -1,5 +1,5 @@
 # ai-tutor-api/src/services/embedder.py
-# Batch embedding via OpenRouter (Qwen3-Embedding-8B, 4096 dims).
+# Batch embedding via OpenAI (text-embedding-3-large, 2000 dims).
 
 import logging
 
@@ -16,8 +16,8 @@ BATCH_SIZE = 100
 def _get_client() -> AsyncOpenAI:
     """Create an async OpenAI client for embeddings."""
     return AsyncOpenAI(
-        api_key=settings.openrouter_api_key,
-        base_url=settings.openrouter_base_url,
+        api_key=settings.embedding_api_key,
+        base_url=settings.embedding_base_url,
     )
 
 
