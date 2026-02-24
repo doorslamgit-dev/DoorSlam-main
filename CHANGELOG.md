@@ -41,6 +41,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - `ConversationList` + `ConversationListItem` components with delete, load-more pagination, relative timestamps
     - `SidebarContext` extended with `aiTutorConversationId` — persists active conversation across panel open/close
     - Backend tests: 4 new tests for conversations endpoints (`test_conversations.py`)
+  - **Module 2 (BYO Retrieval + Memory) complete**: RAG pipeline with vector search and source citations
+    - Database: `rag.documents`, `rag.chunks`, `rag.ingestion_jobs` tables with IVFFlat vector index and `search_chunks()` function
+    - Ingestion pipeline: Google Drive walker, path parser (folder structure → metadata), batch processing with concurrency control
+    - Backend services: document parser (PDF/DOCX/text via PyMuPDF), recursive text chunker with tiktoken, OpenAI batch embedder, conversation memory trimming
+    - Retrieval: vector similarity search via pgvector, role-based scoping, context injection into chat prompts
+    - Chat integration: retrieval context added as second system message, memory trimming (4000 token sliding window), SSE `sources` event
+    - Frontend: `SourceChips` component renders document citations below assistant messages, expandable pill UI
+    - Admin API: `POST /ingestion/batch`, `GET /ingestion/jobs/{id}`, `GET /ingestion/documents` (service_role auth)
+    - CLI: `scripts/ingest.py` for command-line batch ingestion and job status monitoring
+    - Tests: 39 new backend tests (chunker, memory, parser, path_parser), 7 new frontend tests (SourceChips)
 
 ### Fixed
 - **Subscription gate too aggressive** — trial users were redirected to pricing page on every load; now only `tier === "expired"` triggers redirect

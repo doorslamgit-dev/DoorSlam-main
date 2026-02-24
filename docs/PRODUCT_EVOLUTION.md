@@ -7,6 +7,23 @@ For architecture decisions, see [docs/decisions/](decisions/).
 
 ---
 
+## AI Tutor Module 2 — BYO Retrieval + Memory (24 Feb 2026)
+
+**Why this change is happening**: Module 1 gave the AI Tutor a working chat pipeline, but it answered purely from GPT's general knowledge — it had no access to actual GCSE revision materials. Students asking about specific exam topics got generic answers rather than responses grounded in past papers, specifications, and revision notes. Additionally, long conversations could exceed the model's context window.
+
+**What it does**: The AI Tutor now searches a corpus of ingested revision materials (past papers, specifications, revision notes) before answering every question. Relevant excerpts appear as source citation chips below assistant messages, so students can see which documents informed the response. The system also manages conversation memory with a sliding window, keeping recent context while trimming older messages to stay within token budgets.
+
+**How it was developed**:
+- **Ingestion pipeline**: Documents are ingested from a structured Google Drive folder hierarchy where folder names encode exam board, qualification, subject, and document type. A path parser extracts metadata automatically. Documents are parsed (PDF via PyMuPDF, DOCX via python-docx), split into ~800 token chunks with 100 token overlap using recursive character splitting, then embedded via OpenAI `text-embedding-3-small`. Chunks are stored in `rag.chunks` with vector embeddings alongside denormalised metadata for fast pre-filtering.
+- **Vector search**: A Postgres function `rag.search_chunks()` performs cosine similarity search with IVFFlat indexing, supporting filters by subject, topic, and exam board. Every student question triggers an embed+search (~50ms), which is cheaper and more reliable than LLM tool calling.
+- **Chat integration**: Retrieved chunks are formatted as a second system message injected between the role prompt and conversation history. The SSE stream emits a `sources` event before tokens start flowing, allowing the frontend to display citations immediately.
+- **Memory management**: Conversation history is trimmed using a token-counting sliding window (4000 tokens by default), always preserving the most recent messages.
+- **Frontend**: `SourceChips` component shows document titles as compact pills below assistant messages, with the first 2 visible and an expand button for more.
+- **Admin tooling**: Batch ingestion API (`POST /ingestion/batch`) and CLI script (`scripts/ingest.py`) for processing thousands of PDFs from Google Drive with configurable concurrency.
+- **Key files**: `ai-tutor-api/src/services/` (parser, chunker, embedder, memory, retrieval, ingestion, drive_walker, path_parser), `src/components/layout/ai-tutor/SourceChips.tsx`, `supabase/migrations/20260224120000_rag_module2_documents.sql`
+
+---
+
 ## Dashboard Header Redesign — Sidebar Child Selector & Message Banner (23 Feb 2026)
 
 **Why this change is happening**: The parent dashboard had two child selectors — one in the sidebar and one in the dashboard header — and they were completely disconnected (sidebar used `SelectedChildContext`, dashboard used URL-based state). Changing child in the sidebar didn't update the dashboard. Additionally, each parent page (Subjects, Rewards, Insights) maintained its own child list fetching, creating duplicate API calls and inconsistent selection state across pages.
