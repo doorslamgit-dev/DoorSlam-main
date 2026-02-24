@@ -34,6 +34,8 @@ class DriveFile:
     size: int
     path: str  # Full folder path from the root
     parents: list[str] = field(default_factory=list)
+    md5_checksum: str | None = None  # Drive-provided MD5 for change detection
+    modified_time: str | None = None  # ISO 8601 timestamp from Drive
 
 
 def _get_service():
@@ -85,7 +87,7 @@ def _walk_recursive(
             service.files()
             .list(
                 q=f"'{folder_id}' in parents and trashed = false",
-                fields="nextPageToken, files(id, name, mimeType, size, parents)",
+                fields="nextPageToken, files(id, name, mimeType, size, parents, md5Checksum, modifiedTime)",
                 pageSize=100,
                 pageToken=page_token,
                 supportsAllDrives=True,
@@ -108,6 +110,8 @@ def _walk_recursive(
                         size=int(item.get("size", 0)),
                         path=item_path,
                         parents=item.get("parents", []),
+                        md5_checksum=item.get("md5Checksum"),
+                        modified_time=item.get("modifiedTime"),
                     )
                 )
 
