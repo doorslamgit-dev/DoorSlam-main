@@ -37,6 +37,13 @@ class Settings(BaseSettings):
     retrieval_similarity_threshold: float = 0.2
     max_history_tokens: int = 4000
 
+    # Metadata extraction (Module 4)
+    extraction_model: str = "gpt-4o-mini"
+    extraction_temperature: float = 0.0
+    extraction_max_chunks_per_call: int = 10
+    extraction_confidence_threshold: float = 0.5
+    extraction_enabled: bool = True
+
     # Google Drive (OAuth2)
     google_client_id: str = ""
     google_client_secret: str = ""

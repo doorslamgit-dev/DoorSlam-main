@@ -9,7 +9,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+---
+
+## [0.4.0] - 2026-02-24
+
 ### Added
+- **AI Tutor Module 4: Metadata Extraction — LLM-based topic classification**
+  - Taxonomy loader: fetches curriculum hierarchy (subjects → components → themes → topics) from Supabase with LRU caching
+  - LLM classifier: GPT-4o-mini assigns each chunk to its primary topic via JSON-mode structured output, batched in groups of 10
+  - Ingestion integration: topic extraction runs in parallel with embedding generation (no added latency)
+  - Per-chunk `topic_id`: each chunk maps to a curriculum topic (confidence ≥ 0.5) or falls back to document-level topic
+  - Enhanced retrieval filters: `source_type`, `year`, `doc_type` now passed through to `rag.search_chunks()` Postgres function
+  - Chat API accepts new optional filters: `source_type`, `year`, `doc_type`
+  - Backfill script: `scripts/backfill_topics.py` classifies existing chunks with NULL topic_id (idempotent, supports `--dry-run`)
+  - Feature flag: `EXTRACTION_ENABLED=false` disables classification without affecting ingestion
+  - 16 new tests: taxonomy loading/formatting, LLM classification, batching, graceful degradation
+
 - **AI Tutor Module 3: Record Manager — Change detection & incremental sync**
   - Drive identity tracking: `drive_file_id`, `drive_md5_checksum`, `drive_modified_time` on `rag.documents`
   - Incremental sync: `POST /ingestion/sync` compares Drive vs DB, processes only new/modified/deleted files

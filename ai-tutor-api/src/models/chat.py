@@ -14,6 +14,9 @@ class ChatRequest(BaseModel):
     child_id: str | None = None
     subject_id: str | None = None
     topic_id: str | None = None
+    source_type: str | None = None
+    year: int | None = None
+    doc_type: str | None = None
 
 
 class ChatMessage(BaseModel):

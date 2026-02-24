@@ -7,6 +7,24 @@ For architecture decisions, see [docs/decisions/](decisions/).
 
 ---
 
+## AI Tutor Module 4 — Metadata Extraction: LLM-Based Topic Classification (24 Feb 2026)
+
+**Why this change is happening**: All 110+ chunks in the RAG store had `topic_id = NULL`. The Postgres search function already supported topic filtering, and the chat API accepted `topic_id`, but there was nothing to filter on. Without per-chunk topic mapping, retrieval could only scope by subject — returning chunks from across the entire curriculum instead of the specific topic a student is asking about.
+
+**What it does**: During document ingestion, each chunk is now classified against the curriculum taxonomy using GPT-4o-mini. The LLM maps chunks to specific topics (e.g., "Cell structure", "Atomic structure") from the existing `public.topics` hierarchy. This enables topic-scoped retrieval: when a student asks about mitosis, the system can return only chunks tagged with the Cell Division topic rather than the entire Biology corpus. Additional filters (source type, year, document type) are also now exposed through to retrieval.
+
+**How it was developed**:
+- Taxonomy loader (`taxonomy.py`): walks the `subjects → components → themes → topics` hierarchy via Supabase queries, cached with `@lru_cache` for the process lifetime. Formats the topic list as a numbered taxonomy for LLM consumption.
+- Metadata extractor (`metadata_extractor.py`): sends batches of ~10 chunks plus the numbered taxonomy to GPT-4o-mini in JSON mode. The LLM returns a classification per chunk (topic number + confidence score). Results are mapped from topic numbers back to UUIDs. Retry with tenacity on failure.
+- Ingestion pipeline modified to run extraction in parallel with embedding via `asyncio.create_task` — no added latency. Per-chunk `topic_id` is set from the extraction result if confidence ≥ 0.5, otherwise falls back to the document-level `topic_id`.
+- Retrieval enhanced: `search_chunks()` and `retrieve_context()` now accept and forward `source_type`, `year`, `exam_pathway_id`, and `doc_type` filters. `RetrievedChunk` includes year, session, paper number, doc type, file key, and exam pathway from the Postgres function.
+- Chat API extended: `ChatRequest` accepts optional `source_type`, `year`, `doc_type` filters for future frontend use.
+- Backfill script (`scripts/backfill_topics.py`): processes existing chunks grouped by document, supports `--subject-id` filter and `--dry-run` mode.
+- Feature flag: `EXTRACTION_ENABLED` env var (default `true`) for safe rollback.
+- See ADR-008 for architectural decisions (chunk-level extraction, GPT-4o-mini, confidence threshold, parallel execution).
+
+---
+
 ## AI Tutor Module 3 — Record Manager: Change Detection & Incremental Sync (24 Feb 2026)
 
 **Why this change is happening**: Module 2 could only do full batch ingestion — every sync re-processed all files. When a file was modified on Drive, the system either skipped it (if content was identical) or created a duplicate document row. There was no mechanism to detect changes, update existing documents, or clean up removed content. As the corpus grows, re-embedding unchanged documents wastes time and API costs.
