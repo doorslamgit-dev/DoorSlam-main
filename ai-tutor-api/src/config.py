@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     # LLM provider (OpenRouter — OpenAI-compatible API)
     openrouter_api_key: str = ""
     openrouter_base_url: str = "https://openrouter.ai/api/v1"
-    chat_model: str = "z-ai/glm-4.7"
+    chat_model: str = "anthropic/claude-3.5-haiku"
 
     # Embedding (via OpenRouter)
     embedding_model: str = "qwen/qwen3-embedding-8b"

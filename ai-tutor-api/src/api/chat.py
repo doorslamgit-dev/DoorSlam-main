@@ -188,24 +188,28 @@ async def chat_stream(req: ChatRequest, user: dict = Depends(get_current_user)):
                     user["user_id"], req.child_id, req.subject_id
                 )
 
-            # --- Parallel phase: embed query + load history + save user message ---
-            # These three operations are independent — run concurrently to cut ~1-2s
-            embed_task = asyncio.create_task(embed_query(req.message))
+            # --- Parallel phase: load history + save user message ---
+            # RAG only runs when subject_id is provided (adds ~2-4s for embed call)
+            use_rag = bool(req.subject_id)
+
             history_task = asyncio.create_task(_load_history(conversation_id))
             save_task = asyncio.create_task(
                 _save_message(conversation_id, "user", req.message)
             )
 
-            query_embedding, raw_history, _ = await asyncio.gather(
-                embed_task, history_task, save_task
-            )
-
-            # --- Vector search (needs embedding result) ---
-            chunks = await search_chunks(
-                query_embedding=query_embedding,
-                subject_id=req.subject_id,
-                topic_id=req.topic_id,
-            )
+            if use_rag:
+                embed_task = asyncio.create_task(embed_query(req.message))
+                query_embedding, raw_history, _ = await asyncio.gather(
+                    embed_task, history_task, save_task
+                )
+                chunks = await search_chunks(
+                    query_embedding=query_embedding,
+                    subject_id=req.subject_id,
+                    topic_id=req.topic_id,
+                )
+            else:
+                raw_history, _ = await asyncio.gather(history_task, save_task)
+                chunks = []
 
             # Send sources to frontend via SSE (before streaming response)
             sources_payload = [
@@ -224,14 +228,14 @@ async def chat_stream(req: ChatRequest, user: dict = Depends(get_current_user)):
 
             # Build messages array with retrieval context + trimmed history
             system_prompt = _get_system_prompt(req.role)
-            context_prompt = format_retrieval_context(chunks)
             trimmed = trim_history(raw_history, max_tokens=settings.max_history_tokens)
 
-            messages = [
-                {"role": "system", "content": system_prompt},
-                {"role": "system", "content": context_prompt},
-                *[m for m in trimmed if m["role"] != "system"],
-            ]
+            messages = [{"role": "system", "content": system_prompt}]
+            if chunks:
+                messages.append(
+                    {"role": "system", "content": format_retrieval_context(chunks)}
+                )
+            messages.extend(m for m in trimmed if m["role"] != "system")
             # Ensure the latest user message is included
             # (it was just saved, so history might not have it yet)
             if not trimmed or trimmed[-1]["content"] != req.message:
