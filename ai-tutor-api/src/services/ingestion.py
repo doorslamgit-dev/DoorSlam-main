@@ -3,6 +3,8 @@
 
 import hashlib
 import logging
+import uuid
+from datetime import datetime, timezone
 
 from supabase import create_client
 
@@ -18,6 +20,22 @@ def _get_supabase():
     return create_client(settings.supabase_url, settings.supabase_service_role_key)
 
 
+def upload_to_storage(file_bytes: bytes, file_key: str) -> None:
+    """Upload a file to the exam-documents Storage bucket.
+
+    Args:
+        file_bytes: Raw file content.
+        file_key: Storage path (e.g. "aqa/gcse/8461/spec/8461_specification.pdf").
+    """
+    sb = _get_supabase()
+    sb.storage.from_("exam-documents").upload(
+        file_key,
+        file_bytes,
+        {"content-type": "application/pdf"},
+    )
+    logger.info("Uploaded to Storage: %s", file_key)
+
+
 async def ingest_document(
     file_bytes: bytes,
     filename: str,
@@ -30,6 +48,12 @@ async def ingest_document(
     qualification_id: str | None = None,
     provider: str | None = None,
     year: int | None = None,
+    exam_spec_version_id: str | None = None,
+    exam_pathway_id: str | None = None,
+    session: str | None = None,
+    paper_number: str | None = None,
+    doc_type: str | None = None,
+    file_key: str | None = None,
 ) -> str:
     """Parse, chunk, embed, and store a single document.
 
@@ -52,12 +76,17 @@ async def ingest_document(
         logger.info("Duplicate detected (hash=%s), skipping: %s", content_hash[:12], filename)
         return existing.data[0]["id"]
 
-    # 2. Create document row (status: processing)
-    import uuid
-    from datetime import datetime, timezone
+    # 2. Upload original to Storage (if file_key provided)
+    if file_key:
+        try:
+            upload_to_storage(file_bytes, file_key)
+        except Exception as exc:
+            logger.warning("Storage upload failed for %s: %s", file_key, exc)
+            # Continue with ingestion — Storage upload is non-blocking
 
+    # 3. Create document row (status: processing)
     doc_id = str(uuid.uuid4())
-    sb.schema("rag").table("documents").insert({
+    doc_row = {
         "id": doc_id,
         "title": title,
         "source_type": source_type,
@@ -74,13 +103,29 @@ async def ingest_document(
         "metadata": {},
         "created_at": datetime.now(timezone.utc).isoformat(),
         "updated_at": datetime.now(timezone.utc).isoformat(),
-    }).execute()
+    }
+
+    # Add new schema-aligned columns (only if not None)
+    if exam_spec_version_id:
+        doc_row["exam_spec_version_id"] = exam_spec_version_id
+    if exam_pathway_id:
+        doc_row["exam_pathway_id"] = exam_pathway_id
+    if session:
+        doc_row["session"] = session
+    if paper_number:
+        doc_row["paper_number"] = paper_number
+    if doc_type:
+        doc_row["doc_type"] = doc_type
+    if file_key:
+        doc_row["file_key"] = file_key
+
+    sb.schema("rag").table("documents").insert(doc_row).execute()
 
     try:
-        # 3. Parse document text
+        # 4. Parse document text
         parsed = parse_document(file_bytes, filename)
 
-        # 4. Chunk text
+        # 5. Chunk text
         chunks = chunk_text(parsed.text)
 
         if not chunks:
@@ -93,11 +138,11 @@ async def ingest_document(
             }).eq("id", doc_id).execute()
             return doc_id
 
-        # 5. Generate embeddings
+        # 6. Generate embeddings
         texts = [c.content for c in chunks]
         embeddings = await embed_chunks(texts)
 
-        # 6. Insert chunks with embeddings
+        # 7. Insert chunks with embeddings
         chunk_rows = []
         for i, (chunk, embedding) in enumerate(zip(chunks, embeddings)):
             chunk_rows.append({
@@ -118,7 +163,7 @@ async def ingest_document(
             batch = chunk_rows[i:i + 50]
             sb.schema("rag").table("chunks").insert(batch).execute()
 
-        # 7. Update document status
+        # 8. Update document status
         sb.schema("rag").table("documents").update({
             "status": "completed",
             "chunk_count": len(chunks),
@@ -136,7 +181,7 @@ async def ingest_document(
         return doc_id
 
     except Exception as exc:
-        # 8. Mark as failed
+        # 9. Mark as failed
         sb.schema("rag").table("documents").update({
             "status": "failed",
             "error_message": str(exc),

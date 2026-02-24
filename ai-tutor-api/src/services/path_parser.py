@@ -21,6 +21,7 @@ class DocumentMetadata:
 # Maps folder names to source types
 SOURCE_TYPE_MAP: dict[str, str] = {
     "papers": "past_paper",
+    "spec": "specification",
     "specs": "specification",
     "revision": "revision",
     "marking": "marking_scheme",
@@ -30,10 +31,24 @@ SOURCE_TYPE_MAP: dict[str, str] = {
     "grade_thresholds": "grade_threshold",
 }
 
+# Maps filename doc_type → more accurate source_type.
+# Overrides the folder-level source_type when the filename gives finer granularity.
+DOC_TYPE_SOURCE_MAP: dict[str, str] = {
+    "qp": "past_paper",
+    "ms": "marking_scheme",
+    "er": "examiner_report",
+    "gt": "grade_threshold",
+    "sp": "sample_paper",
+    "spec": "specification",
+    "rev": "revision",
+}
+
 # Maps revision subfolder abbreviations to providers
 PROVIDER_MAP: dict[str, str] = {
     "sne": "seneca",
     "seneca": "seneca",
+    "sme": "savemyexams",
+    "savemyexams": "savemyexams",
     "pmt": "pmt",
     "physicsandmathstutor": "pmt",
 }
@@ -102,6 +117,25 @@ def parse_drive_path(path: str) -> DocumentMetadata:
         year=year,
         filename=filename,
     )
+
+
+def refine_source_type(folder_source_type: str, doc_type: str | None) -> str:
+    """Refine folder-level source_type using the filename's doc_type.
+
+    Files in the papers/ folder may be question papers, mark schemes,
+    examiner reports, or grade thresholds. The doc_type from the filename
+    gives us the accurate source_type.
+
+    Args:
+        folder_source_type: source_type derived from the folder name.
+        doc_type: doc_type extracted from the filename parser (or None).
+
+    Returns:
+        The most accurate source_type.
+    """
+    if doc_type and doc_type in DOC_TYPE_SOURCE_MAP:
+        return DOC_TYPE_SOURCE_MAP[doc_type]
+    return folder_source_type
 
 
 def _extract_subject_code(folder_name: str) -> str:

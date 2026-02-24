@@ -8,6 +8,7 @@ from functools import lru_cache
 from supabase import create_client
 
 from ..config import settings
+from .filename_parser import FilenameMetadata
 
 logger = logging.getLogger(__name__)
 
@@ -25,6 +26,12 @@ class ResolvedMetadata:
     year: int | None
     title: str
     source_path: str
+    # New fields from schema alignment
+    exam_spec_version_id: str | None = None
+    exam_pathway_id: str | None = None
+    session: str | None = None
+    paper_number: str | None = None
+    doc_type: str | None = None
 
 
 def _get_supabase():
@@ -70,6 +77,49 @@ def _lookup_subject(code: str, exam_board_id: str, qualification_id: str) -> str
     return result.data[0]["id"]
 
 
+@lru_cache(maxsize=256)
+def _lookup_current_spec_version(subject_id: str) -> str | None:
+    """Get the current spec version for a subject from exam_spec_versions.
+
+    Returns the UUID of the row where is_current=true, or None if not found.
+    """
+    sb = _get_supabase()
+    result = (
+        sb.table("exam_spec_versions")
+        .select("id")
+        .eq("subject_id", subject_id)
+        .eq("is_current", True)
+        .limit(1)
+        .execute()
+    )
+    if not result.data:
+        logger.debug("No current spec version found for subject %s", subject_id)
+        return None
+    return result.data[0]["id"]
+
+
+@lru_cache(maxsize=256)
+def _lookup_pathway(subject_id: str, tier: str) -> str | None:
+    """Map tier name (foundation/higher/core/extended) to exam_pathway_id.
+
+    Looks up the exam_pathways table by subject_id and tier name.
+    Returns the pathway UUID, or None if not found.
+    """
+    sb = _get_supabase()
+    result = (
+        sb.table("exam_pathways")
+        .select("id")
+        .eq("subject_id", subject_id)
+        .ilike("name", tier)
+        .limit(1)
+        .execute()
+    )
+    if not result.data:
+        logger.debug("No pathway found for subject %s, tier %s", subject_id, tier)
+        return None
+    return result.data[0]["id"]
+
+
 def resolve_metadata(
     exam_board_code: str,
     qualification_code: str,
@@ -79,6 +129,7 @@ def resolve_metadata(
     year: int | None,
     filename: str,
     source_path: str,
+    filename_meta: FilenameMetadata | None = None,
 ) -> ResolvedMetadata:
     """Resolve path metadata codes to database UUIDs.
 
@@ -91,6 +142,7 @@ def resolve_metadata(
         year: e.g., 2024 or None
         filename: e.g., "June_Paper1.pdf"
         source_path: Full Drive path for reference
+        filename_meta: Optional parsed filename metadata for session/paper/tier/doc_type
 
     Returns:
         ResolvedMetadata with database IDs.
@@ -98,6 +150,31 @@ def resolve_metadata(
     exam_board_id = _lookup_exam_board(exam_board_code)
     qualification_id = _lookup_qualification(qualification_code)
     subject_id = _lookup_subject(subject_code, exam_board_id, qualification_id)
+
+    # Look up spec version and pathway if filename metadata is available
+    exam_spec_version_id: str | None = None
+    exam_pathway_id: str | None = None
+    session: str | None = None
+    paper_number: str | None = None
+    doc_type: str | None = None
+
+    exam_spec_version_id = _lookup_current_spec_version(subject_id)
+
+    if filename_meta:
+        session = filename_meta.session
+        paper_number = filename_meta.paper_number
+        doc_type = filename_meta.doc_type
+
+        if filename_meta.tier:
+            exam_pathway_id = _lookup_pathway(subject_id, filename_meta.tier)
+
+        # Use year from filename if not already set from path
+        if filename_meta.year and not year:
+            year = filename_meta.year
+
+        # Use provider from filename if not already set
+        if filename_meta.provider and not provider:
+            provider = filename_meta.provider
 
     # Build a human-readable title
     title_parts = [filename.rsplit(".", 1)[0].replace("_", " ")]
@@ -114,4 +191,9 @@ def resolve_metadata(
         year=year,
         title=" ".join(title_parts),
         source_path=source_path,
+        exam_spec_version_id=exam_spec_version_id,
+        exam_pathway_id=exam_pathway_id,
+        session=session,
+        paper_number=paper_number,
+        doc_type=doc_type,
     )
