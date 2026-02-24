@@ -106,15 +106,14 @@ def format_retrieval_context(chunks: list[RetrievedChunk]) -> str:
             "you don't have specific materials on this topic yet."
         )
 
-    lines = ["Here are relevant excerpts from revision materials:\n"]
+    lines = ["Relevant revision materials (cite as (Source N) when used):\n"]
     for i, chunk in enumerate(chunks, 1):
         lines.append(f"[Source {i}: {chunk.document_title} ({chunk.source_type})]")
         lines.append(chunk.content)
         lines.append("")
 
     lines.append(
-        "Use these sources to inform your answer. Reference specific documents "
-        "when appropriate. If the sources don't fully answer the question, "
-        "supplement with your general knowledge."
+        "Cite sources inline when you use them, e.g. (Source 1). "
+        "If the sources don't answer the question, say so and use general knowledge."
     )
     return "\n".join(lines)

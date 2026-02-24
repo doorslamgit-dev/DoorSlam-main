@@ -27,6 +27,9 @@ class Settings(BaseSettings):
     chunk_size: int = 512
     chunk_overlap: int = 64
 
+    # Response
+    max_response_tokens: int = 400
+
     # Retrieval
     retrieval_match_count: int = 5
     retrieval_similarity_threshold: float = 0.7
