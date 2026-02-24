@@ -4,7 +4,7 @@
 import logging
 from dataclasses import dataclass, field
 
-from google.oauth2 import service_account
+from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseDownload
 
@@ -13,6 +13,7 @@ from ..config import settings
 logger = logging.getLogger(__name__)
 
 SCOPES = ["https://www.googleapis.com/auth/drive.readonly"]
+TOKEN_URI = "https://oauth2.googleapis.com/token"
 
 # Supported file MIME types for ingestion
 SUPPORTED_MIMES = {
@@ -36,12 +37,20 @@ class DriveFile:
 
 
 def _get_service():
-    """Create an authenticated Google Drive API service."""
-    if not settings.google_service_account_file:
-        raise ValueError("GOOGLE_SERVICE_ACCOUNT_FILE not configured")
+    """Create an authenticated Google Drive API service using OAuth2 refresh token."""
+    if not settings.google_refresh_token:
+        raise ValueError(
+            "GOOGLE_REFRESH_TOKEN not configured. "
+            "Run scripts/google_oauth.py to obtain a refresh token."
+        )
 
-    credentials = service_account.Credentials.from_service_account_file(
-        settings.google_service_account_file, scopes=SCOPES
+    credentials = Credentials(
+        token=None,
+        refresh_token=settings.google_refresh_token,
+        token_uri=TOKEN_URI,
+        client_id=settings.google_client_id,
+        client_secret=settings.google_client_secret,
+        scopes=SCOPES,
     )
     return build("drive", "v3", credentials=credentials)
 

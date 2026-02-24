@@ -123,16 +123,16 @@ logger = logging.getLogger(__name__)
 async def _generate_title(conversation_id: str, user_message: str) -> None:
     """Generate an AI title for a new conversation in the background.
 
-    Fires after the first exchange completes. Uses GPT-4o-mini for speed/cost.
+    Fires after the first exchange completes. Uses the configured chat model.
     Falls back to truncated user message if the call fails.
     """
     try:
         client = AsyncOpenAI(
-            api_key=settings.openai_api_key,
-            base_url=settings.openai_base_url,
+            api_key=settings.openrouter_api_key,
+            base_url=settings.openrouter_base_url,
         )
         response = await client.chat.completions.create(
-            model="gpt-4o-mini",
+            model=settings.chat_model,
             messages=[
                 {
                     "role": "system",
@@ -217,14 +217,14 @@ async def chat_stream(req: ChatRequest, user: dict = Depends(get_current_user)):
             if not trimmed or trimmed[-1]["content"] != req.message:
                 messages.append({"role": "user", "content": req.message})
 
-            # Stream from OpenAI
+            # Stream from OpenRouter
             client = wrap_openai(AsyncOpenAI(
-                api_key=settings.openai_api_key,
-                base_url=settings.openai_base_url,
+                api_key=settings.openrouter_api_key,
+                base_url=settings.openrouter_base_url,
             ))
 
             stream = await client.chat.completions.create(
-                model=settings.openai_model,
+                model=settings.chat_model,
                 messages=messages,
                 stream=True,
             )
@@ -248,7 +248,7 @@ async def chat_stream(req: ChatRequest, user: dict = Depends(get_current_user)):
                 conversation_id,
                 "assistant",
                 full_response,
-                model_name=settings.openai_model,
+                model_name=settings.chat_model,
                 token_count=token_count,
                 latency_ms=elapsed_ms,
             )

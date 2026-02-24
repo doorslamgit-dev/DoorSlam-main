@@ -33,8 +33,8 @@ def _content_hash(text: str) -> str:
 
 def chunk_text(
     text: str,
-    chunk_size: int = 800,
-    chunk_overlap: int = 100,
+    chunk_size: int = 512,
+    chunk_overlap: int = 64,
 ) -> list[Chunk]:
     """Split text into chunks using recursive character splitting.
 

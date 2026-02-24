@@ -51,6 +51,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Admin API: `POST /ingestion/batch`, `GET /ingestion/jobs/{id}`, `GET /ingestion/documents` (service_role auth)
     - CLI: `scripts/ingest.py` for command-line batch ingestion and job status monitoring
     - Tests: 39 new backend tests (chunker, memory, parser, path_parser), 7 new frontend tests (SourceChips)
+    - **Provider migration**: switched from OpenAI to OpenRouter (unified API key for chat + embeddings)
+    - Chat model: Z.AI GLM-4.7 (`z-ai/glm-4.7`) — 200K context, enhanced reasoning
+    - Embedding model: Qwen3-Embedding-8B (`qwen/qwen3-embedding-8b`) — 4096 dimensions, MTEB #1
+    - Chunking: reduced to 512 tokens / 64 overlap for more precise GCSE retrieval
+    - Google Drive: switched from service account to OAuth2 refresh token auth
+    - OAuth helper: `scripts/google_oauth.py` for one-time token acquisition
 
 ### Fixed
 - **Subscription gate too aggressive** — trial users were redirected to pricing page on every load; now only `tier === "expired"` triggers redirect

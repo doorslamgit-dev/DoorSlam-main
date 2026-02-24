@@ -40,7 +40,7 @@ CREATE TABLE rag.chunks (
     content TEXT NOT NULL,
     content_hash TEXT NOT NULL,
     token_count INTEGER,
-    embedding vector(1536),
+    embedding vector(4096),
     subject_id UUID REFERENCES public.subjects(id),
     topic_id UUID REFERENCES public.topics(id),
     exam_board_id UUID REFERENCES public.exam_boards(id),
@@ -92,7 +92,7 @@ CREATE INDEX idx_ingestion_jobs_status ON rag.ingestion_jobs(status);
 -- rag.search_chunks() — Vector similarity search function
 -- =========================================================================
 CREATE OR REPLACE FUNCTION rag.search_chunks(
-    query_embedding vector(1536),
+    query_embedding vector(4096),
     match_count INTEGER DEFAULT 5,
     similarity_threshold FLOAT DEFAULT 0.7,
     filter_subject_id UUID DEFAULT NULL,
