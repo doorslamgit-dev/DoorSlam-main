@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+---
+
+## [0.2.0] - 2026-02-24
+
 ### Added
 - **Dashboard header redesign — sidebar child selector, message banner** (FEAT-DASH)
   - Sidebar child selector now shows avatar (image or initials fallback) next to child name
@@ -357,4 +361,4 @@ Features are tracked with codes like `FEAT-014` which correspond to:
 
 ---
 
-*Last Updated: 2026-02-10*
+*Last Updated: 2026-02-24*
