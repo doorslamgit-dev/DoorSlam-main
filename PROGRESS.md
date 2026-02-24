@@ -6,7 +6,7 @@
 | # | Module | Status | Complexity | Notes |
 |---|--------|--------|-----------|-------|
 | 1 | App Shell — Auth, chat UI, SSE streaming | **Done** | Medium | FastAPI + JWT auth + SSE chat + Supabase persistence |
-| 2 | BYO Retrieval + Memory — Ingestion, pgvector | Pending | TBD | Google Drive loader, chunking, embedding, retriever |
+| 2 | BYO Retrieval + Memory — Ingestion, pgvector | **Done** | High | Drive walker, chunker, embedder, retrieval, source citations, memory trimming |
 | 3 | Record Manager — Content hashing, deduplication | Pending | TBD | |
 | 4 | Metadata Extraction — LLM-extracted metadata | Pending | TBD | Subject/topic/exam board from Drive path + content |
 | 5 | Multi-Format Support — PDF, DOCX, HTML, Markdown | Pending | TBD | Docling integration |

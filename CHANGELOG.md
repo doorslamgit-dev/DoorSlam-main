@@ -41,6 +41,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - `ConversationList` + `ConversationListItem` components with delete, load-more pagination, relative timestamps
     - `SidebarContext` extended with `aiTutorConversationId` — persists active conversation across panel open/close
     - Backend tests: 4 new tests for conversations endpoints (`test_conversations.py`)
+  - **Module 2 (BYO Retrieval + Memory) complete**: RAG pipeline with vector search and source citations
+    - Database: `rag.documents`, `rag.chunks`, `rag.ingestion_jobs` tables with IVFFlat vector index and `search_chunks()` function
+    - Ingestion pipeline: Google Drive walker, path parser (folder structure → metadata), batch processing with concurrency control
+    - Backend services: document parser (PDF/DOCX/text via PyMuPDF), recursive text chunker with tiktoken, OpenAI batch embedder, conversation memory trimming
+    - Retrieval: vector similarity search via pgvector, role-based scoping, context injection into chat prompts
+    - Chat integration: retrieval context added as second system message, memory trimming (4000 token sliding window), SSE `sources` event
+    - Frontend: `SourceChips` component renders document citations below assistant messages, expandable pill UI
+    - Admin API: `POST /ingestion/batch`, `GET /ingestion/jobs/{id}`, `GET /ingestion/documents` (service_role auth)
+    - CLI: `scripts/ingest.py` for command-line batch ingestion and job status monitoring
+    - Tests: 39 new backend tests (chunker, memory, parser, path_parser), 7 new frontend tests (SourceChips)
+    - **Provider migration**: switched from OpenAI to OpenRouter (unified API key for chat + embeddings)
+    - Chat model: Z.AI GLM-4.7 (`z-ai/glm-4.7`) — 200K context, enhanced reasoning
+    - Embedding model: Qwen3-Embedding-8B (`qwen/qwen3-embedding-8b`) — 4096 dimensions, MTEB #1
+    - Chunking: reduced to 512 tokens / 64 overlap for more precise GCSE retrieval
+    - Google Drive: switched from service account to OAuth2 refresh token auth
+    - OAuth helper: `scripts/google_oauth.py` for one-time token acquisition
+    - **Schema alignment + ingestion pipeline enhancement**:
+      - Database: `rag.documents` extended with `exam_spec_version_id`, `exam_pathway_id`, `session`, `paper_number`, `doc_type`, `file_key` columns with FK constraints, CHECK constraints, and indexes
+      - Storage: private `exam-documents` Supabase Storage bucket for original exam PDFs (signed URL access)
+      - Filename parser: token-scanning parser for structured exam filenames (`{spec_code}_{year}_{session}_{paper}_{tier}_{type}.pdf`), handles board-prefixed names, 22 test cases
+      - `search_chunks()` enhanced with `filter_source_type`, `filter_year`, `filter_exam_pathway_id`, `filter_doc_type` parameters and new return columns
+      - Metadata resolver: added spec_version and pathway lookups from `exam_spec_versions` / `exam_pathways` tables
+      - Path parser: `refine_source_type()` uses `doc_type` from filename for finer-grained source_type (e.g., mark schemes in papers/ folder get `marking_scheme` not `past_paper`)
+      - Drive walker: added Shared Drive support (`supportsAllDrives`), `root_path` prefix parameter
+      - Ingestion: uploads original PDF to Storage bucket before chunking, stores all new metadata columns
+      - CLI: `--root-path` flag for ingesting from Drive subfolders with ancestor path context
+      - Validated: AQA Biology 8461 specification ingested (110 chunks, Storage upload, vector search, dedup confirmed)
 
 ### Fixed
 - **Subscription gate too aggressive** — trial users were redirected to pricing page on every load; now only `tier === "expired"` triggers redirect

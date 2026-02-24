@@ -15,6 +15,8 @@ from supabase import create_client
 from ..auth import get_current_user
 from ..config import settings
 from ..models.chat import ChatRequest
+from ..services.memory import trim_history
+from ..services.retrieval import format_retrieval_context, retrieve_context
 
 router = APIRouter()
 
@@ -121,16 +123,16 @@ logger = logging.getLogger(__name__)
 async def _generate_title(conversation_id: str, user_message: str) -> None:
     """Generate an AI title for a new conversation in the background.
 
-    Fires after the first exchange completes. Uses GPT-4o-mini for speed/cost.
+    Fires after the first exchange completes. Uses the configured chat model.
     Falls back to truncated user message if the call fails.
     """
     try:
         client = AsyncOpenAI(
-            api_key=settings.openai_api_key,
-            base_url=settings.openai_base_url,
+            api_key=settings.openrouter_api_key,
+            base_url=settings.openrouter_base_url,
         )
         response = await client.chat.completions.create(
-            model="gpt-4o-mini",
+            model=settings.chat_model,
             messages=[
                 {
                     "role": "system",
@@ -177,27 +179,52 @@ async def chat_stream(req: ChatRequest, user: dict = Depends(get_current_user)):
             # Save user message
             await _save_message(conversation_id, "user", req.message)
 
-            # Build messages array
+            # Retrieve relevant context via RAG
+            chunks = await retrieve_context(
+                query=req.message,
+                subject_id=req.subject_id,
+                topic_id=req.topic_id,
+            )
+
+            # Send sources to frontend via SSE (before streaming response)
+            sources_payload = [
+                {
+                    "document_title": c.document_title,
+                    "source_type": c.source_type,
+                    "similarity": round(c.similarity, 3),
+                }
+                for c in chunks
+            ]
+            if sources_payload:
+                yield {
+                    "event": "sources",
+                    "data": json.dumps({"sources": sources_payload}),
+                }
+
+            # Build messages array with retrieval context + trimmed history
             system_prompt = _get_system_prompt(req.role)
-            history = await _load_history(conversation_id)
+            context_prompt = format_retrieval_context(chunks)
+            raw_history = await _load_history(conversation_id)
+            trimmed = trim_history(raw_history, max_tokens=settings.max_history_tokens)
 
             messages = [
                 {"role": "system", "content": system_prompt},
-                *[m for m in history if m["role"] != "system"],
+                {"role": "system", "content": context_prompt},
+                *[m for m in trimmed if m["role"] != "system"],
             ]
             # Ensure the latest user message is included
             # (it was just saved, so history might not have it yet)
-            if not history or history[-1]["content"] != req.message:
+            if not trimmed or trimmed[-1]["content"] != req.message:
                 messages.append({"role": "user", "content": req.message})
 
-            # Stream from OpenAI
+            # Stream from OpenRouter
             client = wrap_openai(AsyncOpenAI(
-                api_key=settings.openai_api_key,
-                base_url=settings.openai_base_url,
+                api_key=settings.openrouter_api_key,
+                base_url=settings.openrouter_base_url,
             ))
 
             stream = await client.chat.completions.create(
-                model=settings.openai_model,
+                model=settings.chat_model,
                 messages=messages,
                 stream=True,
             )
@@ -215,16 +242,23 @@ async def chat_stream(req: ChatRequest, user: dict = Depends(get_current_user)):
                         "data": json.dumps({"content": delta.content}),
                     }
 
-            # Save assistant response
+            # Save assistant response with sources metadata
             elapsed_ms = int((time.monotonic() - start) * 1000)
             msg_id = await _save_message(
                 conversation_id,
                 "assistant",
                 full_response,
-                model_name=settings.openai_model,
+                model_name=settings.chat_model,
                 token_count=token_count,
                 latency_ms=elapsed_ms,
             )
+
+            # Save sources to message metadata if available
+            if sources_payload:
+                sb = _get_supabase()
+                sb.schema("rag").table("messages").update({
+                    "sources": sources_payload,
+                }).eq("id", msg_id).execute()
 
             yield {
                 "event": "done",

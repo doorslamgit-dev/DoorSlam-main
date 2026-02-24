@@ -5,7 +5,11 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import AppIcon from '../ui/AppIcon';
 import { useSidebar } from '../../contexts/SidebarContext';
 import { useAuth } from '../../contexts/AuthContext';
-import { streamChat, fetchConversationMessages } from '../../services/aiAssistantService';
+import {
+  streamChat,
+  fetchConversationMessages,
+} from '../../services/aiAssistantService';
+import type { SourceCitation } from '../../services/aiAssistantService';
 import MessageBubble from './ai-tutor/MessageBubble';
 import ChatInput from './ai-tutor/ChatInput';
 import ConversationList from './ai-tutor/ConversationList';
@@ -16,6 +20,7 @@ interface Message {
   id: string;
   role: 'user' | 'assistant';
   content: string;
+  sources?: SourceCitation[];
 }
 
 let messageCounter = 0;
@@ -121,6 +126,11 @@ export default function AiTutorSlot() {
           const snapshot = streamingContentRef.current;
           setMessages((prev) =>
             prev.map((m) => (m.id === assistantMsgId ? { ...m, content: snapshot } : m))
+          );
+        },
+        onSources: (sources) => {
+          setMessages((prev) =>
+            prev.map((m) => (m.id === assistantMsgId ? { ...m, sources } : m))
           );
         },
         onDone: (data) => {
@@ -239,6 +249,7 @@ export default function AiTutorSlot() {
             role={msg.role}
             content={msg.content}
             isStreaming={panelState === 'streaming' && msg === messages[messages.length - 1] && msg.role === 'assistant'}
+            sources={msg.sources}
           />
         ))}
       </div>

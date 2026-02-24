@@ -14,9 +14,28 @@ class Settings(BaseSettings):
     supabase_service_role_key: str
     supabase_jwt_secret: str
 
-    openai_api_key: str = ""
-    openai_base_url: str = "https://api.openai.com/v1"
-    openai_model: str = "gpt-4o-mini"
+    # LLM provider (OpenRouter — OpenAI-compatible API)
+    openrouter_api_key: str = ""
+    openrouter_base_url: str = "https://openrouter.ai/api/v1"
+    chat_model: str = "z-ai/glm-4.7"
+
+    # Embedding (via OpenRouter)
+    embedding_model: str = "qwen/qwen3-embedding-8b"
+    embedding_dimensions: int = 2000
+
+    # Chunking
+    chunk_size: int = 512
+    chunk_overlap: int = 64
+
+    # Retrieval
+    retrieval_match_count: int = 5
+    retrieval_similarity_threshold: float = 0.7
+    max_history_tokens: int = 4000
+
+    # Google Drive (OAuth2)
+    google_client_id: str = ""
+    google_client_secret: str = ""
+    google_refresh_token: str = ""
 
     cors_origins: str = "http://localhost:5173"
 

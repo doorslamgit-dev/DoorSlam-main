@@ -9,6 +9,12 @@ const AI_API = import.meta.env.VITE_AI_TUTOR_API_URL || '/api/ai-tutor';
 // Types
 // ---------------------------------------------------------------------------
 
+export interface SourceCitation {
+  documentTitle: string;
+  sourceType: string;
+  similarity: number;
+}
+
 export interface ChatStreamOptions {
   message: string;
   conversationId?: string | null;
@@ -19,6 +25,7 @@ export interface ChatStreamOptions {
   onToken: (content: string) => void;
   onDone: (data: { conversationId: string; messageId: string }) => void;
   onError: (error: string) => void;
+  onSources?: (sources: SourceCitation[]) => void;
 }
 
 export interface ConversationSummary {
@@ -130,6 +137,19 @@ export async function streamChat(options: ChatStreamOptions): Promise<void> {
               case 'token':
                 if (typeof data.content === 'string') {
                   options.onToken(data.content);
+                }
+                break;
+
+              case 'sources':
+                if (options.onSources && Array.isArray(data.sources)) {
+                  const citations = (data.sources as Array<Record<string, unknown>>).map(
+                    (s) => ({
+                      documentTitle: s.document_title as string,
+                      sourceType: s.source_type as string,
+                      similarity: s.similarity as number,
+                    })
+                  );
+                  options.onSources(citations);
                 }
                 break;
 
