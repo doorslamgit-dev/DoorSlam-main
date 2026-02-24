@@ -14,12 +14,14 @@ class Settings(BaseSettings):
     supabase_service_role_key: str
     supabase_jwt_secret: str
 
-    # LLM provider (OpenRouter — OpenAI-compatible API)
+    # Chat LLM (defaults to OpenAI direct — fast, reliable)
+    chat_api_key: str = ""
+    chat_base_url: str = "https://api.openai.com/v1"
+    chat_model: str = "gpt-4o-mini"
+
+    # Embedding (via OpenRouter — Qwen3)
     openrouter_api_key: str = ""
     openrouter_base_url: str = "https://openrouter.ai/api/v1"
-    chat_model: str = "anthropic/claude-3.5-haiku"
-
-    # Embedding (via OpenRouter)
     embedding_model: str = "qwen/qwen3-embedding-8b"
     embedding_dimensions: int = 2000
 

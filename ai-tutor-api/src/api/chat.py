@@ -139,8 +139,8 @@ async def _generate_title(conversation_id: str, user_message: str) -> None:
     """
     try:
         client = AsyncOpenAI(
-            api_key=settings.openrouter_api_key,
-            base_url=settings.openrouter_base_url,
+            api_key=settings.chat_api_key,
+            base_url=settings.chat_base_url,
         )
         response = await client.chat.completions.create(
             model=settings.chat_model,
@@ -241,10 +241,10 @@ async def chat_stream(req: ChatRequest, user: dict = Depends(get_current_user)):
             if not trimmed or trimmed[-1]["content"] != req.message:
                 messages.append({"role": "user", "content": req.message})
 
-            # Stream from OpenRouter
+            # Stream from chat LLM
             client = wrap_openai(AsyncOpenAI(
-                api_key=settings.openrouter_api_key,
-                base_url=settings.openrouter_base_url,
+                api_key=settings.chat_api_key,
+                base_url=settings.chat_base_url,
             ))
 
             stream = await client.chat.completions.create(
