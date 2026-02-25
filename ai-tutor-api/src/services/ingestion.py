@@ -5,12 +5,14 @@ import asyncio
 import hashlib
 import logging
 import uuid
+from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 
 from supabase import create_client
 
 from ..config import settings
 from .chunker import chunk_text
+from .document_enricher import enrich_document
 from .embedder import embed_chunks
 from .metadata_extractor import extract_topics_for_chunks
 from .parser import parse_document
@@ -23,15 +25,23 @@ def _get_supabase():
     return create_client(settings.supabase_url, settings.supabase_service_role_key)
 
 
-async def _extract_topic_map(
+@dataclass
+class _ChunkMeta:
+    """Per-chunk extraction results (topic + chunk_type)."""
+
+    topic_id: str | None = None
+    chunk_type: str = "general"
+
+
+async def _extract_chunk_metadata(
     chunks: list,
     subject_id: str | None,
     source_type: str,
     title: str,
-) -> dict[int, str | None]:
-    """Extract per-chunk topic_ids using the LLM classifier.
+) -> dict[int, _ChunkMeta]:
+    """Extract per-chunk topic_ids and chunk_types using the LLM classifier.
 
-    Returns a dict mapping chunk_index → topic_id. Empty dict if extraction
+    Returns a dict mapping chunk_index → _ChunkMeta. Empty dict if extraction
     is disabled, no subject, or no topics exist for the subject.
     """
     if not settings.extraction_enabled or not subject_id:
@@ -57,17 +67,23 @@ async def _extract_topic_map(
         logger.warning("Topic extraction failed for '%s': %s", title, exc)
         return {}
 
-    topic_map: dict[int, str | None] = {}
+    meta_map: dict[int, _ChunkMeta] = {}
     threshold = settings.extraction_confidence_threshold
     for r in results:
+        topic_id = None
         if r.primary_topic and r.primary_topic.confidence >= threshold:
-            topic_map[r.chunk_index] = r.primary_topic.topic_id
+            topic_id = r.primary_topic.topic_id
+        meta_map[r.chunk_index] = _ChunkMeta(
+            topic_id=topic_id,
+            chunk_type=r.chunk_type,
+        )
 
+    classified = sum(1 for m in meta_map.values() if m.topic_id)
     logger.info(
-        "Extracted topics for '%s': %d/%d chunks classified",
-        title, len(topic_map), len(chunks),
+        "Extracted metadata for '%s': %d/%d chunks with topics",
+        title, classified, len(chunks),
     )
-    return topic_map
+    return meta_map
 
 
 def upload_to_storage(
@@ -190,32 +206,40 @@ async def ingest_document(
         # 4. Parse document text
         parsed = parse_document(file_bytes, filename)
 
-        # 5. Chunk text
+        # 5. Enrich document + chunk text (parallel — both use full text)
+        enrichment_task = asyncio.create_task(
+            enrich_document(parsed.text, title, doc_type, source_type)
+        )
         chunks = chunk_text(parsed.text)
 
         if not chunks:
+            enrichment = await enrichment_task
             logger.warning("No chunks produced for document: %s", filename)
             sb.schema("rag").table("documents").update({
                 "status": "completed",
                 "chunk_count": 0,
+                "summary": enrichment.summary,
+                "key_points": enrichment.key_points,
                 "metadata": parsed.metadata,
                 "updated_at": datetime.now(timezone.utc).isoformat(),
             }).eq("id", doc_id).execute()
             return doc_id
 
-        # 6. Generate embeddings + extract topics (in parallel)
+        # 6. Generate embeddings + extract topics+chunk_type (in parallel)
         texts = [c.content for c in chunks]
         embed_task = asyncio.create_task(embed_chunks(texts))
 
-        topic_map = await _extract_topic_map(
+        chunk_meta_map = await _extract_chunk_metadata(
             chunks, subject_id, source_type, title,
         )
 
         embeddings = await embed_task
+        enrichment = await enrichment_task
 
-        # 7. Insert chunks with embeddings and per-chunk topic_id
+        # 7. Insert chunks with embeddings, topic_id, and chunk_type
         chunk_rows = []
         for i, (chunk, embedding) in enumerate(zip(chunks, embeddings)):
+            meta = chunk_meta_map.get(i, _ChunkMeta())
             chunk_rows.append({
                 "document_id": doc_id,
                 "chunk_index": i,
@@ -224,9 +248,9 @@ async def ingest_document(
                 "token_count": chunk.token_count,
                 "embedding": embedding,
                 "subject_id": subject_id,
-                "topic_id": topic_map.get(i, topic_id),
+                "topic_id": meta.topic_id or topic_id,
                 "exam_board_id": exam_board_id,
-                "metadata": {"page": None},
+                "metadata": {"chunk_type": meta.chunk_type},
             })
 
         # Insert in batches of 50 to avoid payload limits
@@ -234,10 +258,12 @@ async def ingest_document(
             batch = chunk_rows[i:i + 50]
             sb.schema("rag").table("chunks").insert(batch).execute()
 
-        # 8. Update document status
+        # 8. Update document status with enrichment
         sb.schema("rag").table("documents").update({
             "status": "completed",
             "chunk_count": len(chunks),
+            "summary": enrichment.summary,
+            "key_points": enrichment.key_points,
             "metadata": {
                 **parsed.metadata,
                 "page_count": parsed.page_count,
@@ -246,8 +272,9 @@ async def ingest_document(
         }).eq("id", doc_id).execute()
 
         logger.info(
-            "Ingested %s: %d chunks, %d embeddings",
+            "Ingested %s: %d chunks, %d embeddings, enrichment=%s",
             filename, len(chunks), len(embeddings),
+            "yes" if enrichment.summary else "no",
         )
         return doc_id
 
@@ -307,11 +334,27 @@ async def update_document(
             except Exception as exc:
                 logger.warning("Storage re-upload failed for %s: %s", file_key, exc)
 
-        # 5. Parse, chunk, embed + extract topics
+        # 5. Fetch source_type, title, doc_type from the existing document row
+        doc_row = (
+            sb.schema("rag")
+            .table("documents")
+            .select("source_type, title, doc_type")
+            .eq("id", doc_id)
+            .execute()
+        )
+        source_type = doc_row.data[0]["source_type"] if doc_row.data else "unknown"
+        title = doc_row.data[0]["title"] if doc_row.data else filename
+        doc_type_val = doc_row.data[0].get("doc_type") if doc_row.data else None
+
+        # 6. Parse, enrich + chunk (enrich parallel with chunk)
         parsed = parse_document(file_bytes, filename)
+        enrichment_task = asyncio.create_task(
+            enrich_document(parsed.text, title, doc_type_val, source_type)
+        )
         chunks = chunk_text(parsed.text)
 
         if not chunks:
+            enrichment = await enrichment_task
             sb.schema("rag").table("documents").update({
                 "status": "completed",
                 "content_hash": content_hash,
@@ -319,34 +362,27 @@ async def update_document(
                 "file_size": len(file_bytes),
                 "drive_md5_checksum": drive_md5_checksum,
                 "drive_modified_time": drive_modified_time,
+                "summary": enrichment.summary,
+                "key_points": enrichment.key_points,
                 "metadata": parsed.metadata,
                 "updated_at": datetime.now(timezone.utc).isoformat(),
             }).eq("id", doc_id).execute()
             return doc_id
 
-        # Fetch source_type and title from the existing document row
-        doc_row = (
-            sb.schema("rag")
-            .table("documents")
-            .select("source_type, title")
-            .eq("id", doc_id)
-            .execute()
-        )
-        source_type = doc_row.data[0]["source_type"] if doc_row.data else "unknown"
-        title = doc_row.data[0]["title"] if doc_row.data else filename
-
         texts = [c.content for c in chunks]
         embed_task = asyncio.create_task(embed_chunks(texts))
 
-        topic_map = await _extract_topic_map(
+        chunk_meta_map = await _extract_chunk_metadata(
             chunks, subject_id, source_type, title,
         )
 
         embeddings = await embed_task
+        enrichment = await enrichment_task
 
-        # 6. Insert new chunks with per-chunk topic_id
+        # 7. Insert new chunks with topic_id and chunk_type
         chunk_rows = []
         for i, (chunk, embedding) in enumerate(zip(chunks, embeddings)):
+            meta = chunk_meta_map.get(i, _ChunkMeta())
             chunk_rows.append({
                 "document_id": doc_id,
                 "chunk_index": i,
@@ -355,16 +391,16 @@ async def update_document(
                 "token_count": chunk.token_count,
                 "embedding": embedding,
                 "subject_id": subject_id,
-                "topic_id": topic_map.get(i, topic_id),
+                "topic_id": meta.topic_id or topic_id,
                 "exam_board_id": exam_board_id,
-                "metadata": {"page": None},
+                "metadata": {"chunk_type": meta.chunk_type},
             })
 
         for i in range(0, len(chunk_rows), 50):
             batch = chunk_rows[i:i + 50]
             sb.schema("rag").table("chunks").insert(batch).execute()
 
-        # 7. Update document row
+        # 8. Update document row with enrichment
         sb.schema("rag").table("documents").update({
             "status": "completed",
             "content_hash": content_hash,
@@ -372,6 +408,8 @@ async def update_document(
             "file_size": len(file_bytes),
             "drive_md5_checksum": drive_md5_checksum,
             "drive_modified_time": drive_modified_time,
+            "summary": enrichment.summary,
+            "key_points": enrichment.key_points,
             "metadata": {**parsed.metadata, "page_count": parsed.page_count},
             "updated_at": datetime.now(timezone.utc).isoformat(),
         }).eq("id", doc_id).execute()
