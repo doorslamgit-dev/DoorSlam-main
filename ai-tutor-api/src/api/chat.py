@@ -204,11 +204,14 @@ async def chat_stream(req: ChatRequest, user: dict = Depends(get_current_user)):
                 embed_task, history_task, save_task
             )
 
-            # Vector search (scoped by subject/topic if provided)
+            # Vector search (scoped by subject/topic/filters if provided)
             chunks = await search_chunks(
                 query_embedding=query_embedding,
                 subject_id=req.subject_id,
                 topic_id=req.topic_id,
+                source_type=req.source_type,
+                year=req.year,
+                doc_type=req.doc_type,
             )
 
             # Send sources to frontend via SSE (before streaming response)

@@ -26,6 +26,12 @@ class RetrievedChunk:
     topic_id: str | None
     chunk_metadata: dict
     doc_metadata: dict
+    year: int | None = None
+    session: str | None = None
+    paper_number: str | None = None
+    doc_type: str | None = None
+    file_key: str | None = None
+    exam_pathway_id: str | None = None
 
 
 def _get_supabase():
@@ -37,6 +43,10 @@ async def search_chunks(
     subject_id: str | None = None,
     topic_id: str | None = None,
     exam_board_id: str | None = None,
+    source_type: str | None = None,
+    year: int | None = None,
+    exam_pathway_id: str | None = None,
+    doc_type: str | None = None,
 ) -> list[RetrievedChunk]:
     """Search for chunks using a pre-computed embedding vector.
 
@@ -54,6 +64,10 @@ async def search_chunks(
             "filter_subject_id": subject_id,
             "filter_topic_id": topic_id,
             "filter_exam_board_id": exam_board_id,
+            "filter_source_type": source_type,
+            "filter_year": year,
+            "filter_exam_pathway_id": exam_pathway_id,
+            "filter_doc_type": doc_type,
         },
     ).execute()
 
@@ -71,6 +85,12 @@ async def search_chunks(
                 topic_id=row.get("topic_id"),
                 chunk_metadata=row.get("chunk_metadata", {}),
                 doc_metadata=row.get("doc_metadata", {}),
+                year=row.get("doc_year"),
+                session=row.get("doc_session"),
+                paper_number=row.get("doc_paper_number"),
+                doc_type=row.get("doc_type"),
+                file_key=row.get("doc_file_key"),
+                exam_pathway_id=row.get("doc_exam_pathway_id"),
             )
         )
 
@@ -86,12 +106,19 @@ async def retrieve_context(
     subject_id: str | None = None,
     topic_id: str | None = None,
     exam_board_id: str | None = None,
+    source_type: str | None = None,
+    year: int | None = None,
+    exam_pathway_id: str | None = None,
+    doc_type: str | None = None,
 ) -> list[RetrievedChunk]:
     """Convenience wrapper: embed query then search. For parallel pipelines, use
     embed_query() + search_chunks() separately.
     """
     query_embedding = await embed_query(query)
-    return await search_chunks(query_embedding, subject_id, topic_id, exam_board_id)
+    return await search_chunks(
+        query_embedding, subject_id, topic_id, exam_board_id,
+        source_type, year, exam_pathway_id, doc_type,
+    )
 
 
 def format_retrieval_context(chunks: list[RetrievedChunk]) -> str:

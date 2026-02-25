@@ -1,6 +1,7 @@
 # ai-tutor-api/src/services/ingestion.py
 # Per-document ingestion pipeline: parse → chunk → embed → store.
 
+import asyncio
 import hashlib
 import logging
 import uuid
@@ -11,13 +12,62 @@ from supabase import create_client
 from ..config import settings
 from .chunker import chunk_text
 from .embedder import embed_chunks
+from .metadata_extractor import extract_topics_for_chunks
 from .parser import parse_document
+from .taxonomy import load_taxonomy
 
 logger = logging.getLogger(__name__)
 
 
 def _get_supabase():
     return create_client(settings.supabase_url, settings.supabase_service_role_key)
+
+
+async def _extract_topic_map(
+    chunks: list,
+    subject_id: str | None,
+    source_type: str,
+    title: str,
+) -> dict[int, str | None]:
+    """Extract per-chunk topic_ids using the LLM classifier.
+
+    Returns a dict mapping chunk_index → topic_id. Empty dict if extraction
+    is disabled, no subject, or no topics exist for the subject.
+    """
+    if not settings.extraction_enabled or not subject_id:
+        return {}
+
+    try:
+        taxonomy = load_taxonomy(subject_id)
+    except Exception as exc:
+        logger.warning("Failed to load taxonomy for %s: %s", subject_id, exc)
+        return {}
+
+    if not taxonomy.topics:
+        return {}
+
+    try:
+        results = await extract_topics_for_chunks(
+            chunks=[(c.index, c.content) for c in chunks],
+            taxonomy=taxonomy,
+            source_type=source_type,
+            doc_title=title,
+        )
+    except Exception as exc:
+        logger.warning("Topic extraction failed for '%s': %s", title, exc)
+        return {}
+
+    topic_map: dict[int, str | None] = {}
+    threshold = settings.extraction_confidence_threshold
+    for r in results:
+        if r.primary_topic and r.primary_topic.confidence >= threshold:
+            topic_map[r.chunk_index] = r.primary_topic.topic_id
+
+    logger.info(
+        "Extracted topics for '%s': %d/%d chunks classified",
+        title, len(topic_map), len(chunks),
+    )
+    return topic_map
 
 
 def upload_to_storage(file_bytes: bytes, file_key: str) -> None:
@@ -147,11 +197,17 @@ async def ingest_document(
             }).eq("id", doc_id).execute()
             return doc_id
 
-        # 6. Generate embeddings
+        # 6. Generate embeddings + extract topics (in parallel)
         texts = [c.content for c in chunks]
-        embeddings = await embed_chunks(texts)
+        embed_task = asyncio.create_task(embed_chunks(texts))
 
-        # 7. Insert chunks with embeddings
+        topic_map = await _extract_topic_map(
+            chunks, subject_id, source_type, title,
+        )
+
+        embeddings = await embed_task
+
+        # 7. Insert chunks with embeddings and per-chunk topic_id
         chunk_rows = []
         for i, (chunk, embedding) in enumerate(zip(chunks, embeddings)):
             chunk_rows.append({
@@ -162,7 +218,7 @@ async def ingest_document(
                 "token_count": chunk.token_count,
                 "embedding": embedding,
                 "subject_id": subject_id,
-                "topic_id": topic_id,
+                "topic_id": topic_map.get(i, topic_id),
                 "exam_board_id": exam_board_id,
                 "metadata": {"page": None},
             })
@@ -244,7 +300,7 @@ async def update_document(
             except Exception as exc:
                 logger.warning("Storage re-upload failed for %s: %s", file_key, exc)
 
-        # 5. Parse, chunk, embed
+        # 5. Parse, chunk, embed + extract topics
         parsed = parse_document(file_bytes, filename)
         chunks = chunk_text(parsed.text)
 
@@ -261,10 +317,27 @@ async def update_document(
             }).eq("id", doc_id).execute()
             return doc_id
 
-        texts = [c.content for c in chunks]
-        embeddings = await embed_chunks(texts)
+        # Fetch source_type and title from the existing document row
+        doc_row = (
+            sb.schema("rag")
+            .table("documents")
+            .select("source_type, title")
+            .eq("id", doc_id)
+            .execute()
+        )
+        source_type = doc_row.data[0]["source_type"] if doc_row.data else "unknown"
+        title = doc_row.data[0]["title"] if doc_row.data else filename
 
-        # 6. Insert new chunks
+        texts = [c.content for c in chunks]
+        embed_task = asyncio.create_task(embed_chunks(texts))
+
+        topic_map = await _extract_topic_map(
+            chunks, subject_id, source_type, title,
+        )
+
+        embeddings = await embed_task
+
+        # 6. Insert new chunks with per-chunk topic_id
         chunk_rows = []
         for i, (chunk, embedding) in enumerate(zip(chunks, embeddings)):
             chunk_rows.append({
@@ -275,7 +348,7 @@ async def update_document(
                 "token_count": chunk.token_count,
                 "embedding": embedding,
                 "subject_id": subject_id,
-                "topic_id": topic_id,
+                "topic_id": topic_map.get(i, topic_id),
                 "exam_board_id": exam_board_id,
                 "metadata": {"page": None},
             })
