@@ -23,6 +23,14 @@ class TopicAssignment:
     confidence: float
 
 
+# Valid chunk content types
+CHUNK_TYPES = frozenset({
+    "question", "answer", "marking_criteria", "grade_table",
+    "examiner_comment", "definition", "explanation", "worked_example",
+    "learning_objective", "practical", "data_table", "general",
+})
+
+
 @dataclass
 class ChunkTopicResult:
     """Extraction result for a single chunk."""
@@ -30,10 +38,12 @@ class ChunkTopicResult:
     chunk_index: int
     primary_topic: TopicAssignment | None = None
     secondary_topics: list[TopicAssignment] = field(default_factory=list)
+    chunk_type: str = "general"
 
 
 SYSTEM_PROMPT = """You are a GCSE curriculum classifier. Given text from a {source_type} document \
-and a numbered topic taxonomy, assign each text chunk to the most relevant topic.
+and a numbered topic taxonomy, assign each text chunk to the most relevant topic \
+and classify the content type.
 
 RULES:
 - Each chunk must be assigned exactly ONE primary topic from the taxonomy.
@@ -43,6 +53,9 @@ RULES:
 - If the chunk is purely administrative (front matter, instructions, headers), \
 respond with primary_topic_number: null.
 - Do NOT invent topics — only use topics from the provided taxonomy.
+- Classify each chunk's content type as ONE of: question, answer, marking_criteria, \
+grade_table, examiner_comment, definition, explanation, worked_example, \
+learning_objective, practical, data_table, general.
 
 TAXONOMY for {subject_name}:
 {taxonomy}"""
@@ -58,7 +71,8 @@ Respond in JSON:
       "chunk_index": 0,
       "primary_topic_number": 3,
       "confidence": 0.85,
-      "secondary_topic_numbers": [7]
+      "secondary_topic_numbers": [7],
+      "chunk_type": "explanation"
     }}
   ]
 }}"""
@@ -128,6 +142,8 @@ async def _classify_batch(
         primary_num = cls.get("primary_topic_number")
         confidence = float(cls.get("confidence", 0.0))
         secondary_nums = cls.get("secondary_topic_numbers", [])
+        raw_chunk_type = cls.get("chunk_type", "general")
+        chunk_type = raw_chunk_type if raw_chunk_type in CHUNK_TYPES else "general"
 
         primary = None
         if primary_num and primary_num in topic_lookup:
@@ -155,6 +171,7 @@ async def _classify_batch(
                 chunk_index=chunk_idx,
                 primary_topic=primary,
                 secondary_topics=secondaries,
+                chunk_type=chunk_type,
             )
         )
 
