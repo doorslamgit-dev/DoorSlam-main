@@ -105,7 +105,7 @@ class TestFormatRetrievalContext:
         chunks = [_make_chunk(idx=1, content="Mitosis is cell division.")]
         result = format_retrieval_context(chunks)
 
-        assert "[Source 1: AQA Biology Paper 1 (past_paper)]" in result
+        assert "[Source 1: AQA Biology Paper 1 | past_paper]" in result
         assert "Mitosis is cell division." in result
         assert "Cite sources inline" in result
 
@@ -126,4 +126,4 @@ class TestFormatRetrievalContext:
         """Source type is included in the citation."""
         chunks = [_make_chunk(source_type="specification")]
         result = format_retrieval_context(chunks)
-        assert "(specification)" in result
+        assert "specification" in result
