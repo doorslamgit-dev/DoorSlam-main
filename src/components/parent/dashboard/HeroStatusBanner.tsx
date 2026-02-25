@@ -80,7 +80,7 @@ function NudgeDetail({
       >
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-accent-amber/15 rounded-xl flex items-center justify-center">
+            <div className="w-10 h-10 bg-warning/15 rounded-xl flex items-center justify-center">
               <AppIcon
                 name="lightbulb"
                 className="w-5 h-5 text-warning"
@@ -268,7 +268,7 @@ export function HeroStatusBanner({
             <div className="flex items-center justify-between mb-3">
               <div
                 className={`w-12 h-12 ${
-                  nudgeCount > 0 ? "bg-accent-amber/15" : "bg-accent-green/15"
+                  nudgeCount > 0 ? "bg-warning/15" : "bg-success/15"
                 } rounded-xl flex items-center justify-center`}
               >
                 <AppIcon
@@ -300,7 +300,7 @@ export function HeroStatusBanner({
 
         {/* Expanded Nudges List */}
         {showNudges && nudgeCount > 0 && (
-          <div className="bg-accent-amber/10 rounded-xl p-4 mb-6 border border-accent-amber/20">
+          <div className="bg-warning/10 rounded-xl p-4 mb-6 border border-accent-amber/20">
             <div className="flex items-center gap-2 mb-3">
               <AppIcon
                 name="lightbulb"
@@ -325,7 +325,7 @@ export function HeroStatusBanner({
                     onClick={() => setSelectedNudge(reminder)}
                     className="w-full bg-background rounded-lg p-3 text-left hover:shadow-md transition-shadow border border-border flex items-start gap-3"
                   >
-                    <div className="w-8 h-8 bg-accent-amber/15 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <div className="w-8 h-8 bg-warning/15 rounded-lg flex items-center justify-center flex-shrink-0">
                       <AppIcon
                         name={nudgeTypeIcon(reminder.type)}
                         className="w-4 h-4 text-warning"

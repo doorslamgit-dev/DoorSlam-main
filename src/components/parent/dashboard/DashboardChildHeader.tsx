@@ -36,7 +36,7 @@ export function DashboardChildHeader({
     <div className="flex items-center justify-between mb-4">
       {/* Left: Page title + subtitle */}
       <div>
-        <h1 className="text-2xl font-bold text-dark">Dashboard</h1>
+        <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
         <p className="text-sm text-muted mt-0.5">{subtitle}</p>
       </div>
 
@@ -64,7 +64,7 @@ export function DashboardChildHeader({
               <select
                 value={child.child_id}
                 onChange={(e) => onChildChange(e.target.value)}
-                className="appearance-none text-sm font-semibold text-dark bg-transparent border-none pr-6 cursor-pointer focus:outline-none focus:ring-0"
+                className="appearance-none text-sm font-semibold text-foreground bg-transparent border-none pr-6 cursor-pointer focus:outline-none focus:ring-0"
               >
                 {children.map((c) => (
                   <option key={c.child_id} value={c.child_id} className="text-foreground">
@@ -78,7 +78,7 @@ export function DashboardChildHeader({
               />
             </div>
           ) : (
-            <p className="text-sm font-semibold text-dark">{displayName}</p>
+            <p className="text-sm font-semibold text-foreground">{displayName}</p>
           )}
           <p className="text-xs text-muted">
             {yearLabel} · {examLabel}

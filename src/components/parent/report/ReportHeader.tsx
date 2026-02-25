@@ -30,7 +30,7 @@ export function ReportHeader({
             </div>
 
             <h1 className="text-2xl font-bold text-primary">
-              Doorslam Progress Report
+              DoorSlam Progress Report
             </h1>
           </div>
 

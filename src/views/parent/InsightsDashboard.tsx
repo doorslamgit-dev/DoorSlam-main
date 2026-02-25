@@ -66,8 +66,8 @@ export default function InsightsDashboard() {
       <PageLayout>
         <div className="flex items-center justify-center py-32">
           <div className="text-center">
-            <AppIcon name="loader" className="text-primary-600 text-2xl animate-spin mb-3" />
-            <p className="text-sm text-neutral-600">Loading insights...</p>
+            <AppIcon name="loader" className="text-primary text-2xl animate-spin mb-3" />
+            <p className="text-sm text-muted-foreground">Loading insights...</p>
           </div>
         </div>
       </PageLayout>
@@ -150,7 +150,7 @@ export default function InsightsDashboard() {
           />
           {loadingAdvice && tutorAdvice && (
             <div className="mt-2 text-center">
-              <span className="text-xs text-neutral-400">
+              <span className="text-xs text-muted-foreground">
                 <AppIcon name="loader" className="animate-spin mr-1" />
                 Enhancing with AI insights...
               </span>

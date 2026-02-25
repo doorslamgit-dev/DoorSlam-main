@@ -36,7 +36,7 @@ export function ConfidenceSelector({
             } ${
               isSelected
                 ? `${option.bgColor} ${option.selectedBorder}`
-                : "bg-muted border-border hover:border-primary-300"
+                : "bg-muted border-border hover:border-primary/50"
             }`}
           >
             {/* Icon */}

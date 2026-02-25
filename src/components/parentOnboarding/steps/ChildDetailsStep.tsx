@@ -29,14 +29,14 @@ export default function ChildDetailsStep({
       {/* Section header */}
       <div className="mb-8">
         <div className="flex items-start gap-3">
-          <div className="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center flex-shrink-0">
-            <AppIcon name="user" className="w-5 h-5 text-primary-600" aria-hidden />
+          <div className="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center flex-shrink-0">
+            <AppIcon name="user" className="w-5 h-5 text-primary" aria-hidden />
           </div>
           <div>
-            <h2 className="text-xl font-semibold text-neutral-900 mb-2">
+            <h2 className="text-xl font-semibold text-foreground mb-2">
               Tell us about your child
             </h2>
-            <p className="text-neutral-500 text-sm leading-relaxed">
+            <p className="text-muted-foreground text-sm leading-relaxed">
               This helps us build a plan that feels realistic, not overwhelming.
             </p>
           </div>
@@ -50,7 +50,7 @@ export default function ChildDetailsStep({
           <div>
             <label
               htmlFor="first-name"
-              className="block text-sm font-medium text-neutral-700 mb-2"
+              className="block text-sm font-medium text-foreground mb-2"
             >
               First name
             </label>
@@ -61,7 +61,7 @@ export default function ChildDetailsStep({
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 set("first_name", e.target.value)
               }
-              className="w-full px-4 py-3 border border-neutral-200 rounded-xl text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent transition-all"
+              className="w-full px-4 py-3 border border-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
               placeholder="e.g. Hannah"
               required
             />
@@ -71,7 +71,7 @@ export default function ChildDetailsStep({
           <div>
             <label
               htmlFor="last-name"
-              className="block text-sm font-medium text-neutral-700 mb-2"
+              className="block text-sm font-medium text-foreground mb-2"
             >
               Last name
             </label>
@@ -82,7 +82,7 @@ export default function ChildDetailsStep({
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 set("last_name", e.target.value)
               }
-              className="w-full px-4 py-3 border border-neutral-200 rounded-xl text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent transition-all"
+              className="w-full px-4 py-3 border border-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
               placeholder="Optional"
             />
           </div>
@@ -93,7 +93,7 @@ export default function ChildDetailsStep({
           <div>
             <label
               htmlFor="preferred-name"
-              className="block text-sm font-medium text-neutral-700 mb-2"
+              className="block text-sm font-medium text-foreground mb-2"
             >
               Preferred name
             </label>
@@ -104,7 +104,7 @@ export default function ChildDetailsStep({
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 set("preferred_name", e.target.value)
               }
-              className="w-full px-4 py-3 border border-neutral-200 rounded-xl text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent transition-all"
+              className="w-full px-4 py-3 border border-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
               placeholder="What they like to be called"
             />
           </div>
@@ -113,7 +113,7 @@ export default function ChildDetailsStep({
           <div>
             <label
               htmlFor="year-group"
-              className="block text-sm font-medium text-neutral-700 mb-2"
+              className="block text-sm font-medium text-foreground mb-2"
             >
               Year group
             </label>
@@ -122,7 +122,7 @@ export default function ChildDetailsStep({
                 id="year-group"
                 value={String(value.year_group ?? 11)}
                 onChange={(e) => set("year_group", Number(e.target.value))}
-                className="w-full px-4 py-3 pr-10 border border-neutral-200 rounded-xl text-neutral-900 bg-neutral-0 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent transition-all appearance-none cursor-pointer"
+                className="w-full px-4 py-3 pr-10 border border-border rounded-xl text-foreground bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all appearance-none cursor-pointer"
               >
                 {[7, 8, 9, 10, 11, 12, 13].map((y) => (
                   <option key={y} value={String(y)}>
@@ -132,7 +132,7 @@ export default function ChildDetailsStep({
               </select>
               <AppIcon
                 name="chevron-down"
-                className="w-4 h-4 text-neutral-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
+                className="w-4 h-4 text-muted-foreground absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
                 aria-hidden
               />
             </div>
@@ -143,7 +143,7 @@ export default function ChildDetailsStep({
         <div>
           <label
             htmlFor="country"
-            className="block text-sm font-medium text-neutral-700 mb-2"
+            className="block text-sm font-medium text-foreground mb-2"
           >
             Country
           </label>
@@ -154,7 +154,7 @@ export default function ChildDetailsStep({
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               set("country", e.target.value)
             }
-            className="w-full px-4 py-3 border border-neutral-200 rounded-xl text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent transition-all"
+            className="w-full px-4 py-3 border border-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
             placeholder="e.g. England"
           />
         </div>

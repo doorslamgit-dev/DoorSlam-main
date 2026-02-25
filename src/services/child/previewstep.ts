@@ -13,8 +13,8 @@ export const CONFIDENCE_OPTIONS: ConfidenceOption[] = [
     label: "Very confident",
     description: "I already know this topic well",
     icon: "rocket",
-    bgColor: "bg-accent-green/10",
-    iconBgColor: "bg-accent-green",
+    bgColor: "bg-success/10",
+    iconBgColor: "bg-success",
     iconColor: "text-white",
     selectedBorder: "border-accent-green",
   },
@@ -23,19 +23,19 @@ export const CONFIDENCE_OPTIONS: ConfidenceOption[] = [
     label: "Fairly confident",
     description: "I know some of it but could use a refresher",
     icon: "check",
-    bgColor: "bg-neutral-50",
-    iconBgColor: "bg-primary-200",
-    iconColor: "text-primary-600",
-    selectedBorder: "border-primary-600",
+    bgColor: "bg-muted",
+    iconBgColor: "bg-primary/20",
+    iconColor: "text-primary",
+    selectedBorder: "border-primary",
   },
   {
     id: "bit_unsure",
     label: "A bit unsure",
     description: "I've heard of it but don't know it well",
     icon: "circle-question",
-    bgColor: "bg-neutral-50",
-    iconBgColor: "bg-accent-amber/20",
-    iconColor: "text-accent-amber",
+    bgColor: "bg-muted",
+    iconBgColor: "bg-warning/20",
+    iconColor: "text-warning",
     selectedBorder: "border-accent-amber",
   },
   {
@@ -43,9 +43,9 @@ export const CONFIDENCE_OPTIONS: ConfidenceOption[] = [
     label: "New to me",
     description: "This topic is completely new or very unclear",
     icon: "hand-heart",
-    bgColor: "bg-neutral-50",
-    iconBgColor: "bg-accent-red/20",
-    iconColor: "text-accent-red",
+    bgColor: "bg-muted",
+    iconBgColor: "bg-destructive/20",
+    iconColor: "text-destructive",
     selectedBorder: "border-accent-red",
   },
 ];
@@ -53,12 +53,12 @@ export const CONFIDENCE_OPTIONS: ConfidenceOption[] = [
 export function getIconColorForConfidence(confidence: ConfidenceLevel): string {
   switch (confidence) {
     case "very_confident":
-      return "text-accent-green";
+      return "text-success";
     case "fairly_confident":
-      return "text-primary-600";
+      return "text-primary";
     case "bit_unsure":
-      return "text-accent-amber";
+      return "text-warning";
     case "need_help":
-      return "text-accent-red";
+      return "text-destructive";
   }
 }

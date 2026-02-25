@@ -136,7 +136,7 @@ function getStatusPanelClasses(status: StatusIndicator) {
   switch (status) {
     case "needs_attention":
       return {
-        bg: "bg-accent-amber/10",
+        bg: "bg-warning/10",
         border: "border-accent-amber/20",
         text: "text-primary",
       };
@@ -154,7 +154,7 @@ function getStatusPanelClasses(status: StatusIndicator) {
       };
     default:
       return {
-        bg: "bg-accent-green/10",
+        bg: "bg-success/10",
         border: "border-accent-green/20",
         text: "text-primary",
       };
@@ -195,7 +195,7 @@ function StatusExplainerItem({ explainer }: { explainer: StatusExplainer }) {
             </span>
           </div>
 
-          <p className="font-medium text-sm text-primary-800">{config.title}</p>
+          <p className="font-medium text-sm text-primary">{config.title}</p>
         </div>
       </div>
 
@@ -252,7 +252,7 @@ function nudgeTone(type: Nudge["type"]) {
   switch (type) {
     case "celebration":
       return {
-        bg: "bg-accent-green/15",
+        bg: "bg-success/15",
         icon: "text-success",
         border: "border-accent-green/20",
       };
@@ -264,7 +264,7 @@ function nudgeTone(type: Nudge["type"]) {
       };
     case "tip":
       return {
-        bg: "bg-accent-amber/15",
+        bg: "bg-warning/15",
         icon: "text-warning",
         border: "border-accent-amber/20",
       };
@@ -322,7 +322,7 @@ export default function HelpfulNudgesCard({
     return (
       <div className="bg-background rounded-2xl shadow-sm p-6 border border-border">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-xl bg-accent-green/15 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-xl bg-success/15 flex items-center justify-center">
             <AppIcon name="rocket" className="w-5 h-5 text-success" aria-hidden />
           </div>
           <h3 className="text-lg font-semibold text-primary">
@@ -339,7 +339,7 @@ export default function HelpfulNudgesCard({
   return (
     <div className="bg-background rounded-2xl shadow-sm p-6 border border-border">
       <div className="flex items-center gap-3 mb-4">
-        <div className="w-10 h-10 rounded-xl bg-accent-amber/15 flex items-center justify-center">
+        <div className="w-10 h-10 rounded-xl bg-warning/15 flex items-center justify-center">
           <AppIcon
             name="lightbulb"
             className="w-5 h-5 text-warning"

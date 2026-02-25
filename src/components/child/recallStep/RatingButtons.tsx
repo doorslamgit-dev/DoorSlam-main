@@ -30,13 +30,13 @@ export function RatingButtons({
 
   return (
     <div className="flex justify-center">
-      <div className="inline-flex items-center gap-2 bg-neutral-0 rounded-full shadow-lg p-2">
+      <div className="inline-flex items-center gap-2 bg-background rounded-full shadow-lg p-2">
         {/* Undo */}
         <button
           type="button"
           onClick={onUndo}
           disabled={!canUndo}
-          className="w-12 h-12 rounded-full flex items-center justify-center text-neutral-400 hover:bg-neutral-100 disabled:opacity-30 transition"
+          className="w-12 h-12 rounded-full flex items-center justify-center text-muted-foreground hover:bg-secondary disabled:opacity-30 transition"
           aria-label="Undo last rating"
         >
           <span aria-hidden="true">
@@ -63,7 +63,7 @@ export function RatingButtons({
           className="w-14 h-14 rounded-full bg-success-50 hover:bg-success-100 flex items-center justify-center transition disabled:opacity-50"
           aria-label="I know this"
         >
-          <AppIcon name="check-circle" className="w-6 h-6 text-accent-green" aria-hidden />
+          <AppIcon name="check-circle" className="w-6 h-6 text-success" aria-hidden />
         </button>
       </div>
     </div>

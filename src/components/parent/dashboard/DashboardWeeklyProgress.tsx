@@ -47,9 +47,9 @@ export function DashboardWeeklyProgress({ child, dailyPattern }: DashboardWeekly
   const narrative = buildStreakNarrative(child, todayCompleted, todayTotal);
 
   return (
-    <div className="bg-background rounded-2xl shadow-sm p-5 border border-default">
+    <div className="bg-background rounded-2xl shadow-sm p-5 border border-border">
       {/* Header */}
-      <h2 className="text-base font-bold text-dark mb-0.5">This Week&apos;s Progress</h2>
+      <h2 className="text-base font-bold text-foreground mb-0.5">This Week&apos;s Progress</h2>
       <p className="text-sm text-muted mb-3">{narrative}</p>
 
       {/* Progress bar — using ProgressBar primitive */}
@@ -64,7 +64,7 @@ export function DashboardWeeklyProgress({ child, dailyPattern }: DashboardWeekly
           const inProgress = !isDone && day.sessions_completed > 0;
           const hasContent = day.sessions_total > 0;
 
-          let cellClass = 'bg-muted border border-light text-muted';
+          let cellClass = 'bg-muted border border-border text-muted';
           let cellContent: React.ReactNode = '-';
           let labelClass = 'text-muted';
 
@@ -79,7 +79,7 @@ export function DashboardWeeklyProgress({ child, dailyPattern }: DashboardWeekly
             cellContent = `${day.sessions_completed}/${day.sessions_total}`;
             labelClass = 'text-dark font-semibold';
           } else if (isToday) {
-            cellClass = 'bg-neutral-200 border-0 text-medium';
+            cellClass = 'bg-muted border-0 text-muted-foreground';
             labelClass = 'text-dark font-semibold';
           }
 

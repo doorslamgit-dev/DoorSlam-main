@@ -32,12 +32,12 @@ export function ConfidenceSelector({
             className={`p-4 rounded-xl border-2 transition text-left ${
               isSelected
                 ? `${option.selectedBg} ${option.selectedBorder}`
-                : `${option.bgColor} border-neutral-200 hover:border-neutral-300`
+                : `${option.bgColor} border-border hover:border-input`
             } ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
           >
             <div className="flex items-center gap-3 mb-2">
               <AppIcon name={option.icon as IconKey} className="w-6 h-6 flex-shrink-0" aria-hidden />
-              <span className="font-semibold text-neutral-900">{option.label}</span>
+              <span className="font-semibold text-foreground">{option.label}</span>
 
               {isSelected && (
                 <AppIcon
@@ -48,7 +48,7 @@ export function ConfidenceSelector({
               )}
             </div>
 
-            <p className="text-neutral-500 text-sm">{option.description}</p>
+            <p className="text-muted-foreground text-sm">{option.description}</p>
           </button>
         );
       })}

@@ -185,7 +185,7 @@ export default function BlockDatesModal({
       maxWidth="lg"
       footer={
         <div className="flex items-center justify-between">
-          <div className="text-sm text-neutral-500">
+          <div className="text-sm text-muted-foreground">
             {datesAddedThisSession > 0 && (
               <span className="text-success flex items-center gap-1">
                 <AppIcon name="check" className="w-4 h-4" />
@@ -195,7 +195,7 @@ export default function BlockDatesModal({
           </div>
           <button
             onClick={handleDone}
-            className="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition"
+            className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition"
           >
             Done
           </button>
@@ -215,23 +215,23 @@ export default function BlockDatesModal({
       )}
 
       {/* Add New Block */}
-      <div className="bg-neutral-50 rounded-xl p-4 mb-6">
-        <h3 className="font-medium text-neutral-700 mb-3">Block New Dates</h3>
+      <div className="bg-muted rounded-xl p-4 mb-6">
+        <h3 className="font-medium text-foreground mb-3">Block New Dates</h3>
 
         <div className="grid grid-cols-2 gap-3 mb-3">
           <div>
-            <label className="block text-xs font-medium text-neutral-600 mb-1">
+            <label className="block text-xs font-medium text-muted-foreground mb-1">
               Start Date
             </label>
             <input
               type="date"
               value={startDate}
               onChange={(e) => handleStartDateChange(e.target.value)}
-              className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="w-full px-3 py-2 border border-input rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-ring"
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-neutral-600 mb-1">
+            <label className="block text-xs font-medium text-muted-foreground mb-1">
               End Date (optional)
             </label>
             <input
@@ -239,13 +239,13 @@ export default function BlockDatesModal({
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
               min={startDate}
-              className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="w-full px-3 py-2 border border-input rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-ring"
             />
           </div>
         </div>
 
         <div className="mb-4">
-          <label className="block text-xs font-medium text-neutral-600 mb-2">
+          <label className="block text-xs font-medium text-muted-foreground mb-2">
             Reason
           </label>
           <div className="grid grid-cols-2 gap-2">
@@ -256,8 +256,8 @@ export default function BlockDatesModal({
                 onClick={() => setReason(option.value)}
                 className={`flex items-center gap-2 px-3 py-2 border-2 rounded-lg text-sm transition ${
                   reason === option.value
-                    ? "border-primary-600 bg-primary-50 text-primary-700"
-                    : "border-neutral-200 hover:border-neutral-300 text-neutral-600"
+                    ? "border-primary bg-primary/5 text-primary"
+                    : "border-border hover:border-input text-muted-foreground"
                 }`}
               >
                 <AppIcon name={option.icon} className="w-3 h-3" />
@@ -270,7 +270,7 @@ export default function BlockDatesModal({
         <button
           onClick={handleAddBlockedDates}
           disabled={saving || !startDate}
-          className="w-full px-4 py-2.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="w-full px-4 py-2.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           {saving ? (
             <>
@@ -288,20 +288,20 @@ export default function BlockDatesModal({
 
       {/* Existing Blocked Dates */}
       <div>
-        <h3 className="font-medium text-neutral-700 mb-3">
+        <h3 className="font-medium text-foreground mb-3">
           Blocked Dates ({overrides.length})
         </h3>
 
         {loading ? (
           <div className="py-8 text-center">
-            <div className="w-6 h-6 border-2 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
-            <p className="text-sm text-neutral-500">Loading...</p>
+            <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-2" />
+            <p className="text-sm text-muted-foreground">Loading...</p>
           </div>
         ) : overrides.length === 0 ? (
-          <div className="py-8 text-center text-neutral-500 border-2 border-dashed border-neutral-200 rounded-xl">
-            <AppIcon name="calendar-x" className="w-8 h-8 text-neutral-300 mb-2 mx-auto" />
+          <div className="py-8 text-center text-muted-foreground border-2 border-dashed border-border rounded-xl">
+            <AppIcon name="calendar-x" className="w-8 h-8 text-muted-foreground mb-2 mx-auto" />
             <p className="text-sm">No dates blocked yet</p>
-            <p className="text-xs text-neutral-400 mt-1">
+            <p className="text-xs text-muted-foreground mt-1">
               Use the form above to add blocked dates
             </p>
           </div>
@@ -310,27 +310,27 @@ export default function BlockDatesModal({
             {overrides.map((override) => (
               <div
                 key={override.id}
-                className="flex items-center justify-between p-3 bg-neutral-0 border border-neutral-200 rounded-lg"
+                className="flex items-center justify-between p-3 bg-background border border-border rounded-lg"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-neutral-100 rounded-lg flex items-center justify-center">
+                  <div className="w-8 h-8 bg-secondary rounded-lg flex items-center justify-center">
                     <AppIcon
                       name={getReasonIcon(override.reason)}
-                      className="w-4 h-4 text-neutral-500"
+                      className="w-4 h-4 text-muted-foreground"
                     />
                   </div>
                   <div>
-                    <div className="font-medium text-neutral-700 text-sm">
+                    <div className="font-medium text-foreground text-sm">
                       {formatDisplayDate(override.override_date)}
                     </div>
-                    <div className="text-xs text-neutral-500">
+                    <div className="text-xs text-muted-foreground">
                       {getReasonLabel(override.reason)}
                     </div>
                   </div>
                 </div>
                 <button
                   onClick={() => handleRemoveDate(override.override_date)}
-                  className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-danger-bg text-neutral-400 hover:text-danger transition"
+                  className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition"
                   title="Remove"
                 >
                   <AppIcon name="trash-2" className="w-4 h-4" />

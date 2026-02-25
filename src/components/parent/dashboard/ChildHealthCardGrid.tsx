@@ -14,21 +14,21 @@ export function ChildHealthCardGrid({
 }: ChildHealthCardGridProps) {
   if (children.length === 0) {
     return (
-      <div className="bg-neutral-0 rounded-2xl shadow-card p-8 border border-neutral-200/50 text-center">
-        <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+      <div className="bg-background rounded-2xl shadow-sm p-8 border border-border/50 text-center">
+        <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
           <AppIcon
             name="user-plus"
-            className="w-8 h-8 text-primary-600"
+            className="w-8 h-8 text-primary"
             aria-hidden
           />
         </div>
-        <h4 className="text-lg font-bold text-primary-900 mb-2">
+        <h4 className="text-lg font-bold text-primary mb-2">
           No children added yet
         </h4>
-        <p className="text-neutral-600 mb-4">
+        <p className="text-muted-foreground mb-4">
           Add your first child to get started with revision planning.
         </p>
-        <button className="px-6 py-3 bg-primary-600 text-white rounded-pill font-semibold hover:bg-primary-700 transition-colors">
+        <button className="px-6 py-3 bg-primary text-white rounded-pill font-semibold hover:bg-primary/90 transition-colors">
           Add a child
         </button>
       </div>
@@ -38,8 +38,8 @@ export function ChildHealthCardGrid({
   return (
     <section className="mb-10">
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-2xl font-bold text-primary-900">Your Children</h3>
-        <button className="text-sm font-medium text-primary-600 hover:text-primary-700 flex items-center gap-2">
+        <h3 className="text-2xl font-bold text-primary">Your Children</h3>
+        <button className="text-sm font-medium text-primary hover:text-primary flex items-center gap-2">
           View all activity
           <AppIcon name="arrow-right" className="w-4 h-4" aria-hidden />
         </button>

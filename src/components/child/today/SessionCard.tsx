@@ -42,7 +42,7 @@ export default function SessionCard({
           : isLocked
           ? "border-border opacity-60"
           : isNext
-          ? "border-primary-300 dark:border-primary-700 ring-2 ring-primary/10 dark:ring-primary-900/50"
+          ? "border-primary/50 dark:border-primary ring-2 ring-primary/10 dark:ring-primary/90/50"
           : "border-border"
       }`}
     >

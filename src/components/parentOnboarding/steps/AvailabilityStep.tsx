@@ -36,8 +36,8 @@ export default function AvailabilityStep(props: {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-lg font-semibold text-neutral-900">When can they study?</h2>
-        <p className="text-sm text-neutral-600 mt-1">
+        <h2 className="text-lg font-semibold text-foreground">When can they study?</h2>
+        <p className="text-sm text-muted-foreground mt-1">
           Set a pattern that fits family life. You can change this later.
         </p>
       </div>
@@ -48,24 +48,24 @@ export default function AvailabilityStep(props: {
           return (
             <div
               key={d.key}
-              className="rounded-2xl border border-neutral-200 p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3"
+              className="rounded-2xl border border-border p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3"
             >
               <div className="min-w-[140px]">
-                <p className="font-medium text-neutral-900">{d.label}</p>
-                <p className="text-xs text-neutral-600 mt-1">
+                <p className="font-medium text-foreground">{d.label}</p>
+                <p className="text-xs text-muted-foreground mt-1">
                   {v.sessions === 0 ? "No sessions" : `${v.sessions} session${v.sessions === 1 ? "" : "s"}`}
                 </p>
               </div>
 
               <div className="flex flex-col md:flex-row gap-3 md:items-center w-full md:justify-end">
                 <div className="flex items-center gap-2">
-                  <label className="text-sm text-neutral-700">Sessions</label>
+                  <label className="text-sm text-foreground">Sessions</label>
                   <select
                     value={String(v.sessions)}
                     onChange={(e) =>
                       setDay(d.key, { ...v, sessions: Number(e.target.value) })
                     }
-                    className="rounded-xl border border-neutral-300 px-3 py-2 bg-neutral-0 outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
+                    className="rounded-xl border border-input px-3 py-2 bg-background outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
                   >
                     {[0, 1, 2, 3, 4, 5, 6].map((n) => (
                       <option key={n} value={String(n)}>
@@ -76,13 +76,13 @@ export default function AvailabilityStep(props: {
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <label className="text-sm text-neutral-700">Length</label>
+                  <label className="text-sm text-foreground">Length</label>
                   <select
                     value={v.session_pattern}
                     onChange={(e) =>
                       setDay(d.key, { ...v, session_pattern: e.target.value as SessionPattern })
                     }
-                    className="rounded-xl border border-neutral-300 px-3 py-2 bg-neutral-0 outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
+                    className="rounded-xl border border-input px-3 py-2 bg-background outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
                     disabled={v.sessions === 0}
                   >
                     {Object.keys(patternLabels).map((k) => (
@@ -98,7 +98,7 @@ export default function AvailabilityStep(props: {
         })}
       </div>
 
-      <div className="rounded-xl border border-neutral-100 bg-neutral-50 px-4 py-3 text-sm text-neutral-700">
+      <div className="rounded-xl border border-border bg-muted px-4 py-3 text-sm text-foreground">
         Tip: start light. Consistency beats intensity.
       </div>
     </div>

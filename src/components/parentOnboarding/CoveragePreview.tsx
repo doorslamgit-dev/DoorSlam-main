@@ -42,13 +42,13 @@ function getProgressBarColor(coverage: number, priorityTier: string): string {
 function getPriorityLabel(tier: string): { label: string; color: string } {
   switch (tier) {
     case "high":
-      return { label: "High", color: "text-primary-700 bg-primary-100" };
+      return { label: "High", color: "text-primary bg-primary/10" };
     case "medium":
-      return { label: "Medium", color: "text-warning bg-warning-bg" };
+      return { label: "Medium", color: "text-warning bg-warning/10" };
     case "low":
-      return { label: "Low", color: "text-neutral-600 bg-neutral-100" };
+      return { label: "Low", color: "text-muted-foreground bg-secondary" };
     default:
-      return { label: tier, color: "text-neutral-600 bg-neutral-100" };
+      return { label: tier, color: "text-muted-foreground bg-secondary" };
   }
 }
 
@@ -92,14 +92,14 @@ function SubjectRow({ subject, compact = false }: SubjectRowProps) {
       <div className="flex items-center gap-3 py-2">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-sm font-medium text-neutral-900 truncate">
+            <span className="text-sm font-medium text-foreground truncate">
               {subject.subject_name}
             </span>
             <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${priority.color}`}>
               {priority.label}
             </span>
           </div>
-          <div className="h-2 bg-neutral-100 rounded-full overflow-hidden">
+          <div className="h-2 bg-secondary rounded-full overflow-hidden">
             <div
               className={`h-full ${barColor} transition-all duration-500`}
               style={{ width: `${Math.min(100, subject.coverage_percent)}%` }}
@@ -107,7 +107,7 @@ function SubjectRow({ subject, compact = false }: SubjectRowProps) {
           </div>
         </div>
         <div className="text-right flex-shrink-0 w-14">
-          <span className="text-sm font-semibold text-neutral-900">
+          <span className="text-sm font-semibold text-foreground">
             {Math.round(subject.coverage_percent)}%
           </span>
         </div>
@@ -116,12 +116,12 @@ function SubjectRow({ subject, compact = false }: SubjectRowProps) {
   }
 
   return (
-    <div className="p-4 bg-neutral-0 rounded-xl border border-neutral-200">
+    <div className="p-4 bg-background rounded-xl border border-border">
       {/* Header */}
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
-            <h4 className="text-sm font-semibold text-neutral-900 truncate">
+            <h4 className="text-sm font-semibold text-foreground truncate">
               {subject.subject_name}
             </h4>
             <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${priority.color}`}>
@@ -129,24 +129,24 @@ function SubjectRow({ subject, compact = false }: SubjectRowProps) {
             </span>
           </div>
           {subject.grade_gap > 0 && (
-            <p className="text-xs text-neutral-500">
+            <p className="text-xs text-muted-foreground">
               Grade {subject.current_grade ?? "?"} → {subject.target_grade ?? "?"}
-              <span className="ml-1 text-neutral-400">
+              <span className="ml-1 text-muted-foreground">
                 ({subject.grade_gap} level{subject.grade_gap !== 1 ? "s" : ""} to improve)
               </span>
             </p>
           )}
         </div>
         <div className="text-right flex-shrink-0 ml-4">
-          <div className="text-2xl font-bold text-neutral-900">
+          <div className="text-2xl font-bold text-foreground">
             {Math.round(subject.coverage_percent)}%
           </div>
-          <div className="text-xs text-neutral-500">coverage</div>
+          <div className="text-xs text-muted-foreground">coverage</div>
         </div>
       </div>
 
       {/* Progress bar */}
-      <div className="h-3 bg-neutral-100 rounded-full overflow-hidden mb-3">
+      <div className="h-3 bg-secondary rounded-full overflow-hidden mb-3">
         <div
           className={`h-full ${barColor} transition-all duration-500`}
           style={{ width: `${Math.min(100, subject.coverage_percent)}%` }}
@@ -154,7 +154,7 @@ function SubjectRow({ subject, compact = false }: SubjectRowProps) {
       </div>
 
       {/* Stats */}
-      <div className="flex items-center justify-between text-xs text-neutral-500">
+      <div className="flex items-center justify-between text-xs text-muted-foreground">
         <span>
           {subject.topics_covered} of {subject.topic_count} topics
         </span>
@@ -174,10 +174,10 @@ function OverallStatus({ status, percent }: { status: CoverageStatus; percent: n
 
   const circleBg =
     status === "excellent" || status === "good"
-      ? "bg-success-bg"
+      ? "bg-success/10"
       : status === "adequate"
-      ? "bg-warning-bg"
-      : "bg-danger-bg";
+      ? "bg-warning/10"
+      : "bg-destructive/10";
 
   return (
     <div className={`p-4 rounded-xl border ${info.bgColor} ${info.borderColor}`}>
@@ -187,10 +187,10 @@ function OverallStatus({ status, percent }: { status: CoverageStatus; percent: n
         </div>
         <div className="flex-1">
           <h3 className={`text-sm font-semibold ${info.color}`}>{info.label}</h3>
-          <p className="text-xs text-neutral-600">{percent}% weighted average across all subjects</p>
+          <p className="text-xs text-muted-foreground">{percent}% weighted average across all subjects</p>
         </div>
         <div className="text-right">
-          <div className="text-3xl font-bold text-neutral-900">{Math.round(percent)}%</div>
+          <div className="text-3xl font-bold text-foreground">{Math.round(percent)}%</div>
         </div>
       </div>
     </div>
@@ -237,20 +237,20 @@ export default function CoveragePreview({
       <OverallStatus status={coverage.coverage_status} percent={coverage.overall_coverage_percent} />
 
       {/* Summary stats */}
-      <div className="grid grid-cols-3 gap-4 p-4 bg-neutral-50 rounded-xl border border-neutral-200">
+      <div className="grid grid-cols-3 gap-4 p-4 bg-muted rounded-xl border border-border">
         <div className="text-center">
-          <div className="text-2xl font-bold text-neutral-900">{coverage.available_sessions}</div>
-          <div className="text-xs text-neutral-500">sessions planned</div>
+          <div className="text-2xl font-bold text-foreground">{coverage.available_sessions}</div>
+          <div className="text-xs text-muted-foreground">sessions planned</div>
         </div>
         <div className="text-center">
-          <div className="text-2xl font-bold text-neutral-900">{coverage.total_topics_covered}</div>
-          <div className="text-xs text-neutral-500">topics covered</div>
+          <div className="text-2xl font-bold text-foreground">{coverage.total_topics_covered}</div>
+          <div className="text-xs text-muted-foreground">topics covered</div>
         </div>
         <div className="text-center">
-          <div className="text-2xl font-bold text-neutral-900">
+          <div className="text-2xl font-bold text-foreground">
             {Math.round(coverage.available_sessions / Math.max(1, totalWeeks))}
           </div>
-          <div className="text-xs text-neutral-500">per week</div>
+          <div className="text-xs text-muted-foreground">per week</div>
         </div>
       </div>
 
@@ -258,9 +258,9 @@ export default function CoveragePreview({
       {groupedSubjects.high?.length > 0 && (
         <div>
           <div className="flex items-center gap-2 mb-3">
-            <div className="w-2 h-2 rounded-full bg-primary-600" />
-            <h3 className="text-sm font-semibold text-neutral-700">High Priority Subjects</h3>
-            <span className="text-xs text-neutral-400">(Target: 90%+ coverage)</span>
+            <div className="w-2 h-2 rounded-full bg-primary" />
+            <h3 className="text-sm font-semibold text-foreground">High Priority Subjects</h3>
+            <span className="text-xs text-muted-foreground">(Target: 90%+ coverage)</span>
           </div>
           <div className="space-y-3">
             {groupedSubjects.high.map((subject) => (
@@ -274,8 +274,8 @@ export default function CoveragePreview({
         <div>
           <div className="flex items-center gap-2 mb-3">
             <div className="w-2 h-2 rounded-full bg-warning" />
-            <h3 className="text-sm font-semibold text-neutral-700">Medium Priority Subjects</h3>
-            <span className="text-xs text-neutral-400">(Target: 70%+ coverage)</span>
+            <h3 className="text-sm font-semibold text-foreground">Medium Priority Subjects</h3>
+            <span className="text-xs text-muted-foreground">(Target: 70%+ coverage)</span>
           </div>
           <div className="space-y-3">
             {groupedSubjects.medium.map((subject) => (
@@ -288,9 +288,9 @@ export default function CoveragePreview({
       {groupedSubjects.low?.length > 0 && (
         <div>
           <div className="flex items-center gap-2 mb-3">
-            <div className="w-2 h-2 rounded-full bg-neutral-400" />
-            <h3 className="text-sm font-semibold text-neutral-700">Lower Priority Subjects</h3>
-            <span className="text-xs text-neutral-400">(Target: 50%+ coverage)</span>
+            <div className="w-2 h-2 rounded-full bg-muted-foreground" />
+            <h3 className="text-sm font-semibold text-foreground">Lower Priority Subjects</h3>
+            <span className="text-xs text-muted-foreground">(Target: 50%+ coverage)</span>
           </div>
           <div className="space-y-3">
             {groupedSubjects.low.map((subject) => (
@@ -301,10 +301,10 @@ export default function CoveragePreview({
       )}
 
       {/* Explanation */}
-      <div className="p-4 bg-neutral-50 rounded-xl border border-neutral-200">
+      <div className="p-4 bg-muted rounded-xl border border-border">
         <div className="flex items-start gap-3">
-          <AppIcon name="info" className="w-5 h-5 text-neutral-400 mt-0.5" aria-hidden />
-          <div className="text-xs text-neutral-600 space-y-1">
+          <AppIcon name="info" className="w-5 h-5 text-muted-foreground mt-0.5" aria-hidden />
+          <div className="text-xs text-muted-foreground space-y-1">
             <p>
               <strong>High priority subjects</strong> receive the most study time. Coverage shows
               what percentage of topics will be studied at least once.

@@ -22,9 +22,9 @@ export default function SuggestionsCard({ suggestions }: SuggestionsCardProps) {
 
         <div className="p-4 bg-primary/5 rounded-lg border border-primary/20">
           <div className="flex items-start gap-3">
-            <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0">
+            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
               <svg
-                className="w-4 h-4 text-primary-600"
+                className="w-4 h-4 text-primary"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -39,10 +39,10 @@ export default function SuggestionsCard({ suggestions }: SuggestionsCardProps) {
             </div>
 
             <div>
-              <p className="text-sm font-medium text-primary-900 mb-1">
+              <p className="text-sm font-medium text-primary mb-1">
                 Pace is comfortable
               </p>
-              <p className="text-xs text-primary-700">
+              <p className="text-xs text-primary">
                 Current schedule allows for good coverage without rushing. No
                 changes needed.
               </p>
@@ -54,22 +54,22 @@ export default function SuggestionsCard({ suggestions }: SuggestionsCardProps) {
   }
 
   return (
-    <div className="bg-neutral-0 rounded-xl shadow-sm border border-neutral-200 p-6">
+    <div className="bg-background rounded-xl shadow-sm border border-border p-6">
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-semibold text-neutral-900">
+        <h3 className="text-lg font-semibold text-foreground">
           Suggested Adjustments
         </h3>
-        <span className="text-xs text-neutral-500">Optional recommendations</span>
+        <span className="text-xs text-muted-foreground">Optional recommendations</span>
       </div>
 
       <div className="space-y-4">
         {suggestions.map((suggestion, index) => (
           <div
             key={`${suggestion.type}-${index}`}
-            className="p-4 bg-info-bg rounded-lg border border-info-border"
+            className="p-4 bg-info/10 rounded-lg border border-info-border"
           >
             <div className="flex items-start gap-3">
-              <div className="w-8 h-8 rounded-full bg-info-bg flex items-center justify-center flex-shrink-0">
+              <div className="w-8 h-8 rounded-full bg-info/10 flex items-center justify-center flex-shrink-0">
                 <svg
                   className="w-4 h-4 text-info"
                   fill="none"
@@ -95,7 +95,7 @@ export default function SuggestionsCard({ suggestions }: SuggestionsCardProps) {
 
                 <button
                   type="button"
-                  className="text-xs font-medium text-info hover:text-info bg-neutral-0 px-3 py-1.5 rounded border border-info-border"
+                  className="text-xs font-medium text-info hover:text-info bg-background px-3 py-1.5 rounded border border-info-border"
                 >
                   {suggestion.action_label}
                 </button>

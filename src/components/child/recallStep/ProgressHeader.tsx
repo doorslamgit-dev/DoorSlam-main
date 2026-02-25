@@ -17,7 +17,7 @@ export function ProgressHeader({
   const progressPercent = totalCards > 0 ? (currentIndex / totalCards) * 100 : 0;
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-4">
+    <div className="bg-background rounded-2xl shadow-sm p-4">
       <div className="flex items-center justify-between">
         {/* Still learning counter */}
         <div className="flex items-center gap-2">
@@ -30,7 +30,7 @@ export function ProgressHeader({
         </div>
 
         {/* Card position */}
-        <span className="text-neutral-500 text-sm font-medium">
+        <span className="text-muted-foreground text-sm font-medium">
           {currentIndex + 1}/{totalCards}
         </span>
 
@@ -46,9 +46,9 @@ export function ProgressHeader({
       </div>
 
       {/* Progress bar */}
-      <div className="mt-3 w-full bg-neutral-200 rounded-full h-1">
+      <div className="mt-3 w-full bg-muted rounded-full h-1">
         <div
-          className="bg-primary-600 h-full rounded-full transition-all duration-300"
+          className="bg-primary h-full rounded-full transition-all duration-300"
           style={{ width: `${progressPercent}%` }}
         />
       </div>

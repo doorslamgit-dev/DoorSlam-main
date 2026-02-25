@@ -95,7 +95,7 @@ function WeekProgressGrid({
                 isCompletedDay
                   ? "bg-success"
                   : isCurrentDay
-                  ? "bg-primary/10 dark:bg-primary-900/30 border-2 border-primary dark:border-primary"
+                  ? "bg-primary/10 dark:bg-primary/90/30 border-2 border-primary dark:border-primary"
                   : "bg-secondary"
               }`}
             >

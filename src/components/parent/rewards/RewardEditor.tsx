@@ -144,12 +144,12 @@ export function RewardEditor({
                     onClick={() => handleTemplateSelect(template.id)}
                     className={`w-full p-3 rounded-lg border text-left flex justify-between items-center transition-colors ${
                       formData.template_id === template.id
-                        ? 'border-primary-500 bg-primary-50'
-                        : 'border-neutral-200 hover:border-neutral-300'
+                        ? 'border-primary bg-primary/5'
+                        : 'border-border hover:border-input'
                     }`}
                   >
-                    <span className="text-sm text-neutral-900">{template.name}</span>
-                    <span className="text-sm text-neutral-500">{template.suggested_points} pts</span>
+                    <span className="text-sm text-foreground">{template.name}</span>
+                    <span className="text-sm text-muted-foreground">{template.suggested_points} pts</span>
                   </button>
                 ))}
               </div>
@@ -166,8 +166,8 @@ export function RewardEditor({
               value={formData.name}
               onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
               placeholder="e.g., 30 minutes extra gaming"
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 ${
-                errors.name ? 'border-danger' : 'border-neutral-300'
+              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring ${
+                errors.name ? 'border-danger' : 'border-input'
               }`}
             />
             {errors.name && (
@@ -188,8 +188,8 @@ export function RewardEditor({
                 ...prev, 
                 points_cost: parseInt(e.target.value) || 0 
               }))}
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 ${
-                errors.points_cost ? 'border-danger' : 'border-neutral-300'
+              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring ${
+                errors.points_cost ? 'border-danger' : 'border-input'
               }`}
             />
             {errors.points_cost && (
@@ -210,7 +210,7 @@ export function RewardEditor({
                   limit_type: (e.target.value || null) as LimitType,
                   limit_count: e.target.value ? (prev.limit_count || 1) : undefined,
                 }))}
-                className="flex-1 px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="flex-1 px-4 py-2 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
               >
                 <option value="">No limit</option>
                 <option value="per_day">Per day</option>
@@ -227,8 +227,8 @@ export function RewardEditor({
                     limit_count: parseInt(e.target.value) || undefined 
                   }))}
                   placeholder="Max"
-                  className={`w-24 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 ${
-                    errors.limit_count ? 'border-danger' : 'border-neutral-300'
+                  className={`w-24 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring ${
+                    errors.limit_count ? 'border-danger' : 'border-input'
                   }`}
                 />
               )}
@@ -237,7 +237,7 @@ export function RewardEditor({
               <p className="text-destructive text-sm mt-1">{errors.limit_count}</p>
             )}
             {formData.limit_type && formData.limit_count && (
-              <p className="text-xs text-neutral-500 mt-1">
+              <p className="text-xs text-muted-foreground mt-1">
                 Maximum {formData.limit_count} time{formData.limit_count > 1 ? 's' : ''} {' '}
                 {formData.limit_type.replace('per_', 'per ')}
               </p>
@@ -245,19 +245,19 @@ export function RewardEditor({
           </div>
 
           {/* Actions */}
-          <div className="flex gap-3 pt-4 sticky bottom-0 bg-neutral-0 pb-2 -mx-4 sm:-mx-6 px-4 sm:px-6 border-t border-neutral-100 mt-6">
+          <div className="flex gap-3 pt-4 sticky bottom-0 bg-background pb-2 -mx-4 sm:-mx-6 px-4 sm:px-6 border-t border-border mt-6">
             <button
               type="button"
               onClick={onCancel}
               disabled={isSaving}
-              className="flex-1 px-4 py-2.5 border border-neutral-300 rounded-lg text-foreground hover:bg-neutral-50 transition-colors disabled:opacity-50 text-sm font-medium"
+              className="flex-1 px-4 py-2.5 border border-input rounded-lg text-foreground hover:bg-muted transition-colors disabled:opacity-50 text-sm font-medium"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSaving}
-              className="flex-1 px-4 py-2.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2 text-sm font-medium"
+              className="flex-1 px-4 py-2.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 flex items-center justify-center gap-2 text-sm font-medium"
             >
               {isSaving ? (
                 <>

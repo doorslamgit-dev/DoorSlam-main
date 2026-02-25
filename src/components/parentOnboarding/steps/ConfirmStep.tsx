@@ -225,10 +225,10 @@ export default function ConfirmStep(props: {
     <div className="space-y-6">
       {/* Header */}
       <div className="mb-2">
-        <h2 className="text-xl font-semibold text-neutral-900 mb-2">
+        <h2 className="text-xl font-semibold text-foreground mb-2">
           Review your plan details
         </h2>
-        <p className="text-neutral-500 text-sm leading-relaxed">
+        <p className="text-muted-foreground text-sm leading-relaxed">
           Here's what we'll use to build your child's revision plan. Everything looks
           good? Let's create it!
         </p>
@@ -237,68 +237,68 @@ export default function ConfirmStep(props: {
       {/* Summary Cards Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Child Details Card */}
-        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-5">
+        <div className="bg-muted border border-border rounded-xl p-5">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-base font-semibold text-neutral-900 flex items-center">
-              <AppIcon name="user" className="w-4 h-4 text-primary-600 mr-3" aria-hidden />
+            <h3 className="text-base font-semibold text-foreground flex items-center">
+              <AppIcon name="user" className="w-4 h-4 text-primary mr-3" aria-hidden />
               Your child
             </h3>
           </div>
           <div className="space-y-3">
             <div className="flex justify-between">
-              <span className="text-neutral-500 text-sm">Name</span>
-              <span className="text-neutral-900 font-medium">{childName}</span>
+              <span className="text-muted-foreground text-sm">Name</span>
+              <span className="text-foreground font-medium">{childName}</span>
             </div>
             {child.preferred_name && (
               <div className="flex justify-between">
-                <span className="text-neutral-500 text-sm">Preferred name</span>
-                <span className="text-neutral-900 font-medium">{child.preferred_name}</span>
+                <span className="text-muted-foreground text-sm">Preferred name</span>
+                <span className="text-foreground font-medium">{child.preferred_name}</span>
               </div>
             )}
             <div className="flex justify-between">
-              <span className="text-neutral-500 text-sm">Year</span>
-              <span className="text-neutral-900 font-medium">
+              <span className="text-muted-foreground text-sm">Year</span>
+              <span className="text-foreground font-medium">
                 {child.year_group ? `Year ${child.year_group}` : "—"}
               </span>
             </div>
             {child.country && (
               <div className="flex justify-between">
-                <span className="text-neutral-500 text-sm">Country</span>
-                <span className="text-neutral-900 font-medium">{child.country}</span>
+                <span className="text-muted-foreground text-sm">Country</span>
+                <span className="text-foreground font-medium">{child.country}</span>
               </div>
             )}
           </div>
         </div>
 
         {/* Goal & Needs Card */}
-        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-5">
+        <div className="bg-muted border border-border rounded-xl p-5">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-base font-semibold text-neutral-900 flex items-center">
-              <AppIcon name="target" className="w-4 h-4 text-primary-600 mr-3" aria-hidden />
+            <h3 className="text-base font-semibold text-foreground flex items-center">
+              <AppIcon name="target" className="w-4 h-4 text-primary mr-3" aria-hidden />
               Goal & support
             </h3>
           </div>
           <div className="space-y-3">
             <div className="flex justify-between">
-              <span className="text-neutral-500 text-sm">Goal</span>
-              <span className="text-neutral-900 font-medium">
+              <span className="text-muted-foreground text-sm">Goal</span>
+              <span className="text-foreground font-medium">
                 {goalCode ? GOAL_LABELS[goalCode] || goalCode : "—"}
               </span>
             </div>
             <div className="flex justify-between items-start">
-              <span className="text-neutral-500 text-sm">Learning needs</span>
+              <span className="text-muted-foreground text-sm">Learning needs</span>
               {needClusters.length === 0 ? (
-                <span className="text-neutral-900 font-medium">None selected</span>
+                <span className="text-foreground font-medium">None selected</span>
               ) : (
-                <span className="text-neutral-900 font-medium text-right">
+                <span className="text-foreground font-medium text-right">
                   {needClusters.length} selected
                 </span>
               )}
             </div>
             {pathwaySelections.length > 0 && (
               <div className="flex justify-between">
-                <span className="text-neutral-500 text-sm">Exam tiers/options</span>
-                <span className="text-neutral-900 font-medium">
+                <span className="text-muted-foreground text-sm">Exam tiers/options</span>
+                <span className="text-foreground font-medium">
                   {pathwaySelections.length} configured
                 </span>
               </div>
@@ -307,26 +307,26 @@ export default function ConfirmStep(props: {
         </div>
 
         {/* Subjects Card */}
-        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-5">
+        <div className="bg-muted border border-border rounded-xl p-5">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-base font-semibold text-neutral-900 flex items-center">
-              <AppIcon name="book" className="w-4 h-4 text-primary-600 mr-3" aria-hidden />
+            <h3 className="text-base font-semibold text-foreground flex items-center">
+              <AppIcon name="book" className="w-4 h-4 text-primary mr-3" aria-hidden />
               Subjects
             </h3>
-            <span className="text-sm text-neutral-500">{subjects.length} selected</span>
+            <span className="text-sm text-muted-foreground">{subjects.length} selected</span>
           </div>
           {subjects.length === 0 ? (
-            <p className="text-neutral-500 text-sm">No subjects selected</p>
+            <p className="text-muted-foreground text-sm">No subjects selected</p>
           ) : (
             <div className="flex flex-wrap gap-2">
               {sortedSubjects.map((subject, index) => (
                 <span
                   key={subject.subject_id}
-                  className="px-3 py-1.5 bg-neutral-0 border border-neutral-200 text-neutral-700 text-xs font-medium rounded-full"
+                  className="px-3 py-1.5 bg-background border border-border text-foreground text-xs font-medium rounded-full"
                 >
                   {subject.subject_name || `Subject ${index + 1}`}
                   {subject.exam_board_name && (
-                    <span className="text-neutral-400"> • {subject.exam_board_name}</span>
+                    <span className="text-muted-foreground"> • {subject.exam_board_name}</span>
                   )}
                 </span>
               ))}
@@ -335,39 +335,39 @@ export default function ConfirmStep(props: {
         </div>
 
         {/* Grade targets Card */}
-        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-5">
+        <div className="bg-muted border border-border rounded-xl p-5">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-base font-semibold text-neutral-900 flex items-center">
-              <AppIcon name="star" className="w-4 h-4 text-primary-600 mr-3" aria-hidden />
+            <h3 className="text-base font-semibold text-foreground flex items-center">
+              <AppIcon name="star" className="w-4 h-4 text-primary mr-3" aria-hidden />
               Grade targets
             </h3>
           </div>
           {sortedSubjects.length === 0 ? (
-            <p className="text-neutral-500 text-sm">No subjects configured</p>
+            <p className="text-muted-foreground text-sm">No subjects configured</p>
           ) : (
             <div className="space-y-3">
               {sortedSubjects.slice(0, 5).map((subject, index) => (
                 <div key={subject.subject_id} className="flex items-center justify-between">
-                  <span className="text-neutral-700 font-medium text-sm truncate mr-4">
+                  <span className="text-foreground font-medium text-sm truncate mr-4">
                     {subject.subject_name || `Subject ${index + 1}`}
                   </span>
                   <div className="flex items-center gap-2 flex-shrink-0">
-                    <span className="text-xs text-neutral-500 w-4 text-center">
+                    <span className="text-xs text-muted-foreground w-4 text-center">
                       {getGradeDisplay(subject.current_grade)}
                     </span>
                     <AppIcon
                       name="arrow-right"
-                      className="w-3 h-3 text-neutral-300"
+                      className="w-3 h-3 text-muted-foreground"
                       aria-hidden
                     />
-                    <span className="text-xs font-semibold text-accent-green w-4 text-center">
+                    <span className="text-xs font-semibold text-success w-4 text-center">
                       {getGradeDisplay(subject.target_grade)}
                     </span>
                   </div>
                 </div>
               ))}
               {sortedSubjects.length > 5 && (
-                <p className="text-xs text-neutral-400 pt-1">
+                <p className="text-xs text-muted-foreground pt-1">
                   +{sortedSubjects.length - 5} more subject
                   {sortedSubjects.length - 5 === 1 ? "" : "s"}
                 </p>
@@ -378,79 +378,79 @@ export default function ConfirmStep(props: {
 
         {/* Timeline Card */}
         {hasRevisionPeriod && (
-          <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-5">
+          <div className="bg-muted border border-border rounded-xl p-5">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-base font-semibold text-neutral-900 flex items-center">
-                <AppIcon name="calendar" className="w-4 h-4 text-primary-600 mr-3" aria-hidden />
+              <h3 className="text-base font-semibold text-foreground flex items-center">
+                <AppIcon name="calendar" className="w-4 h-4 text-primary mr-3" aria-hidden />
                 Timeline
               </h3>
             </div>
             <div className="space-y-3">
               <div className="flex justify-between">
-                <span className="text-neutral-500 text-sm">Start date</span>
-                <span className="text-neutral-900 font-medium">
+                <span className="text-muted-foreground text-sm">Start date</span>
+                <span className="text-foreground font-medium">
                   {formatDate(revisionPeriod!.start_date)}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-neutral-500 text-sm">End date</span>
-                <span className="text-neutral-900 font-medium">
+                <span className="text-muted-foreground text-sm">End date</span>
+                <span className="text-foreground font-medium">
                   {formatDate(revisionPeriod!.end_date)}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-neutral-500 text-sm">Contingency</span>
-                <span className="text-neutral-900 font-medium">
+                <span className="text-muted-foreground text-sm">Contingency</span>
+                <span className="text-foreground font-medium">
                   {revisionPeriod!.contingency_percent}% buffer
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-neutral-500 text-sm">Total weeks</span>
-                <span className="text-neutral-900 font-medium">{weeks} weeks</span>
+                <span className="text-muted-foreground text-sm">Total weeks</span>
+                <span className="text-foreground font-medium">{weeks} weeks</span>
               </div>
             </div>
           </div>
         )}
 
         {/* Schedule Card - Full Width */}
-        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-5 lg:col-span-2">
+        <div className="bg-muted border border-border rounded-xl p-5 lg:col-span-2">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-base font-semibold text-neutral-900 flex items-center">
-              <AppIcon name="clock" className="w-4 h-4 text-primary-600 mr-3" aria-hidden />
+            <h3 className="text-base font-semibold text-foreground flex items-center">
+              <AppIcon name="clock" className="w-4 h-4 text-primary mr-3" aria-hidden />
               Weekly schedule
             </h3>
           </div>
 
           {scheduleStats.sessionsPerWeek === 0 ? (
-            <p className="text-neutral-500 text-sm">No sessions scheduled</p>
+            <p className="text-muted-foreground text-sm">No sessions scheduled</p>
           ) : (
             <>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="flex justify-between md:flex-col md:items-start">
-                  <span className="text-neutral-500 text-sm">Sessions per week</span>
-                  <span className="text-neutral-900 font-medium">
+                  <span className="text-muted-foreground text-sm">Sessions per week</span>
+                  <span className="text-foreground font-medium">
                     {scheduleStats.sessionsPerWeek} session
                     {scheduleStats.sessionsPerWeek === 1 ? "" : "s"}
                   </span>
                 </div>
                 <div className="flex justify-between md:flex-col md:items-start">
-                  <span className="text-neutral-500 text-sm">Typical length</span>
-                  <span className="text-neutral-900 font-medium">
+                  <span className="text-muted-foreground text-sm">Typical length</span>
+                  <span className="text-foreground font-medium">
                     {PATTERN_LABELS[scheduleStats.mostCommonPattern] || "45 min"}
                   </span>
                 </div>
                 <div className="flex justify-between md:flex-col md:items-start">
-                  <span className="text-neutral-500 text-sm">Total weekly time</span>
-                  <span className="text-neutral-900 font-medium">
+                  <span className="text-muted-foreground text-sm">Total weekly time</span>
+                  <span className="text-foreground font-medium">
                     {formatMinutesAsHours(scheduleStats.totalMinutes)}
                   </span>
                 </div>
               </div>
 
               {activeDays.length > 0 && (
-                <div className="mt-4 pt-4 border-t border-neutral-200">
-                  <p className="text-xs text-neutral-500 flex items-center">
-                    <AppIcon name="lightbulb" className="w-4 h-4 text-neutral-400 mr-2" aria-hidden />
+                <div className="mt-4 pt-4 border-t border-border">
+                  <p className="text-xs text-muted-foreground flex items-center">
+                    <AppIcon name="lightbulb" className="w-4 h-4 text-muted-foreground mr-2" aria-hidden />
                     Scheduled for {activeDays.join(", ")}
                   </p>
                 </div>
@@ -461,16 +461,16 @@ export default function ConfirmStep(props: {
       </div>
 
       {/* Confirmation Note */}
-      <div className="p-5 bg-primary-50 border border-primary-200 rounded-xl">
+      <div className="p-5 bg-primary/5 border border-primary/20 rounded-xl">
         <div className="flex items-start">
-          <div className="flex-shrink-0 w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center mr-4">
+          <div className="flex-shrink-0 w-8 h-8 bg-primary rounded-full flex items-center justify-center mr-4">
             <AppIcon name="check" className="w-4 h-4 text-white" aria-hidden />
           </div>
           <div>
-            <h4 className="text-sm font-semibold text-primary-900 mb-1">
+            <h4 className="text-sm font-semibold text-primary mb-1">
               Ready to create your plan
             </h4>
-            <p className="text-sm text-primary-700 leading-relaxed">
+            <p className="text-sm text-primary leading-relaxed">
               We'll generate a personalised revision schedule based on these details. You
               can always adjust topics, timing, and priorities once your plan is ready.
             </p>
@@ -483,7 +483,7 @@ export default function ConfirmStep(props: {
         type="button"
         onClick={onSubmit}
         disabled={busy}
-        className="w-full flex items-center justify-center gap-2 rounded-full bg-primary-600 text-white py-3.5 font-semibold hover:bg-primary-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full flex items-center justify-center gap-2 rounded-full bg-primary text-white py-3.5 font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {busy ? (
           <>
@@ -499,7 +499,7 @@ export default function ConfirmStep(props: {
       </button>
 
       {/* Footer Note */}
-      <p className="text-xs text-neutral-500 text-center">
+      <p className="text-xs text-muted-foreground text-center">
         You can edit subjects, tiers, and availability later from your dashboard.
       </p>
     </div>

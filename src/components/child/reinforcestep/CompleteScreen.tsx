@@ -25,17 +25,17 @@ export function CompleteScreen({
   const icons = getCompleteScreenIcons();
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-8 text-center">
+    <div className="bg-background rounded-2xl shadow-sm p-8 text-center">
       {/* Decorative hero icon */}
-      <div className="w-20 h-20 bg-primary-50 rounded-full flex items-center justify-center mx-auto mb-6">
-        <AppIcon name="brain" className="w-10 h-10 text-primary-600" aria-hidden />
+      <div className="w-20 h-20 bg-primary/5 rounded-full flex items-center justify-center mx-auto mb-6">
+        <AppIcon name="brain" className="w-10 h-10 text-primary" aria-hidden />
       </div>
 
-      <h2 className="text-2xl font-bold text-neutral-900 mb-3">
+      <h2 className="text-2xl font-bold text-foreground mb-3">
         Brilliant! You've learned the key ideas!
       </h2>
 
-      <p className="text-neutral-600 mb-6">
+      <p className="text-muted-foreground mb-6">
         You've worked through{" "}
         {slideCount > 0 && `${slideCount} explanation${slideCount > 1 ? "s" : ""}`}
         {slideCount > 0 && exampleCount > 0 && " and "}
@@ -43,7 +43,7 @@ export function CompleteScreen({
           `${exampleCount} worked example${exampleCount > 1 ? "s" : ""}`}.
       </p>
 
-      <p className="text-neutral-500 mb-8">
+      <p className="text-muted-foreground mb-8">
         Now it's time to put what you've learned into practice!
       </p>
 
@@ -51,7 +51,7 @@ export function CompleteScreen({
         type="button"
         onClick={onContinue}
         disabled={saving}
-        className="px-8 py-4 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition text-lg disabled:opacity-50 flex items-center justify-center gap-2 mx-auto"
+        className="px-8 py-4 bg-primary text-white font-semibold rounded-xl hover:bg-primary/90 transition text-lg disabled:opacity-50 flex items-center justify-center gap-2 mx-auto"
         aria-label="Continue to practice"
       >
         <span>Let's practice!</span>

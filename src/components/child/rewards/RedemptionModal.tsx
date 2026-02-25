@@ -75,7 +75,7 @@ export function RedemptionModal({
           <button
             onClick={onConfirm}
             disabled={isRequesting}
-            className="w-full py-3 bg-primary hover:bg-primary/90 disabled:bg-primary-400 text-primary-foreground rounded-xl font-semibold transition-colors flex items-center justify-center gap-2"
+            className="w-full py-3 bg-primary hover:bg-primary/90 disabled:bg-primary/60 text-primary-foreground rounded-xl font-semibold transition-colors flex items-center justify-center gap-2"
           >
             {isRequesting ? (
               <>

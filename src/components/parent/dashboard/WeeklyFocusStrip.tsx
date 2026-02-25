@@ -28,7 +28,7 @@ export function WeeklyFocusStrip({
 
   return (
     <section className="mb-8">
-      <div className="bg-primary/5 rounded-xl p-5 border border-primary-100">
+      <div className="bg-primary/5 rounded-xl p-5 border border-primary/20">
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center">

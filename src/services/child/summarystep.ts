@@ -115,7 +115,7 @@ export const MNEMONIC_STYLES: Array<{
     name: "Hip-Hop",
     description: "Catchy rap beats",
     icon: "mic",
-    gradient: "from-primary-500 to-pink-500",
+    gradient: "from-primary/50 to-pink-500",
     styleReference: "street-anthem",
   },
   {

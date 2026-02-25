@@ -19,8 +19,8 @@ export default function QuickStats({
   weeksUntilExams,
 }: QuickStatsProps) {
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-soft p-6">
-      <h3 className="text-lg font-semibold mb-4 text-neutral-700">
+    <div className="bg-background rounded-2xl shadow-soft p-6">
+      <h3 className="text-lg font-semibold mb-4 text-foreground">
         Quick Stats
       </h3>
 
@@ -28,11 +28,11 @@ export default function QuickStats({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <AppIcon name="check-circle" className="w-4 h-4" />
-            <span className="text-sm text-neutral-500">
+            <span className="text-sm text-muted-foreground">
               Subjects on track
             </span>
           </div>
-          <span className="text-sm font-medium text-accent-green">
+          <span className="text-sm font-medium text-success">
             {subjectsOnTrack} of {totalSubjects}
           </span>
         </div>
@@ -40,7 +40,7 @@ export default function QuickStats({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <AppIcon name="triangle-alert" className="w-4 h-4" />
-            <span className="text-sm text-neutral-500">
+            <span className="text-sm text-muted-foreground">
               Needs attention
             </span>
           </div>
@@ -55,11 +55,11 @@ export default function QuickStats({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <AppIcon name="chart-line" className="w-4 h-4" />
-            <span className="text-sm text-neutral-500">
+            <span className="text-sm text-muted-foreground">
               Average coverage
             </span>
           </div>
-          <span className="text-sm font-medium text-neutral-700">
+          <span className="text-sm font-medium text-foreground">
             {avgCoverage}%
           </span>
         </div>
@@ -67,11 +67,11 @@ export default function QuickStats({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <AppIcon name="calendar" className="w-4 h-4" />
-            <span className="text-sm text-neutral-500">
+            <span className="text-sm text-muted-foreground">
               Time until exams
             </span>
           </div>
-          <span className="text-sm font-medium text-neutral-700">
+          <span className="text-sm font-medium text-foreground">
             {weeksUntilExams} weeks
           </span>
         </div>

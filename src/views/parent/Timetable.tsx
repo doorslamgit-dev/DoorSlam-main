@@ -103,8 +103,8 @@ export default function Timetable() {
       <PageLayout>
         <div className="flex items-center justify-center py-32">
           <div className="text-center">
-            <div className="w-8 h-8 border-2 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-            <p className="text-sm text-neutral-600">Loading timetable...</p>
+            <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+            <p className="text-sm text-muted-foreground">Loading timetable...</p>
           </div>
         </div>
       </PageLayout>

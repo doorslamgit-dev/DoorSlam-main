@@ -611,7 +611,7 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
       )}
 
       {/* Input area */}
-      <div className="p-3 border-t border-neutral-200 bg-background">
+      <div className="p-3 border-t border-border bg-background">
         {messagesRemaining > 0 ? (
           <>
             {/* Recording state */}
@@ -625,7 +625,7 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
                     height={32}
                     barCount={16}
                   />
-                  <span className="text-sm font-medium text-accent-red">
+                  <span className="text-sm font-medium text-destructive">
                     {formatTime(voiceRecording.recordingTime)}
                   </span>
                 </div>
@@ -635,7 +635,7 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
                   onMouseUp={handlePTTEnd}
                   onMouseLeave={handlePTTEnd}
                   onTouchEnd={handlePTTEnd}
-                  className="w-12 h-12 bg-accent-red text-white rounded-full flex items-center justify-center animate-pulse"
+                  className="w-12 h-12 bg-destructive text-white rounded-full flex items-center justify-center animate-pulse"
                   aria-label="Stop recording"
                 >
                   <AppIcon name={ICON_STOP} />
@@ -653,7 +653,7 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
                     onMouseLeave={handlePTTEnd}
                     onTouchEnd={handlePTTEnd}
                     disabled={panelState !== "idle"}
-                    className="w-10 h-10 bg-primary-100 text-primary-700 rounded-xl hover:bg-primary-200 active:bg-primary-600 active:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center flex-shrink-0 select-none"
+                    className="w-10 h-10 bg-primary/10 text-primary rounded-xl hover:bg-primary/20 active:bg-primary active:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center flex-shrink-0 select-none"
                     aria-label="Hold to record voice message"
                     title="Hold to speak"
                   >
@@ -670,7 +670,7 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
                   placeholder={
                     canUseVoice ? "Type or hold mic to speak…" : "Ask me anything…"
                   }
-                  className="flex-1 resize-none border border-neutral-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent min-h-[40px] max-h-[100px]"
+                  className="flex-1 resize-none border border-input rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent min-h-[40px] max-h-[100px]"
                   rows={1}
                   disabled={panelState !== "idle"}
                 />
@@ -680,7 +680,7 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
                   type="button"
                   onClick={() => void handleSend()}
                   disabled={!inputText.trim() || panelState !== "idle"}
-                  className="w-10 h-10 bg-primary-600 text-white rounded-xl hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center flex-shrink-0"
+                  className="w-10 h-10 bg-primary text-white rounded-xl hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center flex-shrink-0"
                   aria-label="Send"
                 >
                   <AppIcon name={ICON_SEND} />

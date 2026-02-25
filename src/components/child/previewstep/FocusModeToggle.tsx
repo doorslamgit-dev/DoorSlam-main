@@ -30,7 +30,7 @@ export function FocusModeToggle({ isActive, onToggle, disabled }: FocusModeToggl
       } ${
         isActive
           ? "bg-success/10 border-success"
-          : "bg-muted border-border hover:border-primary-300"
+          : "bg-muted border-border hover:border-primary/50"
       }`}
     >
       <div

@@ -11,11 +11,11 @@ interface ConfidenceHeatmapWidgetProps {
 
 // Get color based on confidence value (1-4 scale)
 function getHeatmapColor(value: number | null): { bg: string; text: string } {
-  if (value === null) return { bg: "bg-neutral-100", text: "" };
-  if (value <= 1) return { bg: "bg-accent-red bg-opacity-30", text: "text-accent-red" };
-  if (value <= 2) return { bg: "bg-accent-amber bg-opacity-25", text: "text-accent-amber" };
-  if (value <= 3) return { bg: "bg-accent-green bg-opacity-35", text: "text-accent-green" };
-  return { bg: "bg-accent-green bg-opacity-50", text: "text-accent-green" };
+  if (value === null) return { bg: "bg-secondary", text: "" };
+  if (value <= 1) return { bg: "bg-destructive bg-opacity-30", text: "text-destructive" };
+  if (value <= 2) return { bg: "bg-warning bg-opacity-25", text: "text-warning" };
+  if (value <= 3) return { bg: "bg-success bg-opacity-35", text: "text-success" };
+  return { bg: "bg-success bg-opacity-50", text: "text-success" };
 }
 
 // Convert confidence level to display value (percentage)
@@ -27,11 +27,11 @@ function getDisplayValue(value: number | null): string {
 export default function ConfidenceHeatmapWidget({ data, loading }: ConfidenceHeatmapWidgetProps) {
   if (loading) {
     return (
-      <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200 animate-pulse">
-        <div className="h-6 bg-neutral-100 rounded w-1/3 mb-4" />
+      <div className="bg-background rounded-2xl shadow-sm p-6 border border-border animate-pulse">
+        <div className="h-6 bg-secondary rounded w-1/3 mb-4" />
         <div className="space-y-2">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-8 bg-neutral-100 rounded" />
+            <div key={i} className="h-8 bg-secondary rounded" />
           ))}
         </div>
       </div>
@@ -45,12 +45,12 @@ export default function ConfidenceHeatmapWidget({ data, loading }: ConfidenceHea
     topics.length > 0 ? Math.max(5, ...topics.map((t) => t.sessions.length)) : 5;
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200">
+    <div className="bg-background rounded-2xl shadow-sm p-6 border border-border">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="text-lg font-bold text-primary-900 mb-1">Confidence Map</h3>
-          <p className="text-xs text-neutral-500">Recent session trends</p>
+          <h3 className="text-lg font-bold text-primary mb-1">Confidence Map</h3>
+          <p className="text-xs text-muted-foreground">Recent session trends</p>
         </div>
       </div>
 
@@ -75,7 +75,7 @@ export default function ConfidenceHeatmapWidget({ data, loading }: ConfidenceHea
                 style={{ gridTemplateColumns: `2fr repeat(${maxSessions}, 1fr)` }}
               >
                 <div
-                  className="text-xs font-medium text-neutral-700 truncate pr-2"
+                  className="text-xs font-medium text-foreground truncate pr-2"
                   title={topic.topic_name}
                 >
                   {topic.topic_name.length > 15
@@ -110,26 +110,26 @@ export default function ConfidenceHeatmapWidget({ data, loading }: ConfidenceHea
           })}
         </div>
       ) : (
-        <div className="text-center py-8 text-neutral-400">No session data for heatmap</div>
+        <div className="text-center py-8 text-muted-foreground">No session data for heatmap</div>
       )}
 
       {/* Legend */}
-      <div className="flex items-center justify-center gap-4 mt-4 pt-4 border-t border-neutral-200">
+      <div className="flex items-center justify-center gap-4 mt-4 pt-4 border-t border-border">
         <div className="flex items-center gap-1">
-          <div className="w-4 h-4 bg-accent-red bg-opacity-30 rounded" />
-          <span className="text-[10px] text-neutral-500">Low</span>
+          <div className="w-4 h-4 bg-destructive bg-opacity-30 rounded" />
+          <span className="text-[10px] text-muted-foreground">Low</span>
         </div>
         <div className="flex items-center gap-1">
-          <div className="w-4 h-4 bg-accent-amber bg-opacity-25 rounded" />
-          <span className="text-[10px] text-neutral-500">Building</span>
+          <div className="w-4 h-4 bg-warning bg-opacity-25 rounded" />
+          <span className="text-[10px] text-muted-foreground">Building</span>
         </div>
         <div className="flex items-center gap-1">
-          <div className="w-4 h-4 bg-accent-green bg-opacity-35 rounded" />
-          <span className="text-[10px] text-neutral-500">Good</span>
+          <div className="w-4 h-4 bg-success bg-opacity-35 rounded" />
+          <span className="text-[10px] text-muted-foreground">Good</span>
         </div>
         <div className="flex items-center gap-1">
-          <div className="w-4 h-4 bg-accent-green bg-opacity-50 rounded" />
-          <span className="text-[10px] text-neutral-500">Strong</span>
+          <div className="w-4 h-4 bg-success bg-opacity-50 rounded" />
+          <span className="text-[10px] text-muted-foreground">Strong</span>
         </div>
       </div>
     </div>

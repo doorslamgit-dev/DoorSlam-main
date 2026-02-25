@@ -72,18 +72,18 @@ export default function AnalyticsSharingCard({
   };
 
   return (
-    <div className="rounded-2xl p-6 bg-neutral-0 shadow-xl">
+    <div className="rounded-2xl p-6 bg-background shadow-xl">
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-start gap-4">
-          <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-primary-50">
-            <AppIcon name="chart-line" className="w-5 h-5 text-primary-600" aria-hidden />
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-primary/5">
+            <AppIcon name="chart-line" className="w-5 h-5 text-primary" aria-hidden />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-neutral-900">
+            <h3 className="text-lg font-semibold text-foreground">
               Community Insights Programme
             </h3>
-            <p className="text-sm text-neutral-600">
+            <p className="text-sm text-muted-foreground">
               Share anonymised progress, unlock peer comparisons
             </p>
           </div>
@@ -94,12 +94,12 @@ export default function AnalyticsSharingCard({
           onClick={handleMainToggle}
           disabled={saving}
           className={`relative w-14 h-7 rounded-full transition-colors disabled:cursor-not-allowed ${
-            settings.enabled ? "bg-accent-green" : "bg-neutral-200"
+            settings.enabled ? "bg-success" : "bg-muted"
           }`}
           aria-label={settings.enabled ? "Disable community insights sharing" : "Enable community insights sharing"}
         >
           <div
-            className={`absolute top-1 w-5 h-5 bg-neutral-0 rounded-full shadow transition-transform ${
+            className={`absolute top-1 w-5 h-5 bg-background rounded-full shadow transition-transform ${
               settings.enabled ? "translate-x-8" : "translate-x-1"
             }`}
           />
@@ -107,29 +107,29 @@ export default function AnalyticsSharingCard({
       </div>
 
       {/* Value proposition */}
-      <div className="rounded-xl p-4 mb-4 bg-neutral-50">
+      <div className="rounded-xl p-4 mb-4 bg-muted">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="flex items-start gap-3">
-            <AppIcon name="shield-check" className="w-4 h-4 mt-0.5 text-accent-green" aria-hidden />
+            <AppIcon name="shield-check" className="w-4 h-4 mt-0.5 text-success" aria-hidden />
             <div>
-              <p className="text-sm font-medium text-neutral-900">100% Anonymised</p>
-              <p className="text-xs text-neutral-600">No names or identifiable data shared</p>
+              <p className="text-sm font-medium text-foreground">100% Anonymised</p>
+              <p className="text-xs text-muted-foreground">No names or identifiable data shared</p>
             </div>
           </div>
 
           <div className="flex items-start gap-3">
-            <AppIcon name="users" className="w-4 h-4 mt-0.5 text-primary-600" aria-hidden />
+            <AppIcon name="users" className="w-4 h-4 mt-0.5 text-primary" aria-hidden />
             <div>
-              <p className="text-sm font-medium text-neutral-900">Peer Insights</p>
-              <p className="text-xs text-neutral-600">See how your child compares</p>
+              <p className="text-sm font-medium text-foreground">Peer Insights</p>
+              <p className="text-xs text-muted-foreground">See how your child compares</p>
             </div>
           </div>
 
           <div className="flex items-start gap-3">
-            <AppIcon name="chart-line" className="w-4 h-4 mt-0.5 text-accent-amber" aria-hidden />
+            <AppIcon name="chart-line" className="w-4 h-4 mt-0.5 text-warning" aria-hidden />
             <div>
-              <p className="text-sm font-medium text-neutral-900">Better Planning</p>
-              <p className="text-xs text-neutral-600">Informed decisions based on real data</p>
+              <p className="text-sm font-medium text-foreground">Better Planning</p>
+              <p className="text-xs text-muted-foreground">Informed decisions based on real data</p>
             </div>
           </div>
         </div>
@@ -138,7 +138,7 @@ export default function AnalyticsSharingCard({
       {/* What's shared info */}
       <button
         onClick={() => setShowDetails(!showDetails)}
-        className="flex items-center gap-2 text-sm font-medium mb-4 text-primary-600 hover:text-primary-700 transition-colors"
+        className="flex items-center gap-2 text-sm font-medium mb-4 text-primary hover:text-primary transition-colors"
         type="button"
       >
         <AppIcon name="info" className="w-4 h-4" aria-hidden />
@@ -147,12 +147,12 @@ export default function AnalyticsSharingCard({
       </button>
 
       {showDetails && (
-        <div className="rounded-xl p-4 mb-4 border bg-primary-50 border-primary-100">
-          <p className="text-sm font-medium mb-2 text-neutral-900">
+        <div className="rounded-xl p-4 mb-4 border bg-primary/5 border-primary/20">
+          <p className="text-sm font-medium mb-2 text-foreground">
             Data we share (anonymised):
           </p>
 
-          <ul className="text-sm space-y-1 text-neutral-600">
+          <ul className="text-sm space-y-1 text-muted-foreground">
             {[
               "Session completion counts",
               "Topic coverage percentages",
@@ -160,24 +160,24 @@ export default function AnalyticsSharingCard({
               "Year group & exam board (for grouping)",
             ].map((item) => (
               <li key={item} className="flex items-center gap-2">
-                <AppIcon name="check" className="w-3.5 h-3.5 text-accent-green" aria-hidden />
+                <AppIcon name="check" className="w-3.5 h-3.5 text-success" aria-hidden />
                 {item}
               </li>
             ))}
           </ul>
 
-          <p className="text-sm font-medium mt-3 mb-2 text-neutral-900">Never shared:</p>
-          <ul className="text-sm space-y-1 text-neutral-600">
+          <p className="text-sm font-medium mt-3 mb-2 text-foreground">Never shared:</p>
+          <ul className="text-sm space-y-1 text-muted-foreground">
             <li className="flex items-center gap-2">
-              <AppIcon name="x" className="w-3.5 h-3.5 text-accent-red" aria-hidden />
+              <AppIcon name="x" className="w-3.5 h-3.5 text-destructive" aria-hidden />
               Names or personal details
             </li>
             <li className="flex items-center gap-2">
-              <AppIcon name="x" className="w-3.5 h-3.5 text-accent-red" aria-hidden />
+              <AppIcon name="x" className="w-3.5 h-3.5 text-destructive" aria-hidden />
               Specific answers or responses
             </li>
             <li className="flex items-center gap-2">
-              <AppIcon name="x" className="w-3.5 h-3.5 text-accent-red" aria-hidden />
+              <AppIcon name="x" className="w-3.5 h-3.5 text-destructive" aria-hidden />
               School name or exact location
             </li>
           </ul>
@@ -186,10 +186,10 @@ export default function AnalyticsSharingCard({
 
       {/* Settings (shown when enabled) */}
       {settings.enabled && (
-        <div className="space-y-4 pt-4 border-t border-neutral-200">
+        <div className="space-y-4 pt-4 border-t border-border">
           {/* Scope selection */}
           <div>
-            <label className="text-sm font-medium mb-2 block text-neutral-900">
+            <label className="text-sm font-medium mb-2 block text-foreground">
               Comparison scope
             </label>
 
@@ -204,25 +204,25 @@ export default function AnalyticsSharingCard({
                     type="button"
                     className={`p-3 rounded-xl border text-left transition-colors disabled:cursor-not-allowed ${
                       isActive
-                        ? "border-primary-600 bg-primary-50"
-                        : "border-neutral-200 hover:border-neutral-300 bg-neutral-0"
+                        ? "border-primary bg-primary/5"
+                        : "border-border hover:border-input bg-background"
                     }`}
                   >
                     <div className="flex items-start gap-2">
                       <AppIcon
                         name={scopeIconKey(option.value)}
-                        className={`w-4 h-4 mt-0.5 ${isActive ? "text-primary-600" : "text-neutral-500"}`}
+                        className={`w-4 h-4 mt-0.5 ${isActive ? "text-primary" : "text-muted-foreground"}`}
                         aria-hidden
                       />
                       <div>
                         <p
                           className={`text-sm font-medium ${
-                            isActive ? "text-primary-700" : "text-neutral-900"
+                            isActive ? "text-primary" : "text-foreground"
                           }`}
                         >
                           {option.label}
                         </p>
-                        <p className="text-xs mt-0.5 text-neutral-600">
+                        <p className="text-xs mt-0.5 text-muted-foreground">
                           {option.description}
                         </p>
                       </div>
@@ -236,7 +236,7 @@ export default function AnalyticsSharingCard({
           {/* Per-child toggles (if multiple children) */}
           {settings.children.length > 1 && (
             <div>
-              <label className="text-sm font-medium mb-2 block text-neutral-900">
+              <label className="text-sm font-medium mb-2 block text-foreground">
                 Include in programme
               </label>
 
@@ -244,9 +244,9 @@ export default function AnalyticsSharingCard({
                 {settings.children.map((child) => (
                   <div
                     key={child.child_id}
-                    className="flex items-center justify-between p-3 rounded-xl bg-neutral-50"
+                    className="flex items-center justify-between p-3 rounded-xl bg-muted"
                   >
-                    <span className="text-sm text-neutral-900">
+                    <span className="text-sm text-foreground">
                       {child.child_name}
                     </span>
 
@@ -255,7 +255,7 @@ export default function AnalyticsSharingCard({
                       disabled={saving}
                       type="button"
                       className={`relative w-10 h-5 rounded-full transition-colors disabled:cursor-not-allowed ${
-                        child.enabled ? "bg-accent-green" : "bg-neutral-200"
+                        child.enabled ? "bg-success" : "bg-muted"
                       }`}
                       aria-label={
                         child.enabled
@@ -264,7 +264,7 @@ export default function AnalyticsSharingCard({
                       }
                     >
                       <div
-                        className={`absolute top-0.5 w-4 h-4 bg-neutral-0 rounded-full shadow transition-transform ${
+                        className={`absolute top-0.5 w-4 h-4 bg-background rounded-full shadow transition-transform ${
                           child.enabled ? "translate-x-5" : "translate-x-0.5"
                         }`}
                       />
@@ -278,13 +278,13 @@ export default function AnalyticsSharingCard({
       )}
 
       {/* Coming soon badge */}
-      <div className="mt-4 p-3 rounded-xl flex items-center gap-3 bg-accent-amber/10 border border-accent-amber/30">
-        <AppIcon name="rocket" className="w-5 h-5 text-accent-amber flex-shrink-0" aria-hidden />
+      <div className="mt-4 p-3 rounded-xl flex items-center gap-3 bg-warning/10 border border-accent-amber/30">
+        <AppIcon name="rocket" className="w-5 h-5 text-warning flex-shrink-0" aria-hidden />
         <div>
-          <p className="text-sm font-medium text-accent-amber">
+          <p className="text-sm font-medium text-warning">
             Coming soon
           </p>
-          <p className="text-xs text-neutral-700">
+          <p className="text-xs text-foreground">
             Peer insights dashboard launching Q2 2026
           </p>
         </div>

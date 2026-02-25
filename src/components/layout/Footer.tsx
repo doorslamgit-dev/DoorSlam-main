@@ -3,7 +3,7 @@
 // FEAT-010: AppIcon (lucide-react) + theme-ready classes (no FontAwesome, no hex)
 
 import { Link } from 'react-router-dom';
-import AppIcon from "../ui/AppIcon";
+import BrandWordmark from '../ui/BrandWordmark';
 
 export default function Footer() {
   return (
@@ -13,16 +13,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <AppIcon
-                  name="graduation-cap"
-                  className="w-4 h-4 text-primary-foreground"
-                  aria-hidden
-                />
-              </div>
-              <span className="text-xl font-bold text-background">
-                Doorslam
-              </span>
+              <BrandWordmark size="md" className="text-background" />
             </div>
             <p className="text-muted-foreground text-sm">
               Helping students achieve their best in GCSE and IGCSE exams.
@@ -116,7 +107,7 @@ export default function Footer() {
 
         {/* Copyright */}
         <div className="border-t border-muted-foreground/20 mt-8 pt-8 text-center text-muted-foreground text-sm">
-          <p>&copy; 2026 Doorslam. All rights reserved.</p>
+          <p>&copy; 2026 DoorSlam. All rights reserved.</p>
         </div>
       </div>
     </footer>

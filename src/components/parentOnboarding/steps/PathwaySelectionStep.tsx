@@ -81,16 +81,16 @@ function SubjectPathwayCard({
   const isSkipped = subjectSelections.some((s) => s.pathway_id === "skipped");
 
   const statusStyles = isComplete
-    ? "border-accent-green/30 bg-neutral-0"
+    ? "border-accent-green/30 bg-background"
     : isSkipped
-      ? "border-warning-border bg-neutral-0"
-      : "border-neutral-200 bg-neutral-0";
+      ? "border-warning-border bg-background"
+      : "border-border bg-background";
 
   const badgeStyles = isComplete
-    ? "bg-accent-green/10 text-accent-green"
+    ? "bg-success/10 text-success"
     : isSkipped
-      ? "bg-warning-bg text-warning"
-      : "bg-neutral-100 text-neutral-400";
+      ? "bg-warning/10 text-warning"
+      : "bg-secondary text-muted-foreground";
 
   const statusIcon: "check" | "circle-question" | "chevron-right" = isComplete
     ? "check"
@@ -101,7 +101,7 @@ function SubjectPathwayCard({
   return (
     <div className={`rounded-xl border shadow-sm ${statusStyles}`}>
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-neutral-100">
+      <div className="flex items-center justify-between p-4 border-b border-border">
         <div className="flex items-center gap-3">
           <div
             className={`flex h-8 w-8 items-center justify-center rounded-full ${badgeStyles}`}
@@ -110,12 +110,12 @@ function SubjectPathwayCard({
           </div>
 
           <div>
-            <div className="font-medium text-neutral-900">
+            <div className="font-medium text-foreground">
               {subject.subject_name}
             </div>
 
             {isComplete && selectedTopLevel && (
-              <div className="text-sm text-neutral-500">
+              <div className="text-sm text-muted-foreground">
                 {selectedTopLevel.pathway_name}
                 {selectedChild && ` → ${selectedChild.pathway_name}`}
               </div>
@@ -133,7 +133,7 @@ function SubjectPathwayCard({
           <button
             type="button"
             onClick={() => onSkip(subject.subject_id)}
-            className="text-sm text-neutral-500 hover:text-neutral-700"
+            className="text-sm text-muted-foreground hover:text-foreground"
           >
             I'm not sure
           </button>
@@ -146,7 +146,7 @@ function SubjectPathwayCard({
           {/* Top-level selection */}
           {!selectedTopLevel && (
             <div>
-              <div className="text-sm font-medium text-neutral-700 mb-3">
+              <div className="text-sm font-medium text-foreground mb-3">
                 {hierarchy.length === 2 &&
                 hierarchy[0]?.pathway_code === "foundation"
                   ? "Which tier is your child studying?"
@@ -159,19 +159,19 @@ function SubjectPathwayCard({
                     key={pathway.id}
                     type="button"
                     onClick={() => onSelect(subject.subject_id, pathway)}
-                    className="rounded-lg border border-neutral-200 bg-neutral-0 px-4 py-3 text-left hover:border-neutral-300 hover:bg-neutral-50 transition"
+                    className="rounded-lg border border-border bg-background px-4 py-3 text-left hover:border-input hover:bg-muted transition"
                   >
-                    <div className="font-medium text-neutral-900">
+                    <div className="font-medium text-foreground">
                       {pathway.pathway_name}
                     </div>
 
                     {pathway.pathway_code === "foundation" && (
-                      <div className="text-sm text-neutral-500 mt-1">
+                      <div className="text-sm text-muted-foreground mt-1">
                         Grades 1–5 available
                       </div>
                     )}
                     {pathway.pathway_code === "higher" && (
-                      <div className="text-sm text-neutral-500 mt-1">
+                      <div className="text-sm text-muted-foreground mt-1">
                         Grades 4–9 available
                       </div>
                     )}
@@ -185,13 +185,13 @@ function SubjectPathwayCard({
           {showChildren && !selectedChild && (
             <div>
               <div className="flex items-center justify-between mb-3">
-                <div className="text-sm font-medium text-neutral-700">
+                <div className="text-sm font-medium text-foreground">
                   Now select the specific option
                 </div>
                 <button
                   type="button"
                   onClick={() => onClear(subject.subject_id)}
-                  className="text-sm text-primary-600 hover:text-primary-700"
+                  className="text-sm text-primary hover:text-primary"
                 >
                   Change {selectedTopLevel!.pathway_name}
                 </button>
@@ -203,9 +203,9 @@ function SubjectPathwayCard({
                     key={child.id}
                     type="button"
                     onClick={() => onSelect(subject.subject_id, child)}
-                    className="rounded-lg border border-neutral-200 bg-neutral-0 px-3 py-2 text-left hover:border-neutral-300 hover:bg-neutral-50 transition"
+                    className="rounded-lg border border-border bg-background px-3 py-2 text-left hover:border-input hover:bg-muted transition"
                   >
-                    <div className="font-medium text-neutral-900 text-sm">
+                    <div className="font-medium text-foreground text-sm">
                       {child.pathway_name}
                     </div>
                   </button>
@@ -222,7 +222,7 @@ function SubjectPathwayCard({
           <button
             type="button"
             onClick={() => onClear(subject.subject_id)}
-            className="text-sm text-primary-600 hover:text-primary-700"
+            className="text-sm text-primary hover:text-primary"
           >
             Change selection
           </button>
@@ -235,7 +235,7 @@ function SubjectPathwayCard({
           <button
             type="button"
             onClick={() => onClear(subject.subject_id)}
-            className="text-sm text-primary-600 hover:text-primary-700"
+            className="text-sm text-primary hover:text-primary"
           >
             Select now
           </button>
@@ -398,17 +398,17 @@ export default function PathwaySelectionStep({
     return (
       <div className="space-y-6">
         <div>
-          <h2 className="text-xl font-semibold text-neutral-900">
+          <h2 className="text-xl font-semibold text-foreground">
             Checking subject options…
           </h2>
-          <p className="mt-1 text-sm text-neutral-500">
+          <p className="mt-1 text-sm text-muted-foreground">
             Loading tier and option details
           </p>
         </div>
 
         <div className="animate-pulse space-y-4">
-          <div className="h-24 bg-neutral-100 rounded-xl" />
-          <div className="h-24 bg-neutral-100 rounded-xl" />
+          <div className="h-24 bg-secondary rounded-xl" />
+          <div className="h-24 bg-secondary rounded-xl" />
         </div>
       </div>
     );
@@ -417,18 +417,18 @@ export default function PathwaySelectionStep({
   if (error) {
     return (
       <div className="space-y-6">
-        <div className="rounded-xl border border-accent-red/30 bg-accent-red/5 p-4">
+        <div className="rounded-xl border border-accent-red/30 bg-destructive/5 p-4">
           <div className="flex items-start gap-3">
             <AppIcon
               name="triangle-alert"
-              className="w-5 h-5 text-accent-red mt-0.5"
+              className="w-5 h-5 text-destructive mt-0.5"
               aria-hidden
             />
             <div>
-              <div className="font-medium text-neutral-900">
+              <div className="font-medium text-foreground">
                 Failed to load options
               </div>
-              <div className="text-sm text-neutral-600 mt-1">{error}</div>
+              <div className="text-sm text-muted-foreground mt-1">{error}</div>
             </div>
           </div>
         </div>
@@ -437,7 +437,7 @@ export default function PathwaySelectionStep({
           <button
             type="button"
             onClick={onBack}
-            className="rounded-full border border-neutral-300 px-5 py-2.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50"
+            className="rounded-full border border-input px-5 py-2.5 text-sm font-medium text-foreground hover:bg-muted"
           >
             Back
           </button>
@@ -445,7 +445,7 @@ export default function PathwaySelectionStep({
           <button
             type="button"
             onClick={onNext}
-            className="rounded-full bg-primary-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-primary-700"
+            className="rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white hover:bg-primary/90"
           >
             Skip for now
           </button>
@@ -463,23 +463,23 @@ export default function PathwaySelectionStep({
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h2 className="text-xl font-semibold text-neutral-900">
+        <h2 className="text-xl font-semibold text-foreground">
           Select exam tiers and options
         </h2>
-        <p className="mt-1 text-sm text-neutral-500">
+        <p className="mt-1 text-sm text-muted-foreground">
           Some subjects have tiers or routes. This helps us show the right content.
         </p>
       </div>
 
       {/* Info box */}
-      <div className="rounded-xl bg-primary-50 border border-primary-200 p-4 text-sm text-primary-900">
+      <div className="rounded-xl bg-primary/5 border border-primary/20 p-4 text-sm text-primary">
         <div className="flex items-start gap-3">
           <div className="mt-0.5">
-            <AppIcon name="info" className="w-5 h-5 text-primary-600" aria-hidden />
+            <AppIcon name="info" className="w-5 h-5 text-primary" aria-hidden />
           </div>
           <div>
             <p className="font-semibold">Not sure?</p>
-            <p className="text-primary-800">
+            <p className="text-primary">
               You can skip for now and set this later. Check exercise books or ask the
               teacher.
             </p>
@@ -503,7 +503,7 @@ export default function PathwaySelectionStep({
 
       {/* Skipped warning */}
       {skippedCount > 0 && (
-        <div className="rounded-xl bg-warning-bg border border-warning-border p-4 text-sm text-amber-900">
+        <div className="rounded-xl bg-warning/10 border border-warning-border p-4 text-sm text-amber-900">
           <div className="flex items-start gap-3">
             <AppIcon
               name="triangle-alert"
@@ -529,7 +529,7 @@ export default function PathwaySelectionStep({
         <button
           type="button"
           onClick={onBack}
-          className="rounded-full border border-neutral-300 px-6 py-2.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50"
+          className="rounded-full border border-input px-6 py-2.5 text-sm font-medium text-foreground hover:bg-muted"
         >
           Back
         </button>
@@ -538,7 +538,7 @@ export default function PathwaySelectionStep({
           type="button"
           onClick={onNext}
           disabled={!allAddressed}
-          className="rounded-full bg-primary-600 px-6 py-2.5 text-sm font-semibold text-white hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-white hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {skippedCount > 0 ? "Continue anyway" : "Next"}
         </button>

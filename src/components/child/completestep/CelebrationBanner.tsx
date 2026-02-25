@@ -17,53 +17,53 @@ export function CelebrationBanner({
   const trophyIcon: IconKey = "trophy";
 
   return (
-    <div className="bg-gradient-to-br from-primary-50 via-primary-50 to-primary-50 rounded-2xl shadow-card p-8 text-center border border-primary-200">
-      <div className="w-20 h-20 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
-        <AppIcon name="party-popper" className="w-10 h-10 text-primary-600" aria-hidden />
+    <div className="bg-gradient-to-br from-primary/5 via-primary/5 to-primary/5 rounded-2xl shadow-sm p-8 text-center border border-primary/20">
+      <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+        <AppIcon name="party-popper" className="w-10 h-10 text-primary" aria-hidden />
       </div>
 
-      <h2 className="text-3xl font-bold text-neutral-900 mb-2">
+      <h2 className="text-3xl font-bold text-foreground mb-2">
         You did it, {childName}!
       </h2>
 
-      <p className="text-neutral-600 text-lg mb-6">
+      <p className="text-muted-foreground text-lg mb-6">
         Another session complete – you're on fire!
       </p>
 
       {/* Stats Row */}
       <div className="flex items-center justify-center gap-4">
         {/* XP Earned */}
-        <div className="bg-neutral-0 rounded-xl p-4 shadow-sm min-w-[100px]">
-          <div className="text-2xl font-bold text-primary-600">
+        <div className="bg-background rounded-xl p-4 shadow-sm min-w-[100px]">
+          <div className="text-2xl font-bold text-primary">
             +{gamification.xpEarned}
           </div>
-          <div className="text-xs text-neutral-500 mt-1">XP earned</div>
+          <div className="text-xs text-muted-foreground mt-1">XP earned</div>
         </div>
 
         {/* Streak */}
-        <div className="bg-neutral-0 rounded-xl p-4 shadow-sm min-w-[100px]">
+        <div className="bg-background rounded-xl p-4 shadow-sm min-w-[100px]">
           <div className="flex items-center justify-center gap-1">
             <AppIcon
               name={fireIcon}
-              className="text-accent-orange"
+              className="text-warning"
               aria-hidden
             />
-            <span className="text-2xl font-bold text-neutral-900">
+            <span className="text-2xl font-bold text-foreground">
               {gamification.currentStreak}
             </span>
           </div>
-          <div className="text-xs text-neutral-500 mt-1">day streak</div>
+          <div className="text-xs text-muted-foreground mt-1">day streak</div>
         </div>
 
         {/* Badge (if earned) */}
         {gamification.newBadge && (
-          <div className="bg-neutral-0 rounded-xl p-4 shadow-sm min-w-[100px]">
+          <div className="bg-background rounded-xl p-4 shadow-sm min-w-[100px]">
             <AppIcon
               name={trophyIcon}
-              className="text-accent-amber text-2xl mx-auto"
+              className="text-warning text-2xl mx-auto"
               aria-hidden
             />
-            <div className="text-xs text-neutral-500 mt-1">New badge!</div>
+            <div className="text-xs text-muted-foreground mt-1">New badge!</div>
           </div>
         )}
       </div>

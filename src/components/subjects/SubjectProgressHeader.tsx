@@ -117,7 +117,7 @@ export function SubjectProgressHeader({
         <button
           type="button"
           onClick={onScheduleClick}
-          className="px-6 py-3 bg-background text-primary font-medium rounded-full border-2 border-primary/20 hover:border-primary-300 transition-colors"
+          className="px-6 py-3 bg-background text-primary font-medium rounded-full border-2 border-primary/20 hover:border-primary/50 transition-colors"
         >
           View Schedule
         </button>
@@ -125,7 +125,7 @@ export function SubjectProgressHeader({
         <button
           type="button"
           onClick={onAddSubject}
-          className="ml-auto flex items-center gap-2 px-4 py-2 bg-background text-primary font-medium rounded-full border border-border hover:border-primary-300 transition-colors shadow-sm"
+          className="ml-auto flex items-center gap-2 px-4 py-2 bg-background text-primary font-medium rounded-full border border-border hover:border-primary/50 transition-colors shadow-sm"
         >
           <AppIcon name="plus" className="w-4 h-4" />
           Add Subject

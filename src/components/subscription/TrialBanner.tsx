@@ -17,23 +17,23 @@ export function TrialBanner() {
   // Show expired/past due warning
   if (tier === "expired" || isPastDue) {
     return (
-      <div className="bg-accent-red/10 border border-accent-red/20 rounded-xl p-4 mb-6">
+      <div className="bg-destructive/10 border border-accent-red/20 rounded-xl p-4 mb-6">
         <div className="flex items-start gap-3">
-          <div className="w-10 h-10 bg-accent-red/20 rounded-full flex items-center justify-center flex-shrink-0">
-            <AppIcon name="triangle-alert" className="w-5 h-5 text-accent-red" />
+          <div className="w-10 h-10 bg-destructive/20 rounded-full flex items-center justify-center flex-shrink-0">
+            <AppIcon name="triangle-alert" className="w-5 h-5 text-destructive" />
           </div>
           <div className="flex-1">
-            <h3 className="font-semibold text-accent-red mb-1">
+            <h3 className="font-semibold text-destructive mb-1">
               {isPastDue ? "Payment Issue" : "Trial Expired"}
             </h3>
-            <p className="text-sm text-neutral-600 mb-3">
+            <p className="text-sm text-muted-foreground mb-3">
               {isPastDue
                 ? "There was a problem with your payment. Please update your payment method to continue."
-                : "Your free trial has ended. Subscribe now to continue using Doorslam with your family."}
+                : "Your free trial has ended. Subscribe now to continue using DoorSlam with your family."}
             </p>
             <Link
               to="/pricing"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors"
             >
               {isPastDue ? "Update Payment" : "View Plans"}
               <AppIcon name="arrow-right" className="w-4 h-4" />
@@ -55,20 +55,20 @@ export function TrialBanner() {
 
     const bgColor = {
       high: "bg-amber-50 border-amber-200",
-      medium: "bg-primary-50 border-primary-200",
-      low: "bg-neutral-50 border-neutral-200",
+      medium: "bg-primary/5 border-primary/20",
+      low: "bg-muted border-border",
     }[urgency];
 
     const iconBg = {
       high: "bg-amber-100",
-      medium: "bg-primary-100",
-      low: "bg-neutral-100",
+      medium: "bg-primary/10",
+      low: "bg-secondary",
     }[urgency];
 
     const textColor = {
       high: "text-amber-700",
-      medium: "text-primary-700",
-      low: "text-neutral-700",
+      medium: "text-primary",
+      low: "text-foreground",
     }[urgency];
 
     return (
@@ -86,14 +86,14 @@ export function TrialBanner() {
                   ? "Last day of your free trial!"
                   : `${trialDaysRemaining} days left in your free trial`}
               </p>
-              <p className="text-sm text-neutral-600">
+              <p className="text-sm text-muted-foreground">
                 Trial includes 1 child and 1 subject
               </p>
             </div>
           </div>
           <Link
             to="/pricing"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors"
           >
             Upgrade Now
             <AppIcon name="arrow-right" className="w-4 h-4" />

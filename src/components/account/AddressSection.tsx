@@ -110,7 +110,7 @@ export function AddressSection({
           />
         </div>
         <div>
-          <label className="text-sm font-medium mb-1 block text-neutral-700">
+          <label className="text-sm font-medium mb-1 block text-foreground">
             Time zone
           </label>
           <select
@@ -119,10 +119,10 @@ export function AddressSection({
               setLocalData({ ...localData, timezone: e.target.value })
             }
             disabled={!editing}
-            className={`w-full px-4 py-2.5 rounded-xl border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-primary-600 disabled:cursor-not-allowed transition-colors ${
+            className={`w-full px-4 py-2.5 rounded-xl border border-border focus:outline-none focus:ring-2 focus:ring-ring disabled:cursor-not-allowed transition-colors ${
               editing
-                ? "bg-neutral-50 text-neutral-700"
-                : "bg-neutral-100 text-neutral-500"
+                ? "bg-muted text-foreground"
+                : "bg-secondary text-muted-foreground"
             }`}
           >
             <option value="Europe/London">Europe/London (GMT/BST)</option>

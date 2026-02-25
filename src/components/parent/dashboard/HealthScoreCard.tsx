@@ -65,7 +65,7 @@ export function HealthScoreCard({
     <div className="bg-background rounded-2xl shadow-sm p-5 border border-border h-full flex flex-col">
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-base font-bold text-dark">Health Score</h3>
+        <h3 className="text-base font-bold text-foreground">Health Score</h3>
         <Badge variant={rag.badgeVariant} size="sm" badgeStyle="solid">
           {rag.label}
         </Badge>

@@ -45,7 +45,7 @@ export default function SessionHeader({
   const initial = childName.charAt(0).toUpperCase();
 
   return (
-    <header className="bg-neutral-0 border-b border-neutral-200 px-6 py-4">
+    <header className="bg-background border-b border-border px-6 py-4">
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-6">
         {/* Left */}
         <div className="flex items-center gap-4 min-w-0">
@@ -53,11 +53,11 @@ export default function SessionHeader({
             <button
               type="button"
               onClick={() => navigate(-1)}
-              className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
+              className="p-2 hover:bg-secondary rounded-lg transition-colors"
               aria-label="Go back"
             >
               <svg
-                className="w-5 h-5 text-neutral-700"
+                className="w-5 h-5 text-foreground"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -74,7 +74,7 @@ export default function SessionHeader({
           ) : null}
 
           {subjectIcon ? (
-            <div className="w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center flex-shrink-0">
+            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
               <span className="text-2xl" aria-hidden="true">
                 {subjectIcon}
               </span>
@@ -82,11 +82,11 @@ export default function SessionHeader({
           ) : null}
 
           <div className="min-w-0">
-            <h1 className="text-lg font-semibold text-neutral-900 truncate">
+            <h1 className="text-lg font-semibold text-foreground truncate">
               {subjectName}
             </h1>
             {sessionInfo ? (
-              <p className="text-sm text-neutral-600 truncate">{sessionInfo}</p>
+              <p className="text-sm text-muted-foreground truncate">{sessionInfo}</p>
             ) : null}
           </div>
         </div>
@@ -96,11 +96,11 @@ export default function SessionHeader({
           <button
             type="button"
             onClick={onHelp}
-            className="p-2 hover:bg-neutral-100 rounded-full transition-colors"
+            className="p-2 hover:bg-secondary rounded-full transition-colors"
             aria-label="Help"
           >
             <svg
-              className="w-5 h-5 text-neutral-600"
+              className="w-5 h-5 text-muted-foreground"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -119,13 +119,13 @@ export default function SessionHeader({
             <button
               type="button"
               onClick={onExit ?? (() => navigate("/child/today"))}
-              className="px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors"
+              className="px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary rounded-lg transition-colors"
             >
               Exit session
             </button>
           ) : null}
 
-          <div className="flex items-center gap-3 pl-4 border-l border-neutral-200">
+          <div className="flex items-center gap-3 pl-4 border-l border-border">
             {avatarUrl ? (
               <img
                 src={avatarUrl}
@@ -135,11 +135,11 @@ export default function SessionHeader({
                 className="w-9 h-9 rounded-full object-cover"
               />
             ) : (
-              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center text-white font-semibold">
+              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary/50 to-primary/80 flex items-center justify-center text-white font-semibold">
                 {initial}
               </div>
             )}
-            <span className="text-sm font-medium text-neutral-900">{childName}</span>
+            <span className="text-sm font-medium text-foreground">{childName}</span>
           </div>
         </div>
       </div>

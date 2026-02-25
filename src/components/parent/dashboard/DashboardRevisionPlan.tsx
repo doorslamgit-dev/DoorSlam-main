@@ -90,7 +90,7 @@ export function DashboardRevisionPlan({
       {/* Header: title + weeks + status badge */}
       <div className="flex items-start justify-between mb-3">
         <div>
-          <h2 className="text-base font-bold text-dark">Revision Plan</h2>
+          <h2 className="text-base font-bold text-foreground">Revision Plan</h2>
           <p className="text-xs text-muted mt-0.5">
             {weeksRemaining > 0 ? `${Math.round(weeksRemaining)} weeks until exams` : 'Exam period'}
           </p>

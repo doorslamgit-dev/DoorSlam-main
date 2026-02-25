@@ -205,7 +205,7 @@ export function DashboardInviteModal({
             {/* Done button */}
             <button
               onClick={onClose}
-              className="w-full py-2.5 bg-secondary text-foreground rounded-lg hover:bg-neutral-200 transition font-medium text-sm"
+              className="w-full py-2.5 bg-secondary text-foreground rounded-lg hover:bg-muted transition font-medium text-sm"
             >
               Done
             </button>
@@ -215,7 +215,7 @@ export function DashboardInviteModal({
 
       {/* Toast */}
       <div
-        className={`fixed top-6 right-6 bg-neutral-900 text-white px-5 py-2.5 rounded-lg shadow-lg transform transition-transform duration-300 z-[60] ${
+        className={`fixed top-6 right-6 bg-foreground text-white px-5 py-2.5 rounded-lg shadow-lg transform transition-transform duration-300 z-[60] ${
           copied ? 'translate-x-0' : 'translate-x-[calc(100%+24px)]'
         }`}
       >

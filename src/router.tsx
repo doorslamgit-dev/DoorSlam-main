@@ -40,7 +40,7 @@ export function AppRouter() {
     <AppLayout>
       <Suspense
         fallback={
-          <div className="min-h-screen flex items-center justify-center text-sm text-neutral-600">
+          <div className="min-h-screen flex items-center justify-center text-sm text-muted-foreground">
             Loading...
           </div>
         }

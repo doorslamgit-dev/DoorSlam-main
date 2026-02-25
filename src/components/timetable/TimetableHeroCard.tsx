@@ -268,7 +268,7 @@ export default function TimetableHeroCard({
       {/* Subject Progress Section */}
       {consolidatedSubjects.length > 0 && (
         <div>
-          <h3 className="text-sm font-semibold text-neutral-700 mb-3">
+          <h3 className="text-sm font-semibold text-foreground mb-3">
             Progress by Subject
           </h3>
           <div className="space-y-3">
@@ -290,27 +290,27 @@ export default function TimetableHeroCard({
 
                 {/* Subject Name */}
                 <div className="w-32 shrink-0">
-                  <span className="text-sm font-medium text-neutral-700 truncate block">
+                  <span className="text-sm font-medium text-foreground truncate block">
                     {subject.subject_name}
                   </span>
                 </div>
 
                 {/* Progress Bar */}
-                <div className="flex-1 h-6 bg-neutral-100 rounded-full overflow-hidden relative">
+                <div className="flex-1 h-6 bg-secondary rounded-full overflow-hidden relative">
                   <div
-                    className="h-full rounded-full transition-all duration-500 bg-accent-green"
+                    className="h-full rounded-full transition-all duration-500 bg-success"
                     style={{
                       width: `${Math.max(subject.completion_percent, 0)}%`,
                     }}
                   />
-                  <span className="absolute inset-0 flex items-center justify-center text-xs font-medium text-neutral-600">
+                  <span className="absolute inset-0 flex items-center justify-center text-xs font-medium text-muted-foreground">
                     {subject.completed_sessions} / {subject.planned_sessions}
                   </span>
                 </div>
 
                   {/* Remaining */}
                   <div className="w-16 text-right shrink-0">
-                    <span className="text-sm text-neutral-500">
+                    <span className="text-sm text-muted-foreground">
                       {subject.remaining_sessions} left
                     </span>
                   </div>
