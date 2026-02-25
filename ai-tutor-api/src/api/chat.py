@@ -220,6 +220,10 @@ async def chat_stream(req: ChatRequest, user: dict = Depends(get_current_user)):
                     "document_title": c.document_title,
                     "source_type": c.source_type,
                     "similarity": round(c.similarity, 3),
+                    "year": c.year,
+                    "session": c.session,
+                    "doc_type": c.doc_type,
+                    "file_key": c.file_key,
                 }
                 for c in chunks
             ]
