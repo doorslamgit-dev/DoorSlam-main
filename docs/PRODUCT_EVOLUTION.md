@@ -7,6 +7,25 @@ For architecture decisions, see [docs/decisions/](decisions/).
 
 ---
 
+## AI Tutor Module 5 — Multi-Format Support + Enhanced Metadata (25 Feb 2026)
+
+**Why this change is happening**: The RAG pipeline had three compounding problems. First, PyMuPDF extracted plain text only — tables in PDFs (grade boundaries, mark allocations) were silently destroyed, and DOCX table content was dropped. Second, metadata was thin: only `topic_id` per chunk, no document-level summaries, and the chat LLM saw only basic source labels without knowing the year, session, document type, or what kind of content it was citing. Third, Storage paths were normalised by `_build_file_key()`, losing the original Drive folder structure needed for browsing and downloading original documents.
+
+**What it does**: Documents are now parsed through Docling, producing structured Markdown that preserves tables, headings, and formatting. The system supports 15+ file formats including PPTX, XLSX, CSV, HTML, LaTeX, and images. Each document gets an LLM-generated summary and doc-type-specific key_points (e.g., question-by-topic breakdowns for past papers, grade boundaries for grade tables). Each chunk is classified with a content type (question, marking_criteria, grade_table, etc.) so the AI tutor knows exactly what it's citing. Original files are stored at their exact Drive path for future download functionality.
+
+**How it was developed**:
+- Parser rewrite (`parser.py`): Docling `DocumentConverter` as a lazy thread-safe singleton. `DocumentStream` for bytes input, `export_to_markdown()` for structured output. Per-file fallback to legacy parsers (PyMuPDF, python-docx, UTF-8) if Docling fails. Feature flag: `DOCLING_ENABLED`.
+- Document enricher (`document_enricher.py`): new service with doc-type-specific LLM prompts (qp, ms, gt, er, spec, rev). GPT-4o-mini generates summary + key_points. Runs in parallel with chunking during ingestion. Feature flag: `ENRICHMENT_ENABLED`.
+- Chunk-type classification: extended existing `metadata_extractor.py` to classify 12 content types alongside topic extraction — no additional LLM call needed.
+- Ingestion pipeline: enrichment + chunking run in parallel; embedding + topic/chunk_type extraction run in parallel. Document row updated with summary and key_points. Chunk metadata stores `{"chunk_type": "..."}`.
+- Storage mirroring: replaced `_build_file_key()` with `drive_file.path` — original files stored at exact Drive path. `upload_to_storage()` now accepts correct MIME content-type.
+- Retrieval context: source labels now include year, session, paper number, and chunk content type. Frontend SSE sources include year, session, doc_type, file_key.
+- Chunker separators updated for Markdown heading boundaries (`## `, `### `).
+- Database migration adds `summary` and `key_points` columns to `rag.documents`.
+- See ADR-009 (Docling parser) and ADR-010 (document enrichment) for architectural decisions.
+
+---
+
 ## AI Tutor Module 4 — Metadata Extraction: LLM-Based Topic Classification (24 Feb 2026)
 
 **Why this change is happening**: All 110+ chunks in the RAG store had `topic_id = NULL`. The Postgres search function already supported topic filtering, and the chat API accepted `topic_id`, but there was nothing to filter on. Without per-chunk topic mapping, retrieval could only scope by subject — returning chunks from across the entire curriculum instead of the specific topic a student is asking about.
