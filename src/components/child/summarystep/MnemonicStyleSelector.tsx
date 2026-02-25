@@ -39,8 +39,8 @@ export function MnemonicStyleSelector({
             className={[
               "flex flex-col items-center p-4 rounded-xl border-2 transition",
               isSelected
-                ? "bg-primary-50 border-primary-600"
-                : "bg-neutral-50 border-transparent hover:border-primary-300",
+                ? "bg-primary/5 border-primary"
+                : "bg-muted border-transparent hover:border-primary/50",
               disabled ? "opacity-50 cursor-not-allowed" : "",
             ].join(" ")}
           >
@@ -50,16 +50,16 @@ export function MnemonicStyleSelector({
               <AppIcon name={style.icon as IconKey} className="text-white w-5 h-5" />
             </div>
 
-            <span className="font-semibold text-neutral-700 text-sm">
+            <span className="font-semibold text-foreground text-sm">
               {style.name}
             </span>
 
-            <span className="text-neutral-500 text-xs text-center">
+            <span className="text-muted-foreground text-xs text-center">
               {style.description}
             </span>
 
             {isSelected && (
-              <div className="mt-2 text-primary-600">
+              <div className="mt-2 text-primary">
                 <AppIcon name="check" className="w-4 h-4" />
               </div>
             )}

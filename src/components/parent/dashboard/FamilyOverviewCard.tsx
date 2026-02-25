@@ -108,7 +108,7 @@ export function FamilyOverviewCard({
                 key={`${sc.child_id}-${sc.subject_id}`}
                 className="flex items-center gap-3"
               >
-                <div className="w-3 h-3 rounded-full flex-shrink-0 bg-neutral-300" />
+                <div className="w-3 h-3 rounded-full flex-shrink-0 bg-muted" />
                 <div className="flex-1 min-w-0">
                   <div className="text-sm font-medium text-primary-900 truncate">
                     {sc.subject_name}

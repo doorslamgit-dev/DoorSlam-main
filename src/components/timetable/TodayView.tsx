@@ -66,11 +66,11 @@ export default function TodayView({
 
   if (loading) {
     return (
-      <div className="bg-neutral-0 rounded-2xl shadow-card p-6 animate-pulse">
-        <div className="h-8 bg-neutral-200 rounded w-64 mb-6" />
+      <div className="bg-background rounded-2xl shadow-sm p-6 animate-pulse">
+        <div className="h-8 bg-muted rounded w-64 mb-6" />
         <div className="space-y-4">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-24 bg-neutral-100 rounded-xl" />
+            <div key={i} className="h-24 bg-secondary rounded-xl" />
           ))}
         </div>
       </div>
@@ -78,20 +78,20 @@ export default function TodayView({
   }
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card overflow-hidden">
+    <div className="bg-background rounded-2xl shadow-sm overflow-hidden">
       {/* Header */}
       <div
         className={`px-6 py-4 border-b ${
           isToday
-            ? "bg-primary-50 border-primary-200"
-            : "bg-neutral-50 border-neutral-200"
+            ? "bg-primary/5 border-primary/20"
+            : "bg-muted border-border"
         }`}
       >
         <div className="flex items-center justify-between">
           <div>
             <h2
               className={`text-2xl font-bold ${
-                isToday ? "text-primary-700" : "text-neutral-700"
+                isToday ? "text-primary" : "text-foreground"
               }`}
             >
               {date.toLocaleDateString("en-GB", {
@@ -100,7 +100,7 @@ export default function TodayView({
                 month: "long",
               })}
             </h2>
-            <p className="text-sm text-neutral-500 mt-1">
+            <p className="text-sm text-muted-foreground mt-1">
               {sessions.length} session{sessions.length !== 1 ? "s" : ""}{" "}
               scheduled
               {isToday && " \u2022 Today"}
@@ -123,13 +123,13 @@ export default function TodayView({
       <div className="p-6">
         {sessions.length === 0 ? (
           <div className="text-center py-12">
-            <div className="w-16 h-16 bg-neutral-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <AppIcon name="book" className="w-8 h-8 text-neutral-400" />
+            <div className="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
+              <AppIcon name="book" className="w-8 h-8 text-muted-foreground" />
             </div>
-            <h3 className="text-lg font-semibold text-neutral-700 mb-2">
+            <h3 className="text-lg font-semibold text-foreground mb-2">
               No sessions scheduled
             </h3>
-            <p className="text-neutral-500 mb-4">
+            <p className="text-muted-foreground mb-4">
               {isPast
                 ? "No revision was scheduled for this day."
                 : "Add a session to start revising on this day."}
@@ -148,12 +148,12 @@ export default function TodayView({
                 <div className="flex items-center gap-2 mb-3">
                   <AppIcon
                     name="clock"
-                    className="w-4 h-4 text-neutral-400"
+                    className="w-4 h-4 text-muted-foreground"
                   />
-                  <h3 className="text-sm font-semibold text-neutral-600">
+                  <h3 className="text-sm font-semibold text-muted-foreground">
                     {group.label}
                   </h3>
-                  <div className="flex-1 h-px bg-neutral-200" />
+                  <div className="flex-1 h-px bg-muted" />
                 </div>
 
                 {/* Sessions in this slot */}
@@ -168,10 +168,10 @@ export default function TodayView({
                         key={session.planned_session_id}
                         className={`rounded-xl border-2 p-4 transition-all hover:shadow-md ${
                           isCompleted
-                            ? "bg-accent-green/5 border-accent-green/30"
+                            ? "bg-success/5 border-accent-green/30"
                             : isStarted
-                              ? "bg-primary-50 border-primary-300"
-                              : "bg-neutral-0 border-neutral-200 hover:border-primary-300"
+                              ? "bg-primary/5 border-primary/50"
+                              : "bg-background border-border hover:border-primary/50"
                         }`}
                       >
                         <div className="flex items-start gap-4">
@@ -203,7 +203,7 @@ export default function TodayView({
                                 >
                                   {session.subject_name}
                                 </h4>
-                                <div className="flex items-center gap-3 mt-1 text-xs text-neutral-500">
+                                <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
                                   <span className="flex items-center gap-1">
                                     <AppIcon
                                       name="clock"

@@ -374,7 +374,7 @@ export function ChildRewardsCatalog() {
                   {unlockedRewards.length > 0 && (
                     <div className="bg-background rounded-2xl shadow-sm p-6">
                       <h3 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2">
-                        <AppIcon name="unlock" className="w-5 h-5 text-accent-green" />
+                        <AppIcon name="unlock" className="w-5 h-5 text-success" />
                         Ready to Claim!
                       </h3>
                       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -457,7 +457,7 @@ export function ChildRewardsCatalog() {
                       key={item.id}
                       className={`rounded-2xl p-4 border-2 transition-all ${
                         isAdded 
-                          ? 'bg-accent-green/5 border-accent-green/30' 
+                          ? 'bg-success/5 border-accent-green/30' 
                           : isPending
                           ? 'bg-primary/5 border-primary/20'
                           : 'bg-muted border-border hover:border-primary'
@@ -475,7 +475,7 @@ export function ChildRewardsCatalog() {
                       </p>
 
                       {isAdded ? (
-                        <span className="inline-flex items-center gap-1 text-xs text-accent-green font-medium">
+                        <span className="inline-flex items-center gap-1 text-xs text-success font-medium">
                           <AppIcon name="check" className="w-3 h-3" />
                           In your list
                         </span>

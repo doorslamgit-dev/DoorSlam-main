@@ -68,20 +68,20 @@ export function PendingAdditionRequests({
   }
 
   return (
-    <div className="bg-primary-50 rounded-xl border border-primary-200 p-6">
+    <div className="bg-primary/5 rounded-xl border border-primary/20 p-6">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <AppIcon name="send" className="w-5 h-5 text-primary-600" />
-          <h3 className="text-lg font-semibold text-neutral-900">
+          <AppIcon name="send" className="w-5 h-5 text-primary" />
+          <h3 className="text-lg font-semibold text-foreground">
             Reward Requests
           </h3>
         </div>
-        <span className="bg-primary-200 text-primary-800 text-sm font-medium px-3 py-1 rounded-full">
+        <span className="bg-primary/20 text-primary text-sm font-medium px-3 py-1 rounded-full">
           {requests.length} request{requests.length !== 1 ? 's' : ''}
         </span>
       </div>
 
-      <p className="text-sm text-neutral-600 mb-4">
+      <p className="text-sm text-muted-foreground mb-4">
         Your child has requested these rewards be added to their list.
       </p>
 
@@ -89,34 +89,34 @@ export function PendingAdditionRequests({
         {requests.map((request) => (
           <div
             key={request.id}
-            className="bg-neutral-0 border border-primary-100 rounded-lg p-4"
+            className="bg-background border border-primary/20 rounded-lg p-4"
           >
             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1 flex-wrap">
-                  <span className="font-medium text-neutral-900">
+                  <span className="font-medium text-foreground">
                     {request.child_name}
                   </span>
-                  <span className="text-neutral-400">•</span>
-                  <span className="text-sm text-neutral-500">
+                  <span className="text-muted-foreground">•</span>
+                  <span className="text-sm text-muted-foreground">
                     {formatTimeAgo(request.requested_at)}
                   </span>
                 </div>
-                <p className="text-lg font-semibold text-neutral-900">
+                <p className="text-lg font-semibold text-foreground">
                   {request.template_name}
                 </p>
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-sm">
-                  <span className="text-neutral-500">
+                  <span className="text-muted-foreground">
                     {request.category_name}
                   </span>
-                  <span className="text-primary-600 font-medium">
+                  <span className="text-primary font-medium">
                     Suggested: {request.suggested_points} pts
                   </span>
                 </div>
 
                 {/* Custom points input */}
                 <div className="mt-3 flex items-center gap-2">
-                  <label className="text-sm text-neutral-600">Set points:</label>
+                  <label className="text-sm text-muted-foreground">Set points:</label>
                   <input
                     type="number"
                     value={customPoints[request.id] ?? request.suggested_points}
@@ -124,16 +124,16 @@ export function PendingAdditionRequests({
                       ...customPoints,
                       [request.id]: e.target.value
                     })}
-                    className="w-24 px-3 py-1.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    className="w-24 px-3 py-1.5 border border-input rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                     min={1}
                   />
-                  <span className="text-sm text-neutral-500">pts</span>
+                  <span className="text-sm text-muted-foreground">pts</span>
                 </div>
               </div>
 
               <div className="flex items-center gap-2 w-full sm:w-auto">
                 {isProcessing === request.id ? (
-                  <span className="text-neutral-500 flex items-center gap-2">
+                  <span className="text-muted-foreground flex items-center gap-2">
                     <AppIcon name="loader" className="w-4 h-4 animate-spin" />
                     Processing...
                   </span>
@@ -141,14 +141,14 @@ export function PendingAdditionRequests({
                   <>
                     <button
                       onClick={() => handleApprove(request)}
-                      className="flex-1 sm:flex-none px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium flex items-center justify-center gap-2"
+                      className="flex-1 sm:flex-none px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors text-sm font-medium flex items-center justify-center gap-2"
                     >
                       <AppIcon name="check" className="w-4 h-4" />
                       Add Reward
                     </button>
                     <button
                       onClick={() => handleDeclineClick(request.id)}
-                      className="flex-1 sm:flex-none px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 transition-colors text-sm font-medium"
+                      className="flex-1 sm:flex-none px-4 py-2 border border-input text-foreground rounded-lg hover:bg-muted transition-colors text-sm font-medium"
                     >
                       {declineId === request.id ? 'Confirm' : 'Decline'}
                     </button>
@@ -165,14 +165,14 @@ export function PendingAdditionRequests({
                   value={declineNote}
                   onChange={(e) => setDeclineNote(e.target.value)}
                   placeholder="Note to child (optional)"
-                  className="flex-1 px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="flex-1 px-3 py-2 border border-input rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                 />
                 <button
                   onClick={() => {
                     setDeclineId(null);
                     setDeclineNote('');
                   }}
-                  className="px-3 py-2 text-sm text-neutral-500 hover:text-neutral-700"
+                  className="px-3 py-2 text-sm text-muted-foreground hover:text-foreground"
                 >
                   Cancel
                 </button>

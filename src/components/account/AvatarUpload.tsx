@@ -2,7 +2,6 @@ import { useState, useRef, useCallback, useEffect } from "react";
 
 import Alert from "../ui/Alert";
 import AppIcon from "../ui/AppIcon";
-import Button from "../ui/Button";
 import { supabase } from "../../lib/supabase";
 
 interface AvatarUploadProps {
@@ -300,12 +299,12 @@ export default function AvatarUpload({
 
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-        <div className="bg-neutral-0 rounded-lg shadow-xl max-w-md w-full p-6">
+        <div className="bg-background rounded-lg shadow-xl max-w-md w-full p-6">
           <h3 className="text-lg font-semibold mb-4">Crop Your Photo</h3>
 
           <div className="flex flex-col items-center gap-4">
             <div
-              className="relative bg-neutral-100 rounded-full overflow-hidden"
+              className="relative bg-secondary rounded-full overflow-hidden"
               style={{
                 width: PREVIEW_SIZE,
                 height: PREVIEW_SIZE,
@@ -330,7 +329,7 @@ export default function AvatarUpload({
             </div>
 
             <div className="w-full">
-              <label className="block text-sm font-medium text-neutral-700 mb-2">
+              <label className="block text-sm font-medium text-foreground mb-2">
                 Zoom
               </label>
               <input
@@ -350,12 +349,20 @@ export default function AvatarUpload({
             )}
 
             <div className="flex gap-3 w-full">
-              <Button variant="secondary" fullWidth onClick={handleCancel} disabled={uploading}>
+              <button
+                onClick={handleCancel}
+                disabled={uploading}
+                className="flex-1 px-4 py-2 border border-input rounded-lg hover:bg-muted disabled:opacity-50"
+              >
                 Cancel
-              </Button>
-              <Button variant="primary" fullWidth onClick={handleCropAndUpload} loading={uploading}>
-                Save
-              </Button>
+              </button>
+              <button
+                onClick={handleCropAndUpload}
+                disabled={uploading}
+                className="flex-1 px-4 py-2 bg-info text-white rounded-lg hover:bg-info disabled:opacity-50"
+              >
+                {uploading ? "Uploading..." : "Save"}
+              </button>
             </div>
           </div>
 
@@ -395,22 +402,27 @@ export default function AvatarUpload({
         <div className="flex gap-2">
           <label
             htmlFor="avatar-upload"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-neutral-0 border border-neutral-300 rounded-lg hover:bg-neutral-50 cursor-pointer disabled:opacity-50"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-background border border-input rounded-lg hover:bg-muted cursor-pointer disabled:opacity-50"
           >
             <AppIcon name="upload" className="w-4 h-4" />
             {currentAvatarUrl ? "Change Photo" : "Upload Photo"}
           </label>
           {currentAvatarUrl && (
-            <Button variant="danger" size="sm" leftIcon="trash" onClick={handleRemoveAvatar} disabled={uploading}>
+            <button
+              onClick={handleRemoveAvatar}
+              disabled={uploading}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-background border border-danger text-destructive rounded-lg hover:bg-destructive/10 disabled:opacity-50"
+            >
+              <AppIcon name="trash" className="w-4 h-4" />
               Remove
-            </Button>
+            </button>
           )}
         </div>
-        <p className="text-xs text-neutral-500 mt-2">
+        <p className="text-xs text-muted-foreground mt-2">
           JPG or PNG, max 2MB
         </p>
         {error && (
-          <p className="text-xs text-danger mt-1">{error}</p>
+          <p className="text-xs text-destructive mt-1">{error}</p>
         )}
       </div>
     </div>

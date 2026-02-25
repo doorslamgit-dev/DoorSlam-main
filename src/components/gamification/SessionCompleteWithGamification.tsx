@@ -61,7 +61,7 @@ export default function SessionCompleteWithGamification({
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 via-white to-primary-50 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-green-50 via-white to-primary/5 relative overflow-hidden">
       {/* Confetti animation */}
       {showConfetti && <ConfettiEffect />}
 

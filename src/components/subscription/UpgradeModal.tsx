@@ -77,7 +77,7 @@ const UPGRADE_MESSAGES: Record<
   trial_expired: {
     title: "Trial Ended",
     description:
-      "Your 14-day free trial has ended. Subscribe to continue using Doorslam with your family.",
+      "Your 14-day free trial has ended. Subscribe to continue using DoorSlam with your family.",
     icon: "clock",
   },
 };
@@ -108,37 +108,37 @@ export function UpgradeModal({ reason, isOpen, onClose }: UpgradeModalProps) {
       />
 
       {/* Modal */}
-      <div className="relative bg-neutral-0 rounded-2xl shadow-xl max-w-md w-full p-6">
+      <div className="relative bg-background rounded-2xl shadow-xl max-w-md w-full p-6">
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 text-neutral-400 hover:text-neutral-600 rounded-lg hover:bg-neutral-100 transition-colors"
+          className="absolute top-4 right-4 p-2 text-muted-foreground hover:text-muted-foreground rounded-lg hover:bg-secondary transition-colors"
         >
           <AppIcon name="x" className="w-5 h-5" />
         </button>
 
         {/* Content */}
         <div className="text-center">
-          <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <AppIcon name={message.icon} className="w-8 h-8 text-primary-600" />
+          <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <AppIcon name={message.icon} className="w-8 h-8 text-primary" />
           </div>
 
-          <h2 className="text-xl font-bold text-primary-900 mb-2">
+          <h2 className="text-xl font-bold text-primary mb-2">
             {message.title}
           </h2>
 
-          <p className="text-neutral-600 mb-6">{message.description}</p>
+          <p className="text-muted-foreground mb-6">{message.description}</p>
 
           <div className="flex flex-col sm:flex-row gap-3">
             <button
               onClick={onClose}
-              className="flex-1 px-4 py-3 border border-neutral-300 rounded-xl text-neutral-700 font-medium hover:bg-neutral-50 transition-colors"
+              className="flex-1 px-4 py-3 border border-input rounded-xl text-foreground font-medium hover:bg-muted transition-colors"
             >
               Maybe Later
             </button>
             <button
               onClick={handleUpgrade}
-              className="flex-1 px-4 py-3 bg-primary-600 text-white rounded-xl font-semibold hover:bg-primary-700 transition-colors flex items-center justify-center gap-2"
+              className="flex-1 px-4 py-3 bg-primary text-white rounded-xl font-semibold hover:bg-primary/90 transition-colors flex items-center justify-center gap-2"
             >
               View Plans
               <AppIcon name="arrow-right" className="w-4 h-4" />

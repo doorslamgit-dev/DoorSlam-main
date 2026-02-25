@@ -102,10 +102,10 @@ export default function RevisionPeriodStep({
     <div>
       {/* Header */}
       <div className="mb-6">
-        <h2 className="text-xl font-semibold text-neutral-900 mb-2">
+        <h2 className="text-xl font-semibold text-foreground mb-2">
           Set your timeline
         </h2>
-        <p className="text-neutral-500 text-sm leading-relaxed">
+        <p className="text-muted-foreground text-sm leading-relaxed">
           Set the time frame for this revision plan.
         </p>
       </div>
@@ -116,7 +116,7 @@ export default function RevisionPeriodStep({
         <div>
           <label
             htmlFor="start-date"
-            className="block text-sm font-medium text-neutral-700 mb-2"
+            className="block text-sm font-medium text-foreground mb-2"
           >
             Start date for revision
           </label>
@@ -125,9 +125,9 @@ export default function RevisionPeriodStep({
             id="start-date"
             value={revisionPeriod.start_date || ""}
             onChange={(e) => handleChange("start_date", e.target.value)}
-            className="w-full px-4 py-3 border border-neutral-200 rounded-xl text-neutral-900 bg-neutral-0 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent transition-all"
+            className="w-full px-4 py-3 border border-border rounded-xl text-foreground bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
           />
-          <p className="mt-1.5 text-xs text-neutral-500">
+          <p className="mt-1.5 text-xs text-muted-foreground">
             When do you want to begin the revision plan?
           </p>
         </div>
@@ -136,7 +136,7 @@ export default function RevisionPeriodStep({
         <div>
           <label
             htmlFor="end-date"
-            className="block text-sm font-medium text-neutral-700 mb-2"
+            className="block text-sm font-medium text-foreground mb-2"
           >
             End date (exam/mock date)
           </label>
@@ -146,9 +146,9 @@ export default function RevisionPeriodStep({
             value={revisionPeriod.end_date || ""}
             onChange={(e) => handleChange("end_date", e.target.value)}
             min={revisionPeriod.start_date || ""}
-            className="w-full px-4 py-3 border border-neutral-200 rounded-xl text-neutral-900 bg-neutral-0 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent transition-all"
+            className="w-full px-4 py-3 border border-border rounded-xl text-foreground bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
           />
-          <p className="mt-1.5 text-xs text-neutral-500">
+          <p className="mt-1.5 text-xs text-muted-foreground">
             Date of the first exam or mock test
           </p>
         </div>
@@ -156,14 +156,14 @@ export default function RevisionPeriodStep({
 
       {/* Duration Display */}
       {duration && (
-        <div className="mb-8 p-4 bg-primary-50 border border-primary-100 rounded-xl">
+        <div className="mb-8 p-4 bg-primary/5 border border-primary/20 rounded-xl">
           <div className="flex items-center gap-3">
             <AppIcon
               name="calendar"
-              className="w-5 h-5 text-primary-600"
+              className="w-5 h-5 text-primary"
               aria-hidden
             />
-            <span className="text-sm text-primary-800">
+            <span className="text-sm text-primary">
               <strong>{duration.weeks} weeks</strong> ({duration.days} days) until
               exams
             </span>
@@ -173,24 +173,24 @@ export default function RevisionPeriodStep({
 
       {/* Validation Error */}
       {validationError && revisionPeriod.start_date && revisionPeriod.end_date && (
-        <div className="mb-8 p-4 bg-accent-red/10 border border-accent-red/30 rounded-xl">
+        <div className="mb-8 p-4 bg-destructive/10 border border-accent-red/30 rounded-xl">
           <div className="flex items-center gap-3">
             <AppIcon
               name="triangle-alert"
-              className="w-5 h-5 text-accent-red"
+              className="w-5 h-5 text-destructive"
               aria-hidden
             />
-            <span className="text-sm text-accent-red">{validationError}</span>
+            <span className="text-sm text-destructive">{validationError}</span>
           </div>
         </div>
       )}
 
       {/* Contingency Section */}
       <div className="mb-8">
-        <h3 className="text-base font-medium text-neutral-900 mb-2">
+        <h3 className="text-base font-medium text-foreground mb-2">
           Contingency planning
         </h3>
-        <p className="text-sm text-neutral-600 mb-4">
+        <p className="text-sm text-muted-foreground mb-4">
           Do you want to allow extra time for recapping tricky topics?
         </p>
 
@@ -199,8 +199,8 @@ export default function RevisionPeriodStep({
           <label
             className={`flex items-start cursor-pointer p-4 border-2 rounded-xl transition-all ${
               revisionPeriod.contingency_enabled
-                ? "border-primary-600 bg-primary-50"
-                : "border-neutral-200 hover:border-primary-300"
+                ? "border-primary bg-primary/5"
+                : "border-border hover:border-primary/50"
             }`}
           >
             <div className="relative flex items-center justify-center mt-0.5">
@@ -214,20 +214,20 @@ export default function RevisionPeriodStep({
               <div
                 className={`w-5 h-5 border-2 rounded-full flex items-center justify-center transition-all ${
                   revisionPeriod.contingency_enabled
-                    ? "border-primary-600"
-                    : "border-neutral-300"
+                    ? "border-primary"
+                    : "border-input"
                 }`}
               >
                 {revisionPeriod.contingency_enabled && (
-                  <div className="w-2.5 h-2.5 bg-primary-600 rounded-full" />
+                  <div className="w-2.5 h-2.5 bg-primary rounded-full" />
                 )}
               </div>
             </div>
             <div className="ml-4">
-              <span className="text-sm font-medium text-neutral-900">
+              <span className="text-sm font-medium text-foreground">
                 Yes, build in room for repeats
               </span>
-              <p className="text-xs text-neutral-500 mt-1">
+              <p className="text-xs text-muted-foreground mt-1">
                 Allow extra time to revisit difficult topics
               </p>
             </div>
@@ -237,8 +237,8 @@ export default function RevisionPeriodStep({
           <label
             className={`flex items-start cursor-pointer p-4 border-2 rounded-xl transition-all ${
               revisionPeriod.contingency_enabled === false
-                ? "border-primary-600 bg-primary-50"
-                : "border-neutral-200 hover:border-primary-300"
+                ? "border-primary bg-primary/5"
+                : "border-border hover:border-primary/50"
             }`}
           >
             <div className="relative flex items-center justify-center mt-0.5">
@@ -252,20 +252,20 @@ export default function RevisionPeriodStep({
               <div
                 className={`w-5 h-5 border-2 rounded-full flex items-center justify-center transition-all ${
                   !revisionPeriod.contingency_enabled
-                    ? "border-primary-600"
-                    : "border-neutral-300"
+                    ? "border-primary"
+                    : "border-input"
                 }`}
               >
                 {!revisionPeriod.contingency_enabled && (
-                  <div className="w-2.5 h-2.5 bg-primary-600 rounded-full" />
+                  <div className="w-2.5 h-2.5 bg-primary rounded-full" />
                 )}
               </div>
             </div>
             <div className="ml-4">
-              <span className="text-sm font-medium text-neutral-900">
+              <span className="text-sm font-medium text-foreground">
                 No, keep the plan tightly packed
               </span>
-              <p className="text-xs text-neutral-500 mt-1">
+              <p className="text-xs text-muted-foreground mt-1">
                 Maximise coverage without buffer time
               </p>
             </div>
@@ -277,15 +277,15 @@ export default function RevisionPeriodStep({
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-8">
         {/* Current Revision */}
         <div>
-          <h3 className="text-base font-medium text-neutral-900 mb-2">
+          <h3 className="text-base font-medium text-foreground mb-2">
             Current revision status
           </h3>
-          <p className="text-sm text-neutral-600 mb-4">
+          <p className="text-sm text-muted-foreground mb-4">
             How is revision going at the moment?
           </p>
 
           <div className="space-y-2">
-            <div className="flex justify-between text-xs text-neutral-500 mb-2">
+            <div className="flex justify-between text-xs text-muted-foreground mb-2">
               <span>Very challenging</span>
               <span>Going well</span>
             </div>
@@ -301,7 +301,7 @@ export default function RevisionPeriodStep({
                   parseInt(e.target.value, 10)
                 )
               }
-              className="w-full h-2 bg-neutral-200 rounded-full appearance-none cursor-pointer accent-primary-600"
+              className="w-full h-2 bg-muted rounded-full appearance-none cursor-pointer accent-primary-600"
               style={{
                 background: `linear-gradient(to right, ${COLORS.primary[600]} 0%, ${COLORS.primary[600]} ${
                   ((currentScore - 1) / 4) * 100
@@ -316,8 +316,8 @@ export default function RevisionPeriodStep({
                   key={n}
                   className={`text-xs ${
                     currentScore === n
-                      ? "text-primary-600 font-semibold"
-                      : "text-neutral-400"
+                      ? "text-primary font-semibold"
+                      : "text-muted-foreground"
                   }`}
                 >
                   {n}
@@ -329,15 +329,15 @@ export default function RevisionPeriodStep({
 
         {/* Past Revision */}
         <div>
-          <h3 className="text-base font-medium text-neutral-900 mb-2">
+          <h3 className="text-base font-medium text-foreground mb-2">
             Previous exam experience
           </h3>
-          <p className="text-sm text-neutral-600 mb-4">
+          <p className="text-sm text-muted-foreground mb-4">
             How did revision go in previous exam years?
           </p>
 
           <div className="space-y-2">
-            <div className="flex justify-between text-xs text-neutral-500 mb-2">
+            <div className="flex justify-between text-xs text-muted-foreground mb-2">
               <span>Very challenging</span>
               <span>Went well</span>
             </div>
@@ -351,7 +351,7 @@ export default function RevisionPeriodStep({
                 handleChange("past_revision_score", parseInt(e.target.value, 10))
               }
               disabled={revisionPeriod.is_first_time}
-              className={`w-full h-2 bg-neutral-200 rounded-full appearance-none cursor-pointer accent-primary-600 ${
+              className={`w-full h-2 bg-muted rounded-full appearance-none cursor-pointer accent-primary-600 ${
                 revisionPeriod.is_first_time ? "opacity-50 cursor-not-allowed" : ""
               }`}
               style={{
@@ -370,8 +370,8 @@ export default function RevisionPeriodStep({
                   key={n}
                   className={`text-xs ${
                     !revisionPeriod.is_first_time && pastScore === n
-                      ? "text-primary-600 font-semibold"
-                      : "text-neutral-400"
+                      ? "text-primary font-semibold"
+                      : "text-muted-foreground"
                   }`}
                 >
                   {n}
@@ -381,12 +381,12 @@ export default function RevisionPeriodStep({
           </div>
 
           {/* First time checkbox */}
-          <label className="flex items-center cursor-pointer mt-4 text-sm text-neutral-600">
+          <label className="flex items-center cursor-pointer mt-4 text-sm text-muted-foreground">
             <div
               className={`w-5 h-5 border-2 rounded flex items-center justify-center mr-3 transition-all ${
                 revisionPeriod.is_first_time
-                  ? "bg-primary-600 border-primary-600"
-                  : "border-neutral-300"
+                  ? "bg-primary border-primary"
+                  : "border-input"
               }`}
             >
               {revisionPeriod.is_first_time && (
@@ -409,7 +409,7 @@ export default function RevisionPeriodStep({
         <button
           type="button"
           onClick={onBack}
-          className="px-6 py-3 rounded-full font-medium text-neutral-700 bg-neutral-200 hover:bg-neutral-300 transition-all"
+          className="px-6 py-3 rounded-full font-medium text-foreground bg-muted hover:bg-muted transition-all"
         >
           Back
         </button>
@@ -418,7 +418,7 @@ export default function RevisionPeriodStep({
           type="button"
           onClick={onNext}
           disabled={!isValid}
-          className="px-8 py-3 rounded-full font-semibold text-white bg-primary-600 hover:bg-primary-700 transition-all shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-8 py-3 rounded-full font-semibold text-white bg-primary hover:bg-primary/90 transition-all shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Continue
         </button>

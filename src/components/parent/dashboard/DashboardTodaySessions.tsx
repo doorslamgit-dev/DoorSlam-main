@@ -32,10 +32,10 @@ export function DashboardTodaySessions({ sessions, reminders }: DashboardTodaySe
   const todaySessions = sessions.filter((s) => s.is_today);
 
   return (
-    <div className="bg-background rounded-2xl shadow-sm p-5 border border-default h-full flex flex-col">
+    <div className="bg-background rounded-2xl shadow-sm p-5 border border-border h-full flex flex-col">
       {/* Header */}
       <div className="flex items-center gap-2 mb-4">
-        <h2 className="text-base font-bold text-dark">Today&apos;s Sessions</h2>
+        <h2 className="text-base font-bold text-foreground">Today&apos;s Sessions</h2>
         {todaySessions.length > 0 && (
           <Badge variant="primary" size="sm">
             {todaySessions.length} session{todaySessions.length !== 1 ? 's' : ''}
@@ -74,10 +74,10 @@ export function DashboardTodaySessions({ sessions, reminders }: DashboardTodaySe
 
                 {/* Session info */}
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-dark truncate">
+                  <p className="text-sm font-semibold text-foreground truncate">
                     {session.subject_name}
                   </p>
-                  <p className="text-xs text-muted truncate">{session.topic_name}</p>
+                  <p className="text-xs text-muted-foreground truncate">{session.topic_name}</p>
                 </div>
 
                 {/* Status badge — using Badge primitive */}

@@ -171,10 +171,10 @@ export default function WeeklyScheduleEditor({
       {/* Step 1: Set up Monday */}
       <div>
         <div className="flex items-center gap-2 mb-3">
-          <div className="w-6 h-6 rounded-full bg-primary-600 text-white text-xs font-semibold flex items-center justify-center">
+          <div className="w-6 h-6 rounded-full bg-primary text-white text-xs font-semibold flex items-center justify-center">
             1
           </div>
-          <h3 className="text-sm font-semibold text-neutral-900">Set up Monday</h3>
+          <h3 className="text-sm font-semibold text-foreground">Set up Monday</h3>
         </div>
         <DayCard
           day={template[0]}
@@ -192,13 +192,13 @@ export default function WeeklyScheduleEditor({
       {mondayHasSessions && (
         <div>
           <div className="flex items-center gap-2 mb-3">
-            <div className="w-6 h-6 rounded-full bg-primary-600 text-white text-xs font-semibold flex items-center justify-center">
+            <div className="w-6 h-6 rounded-full bg-primary text-white text-xs font-semibold flex items-center justify-center">
               2
             </div>
-            <h3 className="text-sm font-semibold text-neutral-900">Copy to other days</h3>
+            <h3 className="text-sm font-semibold text-foreground">Copy to other days</h3>
           </div>
-          <div className="p-4 bg-neutral-50 rounded-xl border border-neutral-200">
-            <p className="text-sm text-neutral-600 mb-4">
+          <div className="p-4 bg-muted rounded-xl border border-border">
+            <p className="text-sm text-muted-foreground mb-4">
               Copy Monday&apos;s {template[0].slots.length} session
               {template[0].slots.length !== 1 ? "s" : ""} to:
             </p>
@@ -206,28 +206,28 @@ export default function WeeklyScheduleEditor({
               <button
                 type="button"
                 onClick={handleCopyToWeekdays}
-                className="px-4 py-2 text-sm font-medium text-neutral-700 bg-neutral-0 border border-neutral-300 rounded-lg hover:bg-neutral-100 transition-colors"
+                className="px-4 py-2 text-sm font-medium text-foreground bg-background border border-input rounded-lg hover:bg-secondary transition-colors"
               >
-                <AppIcon name="briefcase" className="w-4 h-4 inline-block mr-2 text-neutral-500" aria-hidden />
+                <AppIcon name="briefcase" className="w-4 h-4 inline-block mr-2 text-muted-foreground" aria-hidden />
                 Weekdays
-                <span className="ml-1.5 text-xs text-neutral-400">(Tue–Fri)</span>
+                <span className="ml-1.5 text-xs text-muted-foreground">(Tue–Fri)</span>
               </button>
 
               <button
                 type="button"
                 onClick={handleCopyToWeekdaysAndSaturday}
-                className="px-4 py-2 text-sm font-medium text-neutral-700 bg-neutral-0 border border-neutral-300 rounded-lg hover:bg-neutral-100 transition-colors"
+                className="px-4 py-2 text-sm font-medium text-foreground bg-background border border-input rounded-lg hover:bg-secondary transition-colors"
               >
-                <AppIcon name="calendar-plus" className="w-4 h-4 inline-block mr-2 text-neutral-500" aria-hidden />
+                <AppIcon name="calendar-plus" className="w-4 h-4 inline-block mr-2 text-muted-foreground" aria-hidden />
                 + Saturday
               </button>
 
               <button
                 type="button"
                 onClick={handleCopyToAllDays}
-                className="px-4 py-2 text-sm font-medium text-neutral-700 bg-neutral-0 border border-neutral-300 rounded-lg hover:bg-neutral-100 transition-colors"
+                className="px-4 py-2 text-sm font-medium text-foreground bg-background border border-input rounded-lg hover:bg-secondary transition-colors"
               >
-                <AppIcon name="calendar-week" className="w-4 h-4 inline-block mr-2 text-neutral-500" aria-hidden />
+                <AppIcon name="calendar-week" className="w-4 h-4 inline-block mr-2 text-muted-foreground" aria-hidden />
                 All days
               </button>
             </div>
@@ -240,17 +240,17 @@ export default function WeeklyScheduleEditor({
         <div>
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-full bg-primary-600 text-white text-xs font-semibold flex items-center justify-center">
+              <div className="w-6 h-6 rounded-full bg-primary text-white text-xs font-semibold flex items-center justify-center">
                 3
               </div>
-              <h3 className="text-sm font-semibold text-neutral-900">Fine-tune</h3>
-              <span className="text-xs text-neutral-400">(optional)</span>
+              <h3 className="text-sm font-semibold text-foreground">Fine-tune</h3>
+              <span className="text-xs text-muted-foreground">(optional)</span>
             </div>
 
             <button
               type="button"
               onClick={() => setShowAllDays(!showAllDays)}
-              className="text-sm text-primary-600 hover:text-primary-700 font-medium flex items-center gap-1"
+              className="text-sm text-primary hover:text-primary font-medium flex items-center gap-1"
             >
               <AppIcon
                 name={showAllDays ? "chevron-up" : "chevron-down"}
@@ -283,10 +283,10 @@ export default function WeeklyScheduleEditor({
 
       {/* Weekly Summary */}
       {showSummary && (
-        <div className="p-4 bg-neutral-50 rounded-xl border border-neutral-200">
+        <div className="p-4 bg-muted rounded-xl border border-border">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-medium text-neutral-900">Weekly schedule</h3>
-            <AppIcon name="calendar-days" className="w-5 h-5 text-neutral-400" aria-hidden />
+            <h3 className="text-sm font-medium text-foreground">Weekly schedule</h3>
+            <AppIcon name="calendar-days" className="w-5 h-5 text-muted-foreground" aria-hidden />
           </div>
 
           <div
@@ -295,23 +295,23 @@ export default function WeeklyScheduleEditor({
             } gap-4 text-center`}
           >
             <div>
-              <div className="text-2xl font-bold text-neutral-900">
+              <div className="text-2xl font-bold text-foreground">
                 {weeklyStats.sessions}
               </div>
-              <div className="text-xs text-neutral-500">sessions/week</div>
+              <div className="text-xs text-muted-foreground">sessions/week</div>
             </div>
             <div>
-              <div className="text-2xl font-bold text-neutral-900">
+              <div className="text-2xl font-bold text-foreground">
                 {weeklyStats.minutes}
               </div>
-              <div className="text-xs text-neutral-500">minutes/week</div>
+              <div className="text-xs text-muted-foreground">minutes/week</div>
             </div>
             {totalPlannedSessions !== null && (
               <div>
-                <div className="text-2xl font-bold text-neutral-900">
+                <div className="text-2xl font-bold text-foreground">
                   {totalPlannedSessions}
                 </div>
-                <div className="text-xs text-neutral-500">total sessions</div>
+                <div className="text-xs text-muted-foreground">total sessions</div>
               </div>
             )}
           </div>

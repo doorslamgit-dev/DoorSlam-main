@@ -23,7 +23,7 @@ import {
 } from '../../hooks/parent/rewards';
 
 export function RewardManagement() {
-  const { selectedChildId, selectedChildName } = useSelectedChild();
+  const { children: childOptions, selectedChildId, setSelectedChildId } = useSelectedChild();
 
   // Hooks
   const {
@@ -151,7 +151,9 @@ export function RewardManagement() {
         {/* Hero Header */}
         <section className="bg-gradient-to-br from-primary/5 via-primary/10 to-white rounded-2xl shadow-sm p-6 border border-primary/20">
           <RewardHeroHeader
-            childName={selectedChildName}
+            childList={childOptions.map(c => ({ id: c.child_id, first_name: c.child_name, preferred_name: null }))}
+            selectedChildId={selectedChildId}
+            onSelectChild={setSelectedChildId}
             enabledCount={enabledCount}
           />
 

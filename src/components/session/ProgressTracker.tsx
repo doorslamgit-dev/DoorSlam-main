@@ -33,18 +33,18 @@ export default function ProgressTracker({
   }, [safeCurrent, safeTotal]);
 
   return (
-    <div className="bg-neutral-0 border-b border-neutral-200 px-6 py-6">
+    <div className="bg-background border-b border-border px-6 py-6">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-4 gap-4">
-          <h2 className="text-base font-medium text-neutral-900">{phaseName}</h2>
+          <h2 className="text-base font-medium text-foreground">{phaseName}</h2>
 
           <div className="text-right">
-            <div className="text-sm font-medium text-neutral-900">
+            <div className="text-sm font-medium text-foreground">
               {safeCurrent} of {safeTotal} steps
             </div>
 
             {timeRemaining ? (
-              <div className="text-xs text-neutral-600 flex items-center gap-1 justify-end mt-1">
+              <div className="text-xs text-muted-foreground flex items-center gap-1 justify-end mt-1">
                 <svg
                   className="w-3.5 h-3.5"
                   fill="none"
@@ -66,9 +66,9 @@ export default function ProgressTracker({
         </div>
 
         <div className="relative">
-          <div className="h-2 bg-neutral-200 rounded-full overflow-hidden">
+          <div className="h-2 bg-muted rounded-full overflow-hidden">
             <div
-              className="h-full bg-gradient-to-r from-primary-600 to-primary-500 rounded-full transition-all duration-500"
+              className="h-full bg-gradient-to-r from-primary-600 to-primary/50 rounded-full transition-all duration-500"
               style={{ width: `${progressPercent}%` }}
             />
           </div>
@@ -84,12 +84,12 @@ export default function ProgressTracker({
                   key={stepNum}
                   className={[
                     "w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-all",
-                    isCompleted ? "bg-accent-green text-white" : "",
+                    isCompleted ? "bg-success text-white" : "",
                     isCurrent
-                      ? "bg-primary-600 text-white ring-4 ring-primary-100"
+                      ? "bg-primary text-white ring-4 ring-ring/20"
                       : "",
                     !isCompleted && !isCurrent
-                      ? "bg-neutral-200 text-neutral-500"
+                      ? "bg-muted text-muted-foreground"
                       : "",
                   ].join(" ")}
                   aria-current={isCurrent ? "step" : undefined}
@@ -120,7 +120,7 @@ export default function ProgressTracker({
         </div>
 
         {stepLabel ? (
-          <div className="mt-3 text-right text-sm text-neutral-600">{stepLabel}</div>
+          <div className="mt-3 text-right text-sm text-muted-foreground">{stepLabel}</div>
         ) : null}
       </div>
     </div>

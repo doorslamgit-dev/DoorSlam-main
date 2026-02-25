@@ -20,28 +20,28 @@ const momentConfig: Record<
   }
 > = {
   achievement: {
-    iconBg: "bg-accent-amber",
+    iconBg: "bg-warning",
     borderColor: "border-accent-amber/20",
     icon: "trophy",
   },
   sessions_milestone: {
-    iconBg: "bg-accent-green",
+    iconBg: "bg-success",
     borderColor: "border-accent-green/20",
     icon: "check-circle",
   },
   streak_milestone: {
-    iconBg: "bg-accent-amber",
+    iconBg: "bg-warning",
     borderColor: "border-accent-amber/20",
     icon: "flame",
   },
   getting_started: {
-    iconBg: "bg-primary-500",
-    borderColor: "border-primary-200",
+    iconBg: "bg-primary",
+    borderColor: "border-primary/20",
     icon: "sprout",
   },
   focus_mode: {
-    iconBg: "bg-primary-600",
-    borderColor: "border-primary-200",
+    iconBg: "bg-primary",
+    borderColor: "border-primary/20",
     icon: "bolt",
   },
 };
@@ -49,22 +49,22 @@ const momentConfig: Record<
 export function ProgressMomentsCard({ moments }: ProgressMomentsCardProps) {
   if (moments.length === 0) {
     return (
-      <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200/50">
+      <div className="bg-background rounded-2xl shadow-sm p-6 border border-border/50">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-bold text-primary-900">
+          <h3 className="text-lg font-bold text-primary">
             Progress Moments
           </h3>
         </div>
 
         <div className="text-center py-6">
-          <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
             <AppIcon
               name="sparkles"
-              className="w-6 h-6 text-primary-500"
+              className="w-6 h-6 text-primary"
               aria-hidden
             />
           </div>
-          <p className="text-sm text-neutral-500">
+          <p className="text-sm text-muted-foreground">
             Moments will appear as progress is made
           </p>
         </div>
@@ -73,12 +73,12 @@ export function ProgressMomentsCard({ moments }: ProgressMomentsCardProps) {
   }
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200/50">
+    <div className="bg-background rounded-2xl shadow-sm p-6 border border-border/50">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-bold text-primary-900">Progress Moments</h3>
+        <h3 className="text-lg font-bold text-primary">Progress Moments</h3>
         <AppIcon
           name="sparkles"
-          className="w-5 h-5 text-accent-amber"
+          className="w-5 h-5 text-warning"
           aria-hidden
         />
       </div>
@@ -92,7 +92,7 @@ export function ProgressMomentsCard({ moments }: ProgressMomentsCardProps) {
           return (
             <div
               key={`${moment.child_id}-${moment.moment_type}-${index}`}
-              className={`flex items-start gap-3 p-4 rounded-xl bg-neutral-50 border ${config.borderColor}`}
+              className={`flex items-start gap-3 p-4 rounded-xl bg-muted border ${config.borderColor}`}
             >
               {/* Avatar */}
               {moment.avatar_url ? (
@@ -104,8 +104,8 @@ export function ProgressMomentsCard({ moments }: ProgressMomentsCardProps) {
                   className="w-10 h-10 rounded-full object-cover flex-shrink-0"
                 />
               ) : (
-                <div className="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0">
-                  <span className="text-sm font-bold text-primary-600">
+                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <span className="text-sm font-bold text-primary">
                     {moment.child_name.charAt(0)}
                   </span>
                 </div>
@@ -113,10 +113,10 @@ export function ProgressMomentsCard({ moments }: ProgressMomentsCardProps) {
 
               {/* Content */}
               <div className="flex-1 min-w-0">
-                <div className="text-sm font-semibold text-primary-900">
+                <div className="text-sm font-semibold text-primary">
                   {moment.message}
                 </div>
-                <div className="text-xs text-neutral-500 mt-0.5">
+                <div className="text-xs text-muted-foreground mt-0.5">
                   {moment.sub_message}
                 </div>
               </div>

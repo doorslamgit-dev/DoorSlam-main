@@ -25,9 +25,9 @@ interface ConfidenceTrendWidgetProps {
 export default function ConfidenceTrendWidget({ data, loading }: ConfidenceTrendWidgetProps) {
   if (loading) {
     return (
-      <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200 animate-pulse">
-        <div className="h-6 bg-neutral-100 rounded w-1/3 mb-4" />
-        <div className="h-60 bg-neutral-100 rounded" />
+      <div className="bg-background rounded-2xl shadow-sm p-6 border border-border animate-pulse">
+        <div className="h-6 bg-secondary rounded w-1/3 mb-4" />
+        <div className="h-60 bg-secondary rounded" />
       </div>
     );
   }
@@ -44,15 +44,15 @@ export default function ConfidenceTrendWidget({ data, loading }: ConfidenceTrend
     if (active && payload && payload.length) {
       const topic = payload[0]?.payload?.topic as string | undefined;
       return (
-        <div className="bg-neutral-0 p-3 border border-neutral-200 rounded-lg shadow-sm">
-          <p className="text-xs font-medium text-neutral-700 mb-1">{topic || label}</p>
-          <p className="text-xs text-neutral-500">
+        <div className="bg-background p-3 border border-border rounded-lg shadow-sm">
+          <p className="text-xs font-medium text-foreground mb-1">{topic || label}</p>
+          <p className="text-xs text-muted-foreground">
             Pre:{" "}
             <span className="font-semibold" style={{ color: "var(--chart-pre)" }}>
               {payload[0]?.value}%
             </span>
           </p>
-          <p className="text-xs text-neutral-500">
+          <p className="text-xs text-muted-foreground">
             Post:{" "}
             <span className="font-semibold" style={{ color: "var(--chart-post)" }}>
               {payload[1]?.value}%
@@ -65,17 +65,17 @@ export default function ConfidenceTrendWidget({ data, loading }: ConfidenceTrend
   };
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200">
+    <div className="bg-background rounded-2xl shadow-sm p-6 border border-border">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="text-lg font-bold text-primary-900 mb-1">Confidence Trend</h3>
-          <p className="text-xs text-neutral-500">Pre vs post over last sessions</p>
+          <h3 className="text-lg font-bold text-primary mb-1">Confidence Trend</h3>
+          <p className="text-xs text-muted-foreground">Pre vs post over last sessions</p>
         </div>
 
         {/* Optional: keep an icon slot consistent across widgets */}
-        <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center">
-          <AppIcon icon={ICON_MAP["check-circle"]} className="w-5 h-5 text-primary-600" />
+        <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+          <AppIcon icon={ICON_MAP["check-circle"]} className="w-5 h-5 text-primary" />
         </div>
       </div>
 
@@ -124,31 +124,31 @@ export default function ConfidenceTrendWidget({ data, loading }: ConfidenceTrend
             </div>
           </ResponsiveContainer>
         ) : (
-          <div className="h-full flex items-center justify-center text-neutral-400">
+          <div className="h-full flex items-center justify-center text-muted-foreground">
             No confidence data for this period
           </div>
         )}
       </div>
 
       {/* Lift and Fragile */}
-      <div className="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-neutral-200">
-        <div className="p-3 bg-accent-green bg-opacity-5 rounded-lg border border-accent-green border-opacity-20">
-          <div className="text-xs text-neutral-500 mb-1">Largest Lift</div>
-          <div className="font-bold text-sm text-neutral-900 truncate">
+      <div className="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-border">
+        <div className="p-3 bg-success bg-opacity-5 rounded-lg border border-accent-green border-opacity-20">
+          <div className="text-xs text-muted-foreground mb-1">Largest Lift</div>
+          <div className="font-bold text-sm text-foreground truncate">
             {data?.largest_lift?.topic_name || "N/A"}
           </div>
           {data?.largest_lift?.change_percent != null && (
-            <div className="text-xs text-accent-green">+{data.largest_lift.change_percent}%</div>
+            <div className="text-xs text-success">+{data.largest_lift.change_percent}%</div>
           )}
         </div>
 
-        <div className="p-3 bg-accent-amber bg-opacity-5 rounded-lg border border-accent-amber border-opacity-20">
-          <div className="text-xs text-neutral-500 mb-1">Most Fragile</div>
-          <div className="font-bold text-sm text-neutral-900 truncate">
+        <div className="p-3 bg-warning bg-opacity-5 rounded-lg border border-accent-amber border-opacity-20">
+          <div className="text-xs text-muted-foreground mb-1">Most Fragile</div>
+          <div className="font-bold text-sm text-foreground truncate">
             {data?.most_fragile?.topic_name || "N/A"}
           </div>
           {data?.most_fragile?.variance != null && (
-            <div className="text-xs text-accent-amber">Fluctuating</div>
+            <div className="text-xs text-warning">Fluctuating</div>
           )}
         </div>
       </div>

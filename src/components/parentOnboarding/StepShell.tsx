@@ -12,12 +12,12 @@ type StepShellProps = {
 
 export default function StepShell({ title, subtitle, error, children }: StepShellProps) {
   return (
-    <div className="min-h-screen bg-background-secondary">
+    <div className="min-h-screen bg-muted">
       <div className="max-w-3xl mx-auto px-6 py-10">
         <header className="mb-8">
-          <h1 className="text-2xl font-semibold text-neutral-900">{title}</h1>
+          <h1 className="text-2xl font-semibold text-foreground">{title}</h1>
           {subtitle ? (
-            <p className="mt-2 text-sm text-neutral-600 leading-relaxed">{subtitle}</p>
+            <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{subtitle}</p>
           ) : null}
         </header>
 
@@ -27,7 +27,7 @@ export default function StepShell({ title, subtitle, error, children }: StepShel
           </Alert>
         ) : null}
 
-        <section className="rounded-2xl border border-neutral-200 bg-neutral-0 shadow-sm p-6">
+        <section className="rounded-2xl border border-border bg-background shadow-sm p-6">
           {children}
         </section>
       </div>

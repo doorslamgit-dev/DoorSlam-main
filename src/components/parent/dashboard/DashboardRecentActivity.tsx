@@ -65,8 +65,8 @@ export function DashboardRecentActivity({
 
   if (activities.length === 0) {
     return (
-      <div className="bg-background rounded-2xl shadow-sm p-4 border border-default">
-        <h3 className="text-sm font-bold text-dark mb-3">Recent Activity</h3>
+      <div className="bg-background rounded-2xl shadow-sm p-4 border border-border">
+        <h3 className="text-sm font-bold text-foreground mb-3">Recent Activity</h3>
         <EmptyState
           variant="minimal"
           icon="clock"
@@ -78,8 +78,8 @@ export function DashboardRecentActivity({
   }
 
   return (
-    <div className="bg-background rounded-2xl shadow-sm p-4 border border-default">
-      <h3 className="text-sm font-bold text-dark mb-3">Recent Activity</h3>
+    <div className="bg-background rounded-2xl shadow-sm p-4 border border-border">
+      <h3 className="text-sm font-bold text-foreground mb-3">Recent Activity</h3>
 
       <div className="space-y-2">
         {activities.map((activity) => (
@@ -95,10 +95,10 @@ export function DashboardRecentActivity({
               />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-xs font-medium text-medium truncate">{activity.title}</p>
-              <p className="text-[10px] text-muted truncate">{activity.detail}</p>
+              <p className="text-xs font-medium text-muted-foreground truncate">{activity.title}</p>
+              <p className="text-[10px] text-muted-foreground truncate">{activity.detail}</p>
             </div>
-            <span className="text-[10px] text-light shrink-0">{activity.timeLabel}</span>
+            <span className="text-[10px] text-muted-foreground shrink-0">{activity.timeLabel}</span>
           </div>
         ))}
       </div>

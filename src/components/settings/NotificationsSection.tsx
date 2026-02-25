@@ -3,7 +3,6 @@ import { supabase } from "../../lib/supabase";
 import { NotificationToggle } from "./NotificationToggle";
 import type { NotificationSettings } from "../../hooks/useSettingsData";
 import AppIcon from "../ui/AppIcon";
-import Button from "../ui/Button";
 
 interface NotificationsSectionProps {
   notifications: NotificationSettings;
@@ -66,31 +65,45 @@ export function NotificationsSection({
   };
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
+    <div className="bg-background rounded-2xl shadow-sm p-6">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <AppIcon name="bell" className="w-5 h-5 text-primary-600" />
-          <h2 className="text-lg font-semibold text-neutral-700">Notifications</h2>
+          <AppIcon name="bell" className="w-5 h-5 text-primary" />
+          <h2 className="text-lg font-semibold text-foreground">Notifications</h2>
         </div>
 
         {!editing ? (
-          <Button variant="ghost" size="sm" onClick={startEdit}>
+          <button
+            type="button"
+            onClick={startEdit}
+            className="px-3 py-1.5 rounded-lg text-sm font-medium text-primary hover:bg-muted transition-colors"
+          >
             Edit
-          </Button>
+          </button>
         ) : (
           <div className="flex items-center gap-2">
-            <Button variant="secondary" size="sm" onClick={cancelEdit} disabled={saving}>
-              Cancel
-            </Button>
-            <Button
-              variant="primary"
-              size="sm"
-              onClick={save}
-              loading={saving}
-              leftIcon="check"
+            <button
+              type="button"
+              onClick={cancelEdit}
+              disabled={saving}
+              className="px-3 py-1.5 rounded-lg text-sm font-medium border border-border text-muted-foreground disabled:opacity-50"
             >
+              Cancel
+            </button>
+
+            <button
+              type="button"
+              onClick={save}
+              disabled={saving}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium text-white bg-success disabled:opacity-50"
+            >
+              {saving ? (
+                <AppIcon name="loader" className="w-4 h-4 animate-spin" />
+              ) : (
+                <AppIcon name="check" className="w-4 h-4" />
+              )}
               Save
-            </Button>
+            </button>
           </div>
         )}
       </div>

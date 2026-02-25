@@ -398,37 +398,37 @@ export default function AddSubjectModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-      <div className="w-full max-w-2xl bg-neutral-0 rounded-2xl shadow-xl overflow-hidden max-h-[90vh] flex flex-col">
+      <div className="w-full max-w-2xl bg-background rounded-2xl shadow-xl overflow-hidden max-h-[90vh] flex flex-col">
         {/* Header */}
-        <div className="px-8 pt-8 pb-6 border-b border-neutral-200 flex-shrink-0">
+        <div className="px-8 pt-8 pb-6 border-b border-border flex-shrink-0">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold text-neutral-800">
+            <h2 className="text-2xl font-bold text-foreground">
               {STEP_TITLES[step] || "Add subjects"}
             </h2>
             <button
               type="button"
               onClick={onClose}
               disabled={busy}
-              className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-neutral-100 transition-colors"
+              className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-secondary transition-colors"
               aria-label="Close"
             >
-              <AppIcon name="x" className="w-5 h-5 text-neutral-500" />
+              <AppIcon name="x" className="w-5 h-5 text-muted-foreground" />
             </button>
           </div>
 
           {/* Progress bar */}
           <div>
             <div className="flex justify-between mb-2">
-              <span className="text-xs font-medium text-neutral-700">
+              <span className="text-xs font-medium text-foreground">
                 Step {currentStepDisplay} of {totalSteps}
               </span>
-              <span className="text-xs font-medium text-neutral-500">
+              <span className="text-xs font-medium text-muted-foreground">
                 {progressPercent}%
               </span>
             </div>
-            <div className="w-full h-2 bg-neutral-200 rounded-full overflow-hidden">
+            <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
               <div
-                className="h-full bg-primary-600 rounded-full transition-all duration-300"
+                className="h-full bg-primary rounded-full transition-all duration-300"
                 style={{ width: `${progressPercent}%` }}
               />
             </div>
@@ -522,7 +522,7 @@ export default function AddSubjectModal({
         </div>
 
         {/* Footer */}
-        <div className="px-8 py-6 bg-neutral-50 border-t border-neutral-200 flex items-center justify-between flex-shrink-0">
+        <div className="px-8 py-6 bg-muted border-t border-border flex items-center justify-between flex-shrink-0">
           {/* Back button */}
           {step > STEPS.EXAM_TYPE &&
           step !== STEPS.SUBJECTS &&
@@ -532,7 +532,7 @@ export default function AddSubjectModal({
               type="button"
               onClick={handleBack}
               disabled={busy}
-              className="px-6 py-3 rounded-full font-medium text-neutral-700 bg-neutral-200 hover:bg-neutral-300 transition-colors disabled:opacity-50"
+              className="px-6 py-3 rounded-full font-medium text-foreground bg-muted hover:bg-muted transition-colors disabled:opacity-50"
             >
               Back
             </button>
@@ -546,7 +546,7 @@ export default function AddSubjectModal({
               type="button"
               onClick={handleNext}
               disabled={!canNext || busy}
-              className="px-8 py-3 rounded-full font-semibold text-white bg-primary-600 hover:bg-primary-700 transition-all shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-8 py-3 rounded-full font-semibold text-white bg-primary hover:bg-primary/90 transition-all shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Continue
             </button>
@@ -558,7 +558,7 @@ export default function AddSubjectModal({
                 type="button"
                 onClick={handleBack}
                 disabled={busy}
-                className="px-6 py-3 rounded-full font-medium text-neutral-700 bg-neutral-200 hover:bg-neutral-300 transition-colors disabled:opacity-50"
+                className="px-6 py-3 rounded-full font-medium text-foreground bg-muted hover:bg-muted transition-colors disabled:opacity-50"
               >
                 Back
               </button>
@@ -566,7 +566,7 @@ export default function AddSubjectModal({
                 type="button"
                 onClick={handleNext}
                 disabled={!canNext || busy}
-                className="px-8 py-3 rounded-full font-semibold text-white bg-primary-600 hover:bg-primary-700 transition-all shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-8 py-3 rounded-full font-semibold text-white bg-primary hover:bg-primary/90 transition-all shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 See Impact
               </button>
@@ -579,7 +579,7 @@ export default function AddSubjectModal({
                 type="button"
                 onClick={handleBack}
                 disabled={busy}
-                className="px-6 py-3 rounded-full font-medium text-neutral-700 bg-neutral-200 hover:bg-neutral-300 transition-colors disabled:opacity-50"
+                className="px-6 py-3 rounded-full font-medium text-foreground bg-muted hover:bg-muted transition-colors disabled:opacity-50"
               >
                 Back
               </button>
@@ -587,7 +587,7 @@ export default function AddSubjectModal({
                 type="button"
                 onClick={handleNext}
                 disabled={!canNext || busy || loadingImpact}
-                className="px-8 py-3 rounded-full font-semibold text-white bg-primary-600 hover:bg-primary-700 transition-all shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-8 py-3 rounded-full font-semibold text-white bg-primary hover:bg-primary/90 transition-all shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Continue
               </button>
@@ -600,7 +600,7 @@ export default function AddSubjectModal({
                 type="button"
                 onClick={handleBack}
                 disabled={busy}
-                className="px-6 py-3 rounded-full font-medium text-neutral-700 bg-neutral-200 hover:bg-neutral-300 transition-colors disabled:opacity-50"
+                className="px-6 py-3 rounded-full font-medium text-foreground bg-muted hover:bg-muted transition-colors disabled:opacity-50"
               >
                 Back
               </button>
@@ -608,7 +608,7 @@ export default function AddSubjectModal({
                 type="button"
                 onClick={handleSubmit}
                 disabled={busy}
-                className="px-8 py-3 rounded-full font-semibold text-white bg-primary-600 hover:bg-primary-700 transition-all shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                className="px-8 py-3 rounded-full font-semibold text-white bg-primary hover:bg-primary/90 transition-all shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
                 {busy ? (
                   <>

@@ -263,12 +263,12 @@ export function MnemonicPlayer({ mnemonic, sessionId }: MnemonicPlayerProps) {
 
   if (mnemonic.status === "generating") {
     return (
-      <div className="p-6 bg-gradient-to-br from-primary-50 to-primary-100 rounded-xl border border-primary-200">
+      <div className="p-6 bg-gradient-to-br from-primary/5 to-primary-100 rounded-xl border border-primary/20">
         <div className="flex items-center justify-center space-x-4 py-8">
-          <AppIcon name={"spinner" as IconKey} className="text-primary-600 text-3xl animate-spin" />
+          <AppIcon name={"spinner" as IconKey} className="text-primary text-3xl animate-spin" />
           <div>
-            <p className="font-semibold text-primary-900">Creating your song...</p>
-            <p className="text-neutral-600 text-sm">StudyBuddy is writing lyrics and making music</p>
+            <p className="font-semibold text-primary">Creating your song...</p>
+            <p className="text-muted-foreground text-sm">StudyBuddy is writing lyrics and making music</p>
           </div>
         </div>
       </div>
@@ -277,9 +277,9 @@ export function MnemonicPlayer({ mnemonic, sessionId }: MnemonicPlayerProps) {
 
   if (mnemonic.status === "failed") {
     return (
-      <div className="p-6 bg-accent-red/5 rounded-xl border border-accent-red/20">
-        <p className="text-accent-red font-semibold mb-2">Oops! Something went wrong</p>
-        <p className="text-neutral-600 text-sm">
+      <div className="p-6 bg-destructive/5 rounded-xl border border-accent-red/20">
+        <p className="text-destructive font-semibold mb-2">Oops! Something went wrong</p>
+        <p className="text-muted-foreground text-sm">
           We couldn't make your song this time. Try picking a different style or skip for now.
         </p>
       </div>
@@ -289,7 +289,7 @@ export function MnemonicPlayer({ mnemonic, sessionId }: MnemonicPlayerProps) {
   if (mnemonic.status !== "ready") return null;
 
   return (
-    <div className="p-6 bg-gradient-to-br from-primary-50 to-primary-100 rounded-xl border border-primary-200">
+    <div className="p-6 bg-gradient-to-br from-primary/5 to-primary-100 rounded-xl border border-primary/20">
       <audio
         ref={audioRef}
         src={resolvedAudioUrl ?? undefined}
@@ -333,14 +333,14 @@ export function MnemonicPlayer({ mnemonic, sessionId }: MnemonicPlayerProps) {
         <div className="flex items-center space-x-3">
           <div
             className={`w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-br ${
-              styleConfig?.gradient || "from-primary-500 to-primary-600"
+              styleConfig?.gradient || "from-primary/50 to-primary-600"
             }`}
           >
             <AppIcon name={styleIconKey} className="text-white text-lg" />
           </div>
           <div>
-            <h3 className="font-bold text-primary-900">Your {styleConfig?.name || "Song"}</h3>
-            <p className="text-neutral-600 text-sm">
+            <h3 className="font-bold text-primary">Your {styleConfig?.name || "Song"}</h3>
+            <p className="text-muted-foreground text-sm">
               {duration ? formatTime(duration) : isMetadataReady ? "Ready to play" : "Loading..."}
             </p>
           </div>
@@ -353,10 +353,10 @@ export function MnemonicPlayer({ mnemonic, sessionId }: MnemonicPlayerProps) {
             disabled={!mnemonic.mnemonicId || favBusy}
             aria-pressed={isFav}
             aria-label={isFav ? "Remove from favourites" : "Add to favourites"}
-            className="w-10 h-10 rounded-full bg-neutral-0 flex items-center justify-center hover:bg-primary-50 transition disabled:opacity-50"
+            className="w-10 h-10 rounded-full bg-background flex items-center justify-center hover:bg-primary/5 transition disabled:opacity-50"
             title={isFav ? "Remove from favourites" : "Add to favourites"}
           >
-            <AppIcon name={"heart" as IconKey} className={isFav ? "text-accent-red" : "text-primary-600"} />
+            <AppIcon name={"heart" as IconKey} className={isFav ? "text-destructive" : "text-primary"} />
           </button>
 
           <button
@@ -364,23 +364,23 @@ export function MnemonicPlayer({ mnemonic, sessionId }: MnemonicPlayerProps) {
             onClick={handleDownload}
             disabled={!resolvedAudioUrl}
             aria-label="Download audio"
-            className="w-10 h-10 rounded-full bg-neutral-0 flex items-center justify-center hover:bg-primary-50 transition disabled:opacity-50"
+            className="w-10 h-10 rounded-full bg-background flex items-center justify-center hover:bg-primary/5 transition disabled:opacity-50"
             title="Download"
           >
-            <AppIcon name={"download" as IconKey} className="text-primary-600" />
+            <AppIcon name={"download" as IconKey} className="text-primary" />
           </button>
         </div>
       </div>
 
       {/* Audio Player */}
-      <div className="bg-neutral-0 rounded-xl p-4 mb-4">
+      <div className="bg-background rounded-xl p-4 mb-4">
         <div className="flex items-center space-x-4">
           <button
             type="button"
             onClick={togglePlay}
             disabled={!resolvedAudioUrl}
             aria-label={isPlaying ? "Pause audio" : "Play audio"}
-            className="w-14 h-14 rounded-full bg-primary-600 flex items-center justify-center hover:bg-primary-700 transition flex-shrink-0 disabled:opacity-50 disabled:hover:bg-primary-600"
+            className="w-14 h-14 rounded-full bg-primary flex items-center justify-center hover:bg-primary/90 transition flex-shrink-0 disabled:opacity-50 disabled:hover:bg-primary"
             title={isPlaying ? "Pause" : "Play"}
           >
             <AppIcon name={(isPlaying ? "pause" : "play") as IconKey} className="text-white text-xl" />
@@ -389,7 +389,7 @@ export function MnemonicPlayer({ mnemonic, sessionId }: MnemonicPlayerProps) {
           <div className="flex-1">
             <div
               id="mnemonic-progress-bar"
-              className="w-full bg-neutral-200 rounded-full h-2 mb-2 cursor-pointer"
+              className="w-full bg-muted rounded-full h-2 mb-2 cursor-pointer"
               role="progressbar"
               aria-valuemin={0}
               aria-valuemax={duration ?? 0}
@@ -397,12 +397,12 @@ export function MnemonicPlayer({ mnemonic, sessionId }: MnemonicPlayerProps) {
               onClick={(e) => handleSeek(e.clientX)}
             >
               <div
-                className="bg-primary-600 h-full rounded-full transition-all"
+                className="bg-primary h-full rounded-full transition-all"
                 style={{ width: `${progressPercent}%` }}
               />
             </div>
 
-            <div className="flex justify-between text-xs text-neutral-500">
+            <div className="flex justify-between text-xs text-muted-foreground">
               <span>{formatTime(currentTime)}</span>
               <span>{formatTime(duration)}</span>
             </div>
@@ -410,14 +410,14 @@ export function MnemonicPlayer({ mnemonic, sessionId }: MnemonicPlayerProps) {
         </div>
 
         {!resolvedAudioUrl && (
-          <div className="mt-3 text-xs text-neutral-600 flex items-start space-x-2">
+          <div className="mt-3 text-xs text-muted-foreground flex items-start space-x-2">
             <AppIcon name={"warning" as IconKey} className="mt-0.5" />
             <span>No audio URL found. Your n8n workflow needs to return a playable URL (public or signed).</span>
           </div>
         )}
 
         {audioError && (
-          <div className="mt-3 text-xs text-accent-red flex items-start space-x-2">
+          <div className="mt-3 text-xs text-destructive flex items-start space-x-2">
             <AppIcon name={"warning" as IconKey} className="mt-0.5" />
             <span>{audioError}</span>
           </div>
@@ -425,12 +425,12 @@ export function MnemonicPlayer({ mnemonic, sessionId }: MnemonicPlayerProps) {
       </div>
 
       {/* Lyrics */}
-      <div className="bg-neutral-0 rounded-xl p-5">
-        <h4 className="font-semibold text-neutral-700 mb-3 flex items-center space-x-2">
-          <AppIcon name={"disc" as IconKey} className="text-primary-600" />
+      <div className="bg-background rounded-xl p-5">
+        <h4 className="font-semibold text-foreground mb-3 flex items-center space-x-2">
+          <AppIcon name={"disc" as IconKey} className="text-primary" />
           <span>Lyrics</span>
         </h4>
-        <p className="text-neutral-700 whitespace-pre-line text-sm leading-relaxed">{mnemonic.lyrics}</p>
+        <p className="text-foreground whitespace-pre-line text-sm leading-relaxed">{mnemonic.lyrics}</p>
       </div>
     </div>
   );

@@ -71,8 +71,8 @@ export default function Account() {
       <PageLayout>
         <div className="flex items-center justify-center py-32">
           <div className="text-center">
-            <div className="w-8 h-8 border-2 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-            <p className="text-sm text-neutral-600">Loading account...</p>
+            <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+            <p className="text-sm text-muted-foreground">Loading account...</p>
           </div>
         </div>
       </PageLayout>
@@ -94,16 +94,16 @@ export default function Account() {
         {/* Page Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-2xl font-bold mb-2 text-primary-600">
+            <h1 className="text-2xl font-bold mb-2 text-primary">
               My Account
             </h1>
-            <p className="text-neutral-500">Manage your profile information</p>
+            <p className="text-muted-foreground">Manage your profile information</p>
           </div>
 
           {/* Settings link for parents */}
           {isParent && (
             <Link to="/parent/settings"
-              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-neutral-100 text-neutral-700 hover:bg-neutral-200 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-secondary text-foreground hover:bg-muted transition-colors"
             >
               <AppIcon name="settings" className="w-4 h-4" />
               <span className="font-medium">Settings</span>
@@ -122,7 +122,7 @@ export default function Account() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left column - Avatar */}
           <div className="lg:col-span-1">
-            <div className="bg-neutral-0 rounded-2xl shadow-card p-6 sticky top-6">
+            <div className="bg-background rounded-2xl shadow-sm p-6 sticky top-6">
               <AvatarUpload
                 currentAvatarUrl={avatarUrl || null}
                 userId={userId || ""}
@@ -132,11 +132,11 @@ export default function Account() {
               />
 
               {/* Display name under avatar */}
-              <div className="text-center mt-4 pt-4 border-t border-neutral-200">
-                <h2 className="text-lg font-semibold text-neutral-700">
+              <div className="text-center mt-4 pt-4 border-t border-border">
+                <h2 className="text-lg font-semibold text-foreground">
                   {displayName}
                 </h2>
-                <p className="text-sm text-neutral-500">
+                <p className="text-sm text-muted-foreground">
                   {isParent ? "Parent Account" : "Student Account"}
                 </p>
               </div>
@@ -169,18 +169,18 @@ export default function Account() {
 
             {/* Link to Settings for parents */}
             {isParent && (
-              <div className="bg-neutral-50 rounded-2xl p-6 border border-neutral-200">
+              <div className="bg-muted rounded-2xl p-6 border border-border">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="font-medium text-neutral-700">
+                    <h3 className="font-medium text-foreground">
                       Looking for notifications, security, or analytics?
                     </h3>
-                    <p className="text-sm text-neutral-500 mt-1">
+                    <p className="text-sm text-muted-foreground mt-1">
                       These settings have moved to a dedicated page
                     </p>
                   </div>
                   <Link to="/parent/settings"
-                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-primary-600 text-white font-medium hover:bg-primary-700 transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-primary text-white font-medium hover:bg-primary/90 transition-colors"
                   >
                     <AppIcon name="settings" className="w-4 h-4" />
                     Go to Settings

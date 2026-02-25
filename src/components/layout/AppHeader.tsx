@@ -5,6 +5,7 @@
 
 
 import { Link } from 'react-router-dom';
+import BrandWordmark from '../ui/BrandWordmark';
 
 export default function AppHeader() {
   return (
@@ -15,24 +16,10 @@ export default function AppHeader() {
           to="/"
           className="flex items-center gap-3 hover:opacity-80 transition-opacity"
         >
-          <img
-            src="/images/logo-dark.png"
-            alt="Doorslam"
-            width={120}
-            height={56}
-            className="h-14 w-auto dark:hidden"
-          />
-          <img
-            src="/images/logo-light.png"
-            alt="Doorslam"
-            width={120}
-            height={56}
-            className="h-14 w-auto hidden dark:block"
-          />
           <div>
-            <div className="text-xl font-bold text-primary leading-tight">Doorslam</div>
+            <BrandWordmark size="md" />
             <div className="text-sm text-muted-foreground">
-              Revision without the drama
+              Slam your GCSEs.
             </div>
           </div>
         </Link>

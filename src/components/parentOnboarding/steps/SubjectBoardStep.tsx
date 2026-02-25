@@ -272,26 +272,26 @@ export default function SubjectBoardStep(props: Props) {
       <div className="mb-6">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h2 className="text-xl font-semibold text-neutral-900 mb-2">
+            <h2 className="text-xl font-semibold text-foreground mb-2">
               Select subjects
             </h2>
-            <p className="text-neutral-500 text-sm leading-relaxed">
+            <p className="text-muted-foreground text-sm leading-relaxed">
               Choose a subject, then pick the exam board. Click again to deselect.
             </p>
           </div>
 
           {activeExamType && (
-            <div className="rounded-xl border border-neutral-200 bg-neutral-0 px-4 py-2 text-sm flex-shrink-0">
-              <div className="text-xs text-neutral-500">Selecting for</div>
-              <div className="font-semibold text-neutral-900">{activeExamType.name}</div>
+            <div className="rounded-xl border border-border bg-background px-4 py-2 text-sm flex-shrink-0">
+              <div className="text-xs text-muted-foreground">Selecting for</div>
+              <div className="font-semibold text-foreground">{activeExamType.name}</div>
             </div>
           )}
         </div>
 
         {/* Reassurance message */}
-        <div className="mt-4 flex items-start gap-3 p-4 bg-primary-50 rounded-xl border border-primary-100">
-          <AppIcon name="info" className="w-5 h-5 text-primary-600 mt-0.5 flex-shrink-0" aria-hidden />
-          <p className="text-sm text-primary-800">
+        <div className="mt-4 flex items-start gap-3 p-4 bg-primary/5 rounded-xl border border-primary/20">
+          <AppIcon name="info" className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" aria-hidden />
+          <p className="text-sm text-primary">
             Don't worry if you're not sure of all the subjects or exam boards right now — you can always edit or add these later.
           </p>
         </div>
@@ -300,7 +300,7 @@ export default function SubjectBoardStep(props: Props) {
       {/* Exam type tabs (if multiple) */}
       {examTypes.length > 1 && (
         <div className="mb-6">
-          <label className="block text-sm font-medium text-neutral-700 mb-3">
+          <label className="block text-sm font-medium text-foreground mb-3">
             Exam type
           </label>
           <div className="flex gap-3 flex-wrap">
@@ -311,8 +311,8 @@ export default function SubjectBoardStep(props: Props) {
                 onClick={() => setActiveExamTypeIndex(idx)}
                 className={`px-6 py-3 rounded-xl border-2 font-medium transition-all ${
                   idx === activeExamTypeIndex
-                    ? "border-primary-600 bg-primary-50 text-primary-600"
-                    : "border-neutral-200 bg-neutral-0 text-neutral-700 hover:border-neutral-300"
+                    ? "border-primary bg-primary/5 text-primary"
+                    : "border-border bg-background text-foreground hover:border-input"
                 }`}
               >
                 {et.name}
@@ -324,28 +324,28 @@ export default function SubjectBoardStep(props: Props) {
 
       {/* Error state */}
       {error && (
-        <div className="mb-6 rounded-xl border border-accent-red/30 bg-accent-red/10 p-4">
+        <div className="mb-6 rounded-xl border border-accent-red/30 bg-destructive/10 p-4">
           <div className="flex items-start gap-3">
             <AppIcon
               name="triangle-alert"
-              className="w-5 h-5 text-accent-red mt-0.5"
+              className="w-5 h-5 text-destructive mt-0.5"
               aria-hidden
             />
-            <p className="text-sm text-accent-red">{error}</p>
+            <p className="text-sm text-destructive">{error}</p>
           </div>
         </div>
       )}
 
       {/* Subjects grid - 2 columns */}
       <div className="mb-6">
-        <label className="block text-sm font-medium text-neutral-700 mb-4">
+        <label className="block text-sm font-medium text-foreground mb-4">
           Available subjects
         </label>
 
         {loading ? (
           <div className="flex items-center justify-center py-8">
-            <div className="w-6 h-6 border-2 border-primary-200 border-t-primary-600 rounded-full animate-spin" />
-            <span className="ml-3 text-sm text-neutral-500">Loading subjects…</span>
+            <div className="w-6 h-6 border-2 border-primary/20 border-t-primary-600 rounded-full animate-spin" />
+            <span className="ml-3 text-sm text-muted-foreground">Loading subjects…</span>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[400px] overflow-y-auto pr-1">
@@ -365,8 +365,8 @@ export default function SubjectBoardStep(props: Props) {
                   onClick={() => handleSubjectClick(g)}
                   className={`border-2 rounded-xl p-4 text-left transition-all hover:shadow-soft ${
                     selectedFlag
-                      ? "border-primary-600 bg-primary-50"
-                      : "border-neutral-200 bg-neutral-0 hover:border-primary-300"
+                      ? "border-primary bg-primary/5"
+                      : "border-border bg-background hover:border-primary/50"
                   }`}
                 >
                   <div className="flex items-start justify-between gap-3">
@@ -384,10 +384,10 @@ export default function SubjectBoardStep(props: Props) {
 
                       {/* Subject name */}
                       <div className="flex-1 min-w-0">
-                        <div className="text-sm font-medium text-neutral-900 leading-tight">
+                        <div className="text-sm font-medium text-foreground leading-tight">
                           {String(g.subject_name)}
                         </div>
-                        <div className="mt-1 text-xs text-neutral-500">
+                        <div className="mt-1 text-xs text-muted-foreground">
                           {boardsCount} {boardsCount === 1 ? "board" : "boards"}
                         </div>
                       </div>
@@ -397,8 +397,8 @@ export default function SubjectBoardStep(props: Props) {
                     <div
                       className={`flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${
                         selectedFlag
-                          ? "bg-primary-600 border-primary-600"
-                          : "border-neutral-300 bg-neutral-0"
+                          ? "bg-primary border-primary"
+                          : "border-input bg-background"
                       }`}
                     >
                       {selectedFlag && (
@@ -415,14 +415,14 @@ export default function SubjectBoardStep(props: Props) {
 
       {/* Selected subjects lozenges */}
       <div className="mb-6">
-        <label className="block text-sm font-medium text-neutral-700 mb-4">
+        <label className="block text-sm font-medium text-foreground mb-4">
           Selected subjects{" "}
           {allSelectedSubjects.length > 0 && `(${allSelectedSubjects.length})`}
         </label>
 
-        <div className="flex flex-wrap gap-2 p-4 bg-neutral-50 rounded-xl border border-neutral-200 min-h-[72px]">
+        <div className="flex flex-wrap gap-2 p-4 bg-muted rounded-xl border border-border min-h-[72px]">
           {allSelectedSubjects.length === 0 ? (
-            <p className="text-sm text-neutral-400">No subjects selected yet.</p>
+            <p className="text-sm text-muted-foreground">No subjects selected yet.</p>
           ) : (
             allSelectedSubjects.map((s) => {
               const etName =
@@ -431,7 +431,7 @@ export default function SubjectBoardStep(props: Props) {
               return (
                 <div
                   key={`${s.exam_type_id}|${s.subject_name}`}
-                  className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary-100 text-primary-700 rounded-full text-xs font-medium"
+                  className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/10 text-primary rounded-full text-xs font-medium"
                 >
                   <span>
                     {etName && `${etName} · `}
@@ -444,7 +444,7 @@ export default function SubjectBoardStep(props: Props) {
                       e.stopPropagation();
                       removeSelection(s.exam_type_id, s.subject_name);
                     }}
-                    className="w-4 h-4 flex items-center justify-center rounded-full hover:bg-primary-200 transition-all"
+                    className="w-4 h-4 flex items-center justify-center rounded-full hover:bg-primary/20 transition-all"
                     aria-label={`Remove ${s.subject_name}`}
                   >
                     <AppIcon name="x" className="w-3 h-3" aria-hidden />
@@ -461,7 +461,7 @@ export default function SubjectBoardStep(props: Props) {
         <button
           type="button"
           onClick={onBack}
-          className="px-6 py-3 rounded-full font-medium text-neutral-700 bg-neutral-200 hover:bg-neutral-300 transition-all"
+          className="px-6 py-3 rounded-full font-medium text-foreground bg-muted hover:bg-muted transition-all"
         >
           Back
         </button>
@@ -470,7 +470,7 @@ export default function SubjectBoardStep(props: Props) {
           type="button"
           onClick={onContinue}
           disabled={selectedForActiveExamType.length === 0}
-          className="px-8 py-3 rounded-full font-semibold text-white bg-primary-600 hover:bg-primary-700 transition-all shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-8 py-3 rounded-full font-semibold text-white bg-primary hover:bg-primary/90 transition-all shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Continue
         </button>
@@ -478,15 +478,15 @@ export default function SubjectBoardStep(props: Props) {
 
       {/* Board selection modal */}
       {modalOpen && modalCtx && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-neutral-900/40 p-4">
-          <div className="w-full max-w-md rounded-2xl bg-neutral-0 shadow-card overflow-hidden">
-            <div className="flex items-start justify-between gap-4 p-6 border-b border-neutral-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/40 p-4">
+          <div className="w-full max-w-md rounded-2xl bg-background shadow-sm overflow-hidden">
+            <div className="flex items-start justify-between gap-4 p-6 border-b border-border">
               <div>
-                <div className="text-sm text-neutral-500">Choose exam board</div>
-                <div className="text-lg font-semibold text-neutral-900 mt-1">
+                <div className="text-sm text-muted-foreground">Choose exam board</div>
+                <div className="text-lg font-semibold text-foreground mt-1">
                   {modalCtx.subject_name}
                 </div>
-                <p className="mt-2 text-sm text-neutral-500">
+                <p className="mt-2 text-sm text-muted-foreground">
                   You can always change this later if you're not sure.
                 </p>
               </div>
@@ -494,7 +494,7 @@ export default function SubjectBoardStep(props: Props) {
               <button
                 type="button"
                 onClick={closeModal}
-                className="w-8 h-8 flex items-center justify-center rounded-full text-neutral-500 hover:bg-neutral-100 transition-all"
+                className="w-8 h-8 flex items-center justify-center rounded-full text-muted-foreground hover:bg-secondary transition-all"
                 aria-label="Close"
               >
                 <AppIcon name="x" className="w-4 h-4" aria-hidden />
@@ -524,9 +524,9 @@ export default function SubjectBoardStep(props: Props) {
                         key={String(b.exam_board_id)}
                         type="button"
                         onClick={() => setSelectionForGroup(modalCtx, b)}
-                        className="w-full rounded-xl border-2 border-neutral-200 bg-neutral-0 px-4 py-3 text-left hover:border-primary-300 hover:bg-primary-50 transition-all"
+                        className="w-full rounded-xl border-2 border-border bg-background px-4 py-3 text-left hover:border-primary/50 hover:bg-primary/5 transition-all"
                       >
-                        <div className="font-medium text-neutral-900">
+                        <div className="font-medium text-foreground">
                           {String(b._label)}
                         </div>
                       </button>
@@ -537,14 +537,14 @@ export default function SubjectBoardStep(props: Props) {
                         key={`not-sure-${String(b.exam_board_id)}`}
                         type="button"
                         onClick={() => setSelectionForGroup(modalCtx, b)}
-                        className="w-full rounded-xl border-2 border-dashed border-neutral-300 bg-neutral-50 px-4 py-3 text-left hover:border-primary-300 hover:bg-primary-50 transition-all"
+                        className="w-full rounded-xl border-2 border-dashed border-input bg-muted px-4 py-3 text-left hover:border-primary/50 hover:bg-primary/5 transition-all"
                       >
-                        <div className="font-medium text-neutral-600">I'm not sure</div>
+                        <div className="font-medium text-muted-foreground">I'm not sure</div>
                       </button>
                     ))}
 
                     {normalBoards.length === 0 && notSureOne.length === 0 && (
-                      <div className="rounded-xl border border-neutral-200 bg-neutral-50 p-4 text-sm text-neutral-600">
+                      <div className="rounded-xl border border-border bg-muted p-4 text-sm text-muted-foreground">
                         No exam boards found for this subject.
                       </div>
                     )}

@@ -45,11 +45,11 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-73px)] bg-gradient-to-br from-primary-400 via-primary-600 to-primary-700 flex items-center justify-center p-4">
+    <div className="min-h-[calc(100vh-73px)] bg-gradient-to-br from-primary/60 via-primary/80 to-primary flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         
-        <div className="bg-neutral-0 rounded-2xl shadow-2xl p-8">
-          <h2 className="text-2xl font-bold text-neutral-900 mb-6">Welcome back</h2>
+        <div className="bg-background rounded-2xl shadow-2xl p-8">
+          <h2 className="text-2xl font-bold text-foreground mb-6">Welcome back</h2>
 
           {error && (
             <Alert variant="error" className="mb-6" hideIcon>
@@ -87,18 +87,18 @@ export default function Login() {
             </Button>
           </form>
 
-          <p className="mt-6 text-center text-sm text-neutral-600">
+          <p className="mt-6 text-center text-sm text-muted-foreground">
             Don&apos;t have an account?{" "}
             <Link to="/signup"
-              className="text-primary-600 font-semibold hover:text-primary-700"
+              className="text-primary font-semibold hover:text-primary"
             >
               Sign up
             </Link>
           </p>
         </div>
 
-        <p className="text-center text-primary-100 text-sm mt-6">
-          Parent-led, child-used revision planning
+        <p className="text-center text-primary-foreground/80 text-sm mt-6">
+          Confident revision planning for your children
         </p>
       </div>
     </div>

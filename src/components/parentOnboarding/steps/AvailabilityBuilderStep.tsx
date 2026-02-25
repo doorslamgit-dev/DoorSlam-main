@@ -329,28 +329,28 @@ export default function AvailabilityBuilderStep({
     <div>
       {/* Header */}
       <div className="mb-6">
-        <h2 className="text-xl font-semibold text-neutral-900 mb-2">Set your weekly schedule</h2>
-        <p className="text-neutral-500 text-sm leading-relaxed">
+        <h2 className="text-xl font-semibold text-foreground mb-2">Set your weekly schedule</h2>
+        <p className="text-muted-foreground text-sm leading-relaxed">
           Configure when revision sessions happen. We'll show you the coverage you'll achieve.
         </p>
       </div>
 
       {/* Reference: What schedule would achieve target coverage */}
       {requiredResult && (
-        <div className="mb-6 p-4 bg-primary-50 border border-primary-200 rounded-xl">
+        <div className="mb-6 p-4 bg-primary/5 border border-primary/20 rounded-xl">
           <div className="flex items-start gap-3">
-            <div className="w-6 h-6 bg-primary-600 rounded-full flex items-center justify-center flex-shrink-0">
+            <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
               <AppIcon name="target" className="w-3.5 h-3.5 text-white" aria-hidden />
             </div>
             <div className="flex-1">
-              <h3 className="text-sm font-semibold text-primary-900 mb-1">
+              <h3 className="text-sm font-semibold text-primary mb-1">
                 For target coverage: ~{requiredResult.sessions_per_week} sessions/week
               </h3>
-              <p className="text-xs text-primary-700 leading-relaxed">
+              <p className="text-xs text-primary leading-relaxed">
                 Based on {subjects.length} subject{subjects.length !== 1 ? "s" : ""}, this would
                 mean ~{requiredResult.sessions_per_day.toFixed(1)} sessions per study day.
                 {!requiredResult.is_realistic && (
-                  <span className="block mt-1 text-accent-amber">
+                  <span className="block mt-1 text-warning">
                     <span className="inline-flex items-center gap-1">
                       <AppIcon name="alert-triangle" className="w-3.5 h-3.5" aria-hidden />
                       This may be ambitious — adjust coverage expectations or extend your revision
@@ -363,14 +363,14 @@ export default function AvailabilityBuilderStep({
           </div>
 
           {recommendation?.needs_advice && (
-            <p className="mt-3 text-xs text-primary-700 italic pl-9">{recommendation.needs_advice}</p>
+            <p className="mt-3 text-xs text-primary italic pl-9">{recommendation.needs_advice}</p>
           )}
 
           <button
             type="button"
             onClick={handleQuickSetup}
             disabled={isGenerating}
-            className="mt-4 ml-9 flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary-600 bg-neutral-0 border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors disabled:opacity-50"
+            className="mt-4 ml-9 flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary bg-background border border-primary/20 rounded-lg hover:bg-primary/5 transition-colors disabled:opacity-50"
           >
             {isGenerating ? (
               <>
@@ -390,10 +390,10 @@ export default function AvailabilityBuilderStep({
       {/* Step 1: Set up Monday */}
       <div className="mb-6">
         <div className="flex items-center gap-2 mb-3">
-          <div className="w-6 h-6 rounded-full bg-primary-600 text-white text-xs font-semibold flex items-center justify-center">
+          <div className="w-6 h-6 rounded-full bg-primary text-white text-xs font-semibold flex items-center justify-center">
             1
           </div>
-          <h3 className="text-sm font-semibold text-neutral-900">Set up Monday</h3>
+          <h3 className="text-sm font-semibold text-foreground">Set up Monday</h3>
         </div>
         <DayCard
           day={weeklyTemplate[0]}
@@ -408,13 +408,13 @@ export default function AvailabilityBuilderStep({
       {mondayHasSessions && (
         <div className="mb-6">
           <div className="flex items-center gap-2 mb-3">
-            <div className="w-6 h-6 rounded-full bg-primary-600 text-white text-xs font-semibold flex items-center justify-center">
+            <div className="w-6 h-6 rounded-full bg-primary text-white text-xs font-semibold flex items-center justify-center">
               2
             </div>
-            <h3 className="text-sm font-semibold text-neutral-900">Copy to other days</h3>
+            <h3 className="text-sm font-semibold text-foreground">Copy to other days</h3>
           </div>
-          <div className="p-4 bg-neutral-50 rounded-xl border border-neutral-200">
-            <p className="text-sm text-neutral-600 mb-4">
+          <div className="p-4 bg-muted rounded-xl border border-border">
+            <p className="text-sm text-muted-foreground mb-4">
               Copy Monday's {weeklyTemplate[0].slots.length} session
               {weeklyTemplate[0].slots.length !== 1 ? "s" : ""} to:
             </p>
@@ -422,26 +422,26 @@ export default function AvailabilityBuilderStep({
               <button
                 type="button"
                 onClick={handleCopyToWeekdays}
-                className="px-4 py-2 text-sm font-medium text-neutral-700 bg-neutral-0 border border-neutral-300 rounded-lg hover:bg-neutral-100 transition-colors inline-flex items-center"
+                className="px-4 py-2 text-sm font-medium text-foreground bg-background border border-input rounded-lg hover:bg-secondary transition-colors inline-flex items-center"
               >
-                <AppIcon name="briefcase" className="w-4 h-4 mr-2 text-neutral-500" aria-hidden />
+                <AppIcon name="briefcase" className="w-4 h-4 mr-2 text-muted-foreground" aria-hidden />
                 Weekdays
-                <span className="ml-1.5 text-xs text-neutral-400">(Tue–Fri)</span>
+                <span className="ml-1.5 text-xs text-muted-foreground">(Tue–Fri)</span>
               </button>
               <button
                 type="button"
                 onClick={handleCopyToWeekdaysAndSaturday}
-                className="px-4 py-2 text-sm font-medium text-neutral-700 bg-neutral-0 border border-neutral-300 rounded-lg hover:bg-neutral-100 transition-colors inline-flex items-center"
+                className="px-4 py-2 text-sm font-medium text-foreground bg-background border border-input rounded-lg hover:bg-secondary transition-colors inline-flex items-center"
               >
-                <AppIcon name="calendar-plus" className="w-4 h-4 mr-2 text-neutral-500" aria-hidden />
+                <AppIcon name="calendar-plus" className="w-4 h-4 mr-2 text-muted-foreground" aria-hidden />
                 + Saturday
               </button>
               <button
                 type="button"
                 onClick={handleCopyToAllDays}
-                className="px-4 py-2 text-sm font-medium text-neutral-700 bg-neutral-0 border border-neutral-300 rounded-lg hover:bg-neutral-100 transition-colors inline-flex items-center"
+                className="px-4 py-2 text-sm font-medium text-foreground bg-background border border-input rounded-lg hover:bg-secondary transition-colors inline-flex items-center"
               >
-                <AppIcon name="calendar-week" className="w-4 h-4 mr-2 text-neutral-500" aria-hidden />
+                <AppIcon name="calendar-week" className="w-4 h-4 mr-2 text-muted-foreground" aria-hidden />
                 All days
               </button>
             </div>
@@ -454,16 +454,16 @@ export default function AvailabilityBuilderStep({
         <div className="mb-6">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-full bg-primary-600 text-white text-xs font-semibold flex items-center justify-center">
+              <div className="w-6 h-6 rounded-full bg-primary text-white text-xs font-semibold flex items-center justify-center">
                 3
               </div>
-              <h3 className="text-sm font-semibold text-neutral-900">Fine-tune</h3>
-              <span className="text-xs text-neutral-400">(optional)</span>
+              <h3 className="text-sm font-semibold text-foreground">Fine-tune</h3>
+              <span className="text-xs text-muted-foreground">(optional)</span>
             </div>
             <button
               type="button"
               onClick={() => setShowAllDays(!showAllDays)}
-              className="text-sm text-primary-600 hover:text-primary-700 font-medium flex items-center gap-2"
+              className="text-sm text-primary hover:text-primary font-medium flex items-center gap-2"
             >
               {showAllDays ? (
                 <>
@@ -501,8 +501,8 @@ export default function AvailabilityBuilderStep({
       {coverageResult && requiredResult && feasibility && (
         <div className="mb-6">
           <div className="flex items-center gap-2 mb-3">
-            <AppIcon name="pie-chart" className="w-4 h-4 text-neutral-400" aria-hidden />
-            <h3 className="text-sm font-semibold text-neutral-900">
+            <AppIcon name="pie-chart" className="w-4 h-4 text-muted-foreground" aria-hidden />
+            <h3 className="text-sm font-semibold text-foreground">
               Your coverage with this schedule
             </h3>
           </div>
@@ -511,31 +511,31 @@ export default function AvailabilityBuilderStep({
       )}
 
       {/* Weekly Summary */}
-      <div className="mb-6 p-4 bg-neutral-50 rounded-xl border border-neutral-200">
+      <div className="mb-6 p-4 bg-muted rounded-xl border border-border">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm font-medium text-neutral-900">Weekly schedule</h3>
-          <AppIcon name="calendar-days" className="w-4 h-4 text-neutral-400" aria-hidden />
+          <h3 className="text-sm font-medium text-foreground">Weekly schedule</h3>
+          <AppIcon name="calendar-days" className="w-4 h-4 text-muted-foreground" aria-hidden />
         </div>
         <div className="grid grid-cols-3 gap-4 text-center">
           <div>
-            <div className="text-2xl font-bold text-neutral-900">{weeklyStats.sessions}</div>
-            <div className="text-xs text-neutral-500">sessions/week</div>
+            <div className="text-2xl font-bold text-foreground">{weeklyStats.sessions}</div>
+            <div className="text-xs text-muted-foreground">sessions/week</div>
           </div>
           <div>
-            <div className="text-2xl font-bold text-neutral-900">{weeklyStats.minutes}</div>
-            <div className="text-xs text-neutral-500">minutes/week</div>
+            <div className="text-2xl font-bold text-foreground">{weeklyStats.minutes}</div>
+            <div className="text-xs text-muted-foreground">minutes/week</div>
           </div>
           <div>
-            <div className="text-2xl font-bold text-neutral-900">{totalPlannedSessions}</div>
-            <div className="text-xs text-neutral-500">total sessions</div>
+            <div className="text-2xl font-bold text-foreground">{totalPlannedSessions}</div>
+            <div className="text-xs text-muted-foreground">total sessions</div>
           </div>
         </div>
       </div>
 
       {/* Helper text */}
       <div className="mb-6 text-center">
-        <p className="text-xs text-neutral-500 inline-flex items-center justify-center gap-2">
-          <AppIcon name="settings" className="w-4 h-4 text-neutral-400" aria-hidden />
+        <p className="text-xs text-muted-foreground inline-flex items-center justify-center gap-2">
+          <AppIcon name="settings" className="w-4 h-4 text-muted-foreground" aria-hidden />
           You can adjust this schedule anytime from your dashboard.
         </p>
       </div>
@@ -545,7 +545,7 @@ export default function AvailabilityBuilderStep({
         <button
           type="button"
           onClick={onBack}
-          className="px-6 py-3 rounded-full font-medium text-neutral-700 bg-neutral-200 hover:bg-neutral-300 transition-all"
+          className="px-6 py-3 rounded-full font-medium text-foreground bg-muted hover:bg-muted transition-all"
         >
           Back
         </button>
@@ -553,7 +553,7 @@ export default function AvailabilityBuilderStep({
           type="button"
           onClick={onNext}
           disabled={!isValid}
-          className="px-8 py-3 rounded-full font-semibold text-white bg-primary-600 hover:bg-primary-700 transition-all shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-8 py-3 rounded-full font-semibold text-white bg-primary hover:bg-primary/90 transition-all shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Continue
         </button>

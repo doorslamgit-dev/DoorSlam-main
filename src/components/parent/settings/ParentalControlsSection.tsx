@@ -48,14 +48,14 @@ export default function ParentalControlsSection({
     return (
       <Card variant="default">
         <div className="flex items-start gap-4">
-          <div className="w-10 h-10 rounded-lg bg-primary-100 flex items-center justify-center shrink-0">
-            <AppIcon name="shield" className="w-5 h-5 text-primary-600" />
+          <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+            <AppIcon name="shield" className="w-5 h-5 text-primary" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-neutral-800">
+            <h3 className="text-lg font-semibold text-foreground">
               Parental Controls
             </h3>
-            <p className="text-sm text-neutral-500 mt-1">
+            <p className="text-sm text-muted-foreground mt-1">
               Upgrade to Family or Premium to manage what your children can
               edit.
             </p>
@@ -88,14 +88,14 @@ export default function ParentalControlsSection({
     <Card variant="default">
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-start gap-3">
-          <div className="w-10 h-10 rounded-lg bg-primary-100 flex items-center justify-center shrink-0">
-            <AppIcon name="shield" className="w-5 h-5 text-primary-600" />
+          <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+            <AppIcon name="shield" className="w-5 h-5 text-primary" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-neutral-800">
+            <h3 className="text-lg font-semibold text-foreground">
               Parental Controls
             </h3>
-            <p className="text-sm text-neutral-500 mt-1">
+            <p className="text-sm text-muted-foreground mt-1">
               Control what your children can edit
             </p>
           </div>
@@ -117,8 +117,8 @@ export default function ParentalControlsSection({
               onClick={() => setSelectedChildId(child.child_id)}
               className={`px-3 py-1.5 text-sm rounded-lg transition-colors ${
                 selectedChildId === child.child_id
-                  ? "bg-primary-600 text-white"
-                  : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200"
+                  ? "bg-primary text-white"
+                  : "bg-secondary text-muted-foreground hover:bg-muted"
               }`}
             >
               {child.child_name}
@@ -140,10 +140,10 @@ export default function ParentalControlsSection({
             return (
               <div
                 key={featureKey}
-                className="flex items-center justify-between py-2 border-b border-neutral-100 last:border-b-0"
+                className="flex items-center justify-between py-2 border-b border-border last:border-b-0"
               >
                 <div>
-                  <div className="text-sm font-medium text-neutral-700">
+                  <div className="text-sm font-medium text-foreground">
                     {FEATURE_LABELS[featureKey]}
                   </div>
                 </div>
@@ -156,8 +156,8 @@ export default function ParentalControlsSection({
                       onClick={() => updateControl(featureKey, option.value)}
                       className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
                         currentLevel === option.value
-                          ? "bg-primary-600 text-white"
-                          : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200"
+                          ? "bg-primary text-white"
+                          : "bg-secondary text-muted-foreground hover:bg-muted"
                       }`}
                       title={option.description}
                     >
@@ -171,8 +171,8 @@ export default function ParentalControlsSection({
 
           {/* Pending approval requests */}
           {pendingRequests.length > 0 && (
-            <div className="mt-4 pt-4 border-t border-neutral-200">
-              <h4 className="text-sm font-semibold text-neutral-700 mb-3">
+            <div className="mt-4 pt-4 border-t border-border">
+              <h4 className="text-sm font-semibold text-foreground mb-3">
                 Pending Requests
               </h4>
               <div className="space-y-2">
@@ -181,15 +181,15 @@ export default function ParentalControlsSection({
                   return (
                     <div
                       key={req.id}
-                      className="flex items-center justify-between p-3 bg-neutral-50 rounded-lg"
+                      className="flex items-center justify-between p-3 bg-muted rounded-lg"
                     >
                       <div>
-                        <div className="text-sm text-neutral-700">
+                        <div className="text-sm text-foreground">
                           {req.request_type === "move_topic"
                             ? `Move "${data.topic_name || "topic"}" (${data.subject_name || ""})`
                             : req.request_type}
                         </div>
-                        <div className="text-xs text-neutral-500 mt-0.5">
+                        <div className="text-xs text-muted-foreground mt-0.5">
                           {new Date(req.created_at).toLocaleDateString("en-GB", {
                             day: "numeric",
                             month: "short",

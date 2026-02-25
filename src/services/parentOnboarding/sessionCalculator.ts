@@ -255,7 +255,7 @@ export function getStatusColors(status: FeasibilityStatus): {
   switch (status) {
     case "sufficient":
       return {
-        bg: "bg-success-bg",
+        bg: "bg-success/10",
         border: "border-success-border",
         text: "text-success",
         icon: "fa-circle-check",
@@ -263,7 +263,7 @@ export function getStatusColors(status: FeasibilityStatus): {
       };
     case "marginal":
       return {
-        bg: "bg-warning-bg",
+        bg: "bg-warning/10",
         border: "border-warning-border",
         text: "text-warning",
         icon: "fa-triangle-exclamation",
@@ -271,11 +271,11 @@ export function getStatusColors(status: FeasibilityStatus): {
       };
     case "insufficient":
       return {
-        bg: "bg-danger-bg",
+        bg: "bg-destructive/10",
         border: "border-danger-border",
-        text: "text-danger",
+        text: "text-destructive",
         icon: "fa-circle-xmark",
-        iconClass: "text-danger",
+        iconClass: "text-destructive",
       };
   }
 }

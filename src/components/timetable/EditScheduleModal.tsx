@@ -126,44 +126,44 @@ export default function EditScheduleModal({
 
   const footerContent = saving ? (
     <div className="flex items-center justify-center py-4">
-      <div className="flex items-center gap-3 text-primary-600">
-        <div className="w-5 h-5 border-2 border-primary-600 border-t-transparent rounded-full animate-spin" />
+      <div className="flex items-center gap-3 text-primary">
+        <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
         <span className="font-medium">Saving schedule...</span>
       </div>
     </div>
   ) : showSaveOptions ? (
     <div className="space-y-3">
-      <p className="text-sm text-neutral-600 font-medium">
+      <p className="text-sm text-muted-foreground font-medium">
         How would you like to save?
       </p>
       <div className="grid grid-cols-2 gap-3">
         <button
           onClick={() => handleSave("template_only")}
           disabled={saving}
-          className="p-3 border-2 border-neutral-200 rounded-xl hover:border-primary-300 hover:bg-primary-50 transition text-left group disabled:opacity-50"
+          className="p-3 border-2 border-border rounded-xl hover:border-primary/50 hover:bg-primary/5 transition text-left group disabled:opacity-50"
         >
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-neutral-100 group-hover:bg-primary-100 rounded-lg flex items-center justify-center transition">
-              <AppIcon name="save" className="w-5 h-5 text-neutral-600 group-hover:text-primary-600" />
+            <div className="w-10 h-10 bg-secondary group-hover:bg-primary/10 rounded-lg flex items-center justify-center transition">
+              <AppIcon name="save" className="w-5 h-5 text-muted-foreground group-hover:text-primary" />
             </div>
             <div>
-              <h4 className="text-sm font-semibold text-neutral-700">Save template only</h4>
-              <p className="text-xs text-neutral-500">Existing sessions unchanged</p>
+              <h4 className="text-sm font-semibold text-foreground">Save template only</h4>
+              <p className="text-xs text-muted-foreground">Existing sessions unchanged</p>
             </div>
           </div>
         </button>
         <button
           onClick={() => handleSave("regenerate")}
           disabled={saving}
-          className="p-3 border-2 border-primary-200 bg-primary-50 rounded-xl hover:border-primary-400 hover:bg-primary-100 transition text-left group disabled:opacity-50"
+          className="p-3 border-2 border-primary/20 bg-primary/5 rounded-xl hover:border-primary/50 hover:bg-primary/10 transition text-left group disabled:opacity-50"
         >
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-primary-100 group-hover:bg-primary-200 rounded-lg flex items-center justify-center transition">
-              <AppIcon name="rotate-cw" className="w-5 h-5 text-primary-600" />
+            <div className="w-10 h-10 bg-primary/10 group-hover:bg-primary/20 rounded-lg flex items-center justify-center transition">
+              <AppIcon name="rotate-cw" className="w-5 h-5 text-primary" />
             </div>
             <div>
-              <h4 className="text-sm font-semibold text-primary-700">Save & regenerate</h4>
-              <p className="text-xs text-primary-600">Update future sessions</p>
+              <h4 className="text-sm font-semibold text-primary">Save & regenerate</h4>
+              <p className="text-xs text-primary">Update future sessions</p>
             </div>
           </div>
         </button>
@@ -171,27 +171,27 @@ export default function EditScheduleModal({
       <button
         onClick={() => setShowSaveOptions(false)}
         disabled={saving}
-        className="w-full text-sm text-neutral-500 hover:text-neutral-700 py-2 disabled:opacity-50"
+        className="w-full text-sm text-muted-foreground hover:text-foreground py-2 disabled:opacity-50"
       >
         Cancel
       </button>
     </div>
   ) : (
     <div className="flex items-center justify-between">
-      <div className="text-sm text-neutral-500">
+      <div className="text-sm text-muted-foreground">
         {weeklyStats.sessions} sessions/week · {weeklyStats.minutes} mins/week
       </div>
       <div className="flex items-center gap-3">
         <button
           onClick={handleClose}
-          className="px-4 py-2 text-neutral-600 hover:text-neutral-800 transition"
+          className="px-4 py-2 text-muted-foreground hover:text-foreground transition"
         >
           Cancel
         </button>
         <button
           onClick={() => setShowSaveOptions(true)}
           disabled={!isValid || !hasChanges || saving}
-          className="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+          className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
         >
           <AppIcon name="save" className="w-4 h-4" />
           Save Changes
@@ -217,8 +217,8 @@ export default function EditScheduleModal({
 
       {loading ? (
         <div className="py-12 text-center">
-          <div className="w-10 h-10 border-2 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-          <p className="text-sm text-neutral-500">Loading schedule...</p>
+          <div className="w-10 h-10 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+          <p className="text-sm text-muted-foreground">Loading schedule...</p>
         </div>
       ) : (
         <WeeklyScheduleEditor

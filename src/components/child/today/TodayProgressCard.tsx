@@ -15,20 +15,20 @@ export default function TodayProgressCard({
   currentStreak,
 }: TodayProgressCardProps) {
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
-      <h2 className="text-xl font-bold text-primary-900 mb-4">This Week's Progress</h2>
+    <div className="bg-background rounded-2xl shadow-sm p-6">
+      <h2 className="text-xl font-bold text-primary mb-4">This Week's Progress</h2>
 
       {/* Progress bar */}
       <div className="mb-6">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-neutral-600 font-medium">Sessions completed</span>
-          <span className="text-primary-900 font-bold text-lg">
+          <span className="text-muted-foreground font-medium">Sessions completed</span>
+          <span className="text-primary font-bold text-lg">
             {completedToday} / {totalToday}
           </span>
         </div>
-        <div className="w-full bg-neutral-200 rounded-full h-3 overflow-hidden">
+        <div className="w-full bg-border rounded-full h-3 overflow-hidden">
           <div
-            className="bg-accent-green h-full rounded-full transition-all duration-500"
+            className="bg-success h-full rounded-full transition-all duration-500"
             style={{
               width: totalToday > 0 ? `${(completedToday / totalToday) * 100}%` : "0%",
             }}
@@ -84,7 +84,7 @@ function WeekProgressGrid({
           <div key={day} className="flex flex-col items-center">
             <span
               className={`text-xs mb-2 ${
-                isCurrentDay ? "text-primary-700 dark:text-primary-400 font-semibold" : "text-neutral-500"
+                isCurrentDay ? "text-primary dark:text-primary font-semibold" : "text-muted-foreground"
               }`}
             >
               {isCurrentDay ? "Today" : day}
@@ -93,26 +93,26 @@ function WeekProgressGrid({
             <div
               className={`w-full h-16 rounded-lg flex items-center justify-center ${
                 isCompletedDay
-                  ? "bg-accent-green"
+                  ? "bg-success"
                   : isCurrentDay
-                  ? "bg-primary-100 dark:bg-primary-900/30 border-2 border-primary-600 dark:border-primary-500"
-                  : "bg-neutral-100"
+                  ? "bg-primary/10 dark:bg-primary/90/30 border-2 border-primary dark:border-primary"
+                  : "bg-secondary"
               }`}
             >
               {isCompletedDay ? (
-                <AppIcon name="check" className="text-white w-5 h-5" />
+                <AppIcon name="check" className="text-primary-foreground w-5 h-5" />
               ) : isCurrentDay ? (
-                <span className="text-primary-700 dark:text-primary-400 font-bold">
+                <span className="text-primary dark:text-primary font-bold">
                   {completedToday}/{totalToday}
                 </span>
               ) : (
-                <span className="text-neutral-400 font-bold">-</span>
+                <span className="text-muted-foreground font-bold">-</span>
               )}
             </div>
 
             <span
               className={`text-xs mt-1 font-medium ${
-                isCompletedDay ? "text-neutral-600" : "text-neutral-400"
+                isCompletedDay ? "text-muted-foreground" : "text-muted-foreground"
               }`}
             >
               {isCompletedDay ? "✓" : ""}

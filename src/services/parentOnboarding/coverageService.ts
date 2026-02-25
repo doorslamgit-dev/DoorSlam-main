@@ -218,7 +218,7 @@ export function getCoverageStatusInfo(status: CoverageStatus): {
       return {
         label: "Excellent coverage",
         color: "text-success",
-        bgColor: "bg-success-bg",
+        bgColor: "bg-success/10",
         borderColor: "border-success-border",
         icon: "fa-circle-check",
       };
@@ -226,7 +226,7 @@ export function getCoverageStatusInfo(status: CoverageStatus): {
       return {
         label: "Good coverage",
         color: "text-success",
-        bgColor: "bg-success-bg",
+        bgColor: "bg-success/10",
         borderColor: "border-success-border",
         icon: "fa-circle-check",
       };
@@ -234,15 +234,15 @@ export function getCoverageStatusInfo(status: CoverageStatus): {
       return {
         label: "Adequate coverage",
         color: "text-warning",
-        bgColor: "bg-warning-bg",
+        bgColor: "bg-warning/10",
         borderColor: "border-warning-border",
         icon: "fa-triangle-exclamation",
       };
     case "limited":
       return {
         label: "Limited coverage",
-        color: "text-danger",
-        bgColor: "bg-danger-bg",
+        color: "text-destructive",
+        bgColor: "bg-destructive/10",
         borderColor: "border-danger-border",
         icon: "fa-circle-xmark",
       };

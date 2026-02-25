@@ -140,7 +140,7 @@ export function getStreakMessage(currentStreak: number, longestStreak?: number):
  */
 export function getStreakColorScheme(streak: number): { bg: string; text: string } {
   if (streak === 0) {
-    return { bg: "bg-neutral-100", text: "text-neutral-500" };
+    return { bg: "bg-secondary", text: "text-muted-foreground" };
   }
   if (streak < 3) {
     return { bg: "bg-orange-50", text: "text-orange-600" };
@@ -149,7 +149,7 @@ export function getStreakColorScheme(streak: number): { bg: string; text: string
     return { bg: "bg-orange-100", text: "text-orange-700" };
   }
   if (streak < 14) {
-    return { bg: "bg-warning-bg", text: "text-warning" };
+    return { bg: "bg-warning/10", text: "text-warning" };
   }
   // 14+ days
   return { bg: "bg-gradient-to-r from-amber-100 to-orange-100", text: "text-orange-800" };

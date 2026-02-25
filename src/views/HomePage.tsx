@@ -25,7 +25,7 @@ export default function HomePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-sm text-neutral-600">
+      <div className="min-h-screen flex items-center justify-center text-sm text-muted-foreground">
         Loading...
       </div>
     );
@@ -34,7 +34,7 @@ export default function HomePage() {
   if (!user || isUnresolved) return <Landing />;
 
   return (
-    <div className="min-h-screen flex items-center justify-center text-sm text-neutral-600">
+    <div className="min-h-screen flex items-center justify-center text-sm text-muted-foreground">
       Loading...
     </div>
   );
