@@ -3,6 +3,7 @@
 
 
 import AppIcon from '../../ui/AppIcon';
+import EmptyState from '../../ui/EmptyState';
 import type { IconKey } from '../../ui/AppIcon';
 import type { ProgressMoment, MomentType } from '../../../types/parent/parentDashboardTypes';
 
@@ -21,22 +22,22 @@ const momentIcons: Record<MomentType, { bg: string; icon: IconKey }> = {
 export function DashboardProgressMoments({ moments }: DashboardProgressMomentsProps) {
   if (moments.length === 0) {
     return (
-      <div className="bg-neutral-0 rounded-2xl shadow-card p-4 border border-neutral-200/50">
-        <h3 className="text-sm font-bold text-neutral-800 mb-3">Progress Moments</h3>
-        <div className="text-center py-4">
-          <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-2">
-            <AppIcon name="sparkles" className="w-5 h-5 text-primary-500" />
-          </div>
-          <p className="text-xs text-neutral-500">Moments will appear as progress is made</p>
-        </div>
+      <div className="bg-neutral-0 rounded-2xl shadow-card p-4 border border-default">
+        <h3 className="text-sm font-bold text-dark mb-3">Progress Moments</h3>
+        <EmptyState
+          variant="minimal"
+          icon="sparkles"
+          title="Moments will appear as progress is made"
+          iconColor="text-primary-500"
+        />
       </div>
     );
   }
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-4 border border-neutral-200/50">
+    <div className="bg-neutral-0 rounded-2xl shadow-card p-4 border border-default">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-bold text-neutral-800">Progress Moments</h3>
+        <h3 className="text-sm font-bold text-dark">Progress Moments</h3>
         <AppIcon name="sparkles" className="w-4 h-4 text-accent-amber" />
       </div>
 
@@ -54,8 +55,8 @@ export function DashboardProgressMoments({ moments }: DashboardProgressMomentsPr
                 <AppIcon name={config.icon} className="w-3.5 h-3.5 text-white" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-medium text-neutral-700 truncate">{moment.message}</p>
-                <p className="text-[10px] text-neutral-500 truncate">{moment.sub_message}</p>
+                <p className="text-xs font-medium text-medium truncate">{moment.message}</p>
+                <p className="text-[10px] text-muted truncate">{moment.sub_message}</p>
               </div>
             </div>
           );

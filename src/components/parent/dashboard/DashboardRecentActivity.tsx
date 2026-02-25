@@ -3,6 +3,7 @@
 
 
 import AppIcon from '../../ui/AppIcon';
+import EmptyState from '../../ui/EmptyState';
 import type { IconKey } from '../../ui/AppIcon';
 import { getSubjectColor } from '../../../constants/colors';
 import type {
@@ -64,21 +65,21 @@ export function DashboardRecentActivity({
 
   if (activities.length === 0) {
     return (
-      <div className="bg-neutral-0 rounded-2xl shadow-card p-4 border border-neutral-200/50">
-        <h3 className="text-sm font-bold text-neutral-800 mb-3">Recent Activity</h3>
-        <div className="text-center py-4">
-          <div className="w-10 h-10 bg-neutral-100 rounded-full flex items-center justify-center mx-auto mb-2">
-            <AppIcon name="clock" className="w-5 h-5 text-neutral-400" />
-          </div>
-          <p className="text-xs text-neutral-500">No recent activity yet</p>
-        </div>
+      <div className="bg-neutral-0 rounded-2xl shadow-card p-4 border border-default">
+        <h3 className="text-sm font-bold text-dark mb-3">Recent Activity</h3>
+        <EmptyState
+          variant="minimal"
+          icon="clock"
+          title="No recent activity yet"
+          iconColor="text-neutral-400"
+        />
       </div>
     );
   }
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-4 border border-neutral-200/50">
-      <h3 className="text-sm font-bold text-neutral-800 mb-3">Recent Activity</h3>
+    <div className="bg-neutral-0 rounded-2xl shadow-card p-4 border border-default">
+      <h3 className="text-sm font-bold text-dark mb-3">Recent Activity</h3>
 
       <div className="space-y-2">
         {activities.map((activity) => (
@@ -94,10 +95,10 @@ export function DashboardRecentActivity({
               />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-xs font-medium text-neutral-700 truncate">{activity.title}</p>
-              <p className="text-[10px] text-neutral-500 truncate">{activity.detail}</p>
+              <p className="text-xs font-medium text-medium truncate">{activity.title}</p>
+              <p className="text-[10px] text-muted truncate">{activity.detail}</p>
             </div>
-            <span className="text-[10px] text-neutral-400 shrink-0">{activity.timeLabel}</span>
+            <span className="text-[10px] text-light shrink-0">{activity.timeLabel}</span>
           </div>
         ))}
       </div>

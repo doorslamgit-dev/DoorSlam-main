@@ -3,6 +3,8 @@
 
 
 import AppIcon from '../../ui/AppIcon';
+import Button from '../../ui/Button';
+import EmptyState from '../../ui/EmptyState';
 import type { IconKey } from '../../ui/AppIcon';
 import type { EnabledReward, CategoryCode } from '../../../types/parent/rewardTypes';
 
@@ -45,7 +47,7 @@ export function DashboardActiveRewards({
 }: DashboardActiveRewardsProps) {
   if (loading) {
     return (
-      <div className="bg-neutral-0 rounded-2xl shadow-card p-4 border border-neutral-200/50 animate-pulse">
+      <div className="bg-neutral-0 rounded-2xl shadow-card p-4 border border-default animate-pulse">
         <div className="h-5 bg-neutral-200 rounded w-28 mb-3" />
         <div className="h-16 bg-neutral-100 rounded-xl" />
       </div>
@@ -54,19 +56,18 @@ export function DashboardActiveRewards({
 
   if (rewards.length === 0) {
     return (
-      <div className="bg-neutral-0 rounded-2xl shadow-card p-4 border border-neutral-200/50">
-        <h3 className="text-sm font-bold text-neutral-800 mb-3">Active Rewards</h3>
-        <div className="text-center py-4">
-          <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-2">
-            <AppIcon name="gift" className="w-5 h-5 text-primary-500" />
-          </div>
-          <p className="text-xs text-neutral-500 mb-2">No rewards set up yet</p>
-          <button
-            onClick={onConfigureRewards}
-            className="px-3 py-1.5 text-xs font-medium text-primary-600 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors"
-          >
+      <div className="bg-neutral-0 rounded-2xl shadow-card p-4 border border-default">
+        <h3 className="text-sm font-bold text-dark mb-3">Active Rewards</h3>
+        <EmptyState
+          variant="minimal"
+          icon="gift"
+          title="No rewards set up yet"
+          iconColor="text-primary-500"
+        />
+        <div className="mt-3 flex justify-center">
+          <Button variant="primary" size="sm" onClick={onConfigureRewards}>
             Set Up Rewards
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -74,9 +75,9 @@ export function DashboardActiveRewards({
 
   const count = Math.min(rewards.length, 4);
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-4 border border-neutral-200/50">
-      <h3 className="text-sm font-bold text-neutral-800">Active Rewards</h3>
-      <p className="text-xs text-neutral-500 mb-3">
+    <div className="bg-neutral-0 rounded-2xl shadow-card p-4 border border-default">
+      <h3 className="text-sm font-bold text-dark">Active Rewards</h3>
+      <p className="text-xs text-muted mb-3">
         {count} reward{count !== 1 ? 's' : ''} your child can work towards
       </p>
       <div className="space-y-2">
@@ -94,7 +95,7 @@ export function DashboardActiveRewards({
                   style={{ color }}
                 />
               </div>
-              <span className="text-xs font-medium text-neutral-700 flex-1 min-w-0 truncate">
+              <span className="text-xs font-medium text-medium flex-1 min-w-0 truncate">
                 {reward.name}
               </span>
               <span className="text-[10px] font-semibold text-primary-600 bg-primary-50 px-1.5 py-0.5 rounded shrink-0">

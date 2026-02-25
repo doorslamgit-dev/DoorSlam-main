@@ -3,6 +3,9 @@
 
 
 import AppIcon from '../../ui/AppIcon';
+import Badge from '../../ui/Badge';
+import Button from '../../ui/Button';
+import type { BadgeVariant } from '../../ui/Badge';
 import { getSubjectIcon } from '../../../constants/icons';
 import { getSubjectColor } from '../../../constants/colors';
 import type { PlanCoverageOverview } from '../../../services/timetableService';
@@ -87,20 +90,18 @@ export function DashboardRevisionPlan({
       {/* Header: title + weeks + status badge */}
       <div className="flex items-start justify-between mb-3">
         <div>
-          <h2 className="text-base font-bold text-neutral-800">Revision Plan</h2>
-          <p className="text-xs text-neutral-500 mt-0.5">
+          <h2 className="text-base font-bold text-dark">Revision Plan</h2>
+          <p className="text-xs text-muted mt-0.5">
             {weeksRemaining > 0 ? `${Math.round(weeksRemaining)} weeks until exams` : 'Exam period'}
           </p>
         </div>
-        <span
-          className={`px-2.5 py-0.5 rounded-full text-[11px] font-semibold text-white ${status.color}`}
-        >
+        <Badge variant={status.badgeVariant} badgeStyle="solid" size="sm">
           {status.label}
-        </span>
+        </Badge>
       </div>
 
       {/* Progress by Subject */}
-      <h3 className="text-xs font-semibold text-neutral-500 mb-2">Progress by Subject</h3>
+      <h3 className="text-xs font-semibold text-muted mb-2">Progress by Subject</h3>
       <div className="space-y-2 flex-1">
         {consolidated.map((subject, idx) => {
           const color = getSubjectColor(subject.subject_name);
@@ -150,40 +151,49 @@ export function DashboardRevisionPlan({
       </div>
 
       {/* Ask AI Tutor CTA */}
-      <button className="mt-3 w-full flex items-center justify-center gap-2 px-3 py-2 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl text-xs font-semibold transition-colors">
-        <AppIcon name="bot" className="w-3.5 h-3.5" />
+      <Button variant="primary" size="sm" leftIcon="bot" fullWidth className="mt-3">
         Ask AI Tutor
-      </button>
+      </Button>
     </div>
   );
 }
 
-function getStatus(completionPercent: number, scheduleGap: number) {
+interface StatusConfig {
+  badgeVariant: BadgeVariant;
+  textColor: string;
+  borderColor: string;
+  bgLight: string;
+  icon: 'circle-check' | 'triangle-alert' | 'flame';
+  label: string;
+  isHealthy: boolean;
+}
+
+function getStatus(completionPercent: number, scheduleGap: number): StatusConfig {
   if (completionPercent >= 100) {
     return {
-      color: 'bg-accent-green', textColor: 'text-accent-green',
-      borderColor: 'border-accent-green', bgLight: 'bg-success-bg',
-      icon: 'circle-check' as const, label: 'Complete', isHealthy: true,
+      badgeVariant: 'success', textColor: 'text-success',
+      borderColor: 'border-success-border', bgLight: 'bg-success-bg',
+      icon: 'circle-check', label: 'Complete', isHealthy: true,
     };
   }
   if (scheduleGap >= 0) {
     return {
-      color: 'bg-accent-green', textColor: 'text-accent-green',
-      borderColor: 'border-accent-green', bgLight: 'bg-success-bg',
-      icon: 'circle-check' as const, label: 'On Track', isHealthy: true,
+      badgeVariant: 'success', textColor: 'text-success',
+      borderColor: 'border-success-border', bgLight: 'bg-success-bg',
+      icon: 'circle-check', label: 'On Track', isHealthy: true,
     };
   }
   if (scheduleGap >= -3) {
     return {
-      color: 'bg-accent-amber', textColor: 'text-accent-amber',
-      borderColor: 'border-accent-amber', bgLight: 'bg-warning-bg',
-      icon: 'triangle-alert' as const, label: 'Attention', isHealthy: false,
+      badgeVariant: 'warning', textColor: 'text-warning',
+      borderColor: 'border-warning-border', bgLight: 'bg-warning-bg',
+      icon: 'triangle-alert', label: 'Attention', isHealthy: false,
     };
   }
   return {
-    color: 'bg-accent-red', textColor: 'text-accent-red',
-    borderColor: 'border-accent-red', bgLight: 'bg-danger-bg',
-    icon: 'flame' as const, label: 'Behind', isHealthy: false,
+    badgeVariant: 'danger', textColor: 'text-danger',
+    borderColor: 'border-danger-border', bgLight: 'bg-danger-bg',
+    icon: 'flame', label: 'Behind', isHealthy: false,
   };
 }
 

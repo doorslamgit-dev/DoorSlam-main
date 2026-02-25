@@ -3,6 +3,9 @@
 
 
 import AppIcon from '../../ui/AppIcon';
+import Badge from '../../ui/Badge';
+import Button from '../../ui/Button';
+import type { BadgeVariant } from '../../ui/Badge';
 import { calculateHealthScore } from '../../../utils/healthScore';
 import type { ChildSummary, SubjectCoverage } from '../../../types/parent/parentDashboardTypes';
 import type { PlanCoverageOverview } from '../../../services/timetableService';
@@ -14,23 +17,20 @@ interface HealthScoreCardProps {
   loading?: boolean;
 }
 
-const RAG_STYLES = {
+const RAG_CONFIG: Record<string, { label: string; badgeVariant: BadgeVariant; ringColor: string }> = {
   on_track: {
-    capsuleBg: 'bg-accent-green',
-    capsuleText: 'text-white',
     label: 'On Track',
+    badgeVariant: 'success',
     ringColor: 'text-accent-green',
   },
   keep_an_eye: {
-    capsuleBg: 'bg-accent-amber',
-    capsuleText: 'text-white',
     label: 'Keep an Eye',
+    badgeVariant: 'warning',
     ringColor: 'text-accent-amber',
   },
   needs_attention: {
-    capsuleBg: 'bg-accent-red',
-    capsuleText: 'text-white',
     label: 'Needs Attention',
+    badgeVariant: 'danger',
     ringColor: 'text-accent-red',
   },
 };
@@ -58,19 +58,17 @@ export function HealthScoreCard({
   if (!child) return null;
 
   const health = calculateHealthScore({ childCoverage, planOverview });
-  const rag = RAG_STYLES[health.ragStatus];
+  const rag = RAG_CONFIG[health.ragStatus] ?? RAG_CONFIG['on_track'];
   const totalSubjects = health.subjectsOnTrack + health.subjectsNeedingAttention;
 
   return (
     <div className="bg-neutral-0 rounded-2xl shadow-card p-5 border border-neutral-200/50 h-full flex flex-col">
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-base font-bold text-neutral-800">Health Score</h3>
-        <span
-          className={`px-2.5 py-0.5 rounded-full text-[11px] font-semibold ${rag.capsuleBg} ${rag.capsuleText}`}
-        >
+        <h3 className="text-base font-bold text-dark">Health Score</h3>
+        <Badge variant={rag.badgeVariant} size="sm" badgeStyle="solid">
           {rag.label}
-        </span>
+        </Badge>
       </div>
 
       {/* Score ring — compact */}
@@ -140,10 +138,9 @@ export function HealthScoreCard({
       </div>
 
       {/* Ask AI Tutor CTA */}
-      <button className="mt-4 w-full flex items-center justify-center gap-2 px-3 py-2 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl text-xs font-semibold transition-colors">
-        <AppIcon name="bot" className="w-3.5 h-3.5" />
+      <Button variant="primary" size="sm" leftIcon="bot" fullWidth className="mt-4">
         Ask AI Tutor
-      </button>
+      </Button>
     </div>
   );
 }
