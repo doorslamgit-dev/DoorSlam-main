@@ -70,18 +70,23 @@ async def _extract_topic_map(
     return topic_map
 
 
-def upload_to_storage(file_bytes: bytes, file_key: str) -> None:
+def upload_to_storage(
+    file_bytes: bytes,
+    file_key: str,
+    content_type: str = "application/pdf",
+) -> None:
     """Upload a file to the exam-documents Storage bucket.
 
     Args:
         file_bytes: Raw file content.
-        file_key: Storage path (e.g. "aqa/gcse/8461/spec/8461_specification.pdf").
+        file_key: Storage path (mirrors Drive folder structure).
+        content_type: MIME type for the uploaded file.
     """
     sb = _get_supabase()
     sb.storage.from_("exam-documents").upload(
         file_key,
         file_bytes,
-        {"content-type": "application/pdf"},
+        {"content-type": content_type},
     )
     logger.info("Uploaded to Storage: %s", file_key)
 
@@ -107,6 +112,7 @@ async def ingest_document(
     drive_file_id: str | None = None,
     drive_md5_checksum: str | None = None,
     drive_modified_time: str | None = None,
+    mime_type: str | None = None,
 ) -> str:
     """Parse, chunk, embed, and store a single document.
 
@@ -132,7 +138,7 @@ async def ingest_document(
     # 2. Upload original to Storage (if file_key provided)
     if file_key:
         try:
-            upload_to_storage(file_bytes, file_key)
+            upload_to_storage(file_bytes, file_key, content_type=mime_type or "application/pdf")
         except Exception as exc:
             logger.warning("Storage upload failed for %s: %s", file_key, exc)
             # Continue with ingestion — Storage upload is non-blocking
@@ -265,6 +271,7 @@ async def update_document(
     drive_md5_checksum: str | None = None,
     drive_modified_time: str | None = None,
     file_key: str | None = None,
+    mime_type: str | None = None,
 ) -> str:
     """Re-ingest a modified document, preserving its UUID.
 
@@ -296,7 +303,7 @@ async def update_document(
             except Exception:
                 pass  # Old file may not exist
             try:
-                upload_to_storage(file_bytes, file_key)
+                upload_to_storage(file_bytes, file_key, content_type=mime_type or "application/pdf")
             except Exception as exc:
                 logger.warning("Storage re-upload failed for %s: %s", file_key, exc)
 

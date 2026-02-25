@@ -23,40 +23,6 @@ def _get_supabase():
     return create_client(settings.supabase_url, settings.supabase_service_role_key)
 
 
-def _build_file_key(
-    board_code: str,
-    qual_code: str,
-    spec_code: str,
-    source_type: str,
-    year: int | None,
-    filename: str,
-) -> str:
-    """Build a Supabase Storage path for the original PDF.
-
-    Examples:
-        aqa/gcse/8461/spec/8461_specification.pdf
-        aqa/gcse/8461/papers/2024/8461_2024_jun_p1_higher_qp.pdf
-        aqa/gcse/8300/revision/sme/8300_sme_01_number.pdf
-    """
-    base = f"{board_code.lower()}/{qual_code.lower()}/{spec_code.lower()}"
-
-    # Map source_type to folder segment
-    folder_map = {
-        "specification": "spec",
-        "past_paper": "papers",
-        "marking_scheme": "papers",
-        "examiner_report": "papers",
-        "grade_threshold": "papers",
-        "sample_paper": "papers",
-        "revision": "revision",
-    }
-    folder = folder_map.get(source_type, "other")
-
-    if folder == "papers" and year:
-        return f"{base}/{folder}/{year}/{filename.lower()}"
-    return f"{base}/{folder}/{filename.lower()}"
-
-
 async def ingest_from_drive(
     root_folder_id: str,
     batch_label: str | None = None,
@@ -131,20 +97,11 @@ async def ingest_from_drive(
                         filename_meta=filename_meta,
                     )
 
-                    # 5. Build Storage path
-                    file_key = _build_file_key(
-                        board_code=path_meta.exam_board_code,
-                        qual_code=path_meta.qualification_code,
-                        spec_code=path_meta.subject_code,
-                        source_type=resolved.source_type,
-                        year=resolved.year,
-                        filename=drive_file.name,
-                    )
-
-                    # 6. Download file content
+                    # 5. Download file content
                     file_bytes = download_file(drive_file.file_id)
 
-                    # 7. Ingest (includes Storage upload + chunk/embed/store)
+                    # 6. Ingest (includes Storage upload + chunk/embed/store)
+                    # file_key mirrors Drive path exactly for browsable Storage
                     await ingest_document(
                         file_bytes=file_bytes,
                         filename=drive_file.name,
@@ -162,10 +119,11 @@ async def ingest_from_drive(
                         session=resolved.session,
                         paper_number=resolved.paper_number,
                         doc_type=resolved.doc_type,
-                        file_key=file_key,
+                        file_key=drive_file.path,
                         drive_file_id=drive_file.file_id,
                         drive_md5_checksum=drive_file.md5_checksum,
                         drive_modified_time=drive_file.modified_time,
+                        mime_type=drive_file.mime_type,
                     )
 
                     processed += 1
