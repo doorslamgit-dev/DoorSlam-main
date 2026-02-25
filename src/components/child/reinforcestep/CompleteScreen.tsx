@@ -28,9 +28,7 @@ export function CompleteScreen({
     <div className="bg-neutral-0 rounded-2xl shadow-card p-8 text-center">
       {/* Decorative hero icon */}
       <div className="w-20 h-20 bg-primary-50 rounded-full flex items-center justify-center mx-auto mb-6">
-        <span className="text-primary-600 text-3xl" aria-hidden="true">
-          🧠
-        </span>
+        <AppIcon name="brain" className="w-10 h-10 text-primary-600" aria-hidden />
       </div>
 
       <h2 className="text-2xl font-bold text-neutral-900 mb-3">

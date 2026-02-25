@@ -26,18 +26,18 @@ import {
 
 function NoCardsScreen({ onNext }: { onNext: () => void }) {
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-8 text-center">
-      <div className="w-16 h-16 bg-neutral-100 rounded-full flex items-center justify-center mx-auto mb-4">
-        <AppIcon name="circle-help" className="text-neutral-400 w-8 h-8" />
+    <div className="bg-background rounded-2xl shadow-sm p-8 text-center">
+      <div className="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
+        <AppIcon name="circle-help" className="text-muted-foreground w-8 h-8" />
       </div>
-      <h2 className="text-xl font-bold text-neutral-900 mb-2">Let's skip ahead!</h2>
-      <p className="text-neutral-600 mb-6">
+      <h2 className="text-xl font-bold text-foreground mb-2">Let's skip ahead!</h2>
+      <p className="text-muted-foreground mb-6">
         We don't have any warm-up questions for this topic yet. Let's jump straight in!
       </p>
       <button
         type="button"
         onClick={onNext}
-        className="px-6 py-3 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition"
+        className="px-6 py-3 bg-primary text-primary-foreground font-semibold rounded-xl hover:bg-primary/90 transition"
       >
         Continue
       </button>
@@ -56,14 +56,14 @@ function FooterControls({ onShuffle }: { onShuffle: () => void }) {
         <button
           type="button"
           onClick={onShuffle}
-          className="text-neutral-400 hover:text-neutral-600"
+          className="text-muted-foreground hover:text-foreground"
           title="Shuffle"
         >
           <AppIcon name="shuffle" className="w-4 h-4" />
         </button>
         <button
           type="button"
-          className="text-neutral-400 hover:text-neutral-600 flex items-center gap-1"
+          className="text-muted-foreground hover:text-foreground flex items-center gap-1"
           title="Full screen"
         >
           <AppIcon name="expand" className="w-4 h-4" />

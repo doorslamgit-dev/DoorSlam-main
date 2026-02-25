@@ -159,12 +159,12 @@ export default function AiTutorSlot() {
   const userRole = isChild ? 'student' : 'parent';
 
   return (
-    <aside className="fixed top-0 right-0 h-full w-80 z-[var(--z-sidebar)] bg-neutral-0 border-l border-neutral-200/60 flex flex-col">
+    <aside className="fixed top-0 right-0 h-full w-80 z-[var(--z-sidebar)] bg-background border-l border-border flex flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between h-14 px-4 border-b border-neutral-200/60 flex-shrink-0">
+      <div className="flex items-center justify-between h-14 px-4 border-b border-border flex-shrink-0">
         <div className="flex items-center gap-2">
-          <AppIcon name="sparkles" className="w-5 h-5 text-primary-600" />
-          <span className="text-sm font-semibold text-neutral-700">AI Tutor</span>
+          <AppIcon name="sparkles" className="w-5 h-5 text-primary" />
+          <span className="text-sm font-semibold text-foreground">AI Tutor</span>
         </div>
         <div className="flex items-center gap-1">
           <button
@@ -172,8 +172,8 @@ export default function AiTutorSlot() {
             onClick={() => setHistoryOpen((prev) => !prev)}
             className={`p-1.5 rounded-lg transition-colors ${
               historyOpen
-                ? 'text-primary-600 bg-primary-50'
-                : 'text-neutral-400 hover:text-neutral-600 hover:bg-neutral-100'
+                ? 'text-primary bg-primary/10'
+                : 'text-muted-foreground hover:text-foreground hover:bg-accent'
             }`}
             aria-label="Conversation history"
             title="Conversation history"
@@ -183,7 +183,7 @@ export default function AiTutorSlot() {
           <button
             type="button"
             onClick={handleNewConversation}
-            className="p-1.5 rounded-lg text-neutral-400 hover:text-neutral-600 hover:bg-neutral-100 transition-colors"
+            className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
             aria-label="New conversation"
             title="New conversation"
           >
@@ -192,7 +192,7 @@ export default function AiTutorSlot() {
           <button
             type="button"
             onClick={() => setAiPanelOpen(false)}
-            className="p-1.5 rounded-lg text-neutral-400 hover:text-neutral-600 hover:bg-neutral-100 transition-colors"
+            className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
             aria-label="Close AI Tutor"
           >
             <AppIcon name="close" className="w-4 h-4" />
@@ -202,7 +202,7 @@ export default function AiTutorSlot() {
 
       {/* Collapsible history drawer */}
       <div
-        className={`overflow-hidden border-b border-neutral-200/60 transition-all duration-200 ease-in-out ${
+        className={`overflow-hidden border-b border-border transition-all duration-200 ease-in-out ${
           historyOpen ? 'max-h-[200px] overflow-y-auto' : 'max-h-0 border-b-0'
         }`}
       >
@@ -215,8 +215,8 @@ export default function AiTutorSlot() {
 
       {/* Conversation title */}
       {conversationTitle && (
-        <div className="px-4 py-1.5 border-b border-neutral-100 flex-shrink-0">
-          <p className="text-xs text-neutral-400 truncate">{conversationTitle}</p>
+        <div className="px-4 py-1.5 border-b border-border flex-shrink-0">
+          <p className="text-xs text-muted-foreground truncate">{conversationTitle}</p>
         </div>
       )}
 
@@ -224,11 +224,11 @@ export default function AiTutorSlot() {
       <div ref={scrollRef} className="flex-1 overflow-y-auto px-3 py-4 space-y-4">
         {messages.length === 0 && (
           <div className="flex flex-col items-center justify-center h-full text-center px-4">
-            <AppIcon name="sparkles" className="w-8 h-8 text-neutral-200 mb-3" />
-            <p className="text-sm font-medium text-neutral-500">
+            <AppIcon name="sparkles" className="w-8 h-8 text-muted-foreground/40 mb-3" />
+            <p className="text-sm font-medium text-muted-foreground">
               Hi! I&apos;m your AI Tutor
             </p>
-            <p className="text-xs text-neutral-400 mt-1.5 leading-relaxed">
+            <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">
               {isParent
                 ? 'Ask me anything about your child\u2019s GCSE subjects, revision strategies, or exam preparation.'
                 : 'Ask me about any topic you\u2019re revising. I\u2019ll help you understand and remember it.'}
@@ -236,7 +236,7 @@ export default function AiTutorSlot() {
             <button
               type="button"
               onClick={() => setHistoryOpen(true)}
-              className="mt-4 text-xs text-primary-600 hover:text-primary-700 hover:underline transition-colors"
+              className="mt-4 text-xs text-primary hover:text-primary/80 hover:underline transition-colors"
             >
               View past conversations
             </button>
@@ -256,12 +256,12 @@ export default function AiTutorSlot() {
 
       {/* Error banner */}
       {panelState === 'error' && errorMessage && (
-        <div className="px-3 py-2 bg-danger-bg border-t border-danger-border">
-          <p className="text-xs text-danger">{errorMessage}</p>
+        <div className="px-3 py-2 bg-destructive/5 border-t border-destructive/20">
+          <p className="text-xs text-destructive">{errorMessage}</p>
           <button
             type="button"
             onClick={() => setPanelState('idle')}
-            className="text-xs text-primary-600 hover:underline mt-1"
+            className="text-xs text-primary hover:underline mt-1"
           >
             Dismiss
           </button>

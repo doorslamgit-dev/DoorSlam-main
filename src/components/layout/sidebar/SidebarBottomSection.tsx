@@ -26,7 +26,7 @@ const HELP_LINKS: HelpLink[] = [
 
 const TIER_LABELS: Record<string, { label: string; color: string }> = {
   trial: { label: 'Trial', color: 'bg-amber-100 text-amber-700' },
-  family: { label: 'Family', color: 'bg-primary-100 text-primary-700' },
+  family: { label: 'Family', color: 'bg-primary/10 text-primary' },
   premium: { label: 'Premium', color: 'bg-purple-100 text-purple-700' },
   expired: { label: 'Expired', color: 'bg-red-100 text-red-700' },
 };
@@ -54,18 +54,18 @@ export default function SidebarBottomSection() {
   };
 
   return (
-    <div className="mt-auto border-t border-neutral-200/60">
+    <div className="mt-auto border-t border-border">
       {/* Help links (parent only, expanded sidebar only) */}
       {isParent && !isCollapsed && (
         <div className="px-3 py-3 space-y-1">
-          <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider px-3 mb-2">
+          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-3 mb-2">
             Help
           </p>
           {HELP_LINKS.map((link) => (
             <Link
               key={link.href}
               to={link.href}
-              className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-neutral-500 hover:text-neutral-700 hover:bg-neutral-100 transition-colors"
+              className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
             >
               <AppIcon name={link.icon} className="w-4 h-4 flex-shrink-0" />
               <span>{link.label}</span>
@@ -86,28 +86,28 @@ export default function SidebarBottomSection() {
           onClick={() => setShowMenu(!showMenu)}
           className={`
             w-full flex items-center gap-3 px-3 py-2.5 rounded-xl
-            hover:bg-neutral-100 transition-colors
+            hover:bg-accent transition-colors
             ${isCollapsed ? 'justify-center' : ''}
           `}
         >
           {avatarUrl ? (
             <img src={avatarUrl} alt={displayName} width={32} height={32} className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
           ) : (
-            <div className="w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center text-white text-sm font-semibold flex-shrink-0">
+            <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground text-sm font-semibold flex-shrink-0">
               {initials}
             </div>
           )}
           {!isCollapsed && (
             <>
               <div className="flex-1 text-left min-w-0">
-                <p className="text-sm font-medium text-neutral-700 truncate">{displayName}</p>
+                <p className="text-sm font-medium text-foreground truncate">{displayName}</p>
                 {tierInfo && (
                   <span className={`inline-block text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${tierInfo.color}`}>
                     {tierInfo.label}
                   </span>
                 )}
               </div>
-              <AppIcon name="chevron-up" className="w-4 h-4 text-neutral-400 flex-shrink-0" />
+              <AppIcon name="chevron-up" className="w-4 h-4 text-muted-foreground flex-shrink-0" />
             </>
           )}
         </button>
@@ -120,34 +120,34 @@ export default function SidebarBottomSection() {
 
             <div
               className={`
-                absolute bottom-full mb-2 bg-neutral-0 rounded-xl shadow-card
-                border border-neutral-200/60 py-1 z-50
+                absolute bottom-full mb-2 bg-background rounded-xl shadow-sm
+                border border-border py-1 z-50
                 ${isCollapsed ? 'left-full ml-2 w-48' : 'left-3 right-3'}
               `}
             >
               <button
                 type="button"
                 onClick={() => { setShowMenu(false); navigate('/account'); }}
-                className="w-full px-4 py-2.5 text-left text-sm text-neutral-700 hover:bg-neutral-50 flex items-center gap-3"
+                className="w-full px-4 py-2.5 text-left text-sm text-foreground hover:bg-accent flex items-center gap-3"
               >
-                <AppIcon name="user" className="w-4 h-4 text-neutral-400" />
+                <AppIcon name="user" className="w-4 h-4 text-muted-foreground" />
                 My Account
               </button>
               {isParent && (
                 <button
                   type="button"
                   onClick={() => { setShowMenu(false); navigate('/parent/settings'); }}
-                  className="w-full px-4 py-2.5 text-left text-sm text-neutral-700 hover:bg-neutral-50 flex items-center gap-3"
+                  className="w-full px-4 py-2.5 text-left text-sm text-foreground hover:bg-accent flex items-center gap-3"
                 >
-                  <AppIcon name="settings" className="w-4 h-4 text-neutral-400" />
+                  <AppIcon name="settings" className="w-4 h-4 text-muted-foreground" />
                   Settings
                 </button>
               )}
-              <div className="border-t border-neutral-200/60 my-1" />
+              <div className="border-t border-border my-1" />
               <button
                 type="button"
                 onClick={handleSignOut}
-                className="w-full px-4 py-2.5 text-left text-sm text-danger hover:bg-danger/5 flex items-center gap-3"
+                className="w-full px-4 py-2.5 text-left text-sm text-destructive hover:bg-destructive/5 flex items-center gap-3"
               >
                 <AppIcon name="log-out" className="w-4 h-4" />
                 Log out

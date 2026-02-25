@@ -6,25 +6,25 @@ export const DIFFICULTY_OPTIONS: Array<{
   value: DifficultyLevel;
   label: string;
   color: string;
-  emoji: string;
+  icon: string;
 }> = [
   {
     value: "easy",
     label: "Easy",
     color: "bg-success-bg text-success border-success-border",
-    emoji: "🌱",
+    icon: "sprout",
   },
   {
     value: "medium",
     label: "Medium",
     color: "bg-warning-bg text-warning border-warning-border",
-    emoji: "⭐",
+    icon: "star",
   },
   {
     value: "hard",
     label: "Hard",
     color: "bg-danger-bg text-danger border-danger",
-    emoji: "🔥",
+    icon: "flame",
   },
 ];
 
@@ -45,37 +45,37 @@ export function getEncouragementMessage(
   notQuiteCount: number,
   unsureCount: number,
   questionsAttempted: number
-): { message: string; emoji: string } {
+): { message: string; icon: string } {
   if (gotItCount === questionsAttempted && questionsAttempted > 0) {
     return {
       message: "Perfect! You nailed every question!",
-      emoji: "🌟",
+      icon: "sparkles",
     };
   }
 
   if (gotItCount > notQuiteCount + unsureCount) {
     return {
       message: "Great work! You're getting the hang of this!",
-      emoji: "💪",
+      icon: "dumbbell",
     };
   }
 
   if (gotItCount > 0) {
     return {
       message: "Good effort! Keep practising and you'll get there!",
-      emoji: "👍",
+      icon: "check-circle",
     };
   }
 
   if (questionsAttempted > 0) {
     return {
       message: "Practice makes perfect! Every attempt helps you learn.",
-      emoji: "🎯",
+      icon: "target",
     };
   }
 
   return {
     message: "Ready when you are!",
-    emoji: "🎯",
+    icon: "target",
   };
 }

@@ -118,8 +118,8 @@ export default function ChildTimetable() {
       <PageLayout>
         <div className="flex items-center justify-center py-32">
           <div className="text-center">
-            <div className="w-8 h-8 border-2 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-            <p className="text-sm text-neutral-600">Loading timetable...</p>
+            <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+            <p className="text-sm text-muted-foreground">Loading timetable...</p>
           </div>
         </div>
       </PageLayout>
@@ -135,10 +135,10 @@ export default function ChildTimetable() {
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-primary-900">
+              <h1 className="text-3xl font-bold text-primary">
                 My Timetable
               </h1>
-              <p className="text-neutral-600">Your revision schedule</p>
+              <p className="text-muted-foreground">Your revision schedule</p>
             </div>
           </div>
         </div>

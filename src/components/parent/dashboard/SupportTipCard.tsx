@@ -48,24 +48,24 @@ export function SupportTipCard() {
   const tip = tips[tipIndex];
 
   return (
-    <div className="bg-gradient-to-br from-primary-50 to-primary-100/50 rounded-2xl shadow-card p-6 border border-primary-200/30">
+    <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-2xl shadow-sm p-6 border border-primary/20">
       <div className="flex items-start gap-4">
-        <div className="w-12 h-12 bg-primary-600 rounded-xl flex items-center justify-center flex-shrink-0">
+        <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center flex-shrink-0">
           <AppIcon
             name={tip.icon}
-            className="w-6 h-6 text-white"
+            className="w-6 h-6 text-primary-foreground"
             aria-hidden
           />
         </div>
 
         <div>
-          <div className="text-xs font-semibold text-primary-500 uppercase tracking-wide mb-1">
+          <div className="text-xs font-semibold text-primary uppercase tracking-wide mb-1">
             Parent Tip
           </div>
-          <h4 className="text-base font-bold text-primary-900 mb-1">
+          <h4 className="text-base font-bold text-primary mb-1">
             {tip.title}
           </h4>
-          <p className="text-sm text-neutral-600 leading-relaxed">
+          <p className="text-sm text-muted-foreground leading-relaxed">
             {tip.content}
           </p>
         </div>

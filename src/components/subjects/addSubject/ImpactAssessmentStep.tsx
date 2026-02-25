@@ -22,7 +22,7 @@ const getRecommendationColor = (rec: string) => {
     case "prioritize":
       return "text-danger bg-danger-bg border-danger-border";
     default:
-      return "text-neutral-700 bg-neutral-50 border-neutral-200";
+      return "text-foreground bg-muted border-border";
   }
 };
 
@@ -51,59 +51,59 @@ export default function ImpactAssessmentStep({
         <div className="flex items-center justify-center py-12">
           <AppIcon
             name="loader"
-            className="w-6 h-6 text-primary-600 animate-spin"
+            className="w-6 h-6 text-primary animate-spin"
           />
         </div>
       ) : impactAssessment ? (
         <>
           {/* Summary Stats */}
           <div className="grid grid-cols-3 gap-4">
-            <div className="bg-neutral-50 rounded-xl p-4 text-center">
-              <div className="text-2xl font-bold text-neutral-800">
+            <div className="bg-muted rounded-xl p-4 text-center">
+              <div className="text-2xl font-bold text-foreground">
                 {impactAssessment.current_weekly_sessions}
               </div>
-              <div className="text-sm text-neutral-500">
+              <div className="text-sm text-muted-foreground">
                 Sessions/week
               </div>
             </div>
-            <div className="bg-neutral-50 rounded-xl p-4 text-center">
-              <div className="text-2xl font-bold text-neutral-800">
+            <div className="bg-muted rounded-xl p-4 text-center">
+              <div className="text-2xl font-bold text-foreground">
                 {impactAssessment.total_topics}
               </div>
-              <div className="text-sm text-neutral-500">Total topics</div>
+              <div className="text-sm text-muted-foreground">Total topics</div>
             </div>
-            <div className="bg-neutral-50 rounded-xl p-4 text-center">
-              <div className="text-2xl font-bold text-neutral-800">
+            <div className="bg-muted rounded-xl p-4 text-center">
+              <div className="text-2xl font-bold text-foreground">
                 {impactAssessment.coverage_percent}%
               </div>
-              <div className="text-sm text-neutral-500">Coverage</div>
+              <div className="text-sm text-muted-foreground">Coverage</div>
             </div>
           </div>
 
           {/* Topic Breakdown */}
-          <div className="bg-neutral-50 rounded-xl p-4">
-            <h3 className="font-medium text-neutral-800 mb-3 flex items-center gap-2">
+          <div className="bg-muted rounded-xl p-4">
+            <h3 className="font-medium text-foreground mb-3 flex items-center gap-2">
               <AppIcon
                 name="chart-line"
-                className="w-4 h-4 text-primary-600"
+                className="w-4 h-4 text-primary"
               />
               Topic Breakdown
             </h3>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="text-neutral-600">Existing subjects</span>
+                <span className="text-muted-foreground">Existing subjects</span>
                 <span className="font-medium">
                   {impactAssessment.existing_topic_count} topics
                 </span>
               </div>
-              <div className="flex justify-between text-primary-600">
+              <div className="flex justify-between text-primary">
                 <span>New subjects</span>
                 <span className="font-medium">
                   +{impactAssessment.new_topic_count} topics
                 </span>
               </div>
-              <div className="border-t border-neutral-200 pt-2 flex justify-between font-medium">
-                <span className="text-neutral-800">Total</span>
+              <div className="border-t border-border pt-2 flex justify-between font-medium">
+                <span className="text-foreground">Total</span>
                 <span>{impactAssessment.total_topics} topics</span>
               </div>
             </div>
@@ -152,7 +152,7 @@ export default function ImpactAssessmentStep({
           </div>
 
           {/* Sessions info */}
-          <div className="text-sm text-neutral-500 text-center">
+          <div className="text-sm text-muted-foreground text-center">
             <p>
               {impactAssessment.total_available_sessions} total sessions over{" "}
               {impactAssessment.weeks_in_plan} weeks
@@ -163,7 +163,7 @@ export default function ImpactAssessmentStep({
           </div>
         </>
       ) : (
-        <div className="text-center py-8 text-neutral-500">
+        <div className="text-center py-8 text-muted-foreground">
           Unable to load impact assessment
         </div>
       )}

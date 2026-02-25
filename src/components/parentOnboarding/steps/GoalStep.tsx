@@ -70,10 +70,10 @@ export default function GoalStep(props: {
     <div>
       {/* Section header */}
       <div className="mb-8">
-        <h2 className="text-xl font-semibold text-neutral-900 mb-2">
+        <h2 className="text-xl font-semibold text-foreground mb-2">
           What's the goal?
         </h2>
-        <p className="text-neutral-500 text-sm leading-relaxed">
+        <p className="text-muted-foreground text-sm leading-relaxed">
           Choose the main focus for your child's revision. You can change this later.
         </p>
       </div>
@@ -81,8 +81,8 @@ export default function GoalStep(props: {
       {/* Goal options */}
       {loading ? (
         <div className="flex items-center justify-center py-8">
-          <div className="w-6 h-6 border-2 border-primary-200 border-t-primary-600 rounded-full animate-spin" />
-          <span className="ml-3 text-sm text-neutral-500">Loading goals…</span>
+          <div className="w-6 h-6 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
+          <span className="ml-3 text-sm text-muted-foreground">Loading goals…</span>
         </div>
       ) : (
         <div className="space-y-4">
@@ -97,27 +97,27 @@ export default function GoalStep(props: {
                 onClick={() => onChange(g.code)}
                 className={`w-full border-2 rounded-xl p-5 text-left transition-all ${
                   selected
-                    ? "border-primary-600 bg-primary-50"
-                    : "border-neutral-200 hover:border-primary-300 hover:shadow-soft"
+                    ? "border-primary bg-primary/5"
+                    : "border-border hover:border-primary/20 hover:shadow-soft"
                 }`}
               >
                 <div className="flex items-start gap-4">
                   {/* Icon */}
-                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary-50 flex items-center justify-center mt-0.5">
+                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/5 flex items-center justify-center mt-0.5">
                     <AppIcon
                       name={iconKey}
-                      className="w-5 h-5 text-primary-600"
+                      className="w-5 h-5 text-primary"
                       aria-hidden
                     />
                   </div>
 
                   {/* Text content */}
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-base font-semibold text-neutral-900 mb-1">
+                    <h3 className="text-base font-semibold text-foreground mb-1">
                       {g.name}
                     </h3>
                     {g.description && (
-                      <p className="text-sm text-neutral-500 leading-relaxed">
+                      <p className="text-sm text-muted-foreground leading-relaxed">
                         {g.description}
                       </p>
                     )}
@@ -126,12 +126,12 @@ export default function GoalStep(props: {
                   {/* Radio indicator */}
                   <div
                     className={`flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center mt-1 transition-colors ${
-                      selected ? "border-primary-600" : "border-neutral-300"
+                      selected ? "border-primary" : "border-input"
                     }`}
                     aria-hidden
                   >
                     <div
-                      className={`w-3 h-3 rounded-full bg-primary-600 transition-opacity ${
+                      className={`w-3 h-3 rounded-full bg-primary transition-opacity ${
                         selected ? "opacity-100" : "opacity-0"
                       }`}
                     />

@@ -17,11 +17,11 @@ export default function TutorAdviceWidget({
 }: TutorAdviceWidgetProps) {
   if (loading) {
     return (
-      <div className="bg-gradient-to-br from-primary-900 to-primary-700 rounded-2xl shadow-card p-8 border border-primary-800 animate-pulse">
-        <div className="h-8 bg-primary-600 rounded w-1/3 mb-6" />
+      <div className="bg-gradient-to-br from-primary-900 to-primary-700 rounded-2xl shadow-sm p-8 border border-primary-800 animate-pulse">
+        <div className="h-8 bg-primary rounded w-1/3 mb-6" />
         <div className="grid grid-cols-2 gap-6">
-          <div className="h-40 bg-primary-600 rounded-xl" />
-          <div className="h-40 bg-primary-600 rounded-xl" />
+          <div className="h-40 bg-primary rounded-xl" />
+          <div className="h-40 bg-primary rounded-xl" />
         </div>
       </div>
     );
@@ -29,7 +29,7 @@ export default function TutorAdviceWidget({
 
   if (!advice) {
     return (
-      <div className="bg-gradient-to-br from-primary-900 to-primary-700 rounded-2xl shadow-card p-8 border border-primary-800 text-white">
+      <div className="bg-gradient-to-br from-primary-900 to-primary-700 rounded-2xl shadow-sm p-8 border border-primary-800 text-primary-foreground">
         <div className="text-center py-8">
           <AppIcon name="sparkles" className="w-10 h-10 text-primary-300 mx-auto mb-4" />
           <p className="text-primary-200">
@@ -41,14 +41,14 @@ export default function TutorAdviceWidget({
   }
 
   return (
-    <div className="bg-gradient-to-br from-primary-900 to-primary-700 rounded-2xl shadow-card p-8 border border-primary-800 text-white">
+    <div className="bg-gradient-to-br from-primary-900 to-primary-700 rounded-2xl shadow-sm p-8 border border-primary-800 text-primary-foreground">
       <div className="flex items-start justify-between mb-6">
         <div>
           <div className="flex items-center space-x-2 mb-2">
             <AppIcon name="sparkles" className="w-6 h-6 text-primary-300" />
             <h3 className="text-2xl font-bold">Your Tutor Advises</h3>
             {isAIGenerated && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-primary-500 rounded-full text-xs">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-primary rounded-full text-xs">
                 <AppIcon name="wand-sparkles" className="w-4 h-4 text-warning" />
                 AI
               </span>
@@ -59,30 +59,30 @@ export default function TutorAdviceWidget({
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <div className="bg-neutral-0 bg-opacity-10 backdrop-blur-sm rounded-xl p-5 border border-white border-opacity-20">
-          <h4 className="font-semibold text-white mb-3 flex items-center space-x-2">
+        <div className="bg-background bg-opacity-10 backdrop-blur-sm rounded-xl p-5 border border-white border-opacity-20">
+          <h4 className="font-semibold text-primary-foreground mb-3 flex items-center space-x-2">
             <AppIcon name="lightbulb" className="w-4 h-4 text-yellow-300" />
             <span>This Week's Focus</span>
           </h4>
           <ul className="space-y-3 text-sm text-primary-100">
             {advice.focus_points?.map((point, index) => (
               <li key={index} className="flex items-start space-x-2">
-                <AppIcon name="check" className="w-4 h-4 text-accent-green mt-0.5 flex-shrink-0" />
+                <AppIcon name="check" className="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
                 <span>{point}</span>
               </li>
             ))}
           </ul>
         </div>
 
-        <div className="bg-neutral-0 bg-opacity-10 backdrop-blur-sm rounded-xl p-5 border border-white border-opacity-20">
-          <h4 className="font-semibold text-white mb-3 flex items-center space-x-2">
-            <AppIcon name="triangle-alert" className="w-4 h-4 text-accent-amber" />
+        <div className="bg-background bg-opacity-10 backdrop-blur-sm rounded-xl p-5 border border-white border-opacity-20">
+          <h4 className="font-semibold text-primary-foreground mb-3 flex items-center space-x-2">
+            <AppIcon name="triangle-alert" className="w-4 h-4 text-warning" />
             <span>Watch Out For</span>
           </h4>
           <ul className="space-y-3 text-sm text-primary-100">
             {advice.watch_out_for?.map((item, index) => (
               <li key={index} className="flex items-start space-x-2">
-                <AppIcon name="triangle-alert" className="w-4 h-4 text-accent-amber mt-0.5 flex-shrink-0" />
+                <AppIcon name="triangle-alert" className="w-4 h-4 text-warning mt-0.5 flex-shrink-0" />
                 <span>{item}</span>
               </li>
             ))}
@@ -90,33 +90,33 @@ export default function TutorAdviceWidget({
         </div>
       </div>
 
-      <div className="bg-neutral-0 rounded-xl p-6">
-        <h4 className="font-semibold text-neutral-900 mb-4 flex items-center space-x-2">
-          <AppIcon name="message-circle" className="w-5 h-5 text-primary-600" />
+      <div className="bg-background rounded-xl p-6">
+        <h4 className="font-semibold text-foreground mb-4 flex items-center space-x-2">
+          <AppIcon name="message-circle" className="w-5 h-5 text-primary" />
           <span>Try Saying...</span>
         </h4>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
-          <div className="p-4 bg-neutral-50 rounded-lg border border-neutral-200">
+          <div className="p-4 bg-muted rounded-lg border border-border">
             <div className="flex items-start space-x-3">
-              <div className="w-8 h-8 bg-accent-red bg-opacity-10 rounded-lg flex items-center justify-center flex-shrink-0">
-                <AppIcon name="x" className="w-4 h-4 text-accent-red" />
+              <div className="w-8 h-8 bg-destructive bg-opacity-10 rounded-lg flex items-center justify-center flex-shrink-0">
+                <AppIcon name="x" className="w-4 h-4 text-destructive" />
               </div>
               <div className="flex-1">
-                <p className="text-sm text-neutral-600">
+                <p className="text-sm text-muted-foreground">
                   <strong>Instead of:</strong> "{advice.try_saying?.instead_of}"
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="p-4 bg-accent-green bg-opacity-5 rounded-lg border border-accent-green border-opacity-20">
+          <div className="p-4 bg-success bg-opacity-5 rounded-lg border border-success border-opacity-20">
             <div className="flex items-start space-x-3">
-              <div className="w-8 h-8 bg-accent-green bg-opacity-10 rounded-lg flex items-center justify-center flex-shrink-0">
-                <AppIcon name="check" className="w-4 h-4 text-accent-green" />
+              <div className="w-8 h-8 bg-success bg-opacity-10 rounded-lg flex items-center justify-center flex-shrink-0">
+                <AppIcon name="check" className="w-4 h-4 text-success" />
               </div>
               <div className="flex-1">
-                <p className="text-sm text-neutral-700">
+                <p className="text-sm text-foreground">
                   <strong>Try saying:</strong> "{advice.try_saying?.try_this}"
                 </p>
               </div>
@@ -126,22 +126,22 @@ export default function TutorAdviceWidget({
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <h5 className="font-semibold text-neutral-900 mb-3 text-sm">When to Step In</h5>
-            <ul className="space-y-2 text-sm text-neutral-700">
+            <h5 className="font-semibold text-foreground mb-3 text-sm">When to Step In</h5>
+            <ul className="space-y-2 text-sm text-foreground">
               {advice.step_in_signals?.map((signal, index) => (
                 <li key={index} className="flex items-start space-x-2">
-                  <AppIcon name="circle" className="w-2 h-2 text-primary-600 mt-1.5" />
+                  <AppIcon name="circle" className="w-2 h-2 text-primary mt-1.5" />
                   <span>{signal}</span>
                 </li>
               ))}
             </ul>
           </div>
           <div>
-            <h5 className="font-semibold text-neutral-900 mb-3 text-sm">When to Step Back</h5>
-            <ul className="space-y-2 text-sm text-neutral-700">
+            <h5 className="font-semibold text-foreground mb-3 text-sm">When to Step Back</h5>
+            <ul className="space-y-2 text-sm text-foreground">
               {advice.step_back_signals?.map((signal, index) => (
                 <li key={index} className="flex items-start space-x-2">
-                  <AppIcon name="circle" className="w-2 h-2 text-accent-green mt-1.5" />
+                  <AppIcon name="circle" className="w-2 h-2 text-success mt-1.5" />
                   <span>{signal}</span>
                 </li>
               ))}

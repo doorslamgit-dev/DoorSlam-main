@@ -42,12 +42,12 @@ export function PrintStyles() {
          * Ensure token-based background utilities render correctly in print.
          * We intentionally avoid colour values here and rely on utility classes.
          */
-        .bg-primary-50,
-        .bg-neutral-50,
-        .bg-accent-green\\/10,
-        .bg-accent-green\\/15,
-        .bg-accent-amber\\/10,
-        .bg-accent-amber\\/15 {
+        .bg-primary\\/5,
+        .bg-muted,
+        .bg-success\\/10,
+        .bg-success\\/15,
+        .bg-warning\\/10,
+        .bg-warning\\/15 {
           -webkit-print-color-adjust: exact;
           print-color-adjust: exact;
         }

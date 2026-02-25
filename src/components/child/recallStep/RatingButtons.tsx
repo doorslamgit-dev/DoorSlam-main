@@ -49,10 +49,10 @@ export function RatingButtons({
           type="button"
           onClick={() => onRate("learning")}
           disabled={saving}
-          className="w-14 h-14 rounded-full bg-warning-50 hover:bg-warning-100 flex items-center justify-center text-2xl transition disabled:opacity-50"
+          className="w-14 h-14 rounded-full bg-warning-50 hover:bg-warning-100 flex items-center justify-center transition disabled:opacity-50"
           aria-label="Still learning"
         >
-          <span aria-hidden="true">🤔</span>
+          <AppIcon name="circle-help" className="w-6 h-6 text-warning" aria-hidden />
         </button>
 
         {/* Know it */}
@@ -60,10 +60,10 @@ export function RatingButtons({
           type="button"
           onClick={() => onRate("known")}
           disabled={saving}
-          className="w-14 h-14 rounded-full bg-success-50 hover:bg-success-100 flex items-center justify-center text-2xl transition disabled:opacity-50"
+          className="w-14 h-14 rounded-full bg-success-50 hover:bg-success-100 flex items-center justify-center transition disabled:opacity-50"
           aria-label="I know this"
         >
-          <span aria-hidden="true">😃</span>
+          <AppIcon name="check-circle" className="w-6 h-6 text-accent-green" aria-hidden />
         </button>
       </div>
     </div>

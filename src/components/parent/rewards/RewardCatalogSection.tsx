@@ -21,12 +21,12 @@ function getCategoryIcon(code: string): string {
 // Helper: Get style classes for category
 function getCategoryStyle(code: string): { bg: string; text: string } {
   const styles: Record<string, { bg: string; text: string }> = {
-    screen_time: { bg: 'bg-info-bg', text: 'text-info' },
+    screen_time: { bg: 'bg-info/10', text: 'text-info' },
     treats: { bg: 'bg-pink-100', text: 'text-pink-600' },
-    activities: { bg: 'bg-success-bg', text: 'text-success' },
-    pocket_money: { bg: 'bg-warning-bg', text: 'text-warning' },
-    privileges: { bg: 'bg-primary-100', text: 'text-primary-600' },
-    custom: { bg: 'bg-neutral-100', text: 'text-neutral-600' },
+    activities: { bg: 'bg-success/10', text: 'text-success' },
+    pocket_money: { bg: 'bg-warning/10', text: 'text-warning' },
+    privileges: { bg: 'bg-primary/10', text: 'text-primary' },
+    custom: { bg: 'bg-secondary', text: 'text-muted-foreground' },
   };
   return styles[code] || styles.custom;
 }
@@ -52,12 +52,12 @@ export function RewardCatalogSection({
     <div className="space-y-6">
       {/* Section Header */}
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-neutral-100">
-          <AppIcon name="layout-grid" className="w-5 h-5 text-neutral-600" />
+        <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-secondary">
+          <AppIcon name="layout-grid" className="w-5 h-5 text-muted-foreground" />
         </div>
         <div>
-          <h2 className="font-semibold text-neutral-900">Reward Catalog</h2>
-          <p className="text-sm text-neutral-500">Toggle rewards on to make them available</p>
+          <h2 className="font-semibold text-foreground">Reward Catalog</h2>
+          <p className="text-sm text-muted-foreground">Toggle rewards on to make them available</p>
         </div>
       </div>
 
@@ -69,15 +69,15 @@ export function RewardCatalogSection({
         const enabledInCategory = category.templates.filter(t => t.is_enabled).length;
 
         return (
-          <div key={category.id} className="bg-neutral-0 rounded-xl border border-neutral-200 p-4 sm:p-6">
+          <div key={category.id} className="bg-background rounded-xl border border-border p-4 sm:p-6">
             {/* Category Header */}
             <div className="flex items-center gap-3 mb-4">
               <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${style.bg}`}>
                 <AppIcon name={getCategoryIcon(category.code)} className={`w-4 h-4 ${style.text}`} />
               </div>
               <div>
-                <h3 className="font-medium text-neutral-900">{category.name}</h3>
-                <p className="text-xs text-neutral-500">
+                <h3 className="font-medium text-foreground">{category.name}</h3>
+                <p className="text-xs text-muted-foreground">
                   {enabledInCategory} of {category.templates.length} enabled
                 </p>
               </div>

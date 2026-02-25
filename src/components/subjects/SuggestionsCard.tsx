@@ -10,17 +10,17 @@ export default function SuggestionsCard({ suggestions }: SuggestionsCardProps) {
   // If no suggestions, show "pace is comfortable" message
   if (suggestions.length === 0) {
     return (
-      <div className="bg-neutral-0 rounded-xl shadow-sm border border-neutral-200 p-6">
+      <div className="bg-background rounded-xl shadow-sm border border-border p-6">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-semibold text-neutral-900">
+          <h3 className="text-lg font-semibold text-foreground">
             Suggested Adjustments
           </h3>
-          <span className="text-xs text-neutral-500">
+          <span className="text-xs text-muted-foreground">
             Optional recommendations
           </span>
         </div>
 
-        <div className="p-4 bg-primary-50 rounded-lg border border-primary-200">
+        <div className="p-4 bg-primary/5 rounded-lg border border-primary/20">
           <div className="flex items-start gap-3">
             <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0">
               <svg

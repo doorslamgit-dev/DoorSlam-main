@@ -31,31 +31,31 @@ function PeriodCard({
   const positiveChange = (avgConfidenceChange || 0) > 0;
 
   return (
-    <div className="border border-neutral-200/60 rounded-lg p-4 bg-neutral-0">
-      <h3 className="font-semibold text-primary-700 mb-3 text-sm uppercase tracking-wide">
+    <div className="border border-border rounded-lg p-4 bg-background">
+      <h3 className="font-semibold text-primary mb-3 text-sm uppercase tracking-wide">
         {title}
       </h3>
 
       <div className="space-y-2">
         <div className="flex justify-between">
-          <span className="text-neutral-600">Sessions</span>
-          <span className="font-medium text-primary-900">
+          <span className="text-muted-foreground">Sessions</span>
+          <span className="font-medium text-primary">
             {totalSessions}/{totalPlanned}
           </span>
         </div>
 
         <div className="flex justify-between">
-          <span className="text-neutral-600">Completion</span>
-          <span className="font-medium text-primary-900">
+          <span className="text-muted-foreground">Completion</span>
+          <span className="font-medium text-primary">
             {completionRate || 0}%
           </span>
         </div>
 
         <div className="flex justify-between">
-          <span className="text-neutral-600">Avg Change</span>
+          <span className="text-muted-foreground">Avg Change</span>
           <span
             className={`font-medium ${
-              positiveChange ? "text-accent-green" : "text-neutral-600"
+              positiveChange ? "text-success" : "text-muted-foreground"
             }`}
           >
             {positiveChange ? "+" : ""}
@@ -74,7 +74,7 @@ export function ProgressTimeline({
 }: ProgressTimelineProps) {
   return (
     <section className="mb-10 report-card">
-      <h2 className="text-xl font-bold text-primary-900 mb-4">
+      <h2 className="text-xl font-bold text-primary mb-4">
         Progress Timeline
       </h2>
 

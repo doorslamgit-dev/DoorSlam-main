@@ -55,13 +55,13 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
       <div
         className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
           isChild
-            ? "bg-accent-green"
-            : "bg-gradient-to-br from-primary-500 to-primary-700"
+            ? "bg-success"
+            : "bg-gradient-to-br from-primary to-primary/90"
         }`}
         aria-hidden="true"
       >
         {isChild ? (
-          <span className="text-white text-sm font-bold">Y</span>
+          <span className="text-primary-foreground text-sm font-bold">Y</span>
         ) : (
           <AppIcon name={ICON_ROBOT} />
         )}
@@ -71,8 +71,8 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
       <div
         className={`max-w-[75%] rounded-2xl px-4 py-2 shadow-sm ${
           isChild
-            ? "bg-accent-green text-white rounded-tr-none"
-            : "bg-neutral-0 text-neutral-800 rounded-tl-none"
+            ? "bg-success text-primary-foreground rounded-tr-none"
+            : "bg-background text-foreground rounded-tl-none"
         }`}
       >
         {/* Voice indicator for child messages */}
@@ -91,7 +91,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
             type="button"
             onClick={onPlay}
             disabled={isLoadingTTS}
-            className="mt-2 flex items-center gap-1 text-xs text-primary-600 hover:text-primary-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="mt-2 flex items-center gap-1 text-xs text-primary hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             title={isPlaying ? "Stop" : "Listen"}
           >
             {isLoadingTTS ? (

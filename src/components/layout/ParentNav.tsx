@@ -13,8 +13,8 @@ export default function ParentNav() {
     const active = exact ? pathname === href : pathname.startsWith(href);
     return `text-base font-semibold transition-all duration-200 pb-1 ${
       active
-        ? "text-primary-600 border-b-2 border-primary-600"
-        : "text-neutral-600 hover:text-primary-600 hover:border-b-2 hover:border-primary-300 border-b-2 border-transparent"
+        ? "text-primary border-b-2 border-primary"
+        : "text-muted-foreground hover:text-primary hover:border-b-2 hover:border-primary/50 border-b-2 border-transparent"
     }`;
   };
 

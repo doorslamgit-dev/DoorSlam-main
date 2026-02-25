@@ -6,7 +6,6 @@ import { useMemo } from "react";
 import AppIcon from "../../ui/AppIcon";
 import Button from "../../ui/Button";
 import Toggle from "../../ui/Toggle";
-import Select from "../../ui/Select";
 
 /* ============================
    Types
@@ -146,26 +145,33 @@ export default function DayCard({
                 {idx + 1}
               </div>
 
-              <Select
-                label="Time"
-                options={TIME_OF_DAY_OPTIONS}
-                value={slot.time_of_day}
-                onChange={(val) => onUpdateSlot(idx, "time_of_day", val)}
-                size="sm"
-                className="flex-1 min-w-0"
-              />
+              <div className="flex-1 min-w-0">
+                <label className="block text-xs font-medium text-foreground mb-1">Time</label>
+                <select
+                  value={slot.time_of_day}
+                  onChange={(e) => onUpdateSlot(idx, "time_of_day", e.target.value)}
+                  className="w-full px-2 py-1.5 text-sm border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                >
+                  {TIME_OF_DAY_OPTIONS.map((opt) => (
+                    <option key={opt.value} value={opt.value}>{opt.label}</option>
+                  ))}
+                </select>
+              </div>
 
-              <Select
-                label="Duration"
-                options={SESSION_PATTERN_OPTIONS.map((opt) => ({
-                  value: opt.value,
-                  label: `${opt.label} (${opt.topics} topic${opt.topics !== 1 ? "s" : ""})`,
-                }))}
-                value={slot.session_pattern}
-                onChange={(val) => onUpdateSlot(idx, "session_pattern", val)}
-                size="sm"
-                className="flex-1 min-w-0"
-              />
+              <div className="flex-1 min-w-0">
+                <label className="block text-xs font-medium text-foreground mb-1">Duration</label>
+                <select
+                  value={slot.session_pattern}
+                  onChange={(e) => onUpdateSlot(idx, "session_pattern", e.target.value)}
+                  className="w-full px-2 py-1.5 text-sm border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                >
+                  {SESSION_PATTERN_OPTIONS.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label} ({opt.topics} topic{opt.topics !== 1 ? "s" : ""})
+                    </option>
+                  ))}
+                </select>
+              </div>
 
               <button
                 type="button"

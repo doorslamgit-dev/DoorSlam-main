@@ -1,54 +1,73 @@
 // src/components/ui/Badge.tsx
-/**
- * Badge Component
- * ===============
- * Small status indicators, labels, and tags.
- *
- * VARIANTS (color schemes):
- * - default: Neutral gray
- * - primary: Brand purple
- * - success: Green (completed, on track)
- * - warning: Amber (needs attention)
- * - danger: Red (behind, error)
- * - info: Blue (informational)
- *
- * SIZES:
- * - sm: Compact (px-2 py-0.5, text-xs)
- * - md: Default (px-2.5 py-1, text-xs)
- * - lg: Larger (px-3 py-1.5, text-sm)
- *
- * STYLES:
- * - solid: Filled background (default)
- * - soft: Light background with darker text
- * - outline: Border only, no fill
- *
- * FEATURES:
- * - Optional icon (left side)
- * - Dot indicator option
- * - Pill shape (fully rounded)
- *
- * USAGE:
- * ```tsx
- * // Simple status badge
- * <Badge variant="success">On Track</Badge>
- *
- * // With icon
- * <Badge variant="warning" icon="clock">Pending</Badge>
- *
- * // Outline style
- * <Badge variant="primary" style="outline">New</Badge>
- *
- * // With dot indicator
- * <Badge variant="success" dot>Active</Badge>
- *
- * // Status mapping
- * <Badge variant={STATUS_TO_VARIANT[status]}>{statusLabel}</Badge>
- * ```
- */
+// shadcn-based Badge with DoorSlam API compatibility.
 
 import { type HTMLAttributes, type ReactNode, forwardRef } from "react";
+import { cva } from "class-variance-authority";
+import { cn } from "@/lib/utils";
 import AppIcon from "./AppIcon";
 import type { IconKey } from "./AppIcon";
+
+// ============================================================================
+// CVA VARIANTS
+// ============================================================================
+
+const badgeVariants = cva(
+  "inline-flex items-center font-medium rounded-full",
+  {
+    variants: {
+      variant: {
+        default: "",
+        primary: "",
+        success: "",
+        warning: "",
+        danger: "",
+        info: "",
+        // shadcn standard aliases
+        destructive: "",
+        secondary: "",
+        outline: "",
+      },
+      badgeStyle: {
+        solid: "",
+        soft: "",
+        outline: "",
+      },
+      size: {
+        sm: "px-2 py-0.5 text-xs gap-1",
+        md: "px-2.5 py-1 text-xs gap-1.5",
+        lg: "px-3 py-1.5 text-sm gap-1.5",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      badgeStyle: "soft",
+      size: "md",
+    },
+    compoundVariants: [
+      // Solid styles
+      { variant: "default", badgeStyle: "solid", className: "bg-secondary text-foreground" },
+      { variant: "primary", badgeStyle: "solid", className: "bg-primary text-primary-foreground" },
+      { variant: "success", badgeStyle: "solid", className: "bg-success text-success-foreground" },
+      { variant: "warning", badgeStyle: "solid", className: "bg-warning text-warning-foreground" },
+      { variant: "danger", badgeStyle: "solid", className: "bg-destructive text-destructive-foreground" },
+      { variant: "info", badgeStyle: "solid", className: "bg-info text-info-foreground" },
+      // Soft styles
+      { variant: "default", badgeStyle: "soft", className: "bg-secondary text-muted-foreground" },
+      { variant: "primary", badgeStyle: "soft", className: "bg-primary/10 text-primary dark:bg-primary/20" },
+      { variant: "success", badgeStyle: "soft", className: "bg-success/10 text-success" },
+      { variant: "warning", badgeStyle: "soft", className: "bg-warning/10 text-warning" },
+      { variant: "danger", badgeStyle: "soft", className: "bg-destructive/10 text-destructive" },
+      { variant: "info", badgeStyle: "soft", className: "bg-info/10 text-info" },
+      // Outline styles
+      { variant: "default", badgeStyle: "outline", className: "border border-border text-muted-foreground" },
+      { variant: "primary", badgeStyle: "outline", className: "border border-primary/30 text-primary" },
+      { variant: "success", badgeStyle: "outline", className: "border border-success/30 text-success" },
+      { variant: "warning", badgeStyle: "outline", className: "border border-warning/30 text-warning" },
+      { variant: "danger", badgeStyle: "outline", className: "border border-destructive/30 text-destructive" },
+      { variant: "info", badgeStyle: "outline", className: "border border-info/30 text-info" },
+    ],
+  }
+);
 
 // ============================================================================
 // TYPES
@@ -66,88 +85,37 @@ export type BadgeSize = "sm" | "md" | "lg";
 export type BadgeStyle = "solid" | "soft" | "outline";
 
 export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
-  /** Color variant */
   variant?: BadgeVariant;
-  /** Size preset */
   size?: BadgeSize;
-  /** Visual style */
   badgeStyle?: BadgeStyle;
-  /** Icon to show on left */
   icon?: IconKey;
-  /** Show dot indicator instead of/before text */
   dot?: boolean;
-  /** Badge content */
   children: ReactNode;
 }
 
 // ============================================================================
-// STYLE MAPPINGS
+// DOT / ICON SIZES
 // ============================================================================
 
-/**
- * Solid variant colors (filled background)
- */
-const solidStyles: Record<BadgeVariant, string> = {
-  default: "bg-neutral-200 text-neutral-700",
-  primary: "bg-primary-600 text-white",
-  success: "bg-accent-green text-white",
-  warning: "bg-accent-amber text-white",
-  danger: "bg-accent-red text-white",
-  info: "bg-accent-blue text-white",
+const iconSizeMap: Record<string, string> = {
+  sm: "w-3 h-3",
+  md: "w-3.5 h-3.5",
+  lg: "w-4 h-4",
 };
 
-/**
- * Soft variant colors (light background, darker text)
- */
-const softStyles: Record<BadgeVariant, string> = {
-  default: "bg-neutral-100 text-neutral-600",
-  primary: "bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-300",
-  success: "bg-success-bg text-success",
-  warning: "bg-warning-bg text-warning",
-  danger: "bg-danger-bg text-danger",
-  info: "bg-info-bg text-info",
+const dotSizeMap: Record<string, string> = {
+  sm: "w-1.5 h-1.5",
+  md: "w-2 h-2",
+  lg: "w-2 h-2",
 };
 
-/**
- * Outline variant colors (border only)
- */
-const outlineStyles: Record<BadgeVariant, string> = {
-  default: "border border-neutral-300 text-neutral-600",
-  primary: "border border-primary-300 text-primary-600 dark:border-primary-600 dark:text-primary-400",
-  success: "border border-success-border text-success",
-  warning: "border border-warning-border text-warning",
-  danger: "border border-danger-border text-danger",
-  info: "border border-info-border text-info",
-};
-
-/**
- * Style map selector
- */
-const styleMap: Record<BadgeStyle, Record<BadgeVariant, string>> = {
-  solid: solidStyles,
-  soft: softStyles,
-  outline: outlineStyles,
-};
-
-/**
- * Size styles
- */
-const sizeStyles: Record<BadgeSize, { badge: string; icon: string; dot: string }> = {
-  sm: { badge: "px-2 py-0.5 text-xs gap-1", icon: "w-3 h-3", dot: "w-1.5 h-1.5" },
-  md: { badge: "px-2.5 py-1 text-xs gap-1.5", icon: "w-3.5 h-3.5", dot: "w-2 h-2" },
-  lg: { badge: "px-3 py-1.5 text-sm gap-1.5", icon: "w-4 h-4", dot: "w-2 h-2" },
-};
-
-/**
- * Dot colors per variant
- */
-const dotColors: Record<BadgeVariant, string> = {
-  default: "bg-neutral-500",
-  primary: "bg-primary-500",
-  success: "bg-accent-green",
-  warning: "bg-accent-amber",
-  danger: "bg-accent-red",
-  info: "bg-accent-blue",
+const dotColorMap: Record<BadgeVariant, string> = {
+  default: "bg-muted-foreground",
+  primary: "bg-primary",
+  success: "bg-success",
+  warning: "bg-warning",
+  danger: "bg-destructive",
+  info: "bg-info",
 };
 
 // ============================================================================
@@ -162,38 +130,25 @@ const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
       badgeStyle = "soft",
       icon,
       dot = false,
-      className = "",
+      className,
       children,
       ...props
     },
     ref
   ) => {
-    const sizes = sizeStyles[size];
-    const variantStyle = styleMap[badgeStyle][variant];
-
-    const classes = [
-      "inline-flex items-center font-medium rounded-full",
-      sizes.badge,
-      variantStyle,
-      className,
-    ]
-      .filter(Boolean)
-      .join(" ");
-
     return (
-      <span ref={ref} className={classes} {...props}>
-        {/* Dot indicator */}
+      <span
+        ref={ref}
+        className={cn(badgeVariants({ variant, badgeStyle, size }), className)}
+        {...props}
+      >
         {dot && (
           <span
-            className={`${sizes.dot} rounded-full ${dotColors[variant]}`}
+            className={cn("rounded-full", dotSizeMap[size], dotColorMap[variant])}
             aria-hidden="true"
           />
         )}
-
-        {/* Icon */}
-        {icon && !dot && <AppIcon name={icon} className={sizes.icon} />}
-
-        {/* Content */}
+        {icon && !dot && <AppIcon name={icon} className={iconSizeMap[size]} />}
         {children}
       </span>
     );
@@ -206,34 +161,24 @@ Badge.displayName = "Badge";
 // HELPER: Status to variant mapping
 // ============================================================================
 
-/**
- * Common status strings mapped to badge variants
- * Use for consistent status badge rendering
- */
 export const STATUS_TO_BADGE_VARIANT: Record<string, BadgeVariant> = {
-  // Session/progress status
   on_track: "success",
   completed: "success",
   complete: "success",
   active: "success",
   approved: "success",
-
-  // Warning states
   needs_attention: "warning",
   pending: "warning",
   in_progress: "warning",
   waiting: "warning",
-
-  // Error states
   behind: "danger",
   declined: "danger",
   failed: "danger",
   error: "danger",
-
-  // Neutral states
   not_started: "default",
   inactive: "default",
   draft: "default",
 };
 
 export default Badge;
+export { Badge, badgeVariants };

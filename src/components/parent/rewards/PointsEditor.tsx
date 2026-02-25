@@ -26,13 +26,13 @@ export function PointsEditor({
         onChange={(e) => onChange(parseInt(e.target.value) || 0)}
         disabled={disabled}
         min={1}
-        className="w-20 px-2 py-1 text-sm border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent disabled:opacity-50"
+        className="w-20 px-2 py-1 text-sm border border-input rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent disabled:opacity-50"
       />
-      <span className="text-sm text-neutral-500">pts</span>
+      <span className="text-sm text-muted-foreground">pts</span>
       <button
         onClick={onSave}
         disabled={disabled}
-        className="p-1 text-success hover:bg-success-bg rounded disabled:opacity-50"
+        className="p-1 text-success hover:bg-success/10 rounded disabled:opacity-50"
         aria-label="Save points"
       >
         <AppIcon name="check" className="w-4 h-4" />
@@ -40,7 +40,7 @@ export function PointsEditor({
       <button
         onClick={onCancel}
         disabled={disabled}
-        className="p-1 text-neutral-400 hover:bg-neutral-100 rounded disabled:opacity-50"
+        className="p-1 text-muted-foreground hover:bg-secondary rounded disabled:opacity-50"
         aria-label="Cancel"
       >
         <AppIcon name="x" className="w-4 h-4" />

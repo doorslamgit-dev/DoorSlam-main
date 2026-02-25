@@ -70,7 +70,7 @@ export default function SidebarNav() {
               className="w-7 h-7 rounded-full object-cover flex-shrink-0"
             />
           ) : (
-            <div className="w-7 h-7 rounded-full bg-primary-600 flex items-center justify-center text-white text-xs font-semibold flex-shrink-0">
+            <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xs font-semibold flex-shrink-0">
               {initials}
             </div>
           )}
@@ -79,7 +79,7 @@ export default function SidebarNav() {
             <select
               value={selectedChildId || ''}
               onChange={(e) => handleChildChange(e.target.value)}
-              className="w-full appearance-none bg-transparent px-2 py-2 rounded-xl text-sm font-semibold text-neutral-700 hover:bg-neutral-100 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary-500 pr-7 truncate"
+              className="w-full appearance-none bg-transparent px-2 py-2 rounded-xl text-sm font-semibold text-foreground hover:bg-accent transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-ring pr-7 truncate"
             >
               {childList.map((child) => (
                 <option key={child.child_id} value={child.child_id}>
@@ -89,7 +89,7 @@ export default function SidebarNav() {
             </select>
             <AppIcon
               name="chevron-down"
-              className="absolute right-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none text-neutral-400"
+              className="absolute right-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none text-muted-foreground"
             />
           </div>
         </div>

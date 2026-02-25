@@ -48,8 +48,8 @@ export default function UpcomingSection({ days }: UpcomingSectionProps) {
   if (days.length === 0) return null;
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
-      <h2 className="text-xl font-bold text-primary-900 mb-4">Coming Up Next</h2>
+    <div className="bg-background rounded-2xl shadow-sm p-6">
+      <h2 className="text-xl font-bold text-primary mb-4">Coming Up Next</h2>
 
       <div className="space-y-4">
         {days.map((day, dayIndex) => {
@@ -63,21 +63,21 @@ export default function UpcomingSection({ days }: UpcomingSectionProps) {
               <div className="flex flex-col items-center">
                 <div
                   className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                    isFirstDay ? "bg-primary-100" : "bg-neutral-100"
+                    isFirstDay ? "bg-primary/10" : "bg-secondary"
                   }`}
                 >
                   <span
                     className={`font-bold text-sm ${
-                      isFirstDay ? "text-primary-700" : "text-neutral-600"
+                      isFirstDay ? "text-primary" : "text-muted-foreground"
                     }`}
                   >
                     {shortDay}
                   </span>
                 </div>
-                {!isLast && <div className="w-0.5 h-16 bg-neutral-200 my-2" />}
+                {!isLast && <div className="w-0.5 h-16 bg-border my-2" />}
               </div>
               <div className="flex-1 pt-2">
-                <p className="text-neutral-500 text-sm mb-2">{dayLabel}</p>
+                <p className="text-muted-foreground text-sm mb-2">{dayLabel}</p>
                 <div className="space-y-2">
                   {day.sessions.slice(0, 2).map((session) => (
                     <div
@@ -86,10 +86,10 @@ export default function UpcomingSection({ days }: UpcomingSectionProps) {
                     >
                       <div
                         className={`w-2 h-2 rounded-full ${
-                          isFirstDay ? "bg-primary-600" : "bg-neutral-400"
+                          isFirstDay ? "bg-primary" : "bg-muted-foreground"
                         }`}
                       />
-                      <span className="text-neutral-700 font-medium">
+                      <span className="text-foreground font-medium">
                         {session.subject_name} -{" "}
                         {session.topic_names?.[0] || "Topic TBD"}
                       </span>

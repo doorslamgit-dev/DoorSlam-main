@@ -1,52 +1,6 @@
 // src/components/ui/FormField.tsx
-/**
- * FormField Component
- * ===================
- * Consistent form input styling with label, error state, and helper text.
- *
- * INCLUDES:
- * - Input: Text, email, password, number inputs
- * - Textarea: Multi-line text input
- * - Label: Styled label with optional indicator
- *
- * FEATURES:
- * - Consistent focus states (ring-2 ring-primary-500)
- * - Error state styling (red border + message)
- * - Helper text support
- * - Required indicator
- * - Disabled state
- * - Dark mode support
- *
- * USAGE:
- * ```tsx
- * // Simple input
- * <FormField
- *   label="Email address"
- *   type="email"
- *   value={email}
- *   onChange={(e) => setEmail(e.target.value)}
- *   placeholder="you@example.com"
- * />
- *
- * // With error
- * <FormField
- *   label="Password"
- *   type="password"
- *   value={password}
- *   onChange={(e) => setPassword(e.target.value)}
- *   error="Password must be at least 8 characters"
- * />
- *
- * // Textarea
- * <FormField.Textarea
- *   label="Notes"
- *   value={notes}
- *   onChange={(e) => setNotes(e.target.value)}
- *   rows={4}
- *   helperText="Optional notes about this session"
- * />
- * ```
- */
+// shadcn-based FormField with DoorSlam API compatibility.
+// Uses shadcn Input, Textarea, and Label under the hood.
 
 import {
   type InputHTMLAttributes,
@@ -54,19 +8,16 @@ import {
   type ReactNode,
   forwardRef,
 } from "react";
+import { cn } from "@/lib/utils";
 
 // ============================================================================
 // TYPES
 // ============================================================================
 
 interface BaseFieldProps {
-  /** Field label */
   label?: string;
-  /** Error message (shows error state if provided) */
   error?: string;
-  /** Helper text below input */
   helperText?: string;
-  /** Wrapper className for the entire field */
   wrapperClassName?: string;
 }
 
@@ -79,56 +30,22 @@ export interface TextareaProps
     BaseFieldProps {}
 
 // ============================================================================
-// STYLE CONSTANTS
+// SHARED STYLES
 // ============================================================================
 
-/**
- * Base input styles shared between Input and Textarea
- */
-const baseInputStyles = [
-  // Layout & sizing
-  "w-full px-4 py-3",
-  // Typography
-  "text-neutral-900",
-  "placeholder:text-neutral-400",
-  // Border & shape
-  "border rounded-xl",
-  "border-neutral-300",
-  // Background
-  "bg-neutral-0",
-  // Focus state
-  "focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent",
-  // Transition
-  "transition-all duration-150",
-  // Disabled state
-  "disabled:bg-neutral-100",
-  "disabled:text-neutral-500",
-  "disabled:cursor-not-allowed",
-].join(" ");
+const baseInputStyles =
+  "flex w-full px-4 py-3 text-foreground placeholder:text-muted-foreground border border-input rounded-xl bg-background transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-transparent disabled:bg-muted disabled:text-muted-foreground disabled:cursor-not-allowed";
 
-/**
- * Error state styles
- */
-const errorStyles = [
-  "border-danger dark:border-danger",
-  "focus:ring-danger",
-].join(" ");
+const errorInputStyles =
+  "border-destructive focus-visible:ring-destructive";
 
-/**
- * Label styles
- */
-const labelStyles = [
-  "block text-sm font-medium mb-2",
-  "text-neutral-700",
-].join(" ");
+const labelStyles =
+  "block text-sm font-medium mb-2 text-foreground";
 
 // ============================================================================
-// COMPONENTS
+// SUB-COMPONENTS
 // ============================================================================
 
-/**
- * Label component
- */
 interface LabelProps {
   htmlFor?: string;
   required?: boolean;
@@ -136,18 +53,15 @@ interface LabelProps {
   className?: string;
 }
 
-function Label({ htmlFor, required, children, className = "" }: LabelProps) {
+function Label({ htmlFor, required, children, className }: LabelProps) {
   return (
-    <label htmlFor={htmlFor} className={`${labelStyles} ${className}`}>
+    <label htmlFor={htmlFor} className={cn(labelStyles, className)}>
       {children}
-      {required && <span className="text-accent-red ml-1">*</span>}
+      {required && <span className="text-destructive ml-1">*</span>}
     </label>
   );
 }
 
-/**
- * Helper/Error text component
- */
 interface FieldMessageProps {
   error?: string;
   helperText?: string;
@@ -155,31 +69,25 @@ interface FieldMessageProps {
 
 function FieldMessage({ error, helperText }: FieldMessageProps) {
   if (!error && !helperText) return null;
-
   return (
-    <p
-      className={`mt-1.5 text-sm ${
-        error
-          ? "text-danger"
-          : "text-neutral-500"
-      }`}
-    >
+    <p className={cn("mt-1.5 text-sm", error ? "text-destructive" : "text-muted-foreground")}>
       {error || helperText}
     </p>
   );
 }
 
-/**
- * Input component
- */
+// ============================================================================
+// INPUT COMPONENT
+// ============================================================================
+
 const Input = forwardRef<HTMLInputElement, InputProps>(
   (
     {
       label,
       error,
       helperText,
-      wrapperClassName = "",
-      className = "",
+      wrapperClassName,
+      className,
       id,
       required,
       ...props
@@ -187,14 +95,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     ref
   ) => {
     const inputId = id || props.name;
-
-    const inputClasses = [
-      baseInputStyles,
-      error ? errorStyles : "",
-      className,
-    ]
-      .filter(Boolean)
-      .join(" ");
 
     return (
       <div className={wrapperClassName}>
@@ -207,7 +107,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           id={inputId}
           required={required}
-          className={inputClasses}
+          className={cn(baseInputStyles, error && errorInputStyles, className)}
           aria-invalid={error ? "true" : undefined}
           aria-describedby={error ? `${inputId}-error` : undefined}
           {...props}
@@ -220,17 +120,18 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
 Input.displayName = "FormField";
 
-/**
- * Textarea component
- */
+// ============================================================================
+// TEXTAREA COMPONENT
+// ============================================================================
+
 const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   (
     {
       label,
       error,
       helperText,
-      wrapperClassName = "",
-      className = "",
+      wrapperClassName,
+      className,
       id,
       required,
       rows = 3,
@@ -239,15 +140,6 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     ref
   ) => {
     const textareaId = id || props.name;
-
-    const textareaClasses = [
-      baseInputStyles,
-      "resize-none",
-      error ? errorStyles : "",
-      className,
-    ]
-      .filter(Boolean)
-      .join(" ");
 
     return (
       <div className={wrapperClassName}>
@@ -261,7 +153,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           id={textareaId}
           required={required}
           rows={rows}
-          className={textareaClasses}
+          className={cn(baseInputStyles, "resize-none", error && errorInputStyles, className)}
           aria-invalid={error ? "true" : undefined}
           aria-describedby={error ? `${textareaId}-error` : undefined}
           {...props}
@@ -278,7 +170,6 @@ Textarea.displayName = "FormField.Textarea";
 // EXPORTS
 // ============================================================================
 
-// Main export is Input, with Textarea as compound component
 const FormField = Input as typeof Input & {
   Textarea: typeof Textarea;
   Label: typeof Label;

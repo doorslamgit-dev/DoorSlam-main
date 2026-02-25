@@ -25,38 +25,38 @@ function trendIcon(trend: SubjectMetric["trend"]): IconKey {
 function trendColor(trend: SubjectMetric["trend"]) {
   switch (trend) {
     case "improving":
-      return "text-accent-green";
+      return "text-success";
     case "declining":
-      return "text-accent-amber";
+      return "text-warning";
     default:
-      return "text-neutral-400";
+      return "text-muted-foreground";
   }
 }
 
 export function SubjectAnalysisTable({ subjects }: SubjectAnalysisTableProps) {
   return (
     <section className="mb-10 report-card page-break-before">
-      <h2 className="text-xl font-bold text-primary-900 mb-4">
+      <h2 className="text-xl font-bold text-primary mb-4">
         Subject Analysis
       </h2>
 
       {subjects.length > 0 ? (
         <table className="w-full border-collapse text-sm">
           <thead>
-            <tr className="bg-neutral-50 border-b border-neutral-200/60">
-              <th className="text-left py-3 px-4 font-semibold text-primary-700">
+            <tr className="bg-muted border-b border-border">
+              <th className="text-left py-3 px-4 font-semibold text-primary">
                 Subject
               </th>
-              <th className="text-center py-3 px-4 font-semibold text-primary-700">
+              <th className="text-center py-3 px-4 font-semibold text-primary">
                 Sessions
               </th>
-              <th className="text-center py-3 px-4 font-semibold text-primary-700">
+              <th className="text-center py-3 px-4 font-semibold text-primary">
                 Avg Pre
               </th>
-              <th className="text-center py-3 px-4 font-semibold text-primary-700">
+              <th className="text-center py-3 px-4 font-semibold text-primary">
                 Avg Post
               </th>
-              <th className="text-center py-3 px-4 font-semibold text-primary-700">
+              <th className="text-center py-3 px-4 font-semibold text-primary">
                 Trend
               </th>
             </tr>
@@ -66,18 +66,18 @@ export function SubjectAnalysisTable({ subjects }: SubjectAnalysisTableProps) {
             {subjects.map((subject, idx) => (
               <tr
                 key={subject.subject_id}
-                className={idx % 2 === 0 ? "bg-neutral-0" : "bg-neutral-50"}
+                className={idx % 2 === 0 ? "bg-background" : "bg-muted"}
               >
-                <td className="py-3 px-4 font-medium text-primary-900">
+                <td className="py-3 px-4 font-medium text-primary">
                   {subject.subject_name}
                 </td>
-                <td className="py-3 px-4 text-center text-neutral-600">
+                <td className="py-3 px-4 text-center text-muted-foreground">
                   {subject.session_count}
                 </td>
-                <td className="py-3 px-4 text-center text-neutral-600">
+                <td className="py-3 px-4 text-center text-muted-foreground">
                   {subject.avg_pre_confidence ?? "–"}%
                 </td>
-                <td className="py-3 px-4 text-center text-neutral-600">
+                <td className="py-3 px-4 text-center text-muted-foreground">
                   {subject.avg_post_confidence ?? "–"}%
                 </td>
                 <td className="py-3 px-4 text-center">
@@ -92,7 +92,7 @@ export function SubjectAnalysisTable({ subjects }: SubjectAnalysisTableProps) {
           </tbody>
         </table>
       ) : (
-        <p className="text-neutral-500 italic">
+        <p className="text-muted-foreground italic">
           No subject data available yet.
         </p>
       )}

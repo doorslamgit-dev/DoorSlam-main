@@ -59,6 +59,7 @@ export interface PendingRedemption {
 export interface AdditionRequest {
   id: string;
   template_name: string;
+  category_code: string;
   category_name: string;
   category_icon: string;
   suggested_points: number;

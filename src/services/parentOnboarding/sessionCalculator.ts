@@ -3,6 +3,7 @@
 
 import type { SubjectWithGrades } from "../../components/parentOnboarding/steps/SubjectPriorityGradesStep";
 import type { NeedClusterSelection } from "../../components/parentOnboarding/steps/NeedsStep";
+import type { IconKey } from "../../components/ui/AppIcon";
 
 /* ============================
    Types
@@ -280,15 +281,20 @@ export function getStatusColors(status: FeasibilityStatus): {
 }
 
 /**
- * Get traffic light emoji for quick display
+ * Get traffic light icon key for quick display
  */
-export function getTrafficLightEmoji(status: FeasibilityStatus): string {
+export function getTrafficLightIcon(status: FeasibilityStatus): IconKey {
   switch (status) {
     case "sufficient":
-      return "🟢";
+      return "check-circle";
     case "marginal":
-      return "🟡";
+      return "triangle-alert";
     case "insufficient":
-      return "🔴";
+      return "alert-circle";
   }
+}
+
+/** @deprecated Use getTrafficLightIcon instead */
+export function getTrafficLightEmoji(status: FeasibilityStatus): IconKey {
+  return getTrafficLightIcon(status);
 }

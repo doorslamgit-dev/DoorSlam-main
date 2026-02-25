@@ -52,26 +52,26 @@ function DroppableCell({
   return (
     <div
       ref={setNodeRef}
-      className={`p-2 border-r last:border-r-0 border-neutral-200 min-h-[80px] transition-colors ${
+      className={`p-2 border-r last:border-r-0 border-border min-h-[80px] transition-colors ${
         day.isBlocked
-          ? "bg-neutral-100"
+          ? "bg-secondary"
           : isOver
-            ? "bg-primary-100/50 ring-2 ring-primary-400 ring-inset"
+            ? "bg-primary/10 ring-2 ring-ring ring-inset"
             : day.isToday
-              ? "bg-primary-50/30"
+              ? "bg-primary/5"
               : ""
       }`}
     >
       {day.isBlocked ? (
         <div className="h-full flex items-center justify-center">
-          <span className="text-[10px] text-neutral-400 italic">
+          <span className="text-[10px] text-muted-foreground italic">
             No revision
           </span>
         </div>
       ) : isOver && !session ? (
         /* Empty cell with drag hover — show drop indicator */
         <div className="h-full flex items-center justify-center">
-          <span className="text-[10px] text-primary-500 font-medium">
+          <span className="text-[10px] text-primary font-medium">
             Drop here
           </span>
         </div>
@@ -80,7 +80,7 @@ function DroppableCell({
         null
       ) : topics.length === 0 ? (
         /* Session exists but no topics assigned yet */
-        <div className="text-[10px] text-neutral-400 italic p-1">
+        <div className="text-[10px] text-muted-foreground italic p-1">
           Topics TBD
         </div>
       ) : (
@@ -115,10 +115,10 @@ export default function TimeSlotRow({
   const label = TIME_SLOT_LABELS[timeSlot] || timeSlot;
 
   return (
-    <div className="grid grid-cols-8 border-b border-neutral-200 last:border-b-0">
+    <div className="grid grid-cols-8 border-b border-border last:border-b-0">
       {/* Time slot label column */}
-      <div className="p-3 border-r border-neutral-200 bg-neutral-50 flex items-start">
-        <div className="text-xs font-medium text-neutral-600">{label}</div>
+      <div className="p-3 border-r border-border bg-muted flex items-start">
+        <div className="text-xs font-medium text-muted-foreground">{label}</div>
       </div>
 
       {/* 7 droppable day cells */}
