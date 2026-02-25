@@ -17,10 +17,23 @@ TOKEN_URI = "https://oauth2.googleapis.com/token"
 
 # Supported file MIME types for ingestion
 SUPPORTED_MIMES = {
+    # Documents
     "application/pdf",
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",  # .docx
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation",  # .pptx
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",  # .xlsx
+    # Text
     "text/plain",
     "text/markdown",
+    "text/csv",
+    "text/html",
+    "application/x-latex",
+    "text/x-tex",
+    # Images (for Docling OCR / layout analysis)
+    "image/png",
+    "image/jpeg",
+    "image/tiff",
+    "image/bmp",
 }
 
 

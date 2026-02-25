@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **AI Tutor Module 5: Multi-Format Support + Enhanced Metadata**
+  - Docling parser: structured Markdown output preserving tables, headings, and formatting from PDFs (replaces plain-text PyMuPDF)
+  - Multi-format support: PPTX, XLSX, CSV, HTML, LaTeX, and images via Docling, with per-file fallback to legacy parsers
+  - Document enrichment: LLM-generated summaries and doc-type-specific key_points (question papers, mark schemes, grade boundaries, examiner reports, specifications, revision guides)
+  - Chunk-type classification: 12 content types (question, answer, marking_criteria, grade_table, examiner_comment, etc.) classified alongside topic extraction
+  - Richer retrieval context: source labels now include year, session, paper number, and chunk content type
+  - Richer frontend sources: SSE sources event includes year, session, doc_type, and file_key for download links
+  - Storage mirroring: original files stored at exact Drive path (browsable, downloadable) instead of normalised paths
+  - Backfill script: `scripts/backfill_enrichment.py` re-enriches existing documents with summaries, key_points, and chunk_types
+  - Database migration: `summary` and `key_points` columns on `rag.documents`, updated `search_chunks()` function
+  - 22 new tests across parser, enricher, metadata extractor, and retrieval (156 total backend tests passing)
+  - Feature flags: `DOCLING_ENABLED` and `ENRICHMENT_ENABLED` for safe rollback
+
 ---
 
 ## [0.4.0] - 2026-02-24

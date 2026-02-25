@@ -32,6 +32,13 @@ class RetrievedChunk:
     doc_type: str | None = None
     file_key: str | None = None
     exam_pathway_id: str | None = None
+    summary: str | None = None
+    key_points: list[dict] | None = None
+
+    @property
+    def chunk_type(self) -> str:
+        """Extract chunk_type from chunk metadata."""
+        return self.chunk_metadata.get("chunk_type", "general")
 
 
 def _get_supabase():
@@ -91,6 +98,8 @@ async def search_chunks(
                 doc_type=row.get("doc_type"),
                 file_key=row.get("doc_file_key"),
                 exam_pathway_id=row.get("doc_exam_pathway_id"),
+                summary=row.get("doc_summary"),
+                key_points=row.get("doc_key_points"),
             )
         )
 
@@ -121,6 +130,28 @@ async def retrieve_context(
     )
 
 
+def _format_source_label(index: int, chunk: RetrievedChunk) -> str:
+    """Build a rich source label with available metadata."""
+    parts = [chunk.document_title]
+
+    # Source type + temporal context
+    detail_parts = [chunk.source_type]
+    if chunk.session and chunk.year:
+        detail_parts.append(f"{chunk.session} {chunk.year}")
+    elif chunk.year:
+        detail_parts.append(str(chunk.year))
+    if chunk.paper_number:
+        detail_parts.append(f"Paper {chunk.paper_number}")
+    parts.append(", ".join(detail_parts))
+
+    # Chunk content type
+    chunk_type = chunk.chunk_type
+    if chunk_type != "general":
+        parts.append(f"Content type: {chunk_type}")
+
+    return f"[Source {index}: {' | '.join(parts)}]"
+
+
 def format_retrieval_context(chunks: list[RetrievedChunk]) -> str:
     """Format retrieved chunks into a context string for the LLM system message.
 
@@ -135,7 +166,7 @@ def format_retrieval_context(chunks: list[RetrievedChunk]) -> str:
 
     lines = ["Relevant revision materials (cite as (Source N) when used):\n"]
     for i, chunk in enumerate(chunks, 1):
-        lines.append(f"[Source {i}: {chunk.document_title} ({chunk.source_type})]")
+        lines.append(_format_source_label(i, chunk))
         lines.append(chunk.content)
         lines.append("")
 

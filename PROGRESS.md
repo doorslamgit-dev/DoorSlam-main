@@ -9,7 +9,7 @@
 | 2 | BYO Retrieval + Memory — Ingestion, pgvector | **Done** | High | Drive walker, chunker, embedder, retrieval, source citations, memory trimming. E2E validated: AQA Biology 8461 (110 chunks), 3-4s latency, markdown rendering, inline citations |
 | 3 | Record Manager — Change detection, incremental sync | **Done** | Medium | Drive identity tracking, sync orchestrator, soft-delete lifecycle, 20 new tests. 118 backend tests passing |
 | 4 | Metadata Extraction — LLM-based topic classification | **Done** | Medium | GPT-4o-mini chunk-level classification, parallel with embedding, backfill script, enhanced retrieval filters. 134 backend tests passing |
-| 5 | Multi-Format Support — PDF, DOCX, HTML, Markdown | Pending | TBD | Docling integration |
+| 5 | Multi-Format Support + Enhanced Metadata | **Done** | High | Docling parser (structured Markdown), document enrichment (summaries + key_points), chunk-type classification, Storage mirroring, richer retrieval context. 156 backend tests passing |
 | 6 | Hybrid Search & Reranking — Keyword + vector, RRF | Pending | TBD | |
 | 7 | Additional Tools — Text-to-SQL, web search | Pending | TBD | |
 | 8 | Subagents — Isolated context, document analysis | Pending | TBD | |

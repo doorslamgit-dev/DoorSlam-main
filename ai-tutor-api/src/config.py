@@ -44,6 +44,17 @@ class Settings(BaseSettings):
     extraction_confidence_threshold: float = 0.5
     extraction_enabled: bool = True
 
+    # Docling parsing (Module 5)
+    docling_enabled: bool = True
+    docling_do_ocr: bool = False
+    docling_table_mode: str = "fast"       # "fast" or "accurate"
+    docling_fallback: bool = True          # legacy fallback on failure
+
+    # Document enrichment (Module 5)
+    enrichment_enabled: bool = True
+    enrichment_model: str = "gpt-4o-mini"
+    enrichment_temperature: float = 0.0
+
     # Google Drive (OAuth2)
     google_client_id: str = ""
     google_client_secret: str = ""

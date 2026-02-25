@@ -10,7 +10,6 @@ from datetime import datetime, timezone
 from supabase import create_client
 
 from ..config import settings
-from .batch_ingestion import _build_file_key
 from .drive_walker import DriveFile, download_file, walk_drive
 from .filename_parser import parse_filename
 from .ingestion import ingest_document, soft_delete_document, update_document
@@ -151,14 +150,6 @@ async def sync_from_drive(
                         source_path=df.path,
                         filename_meta=filename_meta,
                     )
-                    file_key = _build_file_key(
-                        board_code=path_meta.exam_board_code,
-                        qual_code=path_meta.qualification_code,
-                        spec_code=path_meta.subject_code,
-                        source_type=resolved.source_type,
-                        year=resolved.year,
-                        filename=df.name,
-                    )
                     file_bytes = download_file(df.file_id)
 
                     await ingest_document(
@@ -178,10 +169,11 @@ async def sync_from_drive(
                         session=resolved.session,
                         paper_number=resolved.paper_number,
                         doc_type=resolved.doc_type,
-                        file_key=file_key,
+                        file_key=df.path,
                         drive_file_id=df.file_id,
                         drive_md5_checksum=df.md5_checksum,
                         drive_modified_time=df.modified_time,
+                        mime_type=df.mime_type,
                     )
                     processed += 1
                 except Exception as exc:
@@ -209,6 +201,7 @@ async def sync_from_drive(
                         drive_md5_checksum=df.md5_checksum,
                         drive_modified_time=df.modified_time,
                         file_key=doc.get("file_key"),
+                        mime_type=df.mime_type,
                     )
                     processed += 1
                 except Exception as exc:

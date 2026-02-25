@@ -8,7 +8,7 @@ import tiktoken
 
 _ENCODING = tiktoken.get_encoding("cl100k_base")
 
-SEPARATORS = ["\n\n", "\n", ". ", " ", ""]
+SEPARATORS = ["\n## ", "\n### ", "\n\n", "\n", ". ", " ", ""]
 
 
 @dataclass
