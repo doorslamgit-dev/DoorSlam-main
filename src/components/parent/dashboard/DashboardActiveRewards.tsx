@@ -77,7 +77,7 @@ export function DashboardActiveRewards({
   return (
     <div className="bg-background rounded-2xl shadow-sm p-4 border border-border">
       <h3 className="text-sm font-bold text-foreground">Active Rewards</h3>
-      <p className="text-xs text-muted mb-3">
+      <p className="text-xs text-muted-foreground mb-3">
         {count} reward{count !== 1 ? 's' : ''} your child can work towards
       </p>
       <div className="space-y-2">

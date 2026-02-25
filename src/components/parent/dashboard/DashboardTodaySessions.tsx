@@ -77,7 +77,7 @@ export function DashboardTodaySessions({ sessions, reminders }: DashboardTodaySe
                   <p className="text-sm font-semibold text-foreground truncate">
                     {session.subject_name}
                   </p>
-                  <p className="text-xs text-muted truncate">{session.topic_name}</p>
+                  <p className="text-xs text-muted-foreground truncate">{session.topic_name}</p>
                 </div>
 
                 {/* Status badge — using Badge primitive */}

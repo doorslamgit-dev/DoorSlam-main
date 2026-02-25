@@ -87,6 +87,7 @@ const NAV_SECTIONS = [
  { id: 'spacing', label: 'Spacing' },
  { id: 'radius', label: 'Border Radius' },
  { id: 'shadows', label: 'Shadows' },
+ { id: 'gradients', label: 'Gradients' },
  { id: 'icons', label: 'Icons' },
  { id: 'buttons', label: 'Button' },
  { id: 'cards', label: 'Card' },
@@ -118,46 +119,43 @@ const MODULE_NAV_SECTIONS = [
 // ============================================================================
 
 const primaryColors = [
- { shade: '50', hex: '#F7F4FF', tw: 'bg-primary/5', dark: false },
- { shade: '100', hex: '#EDE7FF', tw: 'bg-primary/10', dark: false },
- { shade: '200', hex: '#DDD3FF', tw: 'bg-primary/20', dark: false },
- { shade: '300', hex: '#C3B5FF', tw: 'bg-primary/40', dark: false },
- { shade: '400', hex: '#A890FF', tw: 'bg-primary/60', dark: false },
- { shade: '500', hex: '#8C6CFF', tw: 'bg-primary', dark: true },
- { shade: '600', hex: '#5B2CFF', tw: 'bg-primary', dark: true, main: true },
- { shade: '700', hex: '#4A1FDB', tw: 'bg-primary/90', dark: true },
- { shade: '800', hex: '#3D1AB3', tw: 'bg-primary/85', dark: true },
- { shade: '900', hex: '#32168A', tw: 'bg-primary/90', dark: true },
+ { shade: '50', hex: '#EEF2FF', tw: 'bg-primary/5', dark: false },
+ { shade: '100', hex: '#E0E7FF', tw: 'bg-primary/10', dark: false },
+ { shade: '200', hex: '#C7D2FE', tw: 'bg-primary/20', dark: false },
+ { shade: '300', hex: '#A5B4FC', tw: 'bg-primary/40', dark: false },
+ { shade: '400', hex: '#818CF8', tw: 'bg-primary/60', dark: false },
+ { shade: '500', hex: '#6366F1', tw: 'bg-primary/80', dark: true },
+ { shade: '600', hex: '#4F46E5', tw: 'bg-primary', dark: true, main: true },
+ { shade: '700', hex: '#4338CA', tw: 'bg-primary/90', dark: true },
+ { shade: '800', hex: '#3730A3', tw: 'bg-primary/85', dark: true },
+ { shade: '900', hex: '#312E81', tw: 'bg-primary/80', dark: true },
 ];
 
 const neutralColors = [
- { shade: '0', hex: '#FFFFFF', tw: 'bg-background' },
- { shade: '50', hex: '#F9FAFB', tw: 'bg-muted' },
- { shade: '100', hex: '#F3F4F6', tw: 'bg-secondary' },
- { shade: '200', hex: '#E5E7EB', tw: 'bg-muted' },
- { shade: '300', hex: '#D1D5DB', tw: 'bg-muted' },
- { shade: '400', hex: '#9CA3AF', tw: 'bg-muted-foreground' },
- { shade: '500', hex: '#6B7280', tw: 'bg-muted0' },
- { shade: '600', hex: '#4B5563', tw: 'bg-muted-foreground' },
- { shade: '700', hex: '#1F2330', tw: 'bg-foreground' },
- { shade: '800', hex: '#1A1D28', tw: 'bg-foreground/90' },
- { shade: '900', hex: '#111318', tw: 'bg-foreground' },
+ { shade: 'White', hex: '#FFFFFF', tw: 'bg-background' },
+ { shade: 'Gray 50', hex: '#F9FAFB', tw: 'bg-muted' },
+ { shade: 'Gray 100', hex: '#F3F4F6', tw: 'bg-secondary' },
+ { shade: 'Gray 200', hex: '#E5E7EB', tw: 'bg-border' },
+ { shade: 'Gray 400', hex: '#9CA3AF', tw: 'bg-muted-foreground' },
+ { shade: 'Gray 500', hex: '#6B7280', tw: 'bg-muted-foreground' },
+ { shade: 'Navy', hex: '#1F2330', tw: 'bg-foreground' },
+ { shade: 'Deep Navy', hex: '#0A1628', tw: 'bg-foreground' },
 ];
 
 const accentColors = [
- { name: 'Green', role: 'Success / Completion', hex: '#1EC592', tw: 'bg-success' },
- { name: 'Amber', role: 'Warning / Attention', hex: '#FFB547', tw: 'bg-warning' },
- { name: 'Red', role: 'Error / Danger', hex: '#EF4444', tw: 'bg-destructive' },
- { name: 'Blue', role: 'Info / Links', hex: '#3B82F6', tw: 'bg-info' },
- { name: 'Purple', role: 'Accent', hex: '#8B5CF6', tw: 'bg-info' },
- { name: 'Pink', role: 'Accent', hex: '#EC4899', tw: 'bg-pink-500' },
+ { name: 'Lime', role: 'Brand / Energy', hex: '#84CC16', tw: 'bg-lime' },
+ { name: 'Teal', role: 'Success / Progress', hex: '#14B8A6', tw: 'bg-success' },
+ { name: 'Amber', role: 'Warning / Attention', hex: '#F59E0B', tw: 'bg-warning' },
+ { name: 'Coral', role: 'Error / Destructive', hex: '#F43F5E', tw: 'bg-destructive' },
+ { name: 'Cyan', role: 'Info / Links', hex: '#06B6D4', tw: 'bg-info' },
+ { name: 'Violet', role: 'Charts / Accent', hex: '#8B5CF6', tw: 'bg-[#8B5CF6]' },
 ];
 
 const semanticColors = [
- { name: 'Success', bg: 'bg-success/10', border: 'border-success-border', text: 'text-success', hex: '#1EC592' },
- { name: 'Warning', bg: 'bg-warning/10', border: 'border-warning-border', text: 'text-warning', hex: '#FFB547' },
- { name: 'Error', bg: 'bg-error-bg', border: 'border-error-border', text: 'text-error', hex: '#EF4444' },
- { name: 'Info', bg: 'bg-info/10', border: 'border-info-border', text: 'text-info', hex: '#3B82F6' },
+ { name: 'Success', bg: 'bg-success/10', border: 'border-success/30', text: 'text-success', hex: '#0F766E' },
+ { name: 'Warning', bg: 'bg-warning/10', border: 'border-warning/30', text: 'text-warning', hex: '#D97706' },
+ { name: 'Destructive', bg: 'bg-destructive/10', border: 'border-destructive/30', text: 'text-destructive', hex: '#E11D48' },
+ { name: 'Info', bg: 'bg-info/10', border: 'border-info/30', text: 'text-info', hex: '#06B6D4' },
 ];
 
 const fontSizes = [
@@ -196,7 +194,7 @@ const spacingScale = [
 const radiusScale = [
  { label: 'sm', px: '6px', tw: 'rounded-sm' },
  { label: 'md', px: '8px', tw: 'rounded-md' },
- { label: 'lg', px: '12px', tw: 'rounded-lg' },
+ { label: 'lg (--radius)', px: '10px', tw: 'rounded-lg' },
  { label: 'xl', px: '16px', tw: 'rounded-xl' },
  { label: '2xl', px: '24px', tw: 'rounded-2xl' },
  { label: 'full', px: '9999px', tw: 'rounded-full' },
@@ -211,6 +209,23 @@ const shadowScale = [
  { label: 'card-hover',tw: 'shadow-md'},
  { label: 'soft', tw: 'shadow-soft' },
  { label: 'button', tw: 'shadow-button' },
+];
+
+const gradientTokens = [
+  {
+    label: 'Main (Light)',
+    token: '--gradient-main',
+    css: 'linear-gradient(135deg, indigo/8% → muted → lime/8%)',
+    description: 'Page background behind content cards in light mode',
+    style: 'linear-gradient(135deg, hsl(239 84% 67% / 0.08) 0%, hsl(220 14% 96%) 40%, hsl(84 81% 44% / 0.08) 100%)',
+  },
+  {
+    label: 'Main (Dark)',
+    token: '--gradient-main',
+    css: 'linear-gradient(135deg, indigo/15% → navy → lime/10%)',
+    description: 'Page background behind content cards in dark mode',
+    style: 'linear-gradient(135deg, hsl(239 84% 74% / 0.15) 0%, hsl(218 63% 10%) 40%, hsl(84 81% 44% / 0.10) 100%)',
+  },
 ];
 
 // ============================================================================
@@ -446,7 +461,7 @@ export default function DesignGuidelines() {
  const navigate = useNavigate();
  const [formValue, setFormValue] = useState('');
  const [textareaValue, setTextareaValue] = useState('');
- const [activeTab, setActiveTab] = useState<'tokens' | 'modules' | 'migration'>('tokens');
+ const [activeTab, setActiveTab] = useState<'tokens' | 'modules' | 'migration' | 'brand'>('tokens');
 
  const iconKeys = Object.keys(ICON_MAP) as IconKey[];
 
@@ -510,6 +525,16 @@ export default function DesignGuidelines() {
        }`}
      >
        Migration QA
+     </button>
+     <button
+       onClick={() => setActiveTab('brand')}
+       className={`px-4 py-2 text-sm font-medium transition-colors rounded-t-lg border-b-2 -mb-px ${
+         activeTab === 'brand'
+           ? 'text-primary border-primary bg-primary/5'
+           : 'text-muted-foreground border-transparent hover:text-foreground hover:bg-muted'
+       }`}
+     >
+       Brand Strategy
      </button>
    </div>
  </div>
@@ -613,7 +638,15 @@ export default function DesignGuidelines() {
              <div className="space-y-4">
                <div>
                  <p className="text-xs text-muted-foreground mb-1 font-mono">
-                   --font-family-sans · Inter, system-ui, sans-serif
+                   --font-family-display · Space Grotesk (headlines h1, h2)
+                 </p>
+                 <p className="text-lg text-foreground font-display">
+                   ABCDEFGHIJKLMNOPQRSTUVWXYZ · abcdefghijklmnopqrstuvwxyz · 0123456789
+                 </p>
+               </div>
+               <div>
+                 <p className="text-xs text-muted-foreground mb-1 font-mono">
+                   --font-family-sans · DM Sans (body, UI)
                  </p>
                  <p className="text-lg text-foreground">
                    ABCDEFGHIJKLMNOPQRSTUVWXYZ · abcdefghijklmnopqrstuvwxyz · 0123456789
@@ -716,6 +749,42 @@ export default function DesignGuidelines() {
                </code>
              </div>
            ))}
+         </div>
+       </Section>
+
+       {/* ════════════════════════════════ GRADIENTS ════════════════════════════════ */}
+       <Section id="gradients" title="Gradients">
+         <p className="text-sm text-muted-foreground -mt-2 mb-4">
+           Brand gradients use <strong className="text-foreground">Electric Indigo</strong> and{' '}
+           <strong className="text-foreground">Lime</strong> at low opacity. Applied via{' '}
+           <code className="bg-secondary px-1 py-0.5 rounded text-xs font-mono">
+             --gradient-main
+           </code>{' '}
+           CSS variable in <code className="bg-secondary px-1 py-0.5 rounded text-xs font-mono">AppShell</code>.
+         </p>
+         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+           {gradientTokens.map(({ label, token, css, description, style }) => (
+             <div key={label} className="flex flex-col gap-2">
+               <div
+                 className="w-full h-28 rounded-xl border border-border"
+                 style={{ background: style }}
+               />
+               <div>
+                 <p className="text-sm font-semibold text-foreground">{label}</p>
+                 <code className="text-xs bg-secondary px-1.5 py-0.5 rounded text-muted-foreground font-mono">
+                   {token}
+                 </code>
+               </div>
+               <p className="text-xs text-muted-foreground">{css}</p>
+               <p className="text-xs text-muted-foreground">{description}</p>
+             </div>
+           ))}
+         </div>
+         <div className="mt-6">
+           <p className="text-xs font-semibold text-foreground mb-2">Usage</p>
+           <code className="text-xs bg-secondary px-2 py-1.5 rounded text-muted-foreground font-mono block">
+             [background:var(--gradient-main)]
+           </code>
          </div>
        </Section>
 
@@ -2465,6 +2534,240 @@ export default function DesignGuidelines() {
        </MigrationSection>
 
      </div>
+   </div>
+ )}
+
+ {/* ── TAB 4: Brand Strategy ── */}
+ {activeTab === 'brand' && (
+   <div className="max-w-5xl mx-auto px-6 py-8 space-y-12">
+
+     {/* ── Foundation ── */}
+     <section>
+       <p className="text-xs font-bold tracking-widest uppercase text-lime mb-1">Brand Strategy</p>
+       <h2 className="text-2xl font-bold text-foreground font-display mb-4">Foundation</h2>
+       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+         <div className="bg-card border border-border rounded-xl p-5">
+           <span className="text-[10px] font-bold tracking-wider uppercase text-lime bg-lime/10 px-2 py-0.5 rounded-full">Mission</span>
+           <h3 className="text-sm font-bold text-foreground mt-3 mb-1">Make exam revision fun, engaging and efficient</h3>
+           <p className="text-xs text-muted-foreground leading-relaxed">DoorSlam exists to fundamentally reframe what revision looks like. We reject the notion that effective study must be tedious. Through AI-driven personalisation and gamified mechanics, we make every session feel like genuine progress.</p>
+         </div>
+         <div className="bg-card border border-border rounded-xl p-5">
+           <span className="text-[10px] font-bold tracking-wider uppercase text-primary bg-primary/10 px-2 py-0.5 rounded-full">Vision</span>
+           <h3 className="text-sm font-bold text-foreground mt-3 mb-1">Cutting-edge AI for optimal grades</h3>
+           <p className="text-xs text-muted-foreground leading-relaxed">We envision a future where every GCSE student has access to an intelligent tutor that adapts to their learning style, identifies knowledge gaps in real time, and creates dynamic conversations between the student and their subjects.</p>
+         </div>
+       </div>
+       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+         <div className="bg-card border border-border rounded-xl p-5">
+           <h3 className="text-sm font-bold text-foreground mb-1">Clean Design</h3>
+           <p className="text-xs text-muted-foreground">Every interface element serves a purpose. No clutter, no confusion, no wasted space.</p>
+         </div>
+         <div className="bg-card border border-border rounded-xl p-5">
+           <h3 className="text-sm font-bold text-foreground mb-1">Gamified Learning</h3>
+           <p className="text-xs text-muted-foreground">Streaks, XP, leaderboards and achievements transform study into a challenge worth beating.</p>
+         </div>
+         <div className="bg-card border border-border rounded-xl p-5">
+           <h3 className="text-sm font-bold text-foreground mb-1">Enhanced Learning</h3>
+           <p className="text-xs text-muted-foreground">AI-powered spaced repetition, adaptive difficulty, and real-time feedback loops.</p>
+         </div>
+       </div>
+     </section>
+
+     {/* ── Brand Story ── */}
+     <section>
+       <p className="text-xs font-bold tracking-widest uppercase text-destructive mb-1">Brand Story</p>
+       <h2 className="text-2xl font-bold text-foreground font-display mb-4">Narrative Arc</h2>
+       <div className="space-y-3">
+         <div className="bg-destructive/5 border-l-[3px] border-destructive rounded-lg p-5">
+           <h3 className="text-sm font-bold text-foreground font-display mb-1">01 — The Challenge</h3>
+           <p className="text-xs text-muted-foreground leading-relaxed">GCSE revision is broken. Every year, hundreds of thousands of students face the same ritual: stacks of notes, hours of passive rereading, rising anxiety, and the creeping dread that none of it is sticking. Parents watch helplessly. The traditional model assumes more time equals more learning. Cognitive science tells us otherwise.</p>
+         </div>
+         <div className="bg-primary/5 border-l-[3px] border-primary rounded-lg p-5">
+           <h3 className="text-sm font-bold text-foreground font-display mb-1">02 — The Transformation</h3>
+           <p className="text-xs text-muted-foreground leading-relaxed">DoorSlam changes the equation. Instead of passive consumption, students engage in dynamic, AI-powered conversations with their subjects. The AI identifies gaps, adapts difficulty in real time, and turns every session into a feedback loop of genuine understanding. Gamification taps into the same reward systems that make games compelling. For the first time, revision feels like something you want to do.</p>
+         </div>
+         <div className="bg-lime/5 border-l-[3px] border-lime rounded-lg p-5">
+           <h3 className="text-sm font-bold text-foreground font-display mb-1">03 — The Resolution</h3>
+           <p className="text-xs text-muted-foreground leading-relaxed">Students walk into their exams with confidence. Not because they crammed, but because they truly understood. Parents see grades improve and anxiety reduce. DoorSlam doesn't just help students pass — it transforms their relationship with learning itself.</p>
+         </div>
+       </div>
+     </section>
+
+     {/* ── Brand Personality ── */}
+     <section>
+       <p className="text-xs font-bold tracking-widest uppercase text-[#8B5CF6] mb-1">Brand Personality</p>
+       <h2 className="text-2xl font-bold text-foreground font-display mb-4">Archetypes &amp; Voice</h2>
+       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+         <div className="bg-card border border-border rounded-xl p-5">
+           <span className="text-[10px] font-bold tracking-wider uppercase text-destructive bg-destructive/10 px-2 py-0.5 rounded-full">Primary Archetype</span>
+           <h3 className="text-sm font-bold text-foreground mt-3 mb-1">The Magician</h3>
+           <p className="text-xs text-muted-foreground leading-relaxed">Transforms the ordinary into the extraordinary. Takes mundane revision and makes it genuinely engaging. Promises transformation — exactly what students and parents seek.</p>
+           <p className="text-[10px] text-[#8B5CF6] mt-2">Core desire: Make understanding happen · Core fear: Stagnation</p>
+         </div>
+         <div className="bg-card border border-border rounded-xl p-5">
+           <span className="text-[10px] font-bold tracking-wider uppercase text-primary bg-primary/10 px-2 py-0.5 rounded-full">Secondary Archetype</span>
+           <h3 className="text-sm font-bold text-foreground mt-3 mb-1">The Jester</h3>
+           <p className="text-xs text-muted-foreground leading-relaxed">Lives in the moment. Brings lightness to serious situations. Ensures DoorSlam never feels like another tedious EdTech platform. Gives us permission to be playful and use humour.</p>
+           <p className="text-[10px] text-info mt-2">Core desire: Enjoy the moment · Core fear: Being boring</p>
+         </div>
+       </div>
+
+       {/* Voice & Tone Matrix */}
+       <div className="mt-6">
+         <p className="text-xs font-bold tracking-widest uppercase text-muted-foreground mb-3">Voice &amp; Tone Matrix</p>
+         <div className="space-y-3">
+           {[
+             { label: 'Funny ← → Serious', pct: 70, color: 'bg-lime', note: '70% funny. Students are bombarded with serious exam messaging. Humour disarms anxiety. We pull back for progress tracking and parent-facing content.' },
+             { label: 'Casual ← → Formal', pct: 75, color: 'bg-primary', note: '75% casual. Contractions, short sentences, direct address. For parents/institutions, we shift to ~60% to maintain credibility.' },
+             { label: 'Irreverent ← → Respectful', pct: 40, color: 'bg-destructive', note: '40% irreverent. We challenge boring revision, but never mock teachers, subjects, or the exam system. We respect our users\' intelligence.' },
+             { label: 'Enthusiastic ← → Matter-of-fact', pct: 80, color: 'bg-warning', note: '80% enthusiastic. Our primary differentiator. We dial back for error states, payment flows, and support contexts.' },
+           ].map((dim) => (
+             <div key={dim.label} className="bg-card border border-border rounded-lg p-4">
+               <h4 className="text-xs font-bold text-foreground mb-2">{dim.label}</h4>
+               <div className="h-1.5 bg-secondary rounded-full overflow-hidden">
+                 <div className={`h-full rounded-full ${dim.color}`} style={{ width: `${dim.pct}%` }} />
+               </div>
+               <p className="text-[10px] text-muted-foreground mt-2">{dim.note}</p>
+             </div>
+           ))}
+         </div>
+       </div>
+     </section>
+
+     {/* ── Messaging Hierarchy ── */}
+     <section>
+       <p className="text-xs font-bold tracking-widest uppercase text-warning mb-1">Messaging Hierarchy</p>
+       <h2 className="text-2xl font-bold text-foreground font-display mb-2">What We Say</h2>
+       <p className="text-3xl font-bold text-foreground font-display mb-2">Slam your GCSEs.</p>
+       <p className="text-xs text-muted-foreground italic mb-6">&ldquo;Slam&rdquo; carries dual meaning — mastering exams and the brand name itself. Active, confident, using language students already use.</p>
+
+       <div className="bg-card border border-border rounded-xl p-5 mb-4">
+         <span className="text-[10px] font-bold tracking-wider uppercase text-primary bg-primary/10 px-2 py-0.5 rounded-full">Value Proposition</span>
+         <p className="text-sm text-foreground mt-3 leading-relaxed">DoorSlam is the AI-powered revision platform that makes GCSE study feel like a game — adapting to how you learn, identifying what you don&apos;t know, and turning every session into real progress.</p>
+       </div>
+
+       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+         <div className="bg-card border border-border rounded-xl p-5">
+           <h3 className="text-sm font-bold text-lime mb-1">To Students</h3>
+           <p className="text-xs text-muted-foreground">&ldquo;Revision that doesn&apos;t suck. AI that gets you. Grades that stick.&rdquo;</p>
+         </div>
+         <div className="bg-card border border-border rounded-xl p-5">
+           <h3 className="text-sm font-bold text-primary mb-1">To Parents</h3>
+           <p className="text-xs text-muted-foreground">&ldquo;Proven methods. Real-time progress. Grades you can see improving.&rdquo;</p>
+         </div>
+         <div className="bg-card border border-border rounded-xl p-5">
+           <h3 className="text-sm font-bold text-info mb-1">To Schools</h3>
+           <p className="text-xs text-muted-foreground">&ldquo;A platform that aligns with your curriculum and amplifies your teaching.&rdquo;</p>
+         </div>
+       </div>
+     </section>
+
+     {/* ── Logo System ── */}
+     <section>
+       <p className="text-xs font-bold tracking-widest uppercase text-muted-foreground mb-1">Logo System</p>
+       <h2 className="text-2xl font-bold text-foreground font-display mb-4">Three Directions</h2>
+       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+         <div className="bg-card border border-border rounded-xl p-5 text-center">
+           <span className="text-[10px] font-bold tracking-wider uppercase text-lime bg-lime/10 px-2 py-0.5 rounded-full">Direction 01</span>
+           <div className="h-20 flex items-center justify-center my-3">
+             <span className="text-2xl font-bold font-display text-foreground">DOOR<span className="text-lime">SLAM</span></span>
+           </div>
+           <h3 className="text-sm font-bold text-foreground mb-1">Wordmark</h3>
+           <p className="text-xs text-muted-foreground">Split-colour wordmark creates a visual snap — a typographic door slam.</p>
+         </div>
+         <div className="bg-card border border-border rounded-xl p-5 text-center">
+           <span className="text-[10px] font-bold tracking-wider uppercase text-primary bg-primary/10 px-2 py-0.5 rounded-full">Direction 02</span>
+           <div className="h-20 flex items-center justify-center my-3">
+             <div className="w-10 h-12 bg-primary rounded-md flex items-center justify-center relative">
+               <div className="w-2 h-2 bg-lime rounded-full ml-1" />
+             </div>
+           </div>
+           <h3 className="text-sm font-bold text-foreground mb-1">Symbol / Icon</h3>
+           <p className="text-xs text-muted-foreground">Abstracted door with dynamic &ldquo;slam&rdquo; motion lines. Ideal for app icons and avatars.</p>
+         </div>
+         <div className="bg-card border border-border rounded-xl p-5 text-center">
+           <span className="text-[10px] font-bold tracking-wider uppercase text-destructive bg-destructive/10 px-2 py-0.5 rounded-full">Recommended</span>
+           <div className="h-20 flex items-center justify-center gap-2 my-3">
+             <div className="w-7 h-9 bg-primary rounded flex items-center justify-center">
+               <div className="w-1.5 h-1.5 bg-lime rounded-full ml-0.5" />
+             </div>
+             <span className="text-lg font-bold font-display text-foreground">DOOR<span className="text-lime">SLAM</span></span>
+           </div>
+           <h3 className="text-sm font-bold text-foreground mb-1">Combination Mark</h3>
+           <p className="text-xs text-muted-foreground">Pairs icon with wordmark for maximum flexibility. Primary logo for all formal applications.</p>
+         </div>
+       </div>
+       <div className="bg-card border border-border rounded-xl p-5 mt-4">
+         <h3 className="text-sm font-bold text-foreground mb-2">Specifications</h3>
+         <ul className="text-xs text-muted-foreground space-y-1">
+           <li className="flex items-start gap-1.5"><span className="text-primary">→</span> Combination mark: min width 30mm (print) / 120px (digital)</li>
+           <li className="flex items-start gap-1.5"><span className="text-primary">→</span> Wordmark only: min width 20mm / 80px</li>
+           <li className="flex items-start gap-1.5"><span className="text-primary">→</span> Icon only: min width 10mm / 40px</li>
+           <li className="flex items-start gap-1.5"><span className="text-primary">→</span> Clear space: height of the &lsquo;D&rsquo; on all sides</li>
+           <li className="flex items-start gap-1.5"><span className="text-primary">→</span> Below minimum, switch to icon-only version</li>
+         </ul>
+       </div>
+     </section>
+
+     {/* ── Brand Applications ── */}
+     <section>
+       <p className="text-xs font-bold tracking-widest uppercase text-info mb-1">Brand Applications</p>
+       <h2 className="text-2xl font-bold text-foreground font-display mb-4">Touchpoints</h2>
+
+       {/* Social Media */}
+       <p className="text-xs font-bold tracking-widest uppercase text-destructive mb-3">Social Media — 5 Platforms</p>
+       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+         {[
+           { name: 'TikTok', desc: 'Primary student channel', border: 'border-primary' },
+           { name: 'Instagram', desc: 'Visual showcase & carousels', border: 'border-primary' },
+           { name: 'YouTube', desc: 'Long-form & demos', border: 'border-lime' },
+           { name: 'LinkedIn', desc: 'Parents & schools', border: 'border-muted-foreground' },
+           { name: 'X (Twitter)', desc: 'Tips & community', border: 'border-primary' },
+         ].map((platform) => (
+           <div key={platform.name} className="bg-card border border-border rounded-xl p-4 text-center">
+             <div className={`w-10 h-10 rounded-full border-2 ${platform.border} mx-auto mb-2 flex items-center justify-center`}>
+               <div className="w-3.5 h-4 bg-primary rounded-sm flex items-center justify-center">
+                 <div className="w-1 h-1 bg-lime rounded-full" />
+               </div>
+             </div>
+             <h3 className="text-xs font-bold text-foreground">{platform.name}</h3>
+             <p className="text-[10px] text-muted-foreground">{platform.desc}</p>
+           </div>
+         ))}
+       </div>
+
+       {/* Business Card */}
+       <p className="text-xs font-bold tracking-widest uppercase text-lime mt-6 mb-3">Business Card</p>
+       <div className="bg-card border border-border rounded-xl p-5">
+         <p className="text-xs text-muted-foreground">85 x 55mm, 400gsm uncoated with soft-touch lamination. 3mm corner radius. Spot UV on back icon.</p>
+       </div>
+
+       {/* Presentation Slides */}
+       <p className="text-xs font-bold tracking-widest uppercase text-primary mt-6 mb-3">Presentation Slides</p>
+       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+         <div className="bg-card border border-border rounded-xl overflow-hidden">
+           <div className="bg-[#0A1628] p-6 aspect-video flex flex-col justify-center relative">
+             <p className="text-sm font-bold text-white font-display">Presentation Title</p>
+             <p className="text-[10px] text-[#9CA3AF] mt-1">Subtitle or date here</p>
+             <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary" />
+           </div>
+           <p className="px-4 py-2 text-[10px] text-muted-foreground">01 — Title Slide</p>
+         </div>
+         <div className="bg-card border border-border rounded-xl overflow-hidden">
+           <div className="bg-white p-6 aspect-video flex flex-col relative">
+             <div className="bg-[#0A1628] text-white text-[10px] font-bold font-display px-3 py-1 -mx-6 -mt-6 mb-3">DOORSLAM</div>
+             <p className="text-xs font-bold text-[#0A1628] font-display">Section Heading</p>
+             <div className="flex-1 mt-2 space-y-1.5">
+               <div className="h-1 bg-[#E5E7EB] rounded w-4/5" />
+               <div className="h-1 bg-[#E5E7EB] rounded w-11/12" />
+               <div className="h-1 bg-[#E5E7EB] rounded w-3/5" />
+             </div>
+           </div>
+           <p className="px-4 py-2 text-[10px] text-muted-foreground">02 — Content Slide</p>
+         </div>
+       </div>
+     </section>
+
    </div>
  )}
 

@@ -56,7 +56,7 @@ export function DashboardProgressMoments({ moments }: DashboardProgressMomentsPr
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-medium text-muted-foreground truncate">{moment.message}</p>
-                <p className="text-[10px] text-muted truncate">{moment.sub_message}</p>
+                <p className="text-[10px] text-muted-foreground truncate">{moment.sub_message}</p>
               </div>
             </div>
           );

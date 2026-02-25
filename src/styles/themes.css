@@ -192,11 +192,17 @@
 :root {
   --shadow-soft: 0 2px 8px 0 rgb(0 0 0 / 0.08);
   --shadow-button: 0 2px 8px 0 rgb(79 70 229 / 0.30);
+
+  /* Main content gradient — Electric Indigo → Lime (subtle) */
+  --gradient-main: linear-gradient(135deg, hsl(239 84% 67% / 0.08) 0%, hsl(220 14% 96%) 40%, hsl(84 81% 44% / 0.08) 100%);
 }
 
 .dark {
   --shadow-soft: 0 2px 8px 0 rgb(0 0 0 / 0.25);
   --shadow-button: 0 2px 8px 0 rgb(129 140 248 / 0.35);
+
+  /* Main content gradient — Indigo → Lime on Deep Navy */
+  --gradient-main: linear-gradient(135deg, hsl(239 84% 74% / 0.15) 0%, hsl(218 63% 10%) 40%, hsl(84 81% 44% / 0.10) 100%);
 }
 
 /* ============================================================================

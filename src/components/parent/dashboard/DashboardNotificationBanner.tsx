@@ -20,8 +20,8 @@ export function DashboardNotificationBanner({ child }: DashboardNotificationBann
     'A gentle check in could help get things back on track.';
 
   return (
-    <div className="flex items-center justify-between gap-4 bg-foreground/90 rounded-xl px-4 py-2.5 mb-4">
-      <p className="text-sm text-muted min-w-0">{message}</p>
+    <div className="flex items-center justify-between gap-4 bg-foreground/90 rounded-xl px-4 py-2.5 max-w-[500px]">
+      <p className="text-sm text-background/80 min-w-0">{message}</p>
       <Button variant="primary" size="sm" leftIcon="bot">
         Ask AI Tutor
       </Button>

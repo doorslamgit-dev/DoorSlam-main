@@ -85,7 +85,7 @@ function NextBestAction({
           <AppIcon name="calendar-plus" className="w-3.5 h-3.5 text-primary" />
           <span className="text-xs font-semibold text-foreground">Next Best Action</span>
         </div>
-        <p className="text-xs text-muted mb-2.5">
+        <p className="text-xs text-muted-foreground mb-2.5">
           Complete {child.first_name}&apos;s revision schedule to start generating sessions.
         </p>
         <div className="flex flex-wrap gap-2">
@@ -107,7 +107,7 @@ function NextBestAction({
           <AppIcon name="user-plus" className="w-3.5 h-3.5 text-success" />
           <span className="text-xs font-semibold text-foreground">Next Best Action</span>
         </div>
-        <p className="text-xs text-muted mb-2.5">
+        <p className="text-xs text-muted-foreground mb-2.5">
           Schedule is ready! Invite {child.first_name} so they can start their sessions.
         </p>
         <div className="flex flex-wrap gap-2">
@@ -129,7 +129,7 @@ function NextBestAction({
         <AppIcon name="lightbulb" className="w-3.5 h-3.5 text-warning" />
         <span className="text-xs font-semibold text-foreground">Next Best Action</span>
       </div>
-      <p className="text-xs text-muted mb-2.5">
+      <p className="text-xs text-muted-foreground mb-2.5">
         {child.insight_message || 'Keep up the current routine.'}
       </p>
       <div className="flex flex-wrap gap-2">
@@ -170,7 +170,7 @@ export function DashboardHeroCard({
       {/* Header row: title + week label */}
       <div className="flex items-center justify-between mb-1">
         <h2 className="text-base font-bold text-foreground">This Week&apos;s Story</h2>
-        <div className="flex items-center gap-2 text-xs text-muted">
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
           <span>{getWeekLabel()}</span>
           <AppIcon name="calendar" className="w-3.5 h-3.5" />
           <button className="p-0.5 hover:bg-accent rounded" aria-label="Previous week">
@@ -183,7 +183,7 @@ export function DashboardHeroCard({
       </div>
 
       {/* Narrative one-liner */}
-      <p className="text-sm text-muted mb-3">{heroSentence}</p>
+      <p className="text-sm text-muted-foreground mb-3">{heroSentence}</p>
 
       {/* 3 KPI cells — using StatCard primitive */}
       <div className="grid grid-cols-3 gap-3 mb-4">

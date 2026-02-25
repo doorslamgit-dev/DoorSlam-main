@@ -169,14 +169,10 @@ function ParentDashboardV3Inner() {
   return (
     <div className="min-h-screen bg-transparent">
       <main className="max-w-content mx-auto px-4 py-4 lg:px-6 lg:py-5 pb-24">
-        {/* Contextual notification banner — shown when child needs attention */}
-        {selectedChild && <DashboardNotificationBanner child={selectedChild} />}
-
-        {/* Page Header: Dashboard title + subtitle + child selector */}
+        {/* Page Header: Dashboard title + subtitle + inline notification banner */}
         <DashboardChildHeader
           child={selectedChild}
-          children={data.children}
-          onChildChange={setSelectedChildId}
+          banner={selectedChild && <DashboardNotificationBanner child={selectedChild} />}
         />
 
         {/* Row 1: Hero (2/3) + Health Score (1/3) */}
