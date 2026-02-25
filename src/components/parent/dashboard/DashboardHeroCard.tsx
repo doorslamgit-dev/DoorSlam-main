@@ -20,7 +20,7 @@ interface DashboardHeroCardProps {
 
 function HeroSkeleton() {
   return (
-    <div className="bg-background rounded-2xl shadow-sm p-5 border border-default animate-pulse h-full">
+    <div className="bg-background rounded-2xl shadow-sm p-5 border border-border animate-pulse h-full">
       <div className="h-5 bg-muted rounded w-40 mb-3" />
       <div className="h-3 bg-secondary rounded w-64 mb-6" />
       <div className="grid grid-cols-3 gap-3">
@@ -83,9 +83,9 @@ function NextBestAction({
       <div className="bg-primary/5 rounded-lg p-3 mt-auto border border-primary/20">
         <div className="flex items-center gap-1.5 mb-1">
           <AppIcon name="calendar-plus" className="w-3.5 h-3.5 text-primary" />
-          <span className="text-xs font-semibold text-dark">Next Best Action</span>
+          <span className="text-xs font-semibold text-foreground">Next Best Action</span>
         </div>
-        <p className="text-xs text-muted mb-2.5">
+        <p className="text-xs text-muted-foreground mb-2.5">
           Complete {child.first_name}&apos;s revision schedule to start generating sessions.
         </p>
         <div className="flex flex-wrap gap-2">
@@ -105,9 +105,9 @@ function NextBestAction({
       <div className="bg-success/10 rounded-lg p-3 mt-auto border border-success-border">
         <div className="flex items-center gap-1.5 mb-1">
           <AppIcon name="user-plus" className="w-3.5 h-3.5 text-success" />
-          <span className="text-xs font-semibold text-dark">Next Best Action</span>
+          <span className="text-xs font-semibold text-foreground">Next Best Action</span>
         </div>
-        <p className="text-xs text-muted mb-2.5">
+        <p className="text-xs text-muted-foreground mb-2.5">
           Schedule is ready! Invite {child.first_name} so they can start their sessions.
         </p>
         <div className="flex flex-wrap gap-2">
@@ -127,9 +127,9 @@ function NextBestAction({
     <div className="bg-muted rounded-lg p-3 mt-auto">
       <div className="flex items-center gap-1.5 mb-1">
         <AppIcon name="lightbulb" className="w-3.5 h-3.5 text-warning" />
-        <span className="text-xs font-semibold text-dark">Next Best Action</span>
+        <span className="text-xs font-semibold text-foreground">Next Best Action</span>
       </div>
-      <p className="text-xs text-muted mb-2.5">
+      <p className="text-xs text-muted-foreground mb-2.5">
         {child.insight_message || 'Keep up the current routine.'}
       </p>
       <div className="flex flex-wrap gap-2">
@@ -166,11 +166,11 @@ export function DashboardHeroCard({
   const sessionsTotal = child.week_sessions_total;
 
   return (
-    <div className="bg-background rounded-2xl shadow-sm p-5 border border-default h-full flex flex-col">
+    <div className="bg-background rounded-2xl shadow-sm p-5 border border-border h-full flex flex-col">
       {/* Header row: title + week label */}
       <div className="flex items-center justify-between mb-1">
-        <h2 className="text-base font-bold text-dark">This Week&apos;s Story</h2>
-        <div className="flex items-center gap-2 text-xs text-muted">
+        <h2 className="text-base font-bold text-foreground">This Week&apos;s Story</h2>
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
           <span>{getWeekLabel()}</span>
           <AppIcon name="calendar" className="w-3.5 h-3.5" />
           <button className="p-0.5 hover:bg-accent rounded" aria-label="Previous week">
@@ -183,7 +183,7 @@ export function DashboardHeroCard({
       </div>
 
       {/* Narrative one-liner */}
-      <p className="text-sm text-muted mb-3">{heroSentence}</p>
+      <p className="text-sm text-muted-foreground mb-3">{heroSentence}</p>
 
       {/* 3 KPI cells — using StatCard primitive */}
       <div className="grid grid-cols-3 gap-3 mb-4">

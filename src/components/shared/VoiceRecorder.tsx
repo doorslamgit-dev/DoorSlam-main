@@ -449,7 +449,7 @@ export default function VoiceRecorder({
         />
 
         {/* Timer */}
-        <div className="text-sm font-medium text-neutral-700 min-w-[40px]">
+        <div className="text-sm font-medium text-foreground min-w-[40px]">
           {formatTime(recordingTime)}
         </div>
 
@@ -458,7 +458,7 @@ export default function VoiceRecorder({
           <button
             type="button"
             onClick={handleToggle}
-            className={`${sizeConfig.button} rounded-full bg-danger flex items-center justify-center transition hover:bg-red-600 animate-pulse`}
+            className={`${sizeConfig.button} rounded-full bg-destructive flex items-center justify-center transition hover:bg-red-600 animate-pulse`}
             aria-label="Stop recording"
           >
             <AppIcon name="stop" className={`text-white ${sizeConfig.icon}`} />
@@ -469,7 +469,7 @@ export default function VoiceRecorder({
             onMouseUp={handlePTTEnd}
             onMouseLeave={handlePTTEnd}
             onTouchEnd={handlePTTEnd}
-            className={`${sizeConfig.button} rounded-full bg-danger flex items-center justify-center transition animate-pulse`}
+            className={`${sizeConfig.button} rounded-full bg-destructive flex items-center justify-center transition animate-pulse`}
             aria-label="Release to stop recording"
           >
             <AppIcon name="mic" className={`text-white ${sizeConfig.icon}`} />
@@ -477,7 +477,7 @@ export default function VoiceRecorder({
         )}
 
         {/* Max duration indicator */}
-        <div className="text-xs text-neutral-400">
+        <div className="text-xs text-muted-foreground">
           max {formatTime(maxDurationSeconds)}
         </div>
 
@@ -508,7 +508,7 @@ export default function VoiceRecorder({
           type="button"
           onClick={togglePlayback}
           disabled={disabled}
-          className={`${sizeConfig.button} rounded-full bg-primary-600 hover:bg-primary-700 flex items-center justify-center transition flex-shrink-0 disabled:opacity-50`}
+          className={`${sizeConfig.button} rounded-full bg-primary hover:bg-primary/90 flex items-center justify-center transition flex-shrink-0 disabled:opacity-50`}
           aria-label={isPreviewing ? "Pause playback" : "Play recording"}
         >
           <AppIcon
@@ -520,19 +520,19 @@ export default function VoiceRecorder({
         {/* Progress and Time */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between mb-1">
-            <span className="text-sm font-medium text-neutral-700">
+            <span className="text-sm font-medium text-foreground">
               Voice note recorded ✓
             </span>
-            <span className="text-xs text-neutral-500">
+            <span className="text-xs text-muted-foreground">
               {formatTime(currentPlaybackTime)} /{" "}
               {formatTime(recordingData.durationSeconds)}
             </span>
           </div>
 
           {/* Progress Bar */}
-          <div className="h-1.5 bg-neutral-200 rounded-full overflow-hidden">
+          <div className="h-1.5 bg-muted rounded-full overflow-hidden">
             <div
-              className="h-full bg-primary-600 transition-all duration-100"
+              className="h-full bg-primary transition-all duration-100"
               style={{ width: `${progressPercent}%` }}
             />
           </div>
@@ -543,10 +543,10 @@ export default function VoiceRecorder({
           type="button"
           onClick={handleDelete}
           disabled={disabled}
-          className="w-9 h-9 rounded-full bg-neutral-100 flex items-center justify-center hover:bg-danger-bg transition flex-shrink-0 disabled:opacity-50"
+          className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center hover:bg-destructive/10 transition flex-shrink-0 disabled:opacity-50"
           aria-label="Delete recording"
         >
-          <AppIcon name="trash" className="w-4 h-4 text-neutral-500" />
+          <AppIcon name="trash" className="w-4 h-4 text-muted-foreground" />
         </button>
       </div>
     );
@@ -559,15 +559,15 @@ export default function VoiceRecorder({
   if (error) {
     return (
       <div className={`flex items-center gap-3 ${className}`}>
-        <div className="flex-1 text-sm text-danger">{error}</div>
+        <div className="flex-1 text-sm text-destructive">{error}</div>
         <button
           type="button"
           onClick={() => setError(null)}
           disabled={disabled}
-          className={`${sizeConfig.button} rounded-full bg-neutral-100 hover:bg-neutral-200 flex items-center justify-center transition disabled:opacity-50`}
+          className={`${sizeConfig.button} rounded-full bg-secondary hover:bg-muted flex items-center justify-center transition disabled:opacity-50`}
           aria-label="Try again"
         >
-          <AppIcon name="rotate-cw" className={`text-neutral-600 ${sizeConfig.icon}`} />
+          <AppIcon name="rotate-cw" className={`text-muted-foreground ${sizeConfig.icon}`} />
         </button>
       </div>
     );
@@ -588,13 +588,13 @@ export default function VoiceRecorder({
           onMouseLeave={handlePTTEnd}
           onTouchEnd={handlePTTEnd}
           disabled={disabled}
-          className={`${sizeConfig.button} rounded-full bg-primary-600 hover:bg-primary-700 flex items-center justify-center transition disabled:opacity-50 disabled:cursor-not-allowed select-none`}
+          className={`${sizeConfig.button} rounded-full bg-primary hover:bg-primary/90 flex items-center justify-center transition disabled:opacity-50 disabled:cursor-not-allowed select-none`}
           title="Hold to record"
           aria-label="Hold to record"
         >
           <AppIcon name="mic" className={`text-white ${sizeConfig.icon}`} />
         </button>
-        <span className="text-sm text-neutral-500">Hold to speak</span>
+        <span className="text-sm text-muted-foreground">Hold to speak</span>
       </div>
     );
   }
@@ -606,15 +606,15 @@ export default function VoiceRecorder({
         type="button"
         onClick={handleToggle}
         disabled={disabled}
-        className={`${sizeConfig.button} rounded-full bg-primary-600 hover:bg-primary-700 flex items-center justify-center transition disabled:opacity-50 disabled:cursor-not-allowed`}
+        className={`${sizeConfig.button} rounded-full bg-primary hover:bg-primary/90 flex items-center justify-center transition disabled:opacity-50 disabled:cursor-not-allowed`}
         title="Tap to start recording"
         aria-label="Tap to start recording"
       >
         <AppIcon name="mic" className={`text-white ${sizeConfig.icon}`} />
       </button>
       <div className="text-center">
-        <p className="text-sm font-medium text-neutral-700">Record a voice note</p>
-        <p className="text-xs text-neutral-500">Say what you learned in your own words</p>
+        <p className="text-sm font-medium text-foreground">Record a voice note</p>
+        <p className="text-xs text-muted-foreground">Say what you learned in your own words</p>
       </div>
     </div>
   );

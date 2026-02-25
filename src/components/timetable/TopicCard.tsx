@@ -26,14 +26,14 @@ export interface TopicCardProps {
  * - red: session planned and date is in the past (missed)
  */
 function getStatusDotClass(status: string, dateStr: string): string {
-  if (status === "completed") return "bg-accent-green";
+  if (status === "completed") return "bg-success";
 
   const sessionDate = new Date(dateStr + "T00:00:00");
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  if (sessionDate < today) return "bg-accent-red";
-  return "bg-accent-amber";
+  if (sessionDate < today) return "bg-destructive";
+  return "bg-warning";
 }
 
 export default function TopicCard({
@@ -79,7 +79,7 @@ export default function TopicCard({
       {...(isCardDraggable ? { ...attributes, ...listeners } : {})}
       className={`relative rounded-lg p-2 mb-1.5 last:mb-0 transition-all group ${
         isDragging
-          ? "shadow-lg ring-2 ring-primary-200 z-50"
+          ? "shadow-lg ring-2 ring-ring/30 z-50"
           : "hover:opacity-90"
       } ${isCardDraggable ? "cursor-grab active:cursor-grabbing touch-none" : ""}`}
       style={style}
@@ -93,12 +93,12 @@ export default function TopicCard({
               e.stopPropagation();
               onDelete(topicId, plannedSessionId);
             }}
-            className="w-4 h-4 flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-neutral-200"
+            className="w-4 h-4 flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-muted"
             aria-label={`Remove ${topicName}`}
           >
             <AppIcon
               name="x"
-              className="w-2.5 h-2.5 text-neutral-500 hover:text-danger"
+              className="w-2.5 h-2.5 text-muted-foreground hover:text-destructive"
             />
           </button>
         </div>
@@ -113,7 +113,7 @@ export default function TopicCard({
       </div>
 
       {/* Subject label */}
-      <div className="text-[10px] text-neutral-500 mt-0.5 leading-tight">
+      <div className="text-[10px] text-muted-foreground mt-0.5 leading-tight">
         {subjectName}
       </div>
 
@@ -123,7 +123,7 @@ export default function TopicCard({
         title={
           sessionStatus === "completed"
             ? "Completed"
-            : dotClass === "bg-accent-red"
+            : dotClass === "bg-destructive"
               ? "Missed"
               : "Pending"
         }

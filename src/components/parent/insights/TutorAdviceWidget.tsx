@@ -17,7 +17,7 @@ export default function TutorAdviceWidget({
 }: TutorAdviceWidgetProps) {
   if (loading) {
     return (
-      <div className="bg-gradient-to-br from-primary-900 to-primary-700 rounded-2xl shadow-sm p-8 border border-primary-800 animate-pulse">
+      <div className="bg-gradient-to-br from-primary/90 to-primary/80 rounded-2xl shadow-sm p-8 border border-primary animate-pulse">
         <div className="h-8 bg-primary rounded w-1/3 mb-6" />
         <div className="grid grid-cols-2 gap-6">
           <div className="h-40 bg-primary rounded-xl" />
@@ -29,10 +29,10 @@ export default function TutorAdviceWidget({
 
   if (!advice) {
     return (
-      <div className="bg-gradient-to-br from-primary-900 to-primary-700 rounded-2xl shadow-sm p-8 border border-primary-800 text-primary-foreground">
+      <div className="bg-gradient-to-br from-primary/90 to-primary/80 rounded-2xl shadow-sm p-8 border border-primary text-primary-foreground">
         <div className="text-center py-8">
-          <AppIcon name="sparkles" className="w-10 h-10 text-primary-300 mx-auto mb-4" />
-          <p className="text-primary-200">
+          <AppIcon name="sparkles" className="w-10 h-10 text-primary-foreground/60 mx-auto mb-4" />
+          <p className="text-primary-foreground/80">
             Complete more sessions to unlock tutor advice
           </p>
         </div>
@@ -41,11 +41,11 @@ export default function TutorAdviceWidget({
   }
 
   return (
-    <div className="bg-gradient-to-br from-primary-900 to-primary-700 rounded-2xl shadow-sm p-8 border border-primary-800 text-primary-foreground">
+    <div className="bg-gradient-to-br from-primary/90 to-primary/80 rounded-2xl shadow-sm p-8 border border-primary text-primary-foreground">
       <div className="flex items-start justify-between mb-6">
         <div>
           <div className="flex items-center space-x-2 mb-2">
-            <AppIcon name="sparkles" className="w-6 h-6 text-primary-300" />
+            <AppIcon name="sparkles" className="w-6 h-6 text-primary-foreground/60" />
             <h3 className="text-2xl font-bold">Your Tutor Advises</h3>
             {isAIGenerated && (
               <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-primary rounded-full text-xs">
@@ -54,7 +54,7 @@ export default function TutorAdviceWidget({
               </span>
             )}
           </div>
-          <p className="text-primary-200">Practical support strategies for this week</p>
+          <p className="text-primary-foreground/80">Practical support strategies for this week</p>
         </div>
       </div>
 
@@ -64,7 +64,7 @@ export default function TutorAdviceWidget({
             <AppIcon name="lightbulb" className="w-4 h-4 text-yellow-300" />
             <span>This Week's Focus</span>
           </h4>
-          <ul className="space-y-3 text-sm text-primary-100">
+          <ul className="space-y-3 text-sm text-primary-foreground/80">
             {advice.focus_points?.map((point, index) => (
               <li key={index} className="flex items-start space-x-2">
                 <AppIcon name="check" className="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
@@ -79,7 +79,7 @@ export default function TutorAdviceWidget({
             <AppIcon name="triangle-alert" className="w-4 h-4 text-warning" />
             <span>Watch Out For</span>
           </h4>
-          <ul className="space-y-3 text-sm text-primary-100">
+          <ul className="space-y-3 text-sm text-primary-foreground/80">
             {advice.watch_out_for?.map((item, index) => (
               <li key={index} className="flex items-start space-x-2">
                 <AppIcon name="triangle-alert" className="w-4 h-4 text-warning mt-0.5 flex-shrink-0" />

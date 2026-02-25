@@ -40,7 +40,7 @@ export default function ChildInfoBanner({
                 className="text-xl font-semibold bg-transparent border-none text-white focus:outline-none cursor-pointer mb-1 -ml-1"
               >
                 {children.map((c) => (
-                  <option key={c.child_id} value={c.child_id} className="text-neutral-900">
+                  <option key={c.child_id} value={c.child_id} className="text-foreground">
                     {c.child_name}
                   </option>
                 ))}
@@ -48,7 +48,7 @@ export default function ChildInfoBanner({
             ) : (
               <h3 className="text-xl font-semibold mb-1">{child.child_name}</h3>
             )}
-            <p className="text-primary-100 text-sm">
+            <p className="text-primary-foreground/80 text-sm">
               Year {child.year_group || "?"} • {child.exam_type} • {child.active_subjects_count} Active Subject{child.active_subjects_count !== 1 ? "s" : ""}
             </p>
           </div>
@@ -58,12 +58,12 @@ export default function ChildInfoBanner({
         <div className="flex items-center gap-6">
           <div className="text-center">
             <p className="text-3xl font-bold">{child.sessions_this_week}</p>
-            <p className="text-primary-100 text-xs mt-1">Sessions This Week</p>
+            <p className="text-primary-foreground/80 text-xs mt-1">Sessions This Week</p>
           </div>
           <div className="w-px h-12 bg-white/30" />
           <div className="text-center">
             <p className="text-3xl font-bold">{child.topics_covered_this_week}</p>
-            <p className="text-primary-100 text-xs mt-1">Topics Covered</p>
+            <p className="text-primary-foreground/80 text-xs mt-1">Topics Covered</p>
           </div>
         </div>
       </div>

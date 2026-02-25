@@ -36,7 +36,7 @@ export function TeachingSlideCard({
   return (
     <div className="space-y-4">
       {/* Progress indicator */}
-      <div className="flex items-center justify-between text-sm text-neutral-500">
+      <div className="flex items-center justify-between text-sm text-muted-foreground">
         <span className="flex items-center gap-2">
           <span className="text-info" aria-hidden="true">
             <AppIcon name={icons.bookOpen} />
@@ -53,7 +53,7 @@ export function TeachingSlideCard({
                   ? "bg-info"
                   : i < currentIndex
                   ? "bg-blue-300"
-                  : "bg-neutral-200"
+                  : "bg-muted"
               }`}
             />
           ))}
@@ -61,7 +61,7 @@ export function TeachingSlideCard({
       </div>
 
       {/* Main slide card */}
-      <div className="bg-neutral-0 rounded-2xl shadow-card overflow-hidden">
+      <div className="bg-background rounded-2xl shadow-sm overflow-hidden">
         {/* Title bar */}
         <div className="bg-info px-6 py-4">
           <h3 className="text-xl font-bold text-white">{slide.title}</h3>
@@ -70,11 +70,11 @@ export function TeachingSlideCard({
         {/* Content */}
         <div className="p-6 space-y-6">
           {/* Main explanation */}
-          <p className="text-neutral-700 text-lg leading-relaxed">{slide.content}</p>
+          <p className="text-foreground text-lg leading-relaxed">{slide.content}</p>
 
           {/* Key points */}
           {slide.key_points && slide.key_points.length > 0 && (
-            <div className="bg-info-bg rounded-xl p-4">
+            <div className="bg-info/10 rounded-xl p-4">
               <h4 className="font-semibold text-info mb-3 flex items-center gap-2">
                 <span className="text-info" aria-hidden="true">
                   <AppIcon name={icons.lightbulb} />
@@ -96,7 +96,7 @@ export function TeachingSlideCard({
 
           {/* Examiner tip */}
           {slide.examiner_tip && (
-            <div className="bg-warning-bg border border-warning-border rounded-xl p-4">
+            <div className="bg-warning/10 border border-warning-border rounded-xl p-4">
               <h4 className="font-semibold text-amber-900 mb-2 flex items-center gap-2">
                 <span className="text-warning" aria-hidden="true">
                   <AppIcon name={icons.graduationCap} />
@@ -115,7 +115,7 @@ export function TeachingSlideCard({
           type="button"
           onClick={onPrevious}
           disabled={currentIndex === 0}
-          className="flex items-center gap-2 px-4 py-2 text-neutral-600 hover:bg-neutral-100 rounded-xl transition disabled:opacity-30 disabled:hover:bg-transparent"
+          className="flex items-center gap-2 px-4 py-2 text-muted-foreground hover:bg-secondary rounded-xl transition disabled:opacity-30 disabled:hover:bg-transparent"
         >
           <AppIcon name={icons.arrowLeft} aria-hidden />
           Previous
@@ -124,7 +124,7 @@ export function TeachingSlideCard({
         <button
           type="button"
           onClick={onNext}
-          className="flex items-center gap-2 px-6 py-3 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition"
+          className="flex items-center gap-2 px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary/90 transition"
         >
           {isLastSlide ? "Next" : "Continue"}
           <AppIcon name={icons.arrowRight} aria-hidden />

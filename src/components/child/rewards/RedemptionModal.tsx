@@ -29,13 +29,13 @@ export function RedemptionModal({
       onClick={onClose}
     >
       <div 
-        className="bg-neutral-0 rounded-t-3xl sm:rounded-3xl shadow-xl w-full sm:max-w-sm p-6"
+        className="bg-background rounded-t-3xl sm:rounded-3xl shadow-xl w-full sm:max-w-sm p-6"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Reward display */}
         <div className="text-center mb-6">
           <span className="text-5xl mb-3 block">{reward.emoji}</span>
-          <h2 className="text-xl font-bold text-neutral-900 mb-1">
+          <h2 className="text-xl font-bold text-foreground mb-1">
             {reward.name}
           </h2>
           <p className="text-warning font-semibold">
@@ -44,24 +44,24 @@ export function RedemptionModal({
         </div>
 
         {/* Points breakdown */}
-        <div className="bg-neutral-50 rounded-xl p-4 mb-6 space-y-2">
+        <div className="bg-muted rounded-xl p-4 mb-6 space-y-2">
           <div className="flex justify-between text-sm">
-            <span className="text-neutral-600">Your points</span>
-            <span className="font-medium text-neutral-900">{pointsBalance}</span>
+            <span className="text-muted-foreground">Your points</span>
+            <span className="font-medium text-foreground">{pointsBalance}</span>
           </div>
           <div className="flex justify-between text-sm">
-            <span className="text-neutral-600">This reward</span>
-            <span className="font-medium text-danger">-{reward.points_cost}</span>
+            <span className="text-muted-foreground">This reward</span>
+            <span className="font-medium text-destructive">-{reward.points_cost}</span>
           </div>
-          <div className="border-t border-neutral-200 pt-2 flex justify-between">
-            <span className="text-neutral-600 font-medium">After</span>
-            <span className="font-bold text-neutral-900">{pointsAfter} points</span>
+          <div className="border-t border-border pt-2 flex justify-between">
+            <span className="text-muted-foreground font-medium">After</span>
+            <span className="font-bold text-foreground">{pointsAfter} points</span>
           </div>
         </div>
 
         {/* Limit warning if applicable */}
         {reward.limit_type && reward.limit_count && (
-          <div className="bg-warning-bg rounded-lg p-3 mb-4 flex items-start gap-2">
+          <div className="bg-warning/10 rounded-lg p-3 mb-4 flex items-start gap-2">
             <AppIcon name="info" className="w-4 h-4 text-warning mt-0.5 flex-shrink-0" />
             <p className="text-xs text-warning">
               You can get this reward {reward.limit_count} time{reward.limit_count > 1 ? 's' : ''} per{' '}
@@ -75,7 +75,7 @@ export function RedemptionModal({
           <button
             onClick={onConfirm}
             disabled={isRequesting}
-            className="w-full py-3 bg-primary-600 hover:bg-primary-700 disabled:bg-primary-400 text-white rounded-xl font-semibold transition-colors flex items-center justify-center gap-2"
+            className="w-full py-3 bg-primary hover:bg-primary/90 disabled:bg-primary/60 text-primary-foreground rounded-xl font-semibold transition-colors flex items-center justify-center gap-2"
           >
             {isRequesting ? (
               <>
@@ -93,7 +93,7 @@ export function RedemptionModal({
           <button
             onClick={onClose}
             disabled={isRequesting}
-            className="w-full py-3 text-neutral-600 hover:text-neutral-800 font-medium transition-colors"
+            className="w-full py-3 text-muted-foreground hover:text-foreground font-medium transition-colors"
           >
             Maybe Later
           </button>

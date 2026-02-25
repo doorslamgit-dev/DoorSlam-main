@@ -41,36 +41,36 @@ export function CompleteScreen({
   const continueIcon: IconKey = "chevronRight";
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-8">
+    <div className="bg-background rounded-2xl shadow-sm p-8">
       <div className="text-center mb-8">
-        <div className="w-20 h-20 bg-success-bg rounded-full flex items-center justify-center mx-auto mb-4">
+        <div className="w-20 h-20 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-4">
           <AppIcon name={encouragementIcon as IconKey} className="w-10 h-10 text-success" aria-hidden />
         </div>
-        <h2 className="text-2xl font-bold text-neutral-900 mb-2">Practice complete!</h2>
-        <p className="text-neutral-600">{message}</p>
+        <h2 className="text-2xl font-bold text-foreground mb-2">Practice complete!</h2>
+        <p className="text-muted-foreground">{message}</p>
       </div>
 
       {/* Results summary */}
       {questionsAttempted > 0 && (
         <div className="grid grid-cols-3 gap-3 mb-6">
-          <div className="bg-success-bg rounded-xl p-4 text-center">
+          <div className="bg-success/10 rounded-xl p-4 text-center">
             <p className="text-2xl font-bold text-success">{gotItCount}</p>
-            <p className="text-xs text-neutral-600 mt-1">Nailed it!</p>
+            <p className="text-xs text-muted-foreground mt-1">Nailed it!</p>
           </div>
-          <div className="bg-warning-bg rounded-xl p-4 text-center">
+          <div className="bg-warning/10 rounded-xl p-4 text-center">
             <p className="text-2xl font-bold text-warning">{unsureCount}</p>
-            <p className="text-xs text-neutral-600 mt-1">Not sure</p>
+            <p className="text-xs text-muted-foreground mt-1">Not sure</p>
           </div>
-          <div className="bg-danger-bg rounded-xl p-4 text-center">
-            <p className="text-2xl font-bold text-danger">{notQuiteCount}</p>
-            <p className="text-xs text-neutral-600 mt-1">Missed it</p>
+          <div className="bg-destructive/10 rounded-xl p-4 text-center">
+            <p className="text-2xl font-bold text-destructive">{notQuiteCount}</p>
+            <p className="text-xs text-muted-foreground mt-1">Missed it</p>
           </div>
         </div>
       )}
 
       {/* Do more questions option */}
       {hasMoreQuestions && remainingQuestions > 0 && (
-        <div className="bg-info-bg border border-info-border rounded-xl p-4 mb-6">
+        <div className="bg-info/10 border border-info-border rounded-xl p-4 mb-6">
           <div className="flex items-center justify-between">
             <div>
               <p className="font-medium text-info">Want more practice?</p>
@@ -94,7 +94,7 @@ export function CompleteScreen({
         type="button"
         onClick={onContinue}
         disabled={saving}
-        className="w-full py-4 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition disabled:opacity-50 flex items-center justify-center gap-2"
+        className="w-full py-4 bg-primary text-white font-semibold rounded-xl hover:bg-primary/90 transition disabled:opacity-50 flex items-center justify-center gap-2"
       >
         Continue
         <AppIcon name={continueIcon} />

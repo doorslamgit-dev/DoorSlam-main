@@ -23,18 +23,18 @@ export function SectionCard({
   onCancel,
 }: SectionCardProps) {
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
+    <div className="bg-background rounded-2xl shadow-sm p-6">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <AppIcon name={icon} className="w-5 h-5 text-primary-600 dark:text-primary-400" aria-hidden />
-          <h2 className="text-lg font-semibold text-neutral-700">{title}</h2>
+          <AppIcon name={icon} className="w-5 h-5 text-primary dark:text-primary/70" aria-hidden />
+          <h2 className="text-lg font-semibold text-foreground">{title}</h2>
         </div>
 
         {!editing ? (
           <button
             onClick={onEdit}
             type="button"
-            className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium text-primary-600 dark:text-primary-400 hover:bg-neutral-50 transition-colors"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium text-primary dark:text-primary/70 hover:bg-muted transition-colors"
           >
             <AppIcon name="pencil" className="w-4 h-4" aria-hidden />
             Edit
@@ -45,7 +45,7 @@ export function SectionCard({
               onClick={onCancel}
               disabled={saving}
               type="button"
-              className="px-3 py-1.5 rounded-lg text-sm font-medium border border-neutral-200 text-neutral-600 transition-colors disabled:cursor-not-allowed"
+              className="px-3 py-1.5 rounded-lg text-sm font-medium border border-border text-muted-foreground transition-colors disabled:cursor-not-allowed"
             >
               Cancel
             </button>
@@ -53,7 +53,7 @@ export function SectionCard({
               onClick={onSave}
               disabled={saving}
               type="button"
-              className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium text-white bg-accent-green transition-colors disabled:cursor-not-allowed"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium text-white bg-success transition-colors disabled:cursor-not-allowed"
             >
               {saving ? (
                 <AppIcon name="loader" className="w-4 h-4 animate-spin text-white" aria-hidden />

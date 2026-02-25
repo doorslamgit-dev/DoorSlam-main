@@ -43,7 +43,7 @@ const statusStyles: Record<
     insightBorder: "border-accent-amber/20",
   },
   getting_started: {
-    badgeBg: "bg-neutral-900",
+    badgeBg: "bg-foreground",
     badgeText: "text-white",
     insightBg: "bg-neutral-50",
     insightBorder: "border-neutral-200/60",
@@ -139,7 +139,7 @@ export function ChildHealthCard({
   void getStatusUI;
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200/50">
+    <div className="bg-background rounded-2xl shadow-sm p-6 border border-border/50">
       {/* Header: Avatar + Name + Status */}
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-4">
@@ -149,21 +149,21 @@ export function ChildHealthCard({
               alt={child.child_name}
               width={56}
               height={56}
-              className="w-14 h-14 rounded-full object-cover border-2 border-neutral-100"
+              className="w-14 h-14 rounded-full object-cover border-2 border-border"
             />
           ) : (
-            <div className="w-14 h-14 rounded-full bg-primary-100 flex items-center justify-center border-2 border-neutral-100">
-              <span className="text-lg font-bold text-primary-600">
+            <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center border-2 border-border">
+              <span className="text-lg font-bold text-primary">
                 {initials}
               </span>
             </div>
           )}
 
           <div>
-            <h3 className="text-xl font-bold text-primary-900">
+            <h3 className="text-xl font-bold text-primary">
               {child.child_name}
             </h3>
-            <div className="flex items-center gap-2 text-sm text-neutral-500">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <span>Year {child.year_group}</span>
               <span>·</span>
               <span>{child.exam_type}</span>
@@ -182,27 +182,27 @@ export function ChildHealthCard({
       {/* Stats Row */}
       <div className="grid grid-cols-3 gap-4 mb-5">
         {/* Momentum */}
-        <div className="bg-neutral-50 rounded-xl p-4 text-center">
-          <div className="text-2xl font-bold text-primary-900 mb-1">
+        <div className="bg-muted rounded-xl p-4 text-center">
+          <div className="text-2xl font-bold text-primary mb-1">
             {child.current_streak > 0 ? `${child.current_streak}` : "—"}
           </div>
-          <div className="text-xs text-neutral-500 font-medium">Day Streak</div>
+          <div className="text-xs text-muted-foreground font-medium">Day Streak</div>
         </div>
 
         {/* Sessions */}
-        <div className="bg-neutral-50 rounded-xl p-4 text-center">
-          <div className="text-2xl font-bold text-primary-900 mb-1">
+        <div className="bg-muted rounded-xl p-4 text-center">
+          <div className="text-2xl font-bold text-primary mb-1">
             {child.week_sessions_completed}/{child.week_sessions_total}
           </div>
-          <div className="text-xs text-neutral-500 font-medium">This Week</div>
+          <div className="text-xs text-muted-foreground font-medium">This Week</div>
         </div>
 
         {/* Next Up */}
-        <div className="bg-neutral-50 rounded-xl p-4 text-center">
-          <div className="text-sm font-bold text-primary-900 mb-1 truncate">
+        <div className="bg-muted rounded-xl p-4 text-center">
+          <div className="text-sm font-bold text-primary mb-1 truncate">
             {child.next_focus?.subject_name || "—"}
           </div>
-          <div className="text-xs text-neutral-500 font-medium">
+          <div className="text-xs text-muted-foreground font-medium">
             {child.next_focus ? "Next Up" : "No Session"}
           </div>
         </div>
@@ -213,19 +213,19 @@ export function ChildHealthCard({
         className={`${style.insightBg} ${style.insightBorder} border rounded-xl p-4 mb-5`}
       >
         <div className="flex items-start gap-3">
-          <div className="w-8 h-8 bg-neutral-0 rounded-full flex items-center justify-center flex-shrink-0 shadow-soft border border-neutral-200/50">
+          <div className="w-8 h-8 bg-background rounded-full flex items-center justify-center flex-shrink-0 shadow-soft border border-border/50">
             <AppIcon
               name={insightIcon}
-              className="w-4 h-4 text-primary-600"
+              className="w-4 h-4 text-primary"
               aria-hidden
             />
           </div>
 
           <div>
-            <div className="text-sm font-semibold text-primary-900">
+            <div className="text-sm font-semibold text-primary">
               {child.insight_message}
             </div>
-            <div className="text-xs text-neutral-500 mt-0.5">
+            <div className="text-xs text-muted-foreground mt-0.5">
               {child.insight_sub_message}
             </div>
           </div>
@@ -236,14 +236,14 @@ export function ChildHealthCard({
       <div className="flex gap-3">
         <button
           onClick={handleGoToToday}
-          className="flex-1 py-3 bg-primary-600 text-white rounded-xl font-semibold hover:bg-primary-700 transition-colors"
+          className="flex-1 py-3 bg-primary text-white rounded-xl font-semibold hover:bg-primary/90 transition-colors"
         >
           {ctaText}
         </button>
 
         <button
           onClick={handleViewInsights}
-          className="px-4 py-3 bg-neutral-100 text-neutral-600 rounded-xl hover:bg-neutral-200 transition-colors"
+          className="px-4 py-3 bg-secondary text-muted-foreground rounded-xl hover:bg-muted transition-colors"
           aria-label="View insights"
           title="View insights"
         >
@@ -253,13 +253,13 @@ export function ChildHealthCard({
 
       {/* Mocks Warning */}
       {child.mocks_flag && child.mocks_message && (
-        <div className="mt-4 bg-accent-amber/10 border border-accent-amber/20 rounded-lg p-3 flex items-center gap-2">
+        <div className="mt-4 bg-warning/10 border border-accent-amber/20 rounded-lg p-3 flex items-center gap-2">
           <AppIcon
             name="calendar-clock"
-            className="w-4 h-4 text-accent-amber"
+            className="w-4 h-4 text-warning"
             aria-hidden
           />
-          <span className="text-sm font-medium text-accent-amber">
+          <span className="text-sm font-medium text-warning">
             {child.mocks_message}
           </span>
         </div>

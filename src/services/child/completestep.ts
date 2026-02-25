@@ -13,8 +13,8 @@ export const CONFIDENCE_OPTIONS: ConfidenceOption[] = [
     label: "Got it!",
     description: "I could teach this to a friend",
     icon: "rocket",
-    bgColor: "bg-neutral-0",
-    selectedBg: "bg-success-bg",
+    bgColor: "bg-background",
+    selectedBg: "bg-success/10",
     selectedBorder: "border-success",
   },
   {
@@ -22,8 +22,8 @@ export const CONFIDENCE_OPTIONS: ConfidenceOption[] = [
     label: "Pretty good",
     description: "I understand most of it",
     icon: "check-circle",
-    bgColor: "bg-neutral-0",
-    selectedBg: "bg-info-bg",
+    bgColor: "bg-background",
+    selectedBg: "bg-info/10",
     selectedBorder: "border-blue-500",
   },
   {
@@ -31,8 +31,8 @@ export const CONFIDENCE_OPTIONS: ConfidenceOption[] = [
     label: "A bit wobbly",
     description: "Some parts are still unclear",
     icon: "circle-help",
-    bgColor: "bg-neutral-0",
-    selectedBg: "bg-warning-bg",
+    bgColor: "bg-background",
+    selectedBg: "bg-warning/10",
     selectedBorder: "border-amber-500",
   },
   {
@@ -40,8 +40,8 @@ export const CONFIDENCE_OPTIONS: ConfidenceOption[] = [
     label: "Need more practice",
     description: "I'd like to go over this again",
     icon: "hand-heart",
-    bgColor: "bg-neutral-0",
-    selectedBg: "bg-danger-bg",
+    bgColor: "bg-background",
+    selectedBg: "bg-destructive/10",
     selectedBorder: "border-danger",
   },
 ];

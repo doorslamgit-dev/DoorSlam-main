@@ -5,7 +5,7 @@
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import Alert from "../components/ui/Alert";
-import AppIcon from "../components/ui/AppIcon";
+import BrandWordmark from "../components/ui/BrandWordmark";
 import Button from "../components/ui/Button";
 import FormField from "../components/ui/FormField";
 import { useAuth } from "../contexts/AuthContext";
@@ -55,20 +55,17 @@ export default function SignUp() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-400 via-primary-600 to-primary-700 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-primary/60 via-primary/80 to-primary flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="inline-flex w-16 h-16 bg-neutral-0 rounded-2xl items-center justify-center mb-4 shadow-lg">
-            <AppIcon name="book-open" className="w-8 h-8 text-primary-600" />
-          </div>
-          <h1 className="text-4xl font-bold text-white mb-2">Doorslam</h1>
-          <p className="text-primary-100">
-            Calm, confidence-building revision for your children
+          <BrandWordmark size="lg" light className="mb-2" />
+          <p className="text-primary-foreground/80">
+            Slam your GCSEs.
           </p>
         </div>
 
-        <div className="bg-neutral-0 rounded-2xl shadow-2xl p-8">
-          <h2 className="text-2xl font-bold text-neutral-900 mb-6">
+        <div className="bg-background rounded-2xl shadow-2xl p-8">
+          <h2 className="text-2xl font-bold text-foreground mb-6">
             Create your parent account
           </h2>
 
@@ -118,18 +115,18 @@ export default function SignUp() {
             </Button>
           </form>
 
-          <p className="mt-6 text-center text-sm text-neutral-600">
+          <p className="mt-6 text-center text-sm text-muted-foreground">
             Already have an account?{" "}
             <Link to="/login"
-              className="text-primary-600 font-semibold hover:text-primary-700"
+              className="text-primary font-semibold hover:text-primary"
             >
               Sign in
             </Link>
           </p>
         </div>
 
-        <p className="text-center text-primary-100 text-sm mt-6">
-          Parent-led, child-used revision planning
+        <p className="text-center text-primary-foreground/80 text-sm mt-6">
+          Confident revision planning for your children
         </p>
       </div>
     </div>

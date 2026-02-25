@@ -1,7 +1,6 @@
 import { useState } from "react";
 import AppIcon from "../ui/AppIcon";
 import Button from "../ui/Button";
-import FormField from "../ui/FormField";
 
 export function DangerZoneSection() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -13,31 +12,36 @@ export function DangerZoneSection() {
   };
 
   return (
-    <div className="rounded-2xl p-6 border-2 border-accent-red bg-danger-bg">
+    <div className="rounded-2xl p-6 border-2 border-accent-red bg-destructive/10">
       <div className="flex items-center gap-3 mb-4">
-        <AppIcon name="trash" className="w-5 h-5 text-accent-red" />
-        <h2 className="text-lg font-semibold text-accent-red">Danger Zone</h2>
+        <AppIcon name="trash" className="w-5 h-5 text-destructive" />
+        <h2 className="text-lg font-semibold text-destructive">Danger Zone</h2>
       </div>
 
-      <p className="text-sm text-neutral-600 mb-4">
+      <p className="text-sm text-muted-foreground mb-4">
         Once you delete your account, there is no going back. All your data will be
         permanently removed.
       </p>
 
       {!showDeleteConfirm ? (
-        <Button variant="danger" onClick={() => setShowDeleteConfirm(true)}>
+        <button
+          type="button"
+          onClick={() => setShowDeleteConfirm(true)}
+          className="px-4 py-2 rounded-xl border-2 border-accent-red text-destructive font-medium hover:bg-destructive/10 transition-colors"
+        >
           Delete my account
-        </Button>
+        </button>
       ) : (
         <div className="space-y-4">
-          <p className="text-sm font-medium text-accent-red">
-            Type &quot;DELETE&quot; to confirm:
+          <p className="text-sm font-medium text-destructive">
+            Type "DELETE" to confirm:
           </p>
 
-          <FormField
+          <input
+            type="text"
             value={deleteConfirmText}
             onChange={(e) => setDeleteConfirmText(e.target.value)}
-            className="border-accent-red"
+            className="w-full px-4 py-2.5 rounded-xl border border-accent-red focus:outline-none"
           />
 
           <div className="flex gap-3">

@@ -52,10 +52,10 @@ export function SecuritySection() {
   };
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
+    <div className="bg-background rounded-2xl shadow-sm p-6">
       <div className="flex items-center gap-3 mb-6">
-        <AppIcon name="lock" className="w-5 h-5 text-primary-600" />
-        <h2 className="text-lg font-semibold text-neutral-700">Security</h2>
+        <AppIcon name="lock" className="w-5 h-5 text-primary" />
+        <h2 className="text-lg font-semibold text-foreground">Security</h2>
       </div>
 
       {passwordSuccess && (
@@ -65,9 +65,12 @@ export function SecuritySection() {
       )}
 
       {!showPasswordForm ? (
-        <Button variant="ghost" size="sm" onClick={() => setShowPasswordForm(true)}>
+        <button
+          onClick={() => setShowPasswordForm(true)}
+          className="text-sm font-medium text-primary hover:underline"
+        >
           Change password
-        </Button>
+        </button>
       ) : (
         <div className="space-y-4">
           <FormField

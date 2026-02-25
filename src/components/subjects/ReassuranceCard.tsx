@@ -32,9 +32,9 @@ export default function ReassuranceCard({
   ];
 
   return (
-    <div className="bg-neutral-0 rounded-xl shadow-sm border border-neutral-200 p-6">
+    <div className="bg-background rounded-xl shadow-sm border border-border p-6">
       <div className="flex items-start gap-4 mb-5">
-        <div className="w-12 h-12 rounded-full bg-success-bg flex items-center justify-center flex-shrink-0">
+        <div className="w-12 h-12 rounded-full bg-success/10 flex items-center justify-center flex-shrink-0">
           <AppIcon
             name="check-circle"
             className="w-6 h-6 text-success"
@@ -43,10 +43,10 @@ export default function ReassuranceCard({
         </div>
 
         <div>
-          <h3 className="text-lg font-semibold text-neutral-900 mb-2">
+          <h3 className="text-lg font-semibold text-foreground mb-2">
             Coverage is Happening
           </h3>
-          <p className="text-sm text-neutral-600">
+          <p className="text-sm text-muted-foreground">
             {child.child_name} is making steady progress across all subjects.
             Topics are being covered at a comfortable pace with regular review
             sessions.
@@ -58,16 +58,16 @@ export default function ReassuranceCard({
         {checkItems.map((item, index) => (
           <div
             key={index}
-            className="flex items-center gap-3 p-3 bg-neutral-50 rounded-lg"
+            className="flex items-center gap-3 p-3 bg-muted rounded-lg"
           >
             <AppIcon
               name="check"
               className={`w-4 h-4 ${
-                item.checked ? "text-success" : "text-neutral-300"
+                item.checked ? "text-success" : "text-muted-foreground"
               }`}
               aria-hidden
             />
-            <p className="text-sm text-neutral-700">{item.text}</p>
+            <p className="text-sm text-foreground">{item.text}</p>
           </div>
         ))}
       </div>

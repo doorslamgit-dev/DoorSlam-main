@@ -22,8 +22,8 @@ const momentIcons: Record<MomentType, { bg: string; icon: IconKey }> = {
 export function DashboardProgressMoments({ moments }: DashboardProgressMomentsProps) {
   if (moments.length === 0) {
     return (
-      <div className="bg-background rounded-2xl shadow-sm p-4 border border-default">
-        <h3 className="text-sm font-bold text-dark mb-3">Progress Moments</h3>
+      <div className="bg-background rounded-2xl shadow-sm p-4 border border-border">
+        <h3 className="text-sm font-bold text-foreground mb-3">Progress Moments</h3>
         <EmptyState
           variant="minimal"
           icon="sparkles"
@@ -35,9 +35,9 @@ export function DashboardProgressMoments({ moments }: DashboardProgressMomentsPr
   }
 
   return (
-    <div className="bg-background rounded-2xl shadow-sm p-4 border border-default">
+    <div className="bg-background rounded-2xl shadow-sm p-4 border border-border">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-bold text-dark">Progress Moments</h3>
+        <h3 className="text-sm font-bold text-foreground">Progress Moments</h3>
         <AppIcon name="sparkles" className="w-4 h-4 text-warning" />
       </div>
 
@@ -55,8 +55,8 @@ export function DashboardProgressMoments({ moments }: DashboardProgressMomentsPr
                 <AppIcon name={config.icon} className="w-3.5 h-3.5 text-primary-foreground" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-medium text-medium truncate">{moment.message}</p>
-                <p className="text-[10px] text-muted truncate">{moment.sub_message}</p>
+                <p className="text-xs font-medium text-muted-foreground truncate">{moment.message}</p>
+                <p className="text-[10px] text-muted-foreground truncate">{moment.sub_message}</p>
               </div>
             </div>
           );

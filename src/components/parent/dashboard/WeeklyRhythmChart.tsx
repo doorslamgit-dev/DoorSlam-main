@@ -56,7 +56,7 @@ export function WeeklyRhythmChart({
           return (
             <div key={day.day_of_week} className="flex-1 flex flex-col items-center">
               <div
-                className="w-full rounded-t-md bg-neutral-200 relative"
+                className="w-full rounded-t-md bg-muted relative"
                 style={{ height: `${totalHeight}%`, minHeight: "8px" }}
                 aria-label={`${day.day_name_short}: ${day.sessions_completed}/${day.sessions_total} sessions`}
               >
@@ -93,7 +93,7 @@ export function WeeklyRhythmChart({
           <span className="text-xs text-muted-foreground">Completed</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-sm bg-neutral-200" />
+          <div className="w-3 h-3 rounded-sm bg-muted" />
           <span className="text-xs text-muted-foreground">Planned</span>
         </div>
       </div>

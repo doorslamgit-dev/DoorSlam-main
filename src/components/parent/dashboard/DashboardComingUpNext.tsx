@@ -35,7 +35,7 @@ function DayAvatar({ label }: { label: string }) {
   return (
     <div
       className={`w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
-        isTomorrow ? 'bg-primary/10 text-primary' : 'bg-secondary text-medium'
+        isTomorrow ? 'bg-primary/10 text-primary' : 'bg-secondary text-muted-foreground'
       }`}
     >
       {abbr}
@@ -47,8 +47,8 @@ export function DashboardComingUpNext({ sessions }: DashboardComingUpNextProps) 
   const groups = groupByDay(sessions);
 
   return (
-    <div className="bg-background rounded-2xl shadow-sm p-4 border border-default">
-      <h3 className="text-sm font-bold text-dark mb-3">Coming Up Next</h3>
+    <div className="bg-background rounded-2xl shadow-sm p-4 border border-border">
+      <h3 className="text-sm font-bold text-foreground mb-3">Coming Up Next</h3>
 
       {groups.length === 0 ? (
         <EmptyState
@@ -63,7 +63,7 @@ export function DashboardComingUpNext({ sessions }: DashboardComingUpNextProps) 
             <div key={group.label} className="flex items-start gap-3">
               <DayAvatar label={group.label} />
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-semibold text-medium mb-1">{group.label}</p>
+                <p className="text-xs font-semibold text-muted-foreground mb-1">{group.label}</p>
                 <ul className="space-y-1">
                   {group.sessions.slice(0, 3).map((session) => {
                     const color = getSubjectColor(session.subject_name);
@@ -73,7 +73,7 @@ export function DashboardComingUpNext({ sessions }: DashboardComingUpNextProps) 
                           className="w-1.5 h-1.5 rounded-full shrink-0"
                           style={{ backgroundColor: color }}
                         />
-                        <span className="text-xs text-medium truncate">
+                        <span className="text-xs text-muted-foreground truncate">
                           {session.subject_name}
                           {session.topic_name && session.topic_name !== 'Topic TBD'
                             ? ` — ${session.topic_name}`

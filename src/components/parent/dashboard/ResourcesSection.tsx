@@ -44,7 +44,7 @@ export function ResourcesSection() {
 
   return (
     <section className="mb-10">
-      <h3 className="text-lg font-bold text-primary-900 mb-4">
+      <h3 className="text-lg font-bold text-primary mb-4">
         Resources & Help
       </h3>
 
@@ -53,18 +53,18 @@ export function ResourcesSection() {
           <button
             key={resource.path}
             onClick={() => handleNavigate(resource.path)}
-            className="bg-neutral-0 rounded-xl p-5 shadow-soft hover:shadow-card transition-all border border-neutral-200/50 group text-left"
+            className="bg-background rounded-xl p-5 shadow-soft hover:shadow-sm transition-all border border-border/50 group text-left"
           >
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-primary-200 transition-colors">
-                <AppIcon name={resource.icon} className="w-5 h-5 text-primary-600" aria-hidden />
+              <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
+                <AppIcon name={resource.icon} className="w-5 h-5 text-primary" aria-hidden />
               </div>
 
               <div>
-                <div className="text-sm font-semibold text-primary-900 mb-1">
+                <div className="text-sm font-semibold text-primary mb-1">
                   {resource.title}
                 </div>
-                <div className="text-xs text-neutral-500">
+                <div className="text-xs text-muted-foreground">
                   {resource.description}
                 </div>
               </div>

@@ -388,7 +388,7 @@ export default function Pricing() {
       {/* Header — subscribers see their current plan; non-subscribers see CTA */}
       {isSubscriber ? (
         <div className="text-center mb-10">
-          <h1 className="text-3xl font-bold text-primary-900 mb-3">
+          <h1 className="text-3xl font-bold text-primary mb-3">
             You are on the{subscriberPlanLength ? ` ${planLengthLabel(subscriberPlanLength)}` : ""}{" "}
             {tier === "premium" ? "Premium" : "Family"} plan
           </h1>
@@ -407,15 +407,15 @@ export default function Pricing() {
 
             if (longerOptions.length > 0) {
               return (
-                <p className="text-neutral-600 max-w-xl mx-auto">
+                <p className="text-muted-foreground max-w-xl mx-auto">
                   You can upgrade your plan to a{" "}
-                  <span className="font-medium text-primary-700">
+                  <span className="font-medium text-primary">
                     {longerOptions.join(" or ")}
                   </span>{" "}
                   plan. To shorten your plan, cancel first via{" "}
                   <button
                     onClick={handleManageBilling}
-                    className="text-primary-600 hover:underline font-medium"
+                    className="text-primary hover:underline font-medium"
                   >
                     Manage Billing
                   </button>.
@@ -425,11 +425,11 @@ export default function Pricing() {
 
             // Already on longest plan
             return (
-              <p className="text-neutral-600 max-w-xl mx-auto">
+              <p className="text-muted-foreground max-w-xl mx-auto">
                 You&apos;re on the longest plan available. To change plans, visit{" "}
                 <button
                   onClick={handleManageBilling}
-                  className="text-primary-600 hover:underline font-medium"
+                  className="text-primary hover:underline font-medium"
                 >
                   Manage Billing
                 </button>.
@@ -439,10 +439,10 @@ export default function Pricing() {
         </div>
       ) : (
         <div className="text-center mb-10">
-          <h1 className="text-3xl font-bold text-primary-900 mb-4">
+          <h1 className="text-3xl font-bold text-primary mb-4">
             Choose Your Plan
           </h1>
-          <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             {hasStripeCustomer
               ? "Choose a plan to reactivate your subscription."
               : "Start with a 14-day free trial on Family. Cancel anytime."}
@@ -452,7 +452,7 @@ export default function Pricing() {
 
       {/* Plan length tabs */}
       <div className="flex justify-center mb-4">
-        <div className="inline-flex bg-neutral-100 rounded-xl p-1">
+        <div className="inline-flex bg-secondary rounded-xl p-1">
           {planLengths.map(({ value, label }) => {
             // Subscribers: disable shorter plan lengths, allow same + longer
             // If subscriberPlanLength is unknown, lock all tabs to prevent changes
@@ -476,15 +476,15 @@ export default function Pricing() {
                 }}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                   isSelected
-                    ? "bg-neutral-0 text-primary-600 shadow-sm"
+                    ? "bg-background text-primary shadow-sm"
                     : isDisabled
-                      ? "text-neutral-400 cursor-not-allowed"
-                      : "text-neutral-600 hover:text-neutral-900"
+                      ? "text-muted-foreground cursor-not-allowed"
+                      : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 {label}
                 {isCurrent && (
-                  <span className="block text-[10px] font-normal text-primary-500 leading-tight">
+                  <span className="block text-[10px] font-normal text-primary leading-tight">
                     Current
                   </span>
                 )}
@@ -501,13 +501,13 @@ export default function Pricing() {
             // Locked for subscribers — show their billing method (or default to monthly if unknown)
             <div className="flex items-center gap-3">
               <span
-                className={`text-sm font-medium ${(subscriberBillingMethod ?? "monthly") === "monthly" ? "text-primary-600" : "text-neutral-400"}`}
+                className={`text-sm font-medium ${(subscriberBillingMethod ?? "monthly") === "monthly" ? "text-primary" : "text-muted-foreground"}`}
               >
                 Pay monthly
               </span>
               <div
                 className={`relative w-11 h-6 rounded-full cursor-not-allowed ${
-                  (subscriberBillingMethod ?? "monthly") === "upfront" ? "bg-primary-400" : "bg-neutral-300"
+                  (subscriberBillingMethod ?? "monthly") === "upfront" ? "bg-primary/60" : "bg-muted"
                 }`}
                 title="Billing method is locked for your current subscription"
               >
@@ -518,11 +518,11 @@ export default function Pricing() {
                 />
               </div>
               <span
-                className={`text-sm font-medium ${(subscriberBillingMethod ?? "monthly") === "upfront" ? "text-primary-600" : "text-neutral-400"}`}
+                className={`text-sm font-medium ${(subscriberBillingMethod ?? "monthly") === "upfront" ? "text-primary" : "text-muted-foreground"}`}
               >
                 Pay in full
               </span>
-              <span className="text-xs text-neutral-400 ml-1">
+              <span className="text-xs text-muted-foreground ml-1">
                 (locked)
               </span>
             </div>
@@ -530,7 +530,7 @@ export default function Pricing() {
             // Interactive for new users
             <label className="flex items-center gap-3 cursor-pointer">
               <span
-                className={`text-sm font-medium ${!payUpfront ? "text-primary-600" : "text-neutral-500"}`}
+                className={`text-sm font-medium ${!payUpfront ? "text-primary" : "text-muted-foreground"}`}
               >
                 Pay monthly
               </span>
@@ -539,7 +539,7 @@ export default function Pricing() {
                 aria-checked={payUpfront}
                 onClick={() => setPayUpfront((prev) => !prev)}
                 className={`relative w-11 h-6 rounded-full transition-colors ${
-                  payUpfront ? "bg-primary-600" : "bg-neutral-300"
+                  payUpfront ? "bg-primary" : "bg-muted"
                 }`}
               >
                 <span
@@ -549,7 +549,7 @@ export default function Pricing() {
                 />
               </button>
               <span
-                className={`text-sm font-medium ${payUpfront ? "text-primary-600" : "text-neutral-500"}`}
+                className={`text-sm font-medium ${payUpfront ? "text-primary" : "text-muted-foreground"}`}
               >
                 Pay in full (save more)
               </span>
@@ -581,10 +581,10 @@ export default function Pricing() {
       {/* Pricing cards */}
       <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
         {/* Family Plan */}
-        <div className="bg-neutral-0 rounded-2xl shadow-card border border-neutral-200/50 p-8">
+        <div className="bg-background rounded-2xl shadow-sm border border-border/50 p-8">
           <div className="text-center mb-6">
-            <h2 className="text-xl font-bold text-primary-900 mb-2">Family</h2>
-            <p className="text-neutral-600 text-sm">
+            <h2 className="text-xl font-bold text-primary mb-2">Family</h2>
+            <p className="text-muted-foreground text-sm">
               Everything you need for your family&apos;s revision
             </p>
           </div>
@@ -595,11 +595,11 @@ export default function Pricing() {
             {FAMILY_FEATURES.map((feature) => (
               <li
                 key={feature}
-                className="flex items-center gap-3 text-neutral-700"
+                className="flex items-center gap-3 text-foreground"
               >
                 <AppIcon
                   name="check"
-                  className="w-5 h-5 text-accent-green flex-shrink-0"
+                  className="w-5 h-5 text-success flex-shrink-0"
                 />
                 {feature}
               </li>
@@ -610,18 +610,18 @@ export default function Pricing() {
         </div>
 
         {/* Premium Plan */}
-        <div className="bg-gradient-to-br from-primary-50 to-primary-100/50 rounded-2xl shadow-card border-2 border-primary-200 p-8 relative">
+        <div className="bg-gradient-to-br from-primary/5 to-primary-100/50 rounded-2xl shadow-sm border-2 border-primary/20 p-8 relative">
           <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-            <span className="px-4 py-1 bg-primary-600 text-white text-sm font-semibold rounded-full">
+            <span className="px-4 py-1 bg-primary text-white text-sm font-semibold rounded-full">
               Most Popular
             </span>
           </div>
 
           <div className="text-center mb-6">
-            <h2 className="text-xl font-bold text-primary-900 mb-2">
+            <h2 className="text-xl font-bold text-primary mb-2">
               Premium
             </h2>
-            <p className="text-neutral-600 text-sm">
+            <p className="text-muted-foreground text-sm">
               Advanced insights and AI-powered guidance
             </p>
           </div>
@@ -634,14 +634,14 @@ export default function Pricing() {
                 key={feature}
                 className={`flex items-center gap-3 ${
                   i === 0
-                    ? "text-primary-700 font-medium"
-                    : "text-neutral-700"
+                    ? "text-primary font-medium"
+                    : "text-foreground"
                 }`}
               >
                 <AppIcon
                   name={i === 0 ? "sparkles" : "check"}
                   className={`w-5 h-5 flex-shrink-0 ${
-                    i === 0 ? "text-primary-600" : "text-accent-green"
+                    i === 0 ? "text-primary" : "text-success"
                   }`}
                 />
                 {feature}
@@ -659,7 +659,7 @@ export default function Pricing() {
           <button
             onClick={handleManageBilling}
             disabled={loadingTier === "manage"}
-            className="text-sm text-primary-600 hover:underline disabled:opacity-50"
+            className="text-sm text-primary hover:underline disabled:opacity-50"
           >
             {loadingTier === "manage" ? "Loading..." : "Manage Billing & Payment Methods"}
           </button>
@@ -668,11 +668,11 @@ export default function Pricing() {
 
       {/* FAQ */}
       <div className="mt-8 text-center">
-        <p className="text-neutral-600">
+        <p className="text-muted-foreground">
           Questions?{" "}
           <a
             href="mailto:support@doorslam.app"
-            className="text-primary-600 hover:underline"
+            className="text-primary hover:underline"
           >
             Contact us
           </a>
@@ -690,13 +690,13 @@ export default function Pricing() {
           <div className="flex gap-3 justify-end">
             <button
               onClick={() => setConfirmAction(null)}
-              className="px-4 py-2 text-sm font-medium text-neutral-600 hover:bg-neutral-100 rounded-lg transition-colors"
+              className="px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-secondary rounded-lg transition-colors"
             >
               Cancel
             </button>
             <button
               onClick={handlePlanChange}
-              className="px-4 py-2 text-sm font-semibold text-white bg-primary-600 hover:bg-primary-700 rounded-lg transition-colors"
+              className="px-4 py-2 text-sm font-semibold text-white bg-primary hover:bg-primary/90 rounded-lg transition-colors"
             >
               Confirm
             </button>
@@ -704,7 +704,7 @@ export default function Pricing() {
         }
       >
         <div className="space-y-4">
-          <p className="text-neutral-700">
+          <p className="text-foreground">
             {confirmAction?.actionLabel}
             {confirmAction?.priceLabel ? ` at ${confirmAction.priceLabel}` : ""}.
           </p>
@@ -716,7 +716,7 @@ export default function Pricing() {
             </div>
           )}
           {!isTrialing && (
-            <p className="text-sm text-neutral-500">
+            <p className="text-sm text-muted-foreground">
               Your subscription will be prorated — you&apos;ll only pay the difference.
             </p>
           )}

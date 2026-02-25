@@ -66,7 +66,7 @@ export function WorkedExampleCard({
   return (
     <div className="space-y-4">
       {/* Progress indicator */}
-      <div className="flex items-center justify-between text-sm text-neutral-500">
+      <div className="flex items-center justify-between text-sm text-muted-foreground">
         <span className="flex items-center gap-2">
           <span className="text-teal-600" aria-hidden="true">
             <AppIcon name={icons.pencil} />
@@ -76,7 +76,7 @@ export function WorkedExampleCard({
       </div>
 
       {/* Main card */}
-      <div className="bg-neutral-0 rounded-2xl shadow-card overflow-hidden">
+      <div className="bg-background rounded-2xl shadow-sm overflow-hidden">
         {/* Title bar */}
         <div className="bg-teal-600 px-6 py-4">
           <h3 className="text-xl font-bold text-white">{example.title}</h3>
@@ -84,19 +84,19 @@ export function WorkedExampleCard({
 
         <div className="p-6 space-y-6">
           {/* Question context */}
-          <div className="bg-neutral-50 rounded-xl p-4 border-l-4 border-teal-500">
-            <h4 className="font-semibold text-neutral-900 mb-2">Question</h4>
-            <p className="text-neutral-700">{example.question_context}</p>
+          <div className="bg-muted rounded-xl p-4 border-l-4 border-teal-500">
+            <h4 className="font-semibold text-foreground mb-2">Question</h4>
+            <p className="text-foreground">{example.question_context}</p>
           </div>
 
           {/* Solution steps - progressive reveal */}
           <div>
-            <h4 className="font-semibold text-neutral-900 mb-3 flex items-center gap-2">
+            <h4 className="font-semibold text-foreground mb-3 flex items-center gap-2">
               <span className="text-teal-600" aria-hidden="true">
                 <AppIcon name={icons.lightbulb} />
               </span>
               Solution
-              <span className="text-sm font-normal text-neutral-500">
+              <span className="text-sm font-normal text-muted-foreground">
                 ({revealedSteps}/{totalSteps} steps shown)
               </span>
             </h4>
@@ -113,7 +113,7 @@ export function WorkedExampleCard({
                   <div className="flex-1">
                     <p className="text-teal-900">{step.content}</p>
                     {step.marks > 0 && (
-                      <span className="inline-block mt-1 text-xs bg-primary-100 text-primary-700 px-2 py-0.5 rounded">
+                      <span className="inline-block mt-1 text-xs bg-primary/10 text-primary px-2 py-0.5 rounded">
                         {step.marks} mark{step.marks > 1 ? "s" : ""}
                       </span>
                     )}
@@ -136,7 +136,7 @@ export function WorkedExampleCard({
 
           {/* Final answer - only show after all steps */}
           {showAnswer && example.final_answer && (
-            <div className="bg-success-bg border border-success-border rounded-xl p-4 animate-fadeIn">
+            <div className="bg-success/10 border border-success-border rounded-xl p-4 animate-fadeIn">
               <h4 className="font-semibold text-green-900 mb-2 flex items-center gap-2">
                 <span className="text-success" aria-hidden="true">
                   <AppIcon name={icons.checkCircle} />
@@ -152,7 +152,7 @@ export function WorkedExampleCard({
             <button
               type="button"
               onClick={() => setShowAnswer(true)}
-              className="w-full py-3 bg-success-bg text-success font-medium rounded-lg hover:bg-green-200 transition"
+              className="w-full py-3 bg-success/10 text-success font-medium rounded-lg hover:bg-green-200 transition"
             >
               Show final answer
             </button>
@@ -173,7 +173,7 @@ export function WorkedExampleCard({
                   Show common mistake to avoid
                 </button>
               ) : (
-                <div className="bg-warning-bg border border-warning-border rounded-xl p-4 animate-fadeIn">
+                <div className="bg-warning/10 border border-warning-border rounded-xl p-4 animate-fadeIn">
                   <h4 className="font-semibold text-amber-900 mb-2 flex items-center gap-2">
                     <span className="text-warning" aria-hidden="true">
                       <AppIcon name={icons.warning} />
@@ -196,7 +196,7 @@ export function WorkedExampleCard({
             handleReset();
             onPrevious();
           }}
-          className="flex items-center gap-2 px-4 py-2 text-neutral-600 hover:bg-neutral-100 rounded-xl transition"
+          className="flex items-center gap-2 px-4 py-2 text-muted-foreground hover:bg-secondary rounded-xl transition"
         >
           <AppIcon name={icons.arrowLeft} aria-hidden />
           Previous
@@ -209,7 +209,7 @@ export function WorkedExampleCard({
             onNext();
           }}
           disabled={!showAnswer}
-          className="flex items-center gap-2 px-6 py-3 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition disabled:opacity-50 disabled:hover:bg-primary-600"
+          className="flex items-center gap-2 px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary/90 transition disabled:opacity-50 disabled:hover:bg-primary"
         >
           {isLastExample ? "Continue" : "Next Example"}
           <AppIcon name={icons.arrowRight} aria-hidden />
@@ -217,7 +217,7 @@ export function WorkedExampleCard({
       </div>
 
       {!showAnswer && (
-        <p className="text-center text-sm text-neutral-400">
+        <p className="text-center text-sm text-muted-foreground">
           Reveal all steps and the answer to continue
         </p>
       )}

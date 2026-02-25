@@ -65,10 +65,10 @@ export default function TrafficLight({
         <div
           className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
             status === "sufficient"
-              ? "bg-accent-green/15"
+              ? "bg-success/15"
               : status === "marginal"
-              ? "bg-accent-amber/15"
-              : "bg-danger-bg"
+              ? "bg-warning/15"
+              : "bg-destructive/10"
           }`}
         >
           <AppIcon
@@ -90,10 +90,10 @@ export default function TrafficLight({
             <div className="mt-3 flex items-start gap-2 p-3 bg-white/50 rounded-lg">
               <AppIcon
                 name={suggestionIcon()}
-                className="w-4 h-4 text-primary-600 mt-0.5"
+                className="w-4 h-4 text-primary mt-0.5"
                 aria-hidden
               />
-              <p className="text-sm text-neutral-700">{suggestion}</p>
+              <p className="text-sm text-foreground">{suggestion}</p>
             </div>
           )}
         </div>

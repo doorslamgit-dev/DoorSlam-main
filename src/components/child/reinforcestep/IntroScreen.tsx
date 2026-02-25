@@ -25,23 +25,23 @@ export function IntroScreen({
   const icons = getIntroIconKeys();
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-8 text-center">
-      <div className="w-20 h-20 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-6">
-        <span className="text-primary-600 text-3xl" aria-hidden="true">
+    <div className="bg-background rounded-2xl shadow-sm p-8 text-center">
+      <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+        <span className="text-primary text-3xl" aria-hidden="true">
           <AppIcon name={icons.intro} />
         </span>
       </div>
 
-      <h2 className="text-2xl font-bold text-neutral-900 mb-3">
+      <h2 className="text-2xl font-bold text-foreground mb-3">
         Time to learn!
       </h2>
 
-      <p className="text-lg text-neutral-600 mb-2">
+      <p className="text-lg text-muted-foreground mb-2">
         Let's explore the key ideas about{" "}
-        <span className="font-semibold text-primary-600">{topicName}</span>.
+        <span className="font-semibold text-primary">{topicName}</span>.
       </p>
 
-      <p className="text-neutral-500 mb-8">
+      <p className="text-muted-foreground mb-8">
         {slideCount > 0 && `${slideCount} quick explanation${slideCount > 1 ? "s" : ""}`}
         {slideCount > 0 && exampleCount > 0 && " + "}
         {exampleCount > 0 &&
@@ -51,7 +51,7 @@ export function IntroScreen({
       <button
         type="button"
         onClick={onStart}
-        className="px-8 py-4 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition text-lg"
+        className="px-8 py-4 bg-primary text-white font-semibold rounded-xl hover:bg-primary/90 transition text-lg"
       >
         Let's learn!
       </button>

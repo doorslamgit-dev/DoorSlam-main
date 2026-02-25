@@ -38,7 +38,7 @@ function safeStatusIndicator(value: unknown): StatusIndicator | null {
 export default function SubjectProgress() {
   const navigate = useNavigate();
   const { user, activeChildId, loading: authLoading } = useAuth();
-  const { selectedChildId, selectedChildName } = useSelectedChild();
+  const { children: childOptions, selectedChildId, selectedChildName, setSelectedChildId } = useSelectedChild();
 
   const {
     data,
@@ -79,8 +79,8 @@ export default function SubjectProgress() {
       <PageLayout hideFooter>
         <div className="flex items-center justify-center py-32">
           <div className="text-center">
-            <div className="w-8 h-8 border-2 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-            <p className="text-sm text-neutral-600">
+            <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+            <p className="text-sm text-muted-foreground">
               Loading subject progress...
             </p>
           </div>
@@ -95,14 +95,14 @@ export default function SubjectProgress() {
     return (
       <PageLayout hideFooter>
         <div className="max-w-6xl mx-auto px-6 py-8">
-          <div className="rounded-2xl p-6 text-center bg-danger-bg border border-danger-border">
-            <p className="font-medium text-accent-red">
+          <div className="rounded-2xl p-6 text-center bg-destructive/10 border border-danger-border">
+            <p className="font-medium text-destructive">
               Failed to load subject progress
             </p>
-            <p className="text-sm mt-1 text-danger">{error}</p>
+            <p className="text-sm mt-1 text-destructive">{error}</p>
             <button
               onClick={() => refreshData()}
-              className="mt-4 px-4 py-2 text-white rounded-lg hover:opacity-90 bg-accent-red"
+              className="mt-4 px-4 py-2 text-white rounded-lg hover:opacity-90 bg-destructive"
             >
               Try Again
             </button>
@@ -116,13 +116,13 @@ export default function SubjectProgress() {
     return (
       <PageLayout hideFooter>
         <div className="max-w-6xl mx-auto px-6 py-8">
-          <div className="bg-neutral-0 rounded-2xl shadow-card p-8 text-center">
-            <p className="text-neutral-600">
+          <div className="bg-background rounded-2xl shadow-sm p-8 text-center">
+            <p className="text-muted-foreground">
               No children found. Please add a child first.
             </p>
             <button
               onClick={() => navigate("/parent/onboarding")}
-              className="mt-4 px-4 py-2 text-white rounded-full hover:opacity-90 bg-primary-600"
+              className="mt-4 px-4 py-2 text-white rounded-full hover:opacity-90 bg-primary"
             >
               Add Child
             </button>
@@ -221,6 +221,9 @@ export default function SubjectProgress() {
         {/* Hero Section */}
         <section className="mb-8">
           <SubjectProgressHeader
+            children={childOptions.map(c => ({ child_id: c.child_id, child_name: c.child_name }))}
+            selectedChildId={selectedChildId}
+            onChildChange={setSelectedChildId}
             totalSubjects={totalSubjects}
             childStatus={childStatus}
             childStatusLabel={childStatusLabel}

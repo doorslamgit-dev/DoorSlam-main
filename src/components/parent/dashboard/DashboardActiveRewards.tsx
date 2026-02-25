@@ -47,7 +47,7 @@ export function DashboardActiveRewards({
 }: DashboardActiveRewardsProps) {
   if (loading) {
     return (
-      <div className="bg-background rounded-2xl shadow-sm p-4 border border-default animate-pulse">
+      <div className="bg-background rounded-2xl shadow-sm p-4 border border-border animate-pulse">
         <div className="h-5 bg-muted rounded w-28 mb-3" />
         <div className="h-16 bg-secondary rounded-xl" />
       </div>
@@ -56,8 +56,8 @@ export function DashboardActiveRewards({
 
   if (rewards.length === 0) {
     return (
-      <div className="bg-background rounded-2xl shadow-sm p-4 border border-default">
-        <h3 className="text-sm font-bold text-dark mb-3">Active Rewards</h3>
+      <div className="bg-background rounded-2xl shadow-sm p-4 border border-border">
+        <h3 className="text-sm font-bold text-foreground mb-3">Active Rewards</h3>
         <EmptyState
           variant="minimal"
           icon="gift"
@@ -75,9 +75,9 @@ export function DashboardActiveRewards({
 
   const count = Math.min(rewards.length, 4);
   return (
-    <div className="bg-background rounded-2xl shadow-sm p-4 border border-default">
-      <h3 className="text-sm font-bold text-dark">Active Rewards</h3>
-      <p className="text-xs text-muted mb-3">
+    <div className="bg-background rounded-2xl shadow-sm p-4 border border-border">
+      <h3 className="text-sm font-bold text-foreground">Active Rewards</h3>
+      <p className="text-xs text-muted-foreground mb-3">
         {count} reward{count !== 1 ? 's' : ''} your child can work towards
       </p>
       <div className="space-y-2">
@@ -95,7 +95,7 @@ export function DashboardActiveRewards({
                   style={{ color }}
                 />
               </div>
-              <span className="text-xs font-medium text-medium flex-1 min-w-0 truncate">
+              <span className="text-xs font-medium text-muted-foreground flex-1 min-w-0 truncate">
                 {reward.name}
               </span>
               <span className="text-[10px] font-semibold text-primary bg-primary/5 px-1.5 py-0.5 rounded shrink-0">

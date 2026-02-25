@@ -48,8 +48,8 @@ import type { SubjectProgress, TopicCovered, TopicComingUp } from '@/types/subje
 function Section({ id, title, children }: { id: string; title: string; children: ReactNode }) {
  return (
  <div id={id} className="scroll-mt-6">
- <div className="mb-4 pb-2 border-b border-neutral-200">
- <h2 className="text-xl font-bold text-neutral-700">{title}</h2>
+ <div className="mb-4 pb-2 border-b border-border">
+ <h2 className="text-xl font-bold text-foreground">{title}</h2>
  </div>
  <div className="space-y-6">{children}</div>
  </div>
@@ -59,7 +59,7 @@ function Section({ id, title, children }: { id: string; title: string; children:
 function SubSection({ title, children }: { title: string; children: ReactNode }) {
  return (
  <div>
- <h3 className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-3">
+ <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
  {title}
  </h3>
  {children}
@@ -70,7 +70,7 @@ function SubSection({ title, children }: { title: string; children: ReactNode })
 function DemoPanel({ children, className = '' }: { children: ReactNode; className?: string }) {
  return (
  <div
- className={`bg-neutral-0 rounded-xl border border-neutral-200 p-6 ${className}`}
+ className={`bg-background rounded-xl border border-border p-6 ${className}`}
  >
  {children}
  </div>
@@ -87,6 +87,7 @@ const NAV_SECTIONS = [
  { id: 'spacing', label: 'Spacing' },
  { id: 'radius', label: 'Border Radius' },
  { id: 'shadows', label: 'Shadows' },
+ { id: 'gradients', label: 'Gradients' },
  { id: 'icons', label: 'Icons' },
  { id: 'buttons', label: 'Button' },
  { id: 'cards', label: 'Card' },
@@ -118,46 +119,43 @@ const MODULE_NAV_SECTIONS = [
 // ============================================================================
 
 const primaryColors = [
- { shade: '50', hex: '#F7F4FF', tw: 'bg-primary-50', dark: false },
- { shade: '100', hex: '#EDE7FF', tw: 'bg-primary-100', dark: false },
- { shade: '200', hex: '#DDD3FF', tw: 'bg-primary-200', dark: false },
- { shade: '300', hex: '#C3B5FF', tw: 'bg-primary-300', dark: false },
- { shade: '400', hex: '#A890FF', tw: 'bg-primary-400', dark: false },
- { shade: '500', hex: '#8C6CFF', tw: 'bg-primary-500', dark: true },
- { shade: '600', hex: '#5B2CFF', tw: 'bg-primary-600', dark: true, main: true },
- { shade: '700', hex: '#4A1FDB', tw: 'bg-primary-700', dark: true },
- { shade: '800', hex: '#3D1AB3', tw: 'bg-primary-800', dark: true },
- { shade: '900', hex: '#32168A', tw: 'bg-primary-900', dark: true },
+ { shade: '50', hex: '#EEF2FF', tw: 'bg-primary/5', dark: false },
+ { shade: '100', hex: '#E0E7FF', tw: 'bg-primary/10', dark: false },
+ { shade: '200', hex: '#C7D2FE', tw: 'bg-primary/20', dark: false },
+ { shade: '300', hex: '#A5B4FC', tw: 'bg-primary/40', dark: false },
+ { shade: '400', hex: '#818CF8', tw: 'bg-primary/60', dark: false },
+ { shade: '500', hex: '#6366F1', tw: 'bg-primary/80', dark: true },
+ { shade: '600', hex: '#4F46E5', tw: 'bg-primary', dark: true, main: true },
+ { shade: '700', hex: '#4338CA', tw: 'bg-primary/90', dark: true },
+ { shade: '800', hex: '#3730A3', tw: 'bg-primary/85', dark: true },
+ { shade: '900', hex: '#312E81', tw: 'bg-primary/80', dark: true },
 ];
 
 const neutralColors = [
- { shade: '0', hex: '#FFFFFF', tw: 'bg-neutral-0' },
- { shade: '50', hex: '#F9FAFB', tw: 'bg-neutral-50' },
- { shade: '100', hex: '#F3F4F6', tw: 'bg-neutral-100' },
- { shade: '200', hex: '#E5E7EB', tw: 'bg-neutral-200' },
- { shade: '300', hex: '#D1D5DB', tw: 'bg-neutral-300' },
- { shade: '400', hex: '#9CA3AF', tw: 'bg-neutral-400' },
- { shade: '500', hex: '#6B7280', tw: 'bg-neutral-500' },
- { shade: '600', hex: '#4B5563', tw: 'bg-neutral-600' },
- { shade: '700', hex: '#1F2330', tw: 'bg-neutral-700' },
- { shade: '800', hex: '#1A1D28', tw: 'bg-neutral-800' },
- { shade: '900', hex: '#111318', tw: 'bg-neutral-900' },
+ { shade: 'White', hex: '#FFFFFF', tw: 'bg-background' },
+ { shade: 'Gray 50', hex: '#F9FAFB', tw: 'bg-muted' },
+ { shade: 'Gray 100', hex: '#F3F4F6', tw: 'bg-secondary' },
+ { shade: 'Gray 200', hex: '#E5E7EB', tw: 'bg-border' },
+ { shade: 'Gray 400', hex: '#9CA3AF', tw: 'bg-muted-foreground' },
+ { shade: 'Gray 500', hex: '#6B7280', tw: 'bg-muted-foreground' },
+ { shade: 'Navy', hex: '#1F2330', tw: 'bg-foreground' },
+ { shade: 'Deep Navy', hex: '#0A1628', tw: 'bg-foreground' },
 ];
 
 const accentColors = [
- { name: 'Green', role: 'Success / Completion', hex: '#1EC592', tw: 'bg-accent-green' },
- { name: 'Amber', role: 'Warning / Attention', hex: '#FFB547', tw: 'bg-accent-amber' },
- { name: 'Red', role: 'Error / Danger', hex: '#EF4444', tw: 'bg-accent-red' },
- { name: 'Blue', role: 'Info / Links', hex: '#3B82F6', tw: 'bg-accent-blue' },
- { name: 'Purple', role: 'Accent', hex: '#8B5CF6', tw: 'bg-accent-purple' },
- { name: 'Pink', role: 'Accent', hex: '#EC4899', tw: 'bg-accent-pink' },
+ { name: 'Lime', role: 'Brand / Energy', hex: '#84CC16', tw: 'bg-lime' },
+ { name: 'Teal', role: 'Success / Progress', hex: '#14B8A6', tw: 'bg-success' },
+ { name: 'Amber', role: 'Warning / Attention', hex: '#F59E0B', tw: 'bg-warning' },
+ { name: 'Coral', role: 'Error / Destructive', hex: '#F43F5E', tw: 'bg-destructive' },
+ { name: 'Cyan', role: 'Info / Links', hex: '#06B6D4', tw: 'bg-info' },
+ { name: 'Violet', role: 'Charts / Accent', hex: '#8B5CF6', tw: 'bg-[#8B5CF6]' },
 ];
 
 const semanticColors = [
- { name: 'Success', bg: 'bg-success-bg', border: 'border-success-border', text: 'text-success', hex: '#1EC592' },
- { name: 'Warning', bg: 'bg-warning-bg', border: 'border-warning-border', text: 'text-warning', hex: '#FFB547' },
- { name: 'Error', bg: 'bg-error-bg', border: 'border-error-border', text: 'text-error', hex: '#EF4444' },
- { name: 'Info', bg: 'bg-info-bg', border: 'border-info-border', text: 'text-info', hex: '#3B82F6' },
+ { name: 'Success', bg: 'bg-success/10', border: 'border-success/30', text: 'text-success', hex: '#0F766E' },
+ { name: 'Warning', bg: 'bg-warning/10', border: 'border-warning/30', text: 'text-warning', hex: '#D97706' },
+ { name: 'Destructive', bg: 'bg-destructive/10', border: 'border-destructive/30', text: 'text-destructive', hex: '#E11D48' },
+ { name: 'Info', bg: 'bg-info/10', border: 'border-info/30', text: 'text-info', hex: '#06B6D4' },
 ];
 
 const fontSizes = [
@@ -196,7 +194,7 @@ const spacingScale = [
 const radiusScale = [
  { label: 'sm', px: '6px', tw: 'rounded-sm' },
  { label: 'md', px: '8px', tw: 'rounded-md' },
- { label: 'lg', px: '12px', tw: 'rounded-lg' },
+ { label: 'lg (--radius)', px: '10px', tw: 'rounded-lg' },
  { label: 'xl', px: '16px', tw: 'rounded-xl' },
  { label: '2xl', px: '24px', tw: 'rounded-2xl' },
  { label: 'full', px: '9999px', tw: 'rounded-full' },
@@ -207,10 +205,27 @@ const shadowScale = [
  { label: 'md', tw: 'shadow-md' },
  { label: 'lg', tw: 'shadow-lg' },
  { label: 'xl', tw: 'shadow-xl' },
- { label: 'card', tw: 'shadow-card' },
- { label: 'card-hover',tw: 'shadow-card-hover'},
+ { label: 'card', tw: 'shadow-sm' },
+ { label: 'card-hover',tw: 'shadow-md'},
  { label: 'soft', tw: 'shadow-soft' },
  { label: 'button', tw: 'shadow-button' },
+];
+
+const gradientTokens = [
+  {
+    label: 'Main (Light)',
+    token: '--gradient-main',
+    css: 'linear-gradient(135deg, indigo/8% → muted → lime/8%)',
+    description: 'Page background behind content cards in light mode',
+    style: 'linear-gradient(135deg, hsl(239 84% 67% / 0.08) 0%, hsl(220 14% 96%) 40%, hsl(84 81% 44% / 0.08) 100%)',
+  },
+  {
+    label: 'Main (Dark)',
+    token: '--gradient-main',
+    css: 'linear-gradient(135deg, indigo/15% → navy → lime/10%)',
+    description: 'Page background behind content cards in dark mode',
+    style: 'linear-gradient(135deg, hsl(239 84% 74% / 0.15) 0%, hsl(218 63% 10%) 40%, hsl(84 81% 44% / 0.10) 100%)',
+  },
 ];
 
 // ============================================================================
@@ -374,10 +389,10 @@ const MOCK_SUBJECTS: SubjectProgress[] = [
 /** A placeholder chart area used in Insights mockups */
 function ChartPlaceholder({ height = 'h-32', label }: { height?: string; label: string }) {
  return (
-   <div className={`${height} bg-neutral-50 rounded-xl border border-neutral-200 border-dashed flex items-center justify-center`}>
+   <div className={`${height} bg-muted rounded-xl border border-border border-dashed flex items-center justify-center`}>
      <div className="text-center">
-       <AppIcon name="chart-bar" className="w-6 h-6 text-neutral-300 mx-auto mb-1" />
-       <span className="text-xs text-neutral-400">{label}</span>
+       <AppIcon name="chart-bar" className="w-6 h-6 text-muted-foreground mx-auto mb-1" />
+       <span className="text-xs text-muted-foreground">{label}</span>
      </div>
    </div>
  );
@@ -386,7 +401,7 @@ function ChartPlaceholder({ height = 'h-32', label }: { height?: string; label: 
 /** Tag showing the component source path */
 function SourceTag({ path }: { path: string }) {
  return (
-   <p className="text-xs text-neutral-400 font-mono mt-1 mb-4 -mt-3">
+   <p className="text-xs text-muted-foreground font-mono mt-1 mb-4 -mt-3">
      {path}
    </p>
  );
@@ -399,9 +414,9 @@ function SourceTag({ path }: { path: string }) {
 type MigrationStatus = 'pending' | 'in_progress' | 'done';
 
 const STATUS_LABELS: Record<MigrationStatus, { label: string; className: string }> = {
-  pending: { label: 'Pending', className: 'bg-neutral-100 text-neutral-500' },
-  in_progress: { label: 'In Progress', className: 'bg-warning-bg text-warning' },
-  done: { label: 'Migrated', className: 'bg-success-bg text-success' },
+  pending: { label: 'Pending', className: 'bg-secondary text-muted-foreground' },
+  in_progress: { label: 'In Progress', className: 'bg-warning/10 text-warning' },
+  done: { label: 'Migrated', className: 'bg-success/10 text-success' },
 };
 
 function MigrationSection({
@@ -417,7 +432,7 @@ function MigrationSection({
   return (
     <section>
       <div className="flex items-center gap-3 mb-4">
-        <h3 className="text-lg font-semibold text-neutral-700">{title}</h3>
+        <h3 className="text-lg font-semibold text-foreground">{title}</h3>
         <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${badge.className}`}>
           {badge.label}
         </span>
@@ -431,8 +446,8 @@ function MigrationSection({
 
 function MigrationColumn({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="border border-neutral-200 rounded-xl p-6 bg-neutral-0">
-      <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-4">{label}</p>
+    <div className="border border-border rounded-xl p-6 bg-background">
+      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">{label}</p>
       {children}
     </div>
   );
@@ -446,7 +461,7 @@ export default function DesignGuidelines() {
  const navigate = useNavigate();
  const [formValue, setFormValue] = useState('');
  const [textareaValue, setTextareaValue] = useState('');
- const [activeTab, setActiveTab] = useState<'tokens' | 'modules' | 'migration'>('tokens');
+ const [activeTab, setActiveTab] = useState<'tokens' | 'modules' | 'migration' | 'brand'>('tokens');
 
  const iconKeys = Object.keys(ICON_MAP) as IconKey[];
 
@@ -456,9 +471,9 @@ export default function DesignGuidelines() {
 
  return (
  <PageLayout>
- <div className="min-h-screen bg-neutral-50">
+ <div className="min-h-screen bg-muted">
  {/* ── Page Header ── */}
- <div className="bg-neutral-0 border-b border-neutral-200 px-6 py-4">
+ <div className="bg-background border-b border-border px-6 py-4">
  <div className="max-w-7xl mx-auto">
    {/* Top row: back + title */}
    <div className="flex items-center gap-4 mb-4">
@@ -470,23 +485,23 @@ export default function DesignGuidelines() {
      >
        Settings
      </Button>
-     <div className="h-4 w-px bg-neutral-200" />
+     <div className="h-4 w-px bg-muted" />
      <div>
-       <h1 className="text-xl font-bold text-neutral-700">Design Guidelines</h1>
-       <p className="text-xs text-neutral-500">
+       <h1 className="text-xl font-bold text-foreground">Design Guidelines</h1>
+       <p className="text-xs text-muted-foreground">
          Component library · Design token reference · Page modules · Live examples
        </p>
      </div>
    </div>
 
    {/* Tab navigation */}
-   <div className="flex gap-1 border-b border-neutral-200 -mb-4">
+   <div className="flex gap-1 border-b border-border -mb-4">
      <button
        onClick={() => setActiveTab('tokens')}
        className={`px-4 py-2 text-sm font-medium transition-colors rounded-t-lg border-b-2 -mb-px ${
          activeTab === 'tokens'
-           ? 'text-primary-600 border-primary-600 bg-primary-50'
-           : 'text-neutral-500 border-transparent hover:text-neutral-700 hover:bg-neutral-50'
+           ? 'text-primary border-primary bg-primary/5'
+           : 'text-muted-foreground border-transparent hover:text-foreground hover:bg-muted'
        }`}
      >
        Tokens &amp; Components
@@ -495,8 +510,8 @@ export default function DesignGuidelines() {
        onClick={() => setActiveTab('modules')}
        className={`px-4 py-2 text-sm font-medium transition-colors rounded-t-lg border-b-2 -mb-px ${
          activeTab === 'modules'
-           ? 'text-primary-600 border-primary-600 bg-primary-50'
-           : 'text-neutral-500 border-transparent hover:text-neutral-700 hover:bg-neutral-50'
+           ? 'text-primary border-primary bg-primary/5'
+           : 'text-muted-foreground border-transparent hover:text-foreground hover:bg-muted'
        }`}
      >
        Page Modules
@@ -505,11 +520,21 @@ export default function DesignGuidelines() {
        onClick={() => setActiveTab('migration')}
        className={`px-4 py-2 text-sm font-medium transition-colors rounded-t-lg border-b-2 -mb-px ${
          activeTab === 'migration'
-           ? 'text-primary-600 border-primary-600 bg-primary-50'
-           : 'text-neutral-500 border-transparent hover:text-neutral-700 hover:bg-neutral-50'
+           ? 'text-primary border-primary bg-primary/5'
+           : 'text-muted-foreground border-transparent hover:text-foreground hover:bg-muted'
        }`}
      >
        Migration QA
+     </button>
+     <button
+       onClick={() => setActiveTab('brand')}
+       className={`px-4 py-2 text-sm font-medium transition-colors rounded-t-lg border-b-2 -mb-px ${
+         activeTab === 'brand'
+           ? 'text-primary border-primary bg-primary/5'
+           : 'text-muted-foreground border-transparent hover:text-foreground hover:bg-muted'
+       }`}
+     >
+       Brand Strategy
      </button>
    </div>
  </div>
@@ -521,7 +546,7 @@ export default function DesignGuidelines() {
      {/* Sticky sidebar nav */}
      <aside className="w-44 shrink-0 hidden lg:block">
        <div className="sticky top-6">
-         <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-3">
+         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
            Contents
          </p>
          <nav className="space-y-0.5">
@@ -529,7 +554,7 @@ export default function DesignGuidelines() {
              <button
                key={s.id}
                onClick={() => scrollTo(s.id)}
-               className="block w-full text-left text-sm px-2 py-1.5 rounded-lg text-neutral-500 hover:text-neutral-700 hover:bg-neutral-100 transition-colors"
+               className="block w-full text-left text-sm px-2 py-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
              >
                {s.label}
              </button>
@@ -549,14 +574,14 @@ export default function DesignGuidelines() {
                <div key={shade} className="flex flex-col items-center gap-1.5">
                  <div
                    className={`w-12 h-12 rounded-xl ${tw} ${
-                     main ? 'ring-2 ring-offset-2 ring-primary-600' : ''
+                     main ? 'ring-2 ring-offset-2 ring-ring' : ''
                    }`}
                    title={hex}
                  />
-                 <span className="text-xs font-medium text-neutral-600">
+                 <span className="text-xs font-medium text-muted-foreground">
                    {shade}
                  </span>
-                 <span className="text-xs text-neutral-400 font-mono">{hex}</span>
+                 <span className="text-xs text-muted-foreground font-mono">{hex}</span>
                </div>
              ))}
            </div>
@@ -567,13 +592,13 @@ export default function DesignGuidelines() {
              {neutralColors.map(({ shade, hex, tw }) => (
                <div key={shade} className="flex flex-col items-center gap-1.5">
                  <div
-                   className={`w-12 h-12 rounded-xl border border-neutral-200 ${tw}`}
+                   className={`w-12 h-12 rounded-xl border border-border ${tw}`}
                    title={hex}
                  />
-                 <span className="text-xs font-medium text-neutral-600">
+                 <span className="text-xs font-medium text-muted-foreground">
                    {shade}
                  </span>
-                 <span className="text-xs text-neutral-400 font-mono">{hex}</span>
+                 <span className="text-xs text-muted-foreground font-mono">{hex}</span>
                </div>
              ))}
            </div>
@@ -584,11 +609,11 @@ export default function DesignGuidelines() {
              {accentColors.map(({ name, role, hex, tw }) => (
                <div key={name} className="flex flex-col items-center gap-1.5">
                  <div className={`w-16 h-16 rounded-xl ${tw}`} title={hex} />
-                 <span className="text-xs font-semibold text-neutral-700">
+                 <span className="text-xs font-semibold text-foreground">
                    {name}
                  </span>
-                 <span className="text-xs text-neutral-400 text-center max-w-[72px]">{role}</span>
-                 <span className="text-xs text-neutral-400 font-mono">{hex}</span>
+                 <span className="text-xs text-muted-foreground text-center max-w-[72px]">{role}</span>
+                 <span className="text-xs text-muted-foreground font-mono">{hex}</span>
                </div>
              ))}
            </div>
@@ -599,7 +624,7 @@ export default function DesignGuidelines() {
              {semanticColors.map(({ name, bg, border, text, hex }) => (
                <div key={name} className={`${bg} border ${border} rounded-xl p-3 flex items-center justify-between`}>
                  <span className={`text-sm font-semibold ${text}`}>{name}</span>
-                 <span className="text-xs text-neutral-500 font-mono">{hex}</span>
+                 <span className="text-xs text-muted-foreground font-mono">{hex}</span>
                </div>
              ))}
            </div>
@@ -612,18 +637,26 @@ export default function DesignGuidelines() {
            <DemoPanel>
              <div className="space-y-4">
                <div>
-                 <p className="text-xs text-neutral-400 mb-1 font-mono">
-                   --font-family-sans · Inter, system-ui, sans-serif
+                 <p className="text-xs text-muted-foreground mb-1 font-mono">
+                   --font-family-display · Space Grotesk (headlines h1, h2)
                  </p>
-                 <p className="text-lg text-neutral-700">
+                 <p className="text-lg text-foreground font-display">
                    ABCDEFGHIJKLMNOPQRSTUVWXYZ · abcdefghijklmnopqrstuvwxyz · 0123456789
                  </p>
                </div>
                <div>
-                 <p className="text-xs text-neutral-400 mb-1 font-mono">
+                 <p className="text-xs text-muted-foreground mb-1 font-mono">
+                   --font-family-sans · DM Sans (body, UI)
+                 </p>
+                 <p className="text-lg text-foreground">
+                   ABCDEFGHIJKLMNOPQRSTUVWXYZ · abcdefghijklmnopqrstuvwxyz · 0123456789
+                 </p>
+               </div>
+               <div>
+                 <p className="text-xs text-muted-foreground mb-1 font-mono">
                    --font-family-mono · Fira Code, Monaco, Courier New
                  </p>
-                 <p className="text-base text-neutral-700 font-mono">
+                 <p className="text-base text-foreground font-mono">
                    ABCDEFGHIJKLMNOPQRSTUVWXYZ · abcdefghijklmnopqrstuvwxyz
                  </p>
                </div>
@@ -632,14 +665,14 @@ export default function DesignGuidelines() {
          </SubSection>
 
          <SubSection title="Font Sizes">
-           <DemoPanel className="p-0 divide-y divide-neutral-100">
+           <DemoPanel className="p-0 divide-y divide-border">
              {fontSizes.map(({ label, value, tw }) => (
                <div key={label} className="flex items-center gap-4 px-6 py-3">
-                 <code className="text-xs bg-neutral-100 px-2 py-0.5 rounded text-neutral-600 w-20 shrink-0 font-mono">
+                 <code className="text-xs bg-secondary px-2 py-0.5 rounded text-muted-foreground w-20 shrink-0 font-mono">
                    text-{label}
                  </code>
-                 <span className="text-xs text-neutral-400 w-10 shrink-0">{value}</span>
-                 <span className={`${tw} text-neutral-700`}>
+                 <span className="text-xs text-muted-foreground w-10 shrink-0">{value}</span>
+                 <span className={`${tw} text-foreground`}>
                    The quick brown fox jumps over the lazy dog
                  </span>
                </div>
@@ -648,15 +681,15 @@ export default function DesignGuidelines() {
          </SubSection>
 
          <SubSection title="Font Weights">
-           <DemoPanel className="p-0 divide-y divide-neutral-100">
+           <DemoPanel className="p-0 divide-y divide-border">
              {fontWeights.map(({ label, value, tw }) => (
                <div key={label} className="flex items-center gap-4 px-6 py-3">
-                 <code className="text-xs bg-neutral-100 px-2 py-0.5 rounded text-neutral-600 w-24 shrink-0 font-mono">
+                 <code className="text-xs bg-secondary px-2 py-0.5 rounded text-muted-foreground w-24 shrink-0 font-mono">
                    font-{label}
                  </code>
-                 <span className="text-xs text-neutral-400 w-8 shrink-0">{value}</span>
-                 <span className={`${tw} text-neutral-700 text-lg`}>
-                   Doorslam GCSE Revision
+                 <span className="text-xs text-muted-foreground w-8 shrink-0">{value}</span>
+                 <span className={`${tw} text-foreground text-lg`}>
+                   DoorSlam GCSE Revision
                  </span>
                </div>
              ))}
@@ -666,9 +699,9 @@ export default function DesignGuidelines() {
 
        {/* ════════════════════════════════ SPACING ════════════════════════════════ */}
        <Section id="spacing" title="Spacing">
-         <p className="text-sm text-neutral-500 -mt-2">
+         <p className="text-sm text-muted-foreground -mt-2">
            4px grid-based scale. Use Tailwind padding, margin, gap utilities (
-           <code className="bg-neutral-100 px-1 py-0.5 rounded text-xs font-mono">
+           <code className="bg-secondary px-1 py-0.5 rounded text-xs font-mono">
              p-*, m-*, gap-*
            </code>
            ).
@@ -676,11 +709,11 @@ export default function DesignGuidelines() {
          <DemoPanel className="space-y-3">
            {spacingScale.map(({ token, px, tw }) => (
              <div key={token} className="flex items-center gap-3">
-               <code className="text-xs bg-neutral-100 px-1.5 py-0.5 rounded text-neutral-600 w-8 text-center shrink-0 font-mono">
+               <code className="text-xs bg-secondary px-1.5 py-0.5 rounded text-muted-foreground w-8 text-center shrink-0 font-mono">
                  {token}
                </code>
-               <span className="text-xs text-neutral-400 w-10 shrink-0">{px}</span>
-               <div className={`${tw} h-5 bg-primary-400 rounded-sm`} />
+               <span className="text-xs text-muted-foreground w-10 shrink-0">{px}</span>
+               <div className={`${tw} h-5 bg-primary/60 rounded-sm`} />
              </div>
            ))}
          </DemoPanel>
@@ -692,12 +725,12 @@ export default function DesignGuidelines() {
            {radiusScale.map(({ label, px, tw }) => (
              <div key={label} className="flex flex-col items-center gap-2">
                <div
-                 className={`w-20 h-20 bg-primary-100 border-2 border-primary-300 ${tw}`}
+                 className={`w-20 h-20 bg-primary/10 border-2 border-primary/50 ${tw}`}
                />
-               <code className="text-xs bg-neutral-100 px-1.5 py-0.5 rounded text-neutral-600 font-mono">
+               <code className="text-xs bg-secondary px-1.5 py-0.5 rounded text-muted-foreground font-mono">
                  rounded-{label}
                </code>
-               <span className="text-xs text-neutral-400">{px}</span>
+               <span className="text-xs text-muted-foreground">{px}</span>
              </div>
            ))}
          </div>
@@ -709,9 +742,9 @@ export default function DesignGuidelines() {
            {shadowScale.map(({ label, tw }) => (
              <div key={label} className="flex flex-col items-center gap-3">
                <div
-                 className={`w-full h-16 bg-neutral-0 rounded-xl ${tw}`}
+                 className={`w-full h-16 bg-background rounded-xl ${tw}`}
                />
-               <code className="text-xs bg-neutral-100 px-1.5 py-0.5 rounded text-neutral-600 font-mono">
+               <code className="text-xs bg-secondary px-1.5 py-0.5 rounded text-muted-foreground font-mono">
                  shadow-{label}
                </code>
              </div>
@@ -719,11 +752,47 @@ export default function DesignGuidelines() {
          </div>
        </Section>
 
+       {/* ════════════════════════════════ GRADIENTS ════════════════════════════════ */}
+       <Section id="gradients" title="Gradients">
+         <p className="text-sm text-muted-foreground -mt-2 mb-4">
+           Brand gradients use <strong className="text-foreground">Electric Indigo</strong> and{' '}
+           <strong className="text-foreground">Lime</strong> at low opacity. Applied via{' '}
+           <code className="bg-secondary px-1 py-0.5 rounded text-xs font-mono">
+             --gradient-main
+           </code>{' '}
+           CSS variable in <code className="bg-secondary px-1 py-0.5 rounded text-xs font-mono">AppShell</code>.
+         </p>
+         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+           {gradientTokens.map(({ label, token, css, description, style }) => (
+             <div key={label} className="flex flex-col gap-2">
+               <div
+                 className="w-full h-28 rounded-xl border border-border"
+                 style={{ background: style }}
+               />
+               <div>
+                 <p className="text-sm font-semibold text-foreground">{label}</p>
+                 <code className="text-xs bg-secondary px-1.5 py-0.5 rounded text-muted-foreground font-mono">
+                   {token}
+                 </code>
+               </div>
+               <p className="text-xs text-muted-foreground">{css}</p>
+               <p className="text-xs text-muted-foreground">{description}</p>
+             </div>
+           ))}
+         </div>
+         <div className="mt-6">
+           <p className="text-xs font-semibold text-foreground mb-2">Usage</p>
+           <code className="text-xs bg-secondary px-2 py-1.5 rounded text-muted-foreground font-mono block">
+             [background:var(--gradient-main)]
+           </code>
+         </div>
+       </Section>
+
        {/* ════════════════════════════════ ICONS ════════════════════════════════ */}
        <Section id="icons" title="Icons">
-         <p className="text-sm text-neutral-500 -mt-2">
+         <p className="text-sm text-muted-foreground -mt-2">
            All icons via{' '}
-           <code className="bg-neutral-100 px-1 py-0.5 rounded text-xs font-mono">
+           <code className="bg-secondary px-1 py-0.5 rounded text-xs font-mono">
              {'<AppIcon name="..." />'}
            </code>{' '}
            using Lucide. {iconKeys.length} registered names (includes aliases). Hover for name.
@@ -733,15 +802,15 @@ export default function DesignGuidelines() {
              {iconKeys.map((key) => (
                <div
                  key={key}
-                 className="flex flex-col items-center gap-1 p-2 rounded-lg hover:bg-neutral-100 transition-colors group cursor-default"
+                 className="flex flex-col items-center gap-1 p-2 rounded-lg hover:bg-secondary transition-colors group cursor-default"
                  title={key}
                >
                  <AppIcon
                    name={key}
-                   className="w-5 h-5 text-neutral-500 group-hover:text-primary-600"
+                   className="w-5 h-5 text-muted-foreground group-hover:text-primary"
                  />
                  <span
-                   className="text-neutral-400 text-center truncate w-full"
+                   className="text-muted-foreground text-center truncate w-full"
                    style={{ fontSize: '9px' }}
                  >
                    {key}
@@ -758,7 +827,7 @@ export default function DesignGuidelines() {
            <DemoPanel className="space-y-4">
              {buttonSizes.map((size) => (
                <div key={size} className="flex items-center gap-3 flex-wrap">
-                 <code className="text-xs bg-neutral-100 px-1.5 py-0.5 rounded text-neutral-500 font-mono w-7 text-center shrink-0">
+                 <code className="text-xs bg-secondary px-1.5 py-0.5 rounded text-muted-foreground font-mono w-7 text-center shrink-0">
                    {size}
                  </code>
                  {buttonVariants.map((variant) => (
@@ -804,10 +873,10 @@ export default function DesignGuidelines() {
            <div className="grid grid-cols-2 gap-4">
              {cardVariants.map((variant) => (
                <Card key={variant} variant={variant} padding="md">
-                 <p className="text-sm font-semibold text-neutral-700 mb-1 capitalize">
+                 <p className="text-sm font-semibold text-foreground mb-1 capitalize">
                    {variant}
                  </p>
-                 <p className="text-xs text-neutral-500">
+                 <p className="text-xs text-muted-foreground">
                    This is the <strong>{variant}</strong> card variant. It uses{' '}
                    {variant === 'default'
                      ? 'a subtle shadow and light border'
@@ -830,7 +899,7 @@ export default function DesignGuidelines() {
              padding="md"
              action={<Button size="sm" variant="secondary">Action</Button>}
            >
-             <p className="text-sm text-neutral-600">
+             <p className="text-sm text-muted-foreground">
                Card body content rendered below the header.
              </p>
            </Card>
@@ -838,7 +907,7 @@ export default function DesignGuidelines() {
 
          <SubSection title="Interactive">
            <Card variant="outlined" interactive padding="md">
-             <p className="text-sm text-neutral-600">
+             <p className="text-sm text-muted-foreground">
                Interactive card — hover to see the border highlight effect.
              </p>
            </Card>
@@ -880,7 +949,7 @@ export default function DesignGuidelines() {
            <DemoPanel className="space-y-5">
              {badgeStyles.map((style) => (
                <div key={style}>
-                 <p className="text-xs text-neutral-400 font-mono mb-2">{style}</p>
+                 <p className="text-xs text-muted-foreground font-mono mb-2">{style}</p>
                  <div className="flex flex-wrap gap-2">
                    {badgeVariants.map((variant) => (
                      <Badge key={variant} variant={variant} badgeStyle={style}>
@@ -921,7 +990,7 @@ export default function DesignGuidelines() {
              {(['sm', 'md', 'lg', 'xl'] as const).map((size) => (
                <div key={size} className="flex flex-col items-center gap-3">
                  <LoadingSpinner size={size} />
-                 <code className="text-xs text-neutral-400 font-mono">{size}</code>
+                 <code className="text-xs text-muted-foreground font-mono">{size}</code>
                </div>
              ))}
            </DemoPanel>
@@ -932,7 +1001,7 @@ export default function DesignGuidelines() {
              {(['sm', 'md', 'lg', 'xl'] as const).map((size) => (
                <div key={size} className="flex flex-col items-center gap-3">
                  <LoadingSpinner size={size} variant="dots" />
-                 <code className="text-xs text-neutral-400 font-mono">{size}</code>
+                 <code className="text-xs text-muted-foreground font-mono">{size}</code>
                </div>
              ))}
            </DemoPanel>
@@ -1028,7 +1097,7 @@ export default function DesignGuidelines() {
            <div className="space-y-6">
              {(['switch', 'button', 'icon'] as const).map((variant) => (
                <div key={variant} className="flex items-center gap-4">
-                 <code className="text-xs bg-neutral-100 px-1.5 py-0.5 rounded text-neutral-500 font-mono w-14 shrink-0">
+                 <code className="text-xs bg-secondary px-1.5 py-0.5 rounded text-muted-foreground font-mono w-14 shrink-0">
                    {variant}
                  </code>
                  <ThemeToggle variant={variant} />
@@ -1040,7 +1109,7 @@ export default function DesignGuidelines() {
 
        {/* ════════════════════════════════ PROGRESS BAR ════════════════════════════════ */}
        <Section id="progress-bar" title="ProgressBar">
-         <p className="text-sm text-neutral-500 -mt-2">
+         <p className="text-sm text-muted-foreground -mt-2">
            Accessible horizontal progress bar used for session completion, topic coverage, subject progress, and rewards.
          </p>
 
@@ -1056,7 +1125,7 @@ export default function DesignGuidelines() {
            <DemoPanel className="space-y-4">
              {(['sm', 'md', 'lg', 'xl'] as ProgressBarSize[]).map((size) => (
                <div key={size} className="flex items-center gap-4">
-                 <code className="text-xs bg-neutral-100 px-1.5 py-0.5 rounded font-mono text-neutral-500 w-7 text-center shrink-0">
+                 <code className="text-xs bg-secondary px-1.5 py-0.5 rounded font-mono text-muted-foreground w-7 text-center shrink-0">
                    {size}
                  </code>
                  <div className="flex-1">
@@ -1080,7 +1149,7 @@ export default function DesignGuidelines() {
 
        {/* ════════════════════════════════ STAT CARD ════════════════════════════════ */}
        <Section id="stat-card" title="StatCard">
-         <p className="text-sm text-neutral-500 -mt-2">
+         <p className="text-sm text-muted-foreground -mt-2">
            Compact KPI cell used in dashboard hero cards, insights widgets, and reward summaries.
            Renders a label, a primary value, and an optional sub-label.
          </p>
@@ -1110,9 +1179,9 @@ export default function DesignGuidelines() {
 
          <SubSection title="Backgrounds">
            <DemoPanel className="flex gap-3">
-             <StatCard background="neutral" label="Neutral (default)" value="4/7" sublabel="bg-neutral-50" className="flex-1" />
-             <StatCard background="white" label="White" value="4/7" sublabel="bg-neutral-0" className="flex-1 border border-neutral-200" />
-             <StatCard background="primary" label="Primary tint" value="4/7" sublabel="bg-primary-50" className="flex-1" />
+             <StatCard background="neutral" label="Neutral (default)" value="4/7" sublabel="bg-muted" className="flex-1" />
+             <StatCard background="white" label="White" value="4/7" sublabel="bg-background" className="flex-1 border border-border" />
+             <StatCard background="primary" label="Primary tint" value="4/7" sublabel="bg-primary/5" className="flex-1" />
              <StatCard background="none" label="Transparent" value="4/7" sublabel="no background" className="flex-1" />
            </DemoPanel>
          </SubSection>
@@ -1120,7 +1189,7 @@ export default function DesignGuidelines() {
 
        {/* ════════════════════════════════ ICON CIRCLE ════════════════════════════════ */}
        <Section id="icon-circle" title="IconCircle">
-         <p className="text-sm text-neutral-500 -mt-2">
+         <p className="text-sm text-muted-foreground -mt-2">
            A circular container holding a single AppIcon. Used in 12+ components for status indicators,
            empty states, insight rows, and section headers.
          </p>
@@ -1129,12 +1198,12 @@ export default function DesignGuidelines() {
            <DemoPanel>
              {(['solid', 'soft', 'ghost'] as IconCircleVariant[]).map((variant) => (
                <div key={variant} className="mb-5 last:mb-0">
-                 <p className="text-xs text-neutral-400 font-mono mb-3">{variant}</p>
+                 <p className="text-xs text-muted-foreground font-mono mb-3">{variant}</p>
                  <div className="flex flex-wrap gap-4">
                    {(['primary', 'success', 'warning', 'danger', 'info', 'neutral'] as IconCircleColor[]).map((color) => (
                      <div key={color} className="flex flex-col items-center gap-1.5">
                        <IconCircle name="star" color={color} variant={variant} size="md" />
-                       <span className="text-xs text-neutral-400">{color}</span>
+                       <span className="text-xs text-muted-foreground">{color}</span>
                      </div>
                    ))}
                  </div>
@@ -1148,7 +1217,7 @@ export default function DesignGuidelines() {
              {(['xs', 'sm', 'md', 'lg', 'xl'] as IconCircleSize[]).map((size) => (
                <div key={size} className="flex flex-col items-center gap-2">
                  <IconCircle name="flame" color="warning" variant="soft" size={size} />
-                 <code className="text-xs text-neutral-400 font-mono">{size}</code>
+                 <code className="text-xs text-muted-foreground font-mono">{size}</code>
                </div>
              ))}
            </DemoPanel>
@@ -1170,7 +1239,7 @@ export default function DesignGuidelines() {
 
        {/* ════════════════════════════════ CIRCULAR PROGRESS ════════════════════════════════ */}
        <Section id="circular-progress" title="CircularProgress">
-         <p className="text-sm text-neutral-500 -mt-2">
+         <p className="text-sm text-muted-foreground -mt-2">
            SVG ring progress indicator. Used for health scores, streak trackers, and pace rings.
            Accepts design-token colour names or any CSS colour string.
          </p>
@@ -1180,9 +1249,9 @@ export default function DesignGuidelines() {
              {(['sm', 'md', 'lg', 'xl'] as const).map((size) => (
                <div key={size} className="flex flex-col items-center gap-3">
                  <CircularProgress value={72} size={size} color="primary">
-                   <span className="text-xs font-bold text-primary-900">72%</span>
+                   <span className="text-xs font-bold text-primary">72%</span>
                  </CircularProgress>
-                 <code className="text-xs text-neutral-400 font-mono">{size}</code>
+                 <code className="text-xs text-muted-foreground font-mono">{size}</code>
                </div>
              ))}
            </DemoPanel>
@@ -1193,9 +1262,9 @@ export default function DesignGuidelines() {
              {(['primary', 'success', 'warning', 'danger', 'info'] as const).map((color) => (
                <div key={color} className="flex flex-col items-center gap-3">
                  <CircularProgress value={68} size="md" color={color}>
-                   <span className="text-sm font-bold text-neutral-700">68%</span>
+                   <span className="text-sm font-bold text-foreground">68%</span>
                  </CircularProgress>
-                 <code className="text-xs text-neutral-400 font-mono">{color}</code>
+                 <code className="text-xs text-muted-foreground font-mono">{color}</code>
                </div>
              ))}
            </DemoPanel>
@@ -1206,32 +1275,32 @@ export default function DesignGuidelines() {
              {/* Health score style */}
              <div className="text-center">
                <CircularProgress value={82} max={100} color="success" size="lg">
-                 <span className="text-2xl font-bold text-neutral-800">82</span>
+                 <span className="text-2xl font-bold text-foreground">82</span>
                </CircularProgress>
-               <p className="text-xs text-neutral-500 mt-2">Health Score</p>
+               <p className="text-xs text-muted-foreground mt-2">Health Score</p>
              </div>
              {/* Streak tracker style */}
              <div className="text-center">
                <CircularProgress value={5} max={7} color="primary" size="lg">
-                 <span className="text-2xl font-bold text-primary-900">5</span>
-                 <span className="text-xs text-neutral-500">day streak</span>
+                 <span className="text-2xl font-bold text-primary">5</span>
+                 <span className="text-xs text-muted-foreground">day streak</span>
                </CircularProgress>
-               <p className="text-xs text-neutral-500 mt-2">Streak</p>
+               <p className="text-xs text-muted-foreground mt-2">Streak</p>
              </div>
              {/* Pace ring style */}
              <div className="text-center">
                <CircularProgress value={63} max={100} color="warning" size="lg">
-                 <span className="text-2xl font-bold text-accent-amber">63%</span>
-                 <span className="text-xs text-neutral-500">weekly pace</span>
+                 <span className="text-2xl font-bold text-warning">63%</span>
+                 <span className="text-xs text-muted-foreground">weekly pace</span>
                </CircularProgress>
-               <p className="text-xs text-neutral-500 mt-2">Pace</p>
+               <p className="text-xs text-muted-foreground mt-2">Pace</p>
              </div>
              {/* Zero state */}
              <div className="text-center">
                <CircularProgress value={0} max={100} color="neutral" size="md">
-                 <span className="text-sm font-bold text-neutral-500">—</span>
+                 <span className="text-sm font-bold text-muted-foreground">—</span>
                </CircularProgress>
-               <p className="text-xs text-neutral-500 mt-2">Empty state</p>
+               <p className="text-xs text-muted-foreground mt-2">Empty state</p>
              </div>
            </DemoPanel>
          </SubSection>
@@ -1239,7 +1308,7 @@ export default function DesignGuidelines() {
 
        {/* ════════════════════════════════ AVATAR CIRCLE ════════════════════════════════ */}
        <Section id="avatar-circle" title="AvatarCircle">
-         <p className="text-sm text-neutral-500 -mt-2">
+         <p className="text-sm text-muted-foreground -mt-2">
            Circular user avatar — renders a photo when a src is provided, otherwise derives initials
            from the name prop. Used in the sidebar, child headers, and session participant lists.
          </p>
@@ -1249,7 +1318,7 @@ export default function DesignGuidelines() {
              {(['xs', 'sm', 'md', 'lg', 'xl'] as const).map((size) => (
                <div key={size} className="flex flex-col items-center gap-2">
                  <AvatarCircle name="Alice Smith" size={size} />
-                 <code className="text-xs text-neutral-400 font-mono">{size}</code>
+                 <code className="text-xs text-muted-foreground font-mono">{size}</code>
                </div>
              ))}
            </DemoPanel>
@@ -1259,15 +1328,15 @@ export default function DesignGuidelines() {
            <DemoPanel className="flex flex-wrap gap-6">
              <div className="flex flex-col items-center gap-2">
                <AvatarCircle name="Bob Jones" size="lg" color="primary" />
-               <code className="text-xs text-neutral-400 font-mono">primary</code>
+               <code className="text-xs text-muted-foreground font-mono">primary</code>
              </div>
              <div className="flex flex-col items-center gap-2">
                <AvatarCircle name="Clara Reed" size="lg" color="soft" />
-               <code className="text-xs text-neutral-400 font-mono">soft</code>
+               <code className="text-xs text-muted-foreground font-mono">soft</code>
              </div>
              <div className="flex flex-col items-center gap-2">
                <AvatarCircle name="Dan Park" size="lg" color="neutral" />
-               <code className="text-xs text-neutral-400 font-mono">neutral</code>
+               <code className="text-xs text-muted-foreground font-mono">neutral</code>
              </div>
            </DemoPanel>
          </SubSection>
@@ -1319,7 +1388,7 @@ export default function DesignGuidelines() {
      {/* Sticky sidebar nav */}
      <aside className="w-44 shrink-0 hidden lg:block">
        <div className="sticky top-6">
-         <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-3">
+         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
            Modules
          </p>
          <nav className="space-y-0.5">
@@ -1327,7 +1396,7 @@ export default function DesignGuidelines() {
              <button
                key={s.id}
                onClick={() => scrollTo(s.id)}
-               className="block w-full text-left text-sm px-2 py-1.5 rounded-lg text-neutral-500 hover:text-neutral-700 hover:bg-neutral-100 transition-colors"
+               className="block w-full text-left text-sm px-2 py-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
              >
                {s.label}
              </button>
@@ -1340,7 +1409,7 @@ export default function DesignGuidelines() {
 
        {/* ════════════════════════════════ NAVIGATION ════════════════════════════════ */}
        <Section id="mod-navigation" title="Navigation">
-         <p className="text-sm text-neutral-500 -mt-2">
+         <p className="text-sm text-muted-foreground -mt-2">
            Global navigation modules used across all authenticated pages.
          </p>
 
@@ -1350,11 +1419,11 @@ export default function DesignGuidelines() {
            <DemoPanel className="p-0 overflow-hidden">
              <div className="flex" style={{ height: '400px' }}>
                {/* Expanded sidebar mock */}
-               <div className="w-60 bg-neutral-0 border-r border-neutral-200/60 flex flex-col shrink-0">
+               <div className="w-60 bg-background border-r border-border flex flex-col shrink-0">
                  {/* Logo header */}
-                 <div className="h-16 border-b border-neutral-200/60 flex items-center justify-between px-4">
-                   <span className="text-lg font-bold text-primary-700">DoorSlam</span>
-                   <button className="p-1.5 rounded-lg hover:bg-neutral-100 text-neutral-400">
+                 <div className="h-16 border-b border-border flex items-center justify-between px-4">
+                   <span className="text-lg font-bold text-primary">DoorSlam</span>
+                   <button className="p-1.5 rounded-lg hover:bg-secondary text-muted-foreground">
                      <AppIcon name="chevron-left" className="w-4 h-4" />
                    </button>
                  </div>
@@ -1362,9 +1431,9 @@ export default function DesignGuidelines() {
                  <div className="flex-1 py-4 px-3 space-y-1">
                    {/* Child selector */}
                    <div className="relative mb-3">
-                     <div className="w-full px-3 py-2.5 rounded-xl text-sm font-semibold text-neutral-700 bg-neutral-100 flex items-center justify-between">
+                     <div className="w-full px-3 py-2.5 rounded-xl text-sm font-semibold text-foreground bg-secondary flex items-center justify-between">
                        <span>Alex Johnson</span>
-                       <AppIcon name="chevron-down" className="w-3.5 h-3.5 text-neutral-400" />
+                       <AppIcon name="chevron-down" className="w-3.5 h-3.5 text-muted-foreground" />
                      </div>
                    </div>
                    {[
@@ -1379,40 +1448,40 @@ export default function DesignGuidelines() {
                        key={label}
                        className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
                          active
-                           ? 'bg-primary-50 text-primary-700'
-                           : 'text-neutral-600 hover:bg-neutral-100'
+                           ? 'bg-primary/5 text-primary'
+                           : 'text-muted-foreground hover:bg-secondary'
                        }`}
                      >
-                       <AppIcon name={icon} className={`w-4 h-4 ${active ? 'text-primary-600' : 'text-neutral-500'}`} />
+                       <AppIcon name={icon} className={`w-4 h-4 ${active ? 'text-primary' : 'text-muted-foreground'}`} />
                        {label}
                      </div>
                    ))}
                  </div>
                  {/* Bottom section */}
-                 <div className="border-t border-neutral-200/60 px-3 py-4 space-y-1">
-                   <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-neutral-600 hover:bg-neutral-100">
-                     <AppIcon name="settings" className="w-4 h-4 text-neutral-500" />
+                 <div className="border-t border-border px-3 py-4 space-y-1">
+                   <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-muted-foreground hover:bg-secondary">
+                     <AppIcon name="settings" className="w-4 h-4 text-muted-foreground" />
                      Settings
                    </div>
-                   <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-neutral-600 hover:bg-neutral-100">
-                     <AppIcon name="log-out" className="w-4 h-4 text-neutral-500" />
+                   <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-muted-foreground hover:bg-secondary">
+                     <AppIcon name="log-out" className="w-4 h-4 text-muted-foreground" />
                      Sign out
                    </div>
                    <div className="flex items-center gap-3 px-3 py-2 mt-2">
-                     <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center text-xs font-bold text-primary-700 shrink-0">
+                     <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary shrink-0">
                        SJ
                      </div>
                      <div className="min-w-0">
-                       <p className="text-xs font-semibold text-neutral-700 truncate">Sarah Johnson</p>
-                       <p className="text-xs text-neutral-400 truncate">sarah@example.com</p>
+                       <p className="text-xs font-semibold text-foreground truncate">Sarah Johnson</p>
+                       <p className="text-xs text-muted-foreground truncate">sarah@example.com</p>
                      </div>
                    </div>
                  </div>
                </div>
                {/* Collapsed sidebar mock */}
-               <div className="w-16 bg-neutral-0 border-r border-neutral-200/60 flex flex-col">
-                 <div className="h-16 border-b border-neutral-200/60 flex items-center justify-center">
-                   <button className="p-1.5 rounded-lg hover:bg-neutral-100 text-neutral-400">
+               <div className="w-16 bg-background border-r border-border flex flex-col">
+                 <div className="h-16 border-b border-border flex items-center justify-center">
+                   <button className="p-1.5 rounded-lg hover:bg-secondary text-muted-foreground">
                      <AppIcon name="chevron-right" className="w-4 h-4" />
                    </button>
                  </div>
@@ -1426,16 +1495,16 @@ export default function DesignGuidelines() {
                    ].map(({ icon, active }, i) => (
                      <div
                        key={i}
-                       className={`flex items-center justify-center p-2.5 rounded-xl ${active ? 'bg-primary-50' : 'hover:bg-neutral-100'}`}
+                       className={`flex items-center justify-center p-2.5 rounded-xl ${active ? 'bg-primary/5' : 'hover:bg-secondary'}`}
                      >
-                       <AppIcon name={icon} className={`w-4 h-4 ${active ? 'text-primary-600' : 'text-neutral-500'}`} />
+                       <AppIcon name={icon} className={`w-4 h-4 ${active ? 'text-primary' : 'text-muted-foreground'}`} />
                      </div>
                    ))}
                  </div>
                </div>
                {/* Label area */}
-               <div className="flex-1 bg-neutral-50 flex items-center justify-center">
-                 <div className="text-center text-neutral-400">
+               <div className="flex-1 bg-muted flex items-center justify-center">
+                 <div className="text-center text-muted-foreground">
                    <p className="text-xs font-medium mb-1">Expanded (w-60) · Collapsed (w-16)</p>
                    <p className="text-xs">Toggles via SidebarContext</p>
                  </div>
@@ -1449,18 +1518,18 @@ export default function DesignGuidelines() {
            <SourceTag path="src/components/layout/AppHeader.tsx" />
            <DemoPanel className="p-0 overflow-hidden">
              {/* Mobile top bar */}
-             <div className="bg-neutral-0 border-b border-neutral-200/60 px-4 py-3 flex items-center justify-between">
+             <div className="bg-background border-b border-border px-4 py-3 flex items-center justify-between">
                <div className="flex items-center gap-3">
-                 <div className="w-8 h-8 bg-neutral-100 rounded-lg flex items-center justify-center">
-                   <AppIcon name="menu" className="w-4 h-4 text-neutral-600" />
+                 <div className="w-8 h-8 bg-secondary rounded-lg flex items-center justify-center">
+                   <AppIcon name="menu" className="w-4 h-4 text-muted-foreground" />
                  </div>
-                 <span className="text-base font-bold text-primary-700">DoorSlam</span>
+                 <span className="text-base font-bold text-primary">DoorSlam</span>
                </div>
                <div className="flex items-center gap-2">
-                 <div className="w-8 h-8 bg-neutral-100 rounded-lg flex items-center justify-center">
-                   <AppIcon name="bell" className="w-4 h-4 text-neutral-600" />
+                 <div className="w-8 h-8 bg-secondary rounded-lg flex items-center justify-center">
+                   <AppIcon name="bell" className="w-4 h-4 text-muted-foreground" />
                  </div>
-                 <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center text-xs font-bold text-primary-700">
+                 <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
                    SJ
                  </div>
                </div>
@@ -1468,14 +1537,14 @@ export default function DesignGuidelines() {
              {/* Mobile drawer overlay mockup */}
              <div className="relative" style={{ height: '200px' }}>
                <div className="absolute inset-0 bg-black/30 flex">
-                 <div className="w-64 bg-neutral-0 h-full shadow-xl flex flex-col">
-                   <div className="p-4 border-b border-neutral-100">
-                     <p className="text-sm font-semibold text-neutral-700">Alex Johnson</p>
-                     <p className="text-xs text-neutral-500">Year 11 · GCSE</p>
+                 <div className="w-64 bg-background h-full shadow-xl flex flex-col">
+                   <div className="p-4 border-b border-border">
+                     <p className="text-sm font-semibold text-foreground">Alex Johnson</p>
+                     <p className="text-xs text-muted-foreground">Year 11 · GCSE</p>
                    </div>
                    <nav className="p-3 space-y-1">
                      {['Dashboard', 'Subjects', 'Timetable', 'Rewards'].map((item, i) => (
-                       <div key={item} className={`px-3 py-2.5 rounded-xl text-sm font-medium ${i === 0 ? 'bg-primary-50 text-primary-700' : 'text-neutral-600'}`}>
+                       <div key={item} className={`px-3 py-2.5 rounded-xl text-sm font-medium ${i === 0 ? 'bg-primary/5 text-primary' : 'text-muted-foreground'}`}>
                          {item}
                        </div>
                      ))}
@@ -1492,7 +1561,7 @@ export default function DesignGuidelines() {
          {/* Footer */}
          <SubSection title="Footer">
            <SourceTag path="src/components/layout/Footer.tsx" />
-           <div className="rounded-xl overflow-hidden border border-neutral-200">
+           <div className="rounded-xl overflow-hidden border border-border">
              <Footer />
            </div>
          </SubSection>
@@ -1500,7 +1569,7 @@ export default function DesignGuidelines() {
 
        {/* ════════════════════════════════ DASHBOARD MODULES ════════════════════════════════ */}
        <Section id="mod-dashboard" title="Dashboard Modules">
-         <p className="text-sm text-neutral-500 -mt-2">
+         <p className="text-sm text-muted-foreground -mt-2">
            The three main widget cards on the Parent Dashboard — rendered with representative mock data.
          </p>
 
@@ -1543,7 +1612,7 @@ export default function DesignGuidelines() {
 
        {/* ════════════════════════════════ SUBJECTS ════════════════════════════════ */}
        <Section id="mod-subjects" title="Subjects">
-         <p className="text-sm text-neutral-500 -mt-2">
+         <p className="text-sm text-muted-foreground -mt-2">
            Subject cards grid shown on the Subjects page. Each card displays coverage progress, recent topics, and upcoming sessions.
          </p>
 
@@ -1562,15 +1631,15 @@ export default function DesignGuidelines() {
            <DemoPanel className="p-0 overflow-hidden">
              <div className="grid grid-cols-2 md:grid-cols-4">
                {[
-                 { label: 'Total Subjects', value: '3', icon: 'book-open' as IconKey, bg: 'bg-primary-50', text: 'text-primary-700', iconColor: 'text-primary-600' },
-                 { label: 'Sessions This Week', value: '4', icon: 'calendar-check' as IconKey, bg: 'bg-success-bg', text: 'text-success', iconColor: 'text-success' },
-                 { label: 'Topics Covered', value: '5', icon: 'chart-bar' as IconKey, bg: 'bg-info-bg', text: 'text-info', iconColor: 'text-info' },
-                 { label: 'Need Attention', value: '1', icon: 'triangle-alert' as IconKey, bg: 'bg-warning-bg', text: 'text-warning', iconColor: 'text-warning' },
+                 { label: 'Total Subjects', value: '3', icon: 'book-open' as IconKey, bg: 'bg-primary/5', text: 'text-primary', iconColor: 'text-primary' },
+                 { label: 'Sessions This Week', value: '4', icon: 'calendar-check' as IconKey, bg: 'bg-success/10', text: 'text-success', iconColor: 'text-success' },
+                 { label: 'Topics Covered', value: '5', icon: 'chart-bar' as IconKey, bg: 'bg-info/10', text: 'text-info', iconColor: 'text-info' },
+                 { label: 'Need Attention', value: '1', icon: 'triangle-alert' as IconKey, bg: 'bg-warning/10', text: 'text-warning', iconColor: 'text-warning' },
                ].map(({ label, value, icon, bg, text, iconColor }, i) => (
-                 <div key={label} className={`p-5 ${bg} ${i < 3 ? 'border-r border-neutral-200/50' : ''}`}>
+                 <div key={label} className={`p-5 ${bg} ${i < 3 ? 'border-r border-border/50' : ''}`}>
                    <div className="flex items-start justify-between">
                      <div>
-                       <p className="text-xs text-neutral-500 mb-1">{label}</p>
+                       <p className="text-xs text-muted-foreground mb-1">{label}</p>
                        <p className={`text-2xl font-bold ${text}`}>{value}</p>
                      </div>
                      <AppIcon name={icon} className={`w-5 h-5 ${iconColor} mt-0.5`} />
@@ -1584,7 +1653,7 @@ export default function DesignGuidelines() {
 
        {/* ════════════════════════════════ TIMETABLE ════════════════════════════════ */}
        <Section id="mod-timetable" title="Timetable">
-         <p className="text-sm text-neutral-500 -mt-2">
+         <p className="text-sm text-muted-foreground -mt-2">
            The weekly calendar view with draggable session cards across time-slot rows and day columns.
          </p>
 
@@ -1594,17 +1663,17 @@ export default function DesignGuidelines() {
              {/* Timetable grid mockup */}
              <div style={{ minWidth: '640px' }}>
                {/* Header row */}
-               <div className="grid border-b border-neutral-200" style={{ gridTemplateColumns: '80px repeat(7, 1fr)' }}>
-                 <div className="px-3 py-3 text-xs font-semibold text-neutral-500 border-r border-neutral-100">Time</div>
+               <div className="grid border-b border-border" style={{ gridTemplateColumns: '80px repeat(7, 1fr)' }}>
+                 <div className="px-3 py-3 text-xs font-semibold text-muted-foreground border-r border-border">Time</div>
                  {['Mon 24', 'Tue 25', 'Wed 26', 'Thu 27', 'Fri 28', 'Sat 1', 'Sun 2'].map((day, i) => (
-                   <div key={day} className={`px-2 py-3 text-center ${i === 0 ? 'bg-primary-50' : ''}`}>
-                     <p className={`text-xs font-semibold ${i === 0 ? 'text-primary-700' : 'text-neutral-600'}`}>
+                   <div key={day} className={`px-2 py-3 text-center ${i === 0 ? 'bg-primary/5' : ''}`}>
+                     <p className={`text-xs font-semibold ${i === 0 ? 'text-primary' : 'text-muted-foreground'}`}>
                        {day.split(' ')[0]}
                      </p>
-                     <p className={`text-xs ${i === 0 ? 'text-primary-500' : 'text-neutral-400'}`}>
+                     <p className={`text-xs ${i === 0 ? 'text-primary' : 'text-muted-foreground'}`}>
                        {day.split(' ')[1]} Feb
                      </p>
-                     {i === 0 && <span className="text-[9px] font-bold text-primary-600 bg-primary-100 px-1.5 py-0.5 rounded-full">TODAY</span>}
+                     {i === 0 && <span className="text-[9px] font-bold text-primary bg-primary/10 px-1.5 py-0.5 rounded-full">TODAY</span>}
                    </div>
                  ))}
                </div>
@@ -1632,12 +1701,12 @@ export default function DesignGuidelines() {
                  },
                  { time: '7:00pm', sessions: [] },
                ].map(({ time, sessions }) => (
-                 <div key={time} className="grid border-b border-neutral-100" style={{ gridTemplateColumns: '80px repeat(7, 1fr)', minHeight: '72px' }}>
-                   <div className="px-3 py-3 text-xs text-neutral-400 border-r border-neutral-100 font-medium">{time}</div>
+                 <div key={time} className="grid border-b border-border" style={{ gridTemplateColumns: '80px repeat(7, 1fr)', minHeight: '72px' }}>
+                   <div className="px-3 py-3 text-xs text-muted-foreground border-r border-border font-medium">{time}</div>
                    {Array.from({ length: 7 }, (_, dayIdx) => {
                      const session = sessions.find((s) => s.day === dayIdx);
                      return (
-                       <div key={dayIdx} className={`p-1.5 border-r border-neutral-100 last:border-r-0 ${dayIdx === 0 ? 'bg-primary-50/30' : ''}`}>
+                       <div key={dayIdx} className={`p-1.5 border-r border-border last:border-r-0 ${dayIdx === 0 ? 'bg-primary/5/30' : ''}`}>
                          {session && (
                            <div
                              className="rounded-lg p-2 text-white text-xs h-full cursor-grab"
@@ -1662,8 +1731,8 @@ export default function DesignGuidelines() {
            <DemoPanel className="max-w-sm">
              <div className="space-y-3">
                <div className="flex items-center justify-between mb-4">
-                 <h3 className="text-sm font-bold text-neutral-800">Today&apos;s Sessions</h3>
-                 <button className="flex items-center gap-1.5 text-xs text-primary-600 font-medium">
+                 <h3 className="text-sm font-bold text-foreground">Today&apos;s Sessions</h3>
+                 <button className="flex items-center gap-1.5 text-xs text-primary font-medium">
                    <AppIcon name="plus" className="w-3.5 h-3.5" />
                    Add
                  </button>
@@ -1672,17 +1741,17 @@ export default function DesignGuidelines() {
                  { subject: 'Mathematics', topic: 'Quadratic Equations', time: '4:00 – 4:45pm', color: '#5B2CFF', done: true },
                  { subject: 'Biology', topic: 'Cell Division', time: '5:00 – 5:45pm', color: '#3B82F6', done: false },
                ].map(({ subject, topic, time, color, done }) => (
-                 <div key={subject} className={`flex items-center gap-3 p-3 rounded-xl border ${done ? 'border-neutral-100 bg-neutral-50 opacity-60' : 'border-neutral-200 bg-neutral-0'}`}>
+                 <div key={subject} className={`flex items-center gap-3 p-3 rounded-xl border ${done ? 'border-border bg-muted opacity-60' : 'border-border bg-background'}`}>
                    <div className="w-1 self-stretch rounded-full" style={{ backgroundColor: color }} />
                    <div className="flex-1 min-w-0">
-                     <p className={`text-sm font-medium truncate ${done ? 'line-through text-neutral-400' : 'text-neutral-800'}`}>{subject}</p>
-                     <p className="text-xs text-neutral-500 truncate">{topic}</p>
-                     <p className="text-xs text-neutral-400 mt-0.5">{time}</p>
+                     <p className={`text-sm font-medium truncate ${done ? 'line-through text-muted-foreground' : 'text-foreground'}`}>{subject}</p>
+                     <p className="text-xs text-muted-foreground truncate">{topic}</p>
+                     <p className="text-xs text-muted-foreground mt-0.5">{time}</p>
                    </div>
                    {done ? (
-                     <AppIcon name="check-circle" className="w-5 h-5 text-accent-green shrink-0" />
+                     <AppIcon name="check-circle" className="w-5 h-5 text-success shrink-0" />
                    ) : (
-                     <button className="w-6 h-6 rounded-full border-2 border-neutral-300 shrink-0" />
+                     <button className="w-6 h-6 rounded-full border-2 border-input shrink-0" />
                    )}
                  </div>
                ))}
@@ -1693,7 +1762,7 @@ export default function DesignGuidelines() {
 
        {/* ════════════════════════════════ REWARDS ════════════════════════════════ */}
        <Section id="mod-rewards" title="Rewards">
-         <p className="text-sm text-neutral-500 -mt-2">
+         <p className="text-sm text-muted-foreground -mt-2">
            The reward catalog card with category-specific styling, toggle switches, and editable point values.
          </p>
 
@@ -1765,7 +1834,7 @@ export default function DesignGuidelines() {
          <SubSection title="Compact mode — Agreed Rewards card">
            <SourceTag path="src/components/parent/rewards/RewardTemplateCard.tsx — compact prop" />
            <DemoPanel>
-             <h3 className="text-sm font-bold text-neutral-800 mb-3">Agreed Rewards</h3>
+             <h3 className="text-sm font-bold text-foreground mb-3">Agreed Rewards</h3>
              <div className="grid grid-cols-2 gap-2">
                <RewardTemplateCard
                  id="rc1"
@@ -1810,19 +1879,19 @@ export default function DesignGuidelines() {
 
        {/* ════════════════════════════════ INSIGHTS ════════════════════════════════ */}
        <Section id="mod-insights" title="Insights">
-         <p className="text-sm text-neutral-500 -mt-2">
+         <p className="text-sm text-muted-foreground -mt-2">
            Analytics widgets on the Insights Dashboard. Charts shown as structural placeholders — live data renders Recharts.
          </p>
 
          {/* Hero Story Widget */}
          <SubSection title="Hero Story Widget">
            <SourceTag path="src/components/parent/insights/HeroStoryWidget.tsx" />
-           <DemoPanel className="bg-gradient-to-b from-primary-50 to-neutral-0">
+           <DemoPanel className="bg-gradient-to-b from-primary/5 to-neutral-0">
              <div className="flex items-start justify-between mb-4">
                <div>
-                 <p className="text-xs text-primary-600 font-semibold uppercase tracking-wider mb-1">This Period</p>
-                 <h2 className="text-lg font-bold text-neutral-800">Alex&apos;s Learning Story</h2>
-                 <p className="text-sm text-neutral-600 mt-1 max-w-lg">
+                 <p className="text-xs text-primary font-semibold uppercase tracking-wider mb-1">This Period</p>
+                 <h2 className="text-lg font-bold text-foreground">Alex&apos;s Learning Story</h2>
+                 <p className="text-sm text-muted-foreground mt-1 max-w-lg">
                    Alex completed <strong>18 sessions</strong> this month — a strong showing with consistent focus across Mathematics and Biology.
                  </p>
                </div>
@@ -1830,7 +1899,7 @@ export default function DesignGuidelines() {
                  {(['1w', '1m', '3m'] as const).map((range) => (
                    <button
                      key={range}
-                     className={`px-3 py-1.5 rounded-lg text-xs font-medium ${range === '1m' ? 'bg-primary-600 text-white' : 'bg-neutral-100 text-neutral-600'}`}
+                     className={`px-3 py-1.5 rounded-lg text-xs font-medium ${range === '1m' ? 'bg-primary text-white' : 'bg-secondary text-muted-foreground'}`}
                    >
                      {range}
                    </button>
@@ -1839,26 +1908,26 @@ export default function DesignGuidelines() {
              </div>
              <div className="grid grid-cols-3 gap-3 mb-4">
                {[
-                 { label: 'Sessions', value: '18', sub: 'this period', color: 'text-primary-900' },
-                 { label: 'Avg Confidence', value: '+8%', sub: 'pre → post', color: 'text-accent-green' },
-                 { label: 'Focus Mode', value: '11/18', sub: '61% usage', color: 'text-primary-900' },
+                 { label: 'Sessions', value: '18', sub: 'this period', color: 'text-primary' },
+                 { label: 'Avg Confidence', value: '+8%', sub: 'pre → post', color: 'text-success' },
+                 { label: 'Focus Mode', value: '11/18', sub: '61% usage', color: 'text-primary' },
                ].map(({ label, value, sub, color }) => (
-                 <div key={label} className="bg-neutral-0 rounded-xl p-3 border border-neutral-200/50">
-                   <p className="text-xs text-neutral-500 mb-1">{label}</p>
+                 <div key={label} className="bg-background rounded-xl p-3 border border-border/50">
+                   <p className="text-xs text-muted-foreground mb-1">{label}</p>
                    <p className={`text-xl font-bold ${color}`}>{value}</p>
-                   <p className="text-xs text-neutral-400">{sub}</p>
+                   <p className="text-xs text-muted-foreground">{sub}</p>
                  </div>
                ))}
              </div>
-             <div className="bg-neutral-50 rounded-xl p-3 border border-neutral-200">
+             <div className="bg-muted rounded-xl p-3 border border-border">
                <div className="flex items-center gap-1.5 mb-1.5">
                  <AppIcon name="lightbulb" className="w-3.5 h-3.5 text-warning" />
-                 <span className="text-xs font-semibold text-neutral-700">Next Best Action</span>
+                 <span className="text-xs font-semibold text-foreground">Next Best Action</span>
                </div>
-               <p className="text-xs text-neutral-500 mb-2">English Literature needs more attention — only 3 sessions this period.</p>
+               <p className="text-xs text-muted-foreground mb-2">English Literature needs more attention — only 3 sessions this period.</p>
                <div className="flex flex-wrap gap-2">
-                 <button className="px-3 py-1.5 bg-primary-600 text-white rounded-lg text-xs font-medium">Adjust Plan</button>
-                 <button className="px-3 py-1.5 bg-neutral-0 border border-neutral-200 text-neutral-600 rounded-lg text-xs font-medium">Export Report</button>
+                 <button className="px-3 py-1.5 bg-primary text-white rounded-lg text-xs font-medium">Adjust Plan</button>
+                 <button className="px-3 py-1.5 bg-background border border-border text-muted-foreground rounded-lg text-xs font-medium">Export Report</button>
                </div>
              </div>
            </DemoPanel>
@@ -1869,20 +1938,20 @@ export default function DesignGuidelines() {
            <SourceTag path="src/components/parent/insights/ProgressPlanWidget.tsx" />
            <DemoPanel>
              <div className="flex items-center justify-between mb-4">
-               <h3 className="text-base font-bold text-neutral-800">Progress vs Plan</h3>
+               <h3 className="text-base font-bold text-foreground">Progress vs Plan</h3>
                <Badge variant="success" badgeStyle="soft">On Track</Badge>
              </div>
              <ChartPlaceholder height="h-40" label="Bar chart — Planned vs Completed sessions per day" />
              <div className="grid grid-cols-2 gap-3 mt-4">
-               <div className="bg-success-bg rounded-xl p-3 border border-success-border">
-                 <p className="text-xs text-neutral-500 mb-1">Best Day</p>
-                 <p className="text-base font-bold text-neutral-800">Thursday</p>
-                 <p className="text-xs text-neutral-500">3 sessions completed</p>
+               <div className="bg-success/10 rounded-xl p-3 border border-success-border">
+                 <p className="text-xs text-muted-foreground mb-1">Best Day</p>
+                 <p className="text-base font-bold text-foreground">Thursday</p>
+                 <p className="text-xs text-muted-foreground">3 sessions completed</p>
                </div>
-               <div className="bg-warning-bg rounded-xl p-3 border border-warning-border">
-                 <p className="text-xs text-neutral-500 mb-1">Hardest Day</p>
-                 <p className="text-base font-bold text-neutral-800">Saturday</p>
-                 <p className="text-xs text-neutral-500">0 of 2 sessions done</p>
+               <div className="bg-warning/10 rounded-xl p-3 border border-warning-border">
+                 <p className="text-xs text-muted-foreground mb-1">Hardest Day</p>
+                 <p className="text-base font-bold text-foreground">Saturday</p>
+                 <p className="text-xs text-muted-foreground">0 of 2 sessions done</p>
                </div>
              </div>
            </DemoPanel>
@@ -1893,23 +1962,23 @@ export default function DesignGuidelines() {
            <SourceTag path="src/components/parent/insights/ConfidenceTrendWidget.tsx" />
            <DemoPanel>
              <div className="flex items-center justify-between mb-4">
-               <h3 className="text-base font-bold text-neutral-800">Confidence Trend</h3>
+               <h3 className="text-base font-bold text-foreground">Confidence Trend</h3>
                <div className="flex items-center gap-3 text-xs">
-                 <span className="flex items-center gap-1.5"><span className="w-3 h-1 rounded bg-primary-400 inline-block" />Pre-session</span>
-                 <span className="flex items-center gap-1.5"><span className="w-3 h-1 rounded bg-accent-green inline-block" />Post-session</span>
+                 <span className="flex items-center gap-1.5"><span className="w-3 h-1 rounded bg-primary/60 inline-block" />Pre-session</span>
+                 <span className="flex items-center gap-1.5"><span className="w-3 h-1 rounded bg-success inline-block" />Post-session</span>
                </div>
              </div>
              <ChartPlaceholder height="h-40" label="Line chart — Pre vs Post confidence across sessions" />
              <div className="grid grid-cols-2 gap-3 mt-4">
-               <div className="bg-success-bg rounded-xl p-3 border border-success-border">
-                 <p className="text-xs text-neutral-500 mb-1">Largest Lift</p>
-                 <p className="text-base font-bold text-neutral-800">+24%</p>
-                 <p className="text-xs text-neutral-500">Biology · Cell Division</p>
+               <div className="bg-success/10 rounded-xl p-3 border border-success-border">
+                 <p className="text-xs text-muted-foreground mb-1">Largest Lift</p>
+                 <p className="text-base font-bold text-foreground">+24%</p>
+                 <p className="text-xs text-muted-foreground">Biology · Cell Division</p>
                </div>
-               <div className="bg-warning-bg rounded-xl p-3 border border-warning-border">
-                 <p className="text-xs text-neutral-500 mb-1">Most Fragile</p>
-                 <p className="text-base font-bold text-neutral-800">English</p>
-                 <p className="text-xs text-neutral-500">Avg confidence still low</p>
+               <div className="bg-warning/10 rounded-xl p-3 border border-warning-border">
+                 <p className="text-xs text-muted-foreground mb-1">Most Fragile</p>
+                 <p className="text-base font-bold text-foreground">English</p>
+                 <p className="text-xs text-muted-foreground">Avg confidence still low</p>
                </div>
              </div>
            </DemoPanel>
@@ -1919,7 +1988,7 @@ export default function DesignGuidelines() {
          <SubSection title="Subject Balance Widget">
            <SourceTag path="src/components/parent/insights/SubjectBalanceWidget.tsx" />
            <DemoPanel>
-             <h3 className="text-base font-bold text-neutral-800 mb-4">Subject Balance</h3>
+             <h3 className="text-base font-bold text-foreground mb-4">Subject Balance</h3>
              <div className="flex gap-6 items-center">
                <ChartPlaceholder height="h-40" label="Donut chart — time distribution by subject" />
                <div className="space-y-2 min-w-0 flex-1">
@@ -1930,12 +1999,12 @@ export default function DesignGuidelines() {
                  ].map(({ subject, pct, color, mins }) => (
                    <div key={subject} className="flex items-center gap-2">
                      <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: color }} />
-                     <span className="text-sm text-neutral-700 truncate flex-1">{subject}</span>
-                     <span className="text-xs text-neutral-500 shrink-0">{mins}</span>
-                     <span className="text-sm font-semibold text-neutral-800 w-10 text-right shrink-0">{pct}</span>
+                     <span className="text-sm text-foreground truncate flex-1">{subject}</span>
+                     <span className="text-xs text-muted-foreground shrink-0">{mins}</span>
+                     <span className="text-sm font-semibold text-foreground w-10 text-right shrink-0">{pct}</span>
                    </div>
                  ))}
-                 <div className="pt-2 border-t border-neutral-100 flex justify-between text-xs text-neutral-500">
+                 <div className="pt-2 border-t border-border flex justify-between text-xs text-muted-foreground">
                    <span>18 sessions</span>
                    <span>720 min total</span>
                  </div>
@@ -1949,20 +2018,20 @@ export default function DesignGuidelines() {
            <SourceTag path="src/components/parent/insights/MomentumWidget.tsx" />
            <DemoPanel>
              <div className="flex items-center justify-between mb-4">
-               <h3 className="text-base font-bold text-neutral-800">Study Momentum</h3>
+               <h3 className="text-base font-bold text-foreground">Study Momentum</h3>
                <Badge variant="primary" badgeStyle="soft">5-day streak</Badge>
              </div>
              <ChartPlaceholder height="h-32" label="Activity chart — sessions per day over the period" />
              <div className="grid grid-cols-3 gap-3 mt-4">
                {[
-                 { label: 'Current Streak', value: '5 days', icon: 'flame' as IconKey, color: 'text-accent-amber' },
-                 { label: 'Longest Streak', value: '12 days', icon: 'trophy' as IconKey, color: 'text-primary-600' },
-                 { label: 'Active Days', value: '14/28', icon: 'calendar-check' as IconKey, color: 'text-accent-green' },
+                 { label: 'Current Streak', value: '5 days', icon: 'flame' as IconKey, color: 'text-warning' },
+                 { label: 'Longest Streak', value: '12 days', icon: 'trophy' as IconKey, color: 'text-primary' },
+                 { label: 'Active Days', value: '14/28', icon: 'calendar-check' as IconKey, color: 'text-success' },
                ].map(({ label, value, icon, color }) => (
-                 <div key={label} className="bg-neutral-50 rounded-xl p-3 text-center">
+                 <div key={label} className="bg-muted rounded-xl p-3 text-center">
                    <AppIcon name={icon} className={`w-5 h-5 ${color} mx-auto mb-1`} />
-                   <p className="text-base font-bold text-neutral-800">{value}</p>
-                   <p className="text-xs text-neutral-500">{label}</p>
+                   <p className="text-base font-bold text-foreground">{value}</p>
+                   <p className="text-xs text-muted-foreground">{label}</p>
                  </div>
                ))}
              </div>
@@ -1974,23 +2043,23 @@ export default function DesignGuidelines() {
            <SourceTag path="src/components/parent/insights/FocusModeWidget.tsx" />
            <DemoPanel>
              <div className="flex items-center justify-between mb-4">
-               <h3 className="text-base font-bold text-neutral-800">Focus Mode Usage</h3>
-               <span className="text-sm font-semibold text-primary-600">61%</span>
+               <h3 className="text-base font-bold text-foreground">Focus Mode Usage</h3>
+               <span className="text-sm font-semibold text-primary">61%</span>
              </div>
              <div className="flex items-center gap-4 mb-4">
                <CircularProgress value={61} size="lg" color="primary">
-                 <span className="text-xl font-bold text-primary-900">61%</span>
+                 <span className="text-xl font-bold text-primary">61%</span>
                </CircularProgress>
                <div className="space-y-2 flex-1">
                  <div>
-                   <div className="flex justify-between text-xs text-neutral-500 mb-1">
+                   <div className="flex justify-between text-xs text-muted-foreground mb-1">
                      <span>Focus Mode sessions</span>
                      <span>11 / 18</span>
                    </div>
                    <ProgressBar value={61} color="primary" size="sm" />
                  </div>
                  <div>
-                   <div className="flex justify-between text-xs text-neutral-500 mb-1">
+                   <div className="flex justify-between text-xs text-muted-foreground mb-1">
                      <span>Avg focus duration</span>
                      <span>38 min</span>
                    </div>
@@ -2009,8 +2078,8 @@ export default function DesignGuidelines() {
              <div className="flex items-start gap-3">
                <IconCircle name="lightbulb" color="primary" variant="soft" size="md" />
                <div>
-                 <h3 className="text-base font-bold text-neutral-800 mb-1">AI Tutor Advice</h3>
-                 <p className="text-sm text-neutral-600">
+                 <h3 className="text-base font-bold text-foreground mb-1">AI Tutor Advice</h3>
+                 <p className="text-sm text-muted-foreground">
                    Alex is making excellent progress in Mathematics — keep the current 3 sessions/week pace.
                    English Literature is the weakest subject right now; consider adding one extra session this week to build confidence before the mock exams.
                  </p>
@@ -2028,7 +2097,7 @@ export default function DesignGuidelines() {
          <SubSection title="Confidence Heatmap">
            <SourceTag path="src/components/parent/insights/ConfidenceHeatmapWidget.tsx" />
            <DemoPanel>
-             <h3 className="text-base font-bold text-neutral-800 mb-4">Topic Confidence Map</h3>
+             <h3 className="text-base font-bold text-foreground mb-4">Topic Confidence Map</h3>
              <div className="space-y-3">
                {[
                  { subject: 'Mathematics', topics: [{ name: 'Quadratic Eq.', score: 4 }, { name: 'Trigonometry', score: 3 }, { name: 'Circle Theorems', score: 2 }, { name: 'Vectors', score: 5 }] },
@@ -2036,10 +2105,10 @@ export default function DesignGuidelines() {
                  { subject: 'Biology', topics: [{ name: 'Photosynthesis', score: 4 }, { name: 'Cell Division', score: 3 }, { name: 'Genetics', score: 2 }] },
                ].map(({ subject, topics }) => (
                  <div key={subject}>
-                   <p className="text-xs font-semibold text-neutral-600 mb-1.5">{subject}</p>
+                   <p className="text-xs font-semibold text-muted-foreground mb-1.5">{subject}</p>
                    <div className="flex flex-wrap gap-1.5">
                      {topics.map(({ name, score }) => {
-                       const colors = ['', 'bg-error-bg text-error border-error-border', 'bg-warning-bg text-warning border-warning-border', 'bg-neutral-100 text-neutral-600 border-neutral-200', 'bg-success-bg text-success border-success-border', 'bg-primary-50 text-primary-700 border-primary-200'];
+                       const colors = ['', 'bg-error-bg text-error border-error-border', 'bg-warning/10 text-warning border-warning-border', 'bg-secondary text-muted-foreground border-border', 'bg-success/10 text-success border-success-border', 'bg-primary/5 text-primary border-primary/20'];
                        return (
                          <span key={name} className={`text-xs px-2 py-1 rounded-lg border font-medium ${colors[score]}`}>
                            {name}
@@ -2049,9 +2118,9 @@ export default function DesignGuidelines() {
                    </div>
                  </div>
                ))}
-               <div className="flex items-center gap-3 pt-2 border-t border-neutral-100">
-                 <span className="text-xs text-neutral-500">Confidence:</span>
-                 {[{ label: 'Low', cls: 'bg-error-bg text-error' }, { label: 'Med', cls: 'bg-warning-bg text-warning' }, { label: 'OK', cls: 'bg-neutral-100 text-neutral-600' }, { label: 'High', cls: 'bg-success-bg text-success' }].map(({ label, cls }) => (
+               <div className="flex items-center gap-3 pt-2 border-t border-border">
+                 <span className="text-xs text-muted-foreground">Confidence:</span>
+                 {[{ label: 'Low', cls: 'bg-error-bg text-error' }, { label: 'Med', cls: 'bg-warning/10 text-warning' }, { label: 'OK', cls: 'bg-secondary text-muted-foreground' }, { label: 'High', cls: 'bg-success/10 text-success' }].map(({ label, cls }) => (
                    <span key={label} className={`text-xs px-2 py-0.5 rounded ${cls}`}>{label}</span>
                  ))}
                </div>
@@ -2062,7 +2131,7 @@ export default function DesignGuidelines() {
 
        {/* ════════════════════════════════ PRICING ════════════════════════════════ */}
        <Section id="mod-pricing" title="Pricing">
-         <p className="text-sm text-neutral-500 -mt-2">
+         <p className="text-sm text-muted-foreground -mt-2">
            The two subscription tier cards shown on the Pricing page.
          </p>
 
@@ -2070,11 +2139,11 @@ export default function DesignGuidelines() {
            <SourceTag path="src/views/parent/Pricing.tsx" />
            {/* Plan length selector */}
            <div className="flex justify-center mb-6">
-             <div className="flex gap-1 p-1 bg-neutral-100 rounded-xl">
+             <div className="flex gap-1 p-1 bg-secondary rounded-xl">
                {['1 Month', '3 Months', '12 Months'].map((label, i) => (
                  <button
                    key={label}
-                   className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${i === 2 ? 'bg-neutral-0 text-neutral-800 shadow-sm' : 'text-neutral-500'}`}
+                   className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${i === 2 ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground'}`}
                  >
                    {label}
                  </button>
@@ -2084,65 +2153,65 @@ export default function DesignGuidelines() {
 
            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
              {/* Family card */}
-             <div className="bg-neutral-0 rounded-2xl border-2 border-neutral-200 p-8 flex flex-col">
+             <div className="bg-background rounded-2xl border-2 border-border p-8 flex flex-col">
                <div className="mb-6">
-                 <h3 className="text-xl font-bold text-neutral-800 mb-1">Family</h3>
-                 <p className="text-sm text-neutral-500">Everything you need to support your child&apos;s revision.</p>
+                 <h3 className="text-xl font-bold text-foreground mb-1">Family</h3>
+                 <p className="text-sm text-muted-foreground">Everything you need to support your child&apos;s revision.</p>
                </div>
                <div className="text-center mb-6">
                  <div className="flex items-baseline justify-center gap-1">
-                   <span className="text-4xl font-bold text-primary-900">£5.99</span>
-                   <span className="text-neutral-600">/month</span>
+                   <span className="text-4xl font-bold text-primary">£5.99</span>
+                   <span className="text-muted-foreground">/month</span>
                  </div>
-                 <p className="text-sm text-neutral-500 mt-1">£71.88 total</p>
-                 <span className="inline-block mt-2 px-3 py-1 bg-accent-green/10 text-accent-green text-sm font-medium rounded-full">
+                 <p className="text-sm text-muted-foreground mt-1">£71.88 total</p>
+                 <span className="inline-block mt-2 px-3 py-1 bg-success/10 text-success text-sm font-medium rounded-full">
                    Save 40% vs monthly
                  </span>
                </div>
                <ul className="space-y-2.5 mb-8 flex-1">
                  {['Unlimited children', 'Unlimited subjects', 'Full parent dashboard', 'Study Buddy (text)', 'AI Tutor for parents (text)', 'Progress tracking & rewards'].map((feature) => (
-                   <li key={feature} className="flex items-center gap-2.5 text-sm text-neutral-700">
-                     <AppIcon name="check-circle" className="w-4 h-4 text-accent-green shrink-0" />
+                   <li key={feature} className="flex items-center gap-2.5 text-sm text-foreground">
+                     <AppIcon name="check-circle" className="w-4 h-4 text-success shrink-0" />
                      {feature}
                    </li>
                  ))}
                </ul>
-               <button className="w-full py-3 bg-primary-600 text-white rounded-xl font-semibold hover:bg-primary-700 transition-colors">
+               <button className="w-full py-3 bg-primary text-white rounded-xl font-semibold hover:bg-primary/90 transition-colors">
                  Start Free Trial
                </button>
              </div>
 
              {/* Premium card */}
-             <div className="bg-primary-900 rounded-2xl border-2 border-primary-700 p-8 flex flex-col relative overflow-hidden">
+             <div className="bg-primary/90 rounded-2xl border-2 border-primary p-8 flex flex-col relative overflow-hidden">
                <div className="absolute top-4 right-4">
-                 <span className="px-2.5 py-1 bg-primary-600 text-white text-xs font-bold rounded-full uppercase tracking-wide">
+                 <span className="px-2.5 py-1 bg-primary text-white text-xs font-bold rounded-full uppercase tracking-wide">
                    Best Value
                  </span>
                </div>
                <div className="mb-6">
                  <h3 className="text-xl font-bold text-white mb-1">Premium</h3>
-                 <p className="text-sm text-primary-300">Voice AI, advanced analytics, and priority support.</p>
+                 <p className="text-sm text-primary-foreground/60">Voice AI, advanced analytics, and priority support.</p>
                </div>
                <div className="text-center mb-6">
                  <div className="flex items-baseline justify-center gap-1">
                    <span className="text-4xl font-bold text-white">£9.99</span>
-                   <span className="text-primary-300">/month</span>
+                   <span className="text-primary-foreground/60">/month</span>
                  </div>
-                 <p className="text-sm text-primary-400 mt-1">£119.88 total</p>
-                 <span className="inline-block mt-2 px-3 py-1 bg-white/10 text-primary-200 text-sm font-medium rounded-full">
+                 <p className="text-sm text-primary/70 mt-1">£119.88 total</p>
+                 <span className="inline-block mt-2 px-3 py-1 bg-white/10 text-primary-foreground/80 text-sm font-medium rounded-full">
                    Save 44% vs monthly
                  </span>
                </div>
                <ul className="space-y-2.5 mb-8 flex-1">
                  {['Everything in Family, plus:', 'Voice AI (parents + children)', 'Create custom AI mnemonics', 'Advanced analytics', 'Benchmark comparisons', 'Token top-ups', 'Priority support'].map((feature, i) => (
-                   <li key={feature} className={`flex items-center gap-2.5 text-sm ${i === 0 ? 'text-primary-300 font-medium' : 'text-white'}`}>
-                     {i > 0 && <AppIcon name="check-circle" className="w-4 h-4 text-primary-400 shrink-0" />}
+                   <li key={feature} className={`flex items-center gap-2.5 text-sm ${i === 0 ? 'text-primary-foreground/60 font-medium' : 'text-white'}`}>
+                     {i > 0 && <AppIcon name="check-circle" className="w-4 h-4 text-primary/70 shrink-0" />}
                      {i === 0 && <span className="w-4 shrink-0" />}
                      {feature}
                    </li>
                  ))}
                </ul>
-               <button className="w-full py-3 bg-white text-primary-900 rounded-xl font-semibold hover:bg-primary-50 transition-colors">
+               <button className="w-full py-3 bg-white text-primary rounded-xl font-semibold hover:bg-primary/5 transition-colors">
                  Start Free Trial
                </button>
              </div>
@@ -2465,6 +2534,240 @@ export default function DesignGuidelines() {
        </MigrationSection>
 
      </div>
+   </div>
+ )}
+
+ {/* ── TAB 4: Brand Strategy ── */}
+ {activeTab === 'brand' && (
+   <div className="max-w-5xl mx-auto px-6 py-8 space-y-12">
+
+     {/* ── Foundation ── */}
+     <section>
+       <p className="text-xs font-bold tracking-widest uppercase text-lime mb-1">Brand Strategy</p>
+       <h2 className="text-2xl font-bold text-foreground font-display mb-4">Foundation</h2>
+       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+         <div className="bg-card border border-border rounded-xl p-5">
+           <span className="text-[10px] font-bold tracking-wider uppercase text-lime bg-lime/10 px-2 py-0.5 rounded-full">Mission</span>
+           <h3 className="text-sm font-bold text-foreground mt-3 mb-1">Make exam revision fun, engaging and efficient</h3>
+           <p className="text-xs text-muted-foreground leading-relaxed">DoorSlam exists to fundamentally reframe what revision looks like. We reject the notion that effective study must be tedious. Through AI-driven personalisation and gamified mechanics, we make every session feel like genuine progress.</p>
+         </div>
+         <div className="bg-card border border-border rounded-xl p-5">
+           <span className="text-[10px] font-bold tracking-wider uppercase text-primary bg-primary/10 px-2 py-0.5 rounded-full">Vision</span>
+           <h3 className="text-sm font-bold text-foreground mt-3 mb-1">Cutting-edge AI for optimal grades</h3>
+           <p className="text-xs text-muted-foreground leading-relaxed">We envision a future where every GCSE student has access to an intelligent tutor that adapts to their learning style, identifies knowledge gaps in real time, and creates dynamic conversations between the student and their subjects.</p>
+         </div>
+       </div>
+       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+         <div className="bg-card border border-border rounded-xl p-5">
+           <h3 className="text-sm font-bold text-foreground mb-1">Clean Design</h3>
+           <p className="text-xs text-muted-foreground">Every interface element serves a purpose. No clutter, no confusion, no wasted space.</p>
+         </div>
+         <div className="bg-card border border-border rounded-xl p-5">
+           <h3 className="text-sm font-bold text-foreground mb-1">Gamified Learning</h3>
+           <p className="text-xs text-muted-foreground">Streaks, XP, leaderboards and achievements transform study into a challenge worth beating.</p>
+         </div>
+         <div className="bg-card border border-border rounded-xl p-5">
+           <h3 className="text-sm font-bold text-foreground mb-1">Enhanced Learning</h3>
+           <p className="text-xs text-muted-foreground">AI-powered spaced repetition, adaptive difficulty, and real-time feedback loops.</p>
+         </div>
+       </div>
+     </section>
+
+     {/* ── Brand Story ── */}
+     <section>
+       <p className="text-xs font-bold tracking-widest uppercase text-destructive mb-1">Brand Story</p>
+       <h2 className="text-2xl font-bold text-foreground font-display mb-4">Narrative Arc</h2>
+       <div className="space-y-3">
+         <div className="bg-destructive/5 border-l-[3px] border-destructive rounded-lg p-5">
+           <h3 className="text-sm font-bold text-foreground font-display mb-1">01 — The Challenge</h3>
+           <p className="text-xs text-muted-foreground leading-relaxed">GCSE revision is broken. Every year, hundreds of thousands of students face the same ritual: stacks of notes, hours of passive rereading, rising anxiety, and the creeping dread that none of it is sticking. Parents watch helplessly. The traditional model assumes more time equals more learning. Cognitive science tells us otherwise.</p>
+         </div>
+         <div className="bg-primary/5 border-l-[3px] border-primary rounded-lg p-5">
+           <h3 className="text-sm font-bold text-foreground font-display mb-1">02 — The Transformation</h3>
+           <p className="text-xs text-muted-foreground leading-relaxed">DoorSlam changes the equation. Instead of passive consumption, students engage in dynamic, AI-powered conversations with their subjects. The AI identifies gaps, adapts difficulty in real time, and turns every session into a feedback loop of genuine understanding. Gamification taps into the same reward systems that make games compelling. For the first time, revision feels like something you want to do.</p>
+         </div>
+         <div className="bg-lime/5 border-l-[3px] border-lime rounded-lg p-5">
+           <h3 className="text-sm font-bold text-foreground font-display mb-1">03 — The Resolution</h3>
+           <p className="text-xs text-muted-foreground leading-relaxed">Students walk into their exams with confidence. Not because they crammed, but because they truly understood. Parents see grades improve and anxiety reduce. DoorSlam doesn't just help students pass — it transforms their relationship with learning itself.</p>
+         </div>
+       </div>
+     </section>
+
+     {/* ── Brand Personality ── */}
+     <section>
+       <p className="text-xs font-bold tracking-widest uppercase text-[#8B5CF6] mb-1">Brand Personality</p>
+       <h2 className="text-2xl font-bold text-foreground font-display mb-4">Archetypes &amp; Voice</h2>
+       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+         <div className="bg-card border border-border rounded-xl p-5">
+           <span className="text-[10px] font-bold tracking-wider uppercase text-destructive bg-destructive/10 px-2 py-0.5 rounded-full">Primary Archetype</span>
+           <h3 className="text-sm font-bold text-foreground mt-3 mb-1">The Magician</h3>
+           <p className="text-xs text-muted-foreground leading-relaxed">Transforms the ordinary into the extraordinary. Takes mundane revision and makes it genuinely engaging. Promises transformation — exactly what students and parents seek.</p>
+           <p className="text-[10px] text-[#8B5CF6] mt-2">Core desire: Make understanding happen · Core fear: Stagnation</p>
+         </div>
+         <div className="bg-card border border-border rounded-xl p-5">
+           <span className="text-[10px] font-bold tracking-wider uppercase text-primary bg-primary/10 px-2 py-0.5 rounded-full">Secondary Archetype</span>
+           <h3 className="text-sm font-bold text-foreground mt-3 mb-1">The Jester</h3>
+           <p className="text-xs text-muted-foreground leading-relaxed">Lives in the moment. Brings lightness to serious situations. Ensures DoorSlam never feels like another tedious EdTech platform. Gives us permission to be playful and use humour.</p>
+           <p className="text-[10px] text-info mt-2">Core desire: Enjoy the moment · Core fear: Being boring</p>
+         </div>
+       </div>
+
+       {/* Voice & Tone Matrix */}
+       <div className="mt-6">
+         <p className="text-xs font-bold tracking-widest uppercase text-muted-foreground mb-3">Voice &amp; Tone Matrix</p>
+         <div className="space-y-3">
+           {[
+             { label: 'Funny ← → Serious', pct: 70, color: 'bg-lime', note: '70% funny. Students are bombarded with serious exam messaging. Humour disarms anxiety. We pull back for progress tracking and parent-facing content.' },
+             { label: 'Casual ← → Formal', pct: 75, color: 'bg-primary', note: '75% casual. Contractions, short sentences, direct address. For parents/institutions, we shift to ~60% to maintain credibility.' },
+             { label: 'Irreverent ← → Respectful', pct: 40, color: 'bg-destructive', note: '40% irreverent. We challenge boring revision, but never mock teachers, subjects, or the exam system. We respect our users\' intelligence.' },
+             { label: 'Enthusiastic ← → Matter-of-fact', pct: 80, color: 'bg-warning', note: '80% enthusiastic. Our primary differentiator. We dial back for error states, payment flows, and support contexts.' },
+           ].map((dim) => (
+             <div key={dim.label} className="bg-card border border-border rounded-lg p-4">
+               <h4 className="text-xs font-bold text-foreground mb-2">{dim.label}</h4>
+               <div className="h-1.5 bg-secondary rounded-full overflow-hidden">
+                 <div className={`h-full rounded-full ${dim.color}`} style={{ width: `${dim.pct}%` }} />
+               </div>
+               <p className="text-[10px] text-muted-foreground mt-2">{dim.note}</p>
+             </div>
+           ))}
+         </div>
+       </div>
+     </section>
+
+     {/* ── Messaging Hierarchy ── */}
+     <section>
+       <p className="text-xs font-bold tracking-widest uppercase text-warning mb-1">Messaging Hierarchy</p>
+       <h2 className="text-2xl font-bold text-foreground font-display mb-2">What We Say</h2>
+       <p className="text-3xl font-bold text-foreground font-display mb-2">Slam your GCSEs.</p>
+       <p className="text-xs text-muted-foreground italic mb-6">&ldquo;Slam&rdquo; carries dual meaning — mastering exams and the brand name itself. Active, confident, using language students already use.</p>
+
+       <div className="bg-card border border-border rounded-xl p-5 mb-4">
+         <span className="text-[10px] font-bold tracking-wider uppercase text-primary bg-primary/10 px-2 py-0.5 rounded-full">Value Proposition</span>
+         <p className="text-sm text-foreground mt-3 leading-relaxed">DoorSlam is the AI-powered revision platform that makes GCSE study feel like a game — adapting to how you learn, identifying what you don&apos;t know, and turning every session into real progress.</p>
+       </div>
+
+       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+         <div className="bg-card border border-border rounded-xl p-5">
+           <h3 className="text-sm font-bold text-lime mb-1">To Students</h3>
+           <p className="text-xs text-muted-foreground">&ldquo;Revision that doesn&apos;t suck. AI that gets you. Grades that stick.&rdquo;</p>
+         </div>
+         <div className="bg-card border border-border rounded-xl p-5">
+           <h3 className="text-sm font-bold text-primary mb-1">To Parents</h3>
+           <p className="text-xs text-muted-foreground">&ldquo;Proven methods. Real-time progress. Grades you can see improving.&rdquo;</p>
+         </div>
+         <div className="bg-card border border-border rounded-xl p-5">
+           <h3 className="text-sm font-bold text-info mb-1">To Schools</h3>
+           <p className="text-xs text-muted-foreground">&ldquo;A platform that aligns with your curriculum and amplifies your teaching.&rdquo;</p>
+         </div>
+       </div>
+     </section>
+
+     {/* ── Logo System ── */}
+     <section>
+       <p className="text-xs font-bold tracking-widest uppercase text-muted-foreground mb-1">Logo System</p>
+       <h2 className="text-2xl font-bold text-foreground font-display mb-4">Three Directions</h2>
+       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+         <div className="bg-card border border-border rounded-xl p-5 text-center">
+           <span className="text-[10px] font-bold tracking-wider uppercase text-lime bg-lime/10 px-2 py-0.5 rounded-full">Direction 01</span>
+           <div className="h-20 flex items-center justify-center my-3">
+             <span className="text-2xl font-bold font-display text-foreground">DOOR<span className="text-lime">SLAM</span></span>
+           </div>
+           <h3 className="text-sm font-bold text-foreground mb-1">Wordmark</h3>
+           <p className="text-xs text-muted-foreground">Split-colour wordmark creates a visual snap — a typographic door slam.</p>
+         </div>
+         <div className="bg-card border border-border rounded-xl p-5 text-center">
+           <span className="text-[10px] font-bold tracking-wider uppercase text-primary bg-primary/10 px-2 py-0.5 rounded-full">Direction 02</span>
+           <div className="h-20 flex items-center justify-center my-3">
+             <div className="w-10 h-12 bg-primary rounded-md flex items-center justify-center relative">
+               <div className="w-2 h-2 bg-lime rounded-full ml-1" />
+             </div>
+           </div>
+           <h3 className="text-sm font-bold text-foreground mb-1">Symbol / Icon</h3>
+           <p className="text-xs text-muted-foreground">Abstracted door with dynamic &ldquo;slam&rdquo; motion lines. Ideal for app icons and avatars.</p>
+         </div>
+         <div className="bg-card border border-border rounded-xl p-5 text-center">
+           <span className="text-[10px] font-bold tracking-wider uppercase text-destructive bg-destructive/10 px-2 py-0.5 rounded-full">Recommended</span>
+           <div className="h-20 flex items-center justify-center gap-2 my-3">
+             <div className="w-7 h-9 bg-primary rounded flex items-center justify-center">
+               <div className="w-1.5 h-1.5 bg-lime rounded-full ml-0.5" />
+             </div>
+             <span className="text-lg font-bold font-display text-foreground">DOOR<span className="text-lime">SLAM</span></span>
+           </div>
+           <h3 className="text-sm font-bold text-foreground mb-1">Combination Mark</h3>
+           <p className="text-xs text-muted-foreground">Pairs icon with wordmark for maximum flexibility. Primary logo for all formal applications.</p>
+         </div>
+       </div>
+       <div className="bg-card border border-border rounded-xl p-5 mt-4">
+         <h3 className="text-sm font-bold text-foreground mb-2">Specifications</h3>
+         <ul className="text-xs text-muted-foreground space-y-1">
+           <li className="flex items-start gap-1.5"><span className="text-primary">→</span> Combination mark: min width 30mm (print) / 120px (digital)</li>
+           <li className="flex items-start gap-1.5"><span className="text-primary">→</span> Wordmark only: min width 20mm / 80px</li>
+           <li className="flex items-start gap-1.5"><span className="text-primary">→</span> Icon only: min width 10mm / 40px</li>
+           <li className="flex items-start gap-1.5"><span className="text-primary">→</span> Clear space: height of the &lsquo;D&rsquo; on all sides</li>
+           <li className="flex items-start gap-1.5"><span className="text-primary">→</span> Below minimum, switch to icon-only version</li>
+         </ul>
+       </div>
+     </section>
+
+     {/* ── Brand Applications ── */}
+     <section>
+       <p className="text-xs font-bold tracking-widest uppercase text-info mb-1">Brand Applications</p>
+       <h2 className="text-2xl font-bold text-foreground font-display mb-4">Touchpoints</h2>
+
+       {/* Social Media */}
+       <p className="text-xs font-bold tracking-widest uppercase text-destructive mb-3">Social Media — 5 Platforms</p>
+       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+         {[
+           { name: 'TikTok', desc: 'Primary student channel', border: 'border-primary' },
+           { name: 'Instagram', desc: 'Visual showcase & carousels', border: 'border-primary' },
+           { name: 'YouTube', desc: 'Long-form & demos', border: 'border-lime' },
+           { name: 'LinkedIn', desc: 'Parents & schools', border: 'border-muted-foreground' },
+           { name: 'X (Twitter)', desc: 'Tips & community', border: 'border-primary' },
+         ].map((platform) => (
+           <div key={platform.name} className="bg-card border border-border rounded-xl p-4 text-center">
+             <div className={`w-10 h-10 rounded-full border-2 ${platform.border} mx-auto mb-2 flex items-center justify-center`}>
+               <div className="w-3.5 h-4 bg-primary rounded-sm flex items-center justify-center">
+                 <div className="w-1 h-1 bg-lime rounded-full" />
+               </div>
+             </div>
+             <h3 className="text-xs font-bold text-foreground">{platform.name}</h3>
+             <p className="text-[10px] text-muted-foreground">{platform.desc}</p>
+           </div>
+         ))}
+       </div>
+
+       {/* Business Card */}
+       <p className="text-xs font-bold tracking-widest uppercase text-lime mt-6 mb-3">Business Card</p>
+       <div className="bg-card border border-border rounded-xl p-5">
+         <p className="text-xs text-muted-foreground">85 x 55mm, 400gsm uncoated with soft-touch lamination. 3mm corner radius. Spot UV on back icon.</p>
+       </div>
+
+       {/* Presentation Slides */}
+       <p className="text-xs font-bold tracking-widest uppercase text-primary mt-6 mb-3">Presentation Slides</p>
+       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+         <div className="bg-card border border-border rounded-xl overflow-hidden">
+           <div className="bg-[#0A1628] p-6 aspect-video flex flex-col justify-center relative">
+             <p className="text-sm font-bold text-white font-display">Presentation Title</p>
+             <p className="text-[10px] text-[#9CA3AF] mt-1">Subtitle or date here</p>
+             <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary" />
+           </div>
+           <p className="px-4 py-2 text-[10px] text-muted-foreground">01 — Title Slide</p>
+         </div>
+         <div className="bg-card border border-border rounded-xl overflow-hidden">
+           <div className="bg-white p-6 aspect-video flex flex-col relative">
+             <div className="bg-[#0A1628] text-white text-[10px] font-bold font-display px-3 py-1 -mx-6 -mt-6 mb-3">DOORSLAM</div>
+             <p className="text-xs font-bold text-[#0A1628] font-display">Section Heading</p>
+             <div className="flex-1 mt-2 space-y-1.5">
+               <div className="h-1 bg-[#E5E7EB] rounded w-4/5" />
+               <div className="h-1 bg-[#E5E7EB] rounded w-11/12" />
+               <div className="h-1 bg-[#E5E7EB] rounded w-3/5" />
+             </div>
+           </div>
+           <p className="px-4 py-2 text-[10px] text-muted-foreground">02 — Content Slide</p>
+         </div>
+       </div>
+     </section>
+
    </div>
  )}
 

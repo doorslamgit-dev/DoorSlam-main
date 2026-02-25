@@ -184,7 +184,7 @@ export function AudioRecorder({
       : 0;
 
   return (
-    <div className="p-5 bg-neutral-50 rounded-xl">
+    <div className="p-5 bg-muted rounded-xl">
       {audioData.url && <audio ref={audioRef} src={audioData.url} />}
 
       {!hasRecording ? (
@@ -194,7 +194,7 @@ export function AudioRecorder({
             onClick={isRecording ? stopRecording : startRecording}
             disabled={disabled}
             className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3 transition ${
-              isRecording ? "bg-accent-red animate-pulse" : "bg-primary-600 hover:bg-primary-700"
+              isRecording ? "bg-destructive animate-pulse" : "bg-primary hover:bg-primary/90"
             } ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
             aria-label={isRecording ? "Stop recording" : "Start recording"}
             title={isRecording ? "Stop recording" : "Start recording"}
@@ -208,15 +208,15 @@ export function AudioRecorder({
 
           {isRecording ? (
             <>
-              <p className="font-semibold text-neutral-900 mb-1">
+              <p className="font-semibold text-foreground mb-1">
                 Recording... {formatTime(recordingTime)}
               </p>
-              <p className="text-neutral-500 text-sm">Tap to stop (max 60s)</p>
+              <p className="text-muted-foreground text-sm">Tap to stop (max 60s)</p>
 
               <div className="mt-3 w-full max-w-[200px] mx-auto">
-                <div className="h-1.5 bg-neutral-200 rounded-full overflow-hidden">
+                <div className="h-1.5 bg-muted rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-accent-red transition-all duration-1000 ease-linear"
+                    className="h-full bg-destructive transition-all duration-1000 ease-linear"
                     style={{ width: `${(recordingTime / 60) * 100}%` }}
                   />
                 </div>
@@ -224,8 +224,8 @@ export function AudioRecorder({
             </>
           ) : (
             <>
-              <p className="font-medium text-neutral-700 mb-1">Record a voice note</p>
-              <p className="text-neutral-500 text-sm">Say what you learned in your own words</p>
+              <p className="font-medium text-foreground mb-1">Record a voice note</p>
+              <p className="text-muted-foreground text-sm">Say what you learned in your own words</p>
             </>
           )}
         </div>
@@ -235,7 +235,7 @@ export function AudioRecorder({
             <button
               type="button"
               onClick={togglePreview}
-              className="w-12 h-12 rounded-full bg-primary-600 hover:bg-primary-700 flex items-center justify-center transition flex-shrink-0"
+              className="w-12 h-12 rounded-full bg-primary hover:bg-primary/90 flex items-center justify-center transition flex-shrink-0"
               aria-label={isPreviewing ? "Pause playback" : "Play recording"}
               title={isPreviewing ? "Pause" : "Play"}
             >
@@ -247,8 +247,8 @@ export function AudioRecorder({
             </button>
 
             <div className="flex-1 min-w-0">
-              <p className="font-medium text-neutral-700">Voice note recorded ✓</p>
-              <p className="text-sm text-neutral-500">
+              <p className="font-medium text-foreground">Voice note recorded ✓</p>
+              <p className="text-sm text-muted-foreground">
                 {formatTime(currentPlaybackTime)} / {formatTime(audioData.durationSeconds)}
               </p>
             </div>
@@ -257,16 +257,16 @@ export function AudioRecorder({
               type="button"
               onClick={handleDelete}
               disabled={disabled}
-              className="w-10 h-10 rounded-full bg-neutral-200 flex items-center justify-center hover:bg-accent-red/10 hover:text-accent-red transition flex-shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-10 h-10 rounded-full bg-muted flex items-center justify-center hover:bg-destructive/10 hover:text-destructive transition flex-shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
               aria-label="Delete recording"
               title="Delete"
             >
-              <AppIcon name={trashIcon} className="text-neutral-500" aria-hidden />
+              <AppIcon name={trashIcon} className="text-muted-foreground" aria-hidden />
             </button>
           </div>
 
           <div
-            className="h-1.5 bg-neutral-200 rounded-full overflow-hidden cursor-pointer"
+            className="h-1.5 bg-muted rounded-full overflow-hidden cursor-pointer"
             onClick={handleProgressClick}
             role="button"
             tabIndex={0}
@@ -274,7 +274,7 @@ export function AudioRecorder({
             title="Click to seek"
           >
             <div
-              className="h-full bg-primary-600 transition-all duration-100"
+              className="h-full bg-primary transition-all duration-100"
               style={{ width: `${progressPercentage}%` }}
             />
           </div>

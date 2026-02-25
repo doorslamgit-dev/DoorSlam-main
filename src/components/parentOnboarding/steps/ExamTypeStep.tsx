@@ -63,10 +63,10 @@ export default function ExamTypeStep(props: {
     <div>
       {/* Section header */}
       <div className="mb-8">
-        <h2 className="text-xl font-semibold text-neutral-900 mb-2">
+        <h2 className="text-xl font-semibold text-foreground mb-2">
           Select exam types
         </h2>
-        <p className="text-neutral-500 text-sm leading-relaxed">
+        <p className="text-muted-foreground text-sm leading-relaxed">
           Choose all the exam types your child is preparing for. You can select more than one.
         </p>
       </div>
@@ -74,8 +74,8 @@ export default function ExamTypeStep(props: {
       {/* Exam type options */}
       {loading ? (
         <div className="flex items-center justify-center py-8">
-          <div className="w-6 h-6 border-2 border-primary-200 border-t-primary-600 rounded-full animate-spin" />
-          <span className="ml-3 text-sm text-neutral-500">Loading exam types…</span>
+          <div className="w-6 h-6 border-2 border-primary/20 border-t-primary-600 rounded-full animate-spin" />
+          <span className="ml-3 text-sm text-muted-foreground">Loading exam types…</span>
         </div>
       ) : (
         <div className="space-y-4">
@@ -90,8 +90,8 @@ export default function ExamTypeStep(props: {
                 onClick={() => toggle(r.id)}
                 className={`w-full border-2 rounded-xl p-4 text-left transition-all ${
                   isOn
-                    ? "border-primary-600 bg-primary-50"
-                    : "border-neutral-200 hover:border-primary-300 hover:bg-primary-50"
+                    ? "border-primary bg-primary/5"
+                    : "border-border hover:border-primary/50 hover:bg-primary/5"
                 }`}
               >
                 <div className="flex items-center">
@@ -99,8 +99,8 @@ export default function ExamTypeStep(props: {
                   <div
                     className={`relative flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${
                       isOn
-                        ? "bg-primary-600 border-primary-600"
-                        : "bg-neutral-0 border-neutral-300"
+                        ? "bg-primary border-primary"
+                        : "bg-background border-input"
                     }`}
                     aria-hidden
                   >
@@ -115,10 +115,10 @@ export default function ExamTypeStep(props: {
 
                   {/* Text content */}
                   <div className="ml-4 flex-1">
-                    <span className="text-base font-semibold text-neutral-900">
+                    <span className="text-base font-semibold text-foreground">
                       {r.name}
                     </span>
-                    <p className="text-xs text-neutral-500 mt-0.5">
+                    <p className="text-xs text-muted-foreground mt-0.5">
                       {description}
                     </p>
                   </div>
@@ -142,7 +142,7 @@ export default function ExamTypeStep(props: {
 
       {/* Validation hint */}
       {!loading && selected.size === 0 && (
-        <p className="mt-4 text-xs text-neutral-400">
+        <p className="mt-4 text-xs text-muted-foreground">
           Select at least one exam type to continue.
         </p>
       )}

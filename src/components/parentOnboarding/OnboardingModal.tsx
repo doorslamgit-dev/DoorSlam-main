@@ -48,20 +48,20 @@ export default function OnboardingModal({
   const progressPercent = Math.round((currentStep / totalSteps) * 100);
 
   return (
-    <div className="min-h-screen bg-neutral-100 flex items-center justify-center p-6">
-      <div className="w-full max-w-2xl bg-neutral-0 rounded-2xl shadow-card overflow-hidden">
+    <div className="min-h-screen bg-secondary flex items-center justify-center p-6">
+      <div className="w-full max-w-2xl bg-background rounded-2xl shadow-sm overflow-hidden">
         {/* Header */}
-        <div className="px-8 pt-8 pb-6 border-b border-neutral-200">
+        <div className="px-8 pt-8 pb-6 border-b border-border">
           <div className="flex items-center justify-between mb-6">
-            <h1 className="text-2xl font-bold text-neutral-800">{title}</h1>
+            <h1 className="text-2xl font-bold text-foreground">{title}</h1>
             {onClose && (
               <button
                 type="button"
                 onClick={onClose}
-                className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-neutral-100 transition-colors"
+                className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-secondary transition-colors"
                 aria-label="Close"
               >
-                <AppIcon name="x" className="w-5 h-5 text-neutral-500" aria-hidden />
+                <AppIcon name="x" className="w-5 h-5 text-muted-foreground" aria-hidden />
               </button>
             )}
           </div>
@@ -70,14 +70,14 @@ export default function OnboardingModal({
           {showProgress && (
             <div>
               <div className="flex justify-between mb-2">
-                <span className="text-xs font-medium text-neutral-700">
+                <span className="text-xs font-medium text-foreground">
                   Step {currentStep} of {totalSteps}
                 </span>
-                <span className="text-xs font-medium text-neutral-500">{progressPercent}%</span>
+                <span className="text-xs font-medium text-muted-foreground">{progressPercent}%</span>
               </div>
-              <div className="w-full h-2 bg-neutral-200 rounded-full overflow-hidden">
+              <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-primary-600 rounded-full transition-all duration-300"
+                  className="h-full bg-primary rounded-full transition-all duration-300"
                   style={{ width: `${progressPercent}%` }}
                 />
               </div>
@@ -97,7 +97,7 @@ export default function OnboardingModal({
 
         {/* Footer */}
         {(backButton || continueButton) && (
-          <div className="px-8 py-6 bg-neutral-50 border-t border-neutral-200 flex items-center justify-between">
+          <div className="px-8 py-6 bg-muted border-t border-border flex items-center justify-between">
             {backButton ? (
               <button
                 type="button"
@@ -105,8 +105,8 @@ export default function OnboardingModal({
                 disabled={backButton.disabled}
                 className={`px-6 py-3 rounded-full font-medium transition-colors ${
                   backButton.disabled
-                    ? "text-neutral-400 bg-neutral-200 cursor-not-allowed opacity-50"
-                    : "text-neutral-700 bg-neutral-200 hover:bg-neutral-300"
+                    ? "text-muted-foreground bg-muted cursor-not-allowed opacity-50"
+                    : "text-foreground bg-muted hover:bg-muted"
                 }`}
               >
                 {backButton.label ?? "Back"}
@@ -120,7 +120,7 @@ export default function OnboardingModal({
                 type="button"
                 onClick={continueButton.onClick}
                 disabled={continueButton.disabled || continueButton.loading}
-                className="px-8 py-3 rounded-full font-semibold text-white bg-primary-600 hover:bg-primary-700 transition-all shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-8 py-3 rounded-full font-semibold text-white bg-primary hover:bg-primary/90 transition-all shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {continueButton.loading ? (
                   <span className="flex items-center gap-2">

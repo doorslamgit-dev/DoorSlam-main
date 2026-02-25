@@ -113,25 +113,25 @@ export function DashboardInviteModal({
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="bg-neutral-0 rounded-2xl shadow-xl max-w-md w-full mx-4 p-6 relative">
+      <div className="bg-background rounded-2xl shadow-xl max-w-md w-full mx-4 p-6 relative">
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-1 hover:bg-neutral-100 rounded-lg transition"
+          className="absolute top-4 right-4 p-1 hover:bg-accent rounded-lg transition"
           aria-label="Close"
         >
-          <AppIcon name="x" className="w-5 h-5 text-neutral-400" />
+          <AppIcon name="x" className="w-5 h-5 text-muted-foreground" />
         </button>
 
         {/* Header */}
         <div className="text-center mb-6">
-          <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-3">
-            <AppIcon name="user-plus" className="w-6 h-6 text-primary-600" />
+          <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+            <AppIcon name="user-plus" className="w-6 h-6 text-primary" />
           </div>
-          <h3 className="text-lg font-bold text-neutral-900">
+          <h3 className="text-lg font-bold text-foreground">
             Invite {childName}
           </h3>
-          <p className="text-sm text-neutral-500 mt-1">
+          <p className="text-sm text-muted-foreground mt-1">
             Share this link or code so {childName} can access their revision sessions.
           </p>
         </div>
@@ -139,18 +139,18 @@ export function DashboardInviteModal({
         {/* Loading state */}
         {loadingInvite && (
           <div className="text-center py-8">
-            <AppIcon name="loader-2" className="w-6 h-6 text-primary-600 animate-spin mx-auto mb-2" />
-            <p className="text-sm text-neutral-500">Generating invitation...</p>
+            <AppIcon name="loader-2" className="w-6 h-6 text-primary animate-spin mx-auto mb-2" />
+            <p className="text-sm text-muted-foreground">Generating invitation...</p>
           </div>
         )}
 
         {/* Error state */}
         {inviteError && (
-          <div className="bg-accent-red/5 border border-accent-red/20 rounded-lg p-4 text-center">
-            <p className="text-sm text-accent-red">{inviteError}</p>
+          <div className="bg-destructive/5 border border-destructive/20 rounded-lg p-4 text-center">
+            <p className="text-sm text-destructive">{inviteError}</p>
             <button
               onClick={onClose}
-              className="mt-3 text-sm font-medium text-neutral-600 hover:text-neutral-800"
+              className="mt-3 text-sm font-medium text-muted-foreground hover:text-foreground"
             >
               Close
             </button>
@@ -161,15 +161,15 @@ export function DashboardInviteModal({
         {invite && !loadingInvite && !inviteError && (
           <div className="space-y-4">
             {/* Invitation link */}
-            <div className="border border-neutral-200 rounded-xl p-4">
-              <h4 className="text-sm font-semibold text-neutral-800 mb-2">Share invitation link</h4>
+            <div className="border border-border rounded-xl p-4">
+              <h4 className="text-sm font-semibold text-foreground mb-2">Share invitation link</h4>
               <div className="flex gap-2">
-                <div className="flex-1 px-3 py-2 bg-neutral-50 border border-neutral-200 rounded-lg text-xs text-neutral-600 font-mono break-all">
+                <div className="flex-1 px-3 py-2 bg-muted border border-border rounded-lg text-xs text-muted-foreground font-mono break-all">
                   {inviteUrl}
                 </div>
                 <button
                   onClick={handleCopyLink}
-                  className="px-4 py-2 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition text-xs whitespace-nowrap flex items-center gap-1.5"
+                  className="px-4 py-2 bg-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition text-xs whitespace-nowrap flex items-center gap-1.5"
                 >
                   <AppIcon
                     name={copied === 'link' ? 'check' : 'copy'}
@@ -181,17 +181,17 @@ export function DashboardInviteModal({
             </div>
 
             {/* Invitation code */}
-            <div className="border border-neutral-200 rounded-xl p-4">
-              <h4 className="text-sm font-semibold text-neutral-800 mb-2">Share invitation code</h4>
+            <div className="border border-border rounded-xl p-4">
+              <h4 className="text-sm font-semibold text-foreground mb-2">Share invitation code</h4>
               <div className="flex gap-2 items-center">
-                <div className="flex-1 px-3 py-2 bg-neutral-50 border border-neutral-200 rounded-lg text-center">
-                  <span className="text-xl font-bold text-primary-600 font-mono tracking-widest">
+                <div className="flex-1 px-3 py-2 bg-muted border border-border rounded-lg text-center">
+                  <span className="text-xl font-bold text-primary font-mono tracking-widest">
                     {invite.invitation_code}
                   </span>
                 </div>
                 <button
                   onClick={handleCopyCode}
-                  className="px-4 py-2 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition text-xs whitespace-nowrap flex items-center gap-1.5"
+                  className="px-4 py-2 bg-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition text-xs whitespace-nowrap flex items-center gap-1.5"
                 >
                   <AppIcon
                     name={copied === 'code' ? 'check' : 'copy'}
@@ -205,7 +205,7 @@ export function DashboardInviteModal({
             {/* Done button */}
             <button
               onClick={onClose}
-              className="w-full py-2.5 bg-neutral-100 text-neutral-700 rounded-lg hover:bg-neutral-200 transition font-medium text-sm"
+              className="w-full py-2.5 bg-secondary text-foreground rounded-lg hover:bg-muted transition font-medium text-sm"
             >
               Done
             </button>
@@ -215,12 +215,12 @@ export function DashboardInviteModal({
 
       {/* Toast */}
       <div
-        className={`fixed top-6 right-6 bg-neutral-900 text-white px-5 py-2.5 rounded-lg shadow-lg transform transition-transform duration-300 z-[60] ${
+        className={`fixed top-6 right-6 bg-foreground text-white px-5 py-2.5 rounded-lg shadow-lg transform transition-transform duration-300 z-[60] ${
           copied ? 'translate-x-0' : 'translate-x-[calc(100%+24px)]'
         }`}
       >
         <div className="flex items-center gap-2">
-          <AppIcon name="check-circle" className="w-4 h-4 text-accent-green" />
+          <AppIcon name="check-circle" className="w-4 h-4 text-success" />
           <span className="text-sm font-medium">Copied to clipboard!</span>
         </div>
       </div>

@@ -50,14 +50,14 @@ export function PendingApprovalsCard({
   }
 
   return (
-    <div className="bg-neutral-0 rounded-xl border border-warning-border p-4 sm:p-6">
+    <div className="bg-background rounded-xl border border-warning-border p-4 sm:p-6">
       <div className="flex items-center gap-3 mb-4">
-        <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-warning-bg">
+        <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-warning/10">
           <AppIcon name="clock" className="w-5 h-5 text-warning" />
         </div>
         <div>
-          <h2 className="font-semibold text-neutral-900">Pending Approval</h2>
-          <p className="text-sm text-neutral-500">
+          <h2 className="font-semibold text-foreground">Pending Approval</h2>
+          <p className="text-sm text-muted-foreground">
             {totalPending} request{totalPending !== 1 ? 's' : ''} waiting for your decision
           </p>
         </div>
@@ -71,19 +71,19 @@ export function PendingApprovalsCard({
           return (
             <div
               key={redemption.id}
-              className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-warning-bg rounded-lg border border-amber-100"
+              className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-warning/10 rounded-lg border border-amber-100"
             >
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-warning-bg flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-warning/10 flex items-center justify-center">
                   <AppIcon name="gift" className="w-4 h-4 text-warning" />
                 </div>
                 <div>
-                  <p className="font-medium text-neutral-900">
+                  <p className="font-medium text-foreground">
                     {redemption.child_name} wants to redeem
                   </p>
-                  <p className="text-sm text-neutral-600">
+                  <p className="text-sm text-muted-foreground">
                     <span className="font-medium">{redemption.reward_name}</span>
-                    <span className="text-neutral-400"> • {redemption.points_spent} pts • {timeAgo(redemption.requested_at)}</span>
+                    <span className="text-muted-foreground"> • {redemption.points_spent} pts • {timeAgo(redemption.requested_at)}</span>
                   </p>
                 </div>
               </div>
@@ -104,7 +104,7 @@ export function PendingApprovalsCard({
                 <button
                   onClick={() => onDeclineRedemption(redemption.id)}
                   disabled={isProcessing}
-                  className="px-3 py-1.5 text-sm font-medium text-neutral-600 hover:text-danger hover:bg-danger-bg rounded-lg transition-colors disabled:opacity-50"
+                  className="px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-lg transition-colors disabled:opacity-50"
                 >
                   Decline
                 </button>
@@ -121,19 +121,19 @@ export function PendingApprovalsCard({
           return (
             <div
               key={addition.id}
-              className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-primary-50 rounded-lg border border-primary-100"
+              className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-primary/5 rounded-lg border border-primary/20"
             >
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-primary-100 flex items-center justify-center">
-                  <AppIcon name="plus-circle" className="w-4 h-4 text-primary-600" />
+                <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <AppIcon name="plus-circle" className="w-4 h-4 text-primary" />
                 </div>
                 <div>
-                  <p className="font-medium text-neutral-900">
+                  <p className="font-medium text-foreground">
                     {addition.child_name} requests a new reward
                   </p>
-                  <p className="text-sm text-neutral-600">
+                  <p className="text-sm text-muted-foreground">
                     <span className="font-medium">{addition.template_name}</span>
-                    <span className="text-neutral-400"> • {addition.category_name} • {timeAgo(addition.requested_at)}</span>
+                    <span className="text-muted-foreground"> • {addition.category_name} • {timeAgo(addition.requested_at)}</span>
                   </p>
                 </div>
               </div>
@@ -148,10 +148,10 @@ export function PendingApprovalsCard({
                         ...editingAddition, 
                         points: parseInt(e.target.value) || 0 
                       })}
-                      className="w-20 px-2 py-1 text-sm border border-neutral-300 rounded-lg"
+                      className="w-20 px-2 py-1 text-sm border border-input rounded-lg"
                       min={1}
                     />
-                    <span className="text-sm text-neutral-500">pts</span>
+                    <span className="text-sm text-muted-foreground">pts</span>
                     <button
                       onClick={async () => {
                         await onApproveAddition(addition.id, editingAddition.points);
@@ -164,18 +164,18 @@ export function PendingApprovalsCard({
                     </button>
                     <button
                       onClick={() => setEditingAddition(null)}
-                      className="px-2 py-1.5 text-sm text-neutral-500 hover:text-neutral-700"
+                      className="px-2 py-1.5 text-sm text-muted-foreground hover:text-foreground"
                     >
                       Cancel
                     </button>
                   </>
                 ) : (
                   <>
-                    <span className="text-sm text-neutral-500">{addition.suggested_points} pts</span>
+                    <span className="text-sm text-muted-foreground">{addition.suggested_points} pts</span>
                     <button
                       onClick={() => setEditingAddition({ id: addition.id, points: addition.suggested_points })}
                       disabled={isProcessing}
-                      className="px-3 py-1.5 text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 rounded-lg transition-colors disabled:opacity-50 flex items-center gap-1.5"
+                      className="px-3 py-1.5 text-sm font-medium text-white bg-primary hover:bg-primary/90 rounded-lg transition-colors disabled:opacity-50 flex items-center gap-1.5"
                     >
                       {isProcessing ? (
                         <AppIcon name="loader" className="w-4 h-4 animate-spin" />
@@ -187,7 +187,7 @@ export function PendingApprovalsCard({
                     <button
                       onClick={() => onDeclineAddition(addition.id)}
                       disabled={isProcessing}
-                      className="px-3 py-1.5 text-sm font-medium text-neutral-600 hover:text-danger hover:bg-danger-bg rounded-lg transition-colors disabled:opacity-50"
+                      className="px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-lg transition-colors disabled:opacity-50"
                     >
                       Decline
                     </button>

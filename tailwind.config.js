@@ -27,16 +27,6 @@ export default {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			primary: {
-  				'50': 'var(--color-primary-50)',
-  				'100': 'var(--color-primary-100)',
-  				'200': 'var(--color-primary-200)',
-  				'300': 'var(--color-primary-300)',
-  				'400': 'var(--color-primary-400)',
-  				'500': 'var(--color-primary-500)',
-  				'600': 'var(--color-primary-600)',
-  				'700': 'var(--color-primary-700)',
-  				'800': 'var(--color-primary-800)',
-  				'900': 'var(--color-primary-900)',
   				DEFAULT: 'hsl(var(--primary))',
   				foreground: 'hsl(var(--primary-foreground))'
   			},
@@ -50,21 +40,15 @@ export default {
   			},
   			success: {
   				DEFAULT: 'hsl(var(--success))',
-  				foreground: 'hsl(var(--success-foreground))',
-  				bg: 'var(--color-success-bg)',
-  				border: 'var(--color-success-border)'
+  				foreground: 'hsl(var(--success-foreground))'
   			},
   			warning: {
   				DEFAULT: 'hsl(var(--warning))',
-  				foreground: 'hsl(var(--warning-foreground))',
-  				bg: 'var(--color-warning-bg)',
-  				border: 'var(--color-warning-border)'
+  				foreground: 'hsl(var(--warning-foreground))'
   			},
   			info: {
   				DEFAULT: 'hsl(var(--info))',
-  				foreground: 'hsl(var(--info-foreground))',
-  				bg: 'var(--color-info-bg)',
-  				border: 'var(--color-info-border)'
+  				foreground: 'hsl(var(--info-foreground))'
   			},
   			muted: {
   				DEFAULT: 'hsl(var(--muted))',
@@ -72,13 +56,7 @@ export default {
   			},
   			accent: {
   				DEFAULT: 'hsl(var(--accent))',
-  				foreground: 'hsl(var(--accent-foreground))',
-  				green: 'var(--color-accent-green)',
-  				amber: 'var(--color-accent-amber)',
-  				red: 'var(--color-accent-red)',
-  				blue: 'var(--color-accent-blue)',
-  				purple: 'var(--color-accent-purple)',
-  				pink: 'var(--color-accent-pink)'
+  				foreground: 'hsl(var(--accent-foreground))'
   			},
   			popover: {
   				DEFAULT: 'hsl(var(--popover))',
@@ -98,56 +76,21 @@ export default {
   				border: 'hsl(var(--sidebar-border))',
   				ring: 'hsl(var(--sidebar-ring))'
   			},
+  			lime: {
+  				DEFAULT: 'hsl(var(--lime))',
+  				foreground: 'hsl(var(--lime-foreground))'
+  			},
   			chart: {
   				'1': 'hsl(var(--chart-1))',
   				'2': 'hsl(var(--chart-2))',
   				'3': 'hsl(var(--chart-3))',
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
-  			},
-  			neutral: {
-  				'0': 'var(--color-neutral-0)',
-  				'50': 'var(--color-neutral-50)',
-  				'100': 'var(--color-neutral-100)',
-  				'200': 'var(--color-neutral-200)',
-  				'300': 'var(--color-neutral-300)',
-  				'400': 'var(--color-neutral-400)',
-  				'500': 'var(--color-neutral-500)',
-  				'600': 'var(--color-neutral-600)',
-  				'700': 'var(--color-neutral-700)',
-  				'800': 'var(--color-neutral-800)',
-  				'900': 'var(--color-neutral-900)'
-  			},
-  			brand: {
-  				sky: 'var(--color-primary-600)',
-  				'sky-dark': 'var(--color-primary-700)'
-  			},
-  			danger: {
-  				DEFAULT: 'var(--color-error)',
-  				bg: 'var(--color-error-bg)',
-  				border: 'var(--color-error-border)'
-  			},
-  			surface: {
-  				DEFAULT: 'var(--color-surface)',
-  				elevated: 'var(--color-surface-elevated)',
-  				hover: 'var(--color-surface-hover)'
   			}
   		},
-  		textColor: {
-  			dark: 'var(--color-text-primary)',
-  			medium: 'var(--color-text-secondary)',
-  			muted: 'var(--color-text-tertiary)',
-  			light: 'var(--color-text-light, var(--color-neutral-400))',
-  			disabled: 'var(--color-text-disabled)',
-  			inverse: 'var(--color-text-inverse)'
-  		},
-  		borderColor: {
-  			default: 'var(--color-border)',
-  			light: 'var(--color-border-light)',
-  			heavy: 'var(--color-border-dark)'
-  		},
   		fontFamily: {
-  			sans: 'var(--font-family-sans)'
+  			sans: 'var(--font-family-sans)',
+  			display: 'var(--font-family-display)'
   		},
   		fontSize: {
   			xs: [
@@ -216,14 +159,12 @@ export default {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)',
-  			xl: 'var(--radius-xl)',
-  			'2xl': 'var(--radius-2xl)',
-  			pill: 'var(--radius-full)'
+  			xl: '1rem',
+  			'2xl': '1.5rem',
+  			pill: '9999px'
   		},
   		boxShadow: {
-  			card: 'var(--shadow-card)',
   			soft: 'var(--shadow-soft)',
-  			'card-hover': 'var(--shadow-card-hover)',
   			button: 'var(--shadow-button)'
   		},
   		backgroundImage: {

@@ -2,8 +2,6 @@ import { useState } from "react";
 import { supabase } from "../../lib/supabase";
 import type { Child } from "../../hooks/useSettingsData";
 import AppIcon from "../ui/AppIcon";
-import Toggle from "../ui/Toggle";
-import FormField from "../ui/FormField";
 
 type SaveStatus = "idle" | "saving" | "saved" | "error";
 
@@ -99,45 +97,56 @@ export function AdvancedAnalyticsSection({
   const getChildName = (child: Child) => child.preferred_name || child.first_name;
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card overflow-hidden">
+    <div className="bg-background rounded-2xl shadow-sm overflow-hidden">
       {/* Header */}
-      <div className="px-6 py-4 border-b border-neutral-100">
+      <div className="px-6 py-4 border-b border-border">
         <div className="flex items-center gap-3">
-          <AppIcon name="chart-line" className="w-5 h-5 text-primary-500" />
-          <h2 className="text-lg font-semibold text-neutral-700">Advanced Analytics</h2>
+          <AppIcon name="chart-line" className="w-5 h-5 text-primary" />
+          <h2 className="text-lg font-semibold text-foreground">Advanced Analytics</h2>
         </div>
       </div>
 
       {/* Toggle Section */}
-      <div className="px-6 py-5 border-b border-neutral-100">
+      <div className="px-6 py-5 border-b border-border">
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
-              <AppIcon name="shield" className="w-4 h-4 text-neutral-400" />
-              <span className="font-medium text-neutral-900">Share anonymised data</span>
+              <AppIcon name="shield" className="w-4 h-4 text-muted-foreground" />
+              <span className="font-medium text-foreground">Share anonymised data</span>
             </div>
-            <p className="text-sm text-neutral-500">
+            <p className="text-sm text-muted-foreground">
               When enabled, your child's progress data (without identifying information)
               contributes to cohort averages. This unlocks trend charts, heat maps, and
               comparison with similar students on the Insights page.
             </p>
-            <p className="text-xs text-neutral-400 mt-2">
+            <p className="text-xs text-muted-foreground mt-2">
               We never share: names, email, exact school, or location.
             </p>
           </div>
 
-          <Toggle
-            checked={shareAnalytics}
-            onChange={handleToggle}
+          {/* Toggle Switch */}
+          <button
+            type="button"
+            onClick={() => handleToggle(!shareAnalytics)}
             disabled={saving}
-          />
+            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0 ${
+              shareAnalytics ? "bg-primary" : "bg-muted"
+            } ${saving ? "opacity-50" : ""}`}
+            aria-label="Toggle anonymised analytics sharing"
+          >
+            <span
+              className={`inline-block h-4 w-4 transform rounded-full bg-background transition-transform ${
+                shareAnalytics ? "translate-x-6" : "translate-x-1"
+              }`}
+            />
+          </button>
         </div>
 
         {/* Save message */}
         {message && (
           <p
             className={`text-sm mt-3 ${
-              message.includes("Failed") ? "text-danger" : "text-success"
+              message.includes("Failed") ? "text-destructive" : "text-success"
             }`}
           >
             {message}
@@ -148,19 +157,19 @@ export function AdvancedAnalyticsSection({
       {/* School Info Section */}
       {shareAnalytics && children.length > 0 && (
         <div className="px-6 py-5">
-          <p className="text-sm text-neutral-600 mb-4">
+          <p className="text-sm text-muted-foreground mb-4">
             Add school details to enable regional comparisons (optional):
           </p>
 
           <div className="space-y-4">
             {children.map((child) => (
-              <div key={child.id} className="p-4 bg-neutral-50 rounded-xl">
+              <div key={child.id} className="p-4 bg-muted rounded-xl">
                 <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-medium text-neutral-900">{getChildName(child)}</h3>
+                  <h3 className="font-medium text-foreground">{getChildName(child)}</h3>
 
                   {/* Save status indicator */}
                   {childSaveStatus[child.id] === "saving" && (
-                    <span className="flex items-center gap-1.5 text-xs text-neutral-500">
+                    <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
                       <AppIcon name="loader" className="w-4 h-4 animate-spin" />
                       Saving...
                     </span>
@@ -172,7 +181,7 @@ export function AdvancedAnalyticsSection({
                     </span>
                   )}
                   {childSaveStatus[child.id] === "error" && (
-                    <span className="flex items-center gap-1.5 text-xs text-danger">
+                    <span className="flex items-center gap-1.5 text-xs text-destructive">
                       <AppIcon name="triangle-alert" className="w-4 h-4" />
                       Failed to save
                     </span>
@@ -180,41 +189,70 @@ export function AdvancedAnalyticsSection({
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                  <FormField
-                    label="School name"
-                    value={child.school_name || ""}
-                    onChange={(e) =>
-                      handleChildFieldUpdate(child.id, "school_name", e.target.value)
-                    }
-                    onBlur={() => handleChildBlur(child.id)}
-                    placeholder="e.g., St Mary's Academy"
-                  />
-                  <FormField
-                    label="Town/City"
-                    value={child.school_town || ""}
-                    onChange={(e) =>
-                      handleChildFieldUpdate(child.id, "school_town", e.target.value)
-                    }
-                    onBlur={() => handleChildBlur(child.id)}
-                    placeholder="e.g., Manchester"
-                  />
-                  <FormField
-                    label="Postcode area"
-                    value={child.school_postcode_prefix || ""}
-                    onChange={(e) =>
-                      handleChildFieldUpdate(
-                        child.id,
-                        "school_postcode_prefix",
-                        e.target.value.toUpperCase()
-                      )
-                    }
-                    onBlur={() => handleChildBlur(child.id)}
-                    placeholder="e.g., M1, SW1"
-                    maxLength={4}
-                  />
+                  {/* School Name */}
+                  <div>
+                    <label className="block text-xs text-muted-foreground mb-1">
+                      <span className="inline-flex items-center gap-1">
+                        <AppIcon name="graduation-cap" className="w-3.5 h-3.5" />
+                        School name
+                      </span>
+                    </label>
+                    <input
+                      type="text"
+                      value={child.school_name || ""}
+                      onChange={(e) =>
+                        handleChildFieldUpdate(child.id, "school_name", e.target.value)
+                      }
+                      onBlur={() => handleChildBlur(child.id)}
+                      placeholder="e.g., St Mary's Academy"
+                      className="w-full px-3 py-2 text-sm border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+                    />
+                  </div>
+
+                  {/* School Town */}
+                  <div>
+                    <label className="block text-xs text-muted-foreground mb-1">
+                      <span className="inline-flex items-center gap-1">
+                        <AppIcon name="map-pin" className="w-3.5 h-3.5" />
+                        Town/City
+                      </span>
+                    </label>
+                    <input
+                      type="text"
+                      value={child.school_town || ""}
+                      onChange={(e) =>
+                        handleChildFieldUpdate(child.id, "school_town", e.target.value)
+                      }
+                      onBlur={() => handleChildBlur(child.id)}
+                      placeholder="e.g., Manchester"
+                      className="w-full px-3 py-2 text-sm border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+                    />
+                  </div>
+
+                  {/* Postcode Prefix */}
+                  <div>
+                    <label className="block text-xs text-muted-foreground mb-1">
+                      Postcode area
+                    </label>
+                    <input
+                      type="text"
+                      value={child.school_postcode_prefix || ""}
+                      onChange={(e) =>
+                        handleChildFieldUpdate(
+                          child.id,
+                          "school_postcode_prefix",
+                          e.target.value.toUpperCase()
+                        )
+                      }
+                      onBlur={() => handleChildBlur(child.id)}
+                      placeholder="e.g., M1, SW1"
+                      maxLength={4}
+                      className="w-full px-3 py-2 text-sm border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+                    />
+                  </div>
                 </div>
 
-                <p className="text-xs text-neutral-400 mt-3">Changes are saved automatically</p>
+                <p className="text-xs text-muted-foreground mt-3">Changes are saved automatically</p>
               </div>
             ))}
           </div>

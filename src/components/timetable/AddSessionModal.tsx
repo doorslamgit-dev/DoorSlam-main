@@ -136,14 +136,14 @@ export default function AddSessionModal({
           <div className="flex items-center justify-between">
             <button
               onClick={() => setMode("choice")}
-              className="px-4 py-2 text-neutral-600 hover:text-neutral-800 transition"
+              className="px-4 py-2 text-muted-foreground hover:text-foreground transition"
             >
               Back
             </button>
             <button
               onClick={handleAddSession}
               disabled={saving || loading}
-              className="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             >
               {saving ? (
                 <>
@@ -170,43 +170,43 @@ export default function AddSessionModal({
       {/* Choice Mode */}
       {mode === "choice" && (
         <div className="space-y-3">
-          <p className="text-sm text-neutral-600 mb-4">
+          <p className="text-sm text-muted-foreground mb-4">
             How would you like to add sessions?
           </p>
 
           <button
             onClick={() => setMode("single")}
-            className="w-full p-4 border-2 border-neutral-200 rounded-xl hover:border-primary-300 hover:bg-primary-50 transition text-left group"
+            className="w-full p-4 border-2 border-border rounded-xl hover:border-primary/50 hover:bg-primary/5 transition text-left group"
           >
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center group-hover:bg-primary-200 transition">
-                <AppIcon name="plus" className="text-primary-600 w-5 h-5" />
+              <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center group-hover:bg-primary/20 transition">
+                <AppIcon name="plus" className="text-primary w-5 h-5" />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-neutral-700">One-time session</h3>
-                <p className="text-sm text-neutral-500">
+                <h3 className="font-semibold text-foreground">One-time session</h3>
+                <p className="text-sm text-muted-foreground">
                   Add a single session for a specific date
                 </p>
               </div>
-              <AppIcon name="arrow-right" className="w-4 h-4 text-neutral-400 group-hover:text-primary-600 transition" />
+              <AppIcon name="arrow-right" className="w-4 h-4 text-muted-foreground group-hover:text-primary transition" />
             </div>
           </button>
 
           <button
             onClick={handleEditSchedule}
-            className="w-full p-4 border-2 border-neutral-200 rounded-xl hover:border-primary-300 hover:bg-primary-50 transition text-left group"
+            className="w-full p-4 border-2 border-border rounded-xl hover:border-primary/50 hover:bg-primary/5 transition text-left group"
           >
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center group-hover:bg-primary-200 transition">
-                <AppIcon name="calendar" className="text-primary-600 w-5 h-5" />
+              <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center group-hover:bg-primary/20 transition">
+                <AppIcon name="calendar" className="text-primary w-5 h-5" />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-neutral-700">Change weekly schedule</h3>
-                <p className="text-sm text-neutral-500">
+                <h3 className="font-semibold text-foreground">Change weekly schedule</h3>
+                <p className="text-sm text-muted-foreground">
                   Edit recurring availability pattern
                 </p>
               </div>
-              <AppIcon name="arrow-right" className="w-4 h-4 text-neutral-400 group-hover:text-primary-600 transition" />
+              <AppIcon name="arrow-right" className="w-4 h-4 text-muted-foreground group-hover:text-primary transition" />
             </div>
           </button>
         </div>
@@ -217,14 +217,14 @@ export default function AddSessionModal({
         <div className="space-y-4">
           {loading ? (
             <div className="py-8 text-center">
-              <div className="w-8 h-8 border-2 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
-              <p className="text-sm text-neutral-500">Loading subjects...</p>
+              <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-2" />
+              <p className="text-sm text-muted-foreground">Loading subjects...</p>
             </div>
           ) : (
             <>
               {/* Date */}
               <div>
-                <label className="block text-sm font-medium text-neutral-700 mb-1.5">
+                <label className="block text-sm font-medium text-foreground mb-1.5">
                   Date
                 </label>
                 <input
@@ -234,13 +234,13 @@ export default function AddSessionModal({
                     setFormData((prev) => ({ ...prev, date: e.target.value }))
                   }
                   min={formatDate(new Date())}
-                  className="w-full px-4 py-2.5 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
                 />
               </div>
 
               {/* Time Slot */}
               <div>
-                <label className="block text-sm font-medium text-neutral-700 mb-1.5">
+                <label className="block text-sm font-medium text-foreground mb-1.5">
                   Time Slot
                 </label>
                 <select
@@ -248,7 +248,7 @@ export default function AddSessionModal({
                   onChange={(e) =>
                     setFormData((prev) => ({ ...prev, timeOfDay: e.target.value }))
                   }
-                  className="w-full px-4 py-2.5 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
                 >
                   {TIME_SLOT_ORDER.map((slot) => (
                     <option key={slot} value={slot}>
@@ -260,7 +260,7 @@ export default function AddSessionModal({
 
               {/* Subject */}
               <div>
-                <label className="block text-sm font-medium text-neutral-700 mb-1.5">
+                <label className="block text-sm font-medium text-foreground mb-1.5">
                   Subject
                 </label>
                 <select
@@ -268,7 +268,7 @@ export default function AddSessionModal({
                   onChange={(e) =>
                     setFormData((prev) => ({ ...prev, subjectId: e.target.value }))
                   }
-                  className="w-full px-4 py-2.5 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  className="w-full px-4 py-2.5 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
                 >
                   {subjects.map((subject) => (
                     <option key={subject.subject_id} value={subject.subject_id}>
@@ -280,7 +280,7 @@ export default function AddSessionModal({
 
               {/* Session Pattern */}
               <div>
-                <label className="block text-sm font-medium text-neutral-700 mb-1.5">
+                <label className="block text-sm font-medium text-foreground mb-1.5">
                   Session Length
                 </label>
                 <div className="grid grid-cols-3 gap-2">
@@ -300,18 +300,18 @@ export default function AddSessionModal({
                       }
                       className={`p-3 border-2 rounded-lg text-center transition ${
                         formData.sessionPattern === option.value
-                          ? "border-primary-600 bg-primary-50"
-                          : "border-neutral-200 hover:border-neutral-300"
+                          ? "border-primary bg-primary/5"
+                          : "border-border hover:border-input"
                       }`}
                     >
                       <div className={`font-semibold ${
                         formData.sessionPattern === option.value
-                          ? "text-primary-600"
-                          : "text-neutral-700"
+                          ? "text-primary"
+                          : "text-foreground"
                       }`}>
                         {option.label}
                       </div>
-                      <div className="text-xs text-neutral-500">{option.desc}</div>
+                      <div className="text-xs text-muted-foreground">{option.desc}</div>
                     </button>
                   ))}
                 </div>

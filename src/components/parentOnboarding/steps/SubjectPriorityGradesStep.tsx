@@ -101,10 +101,10 @@ function SortableCard({ subject, index, onGradeChange }: SortableCardProps) {
     <div
       ref={setNodeRef}
       style={style}
-      className={`bg-neutral-0 border-2 rounded-xl p-5 transition-all ${
+      className={`bg-background border-2 rounded-xl p-5 transition-all ${
         isDragging
-          ? "border-primary-400 shadow-lg ring-2 ring-primary-200 rotate-1 z-50"
-          : "border-neutral-200 hover:border-primary-300 hover:shadow-soft"
+          ? "border-primary/50 shadow-lg ring-2 ring-ring/30 rotate-1 z-50"
+          : "border-border hover:border-primary/50 hover:shadow-soft"
       }`}
     >
       <div className="flex items-start gap-4">
@@ -118,10 +118,10 @@ function SortableCard({ subject, index, onGradeChange }: SortableCardProps) {
           {/* Header row */}
           <div className="flex items-start justify-between mb-4">
             <div className="min-w-0">
-              <h3 className="text-base font-semibold text-neutral-900 truncate">
+              <h3 className="text-base font-semibold text-foreground truncate">
                 {subject.subject_name}
               </h3>
-              <p className="text-sm text-neutral-500 truncate">{subtitle}</p>
+              <p className="text-sm text-muted-foreground truncate">{subtitle}</p>
             </div>
 
             {/* Drag Handle */}
@@ -129,7 +129,7 @@ function SortableCard({ subject, index, onGradeChange }: SortableCardProps) {
               {...attributes}
               {...listeners}
               type="button"
-              className="cursor-grab touch-none p-2 text-neutral-400 hover:text-neutral-600 transition-colors flex-shrink-0"
+              className="cursor-grab touch-none p-2 text-muted-foreground hover:text-muted-foreground transition-colors flex-shrink-0"
               aria-label="Drag to reorder"
             >
               <AppIcon name="grip-vertical" className="w-4 h-4" aria-hidden />
@@ -140,7 +140,7 @@ function SortableCard({ subject, index, onGradeChange }: SortableCardProps) {
           <div className="grid grid-cols-2 gap-4">
             {/* Current Grade */}
             <div>
-              <label className="block text-xs font-medium text-neutral-600 mb-2">
+              <label className="block text-xs font-medium text-muted-foreground mb-2">
                 Current grade
               </label>
               <select
@@ -149,7 +149,7 @@ function SortableCard({ subject, index, onGradeChange }: SortableCardProps) {
                   const val = e.target.value === "" ? null : parseInt(e.target.value, 10);
                   onGradeChange("current_grade", val);
                 }}
-                className="w-full px-3 py-2 border border-neutral-200 rounded-lg text-sm bg-neutral-0 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent transition-all"
+                className="w-full px-3 py-2 border border-border rounded-lg text-sm bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
               >
                 {GRADE_OPTIONS.map((opt) => (
                   <option key={opt.label} value={opt.value ?? ""}>
@@ -161,7 +161,7 @@ function SortableCard({ subject, index, onGradeChange }: SortableCardProps) {
 
             {/* Target Grade */}
             <div>
-              <label className="block text-xs font-medium text-neutral-600 mb-2">
+              <label className="block text-xs font-medium text-muted-foreground mb-2">
                 Target grade
               </label>
               <select
@@ -170,7 +170,7 @@ function SortableCard({ subject, index, onGradeChange }: SortableCardProps) {
                   const val = e.target.value === "" ? null : parseInt(e.target.value, 10);
                   onGradeChange("target_grade", val);
                 }}
-                className="w-full px-3 py-2 border border-neutral-200 rounded-lg text-sm bg-neutral-0 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent transition-all"
+                className="w-full px-3 py-2 border border-border rounded-lg text-sm bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
               >
                 <option value="">Select target</option>
                 {TARGET_GRADE_OPTIONS.map((opt) => (
@@ -184,13 +184,13 @@ function SortableCard({ subject, index, onGradeChange }: SortableCardProps) {
 
           {/* Large Gap Warning */}
           {hasLargeGap && (
-            <div className="mt-4 flex items-start gap-2 rounded-lg bg-accent-amber/10 border border-accent-amber/30 p-3">
+            <div className="mt-4 flex items-start gap-2 rounded-lg bg-warning/10 border border-accent-amber/30 p-3">
               <AppIcon
                 name="triangle-alert"
-                className="w-4 h-4 text-accent-amber mt-0.5"
+                className="w-4 h-4 text-warning mt-0.5"
                 aria-hidden
               />
-              <div className="text-sm text-neutral-700">
+              <div className="text-sm text-foreground">
                 <strong>Ambitious target!</strong> A {gradeGap}-grade improvement will need
                 significant focus. We'll allocate more sessions to this subject.
               </div>
@@ -268,25 +268,25 @@ export default function SubjectPriorityGradesStep({
     <div>
       {/* Header */}
       <div className="mb-6">
-        <h2 className="text-xl font-semibold text-neutral-900 mb-2">
+        <h2 className="text-xl font-semibold text-foreground mb-2">
           Prioritise subjects
         </h2>
-        <p className="text-neutral-500 text-sm leading-relaxed">
+        <p className="text-muted-foreground text-sm leading-relaxed">
           Tell us where the biggest gaps are so we can focus the plan.
         </p>
       </div>
 
       {/* Tip Box */}
-      <div className="bg-primary-50 border border-primary-200 rounded-xl p-4 mb-6">
+      <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 mb-6">
         <div className="flex items-start gap-3">
-          <div className="w-6 h-6 bg-primary-600 rounded-full flex items-center justify-center flex-shrink-0">
+          <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
             <AppIcon name="lightbulb" className="w-3 h-3 text-white" aria-hidden />
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-primary-900 mb-1">
+            <h3 className="text-sm font-semibold text-primary mb-1">
               How to prioritise
             </h3>
-            <p className="text-xs text-primary-700 leading-relaxed">
+            <p className="text-xs text-primary leading-relaxed">
               Focus on subjects with the largest grade gaps or where your child needs the most
               support. Drag to reorder — highest priority at the top.
             </p>
@@ -317,14 +317,14 @@ export default function SubjectPriorityGradesStep({
 
       {/* Validation Message */}
       {!isValid && (
-        <div className="rounded-xl bg-neutral-100 border border-neutral-200 p-4 mb-6">
+        <div className="rounded-xl bg-secondary border border-border p-4 mb-6">
           <div className="flex items-start gap-3">
             <AppIcon
               name="info"
-              className="w-5 h-5 text-neutral-500 mt-0.5"
+              className="w-5 h-5 text-muted-foreground mt-0.5"
               aria-hidden
             />
-            <p className="text-sm text-neutral-600">
+            <p className="text-sm text-muted-foreground">
               Please set a target grade for{" "}
               {incompleteCount === 1
                 ? "the remaining subject"
@@ -340,7 +340,7 @@ export default function SubjectPriorityGradesStep({
         <button
           type="button"
           onClick={onBack}
-          className="px-6 py-3 rounded-full font-medium text-neutral-700 bg-neutral-200 hover:bg-neutral-300 transition-all"
+          className="px-6 py-3 rounded-full font-medium text-foreground bg-muted hover:bg-muted transition-all"
         >
           Back
         </button>
@@ -349,7 +349,7 @@ export default function SubjectPriorityGradesStep({
           type="button"
           onClick={onNext}
           disabled={!isValid}
-          className="px-8 py-3 rounded-full font-semibold text-white bg-primary-600 hover:bg-primary-700 transition-all shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-8 py-3 rounded-full font-semibold text-white bg-primary hover:bg-primary/90 transition-all shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Continue
         </button>
