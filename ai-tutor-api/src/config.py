@@ -71,3 +71,17 @@ class Settings(BaseSettings):
 
 
 settings = Settings()  # type: ignore[call-arg]
+
+# Validate critical secrets at startup
+_missing = [
+    name for name, val in [
+        ("CHAT_API_KEY", settings.chat_api_key),
+        ("EMBEDDING_API_KEY", settings.embedding_api_key),
+    ]
+    if not val
+]
+if _missing:
+    import logging as _logging
+    _logging.getLogger(__name__).warning(
+        "Missing API keys (chat/embedding will fail): %s", ", ".join(_missing)
+    )

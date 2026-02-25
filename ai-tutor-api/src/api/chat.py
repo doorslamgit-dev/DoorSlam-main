@@ -20,6 +20,7 @@ from ..services.memory import trim_history
 from ..services.retrieval import format_retrieval_context, search_chunks
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
 
 PARENT_SYSTEM_PROMPT = """You are an AI revision tutor helping a GCSE parent understand their child's subjects.
 
@@ -130,9 +131,6 @@ async def _update_conversation_metadata(conversation_id: str) -> None:
         "last_active_at": datetime.now(timezone.utc).isoformat(),
         "message_count": count,
     }).eq("id", conversation_id).execute()
-
-
-logger = logging.getLogger(__name__)
 
 
 async def _generate_title(conversation_id: str, user_message: str) -> None:
@@ -287,12 +285,15 @@ async def chat_stream(req: ChatRequest, user: dict = Depends(get_current_user)):
 
             # Save sources + update conversation metadata in background
             async def _post_stream_saves():
-                if sources_payload:
-                    sb = _get_supabase()
-                    sb.schema("rag").table("messages").update({
-                        "sources": sources_payload,
-                    }).eq("id", msg_id).execute()
-                await _update_conversation_metadata(conversation_id)
+                try:
+                    if sources_payload:
+                        sb = _get_supabase()
+                        sb.schema("rag").table("messages").update({
+                            "sources": sources_payload,
+                        }).eq("id", msg_id).execute()
+                    await _update_conversation_metadata(conversation_id)
+                except Exception:
+                    logger.exception("Background save failed for conversation %s", conversation_id)
 
             asyncio.create_task(_post_stream_saves())
 
@@ -309,6 +310,7 @@ async def chat_stream(req: ChatRequest, user: dict = Depends(get_current_user)):
                 asyncio.create_task(_generate_title(conversation_id, req.message))
 
         except Exception as exc:
+            logger.exception("SSE stream error: %s", exc)
             yield {
                 "event": "error",
                 "data": json.dumps({"error": str(exc)}),

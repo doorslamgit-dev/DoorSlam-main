@@ -1,6 +1,8 @@
 # ai-tutor-api/src/api/conversations.py
 # CRUD endpoints for conversation history.
 
+import logging
+
 from fastapi import APIRouter, Depends, HTTPException, Query
 from supabase import create_client
 
@@ -14,7 +16,7 @@ from ..models.chat import (
 )
 
 router = APIRouter()
-
+logger = logging.getLogger(__name__)
 
 def _get_supabase():
     return create_client(settings.supabase_url, settings.supabase_service_role_key)
@@ -27,16 +29,20 @@ async def list_conversations(
     user: dict = Depends(get_current_user),
 ):
     """List the current user's conversations, most recent first."""
-    sb = _get_supabase()
-    result = (
-        sb.schema("rag")
-        .table("conversations")
-        .select("id, title, message_count, last_active_at, created_at, subject_id")
-        .eq("user_id", user["user_id"])
-        .order("last_active_at", desc=True)
-        .range(offset, offset + limit)
-        .execute()
-    )
+    try:
+        sb = _get_supabase()
+        result = (
+            sb.schema("rag")
+            .table("conversations")
+            .select("id, title, message_count, last_active_at, created_at, subject_id")
+            .eq("user_id", user["user_id"])
+            .order("last_active_at", desc=True)
+            .range(offset, offset + limit)
+            .execute()
+        )
+    except Exception as exc:
+        logger.exception("Failed to list conversations for user %s", user["user_id"])
+        raise HTTPException(status_code=502, detail=f"Database error: {exc}") from exc
 
     conversations = [
         ConversationSummary(
