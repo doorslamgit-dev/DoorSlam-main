@@ -21,8 +21,8 @@ export function TimetableHeader({
 
   return (
     <div className="mb-4">
-      <h1 className="text-2xl font-bold text-primary-900">Timetable</h1>
-      <p className="text-sm text-neutral-500">{subtitle}</p>
+      <h1 className="text-2xl font-bold text-primary">Timetable</h1>
+      <p className="text-sm text-muted-foreground">{subtitle}</p>
     </div>
   );
 }

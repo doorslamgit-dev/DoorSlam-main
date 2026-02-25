@@ -47,27 +47,27 @@ export default function ReflectionStep({
   ];
 
   return (
-    <div className="bg-neutral-0 rounded-2xl border border-neutral-100 shadow-sm p-8">
+    <div className="bg-background rounded-2xl border border-border shadow-sm p-8">
       {/* Progress Bar */}
       <div className="mb-6">
-        <div className="h-2 bg-neutral-100 rounded-full overflow-hidden">
+        <div className="h-2 bg-secondary rounded-full overflow-hidden">
           <div
-            className="h-full bg-primary-600 transition-all duration-300"
+            className="h-full bg-primary transition-all duration-300"
             style={{ width: `${overview.step_percent}%` }}
           />
         </div>
-        <div className="mt-2 text-sm text-neutral-500">Step 4 of 4: Reflection</div>
+        <div className="mt-2 text-sm text-muted-foreground">Step 4 of 4: Reflection</div>
       </div>
 
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-neutral-900">{overview.subject_name}</h1>
-        <p className="mt-2 text-lg text-neutral-600">{overview.topic_name}</p>
+        <h1 className="text-3xl font-bold text-foreground">{overview.subject_name}</h1>
+        <p className="mt-2 text-lg text-muted-foreground">{overview.topic_name}</p>
       </div>
 
       {/* Confidence Level */}
       <div className="mb-8">
-        <h2 className="text-xl font-semibold text-neutral-900 mb-4">
+        <h2 className="text-xl font-semibold text-foreground mb-4">
           How confident do you feel about this topic?
         </h2>
 
@@ -80,12 +80,12 @@ export default function ReflectionStep({
               className={`p-4 rounded-xl border-2 transition-all text-left ${
                 confidenceLevel === level.value
                   ? `border-${level.color}-600 bg-${level.color}-50`
-                  : "border-neutral-200 hover:border-neutral-300"
+                  : "border-border hover:border-input"
               }`}
             >
               <div className="flex items-center gap-3">
                 <AppIcon name={level.icon} className="w-6 h-6 flex-shrink-0" aria-hidden />
-                <span className="font-semibold text-neutral-900">{level.label}</span>
+                <span className="font-semibold text-foreground">{level.label}</span>
               </div>
             </button>
           ))}
@@ -94,14 +94,14 @@ export default function ReflectionStep({
 
       {/* Notes */}
       <div className="mb-8">
-        <h2 className="text-xl font-semibold text-neutral-900 mb-4">
+        <h2 className="text-xl font-semibold text-foreground mb-4">
           Any notes or questions? (Optional)
         </h2>
         <textarea
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           placeholder="What went well? What was challenging? Any questions you still have?"
-          className="w-full h-32 p-4 border-2 border-neutral-200 rounded-xl resize-none focus:outline-none focus:border-primary-600"
+          className="w-full h-32 p-4 border-2 border-border rounded-xl resize-none focus:outline-none focus:border-ring"
         />
       </div>
 
@@ -110,7 +110,7 @@ export default function ReflectionStep({
         type="button"
         onClick={handleFinish}
         disabled={saving}
-        className="w-full px-8 py-4 rounded-xl bg-primary-600 text-white hover:bg-primary-700 font-semibold text-lg disabled:opacity-50 mb-6"
+        className="w-full px-8 py-4 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-lg disabled:opacity-50 mb-6"
       >
         {saving ? "Finishing..." : "Complete Session"}
       </button>
@@ -120,7 +120,7 @@ export default function ReflectionStep({
         <button
           type="button"
           onClick={onBack}
-          className="px-5 py-2.5 rounded-xl border border-neutral-200 text-neutral-700 hover:bg-neutral-50 font-medium"
+          className="px-5 py-2.5 rounded-xl border border-border text-foreground hover:bg-accent font-medium"
         >
           Back
         </button>

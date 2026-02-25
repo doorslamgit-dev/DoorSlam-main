@@ -28,18 +28,18 @@ export function WeeklyFocusStrip({
 
   return (
     <section className="mb-8">
-      <div className="bg-primary-50 rounded-xl p-5 border border-primary-100">
+      <div className="bg-primary/5 rounded-xl p-5 border border-primary-100">
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-primary-600 rounded-xl flex items-center justify-center">
-              <AppIcon name="rocket" className="w-6 h-6 text-white" />
+            <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center">
+              <AppIcon name="rocket" className="w-6 h-6 text-primary-foreground" />
             </div>
 
             <div>
-              <div className="text-base font-semibold text-primary-900">
+              <div className="text-base font-semibold text-primary">
                 {getMessage()}
               </div>
-              <div className="text-sm text-neutral-600">
+              <div className="text-sm text-muted-foreground">
                 {activeDays} of {totalPlanned} planned days complete · {restDays}{" "}
                 rest day{restDays !== 1 ? "s" : ""}
               </div>
@@ -48,7 +48,7 @@ export function WeeklyFocusStrip({
 
           <button
             onClick={handleSeeWhy}
-            className="text-sm font-medium text-primary-600 hover:text-primary-700 flex items-center gap-2"
+            className="text-sm font-medium text-primary hover:text-primary flex items-center gap-2"
           >
             See why this matters
             <AppIcon name="arrow-right" className="w-4 h-4" aria-hidden />

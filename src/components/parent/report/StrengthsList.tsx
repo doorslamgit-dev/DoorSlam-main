@@ -12,10 +12,10 @@ interface StrengthsListProps {
 export function StrengthsList({ strengths }: StrengthsListProps) {
   return (
     <section className="mb-10 report-card">
-      <h2 className="text-xl font-bold text-primary-900 mb-4 flex items-center gap-2">
+      <h2 className="text-xl font-bold text-primary mb-4 flex items-center gap-2">
         <AppIcon
           name="check-circle"
-          className="w-5 h-5 text-accent-green"
+          className="w-5 h-5 text-success"
           aria-hidden
         />
         <span>Strengths</span>
@@ -26,28 +26,28 @@ export function StrengthsList({ strengths }: StrengthsListProps) {
           {strengths.map((topic) => (
             <div
               key={topic.topic_id}
-              className="flex items-center justify-between bg-accent-green/10 border border-accent-green/20 rounded-lg px-4 py-3"
+              className="flex items-center justify-between bg-success/10 border border-success/20 rounded-lg px-4 py-3"
             >
               <div>
-                <p className="font-medium text-primary-900">
+                <p className="font-medium text-primary">
                   {topic.topic_name}
                 </p>
-                <p className="text-sm text-neutral-500">
+                <p className="text-sm text-muted-foreground">
                   {topic.subject_name} • {topic.sessions_completed} sessions
                 </p>
               </div>
 
               <div className="text-right">
-                <p className="text-2xl font-bold text-accent-green">
+                <p className="text-2xl font-bold text-success">
                   {topic.confidence_percent}%
                 </p>
-                <p className="text-xs text-neutral-500">confidence</p>
+                <p className="text-xs text-muted-foreground">confidence</p>
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <p className="text-neutral-500 italic">
+        <p className="text-muted-foreground italic">
           Building confidence — check back after more sessions.
         </p>
       )}

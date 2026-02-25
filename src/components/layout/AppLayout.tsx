@@ -39,7 +39,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
   // Loading: neutral layout (no header, no sidebar) to prevent flash
   if (loading) {
     return (
-      <div className="min-h-screen bg-background-secondary flex flex-col">
+      <div className="min-h-screen bg-muted flex flex-col">
         <main className="flex-1">{children}</main>
       </div>
     );
@@ -52,7 +52,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
 
   // Unauthenticated: header layout (landing, login, signup)
   return (
-    <div className="min-h-screen bg-background-secondary flex flex-col">
+    <div className="min-h-screen bg-muted flex flex-col">
       <AppHeader />
       <main className="flex-1">{children}</main>
     </div>

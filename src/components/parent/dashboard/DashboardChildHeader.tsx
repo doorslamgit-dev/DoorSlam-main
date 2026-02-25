@@ -52,7 +52,7 @@ export function DashboardChildHeader({
             className="w-10 h-10 rounded-full object-cover"
           />
         ) : (
-          <div className="w-10 h-10 rounded-full bg-primary-600 flex items-center justify-center text-white text-sm font-semibold">
+          <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-sm font-semibold">
             {initials}
           </div>
         )}
@@ -67,14 +67,14 @@ export function DashboardChildHeader({
                 className="appearance-none text-sm font-semibold text-dark bg-transparent border-none pr-6 cursor-pointer focus:outline-none focus:ring-0"
               >
                 {children.map((c) => (
-                  <option key={c.child_id} value={c.child_id} className="text-neutral-800">
+                  <option key={c.child_id} value={c.child_id} className="text-foreground">
                     {c.preferred_name || c.first_name || c.child_name}
                   </option>
                 ))}
               </select>
               <AppIcon
                 name="chevron-down"
-                className="w-3 h-3 text-neutral-400 absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none"
+                className="w-3 h-3 text-muted-foreground absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none"
               />
             </div>
           ) : (

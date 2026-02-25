@@ -9,12 +9,12 @@ const ICON_WARNING: IconKey = "warningTriangle";
 
 export function LoadingState() {
   return (
-    <div className="min-h-screen bg-neutral-100 flex items-center justify-center">
+    <div className="min-h-screen bg-secondary flex items-center justify-center">
       <div className="text-center">
-        <div className="text-primary-600 text-4xl mb-4 animate-spin" aria-hidden="true">
+        <div className="text-primary text-4xl mb-4 animate-spin" aria-hidden="true">
           <AppIcon name={ICON_SPINNER} />
         </div>
-        <p className="text-neutral-600 font-medium">Loading session...</p>
+        <p className="text-muted-foreground font-medium">Loading session...</p>
       </div>
     </div>
   );
@@ -27,22 +27,22 @@ type ErrorStateProps = {
 
 export function ErrorState({ message, onRetry }: ErrorStateProps) {
   return (
-    <div className="min-h-screen bg-neutral-100 flex items-center justify-center">
-      <div className="bg-neutral-0 rounded-2xl shadow-card p-8 max-w-md text-center">
-        <div className="text-accent-red text-4xl mb-4" aria-hidden="true">
+    <div className="min-h-screen bg-secondary flex items-center justify-center">
+      <div className="bg-background rounded-2xl shadow-sm p-8 max-w-md text-center">
+        <div className="text-destructive text-4xl mb-4" aria-hidden="true">
           <AppIcon name={ICON_WARNING} />
         </div>
 
-        <h2 className="text-xl font-bold text-neutral-900 mb-2">
+        <h2 className="text-xl font-bold text-foreground mb-2">
           Something went wrong
         </h2>
 
-        <p className="text-neutral-600 mb-6">{message}</p>
+        <p className="text-muted-foreground mb-6">{message}</p>
 
         <button
           type="button"
           onClick={onRetry}
-          className="px-6 py-3 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition"
+          className="px-6 py-3 bg-primary text-primary-foreground font-semibold rounded-xl hover:bg-primary/90 transition"
         >
           Try Again
         </button>

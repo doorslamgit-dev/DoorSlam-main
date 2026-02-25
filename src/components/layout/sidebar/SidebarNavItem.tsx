@@ -28,8 +28,8 @@ export default function SidebarNavItem({ href, icon, label, exact = false }: Sid
         flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
         transition-colors duration-200
         ${isActive
-          ? 'bg-primary-100 text-primary-700'
-          : 'text-neutral-600 hover:bg-neutral-100 hover:text-neutral-800'
+          ? 'bg-primary/10 text-primary'
+          : 'text-muted-foreground hover:bg-accent hover:text-foreground'
         }
         ${isCollapsed ? 'justify-center' : ''}
       `}

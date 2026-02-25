@@ -29,32 +29,32 @@ export function TopicHeader({
   const isInlineColor = colorValue?.startsWith("#") || colorValue?.startsWith("rgb");
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
+    <div className="bg-background rounded-2xl shadow-sm p-6">
       <div className="flex items-center space-x-4">
         <div
-          className={`w-16 h-16 rounded-xl flex items-center justify-center ${isInlineColor ? "" : colorValue || "bg-primary-500"}`}
+          className={`w-16 h-16 rounded-xl flex items-center justify-center ${isInlineColor ? "" : colorValue || "bg-primary"}`}
           style={isInlineColor ? { backgroundColor: colorValue } : undefined}
         >
-          <AppIcon name={subjectIcon} className="text-white text-2xl" />
+          <AppIcon name={subjectIcon} className="text-primary-foreground text-2xl" />
         </div>
 
         <div className="flex-1">
-          <p className="text-neutral-500 text-sm mb-1">{subjectName}</p>
-          <h1 className="text-2xl font-bold text-primary-900">{topicName}</h1>
+          <p className="text-muted-foreground text-sm mb-1">{subjectName}</p>
+          <h1 className="text-2xl font-bold text-primary">{topicName}</h1>
         </div>
       </div>
 
       <div className="flex items-center space-x-4 mt-6">
-        <div className="flex items-center space-x-2 bg-primary-50 px-4 py-2 rounded-full">
-          <AppIcon name="clock" className="text-primary-600" />
-          <span className="text-primary-900 font-semibold text-sm">
+        <div className="flex items-center space-x-2 bg-primary/5 px-4 py-2 rounded-full">
+          <AppIcon name="clock" className="text-primary" />
+          <span className="text-primary font-semibold text-sm">
             ~{sessionMinutes} minutes
           </span>
         </div>
 
-        <div className="flex items-center space-x-2 bg-neutral-100 px-4 py-2 rounded-full">
-          <AppIcon name="list-check" className="text-neutral-600" />
-          <span className="text-neutral-700 font-semibold text-sm">
+        <div className="flex items-center space-x-2 bg-secondary px-4 py-2 rounded-full">
+          <AppIcon name="list-check" className="text-muted-foreground" />
+          <span className="text-foreground font-semibold text-sm">
             {totalSteps} steps
           </span>
         </div>

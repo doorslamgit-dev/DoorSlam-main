@@ -77,7 +77,7 @@ export default function SubjectCard({ subject }: SubjectCardProps) {
   const iconKey = mapSubjectIconToAppIcon(subject.subject_icon);
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-soft p-6">
+    <div className="bg-background rounded-2xl shadow-soft p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-3">
@@ -95,10 +95,10 @@ export default function SubjectCard({ subject }: SubjectCardProps) {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-neutral-700">
+            <h3 className="text-lg font-semibold text-foreground">
               {subject.subject_name}
             </h3>
-            <p className="text-sm text-neutral-500">
+            <p className="text-sm text-muted-foreground">
               {subject.exam_type || "GCSE"} • {subject.exam_board_name || "Edexcel"}
             </p>
           </div>
@@ -116,18 +116,18 @@ export default function SubjectCard({ subject }: SubjectCardProps) {
       {/* Content */}
       <div className="space-y-4">
         <div>
-          <div className="text-sm mb-2 text-neutral-600">
+          <div className="text-sm mb-2 text-muted-foreground">
             <span className="font-medium">Recently covered:</span>{" "}
-            <span className="text-neutral-500">
+            <span className="text-muted-foreground">
               {recentlyCovered.length > 0
                 ? recentlyCovered.map((t) => t.topic_name).join(", ")
                 : "No topics covered yet"}
             </span>
           </div>
 
-          <div className="text-sm text-neutral-600">
+          <div className="text-sm text-muted-foreground">
             <span className="font-medium">Coming up next:</span>{" "}
-            <span className="text-neutral-500">
+            <span className="text-muted-foreground">
               {comingUp.length > 0
                 ? comingUp.map((t) => t.topic_name).join(", ")
                 : "No upcoming topics scheduled"}
@@ -138,13 +138,13 @@ export default function SubjectCard({ subject }: SubjectCardProps) {
         {/* Progress Bar */}
         <div className="space-y-2">
           <div className="flex items-center justify-between text-sm">
-            <span className="text-neutral-500">Coverage progress</span>
-            <span className="font-medium text-neutral-700">
+            <span className="text-muted-foreground">Coverage progress</span>
+            <span className="font-medium text-foreground">
               {subject.completion_percentage}% complete
             </span>
           </div>
 
-          <div className="w-full rounded-full h-2 bg-neutral-200">
+          <div className="w-full rounded-full h-2 bg-border">
             <div
               className="h-2 rounded-full transition-all duration-300"
               style={{

@@ -98,7 +98,7 @@ export function RewardToast({
         {/* Icon */}
         <div
           className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
-            isApproved ? 'bg-success-bg' : 'bg-warning-bg'
+            isApproved ? 'bg-success/10' : 'bg-warning/10'
           }`}
         >
           {isApproved ? (
@@ -113,7 +113,7 @@ export function RewardToast({
           <p className={`font-semibold ${isApproved ? 'text-success' : 'text-warning'}`}>
             {isApproved ? 'Reward Approved!' : 'Request Sent!'}
           </p>
-          <p className="text-sm text-neutral-600 truncate">
+          <p className="text-sm text-muted-foreground truncate">
             {rewardEmoji} {rewardName}
           </p>
         </div>
@@ -124,7 +124,7 @@ export function RewardToast({
             setIsExiting(true);
             setTimeout(onClose, 300);
           }}
-          className="text-neutral-400 hover:text-neutral-600 p-1"
+          className="text-muted-foreground hover:text-foreground p-1"
         >
           <AppIcon name="x" className="w-4 h-4" />
         </button>

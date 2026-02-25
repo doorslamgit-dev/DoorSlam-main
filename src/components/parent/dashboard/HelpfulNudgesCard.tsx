@@ -138,25 +138,25 @@ function getStatusPanelClasses(status: StatusIndicator) {
       return {
         bg: "bg-accent-amber/10",
         border: "border-accent-amber/20",
-        text: "text-primary-900",
+        text: "text-primary",
       };
     case "keep_an_eye":
       return {
-        bg: "bg-primary-50",
-        border: "border-primary-200/40",
-        text: "text-primary-900",
+        bg: "bg-primary/5",
+        border: "border-primary/20",
+        text: "text-primary",
       };
     case "getting_started":
       return {
-        bg: "bg-neutral-50",
-        border: "border-neutral-200/60",
-        text: "text-primary-900",
+        bg: "bg-muted",
+        border: "border-border",
+        text: "text-primary",
       };
     default:
       return {
         bg: "bg-accent-green/10",
         border: "border-accent-green/20",
-        text: "text-primary-900",
+        text: "text-primary",
       };
   }
 }
@@ -175,17 +175,17 @@ function StatusExplainerItem({ explainer }: { explainer: StatusExplainer }) {
   return (
     <div className={`rounded-xl p-4 ${colors.bg} border ${colors.border}`}>
       <div className="flex items-start gap-3 mb-3">
-        <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 bg-neutral-0 border border-neutral-200/60">
+        <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 bg-background border border-border">
           <AppIcon
             name={getStatusIconKey(status)}
-            className="w-5 h-5 text-primary-700"
+            className="w-5 h-5 text-primary"
             aria-hidden
           />
         </div>
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
-            <span className="font-semibold text-primary-900">
+            <span className="font-semibold text-primary">
               {explainer.child_name}
             </span>
             <span
@@ -201,14 +201,14 @@ function StatusExplainerItem({ explainer }: { explainer: StatusExplainer }) {
 
       <div className="space-y-2 mb-3">
         <div className="flex items-start gap-2">
-          <span className="text-xs font-medium text-neutral-500 uppercase tracking-wide w-16 flex-shrink-0 pt-0.5">
+          <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide w-16 flex-shrink-0 pt-0.5">
             Why
           </span>
           <p className={`text-sm ${colors.text}`}>{config.explanation}</p>
         </div>
 
         <div className="flex items-start gap-2">
-          <span className="text-xs font-medium text-neutral-500 uppercase tracking-wide w-16 flex-shrink-0 pt-0.5">
+          <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide w-16 flex-shrink-0 pt-0.5">
             Tip
           </span>
           <p className={`text-sm ${colors.text}`}>{config.suggestion}</p>
@@ -217,7 +217,7 @@ function StatusExplainerItem({ explainer }: { explainer: StatusExplainer }) {
 
       <a
         href={config.actionUrl}
-        className="inline-flex items-center gap-2 text-sm font-medium text-primary-600 hover:text-primary-700 transition-colors"
+        className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary transition-colors"
       >
         {config.actionLabel}
         <AppIcon name="arrow-right" className="w-4 h-4" aria-hidden />
@@ -253,26 +253,26 @@ function nudgeTone(type: Nudge["type"]) {
     case "celebration":
       return {
         bg: "bg-accent-green/15",
-        icon: "text-accent-green",
+        icon: "text-success",
         border: "border-accent-green/20",
       };
     case "reminder":
       return {
-        bg: "bg-primary-50",
-        icon: "text-primary-600",
-        border: "border-primary-200/40",
+        bg: "bg-primary/5",
+        icon: "text-primary",
+        border: "border-primary/20",
       };
     case "tip":
       return {
         bg: "bg-accent-amber/15",
-        icon: "text-accent-amber",
+        icon: "text-warning",
         border: "border-accent-amber/20",
       };
     default:
       return {
-        bg: "bg-neutral-100",
-        icon: "text-neutral-600",
-        border: "border-neutral-200/60",
+        bg: "bg-secondary",
+        icon: "text-muted-foreground",
+        border: "border-border",
       };
   }
 }
@@ -283,7 +283,7 @@ function NudgeItem({ nudge }: { nudge: Nudge }) {
 
   return (
     <div
-      className={`flex items-start gap-3 p-3 rounded-lg bg-neutral-50 border ${tone.border}`}
+      className={`flex items-start gap-3 p-3 rounded-lg bg-muted border ${tone.border}`}
     >
       <div
         className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${tone.bg}`}
@@ -292,13 +292,13 @@ function NudgeItem({ nudge }: { nudge: Nudge }) {
       </div>
 
       <div className="flex-1 min-w-0">
-        <p className="font-medium text-sm text-primary-900">{nudge.title}</p>
-        <p className="text-sm text-neutral-600 mt-0.5">{nudge.message}</p>
+        <p className="font-medium text-sm text-primary">{nudge.title}</p>
+        <p className="text-sm text-muted-foreground mt-0.5">{nudge.message}</p>
 
         {nudge.action_url && (
           <a
             href={nudge.action_url}
-            className="inline-flex items-center gap-1 text-xs font-medium text-primary-600 hover:text-primary-700 mt-2"
+            className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:text-primary mt-2"
           >
             {nudge.action_label || "Learn more"}
             <AppIcon name="arrow-right" className="w-3.5 h-3.5" aria-hidden />
@@ -320,16 +320,16 @@ export default function HelpfulNudgesCard({
 
   if (relevantExplainers.length === 0 && nudges.length === 0) {
     return (
-      <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200/50">
+      <div className="bg-background rounded-2xl shadow-sm p-6 border border-border">
         <div className="flex items-center gap-3 mb-4">
           <div className="w-10 h-10 rounded-xl bg-accent-green/15 flex items-center justify-center">
-            <AppIcon name="rocket" className="w-5 h-5 text-accent-green" aria-hidden />
+            <AppIcon name="rocket" className="w-5 h-5 text-success" aria-hidden />
           </div>
-          <h3 className="text-lg font-semibold text-primary-900">
+          <h3 className="text-lg font-semibold text-primary">
             All Looking Good!
           </h3>
         </div>
-        <p className="text-neutral-600 text-sm">
+        <p className="text-muted-foreground text-sm">
           Everyone's revision is on track. Keep up the great support!
         </p>
       </div>
@@ -337,20 +337,20 @@ export default function HelpfulNudgesCard({
   }
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200/50">
+    <div className="bg-background rounded-2xl shadow-sm p-6 border border-border">
       <div className="flex items-center gap-3 mb-4">
         <div className="w-10 h-10 rounded-xl bg-accent-amber/15 flex items-center justify-center">
           <AppIcon
             name="lightbulb"
-            className="w-5 h-5 text-accent-amber"
+            className="w-5 h-5 text-warning"
             aria-hidden
           />
         </div>
         <div>
-          <h3 className="text-lg font-semibold text-primary-900">
+          <h3 className="text-lg font-semibold text-primary">
             Helpful Nudges
           </h3>
-          <p className="text-sm text-neutral-500">Things worth knowing about</p>
+          <p className="text-sm text-muted-foreground">Things worth knowing about</p>
         </div>
       </div>
 

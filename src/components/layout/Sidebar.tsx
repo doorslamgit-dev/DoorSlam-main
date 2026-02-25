@@ -17,10 +17,10 @@ export default function Sidebar() {
       <button
         type="button"
         onClick={() => setMobileOpen(true)}
-        className="fixed top-4 left-4 z-[var(--z-sidebar)] md:hidden p-2 rounded-xl bg-neutral-0 shadow-card border border-neutral-200/60"
+        className="fixed top-4 left-4 z-[var(--z-sidebar)] md:hidden p-2 rounded-xl bg-background shadow-sm border border-border"
         aria-label="Open sidebar"
       >
-        <AppIcon name="menu" className="w-5 h-5 text-neutral-600" />
+        <AppIcon name="menu" className="w-5 h-5 text-muted-foreground" />
       </button>
 
       {/* Mobile backdrop */}
@@ -34,18 +34,18 @@ export default function Sidebar() {
       {/* Sidebar */}
       <aside
         className={`
-          fixed top-0 left-0 h-full bg-neutral-0
-          border-r border-neutral-200/60
+          fixed top-0 left-0 h-full bg-background
+          border-r border-border
           flex flex-col transition-all duration-300 z-[var(--z-sidebar)]
           ${isCollapsed ? 'w-16' : 'w-60'}
           ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0
         `}
       >
         {/* Logo + collapse toggle */}
-        <div className={`flex items-center h-16 border-b border-neutral-200/60 ${isCollapsed ? 'justify-center px-2' : 'justify-between px-4'}`}>
+        <div className={`flex items-center h-16 border-b border-border ${isCollapsed ? 'justify-center px-2' : 'justify-between px-4'}`}>
           {!isCollapsed && (
             <Link to="/" className="flex items-center gap-2 min-w-0">
-              <span className="text-lg font-bold text-primary-700 truncate">
+              <span className="text-lg font-bold text-primary truncate">
                 DoorSlam
               </span>
             </Link>
@@ -54,7 +54,7 @@ export default function Sidebar() {
           <button
             type="button"
             onClick={() => setSidebarState(isCollapsed ? 'expanded' : 'collapsed')}
-            className="p-1.5 rounded-lg hover:bg-neutral-100 text-neutral-400 hover:text-neutral-600 transition-colors"
+            className="p-1.5 rounded-lg hover:bg-accent text-muted-foreground hover:text-foreground transition-colors"
             aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           >
             <AppIcon name={isCollapsed ? 'chevron-right' : 'chevron-left'} className="w-4 h-4" />

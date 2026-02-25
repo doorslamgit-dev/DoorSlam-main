@@ -18,7 +18,7 @@ export default function AppShell({ children }: AppShellProps) {
   const aiPanelPadding = isAiPanelOpen ? 'md:pr-80' : '';
 
   return (
-    <div className="min-h-screen bg-background-secondary">
+    <div className="min-h-screen bg-muted">
       <Sidebar />
 
       <div className={`flex flex-col min-h-screen transition-all duration-300 [background:var(--gradient-main)] ${sidebarPadding} ${aiPanelPadding}`}>

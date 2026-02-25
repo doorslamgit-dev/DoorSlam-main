@@ -17,29 +17,29 @@ export function ReportHeader({
   reportDate,
 }: ReportHeaderProps) {
   return (
-    <header className="mb-10 border-b-2 border-primary-600 pb-6">
+    <header className="mb-10 border-b-2 border-primary pb-6">
       <div className="flex items-start justify-between">
         <div>
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
               <AppIcon
                 name="graduation-cap"
-                className="w-5 h-5 text-white"
+                className="w-5 h-5 text-primary-foreground"
                 aria-hidden
               />
             </div>
 
-            <h1 className="text-2xl font-bold text-primary-900">
+            <h1 className="text-2xl font-bold text-primary">
               Doorslam Progress Report
             </h1>
           </div>
 
-          <p className="text-lg text-primary-600 font-semibold">
+          <p className="text-lg text-primary font-semibold">
             {childName}
           </p>
         </div>
 
-        <div className="text-right text-sm text-neutral-500">
+        <div className="text-right text-sm text-muted-foreground">
           <p>Generated: {formatReportDate(generatedAt)}</p>
           <p>Report Date: {formatReportDate(reportDate)}</p>
         </div>

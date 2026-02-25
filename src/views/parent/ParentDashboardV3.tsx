@@ -26,27 +26,27 @@ function DashboardSkeleton() {
     <div className="min-h-screen bg-transparent">
       <div className="max-w-content mx-auto px-6 py-8">
         <div className="flex items-center justify-between mb-8 animate-pulse">
-          <div className="h-8 bg-neutral-200 rounded w-40" />
+          <div className="h-8 bg-border rounded w-40" />
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-neutral-200 rounded-full" />
+            <div className="w-10 h-10 bg-border rounded-full" />
             <div className="space-y-1">
-              <div className="h-4 bg-neutral-200 rounded w-24" />
-              <div className="h-3 bg-neutral-100 rounded w-20" />
+              <div className="h-4 bg-border rounded w-24" />
+              <div className="h-3 bg-secondary rounded w-20" />
             </div>
           </div>
         </div>
-        <div className="bg-neutral-0 rounded-2xl shadow-card p-8 animate-pulse mb-8">
-          <div className="h-8 bg-primary-100 rounded w-1/3 mb-4" />
-          <div className="h-4 bg-primary-100 rounded w-2/3 mb-8" />
+        <div className="bg-background rounded-2xl shadow-sm p-8 animate-pulse mb-8">
+          <div className="h-8 bg-primary/10 rounded w-1/3 mb-4" />
+          <div className="h-4 bg-primary/10 rounded w-2/3 mb-8" />
           <div className="grid grid-cols-3 gap-4">
-            <div className="h-24 bg-neutral-100 rounded-xl" />
-            <div className="h-24 bg-neutral-100 rounded-xl" />
-            <div className="h-24 bg-neutral-100 rounded-xl" />
+            <div className="h-24 bg-secondary rounded-xl" />
+            <div className="h-24 bg-secondary rounded-xl" />
+            <div className="h-24 bg-secondary rounded-xl" />
           </div>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          <div className="h-64 bg-neutral-0 rounded-2xl shadow-card animate-pulse" />
-          <div className="h-64 bg-neutral-0 rounded-2xl shadow-card animate-pulse" />
+          <div className="h-64 bg-background rounded-2xl shadow-sm animate-pulse" />
+          <div className="h-64 bg-background rounded-2xl shadow-sm animate-pulse" />
         </div>
       </div>
     </div>
@@ -55,15 +55,15 @@ function DashboardSkeleton() {
 
 function ErrorState({ message, onRetry }: { message: string; onRetry: () => void }) {
   return (
-    <div className="bg-accent-red/5 border border-accent-red/20 rounded-2xl p-8 text-center">
-      <div className="w-16 h-16 bg-accent-red/10 rounded-full flex items-center justify-center mx-auto mb-4">
-        <AppIcon name="triangle-alert" className="w-8 h-8 text-accent-red" />
+    <div className="bg-destructive/5 border border-destructive/20 rounded-2xl p-8 text-center">
+      <div className="w-16 h-16 bg-destructive/10 rounded-full flex items-center justify-center mx-auto mb-4">
+        <AppIcon name="triangle-alert" className="w-8 h-8 text-destructive" />
       </div>
-      <h3 className="text-lg font-bold text-primary-900 mb-2">Something went wrong</h3>
-      <p className="text-neutral-600 mb-4">{message}</p>
+      <h3 className="text-lg font-bold text-foreground mb-2">Something went wrong</h3>
+      <p className="text-muted-foreground mb-4">{message}</p>
       <button
         onClick={onRetry}
-        className="px-6 py-3 bg-primary-600 text-white rounded-xl font-semibold hover:bg-primary-700 transition-colors"
+        className="px-6 py-3 bg-primary text-primary-foreground rounded-xl font-semibold hover:bg-primary/90 transition-colors"
       >
         Try again
       </button>
@@ -244,26 +244,26 @@ function ParentDashboardV3Inner() {
       {/* Sticky bottom action bar */}
       <div className="fixed bottom-0 left-0 right-0 z-sticky pointer-events-none">
         <div className="max-w-content mx-auto px-4 lg:px-6 pb-4 flex justify-end pointer-events-auto">
-          <div className="flex items-center gap-2 bg-neutral-0 border border-neutral-200 rounded-2xl shadow-lg px-3 py-2">
+          <div className="flex items-center gap-2 bg-background border border-border rounded-2xl shadow-lg px-3 py-2">
             <button
               onClick={handleEditSchedule}
-              className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-neutral-700 hover:bg-neutral-100 rounded-xl transition-colors"
+              className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-foreground hover:bg-accent rounded-xl transition-colors"
             >
               <AppIcon name="calendar" className="w-4 h-4" />
               Schedule
             </button>
-            <div className="w-px h-5 bg-neutral-200" />
+            <div className="w-px h-5 bg-border" />
             <button
               onClick={handleAddSubject}
-              className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-neutral-700 hover:bg-neutral-100 rounded-xl transition-colors"
+              className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-foreground hover:bg-accent rounded-xl transition-colors"
             >
               <AppIcon name="plus-circle" className="w-4 h-4" />
               Add New Subject
             </button>
-            <div className="w-px h-5 bg-neutral-200" />
+            <div className="w-px h-5 bg-border" />
             <button
               onClick={handleProgressReport}
-              className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-neutral-700 hover:bg-neutral-100 rounded-xl transition-colors"
+              className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-foreground hover:bg-accent rounded-xl transition-colors"
             >
               <AppIcon name="chart-bar" className="w-4 h-4" />
               Progress Report

@@ -47,22 +47,22 @@ export function DashboardActiveRewards({
 }: DashboardActiveRewardsProps) {
   if (loading) {
     return (
-      <div className="bg-neutral-0 rounded-2xl shadow-card p-4 border border-default animate-pulse">
-        <div className="h-5 bg-neutral-200 rounded w-28 mb-3" />
-        <div className="h-16 bg-neutral-100 rounded-xl" />
+      <div className="bg-background rounded-2xl shadow-sm p-4 border border-default animate-pulse">
+        <div className="h-5 bg-muted rounded w-28 mb-3" />
+        <div className="h-16 bg-secondary rounded-xl" />
       </div>
     );
   }
 
   if (rewards.length === 0) {
     return (
-      <div className="bg-neutral-0 rounded-2xl shadow-card p-4 border border-default">
+      <div className="bg-background rounded-2xl shadow-sm p-4 border border-default">
         <h3 className="text-sm font-bold text-dark mb-3">Active Rewards</h3>
         <EmptyState
           variant="minimal"
           icon="gift"
           title="No rewards set up yet"
-          iconColor="text-primary-500"
+          iconColor="text-primary"
         />
         <div className="mt-3 flex justify-center">
           <Button variant="primary" size="sm" onClick={onConfigureRewards}>
@@ -75,7 +75,7 @@ export function DashboardActiveRewards({
 
   const count = Math.min(rewards.length, 4);
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-4 border border-default">
+    <div className="bg-background rounded-2xl shadow-sm p-4 border border-default">
       <h3 className="text-sm font-bold text-dark">Active Rewards</h3>
       <p className="text-xs text-muted mb-3">
         {count} reward{count !== 1 ? 's' : ''} your child can work towards
@@ -98,15 +98,15 @@ export function DashboardActiveRewards({
               <span className="text-xs font-medium text-medium flex-1 min-w-0 truncate">
                 {reward.name}
               </span>
-              <span className="text-[10px] font-semibold text-primary-600 bg-primary-50 px-1.5 py-0.5 rounded shrink-0">
+              <span className="text-[10px] font-semibold text-primary bg-primary/5 px-1.5 py-0.5 rounded shrink-0">
                 {reward.points_cost} pts
               </span>
               <button
                 onClick={onConfigureRewards}
-                className="w-6 h-6 flex items-center justify-center rounded-md hover:bg-neutral-100 transition-colors shrink-0"
+                className="w-6 h-6 flex items-center justify-center rounded-md hover:bg-accent transition-colors shrink-0"
                 aria-label={`Edit ${reward.name}`}
               >
-                <AppIcon name="pencil" className="w-3 h-3 text-neutral-400" />
+                <AppIcon name="pencil" className="w-3 h-3 text-muted-foreground" />
               </button>
             </div>
           );

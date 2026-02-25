@@ -145,10 +145,10 @@ function WhenScreen(props: {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-semibold text-neutral-900">
+        <h2 className="text-xl font-semibold text-foreground">
           When are {childName}&apos;s exams?
         </h2>
-        <p className="mt-2 text-sm text-neutral-500 leading-relaxed">
+        <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
           Don&apos;t worry if you&apos;re not sure – you can adjust this later.
         </p>
       </div>
@@ -175,15 +175,15 @@ function WhenScreen(props: {
               }}
               className={`w-full rounded-2xl border px-5 py-4 text-left transition-colors ${
                 isSelected
-                  ? "border-primary-300 bg-primary-50"
-                  : "border-neutral-200 hover:border-neutral-300 bg-neutral-0"
+                  ? "border-primary/20 bg-primary/5"
+                  : "border-border hover:border-input bg-background"
               }`}
             >
-              <p className="font-medium text-neutral-900">{option.label}</p>
+              <p className="font-medium text-foreground">{option.label}</p>
               {option.value && option.value !== "custom" && (
-                <p className="mt-1 text-xs text-neutral-500">
+                <p className="mt-1 text-xs text-muted-foreground">
                   We&apos;ll use{" "}
-                  <span className="font-medium text-neutral-700">{option.value}</span>{" "}
+                  <span className="font-medium text-foreground">{option.value}</span>{" "}
                   as a placeholder date.
                 </p>
               )}
@@ -193,20 +193,20 @@ function WhenScreen(props: {
       </div>
 
       {showDatePicker && (
-        <div className="mt-4 rounded-2xl border border-neutral-200 bg-neutral-0 p-4">
-          <label className="text-sm font-medium text-neutral-700">Select a date</label>
+        <div className="mt-4 rounded-2xl border border-border bg-background p-4">
+          <label className="text-sm font-medium text-foreground">Select a date</label>
           <input
             type="date"
             value={value ?? ""}
             onChange={(e) => onChange(e.target.value || null)}
-            className="mt-2 w-full rounded-xl border border-neutral-200 px-4 py-3 text-neutral-900 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
+            className="mt-2 w-full rounded-xl border border-border px-4 py-3 text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
           />
 
           {value && (
             <button
               type="button"
               onClick={onNext}
-              className="mt-4 w-full rounded-full bg-primary-600 px-6 py-3 text-sm font-semibold text-white hover:bg-primary-700 transition-colors"
+              className="mt-4 w-full rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
             >
               Continue
             </button>
@@ -218,7 +218,7 @@ function WhenScreen(props: {
         <button
           type="button"
           onClick={onNext}
-          className="mt-2 w-full rounded-full bg-primary-600 px-6 py-3 text-sm font-semibold text-white hover:bg-primary-700 transition-colors"
+          className="mt-2 w-full rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
         >
           Continue without a date
         </button>
@@ -242,16 +242,16 @@ function FeelingScreen(props: {
         <button
           type="button"
           onClick={onBack}
-          className="inline-flex items-center gap-2 text-sm font-medium text-neutral-600 hover:text-neutral-800 mb-4"
+          className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground mb-4"
         >
           <AppIcon name="arrow-left" className="w-4 h-4" aria-hidden />
           Back
         </button>
 
-        <h2 className="text-xl font-semibold text-neutral-900">
+        <h2 className="text-xl font-semibold text-foreground">
           How are things feeling right now?
         </h2>
-        <p className="mt-2 text-sm text-neutral-500 leading-relaxed">
+        <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
           Be honest – this helps us set a pace that feels doable for {childName}.
         </p>
       </div>
@@ -270,15 +270,15 @@ function FeelingScreen(props: {
               }}
               className={`w-full rounded-2xl border px-5 py-4 text-left transition-colors ${
                 isSelected
-                  ? "border-primary-300 bg-primary-50"
-                  : "border-neutral-200 hover:border-neutral-300 bg-neutral-0"
+                  ? "border-primary/20 bg-primary/5"
+                  : "border-border hover:border-input bg-background"
               }`}
             >
               <div className="flex items-center gap-3">
                 <AppIcon name={option.icon} className="w-6 h-6 flex-shrink-0" aria-hidden />
                 <div>
-                  <p className="font-medium text-neutral-900">{option.label}</p>
-                  <p className="text-sm text-neutral-500">{option.description}</p>
+                  <p className="font-medium text-foreground">{option.label}</p>
+                  <p className="text-sm text-muted-foreground">{option.description}</p>
                 </div>
               </div>
             </button>
@@ -302,16 +302,16 @@ function HistoryScreen(props: {
         <button
           type="button"
           onClick={onBack}
-          className="inline-flex items-center gap-2 text-sm font-medium text-neutral-600 hover:text-neutral-800 mb-4"
+          className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground mb-4"
         >
           <AppIcon name="arrow-left" className="w-4 h-4" aria-hidden />
           Back
         </button>
 
-        <h2 className="text-xl font-semibold text-neutral-900">
+        <h2 className="text-xl font-semibold text-foreground">
           How did revision go last time?
         </h2>
-        <p className="mt-2 text-sm text-neutral-500 leading-relaxed">
+        <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
           This helps us understand what might work better this time.
         </p>
       </div>
@@ -327,15 +327,15 @@ function HistoryScreen(props: {
               onClick={() => onChange(option.code)}
               className={`w-full rounded-2xl border px-5 py-4 text-left transition-colors ${
                 isSelected
-                  ? "border-primary-300 bg-primary-50"
-                  : "border-neutral-200 hover:border-neutral-300 bg-neutral-0"
+                  ? "border-primary/20 bg-primary/5"
+                  : "border-border hover:border-input bg-background"
               }`}
             >
               <div className="flex items-center gap-3">
                 <AppIcon name={option.icon} className="w-6 h-6 flex-shrink-0" aria-hidden />
                 <div>
-                  <p className="font-medium text-neutral-900">{option.label}</p>
-                  <p className="text-sm text-neutral-500">{option.description}</p>
+                  <p className="font-medium text-foreground">{option.label}</p>
+                  <p className="text-sm text-muted-foreground">{option.description}</p>
                 </div>
               </div>
             </button>
@@ -346,7 +346,7 @@ function HistoryScreen(props: {
       <button
         type="button"
         onClick={() => onChange(null)}
-        className="text-sm font-medium text-neutral-500 hover:text-neutral-700"
+        className="text-sm font-medium text-muted-foreground hover:text-foreground"
       >
         Skip this – we&apos;ll figure it out as we go
       </button>

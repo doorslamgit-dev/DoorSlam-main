@@ -18,18 +18,18 @@ export function WeeklyRhythmChart({
   };
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200/50">
+    <div className="bg-background rounded-2xl shadow-sm p-6 border border-border">
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-2">
-          <div className="w-9 h-9 rounded-lg bg-primary-100 flex items-center justify-center">
-            <AppIcon name="check-circle" className="w-5 h-5 text-primary-600" />
+          <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
+            <AppIcon name="check-circle" className="w-5 h-5 text-primary" />
           </div>
-          <h3 className="text-lg font-bold text-primary-900">Weekly Rhythm</h3>
+          <h3 className="text-lg font-bold text-primary">Weekly Rhythm</h3>
         </div>
 
         <button
           onClick={handleViewDetails}
-          className="text-sm font-medium text-primary-600 hover:text-primary-700 flex items-center gap-1"
+          className="text-sm font-medium text-primary hover:text-primary flex items-center gap-1"
         >
           Details
           <AppIcon name="chevron-right" className="w-4 h-4" aria-hidden />
@@ -62,7 +62,7 @@ export function WeeklyRhythmChart({
               >
                 {/* Completed portion */}
                 <div
-                  className="absolute bottom-0 left-0 right-0 bg-primary-600 rounded-t-md transition-all"
+                  className="absolute bottom-0 left-0 right-0 bg-primary rounded-t-md transition-all"
                   style={{ height: `${completedPercentOfTotal}%` }}
                 />
               </div>
@@ -77,7 +77,7 @@ export function WeeklyRhythmChart({
           <div key={day.day_of_week} className="flex-1 text-center">
             <span
               className={`text-xs font-medium ${
-                day.is_rest_day ? "text-neutral-400" : "text-neutral-600"
+                day.is_rest_day ? "text-muted-foreground" : "text-muted-foreground"
               }`}
             >
               {day.day_name_short}
@@ -87,14 +87,14 @@ export function WeeklyRhythmChart({
       </div>
 
       {/* Legend */}
-      <div className="flex items-center justify-center gap-6 mt-4 pt-4 border-t border-neutral-100">
+      <div className="flex items-center justify-center gap-6 mt-4 pt-4 border-t border-border">
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-sm bg-primary-600" />
-          <span className="text-xs text-neutral-600">Completed</span>
+          <div className="w-3 h-3 rounded-sm bg-primary" />
+          <span className="text-xs text-muted-foreground">Completed</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-sm bg-neutral-200" />
-          <span className="text-xs text-neutral-600">Planned</span>
+          <span className="text-xs text-muted-foreground">Planned</span>
         </div>
       </div>
     </div>

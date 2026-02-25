@@ -84,15 +84,15 @@ export function RewardEditor({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-end sm:items-center justify-center z-50 p-0 sm:p-4">
-      <div className="bg-neutral-0 rounded-t-xl sm:rounded-xl shadow-xl w-full sm:max-w-md max-h-[90vh] overflow-y-auto">
-        <div className="p-4 sm:p-6 border-b border-neutral-200 flex items-center justify-between sticky top-0 bg-neutral-0 z-10">
-          <h2 className="text-lg sm:text-xl font-semibold text-neutral-900">
+      <div className="bg-background rounded-t-xl sm:rounded-xl shadow-xl w-full sm:max-w-md max-h-[90vh] overflow-y-auto">
+        <div className="p-4 sm:p-6 border-b border-border flex items-center justify-between sticky top-0 bg-background z-10">
+          <h2 className="text-lg sm:text-xl font-semibold text-foreground">
             {reward ? 'Edit Reward' : 'Add New Reward'}
           </h2>
           <button
             type="button"
             onClick={onCancel}
-            className="p-2 text-neutral-400 hover:text-neutral-600 rounded-lg hover:bg-neutral-100"
+            className="p-2 text-muted-foreground hover:text-foreground rounded-lg hover:bg-secondary"
             aria-label="Close"
           >
             <AppIcon name="x" className="w-5 h-5" />
@@ -102,7 +102,7 @@ export function RewardEditor({
         <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-5">
           {/* Category Selection */}
           <div>
-            <label className="block text-sm font-medium text-neutral-700 mb-2">
+            <label className="block text-sm font-medium text-foreground mb-2">
               Category
             </label>
             <div className="flex flex-wrap gap-2">
@@ -117,8 +117,8 @@ export function RewardEditor({
                   }))}
                   className={`px-3 py-2 rounded-lg border text-sm font-medium transition-colors ${
                     formData.category_id === category.id
-                      ? 'border-primary-500 bg-primary-50 text-primary-700'
-                      : 'border-neutral-200 text-neutral-700 hover:border-neutral-300'
+                      ? 'border-primary bg-primary/5 text-primary'
+                      : 'border-border text-foreground hover:border-input'
                   }`}
                 >
                   {category.name}
@@ -126,14 +126,14 @@ export function RewardEditor({
               ))}
             </div>
             {errors.category_id && (
-              <p className="text-danger text-sm mt-1">{errors.category_id}</p>
+              <p className="text-destructive text-sm mt-1">{errors.category_id}</p>
             )}
           </div>
 
           {/* Template Quick Select */}
           {selectedCategory && selectedCategory.templates.length > 0 && !reward && (
             <div>
-              <label className="block text-sm font-medium text-neutral-700 mb-2">
+              <label className="block text-sm font-medium text-foreground mb-2">
                 Quick Select (Optional)
               </label>
               <div className="space-y-2">
@@ -158,7 +158,7 @@ export function RewardEditor({
 
           {/* Reward Name */}
           <div>
-            <label className="block text-sm font-medium text-neutral-700 mb-2">
+            <label className="block text-sm font-medium text-foreground mb-2">
               Reward Name
             </label>
             <input
@@ -171,13 +171,13 @@ export function RewardEditor({
               }`}
             />
             {errors.name && (
-              <p className="text-danger text-sm mt-1">{errors.name}</p>
+              <p className="text-destructive text-sm mt-1">{errors.name}</p>
             )}
           </div>
 
           {/* Points Cost */}
           <div>
-            <label className="block text-sm font-medium text-neutral-700 mb-2">
+            <label className="block text-sm font-medium text-foreground mb-2">
               Points Cost
             </label>
             <input
@@ -193,13 +193,13 @@ export function RewardEditor({
               }`}
             />
             {errors.points_cost && (
-              <p className="text-danger text-sm mt-1">{errors.points_cost}</p>
+              <p className="text-destructive text-sm mt-1">{errors.points_cost}</p>
             )}
           </div>
 
           {/* Limit Settings */}
           <div>
-            <label className="block text-sm font-medium text-neutral-700 mb-2">
+            <label className="block text-sm font-medium text-foreground mb-2">
               Limit (Optional)
             </label>
             <div className="flex gap-2">
@@ -234,7 +234,7 @@ export function RewardEditor({
               )}
             </div>
             {errors.limit_count && (
-              <p className="text-danger text-sm mt-1">{errors.limit_count}</p>
+              <p className="text-destructive text-sm mt-1">{errors.limit_count}</p>
             )}
             {formData.limit_type && formData.limit_count && (
               <p className="text-xs text-neutral-500 mt-1">
@@ -250,7 +250,7 @@ export function RewardEditor({
               type="button"
               onClick={onCancel}
               disabled={isSaving}
-              className="flex-1 px-4 py-2.5 border border-neutral-300 rounded-lg text-neutral-700 hover:bg-neutral-50 transition-colors disabled:opacity-50 text-sm font-medium"
+              className="flex-1 px-4 py-2.5 border border-neutral-300 rounded-lg text-foreground hover:bg-neutral-50 transition-colors disabled:opacity-50 text-sm font-medium"
             >
               Cancel
             </button>

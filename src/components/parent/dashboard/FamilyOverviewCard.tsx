@@ -18,88 +18,88 @@ export function FamilyOverviewCard({
     childrenCount > 0 ? Math.round(totalSessions / childrenCount) : 0;
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200/50">
+    <div className="bg-background rounded-2xl shadow-sm p-6 border border-border">
       <div className="flex items-center justify-between mb-5">
-        <h3 className="text-lg font-bold text-primary-900">Family Overview</h3>
-        <span className="text-xs font-medium text-neutral-500">This week</span>
+        <h3 className="text-lg font-bold text-primary">Family Overview</h3>
+        <span className="text-xs font-medium text-muted-foreground">This week</span>
       </div>
 
       <div className="grid grid-cols-2 gap-4 mb-5">
         {/* Total Sessions */}
-        <div className="bg-primary-50 rounded-xl p-4">
+        <div className="bg-primary/5 rounded-xl p-4">
           <div className="flex items-center gap-2 mb-1">
             <AppIcon
               name="check-circle"
-              className="w-4 h-4 text-accent-green"
+              className="w-4 h-4 text-success"
               aria-hidden
             />
-            <span className="text-xs font-medium text-neutral-600">
+            <span className="text-xs font-medium text-muted-foreground">
               Sessions
             </span>
           </div>
-          <div className="text-2xl font-bold text-primary-900">
+          <div className="text-2xl font-bold text-primary">
             {totalSessions}
           </div>
-          <div className="text-xs text-neutral-500">completed</div>
+          <div className="text-xs text-muted-foreground">completed</div>
         </div>
 
         {/* Total Time */}
-        <div className="bg-primary-50 rounded-xl p-4">
+        <div className="bg-primary/5 rounded-xl p-4">
           <div className="flex items-center gap-2 mb-1">
             <AppIcon
               name="clock"
-              className="w-4 h-4 text-primary-600"
+              className="w-4 h-4 text-primary"
               aria-hidden
             />
-            <span className="text-xs font-medium text-neutral-600">Time</span>
+            <span className="text-xs font-medium text-muted-foreground">Time</span>
           </div>
-          <div className="text-2xl font-bold text-primary-900">
+          <div className="text-2xl font-bold text-primary">
             {totalMinutes}
           </div>
-          <div className="text-xs text-neutral-500">minutes total</div>
+          <div className="text-xs text-muted-foreground">minutes total</div>
         </div>
 
         {/* Subjects Active */}
-        <div className="bg-primary-50 rounded-xl p-4">
+        <div className="bg-primary/5 rounded-xl p-4">
           <div className="flex items-center gap-2 mb-1">
             <AppIcon
               name="book-open"
-              className="w-4 h-4 text-primary-600"
+              className="w-4 h-4 text-primary"
               aria-hidden
             />
-            <span className="text-xs font-medium text-neutral-600">
+            <span className="text-xs font-medium text-muted-foreground">
               Subjects
             </span>
           </div>
-          <div className="text-2xl font-bold text-primary-900">
+          <div className="text-2xl font-bold text-primary">
             {uniqueSubjects}
           </div>
-          <div className="text-xs text-neutral-500">active</div>
+          <div className="text-xs text-muted-foreground">active</div>
         </div>
 
         {/* Avg Per Child */}
-        <div className="bg-primary-50 rounded-xl p-4">
+        <div className="bg-primary/5 rounded-xl p-4">
           <div className="flex items-center gap-2 mb-1">
             <AppIcon
               name="user-plus"
-              className="w-4 h-4 text-primary-600"
+              className="w-4 h-4 text-primary"
               aria-hidden
             />
-            <span className="text-xs font-medium text-neutral-600">
+            <span className="text-xs font-medium text-muted-foreground">
               Average
             </span>
           </div>
-          <div className="text-2xl font-bold text-primary-900">
+          <div className="text-2xl font-bold text-primary">
             {avgPerChild}
           </div>
-          <div className="text-xs text-neutral-500">per child</div>
+          <div className="text-xs text-muted-foreground">per child</div>
         </div>
       </div>
 
       {/* Subject breakdown */}
       {subjectCoverage.length > 0 && (
         <div>
-          <div className="text-xs font-semibold text-neutral-500 uppercase tracking-wide mb-3">
+          <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">
             Subject Coverage
           </div>
           <div className="space-y-2">
@@ -110,11 +110,11 @@ export function FamilyOverviewCard({
               >
                 <div className="w-3 h-3 rounded-full flex-shrink-0 bg-neutral-300" />
                 <div className="flex-1 min-w-0">
-                  <div className="text-sm font-medium text-primary-900 truncate">
+                  <div className="text-sm font-medium text-primary truncate">
                     {sc.subject_name}
                   </div>
                 </div>
-                <div className="text-sm font-semibold text-primary-900">
+                <div className="text-sm font-semibold text-primary">
                   {sc.sessions_completed}
                 </div>
               </div>

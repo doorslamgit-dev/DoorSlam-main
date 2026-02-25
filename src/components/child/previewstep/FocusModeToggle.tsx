@@ -29,28 +29,28 @@ export function FocusModeToggle({ isActive, onToggle, disabled }: FocusModeToggl
         disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
       } ${
         isActive
-          ? "bg-accent-green/10 border-accent-green"
-          : "bg-neutral-50 border-neutral-200 hover:border-primary-300"
+          ? "bg-success/10 border-success"
+          : "bg-muted border-border hover:border-primary-300"
       }`}
     >
       <div
         className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 ${
-          isActive ? "bg-accent-green" : "bg-neutral-200"
+          isActive ? "bg-success" : "bg-secondary"
         }`}
       >
         <AppIcon
           name={icon}
-          className={`text-xl ${isActive ? "text-white" : "text-neutral-500"}`}
+          className={`text-xl ${isActive ? "text-primary-foreground" : "text-muted-foreground"}`}
         />
       </div>
 
       <div className="flex-1 text-left">
-        <p className="font-bold text-neutral-900 mb-0.5">Focus Mode</p>
-        <p className="text-neutral-600 text-sm">
+        <p className="font-bold text-foreground mb-0.5">Focus Mode</p>
+        <p className="text-muted-foreground text-sm">
           I've logged out of social media apps, such as TikTok, Snapchat, Instagram...
         </p>
         {isActive && (
-          <p className="text-neutral-700 font-medium text-sm mt-2">
+          <p className="text-foreground font-medium text-sm mt-2">
             +5 bonus points for focused revision!
           </p>
         )}
@@ -58,11 +58,11 @@ export function FocusModeToggle({ isActive, onToggle, disabled }: FocusModeToggl
 
       <div
         className={`relative w-14 h-8 rounded-full transition-colors flex-shrink-0 ${
-          isActive ? "bg-accent-green" : "bg-neutral-300"
+          isActive ? "bg-success" : "bg-muted-foreground"
         }`}
       >
         <span
-          className={`absolute top-1 w-6 h-6 bg-neutral-0 rounded-full shadow transition-transform ${
+          className={`absolute top-1 w-6 h-6 bg-background rounded-full shadow transition-transform ${
             isActive ? "translate-x-7" : "translate-x-1"
           }`}
         />

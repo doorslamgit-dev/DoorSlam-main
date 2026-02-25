@@ -266,27 +266,27 @@ export default function Pricing() {
         {price.monthlyRate != null ? (
           <>
             <div className="flex items-baseline justify-center gap-1">
-              <span className="text-4xl font-bold text-primary-900">
+              <span className="text-4xl font-bold text-foreground">
                 £{price.monthlyRate.toFixed(2)}
               </span>
-              <span className="text-neutral-600">/month</span>
+              <span className="text-muted-foreground">/month</span>
             </div>
             {effectivePlanLength !== "1_month" && (
-              <p className="text-sm text-neutral-500 mt-1">
+              <p className="text-sm text-muted-foreground mt-1">
                 £{price.total.toFixed(2)} total
               </p>
             )}
           </>
         ) : (
           <div className="flex items-baseline justify-center gap-1">
-            <span className="text-4xl font-bold text-primary-900">
+            <span className="text-4xl font-bold text-foreground">
               £{price.total.toFixed(2)}
             </span>
-            <span className="text-neutral-600">one-off</span>
+            <span className="text-muted-foreground">one-off</span>
           </div>
         )}
         {price.savings && (
-          <span className="inline-block mt-2 px-3 py-1 bg-accent-green/10 text-accent-green text-sm font-medium rounded-full">
+          <span className="inline-block mt-2 px-3 py-1 bg-success/10 text-success text-sm font-medium rounded-full">
             {price.savings}
           </span>
         )}
@@ -314,7 +314,7 @@ export default function Pricing() {
       return (
         <button
           disabled
-          className="w-full py-3 border-2 border-primary-600 text-primary-600 rounded-xl font-semibold bg-primary-50 cursor-default"
+          className="w-full py-3 border-2 border-primary text-primary rounded-xl font-semibold bg-primary/5 cursor-default"
         >
           Current Plan
         </button>
@@ -327,7 +327,7 @@ export default function Pricing() {
         <button
           onClick={() => promptPlanChange(cardTier, effectivePlanLength)}
           disabled={loadingTier === cardTier}
-          className="w-full py-3 bg-primary-600 text-white rounded-xl font-semibold hover:bg-primary-700 transition-colors disabled:opacity-50"
+          className="w-full py-3 bg-primary text-primary-foreground rounded-xl font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50"
         >
           {loadingTier === cardTier
             ? "Switching..."
@@ -348,8 +348,8 @@ export default function Pricing() {
           disabled={loadingTier === cardTier}
           className={`w-full py-3 rounded-xl font-semibold transition-colors disabled:opacity-50 ${
             isUpgrade
-              ? "bg-primary-600 text-white hover:bg-primary-700"
-              : "border border-neutral-300 text-neutral-600 hover:bg-neutral-50"
+              ? "bg-primary text-primary-foreground hover:bg-primary/90"
+              : "border border-input text-muted-foreground hover:bg-accent"
           }`}
         >
           {loadingTier === cardTier
@@ -366,7 +366,7 @@ export default function Pricing() {
       <button
         onClick={() => handleSubscribe(cardTier)}
         disabled={!!loadingTier}
-        className="w-full py-3 bg-primary-600 text-white rounded-xl font-semibold hover:bg-primary-700 transition-colors disabled:opacity-50"
+        className="w-full py-3 bg-primary text-primary-foreground rounded-xl font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50"
       >
         {loadingTier === cardTier
           ? "Loading..."

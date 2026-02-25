@@ -46,7 +46,7 @@ export default function PointsDisplay({
 
   return (
     <div
-      className={`inline-flex items-center gap-2 bg-accent-amber/10 border border-accent-amber/20 rounded-xl ${classes.container} ${
+      className={`inline-flex items-center gap-2 bg-warning/10 border border-warning/20 rounded-xl ${classes.container} ${
         animated ? "animate-pulse" : ""
       }`}
     >
@@ -54,19 +54,19 @@ export default function PointsDisplay({
       <div className={`inline-flex items-center justify-center ${classes.icon}`}>
         <AppIcon
           name="sparkles"
-          className={`${classes.icon} text-accent-amber`}
+          className={`${classes.icon} text-warning`}
           aria-hidden
         />
       </div>
 
       {/* Points value */}
       <div className="flex flex-col">
-        <span className={`font-bold text-primary-900 ${classes.points}`}>
+        <span className={`font-bold text-primary ${classes.points}`}>
           {formatPoints(balance)}
         </span>
 
         {showLevel && (
-          <span className={`text-neutral-600 ${classes.label}`}>
+          <span className={`text-muted-foreground ${classes.label}`}>
             Lv.{level.level} {level.title}
           </span>
         )}
@@ -81,10 +81,10 @@ export function PointsBadge({ balance }: { balance: number }) {
     <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-accent-amber/15 border border-accent-amber/20 rounded-full">
       <AppIcon
         name="sparkles"
-        className="w-4 h-4 text-accent-amber"
+        className="w-4 h-4 text-warning"
         aria-hidden
       />
-      <span className="text-sm font-semibold text-primary-900">
+      <span className="text-sm font-semibold text-primary">
         {formatPoints(balance)}
       </span>
     </div>
@@ -104,7 +104,7 @@ export function PointsGainedAnimation({
       className="fixed inset-0 flex items-center justify-center pointer-events-none z-50"
       onAnimationEnd={onComplete}
     >
-      <div className="animate-bounce-up-fade text-4xl font-bold text-accent-amber drop-shadow-lg">
+      <div className="animate-bounce-up-fade text-4xl font-bold text-warning drop-shadow-lg">
         +{points}
       </div>
     </div>

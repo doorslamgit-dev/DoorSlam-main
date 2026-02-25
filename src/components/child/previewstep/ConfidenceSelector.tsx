@@ -36,29 +36,29 @@ export function ConfidenceSelector({
             } ${
               isSelected
                 ? `${option.bgColor} ${option.selectedBorder}`
-                : "bg-neutral-50 border-neutral-200 hover:border-primary-300"
+                : "bg-muted border-border hover:border-primary-300"
             }`}
           >
             {/* Icon */}
             <div
               className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 ${
-                isSelected ? option.iconBgColor : "bg-neutral-200"
+                isSelected ? option.iconBgColor : "bg-secondary"
               }`}
             >
               <AppIcon
                 name={iconName}
                 className={`text-xl ${
-                  isSelected ? option.iconColor : "text-neutral-500"
+                  isSelected ? option.iconColor : "text-muted-foreground"
                 }`}
               />
             </div>
 
             {/* Text */}
             <div className="flex-1 text-left">
-              <p className="font-bold text-neutral-900 mb-0.5">
+              <p className="font-bold text-foreground mb-0.5">
                 {option.label}
               </p>
-              <p className="text-neutral-600 text-sm">
+              <p className="text-muted-foreground text-sm">
                 {option.description}
               </p>
             </div>

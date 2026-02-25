@@ -53,8 +53,8 @@ export default function ParentSettingsPage() {
       <PageLayout>
         <div className="flex items-center justify-center py-32">
           <div className="text-center">
-            <div className="w-8 h-8 border-2 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-            <p className="text-sm text-neutral-600">Loading settings...</p>
+            <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+            <p className="text-sm text-muted-foreground">Loading settings...</p>
           </div>
         </div>
       </PageLayout>
@@ -71,11 +71,11 @@ export default function ParentSettingsPage() {
           <div className="flex items-center gap-3 mb-2">
             <AppIcon
               name="settings"
-              className="w-6 h-6 text-primary-600"
+              className="w-6 h-6 text-primary"
             />
-            <h1 className="text-2xl font-bold text-primary-600">Settings</h1>
+            <h1 className="text-2xl font-bold text-primary">Settings</h1>
           </div>
-          <p className="text-neutral-500">
+          <p className="text-muted-foreground">
             Manage your preferences, notifications, and security
           </p>
         </div>
@@ -120,20 +120,20 @@ export default function ParentSettingsPage() {
           <SecuritySection />
 
           {/* Design Guidelines */}
-          <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
+          <div className="bg-background rounded-2xl shadow-sm p-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <AppIcon name="palette" className="w-5 h-5 text-primary-600" />
+                <AppIcon name="palette" className="w-5 h-5 text-primary" />
                 <div>
-                  <h2 className="text-base font-semibold text-neutral-700">Design Guidelines</h2>
-                  <p className="text-sm text-neutral-500">
+                  <h2 className="text-base font-semibold text-foreground">Design Guidelines</h2>
+                  <p className="text-sm text-muted-foreground">
                     Component library and design token reference
                   </p>
                 </div>
               </div>
               <button
                 onClick={() => navigate('/parent/design-guidelines')}
-                className="flex items-center gap-1 text-sm font-medium text-primary-600 hover:text-primary-700 transition-colors"
+                className="flex items-center gap-1 text-sm font-medium text-primary hover:text-primary transition-colors"
               >
                 View
                 <AppIcon name="arrow-right" className="w-4 h-4" />

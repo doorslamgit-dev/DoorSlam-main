@@ -128,10 +128,10 @@ export default function ChildSignUp() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background-secondary flex items-center justify-center">
+      <div className="min-h-screen bg-muted flex items-center justify-center">
         <div className="text-center">
-          <AppIcon name="loader" className="w-10 h-10 text-primary-600 animate-spin mb-4 mx-auto" />
-          <p className="text-neutral-600">Loading invitation...</p>
+          <AppIcon name="loader" className="w-10 h-10 text-primary animate-spin mb-4 mx-auto" />
+          <p className="text-muted-foreground">Loading invitation...</p>
         </div>
       </div>
     );
@@ -139,15 +139,15 @@ export default function ChildSignUp() {
 
   if (error && !invitation) {
     return (
-      <div className="min-h-screen bg-background-secondary flex items-center justify-center p-6">
-        <div className="bg-neutral-0 rounded-2xl shadow-lg p-8 max-w-md w-full text-center">
-          <div className="w-16 h-16 bg-danger-bg rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-8 h-8 text-danger" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <div className="min-h-screen bg-muted flex items-center justify-center p-6">
+        <div className="bg-background rounded-2xl shadow-lg p-8 max-w-md w-full text-center">
+          <div className="w-16 h-16 bg-destructive/10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8 text-destructive" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </div>
-          <h2 className="text-2xl font-semibold text-neutral-800 mb-2">Invalid Invitation</h2>
-          <p className="text-neutral-600 mb-6">{error}</p>
+          <h2 className="text-2xl font-semibold text-foreground mb-2">Invalid Invitation</h2>
+          <p className="text-muted-foreground mb-6">{error}</p>
           <Button size="lg" onClick={() => navigate("/", { replace: true })}>
             Go to Home
           </Button>
@@ -159,22 +159,22 @@ export default function ChildSignUp() {
   if (!invitation) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-600 to-primary-700 flex items-center justify-center p-6">
-      <div className="bg-neutral-0 rounded-2xl shadow-2xl p-8 max-w-md w-full">
+    <div className="min-h-screen bg-gradient-to-br from-primary to-primary/90 flex items-center justify-center p-6">
+      <div className="bg-background rounded-2xl shadow-2xl p-8 max-w-md w-full">
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-4">
-            <AppIcon name="book-open" className="w-8 h-8 text-white" />
+          <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+            <AppIcon name="book-open" className="w-8 h-8 text-primary-foreground" />
           </div>
-          <h1 className="text-3xl font-bold text-neutral-800 mb-2">Welcome to Doorslam</h1>
-          <p className="text-neutral-600">{invitation.parent_name} has invited you to start your revision journey</p>
+          <h1 className="text-3xl font-bold text-foreground mb-2">Welcome to Doorslam</h1>
+          <p className="text-muted-foreground">{invitation.parent_name} has invited you to start your revision journey</p>
         </div>
 
         <div className="bg-success bg-opacity-10 border border-success rounded-xl p-4 mb-6">
           <div className="flex items-start space-x-3">
             <AppIcon name="check-circle" className="w-6 h-6 text-success mt-0.5" />
             <div>
-              <p className="text-sm font-medium text-neutral-800 mb-1">Account for: {invitation.child_name}</p>
-              <p className="text-sm text-neutral-600">Use your email address to create a login</p>
+              <p className="text-sm font-medium text-foreground mb-1">Account for: {invitation.child_name}</p>
+              <p className="text-sm text-muted-foreground">Use your email address to create a login</p>
             </div>
           </div>
         </div>
@@ -227,7 +227,7 @@ export default function ChildSignUp() {
         </form>
 
         <div className="mt-6 text-center">
-          <p className="text-xs text-neutral-500">By creating an account, you agree to our Terms of Service and Privacy Policy</p>
+          <p className="text-xs text-muted-foreground">By creating an account, you agree to our Terms of Service and Privacy Policy</p>
         </div>
       </div>
     </div>

@@ -23,17 +23,17 @@ export function DashboardRevisionPlan({
 }: DashboardRevisionPlanProps) {
   if (loading) {
     return (
-      <div className="bg-neutral-0 rounded-2xl shadow-card p-5 animate-pulse">
+      <div className="bg-background rounded-2xl shadow-sm p-5 animate-pulse">
         <div className="flex gap-4 mb-4">
-          <div className="w-14 h-14 bg-neutral-200 rounded-xl" />
+          <div className="w-14 h-14 bg-muted rounded-xl" />
           <div className="flex-1 space-y-2">
-            <div className="h-5 bg-neutral-200 rounded w-36" />
-            <div className="h-3 bg-neutral-100 rounded w-48" />
+            <div className="h-5 bg-muted rounded w-36" />
+            <div className="h-3 bg-secondary rounded w-48" />
           </div>
         </div>
         <div className="space-y-3">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-5 bg-neutral-100 rounded" />
+            <div key={i} className="h-5 bg-secondary rounded" />
           ))}
         </div>
       </div>
@@ -43,15 +43,15 @@ export function DashboardRevisionPlan({
   // No plan state
   if (!planOverview || planOverview.status === 'no_plan') {
     return (
-      <div className="bg-neutral-0 rounded-2xl shadow-card p-5">
+      <div className="bg-background rounded-2xl shadow-sm p-5">
         <div className="flex items-center gap-3">
-          <div className="w-14 h-14 bg-neutral-100 rounded-xl flex flex-col items-center justify-center text-neutral-400">
+          <div className="w-14 h-14 bg-secondary rounded-xl flex flex-col items-center justify-center text-muted-foreground">
             <AppIcon name="triangle-alert" className="w-5 h-5 mb-0.5" />
             <span className="text-[9px] font-medium">No Plan</span>
           </div>
           <div>
-            <h2 className="text-sm font-semibold text-neutral-700">No Revision Plan Found</h2>
-            <p className="text-xs text-neutral-500">Create a revision plan to see progress.</p>
+            <h2 className="text-sm font-semibold text-foreground">No Revision Plan Found</h2>
+            <p className="text-xs text-muted-foreground">Create a revision plan to see progress.</p>
           </div>
         </div>
       </div>
@@ -86,7 +86,7 @@ export function DashboardRevisionPlan({
   }, [] as typeof subjects);
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-5 h-full flex flex-col">
+    <div className="bg-background rounded-2xl shadow-sm p-5 h-full flex flex-col">
       {/* Header: title + weeks + status badge */}
       <div className="flex items-start justify-between mb-3">
         <div>
@@ -113,19 +113,19 @@ export function DashboardRevisionPlan({
               >
                 <AppIcon name={getSubjectIcon(subject.icon)} className="w-3 h-3" style={{ color }} />
               </div>
-              <span className="text-xs font-medium text-neutral-700 w-28 truncate shrink-0">
+              <span className="text-xs font-medium text-foreground w-28 truncate shrink-0">
                 {subject.subject_name}
               </span>
-              <div className="flex-1 h-4 bg-neutral-100 rounded-full overflow-hidden relative">
+              <div className="flex-1 h-4 bg-secondary rounded-full overflow-hidden relative">
                 <div
-                  className="h-full rounded-full bg-accent-green transition-all duration-500"
+                  className="h-full rounded-full bg-success transition-all duration-500"
                   style={{ width: `${Math.max(subject.completion_percent, 0)}%` }}
                 />
-                <span className="absolute inset-0 flex items-center justify-center text-[10px] font-medium text-neutral-600">
+                <span className="absolute inset-0 flex items-center justify-center text-[10px] font-medium text-muted-foreground">
                   {subject.completed_sessions} / {subject.planned_sessions}
                 </span>
               </div>
-              <span className="text-[10px] text-neutral-500 w-10 text-right shrink-0">
+              <span className="text-[10px] text-muted-foreground w-10 text-right shrink-0">
                 {subject.remaining_sessions} left
               </span>
             </div>
@@ -140,11 +140,11 @@ export function DashboardRevisionPlan({
             name={status.isHealthy ? 'circle-check' : 'clock'}
             className={`w-3.5 h-3.5 ${status.textColor}`}
           />
-          <p className="text-xs text-neutral-700">
-            <strong className="text-neutral-800">{scheduledPerWeek} sessions/week</strong>
+          <p className="text-xs text-foreground">
+            <strong className="text-foreground">{scheduledPerWeek} sessions/week</strong>
             {' '}Scheduled
             {neededPerWeek > 0 && (
-              <span className="text-neutral-500"> · {neededPerWeek}/week needed for full coverage</span>
+              <span className="text-muted-foreground"> · {neededPerWeek}/week needed for full coverage</span>
             )}
           </p>
         </div>
@@ -172,27 +172,27 @@ function getStatus(completionPercent: number, scheduleGap: number): StatusConfig
   if (completionPercent >= 100) {
     return {
       badgeVariant: 'success', textColor: 'text-success',
-      borderColor: 'border-success-border', bgLight: 'bg-success-bg',
+      borderColor: 'border-success-border', bgLight: 'bg-success/10',
       icon: 'circle-check', label: 'Complete', isHealthy: true,
     };
   }
   if (scheduleGap >= 0) {
     return {
       badgeVariant: 'success', textColor: 'text-success',
-      borderColor: 'border-success-border', bgLight: 'bg-success-bg',
+      borderColor: 'border-success-border', bgLight: 'bg-success/10',
       icon: 'circle-check', label: 'On Track', isHealthy: true,
     };
   }
   if (scheduleGap >= -3) {
     return {
       badgeVariant: 'warning', textColor: 'text-warning',
-      borderColor: 'border-warning-border', bgLight: 'bg-warning-bg',
+      borderColor: 'border-warning-border', bgLight: 'bg-warning/10',
       icon: 'triangle-alert', label: 'Attention', isHealthy: false,
     };
   }
   return {
-    badgeVariant: 'danger', textColor: 'text-danger',
-    borderColor: 'border-danger-border', bgLight: 'bg-danger-bg',
+    badgeVariant: 'danger', textColor: 'text-destructive',
+    borderColor: 'border-danger-border', bgLight: 'bg-destructive/10',
     icon: 'flame', label: 'Behind', isHealthy: false,
   };
 }

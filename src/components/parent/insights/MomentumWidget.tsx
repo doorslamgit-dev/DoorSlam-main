@@ -64,11 +64,11 @@ function CircularProgress({
 export default function MomentumWidget({ summary, loading }: MomentumWidgetProps) {
   if (loading) {
     return (
-      <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200 animate-pulse">
-        <div className="h-6 bg-neutral-100 rounded w-1/3 mb-4" />
+      <div className="bg-background rounded-2xl shadow-sm p-6 border border-border animate-pulse">
+        <div className="h-6 bg-secondary rounded w-1/3 mb-4" />
         <div className="grid grid-cols-2 gap-4">
-          <div className="h-40 bg-neutral-100 rounded-full mx-auto" style={{ width: 160 }} />
-          <div className="h-40 bg-neutral-100 rounded-full mx-auto" style={{ width: 160 }} />
+          <div className="h-40 bg-secondary rounded-full mx-auto" style={{ width: 160 }} />
+          <div className="h-40 bg-secondary rounded-full mx-auto" style={{ width: 160 }} />
         </div>
       </div>
     );
@@ -80,37 +80,37 @@ export default function MomentumWidget({ summary, loading }: MomentumWidgetProps
 
   const getStreakStatus = () => {
     if (currentStreak >= 5)
-      return { label: "On a roll!", color: "text-accent-green", bgColor: "bg-accent-green" };
+      return { label: "On a roll!", color: "text-success", bgColor: "bg-success" };
     if (currentStreak >= 3)
-      return { label: "Building momentum", color: "text-primary-600", bgColor: "bg-primary-600" };
+      return { label: "Building momentum", color: "text-primary", bgColor: "bg-primary" };
     if (currentStreak >= 1)
-      return { label: "Getting started", color: "text-accent-amber", bgColor: "bg-accent-amber" };
-    return { label: "Start your streak!", color: "text-neutral-500", bgColor: "bg-neutral-400" };
+      return { label: "Getting started", color: "text-warning", bgColor: "bg-warning" };
+    return { label: "Start your streak!", color: "text-muted-foreground", bgColor: "bg-muted-foreground" };
   };
 
   const getPaceStatus = () => {
-    if (completionRate >= 80) return { label: "Above target", color: "text-primary-700", bgColor: "bg-primary-50" };
-    if (completionRate >= 50) return { label: "On track", color: "text-accent-green", bgColor: "bg-accent-green/10" };
-    return { label: "Room to improve", color: "text-accent-amber", bgColor: "bg-accent-amber/10" };
+    if (completionRate >= 80) return { label: "Above target", color: "text-primary", bgColor: "bg-primary/5" };
+    if (completionRate >= 50) return { label: "On track", color: "text-success", bgColor: "bg-success/10" };
+    return { label: "Room to improve", color: "text-warning", bgColor: "bg-warning/10" };
   };
 
   const streakStatus = getStreakStatus();
   const paceStatus = getPaceStatus();
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200">
+    <div className="bg-background rounded-2xl shadow-sm p-6 border border-border">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="text-lg font-bold text-primary-900 mb-1">Momentum Tracker</h3>
-          <p className="text-xs text-neutral-500">Consistency and pace</p>
+          <h3 className="text-lg font-bold text-primary mb-1">Momentum Tracker</h3>
+          <p className="text-xs text-muted-foreground">Consistency and pace</p>
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div className="text-center">
           <CircularProgress value={currentStreak} max={Math.max(longestStreak, 7)} color={COLORS.primary[600]}>
-            <div className="text-3xl font-bold text-primary-900">{currentStreak}</div>
-            <div className="text-xs text-neutral-500">day streak</div>
+            <div className="text-3xl font-bold text-primary">{currentStreak}</div>
+            <div className="text-xs text-muted-foreground">day streak</div>
           </CircularProgress>
           <div className={`inline-flex items-center space-x-1 px-3 py-1 ${streakStatus.bgColor} bg-opacity-10 rounded-full mt-3`}>
             <AppIcon name="flame" className={`w-4 h-4 ${streakStatus.color}`} />
@@ -120,8 +120,8 @@ export default function MomentumWidget({ summary, loading }: MomentumWidgetProps
 
         <div className="text-center">
           <CircularProgress value={completionRate} max={100} color={COLORS.accent.green}>
-            <div className="text-3xl font-bold text-accent-green">{completionRate}%</div>
-            <div className="text-xs text-neutral-500">weekly pace</div>
+            <div className="text-3xl font-bold text-success">{completionRate}%</div>
+            <div className="text-xs text-muted-foreground">weekly pace</div>
           </CircularProgress>
           <div className={`inline-flex items-center space-x-1 px-3 py-1 ${paceStatus.bgColor} rounded-full mt-3`}>
             <AppIcon name="chart-line" className={`w-4 h-4 ${paceStatus.color}`} />

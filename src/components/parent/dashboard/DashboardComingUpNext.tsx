@@ -35,7 +35,7 @@ function DayAvatar({ label }: { label: string }) {
   return (
     <div
       className={`w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
-        isTomorrow ? 'bg-primary-100 text-primary-700' : 'bg-neutral-100 text-medium'
+        isTomorrow ? 'bg-primary/10 text-primary' : 'bg-secondary text-medium'
       }`}
     >
       {abbr}
@@ -47,7 +47,7 @@ export function DashboardComingUpNext({ sessions }: DashboardComingUpNextProps) 
   const groups = groupByDay(sessions);
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-4 border border-default">
+    <div className="bg-background rounded-2xl shadow-sm p-4 border border-default">
       <h3 className="text-sm font-bold text-dark mb-3">Coming Up Next</h3>
 
       {groups.length === 0 ? (
@@ -55,7 +55,7 @@ export function DashboardComingUpNext({ sessions }: DashboardComingUpNextProps) 
           variant="minimal"
           icon="calendar-days"
           title="No upcoming sessions"
-          iconColor="text-neutral-400"
+          iconColor="text-muted-foreground"
         />
       ) : (
         <div className="space-y-4">

@@ -393,6 +393,52 @@ function SourceTag({ path }: { path: string }) {
 }
 
 // ============================================================================
+// MIGRATION QA HELPERS
+// ============================================================================
+
+type MigrationStatus = 'pending' | 'in_progress' | 'done';
+
+const STATUS_LABELS: Record<MigrationStatus, { label: string; className: string }> = {
+  pending: { label: 'Pending', className: 'bg-neutral-100 text-neutral-500' },
+  in_progress: { label: 'In Progress', className: 'bg-warning-bg text-warning' },
+  done: { label: 'Migrated', className: 'bg-success-bg text-success' },
+};
+
+function MigrationSection({
+  title,
+  status = 'pending',
+  children,
+}: {
+  title: string;
+  status?: MigrationStatus;
+  children: ReactNode;
+}) {
+  const badge = STATUS_LABELS[status];
+  return (
+    <section>
+      <div className="flex items-center gap-3 mb-4">
+        <h3 className="text-lg font-semibold text-neutral-700">{title}</h3>
+        <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${badge.className}`}>
+          {badge.label}
+        </span>
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {children}
+      </div>
+    </section>
+  );
+}
+
+function MigrationColumn({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <div className="border border-neutral-200 rounded-xl p-6 bg-neutral-0">
+      <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-4">{label}</p>
+      {children}
+    </div>
+  );
+}
+
+// ============================================================================
 // MAIN COMPONENT
 // ============================================================================
 
@@ -400,7 +446,7 @@ export default function DesignGuidelines() {
  const navigate = useNavigate();
  const [formValue, setFormValue] = useState('');
  const [textareaValue, setTextareaValue] = useState('');
- const [activeTab, setActiveTab] = useState<'tokens' | 'modules'>('tokens');
+ const [activeTab, setActiveTab] = useState<'tokens' | 'modules' | 'migration'>('tokens');
 
  const iconKeys = Object.keys(ICON_MAP) as IconKey[];
 
@@ -454,6 +500,16 @@ export default function DesignGuidelines() {
        }`}
      >
        Page Modules
+     </button>
+     <button
+       onClick={() => setActiveTab('migration')}
+       className={`px-4 py-2 text-sm font-medium transition-colors rounded-t-lg border-b-2 -mb-px ${
+         activeTab === 'migration'
+           ? 'text-primary-600 border-primary-600 bg-primary-50'
+           : 'text-neutral-500 border-transparent hover:text-neutral-700 hover:bg-neutral-50'
+       }`}
+     >
+       Migration QA
      </button>
    </div>
  </div>
@@ -2095,6 +2151,320 @@ export default function DesignGuidelines() {
        </Section>
 
      </main>
+   </div>
+ )}
+
+ {/* ── TAB 3: Migration QA — side-by-side original vs shadcn ── */}
+ {activeTab === 'migration' && (
+   <div className="max-w-7xl mx-auto px-6 py-8">
+     <div className="mb-8">
+       <p className="text-sm text-muted-foreground">
+         All components have been migrated to shadcn/ui patterns (CVA + cn() + HSL tokens).
+         Left shows the component with its DoorSlam-compatible API. Right shows the shadcn compositional API where available.
+       </p>
+     </div>
+
+     <div className="space-y-12">
+
+       {/* ─── Button ─── */}
+       <MigrationSection title="Button" status="done">
+         <MigrationColumn label="DoorSlam API (shadcn internals)">
+           <div className="flex flex-wrap gap-3">
+             {buttonVariants.map((v) => (
+               <Button key={v} variant={v} size="md">{v}</Button>
+             ))}
+           </div>
+           <div className="flex flex-wrap gap-3 mt-4">
+             {buttonSizes.map((s) => (
+               <Button key={s} variant="primary" size={s}>{s}</Button>
+             ))}
+           </div>
+           <div className="flex flex-wrap gap-3 mt-4">
+             <Button variant="primary" loading>Loading</Button>
+             <Button variant="primary" leftIcon="plus">With Icon</Button>
+             <Button variant="primary" disabled>Disabled</Button>
+             <Button variant="primary" fullWidth>Full Width</Button>
+           </div>
+         </MigrationColumn>
+         <MigrationColumn label="shadcn Aliases">
+           <div className="flex flex-wrap gap-3">
+             <Button variant="default">default</Button>
+             <Button variant="secondary">secondary</Button>
+             <Button variant="destructive">destructive</Button>
+             <Button variant="outline">outline</Button>
+             <Button variant="ghost">ghost</Button>
+             <Button variant="link">link</Button>
+           </div>
+           <p className="text-xs text-muted-foreground mt-4">Uses CVA + cn() + Radix Slot. Supports asChild prop.</p>
+         </MigrationColumn>
+       </MigrationSection>
+
+       {/* ─── Card ─── */}
+       <MigrationSection title="Card" status="done">
+         <MigrationColumn label="DoorSlam API">
+           <div className="space-y-3">
+             {cardVariants.map((v) => (
+               <Card key={v} variant={v} padding="md">
+                 <p className="text-sm text-muted-foreground">Card variant: <strong>{v}</strong></p>
+               </Card>
+             ))}
+           </div>
+         </MigrationColumn>
+         <MigrationColumn label="shadcn Compositional API">
+           <div className="space-y-3">
+             <p className="text-xs text-muted-foreground mb-2">CardRoot + CardHeader + CardTitle + CardContent</p>
+             <div className="rounded-xl border border-border bg-card text-card-foreground shadow-sm">
+               <div className="flex flex-col space-y-1.5 p-4">
+                 <div className="text-base font-semibold leading-none">Card Title</div>
+                 <div className="text-sm text-muted-foreground">Card description text</div>
+               </div>
+               <div className="p-4 pt-0">
+                 <p className="text-sm text-muted-foreground">Card content goes here.</p>
+               </div>
+             </div>
+           </div>
+         </MigrationColumn>
+       </MigrationSection>
+
+       {/* ─── Alert ─── */}
+       <MigrationSection title="Alert" status="done">
+         <MigrationColumn label="DoorSlam API">
+           <div className="space-y-3">
+             <Alert variant="success" title="Success" onClose={() => {}}>Operation completed.</Alert>
+             <Alert variant="warning" title="Warning">Please check your input.</Alert>
+             <Alert variant="error" title="Error">Something went wrong.</Alert>
+             <Alert variant="info" title="Info">Here is some information.</Alert>
+           </div>
+         </MigrationColumn>
+         <MigrationColumn label="shadcn Details">
+           <p className="text-xs text-muted-foreground mb-3">Uses CVA with 6 variants (error, success, warning, info, default, destructive). ARIA roles per variant.</p>
+           <div className="space-y-3">
+             <Alert variant="success" hideIcon title="Compact success">No icon variant.</Alert>
+             <Alert variant="error" title="With action" action={<Button variant="danger" size="sm">Retry</Button>}>Action button support.</Alert>
+           </div>
+         </MigrationColumn>
+       </MigrationSection>
+
+       {/* ─── Badge ─── */}
+       <MigrationSection title="Badge" status="done">
+         <MigrationColumn label="DoorSlam API">
+           <div className="space-y-4">
+             {badgeStyles.map((style) => (
+               <div key={style}>
+                 <p className="text-xs text-muted-foreground uppercase mb-2">{style}</p>
+                 <div className="flex flex-wrap gap-2">
+                   {badgeVariants.map((v) => (
+                     <Badge key={`${style}-${v}`} variant={v} badgeStyle={style}>{v}</Badge>
+                   ))}
+                 </div>
+               </div>
+             ))}
+           </div>
+         </MigrationColumn>
+         <MigrationColumn label="Extra Features">
+           <p className="text-xs text-muted-foreground mb-3">CVA compound variants (6 colors x 3 styles). Dot + icon support.</p>
+           <div className="space-y-3">
+             <div className="flex flex-wrap gap-2">
+               <Badge variant="success" dot>Active</Badge>
+               <Badge variant="warning" icon="clock">Pending</Badge>
+               <Badge variant="primary" size="lg">Large</Badge>
+               <Badge variant="danger" badgeStyle="outline">Outline</Badge>
+             </div>
+           </div>
+         </MigrationColumn>
+       </MigrationSection>
+
+       {/* ─── Modal / Dialog ─── */}
+       <MigrationSection title="Modal / Dialog" status="done">
+         <MigrationColumn label="DoorSlam API (Radix Dialog)">
+           <p className="text-sm text-muted-foreground">Now uses Radix Dialog internally. Shown inline as reference.</p>
+           <div className="mt-3 border border-border rounded-xl p-4 bg-card">
+             <div className="border-b border-border pb-3 mb-3">
+               <h4 className="text-base font-semibold text-foreground">Modal Title</h4>
+               <p className="text-sm text-muted-foreground">Optional subtitle</p>
+             </div>
+             <p className="text-sm text-muted-foreground mb-4">Modal body content goes here.</p>
+             <div className="flex justify-end gap-2">
+               <Button variant="secondary" size="sm">Cancel</Button>
+               <Button variant="primary" size="sm">Confirm</Button>
+             </div>
+           </div>
+         </MigrationColumn>
+         <MigrationColumn label="Implementation Details">
+           <p className="text-xs text-muted-foreground">Wraps shadcn Dialog (Radix UI). Handles body scroll lock, escape close, backdrop click. Exports DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter for compositional use.</p>
+         </MigrationColumn>
+       </MigrationSection>
+
+       {/* ─── FormField / Input ─── */}
+       <MigrationSection title="FormField / Input" status="done">
+         <MigrationColumn label="DoorSlam API">
+           <div className="space-y-4">
+             <FormField
+               label="Text Input"
+               placeholder="Enter text..."
+               value={formValue}
+               onChange={(e) => setFormValue(e.target.value)}
+               helperText="This is a helper text"
+             />
+             <FormField
+               label="With Error"
+               placeholder="Enter text..."
+               value=""
+               onChange={() => {}}
+               error="This field is required"
+             />
+             <FormField.Textarea
+               label="Textarea"
+               placeholder="Write something..."
+               value={textareaValue}
+               onChange={(e) => setTextareaValue(e.target.value)}
+             />
+           </div>
+         </MigrationColumn>
+         <MigrationColumn label="shadcn Details">
+           <p className="text-xs text-muted-foreground mb-3">Uses shadcn color tokens (border-input, ring-ring, bg-background). Also exports shadcn Input, Textarea, Label primitives for direct use.</p>
+         </MigrationColumn>
+       </MigrationSection>
+
+       {/* ─── ProgressBar ─── */}
+       <MigrationSection title="ProgressBar" status="done">
+         <MigrationColumn label="DoorSlam API">
+           <div className="space-y-4">
+             <ProgressBar value={72} label="Mathematics" showValue />
+             <ProgressBar value={45} color="success" label="English" showValue />
+             <ProgressBar value={20} color="warning" label="Biology" showValue size="lg" />
+             <ProgressBar value={90} color="info" animated />
+           </div>
+         </MigrationColumn>
+         <MigrationColumn label="Color Tokens">
+           <p className="text-xs text-muted-foreground mb-3">Uses bg-primary, bg-success, bg-warning, bg-destructive, bg-info with opacity modifiers for tracks.</p>
+           <div className="space-y-4">
+             <ProgressBar value={60} color="danger" label="Danger variant" showValue />
+             <ProgressBar value={100} color="primary" size="xl" />
+           </div>
+         </MigrationColumn>
+       </MigrationSection>
+
+       {/* ─── LoadingSpinner ─── */}
+       <MigrationSection title="LoadingSpinner" status="done">
+         <MigrationColumn label="DoorSlam API">
+           <div className="flex items-center gap-6">
+             <LoadingSpinner size="sm" />
+             <LoadingSpinner size="md" />
+             <LoadingSpinner size="lg" />
+             <LoadingSpinner variant="dots" size="md" />
+           </div>
+         </MigrationColumn>
+         <MigrationColumn label="Details">
+           <p className="text-xs text-muted-foreground mb-3">Uses border-primary for spinner, bg-primary for dots. cn() utility for class merging.</p>
+           <LoadingSpinner size="lg" message="Loading data..." centered />
+         </MigrationColumn>
+       </MigrationSection>
+
+       {/* ─── EmptyState ─── */}
+       <MigrationSection title="EmptyState" status="done">
+         <MigrationColumn label="DoorSlam API">
+           <EmptyState
+             icon="mail"
+             title="No messages"
+             description="You don't have any messages yet."
+           />
+         </MigrationColumn>
+         <MigrationColumn label="Card Variant">
+           <EmptyState
+             variant="card"
+             icon="calendar"
+             title="No sessions"
+             description="Schedule your first revision session."
+             action={<Button variant="primary" size="sm">Get Started</Button>}
+           />
+         </MigrationColumn>
+       </MigrationSection>
+
+       {/* ─── StatCard ─── */}
+       <MigrationSection title="StatCard" status="done">
+         <MigrationColumn label="DoorSlam API">
+           <div className="grid grid-cols-2 gap-3">
+             <StatCard label="Sessions" value="24" />
+             <StatCard label="Topics" value="18" sublabel="+3 this week" />
+           </div>
+         </MigrationColumn>
+         <MigrationColumn label="Color Variants">
+           <div className="grid grid-cols-2 gap-3">
+             <StatCard label="Score" value="+12%" valueColor="success" />
+             <StatCard label="Behind" value="3" valueColor="danger" background="primary" />
+           </div>
+         </MigrationColumn>
+       </MigrationSection>
+
+       {/* ─── IconCircle ─── */}
+       <MigrationSection title="IconCircle" status="done">
+         <MigrationColumn label="Soft Variant (default)">
+           <div className="flex items-center gap-3">
+             <IconCircle name="star" color="primary" size="sm" />
+             <IconCircle name="check" color="success" size="md" />
+             <IconCircle name="alert-triangle" color="warning" size="lg" />
+             <IconCircle name="x" color="danger" size="md" />
+           </div>
+         </MigrationColumn>
+         <MigrationColumn label="Solid + Ghost Variants">
+           <div className="flex items-center gap-3 mb-3">
+             <IconCircle name="star" color="primary" size="md" variant="solid" />
+             <IconCircle name="check" color="success" size="md" variant="solid" />
+             <IconCircle name="info" color="info" size="md" variant="solid" />
+           </div>
+           <div className="flex items-center gap-3">
+             <IconCircle name="star" color="primary" size="md" variant="ghost" />
+             <IconCircle name="check" color="success" size="md" variant="ghost" />
+             <IconCircle name="info" color="info" size="md" variant="ghost" />
+           </div>
+         </MigrationColumn>
+       </MigrationSection>
+
+       {/* ─── CircularProgress ─── */}
+       <MigrationSection title="CircularProgress" status="done">
+         <MigrationColumn label="DoorSlam API">
+           <div className="flex items-center gap-4">
+             <CircularProgress value={72} size={60} />
+             <CircularProgress value={45} size={80} color="#1EC592" />
+             <CircularProgress value={90} size={48} strokeWidth={4} />
+           </div>
+         </MigrationColumn>
+         <MigrationColumn label="Token Colors">
+           <div className="flex items-center gap-4">
+             <CircularProgress value={85} size={60} color="success">
+               <span className="text-xs font-bold text-success">85%</span>
+             </CircularProgress>
+             <CircularProgress value={30} size={60} color="warning">
+               <span className="text-xs font-bold text-warning">30%</span>
+             </CircularProgress>
+             <CircularProgress value={15} size={60} color="danger">
+               <span className="text-xs font-bold text-destructive">15%</span>
+             </CircularProgress>
+           </div>
+         </MigrationColumn>
+       </MigrationSection>
+
+       {/* ─── AvatarCircle ─── */}
+       <MigrationSection title="AvatarCircle" status="done">
+         <MigrationColumn label="DoorSlam API">
+           <div className="flex items-center gap-3">
+             <AvatarCircle name="Alex Johnson" size="sm" />
+             <AvatarCircle name="Beth Clark" size="md" />
+             <AvatarCircle name="Charlie Davis" size="lg" />
+           </div>
+         </MigrationColumn>
+         <MigrationColumn label="Color Variants">
+           <div className="flex items-center gap-3">
+             <AvatarCircle name="Primary" size="md" color="primary" />
+             <AvatarCircle name="Soft Look" size="md" color="soft" />
+             <AvatarCircle name="Neutral" size="md" color="neutral" />
+             <AvatarCircle name="Bordered" size="md" bordered />
+           </div>
+         </MigrationColumn>
+       </MigrationSection>
+
+     </div>
    </div>
  )}
 

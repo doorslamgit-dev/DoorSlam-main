@@ -21,17 +21,17 @@ const RAG_CONFIG: Record<string, { label: string; badgeVariant: BadgeVariant; ri
   on_track: {
     label: 'On Track',
     badgeVariant: 'success',
-    ringColor: 'text-accent-green',
+    ringColor: 'text-success',
   },
   keep_an_eye: {
     label: 'Keep an Eye',
     badgeVariant: 'warning',
-    ringColor: 'text-accent-amber',
+    ringColor: 'text-warning',
   },
   needs_attention: {
     label: 'Needs Attention',
     badgeVariant: 'danger',
-    ringColor: 'text-accent-red',
+    ringColor: 'text-destructive',
   },
 };
 
@@ -43,12 +43,12 @@ export function HealthScoreCard({
 }: HealthScoreCardProps) {
   if (loading) {
     return (
-      <div className="bg-neutral-0 rounded-2xl shadow-card p-5 border border-neutral-200/50 animate-pulse h-full">
-        <div className="h-5 bg-neutral-200 rounded w-28 mb-3" />
-        <div className="h-20 bg-neutral-100 rounded-xl mx-auto w-20 mb-3" />
+      <div className="bg-background rounded-2xl shadow-sm p-5 border border-border animate-pulse h-full">
+        <div className="h-5 bg-muted rounded w-28 mb-3" />
+        <div className="h-20 bg-secondary rounded-xl mx-auto w-20 mb-3" />
         <div className="space-y-2">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="h-6 bg-neutral-100 rounded" />
+            <div key={i} className="h-6 bg-secondary rounded" />
           ))}
         </div>
       </div>
@@ -62,7 +62,7 @@ export function HealthScoreCard({
   const totalSubjects = health.subjectsOnTrack + health.subjectsNeedingAttention;
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-5 border border-neutral-200/50 h-full flex flex-col">
+    <div className="bg-background rounded-2xl shadow-sm p-5 border border-border h-full flex flex-col">
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
         <h3 className="text-base font-bold text-dark">Health Score</h3>
@@ -78,7 +78,7 @@ export function HealthScoreCard({
             <circle
               cx="60" cy="60" r="52"
               fill="none" stroke="currentColor" strokeWidth="10"
-              className="text-neutral-100"
+              className="text-secondary"
             />
             <circle
               cx="60" cy="60" r="52"
@@ -89,49 +89,49 @@ export function HealthScoreCard({
             />
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-2xl font-bold text-neutral-800">{health.score}</span>
+            <span className="text-2xl font-bold text-foreground">{health.score}</span>
           </div>
         </div>
       </div>
 
       {/* 4 Sub-metrics — tight rows */}
       <div className="space-y-0 flex-1">
-        <div className="flex items-center justify-between py-1.5 border-b border-neutral-100">
+        <div className="flex items-center justify-between py-1.5 border-b border-border">
           <div className="flex items-center gap-1.5">
-            <AppIcon name="check-circle" className="w-3.5 h-3.5 text-accent-green" />
-            <span className="text-xs text-neutral-600">Subjects on track</span>
+            <AppIcon name="check-circle" className="w-3.5 h-3.5 text-success" />
+            <span className="text-xs text-muted-foreground">Subjects on track</span>
           </div>
-          <span className="text-xs font-semibold text-neutral-800">
+          <span className="text-xs font-semibold text-foreground">
             {health.subjectsOnTrack} of {totalSubjects}
           </span>
         </div>
 
-        <div className="flex items-center justify-between py-1.5 border-b border-neutral-100">
+        <div className="flex items-center justify-between py-1.5 border-b border-border">
           <div className="flex items-center gap-1.5">
-            <AppIcon name="triangle-alert" className="w-3.5 h-3.5 text-accent-amber" />
-            <span className="text-xs text-neutral-600">Needs attention</span>
+            <AppIcon name="triangle-alert" className="w-3.5 h-3.5 text-warning" />
+            <span className="text-xs text-muted-foreground">Needs attention</span>
           </div>
-          <span className="text-xs font-semibold text-neutral-800">
+          <span className="text-xs font-semibold text-foreground">
             {health.subjectsNeedingAttention > 0
               ? `${health.subjectsNeedingAttention} subject${health.subjectsNeedingAttention !== 1 ? 's' : ''}`
               : '—'}
           </span>
         </div>
 
-        <div className="flex items-center justify-between py-1.5 border-b border-neutral-100">
+        <div className="flex items-center justify-between py-1.5 border-b border-border">
           <div className="flex items-center gap-1.5">
-            <AppIcon name="chart-bar" className="w-3.5 h-3.5 text-primary-600" />
-            <span className="text-xs text-neutral-600">Average coverage</span>
+            <AppIcon name="chart-bar" className="w-3.5 h-3.5 text-primary" />
+            <span className="text-xs text-muted-foreground">Average coverage</span>
           </div>
-          <span className="text-xs font-semibold text-neutral-800">{health.averageCoverage}%</span>
+          <span className="text-xs font-semibold text-foreground">{health.averageCoverage}%</span>
         </div>
 
         <div className="flex items-center justify-between py-1.5">
           <div className="flex items-center gap-1.5">
-            <AppIcon name="clock" className="w-3.5 h-3.5 text-neutral-500" />
-            <span className="text-xs text-neutral-600">Time until exams</span>
+            <AppIcon name="clock" className="w-3.5 h-3.5 text-muted-foreground" />
+            <span className="text-xs text-muted-foreground">Time until exams</span>
           </div>
-          <span className="text-xs font-semibold text-neutral-800">
+          <span className="text-xs font-semibold text-foreground">
             {health.weeksRemaining > 0 ? `${health.weeksRemaining} weeks` : '—'}
           </span>
         </div>

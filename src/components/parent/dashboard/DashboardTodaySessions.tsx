@@ -32,7 +32,7 @@ export function DashboardTodaySessions({ sessions, reminders }: DashboardTodaySe
   const todaySessions = sessions.filter((s) => s.is_today);
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-5 border border-default h-full flex flex-col">
+    <div className="bg-background rounded-2xl shadow-sm p-5 border border-default h-full flex flex-col">
       {/* Header */}
       <div className="flex items-center gap-2 mb-4">
         <h2 className="text-base font-bold text-dark">Today&apos;s Sessions</h2>
@@ -50,7 +50,7 @@ export function DashboardTodaySessions({ sessions, reminders }: DashboardTodaySe
             variant="minimal"
             icon="calendar-check"
             title="No sessions today"
-            iconColor="text-neutral-400"
+            iconColor="text-muted-foreground"
           />
         </div>
       ) : (

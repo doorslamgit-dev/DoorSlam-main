@@ -1,74 +1,153 @@
 /* ============================================================================
-   Design Tokens - Doorslam
+   Design Tokens - DoorSlam (shadcn/ui)
+   ============================================================================
+   All color values use HSL format for shadcn compatibility.
+   This enables Tailwind opacity modifiers like bg-primary/10.
    ============================================================================ */
 
 /* ----------------------------------------------------------------------------
-   STATIC TOKENS - These remain constant across themes
+   SHADCN THEME TOKENS - Light Mode (Default)
    ---------------------------------------------------------------------------- */
 
-:root {
-  /* Spacing Scale - Based on 4px grid */
-  --spacing-0: 0;
-  --spacing-1: 0.25rem;   /* 4px */
-  --spacing-2: 0.5rem;    /* 8px */
-  --spacing-3: 0.75rem;   /* 12px */
-  --spacing-4: 1rem;      /* 16px */
-  --spacing-5: 1.25rem;   /* 20px */
-  --spacing-6: 1.5rem;    /* 24px */
-  --spacing-8: 2rem;      /* 32px */
-  --spacing-10: 2.5rem;   /* 40px */
-  --spacing-12: 3rem;     /* 48px */
-  --spacing-16: 4rem;     /* 64px */
-  --spacing-20: 5rem;     /* 80px */
-  --spacing-24: 6rem;     /* 96px */
+@layer base {
+  :root {
+    --background: 0 0% 100%;              /* #FFFFFF */
+    --foreground: 226 21% 15%;            /* #1F2330 */
 
-  /* Typography Scale */
+    --card: 0 0% 100%;                    /* #FFFFFF */
+    --card-foreground: 226 21% 15%;       /* #1F2330 */
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 226 21% 15%;
+
+    --primary: 201 95% 32%;               /* #0369a1 — sky-700 */
+    --primary-foreground: 0 0% 100%;      /* #FFFFFF */
+
+    --secondary: 220 14% 96%;             /* #F3F4F6 */
+    --secondary-foreground: 226 21% 15%;  /* #1F2330 */
+
+    --muted: 220 14% 96%;                 /* #F3F4F6 */
+    --muted-foreground: 220 9% 46%;       /* #6B7280 */
+
+    --accent: 220 14% 96%;                /* #F3F4F6 */
+    --accent-foreground: 226 21% 15%;     /* #1F2330 */
+
+    --destructive: 0 84% 60%;             /* #EF4444 */
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 161 73% 45%;               /* #1EC592 */
+    --success-foreground: 0 0% 100%;
+
+    --warning: 36 100% 64%;               /* #FFB547 */
+    --warning-foreground: 0 0% 100%;
+
+    --info: 217 91% 60%;                  /* #3B82F6 */
+    --info-foreground: 0 0% 100%;
+
+    --border: 220 13% 91%;                /* #E5E7EB */
+    --input: 220 13% 91%;                 /* #E5E7EB */
+    --ring: 199 89% 48%;                  /* #0ea5e9 — sky-500 */
+
+    --radius: 1rem;                        /* 16px — matches rounded-xl */
+
+    /* Chart colors */
+    --chart-1: 201 95% 32%;               /* primary */
+    --chart-2: 161 73% 45%;               /* success green */
+    --chart-3: 36 100% 64%;               /* warning amber */
+    --chart-4: 217 91% 60%;               /* info blue */
+    --chart-5: 258 90% 66%;               /* #8B5CF6 purple */
+
+    /* Sidebar */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 226 21% 15%;
+    --sidebar-primary: 201 95% 32%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 14% 96%;
+    --sidebar-accent-foreground: 226 21% 15%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 199 89% 48%;
+  }
+
+  /* --------------------------------------------------------------------------
+     SHADCN THEME TOKENS - Dark Mode
+     -------------------------------------------------------------------------- */
+
+  .dark {
+    --background: 228 19% 8%;              /* #111318 */
+    --foreground: 220 13% 91%;             /* #E5E7EB */
+
+    --card: 226 21% 13%;                   /* #1A1D28 */
+    --card-foreground: 220 13% 91%;
+
+    --popover: 226 21% 13%;
+    --popover-foreground: 220 13% 91%;
+
+    --primary: 197 90% 60%;                /* #38bdf8 — sky-400 */
+    --primary-foreground: 228 19% 8%;      /* #111318 */
+
+    --secondary: 226 19% 22%;              /* #2D3142 */
+    --secondary-foreground: 220 13% 91%;
+
+    --muted: 226 19% 22%;                  /* #2D3142 */
+    --muted-foreground: 220 9% 65%;        /* #9CA3AF */
+
+    --accent: 226 19% 22%;
+    --accent-foreground: 220 13% 91%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 161 73% 45%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 36 100% 64%;
+    --warning-foreground: 0 0% 100%;
+
+    --info: 217 91% 60%;
+    --info-foreground: 0 0% 100%;
+
+    --border: 226 19% 22%;                 /* #2D3142 */
+    --input: 226 16% 28%;                  /* #3D4254 */
+    --ring: 199 89% 48%;
+
+    --sidebar-background: 226 21% 13%;
+    --sidebar-foreground: 220 13% 91%;
+    --sidebar-primary: 197 90% 60%;
+    --sidebar-primary-foreground: 228 19% 8%;
+    --sidebar-accent: 226 19% 22%;
+    --sidebar-accent-foreground: 220 13% 91%;
+    --sidebar-border: 226 19% 22%;
+    --sidebar-ring: 199 89% 48%;
+  }
+}
+
+/* ============================================================================
+   STATIC TOKENS - Theme-independent values
+   ============================================================================ */
+
+:root {
+  /* Typography */
   --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-family-mono: 'Fira Code', 'Monaco', 'Courier New', monospace;
 
-  /* Font Sizes */
-  --font-size-xs: 0.75rem;     /* 12px */
-  --font-size-sm: 0.875rem;    /* 14px */
-  --font-size-base: 1rem;      /* 16px */
-  --font-size-lg: 1.125rem;    /* 18px */
-  --font-size-xl: 1.25rem;     /* 20px */
-  --font-size-2xl: 1.5rem;     /* 24px */
-  --font-size-3xl: 1.875rem;   /* 30px */
-  --font-size-4xl: 2.25rem;    /* 36px */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
 
-  /* Font Weights */
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
 
-  /* Line Heights */
   --line-height-tight: 1.25;
+  --line-height-snug: 1.375;
   --line-height-normal: 1.5;
   --line-height-relaxed: 1.75;
-
-  /* Border Radius */
-  --radius-sm: 0.375rem;   /* 6px */
-  --radius-md: 0.5rem;     /* 8px */
-  --radius-lg: 0.75rem;    /* 12px */
-  --radius-xl: 1rem;       /* 16px */
-  --radius-2xl: 1.5rem;    /* 24px */
-  --radius-full: 9999px;
-
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  --shadow-card-hover: 0 4px 12px 0 rgb(0 0 0 / 0.15), 0 2px 4px -1px rgb(0 0 0 / 0.1);
-  --shadow-soft: 0 2px 8px 0 rgb(0 0 0 / 0.08);
-  --shadow-button: 0 2px 8px 0 rgb(3 105 161 / 0.30);  /* sky-700 glow */
-
-  /* Transitions */
-  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Z-Index Scale */
   --z-dropdown: 1000;
@@ -80,26 +159,65 @@
   --z-modal: 1050;
   --z-popover: 1060;
   --z-tooltip: 1070;
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ----------------------------------------------------------------------------
-   THEME TOKENS - Light Mode (Default)
-   ---------------------------------------------------------------------------- */
+/* ============================================================================
+   LEGACY TOKENS — kept temporarily during migration (Phase 4/5 will remove)
+   DO NOT add new references to these. Use shadcn tokens above instead.
+   ============================================================================ */
 
 :root {
-  /* Primary Colors — Tailwind Sky, base at sky-700 (primary-600) */
-  --color-primary-50:  #f0f9ff;   /* sky-50  */
-  --color-primary-100: #e0f2fe;   /* sky-100 */
-  --color-primary-200: #bae6fd;   /* sky-200 */
-  --color-primary-300: #7dd3fc;   /* sky-300 */
-  --color-primary-400: #38bdf8;   /* sky-400 */
-  --color-primary-500: #0ea5e9;   /* sky-500 */
-  --color-primary-600: #0369a1;   /* sky-700 — primary action base */
-  --color-primary-700: #075985;   /* sky-800 */
-  --color-primary-800: #0c4a6e;   /* sky-900 */
-  --color-primary-900: #082f49;   /* sky-950 */
+  /* Legacy Spacing Scale */
+  --spacing-0: 0;
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.25rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-10: 2.5rem;
+  --spacing-12: 3rem;
+  --spacing-16: 4rem;
+  --spacing-20: 5rem;
+  --spacing-24: 6rem;
 
-  /* Neutral Colors */
+  /* Legacy Border Radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* Legacy Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-card-hover: 0 4px 12px 0 rgb(0 0 0 / 0.15), 0 2px 4px -1px rgb(0 0 0 / 0.1);
+  --shadow-soft: 0 2px 8px 0 rgb(0 0 0 / 0.08);
+  --shadow-button: 0 2px 8px 0 rgb(3 105 161 / 0.30);
+
+  /* Legacy Primary Colors */
+  --color-primary-50:  #f0f9ff;
+  --color-primary-100: #e0f2fe;
+  --color-primary-200: #bae6fd;
+  --color-primary-300: #7dd3fc;
+  --color-primary-400: #38bdf8;
+  --color-primary-500: #0ea5e9;
+  --color-primary-600: #0369a1;
+  --color-primary-700: #075985;
+  --color-primary-800: #0c4a6e;
+  --color-primary-900: #082f49;
+
+  /* Legacy Neutral Colors */
   --color-neutral-0: #FFFFFF;
   --color-neutral-50: #F9FAFB;
   --color-neutral-100: #F3F4F6;
@@ -112,7 +230,7 @@
   --color-neutral-800: #1A1D28;
   --color-neutral-900: #111318;
 
-  /* Accent Colors */
+  /* Legacy Accent Colors */
   --color-accent-green: #1EC592;
   --color-accent-amber: #FFB547;
   --color-accent-red: #EF4444;
@@ -120,9 +238,9 @@
   --color-accent-purple: #8B5CF6;
   --color-accent-pink: #EC4899;
 
-  /* Semantic Colors - Light Mode */
+  /* Legacy Semantic Colors */
   --color-background: var(--color-neutral-0);
-  --color-background-soft: #f0f9ff; /* sky-50 */
+  --color-background-soft: #f0f9ff;
   --color-background-secondary: var(--color-neutral-50);
   --color-background-tertiary: var(--color-neutral-100);
   --gradient-main: linear-gradient(135deg, #aad1e8 0%, #a3e6da 100%);
@@ -158,24 +276,29 @@
   --color-info-border: #93C5FD;
 }
 
-/* ----------------------------------------------------------------------------
-   THEME TOKENS - Dark Mode
-   ---------------------------------------------------------------------------- */
-
 .dark {
-  /* Primary Colors — Sky palette inverted for dark mode */
-  --color-primary-50:  #082f49;   /* sky-950 — darkest surface */
-  --color-primary-100: #0c4a6e;   /* sky-900 */
-  --color-primary-200: #075985;   /* sky-800 */
-  --color-primary-300: #0369a1;   /* sky-700 */
-  --color-primary-400: #0284c7;   /* sky-600 */
-  --color-primary-500: #0ea5e9;   /* sky-500 */
-  --color-primary-600: #38bdf8;   /* sky-400 — primary action base (dark) */
-  --color-primary-700: #7dd3fc;   /* sky-300 */
-  --color-primary-800: #bae6fd;   /* sky-200 */
-  --color-primary-900: #e0f2fe;   /* sky-100 — lightest on dark */
+  /* Legacy shadows for dark mode */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.3), 0 8px 10px -6px rgb(0 0 0 / 0.3);
+  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
+  --shadow-card-hover: 0 4px 12px 0 rgb(0 0 0 / 0.4), 0 2px 4px -1px rgb(0 0 0 / 0.3);
+  --shadow-soft: 0 2px 8px 0 rgb(0 0 0 / 0.25);
+  --shadow-button: 0 2px 8px 0 rgb(56 189 248 / 0.35);
 
-  /* Neutral Colors - Inverted for dark mode */
+  /* Legacy dark mode colors */
+  --color-primary-50:  #082f49;
+  --color-primary-100: #0c4a6e;
+  --color-primary-200: #075985;
+  --color-primary-300: #0369a1;
+  --color-primary-400: #0284c7;
+  --color-primary-500: #0ea5e9;
+  --color-primary-600: #38bdf8;
+  --color-primary-700: #7dd3fc;
+  --color-primary-800: #bae6fd;
+  --color-primary-900: #e0f2fe;
+
   --color-neutral-0: #111318;
   --color-neutral-50: #1A1D28;
   --color-neutral-100: #1F2330;
@@ -188,15 +311,6 @@
   --color-neutral-800: #F3F4F6;
   --color-neutral-900: #F9FAFB;
 
-  /* Accent Colors - Same across themes */
-  --color-accent-green: #1EC592;
-  --color-accent-amber: #FFB547;
-  --color-accent-red: #EF4444;
-  --color-accent-blue: #3B82F6;
-  --color-accent-purple: #8B5CF6;
-  --color-accent-pink: #EC4899;
-
-  /* Semantic Colors - Dark Mode */
   --color-background: #0D0F14;
   --color-background-soft: #1A1D28;
   --color-background-secondary: var(--color-neutral-50);
@@ -232,34 +346,21 @@
   --color-info: var(--color-accent-blue);
   --color-info-bg: #1E3A8A;
   --color-info-border: #3B82F6;
-
-  /* Shadows - Adjusted for dark mode */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.3);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.3), 0 8px 10px -6px rgb(0 0 0 / 0.3);
-  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
-  --shadow-card-hover: 0 4px 12px 0 rgb(0 0 0 / 0.4), 0 2px 4px -1px rgb(0 0 0 / 0.3);
-  --shadow-soft: 0 2px 8px 0 rgb(0 0 0 / 0.25);
-  --shadow-button: 0 2px 8px 0 rgb(56 189 248 / 0.35); /* sky-400 glow */
 }
 
-/* ----------------------------------------------------------------------------
+/* ============================================================================
    UTILITY CLASSES
-   ---------------------------------------------------------------------------- */
+   ============================================================================ */
 
-/* Smooth theme transitions */
 body {
   transition: background-color var(--transition-base), color var(--transition-base);
 }
 
-/* Focus ring for accessibility */
 .focus-ring {
-  outline: 2px solid var(--color-primary-500);
+  outline: 2px solid hsl(var(--ring));
   outline-offset: 2px;
 }
 
-/* Visually hidden but accessible to screen readers */
 .sr-only {
   position: absolute;
   width: 1px;

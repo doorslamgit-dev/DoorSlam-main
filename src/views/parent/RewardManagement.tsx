@@ -159,8 +159,8 @@ export function RewardManagement() {
     return (
       <div className="min-h-screen bg-transparent flex items-center justify-center">
         <div className="text-center">
-          <AppIcon name="loader" className="w-8 h-8 text-primary-600 animate-spin mx-auto mb-4" />
-          <p className="text-neutral-600">Loading rewards...</p>
+          <AppIcon name="loader" className="w-8 h-8 text-primary animate-spin mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading rewards...</p>
         </div>
       </div>
     );
@@ -170,12 +170,12 @@ export function RewardManagement() {
     <div className="min-h-screen bg-transparent">
       {/* Error Banner */}
       {error && (
-        <div className="bg-danger-bg border-b border-danger-border px-4 py-3">
+        <div className="bg-destructive/10 border-b border-destructive/20 px-4 py-3">
           <div className="max-w-5xl mx-auto flex items-center justify-between">
-            <p className="text-danger">{error}</p>
-            <button 
+            <p className="text-destructive">{error}</p>
+            <button
               onClick={clearError}
-              className="text-danger hover:text-danger p-1"
+              className="text-destructive hover:text-destructive p-1"
             >
               <AppIcon name="x" className="w-4 h-4" />
             </button>
@@ -185,7 +185,7 @@ export function RewardManagement() {
 
       <main className="max-w-5xl mx-auto px-4 py-6 space-y-6">
         {/* Hero Header */}
-        <section className="bg-gradient-to-br from-primary-50 via-primary-100/50 to-white rounded-2xl shadow-sm p-6 border border-primary-200/30">
+        <section className="bg-gradient-to-br from-primary/5 via-primary/10 to-white rounded-2xl shadow-sm p-6 border border-primary/20">
           <RewardHeroHeader
             childList={childList}
             selectedChildId={selectedChildId}

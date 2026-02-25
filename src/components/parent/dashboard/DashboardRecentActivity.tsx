@@ -65,20 +65,20 @@ export function DashboardRecentActivity({
 
   if (activities.length === 0) {
     return (
-      <div className="bg-neutral-0 rounded-2xl shadow-card p-4 border border-default">
+      <div className="bg-background rounded-2xl shadow-sm p-4 border border-default">
         <h3 className="text-sm font-bold text-dark mb-3">Recent Activity</h3>
         <EmptyState
           variant="minimal"
           icon="clock"
           title="No recent activity yet"
-          iconColor="text-neutral-400"
+          iconColor="text-muted-foreground"
         />
       </div>
     );
   }
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-4 border border-default">
+    <div className="bg-background rounded-2xl shadow-sm p-4 border border-default">
       <h3 className="text-sm font-bold text-dark mb-3">Recent Activity</h3>
 
       <div className="space-y-2">

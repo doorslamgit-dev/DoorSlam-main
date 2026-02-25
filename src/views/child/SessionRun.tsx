@@ -264,7 +264,7 @@ export default function SessionRun() {
       default:
         return (
           <div className="text-center py-12">
-            <p className="text-neutral-600">Unknown step: {currentStepKey}</p>
+            <p className="text-muted-foreground">Unknown step: {currentStepKey}</p>
           </div>
         );
     }
@@ -279,7 +279,7 @@ export default function SessionRun() {
   const activeRevisionSessionId = revisionSessionId ?? sessionData.revision_session_id;
 
   return (
-    <div className="min-h-screen bg-neutral-100">
+    <div className="min-h-screen bg-secondary">
       <SessionHeader
         subjectName={sessionData.subject_name}
         subjectIcon={subjectIcon}

@@ -12,33 +12,33 @@ interface DashboardProgressMomentsProps {
 }
 
 const momentIcons: Record<MomentType, { bg: string; icon: IconKey }> = {
-  achievement: { bg: 'bg-accent-amber', icon: 'trophy' },
-  sessions_milestone: { bg: 'bg-accent-green', icon: 'check-circle' },
-  streak_milestone: { bg: 'bg-accent-amber', icon: 'flame' },
-  getting_started: { bg: 'bg-primary-500', icon: 'sprout' },
-  focus_mode: { bg: 'bg-primary-600', icon: 'bolt' },
+  achievement: { bg: 'bg-warning', icon: 'trophy' },
+  sessions_milestone: { bg: 'bg-success', icon: 'check-circle' },
+  streak_milestone: { bg: 'bg-warning', icon: 'flame' },
+  getting_started: { bg: 'bg-primary', icon: 'sprout' },
+  focus_mode: { bg: 'bg-primary', icon: 'bolt' },
 };
 
 export function DashboardProgressMoments({ moments }: DashboardProgressMomentsProps) {
   if (moments.length === 0) {
     return (
-      <div className="bg-neutral-0 rounded-2xl shadow-card p-4 border border-default">
+      <div className="bg-background rounded-2xl shadow-sm p-4 border border-default">
         <h3 className="text-sm font-bold text-dark mb-3">Progress Moments</h3>
         <EmptyState
           variant="minimal"
           icon="sparkles"
           title="Moments will appear as progress is made"
-          iconColor="text-primary-500"
+          iconColor="text-primary"
         />
       </div>
     );
   }
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-4 border border-default">
+    <div className="bg-background rounded-2xl shadow-sm p-4 border border-default">
       <div className="flex items-center justify-between mb-3">
         <h3 className="text-sm font-bold text-dark">Progress Moments</h3>
-        <AppIcon name="sparkles" className="w-4 h-4 text-accent-amber" />
+        <AppIcon name="sparkles" className="w-4 h-4 text-warning" />
       </div>
 
       <div className="space-y-2">
@@ -52,7 +52,7 @@ export function DashboardProgressMoments({ moments }: DashboardProgressMomentsPr
               <div
                 className={`w-7 h-7 ${config.bg} rounded-full flex items-center justify-center shrink-0`}
               >
-                <AppIcon name={config.icon} className="w-3.5 h-3.5 text-white" />
+                <AppIcon name={config.icon} className="w-3.5 h-3.5 text-primary-foreground" />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-medium text-medium truncate">{moment.message}</p>

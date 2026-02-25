@@ -47,22 +47,23 @@ export function FlashcardViewer({
       >
         {/* Front of card */}
         <div
-          className="absolute inset-0 w-full h-full rounded-2xl bg-neutral-0 shadow-lg border border-neutral-200 p-6 flex flex-col"
+          className="absolute inset-0 w-full h-full rounded-2xl bg-background shadow-lg border border-border p-6 flex flex-col"
           style={{ backfaceVisibility: "hidden" }}
         >
-          <div className="flex items-center justify-between text-sm text-neutral-400 mb-4">
+          <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
             <span>Question</span>
-            <span className="text-primary-600 flex items-center gap-1">{topicName}</span>
+            <span className="text-primary flex items-center gap-1">{topicName}</span>
           </div>
 
           <div className="flex-1 flex items-center justify-center">
-            <p className="text-xl text-neutral-900 text-center font-medium px-4">
+            <p className="text-xl text-foreground text-center font-medium px-4">
               {card.front}
             </p>
           </div>
 
           <div className="flex items-center justify-between mt-4">
-            <p className="text-sm text-neutral-400">Tap to see the answer</p>
+            <p className="text-sm text-muted-foreground">Tap to see the answer</p>
+
 
             {showBuddyTrigger && (
               <div onClick={handleAskBuddy}>
@@ -84,9 +85,9 @@ export function FlashcardViewer({
             transform: "rotateY(180deg)",
           }}
         >
-          <div className="flex items-center justify-between text-sm text-neutral-400 mb-4">
+          <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
             <span>Answer</span>
-            <span className="text-primary-600 flex items-center gap-1">{topicName}</span>
+            <span className="text-primary flex items-center gap-1">{topicName}</span>
           </div>
 
           <div className="flex-1 flex items-center justify-center">

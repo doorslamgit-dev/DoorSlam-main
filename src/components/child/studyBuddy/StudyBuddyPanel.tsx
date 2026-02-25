@@ -452,7 +452,7 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-20 right-6 w-14 h-14 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105 flex items-center justify-center z-50"
+        className="fixed bottom-20 right-6 w-14 h-14 bg-gradient-to-br from-primary to-primary/90 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105 flex items-center justify-center z-50"
         aria-label="Open Study Buddy"
       >
         <AppIcon name={ICON_ROBOT} />
@@ -470,12 +470,12 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
         <button
           type="button"
           onClick={() => setIsMinimized(false)}
-          className="w-14 h-14 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105 flex items-center justify-center"
+          className="w-14 h-14 bg-gradient-to-br from-primary to-primary/90 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105 flex items-center justify-center"
           aria-label="Open Study Buddy"
         >
           <AppIcon name={ICON_ROBOT} />
           {messages.length > 0 && (
-            <span className="absolute -top-1 -right-1 w-5 h-5 bg-accent-red text-white text-xs rounded-full flex items-center justify-center">
+            <span className="absolute -top-1 -right-1 w-5 h-5 bg-destructive text-primary-foreground text-xs rounded-full flex items-center justify-center">
               {messages.length}
             </span>
           )}
@@ -489,15 +489,15 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
   // ===========================================================================
 
   return (
-    <div className="fixed bottom-20 right-6 w-80 sm:w-96 h-[500px] bg-neutral-50 rounded-2xl shadow-2xl flex flex-col overflow-hidden z-50 border border-neutral-200">
+    <div className="fixed bottom-20 right-6 w-80 sm:w-96 h-[500px] bg-muted rounded-2xl shadow-2xl flex flex-col overflow-hidden z-50 border border-border">
       {/* Header */}
-      <div className="bg-gradient-to-r from-primary-500 to-primary-700 px-4 py-3 flex items-center justify-between">
+      <div className="bg-gradient-to-r from-primary to-primary/90 px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
             <AppIcon name={ICON_ROBOT} />
           </div>
           <div>
-            <h3 className="text-white font-semibold text-sm">Study Buddy</h3>
+            <h3 className="text-primary-foreground font-semibold text-sm">Study Buddy</h3>
             <p className="text-white/70 text-xs">
               {messagesRemaining} messages left
             </p>
@@ -527,8 +527,8 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-3">
         {messages.length === 0 ? (
-          <div className="text-center text-neutral-500 py-8">
-            <div className="mx-auto w-fit text-neutral-300 mb-3">
+          <div className="text-center text-muted-foreground py-8">
+            <div className="mx-auto w-fit text-muted-foreground mb-3">
               <AppIcon name={ICON_CHAT} />
             </div>
             <p className="text-sm">Hi! I’m your Study Buddy</p>
@@ -536,7 +536,7 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
               Ask me anything about what you’re learning!
             </p>
             {canUseVoice && (
-              <p className="text-xs mt-2 text-primary-600">
+              <p className="text-xs mt-2 text-primary">
                 Tip: hold the mic button to ask with your voice
               </p>
             )}
@@ -556,14 +556,14 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
         {/* Thinking indicator */}
         {panelState === "thinking" && (
           <div className="flex items-start gap-2">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center flex-shrink-0">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-primary/90 flex items-center justify-center flex-shrink-0">
               <AppIcon name={ICON_ROBOT} />
             </div>
-            <div className="bg-neutral-0 rounded-2xl rounded-tl-none px-4 py-2 shadow-sm flex items-center gap-2">
+            <div className="bg-background rounded-2xl rounded-tl-none px-4 py-2 shadow-sm flex items-center gap-2">
               <span className="animate-spin">
                 <AppIcon name={ICON_SPINNER} />
               </span>
-              <span className="text-neutral-500 text-sm">Thinking…</span>
+              <span className="text-muted-foreground text-sm">Thinking…</span>
             </div>
           </div>
         )}
@@ -571,21 +571,21 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
         {/* Transcribing indicator */}
         {panelState === "transcribing" && (
           <div className="flex items-start gap-2">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center flex-shrink-0">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-primary/90 flex items-center justify-center flex-shrink-0">
               <AppIcon name={ICON_ROBOT} />
             </div>
-            <div className="bg-neutral-0 rounded-2xl rounded-tl-none px-4 py-2 shadow-sm flex items-center gap-2">
+            <div className="bg-background rounded-2xl rounded-tl-none px-4 py-2 shadow-sm flex items-center gap-2">
               <span className="animate-spin">
                 <AppIcon name={ICON_SPINNER} />
               </span>
-              <span className="text-neutral-500 text-sm">Processing voice…</span>
+              <span className="text-muted-foreground text-sm">Processing voice…</span>
             </div>
           </div>
         )}
 
         {/* Error message */}
         {error && (
-          <div className="bg-accent-red/5 border border-accent-red/20 rounded-lg p-3 text-accent-red text-sm">
+          <div className="bg-destructive/5 border border-destructive/20 rounded-lg p-3 text-destructive text-sm">
             {error}
             <button
               type="button"
@@ -602,8 +602,8 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
 
       {/* Voice quota indicator */}
       {canUseVoice && voiceInteractionsRemaining > 0 && panelState === "idle" && (
-        <div className="px-4 py-1 bg-primary-50 border-t border-primary-100">
-          <p className="text-xs text-primary-700 flex items-center gap-1">
+        <div className="px-4 py-1 bg-primary/5 border-t border-primary/10">
+          <p className="text-xs text-primary flex items-center gap-1">
             <AppIcon name={ICON_MIC} />
             <span>{voiceInteractionsRemaining} voice messages left</span>
           </p>
@@ -611,7 +611,7 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
       )}
 
       {/* Input area */}
-      <div className="p-3 border-t border-neutral-200 bg-neutral-0">
+      <div className="p-3 border-t border-neutral-200 bg-background">
         {messagesRemaining > 0 ? (
           <>
             {/* Recording state */}
@@ -689,7 +689,7 @@ export const StudyBuddyPanel: React.FC<StudyBuddyPanelProps> = ({
             )}
           </>
         ) : (
-          <div className="text-center text-neutral-500 text-sm py-2">
+          <div className="text-center text-muted-foreground text-sm py-2">
             You’ve used all your questions for this session.
             <br />
             Keep revising!

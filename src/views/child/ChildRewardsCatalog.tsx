@@ -19,12 +19,12 @@ import type {
 // Category styling
 function getCategoryStyle(code: string): { bg: string; text: string; icon: string } {
   const styles: Record<string, { bg: string; text: string; icon: string }> = {
-    screen_time: { bg: 'bg-info-bg', text: 'text-info', icon: 'monitor' },
+    screen_time: { bg: 'bg-info/10', text: 'text-info', icon: 'monitor' },
     treats: { bg: 'bg-pink-100', text: 'text-pink-600', icon: 'candy' },
-    activities: { bg: 'bg-success-bg', text: 'text-success', icon: 'ticket' },
-    pocket_money: { bg: 'bg-warning-bg', text: 'text-warning', icon: 'wallet' },
-    privileges: { bg: 'bg-primary-100', text: 'text-primary-600', icon: 'crown' },
-    custom: { bg: 'bg-neutral-100', text: 'text-neutral-600', icon: 'gift' },
+    activities: { bg: 'bg-success/10', text: 'text-success', icon: 'ticket' },
+    pocket_money: { bg: 'bg-warning/10', text: 'text-warning', icon: 'wallet' },
+    privileges: { bg: 'bg-primary/10', text: 'text-primary', icon: 'crown' },
+    custom: { bg: 'bg-secondary', text: 'text-muted-foreground', icon: 'gift' },
   };
   return styles[code] || styles.custom;
 }
@@ -184,11 +184,11 @@ export function ChildRewardsCatalog() {
   // Loading state
   if (loading) {
     return (
-      <PageLayout bgColor="bg-neutral-100">
+      <PageLayout bgColor="bg-secondary">
         <div className="flex items-center justify-center py-32">
           <div className="text-center">
-            <div className="w-8 h-8 border-2 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-            <p className="text-neutral-600">Loading rewards...</p>
+            <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+            <p className="text-muted-foreground">Loading rewards...</p>
           </div>
         </div>
       </PageLayout>
@@ -198,10 +198,10 @@ export function ChildRewardsCatalog() {
   // Error state
   if (error) {
     return (
-      <PageLayout bgColor="bg-neutral-100">
+      <PageLayout bgColor="bg-secondary">
         <div className="max-w-2xl mx-auto px-4 py-8">
-          <div className="bg-danger-bg border border-danger-border rounded-2xl p-6 text-center">
-            <p className="text-danger font-medium">{error}</p>
+          <div className="bg-destructive/10 border border-danger-border rounded-2xl p-6 text-center">
+            <p className="text-destructive font-medium">{error}</p>
           </div>
         </div>
       </PageLayout>
@@ -215,43 +215,43 @@ export function ChildRewardsCatalog() {
   const unlockedRewards = myRewards.filter(r => r.can_afford && r.is_available);
 
   return (
-    <PageLayout bgColor="bg-neutral-100">
+    <PageLayout bgColor="bg-secondary">
       <main className="max-w-[1120px] mx-auto px-4 py-6">
         
         {/* Page Header */}
         <section className="mb-6">
-          <h1 className="text-3xl font-bold text-primary-900 mb-2">My Rewards</h1>
-          <p className="text-neutral-500">
+          <h1 className="text-3xl font-bold text-primary mb-2">My Rewards</h1>
+          <p className="text-muted-foreground">
             Earn points from your revision sessions and spend them on rewards!
           </p>
         </section>
 
         {/* Hero Stats Card */}
         {dashboard && (
-          <section className="bg-gradient-to-br from-primary-600 to-primary-800 rounded-2xl p-6 text-white mb-6">
+          <section className="bg-gradient-to-br from-primary to-primary/80 rounded-2xl p-6 text-primary-foreground mb-6">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               {/* Points Balance - Large */}
               <div className="col-span-2 lg:col-span-1 bg-white/10 rounded-xl p-4">
                 <div className="flex items-center gap-2 mb-1">
                   <AppIcon name="star" className="w-5 h-5 text-warning" />
-                  <span className="text-white/80 text-sm">Points Balance</span>
+                  <span className="text-primary-foreground/80 text-sm">Points Balance</span>
                 </div>
                 <p className="text-4xl font-bold">{dashboard.points_balance}</p>
               </div>
               
               {/* Stats Grid */}
               <div className="bg-white/10 rounded-xl p-4">
-                <p className="text-white/80 text-sm mb-1">Total Earned</p>
+                <p className="text-primary-foreground/80 text-sm mb-1">Total Earned</p>
                 <p className="text-2xl font-bold">{dashboard.total_earned}</p>
               </div>
               
               <div className="bg-white/10 rounded-xl p-4">
-                <p className="text-white/80 text-sm mb-1">Rewards Unlocked</p>
+                <p className="text-primary-foreground/80 text-sm mb-1">Rewards Unlocked</p>
                 <p className="text-2xl font-bold">{dashboard.unlocked_count}</p>
               </div>
               
               <div className="bg-white/10 rounded-xl p-4">
-                <p className="text-white/80 text-sm mb-1">Rewards Redeemed</p>
+                <p className="text-primary-foreground/80 text-sm mb-1">Rewards Redeemed</p>
                 <p className="text-2xl font-bold">{dashboard.total_redeemed}</p>
               </div>
             </div>
@@ -262,25 +262,25 @@ export function ChildRewardsCatalog() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
           {/* Pending Redemptions */}
           {pendingRedemptions.length > 0 && (
-            <div className="bg-warning-bg rounded-2xl p-5 border border-warning-border">
-              <h3 className="font-semibold text-primary-900 mb-3 flex items-center gap-2">
+            <div className="bg-warning/10 rounded-2xl p-5 border border-warning-border">
+              <h3 className="font-semibold text-primary mb-3 flex items-center gap-2">
                 <AppIcon name="clock" className="w-5 h-5 text-warning" />
                 Waiting for Parent Approval
               </h3>
               <div className="space-y-2">
                 {pendingRedemptions.map((item) => (
-                  <div key={item.id} className="bg-neutral-0 rounded-xl p-3 flex items-center justify-between">
+                  <div key={item.id} className="bg-background rounded-xl p-3 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <AppIcon name="gift" className="w-5 h-5 text-warning flex-shrink-0" aria-hidden />
                       <div>
-                        <p className="font-medium text-neutral-900 text-sm">{item.reward_name}</p>
-                        <p className="text-xs text-neutral-500">{item.points_cost} points</p>
+                        <p className="font-medium text-foreground text-sm">{item.reward_name}</p>
+                        <p className="text-xs text-muted-foreground">{item.points_cost} points</p>
                       </div>
                     </div>
                     <button
                       onClick={() => handleCancelRedemption(item.id)}
                       disabled={actionLoading === item.id}
-                      className="text-xs text-neutral-500 hover:text-danger px-2 py-1"
+                      className="text-xs text-muted-foreground hover:text-destructive px-2 py-1"
                     >
                       Cancel
                     </button>
@@ -292,18 +292,18 @@ export function ChildRewardsCatalog() {
 
           {/* Pending Addition Requests */}
           {pendingAdditions.length > 0 && (
-            <div className="bg-primary-50 rounded-2xl p-5 border border-primary-200">
-              <h3 className="font-semibold text-primary-900 mb-3 flex items-center gap-2">
-                <AppIcon name="send" className="w-5 h-5 text-primary-600" />
+            <div className="bg-primary/5 rounded-2xl p-5 border border-primary/20">
+              <h3 className="font-semibold text-primary mb-3 flex items-center gap-2">
+                <AppIcon name="send" className="w-5 h-5 text-primary" />
                 Requests Sent to Parent
               </h3>
               <div className="space-y-2">
                 {pendingAdditions.map((item) => (
-                  <div key={item.id} className="bg-neutral-0 rounded-xl p-3 flex items-center gap-3">
+                  <div key={item.id} className="bg-background rounded-xl p-3 flex items-center gap-3">
                     <AppIcon name={getCategoryStyle(item.category_code).icon as import('../../components/ui/AppIcon').IconKey} className="w-5 h-5 flex-shrink-0" aria-hidden />
                     <div>
-                      <p className="font-medium text-neutral-900 text-sm">{item.template_name}</p>
-                      <p className="text-xs text-neutral-500">{item.category_name}</p>
+                      <p className="font-medium text-foreground text-sm">{item.template_name}</p>
+                      <p className="text-xs text-muted-foreground">{item.category_name}</p>
                     </div>
                   </div>
                 ))}
@@ -313,13 +313,13 @@ export function ChildRewardsCatalog() {
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex gap-2 mb-6 border-b border-neutral-200">
+        <div className="flex gap-2 mb-6 border-b border-border">
           <button
             onClick={() => setActiveTab('my-rewards')}
             className={`px-4 py-2 font-medium text-sm border-b-2 transition-colors ${
               activeTab === 'my-rewards'
-                ? 'border-primary-600 text-primary-600'
-                : 'border-transparent text-neutral-500 hover:text-neutral-700'
+                ? 'border-primary text-primary'
+                : 'border-transparent text-muted-foreground hover:text-foreground'
             }`}
           >
             My Rewards ({myRewards.length})
@@ -328,8 +328,8 @@ export function ChildRewardsCatalog() {
             onClick={() => setActiveTab('catalog')}
             className={`px-4 py-2 font-medium text-sm border-b-2 transition-colors ${
               activeTab === 'catalog'
-                ? 'border-primary-600 text-primary-600'
-                : 'border-transparent text-neutral-500 hover:text-neutral-700'
+                ? 'border-primary text-primary'
+                : 'border-transparent text-muted-foreground hover:text-foreground'
             }`}
           >
             Browse Catalog ({catalog.length})
@@ -338,8 +338,8 @@ export function ChildRewardsCatalog() {
             onClick={() => setActiveTab('history')}
             className={`px-4 py-2 font-medium text-sm border-b-2 transition-colors ${
               activeTab === 'history'
-                ? 'border-primary-600 text-primary-600'
-                : 'border-transparent text-neutral-500 hover:text-neutral-700'
+                ? 'border-primary text-primary'
+                : 'border-transparent text-muted-foreground hover:text-foreground'
             }`}
           >
             History ({history.length})
@@ -353,17 +353,17 @@ export function ChildRewardsCatalog() {
           {activeTab === 'my-rewards' && (
             <>
               {myRewards.length === 0 ? (
-                <div className="bg-neutral-0 rounded-2xl shadow-card p-8 text-center">
-                  <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <AppIcon name="gift" className="w-8 h-8 text-primary-600" />
+                <div className="bg-background rounded-2xl shadow-sm p-8 text-center">
+                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <AppIcon name="gift" className="w-8 h-8 text-primary" />
                   </div>
-                  <h3 className="text-lg font-semibold text-primary-900 mb-2">No rewards yet!</h3>
-                  <p className="text-neutral-600 mb-4">
+                  <h3 className="text-lg font-semibold text-primary mb-2">No rewards yet!</h3>
+                  <p className="text-muted-foreground mb-4">
                     Browse the catalog and ask your parent to add some rewards.
                   </p>
                   <button
                     onClick={() => setActiveTab('catalog')}
-                    className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
+                    className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90"
                   >
                     Browse Catalog
                   </button>
@@ -372,8 +372,8 @@ export function ChildRewardsCatalog() {
                 <>
                   {/* Unlocked - Ready to claim */}
                   {unlockedRewards.length > 0 && (
-                    <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
-                      <h3 className="text-lg font-semibold text-primary-900 mb-4 flex items-center gap-2">
+                    <div className="bg-background rounded-2xl shadow-sm p-6">
+                      <h3 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2">
                         <AppIcon name="unlock" className="w-5 h-5 text-accent-green" />
                         Ready to Claim!
                       </h3>
@@ -385,12 +385,12 @@ export function ChildRewardsCatalog() {
                               key={reward.id}
                               onClick={() => handleRequestRedemption(reward.id)}
                               disabled={actionLoading === reward.id}
-                              className="bg-neutral-50 rounded-2xl p-4 border-2 border-accent-green/30 hover:border-accent-green hover:shadow-md transition-all text-left disabled:opacity-50"
+                              className="bg-muted rounded-2xl p-4 border-2 border-accent-green/30 hover:border-accent-green hover:shadow-md transition-all text-left disabled:opacity-50"
                             >
                               <div className={`w-12 h-12 ${style.bg} rounded-xl flex items-center justify-center mb-3`}>
                                 <AppIcon name={style.icon as import('../../components/ui/AppIcon').IconKey} className={`w-6 h-6 ${style.text}`} aria-hidden />
                               </div>
-                              <p className="font-medium text-neutral-900 text-sm mb-1 line-clamp-2">
+                              <p className="font-medium text-foreground text-sm mb-1 line-clamp-2">
                                 {reward.name}
                               </p>
                               <p className="text-warning font-bold text-sm">
@@ -405,8 +405,8 @@ export function ChildRewardsCatalog() {
 
                   {/* Locked - Need more points */}
                   {myRewards.filter(r => !r.can_afford).length > 0 && (
-                    <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
-                      <h3 className="text-lg font-semibold text-neutral-500 mb-4">
+                    <div className="bg-background rounded-2xl shadow-sm p-6">
+                      <h3 className="text-lg font-semibold text-muted-foreground mb-4">
                         Keep Working Towards
                       </h3>
                       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -416,18 +416,18 @@ export function ChildRewardsCatalog() {
                           const progress = Math.min(100, ((dashboard?.points_balance || 0) / reward.points_cost) * 100);
 
                           return (
-                            <div key={reward.id} className="bg-neutral-50 rounded-2xl p-4 border border-neutral-200">
+                            <div key={reward.id} className="bg-muted rounded-2xl p-4 border border-border">
                               <div className={`w-12 h-12 ${style.bg} rounded-xl flex items-center justify-center mb-3 opacity-50`}>
                                 <AppIcon name={style.icon as import('../../components/ui/AppIcon').IconKey} className={`w-6 h-6 ${style.text}`} aria-hidden />
                               </div>
-                              <p className="font-medium text-neutral-700 text-sm mb-1 line-clamp-2">
+                              <p className="font-medium text-foreground text-sm mb-1 line-clamp-2">
                                 {reward.name}
                               </p>
-                              <p className="text-neutral-500 text-sm mb-2">{reward.points_cost} pts</p>
-                              <div className="h-1.5 bg-neutral-200 rounded-full overflow-hidden mb-1">
+                              <p className="text-muted-foreground text-sm mb-2">{reward.points_cost} pts</p>
+                              <div className="h-1.5 bg-muted rounded-full overflow-hidden mb-1">
                                 <div className="h-full bg-amber-400 rounded-full" style={{ width: `${progress}%` }} />
                               </div>
-                              <p className="text-xs text-neutral-400">{pointsNeeded} more needed</p>
+                              <p className="text-xs text-muted-foreground">{pointsNeeded} more needed</p>
                             </div>
                           );
                         })}
@@ -441,8 +441,8 @@ export function ChildRewardsCatalog() {
 
           {/* CATALOG TAB */}
           {activeTab === 'catalog' && (
-            <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
-              <p className="text-neutral-600 mb-4">
+            <div className="bg-background rounded-2xl shadow-sm p-6">
+              <p className="text-muted-foreground mb-4">
                 Browse all available rewards. Ask your parent to add ones you'd like!
               </p>
               
@@ -459,17 +459,17 @@ export function ChildRewardsCatalog() {
                         isAdded 
                           ? 'bg-accent-green/5 border-accent-green/30' 
                           : isPending
-                          ? 'bg-primary-50 border-primary-200'
-                          : 'bg-neutral-50 border-neutral-200 hover:border-primary-300'
+                          ? 'bg-primary/5 border-primary/20'
+                          : 'bg-muted border-border hover:border-primary'
                       }`}
                     >
                       <div className={`w-12 h-12 ${style.bg} rounded-xl flex items-center justify-center mb-3`}>
                         <AppIcon name={style.icon as import('../../components/ui/AppIcon').IconKey} className={`w-6 h-6 ${style.text}`} aria-hidden />
                       </div>
-                      <p className="font-medium text-neutral-900 text-sm mb-1 line-clamp-2">
+                      <p className="font-medium text-foreground text-sm mb-1 line-clamp-2">
                         {item.name}
                       </p>
-                      <p className="text-xs text-neutral-500 mb-2">{item.category_name}</p>
+                      <p className="text-xs text-muted-foreground mb-2">{item.category_name}</p>
                       <p className="text-warning font-bold text-sm mb-3">
                         ~{item.suggested_points} pts
                       </p>
@@ -480,7 +480,7 @@ export function ChildRewardsCatalog() {
                           In your list
                         </span>
                       ) : isPending ? (
-                        <span className="inline-flex items-center gap-1 text-xs text-primary-600 font-medium">
+                        <span className="inline-flex items-center gap-1 text-xs text-primary font-medium">
                           <AppIcon name="clock" className="w-3 h-3" />
                           Request sent
                         </span>
@@ -488,7 +488,7 @@ export function ChildRewardsCatalog() {
                         <button
                           onClick={() => handleRequestAddition(item.id)}
                           disabled={actionLoading === item.id}
-                          className="w-full py-1.5 text-xs font-medium text-primary-600 bg-primary-50 hover:bg-primary-100 rounded-lg transition-colors disabled:opacity-50"
+                          className="w-full py-1.5 text-xs font-medium text-primary bg-primary/5 hover:bg-primary/10 rounded-lg transition-colors disabled:opacity-50"
                         >
                           {actionLoading === item.id ? 'Sending...' : 'Ask Parent to Add'}
                         </button>
@@ -502,26 +502,26 @@ export function ChildRewardsCatalog() {
 
           {/* HISTORY TAB */}
           {activeTab === 'history' && (
-            <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
+            <div className="bg-background rounded-2xl shadow-sm p-6">
               {history.length === 0 ? (
                 <div className="text-center py-8">
-                  <div className="w-16 h-16 bg-neutral-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <AppIcon name="history" className="w-8 h-8 text-neutral-400" />
+                  <div className="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
+                    <AppIcon name="history" className="w-8 h-8 text-muted-foreground" />
                   </div>
-                  <h3 className="font-semibold text-neutral-900 mb-1">No history yet</h3>
-                  <p className="text-sm text-neutral-500">
+                  <h3 className="font-semibold text-foreground mb-1">No history yet</h3>
+                  <p className="text-sm text-muted-foreground">
                     Your redeemed rewards will appear here.
                   </p>
                 </div>
               ) : (
                 <div className="space-y-3">
                   {history.map((item) => (
-                    <div key={item.id} className="flex items-center justify-between p-3 bg-neutral-50 rounded-xl">
+                    <div key={item.id} className="flex items-center justify-between p-3 bg-muted rounded-xl">
                       <div className="flex items-center gap-3">
                         <AppIcon name="gift" className="w-5 h-5 text-warning flex-shrink-0" aria-hidden />
                         <div>
-                          <p className="font-medium text-neutral-900 text-sm">{item.reward_name}</p>
-                          <p className="text-xs text-neutral-500">
+                          <p className="font-medium text-foreground text-sm">{item.reward_name}</p>
+                          <p className="text-xs text-muted-foreground">
                             {new Date(item.requested_at).toLocaleDateString()}
                           </p>
                         </div>
@@ -529,9 +529,9 @@ export function ChildRewardsCatalog() {
                       <div className="flex items-center gap-2">
                         <span className="text-warning font-medium text-sm">-{item.points_cost}</span>
                         <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
-                          item.status === 'approved' ? 'bg-success-bg text-success' :
-                          item.status === 'declined' ? 'bg-danger-bg text-danger' :
-                          'bg-neutral-100 text-neutral-600'
+                          item.status === 'approved' ? 'bg-success/10 text-success' :
+                          item.status === 'declined' ? 'bg-destructive/10 text-destructive' :
+                          'bg-secondary text-muted-foreground'
                         }`}>
                           {item.status}
                         </span>

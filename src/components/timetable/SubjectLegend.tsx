@@ -11,8 +11,8 @@ export function SubjectLegend({ subjects }: SubjectLegendProps) {
   }
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-soft p-6">
-      <h3 className="text-sm font-semibold mb-4 text-neutral-700">
+    <div className="bg-background rounded-2xl shadow-soft p-6">
+      <h3 className="text-sm font-semibold mb-4 text-foreground">
         Subject Legend
       </h3>
       <div className="flex flex-wrap gap-6">
@@ -22,7 +22,7 @@ export function SubjectLegend({ subjects }: SubjectLegendProps) {
               className="w-4 h-4 rounded"
               style={{ backgroundColor: getSubjectColor(subject.subject_name) }}
             />
-            <span className="text-sm text-neutral-600">
+            <span className="text-sm text-muted-foreground">
               {subject.subject_name}
             </span>
           </div>

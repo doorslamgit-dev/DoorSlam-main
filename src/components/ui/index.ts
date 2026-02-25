@@ -6,45 +6,33 @@
  *
  * Usage:
  * import { Button, Card, Alert } from '@/components/ui';
- *
- * See UI_COMPONENTS.md for full documentation.
  */
 
-// Core Components
-export { default as Button } from "./Button";
+// ── DoorSlam components (shadcn-based with compat API) ──
+export { default as Button, buttonVariants } from "./Button";
 export type { ButtonProps, ButtonVariant, ButtonSize } from "./Button";
 
-export { default as Card } from "./Card";
+export { default as Card, CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, cardVariants } from "./Card";
 export type { CardProps, CardVariant, CardPadding } from "./Card";
 
-export { default as Alert } from "./Alert";
+export { default as Alert, AlertRoot, AlertTitle, AlertDescription, alertVariants } from "./Alert";
 export type { AlertProps, AlertVariant } from "./Alert";
 
 export { default as Modal } from "./Modal";
 export type { ModalProps } from "./Modal";
 
-export { default as Badge } from "./Badge";
-export { STATUS_TO_BADGE_VARIANT } from "./Badge";
+export { default as Badge, badgeVariants, STATUS_TO_BADGE_VARIANT } from "./Badge";
 export type { BadgeProps, BadgeVariant, BadgeSize, BadgeStyle } from "./Badge";
 
-// Form Components
 export { default as FormField } from "./FormField";
 export type { InputProps, TextareaProps } from "./FormField";
 
-// Feedback Components
 export { default as LoadingSpinner } from "./LoadingSpinner";
 export type { LoadingSpinnerProps, SpinnerSize, SpinnerVariant } from "./LoadingSpinner";
 
 export { default as EmptyState } from "./EmptyState";
 export type { EmptyStateProps, EmptyStateVariant } from "./EmptyState";
 
-// Existing Components
-export { default as AppIcon } from "./AppIcon";
-export type { IconKey } from "./AppIcon";
-
-export { default as ThemeToggle } from "./ThemeToggle";
-
-// Primitive Components (extracted from repeated inline patterns)
 export { default as ProgressBar } from "./ProgressBar";
 export type { ProgressBarProps, ProgressBarColor, ProgressBarSize } from "./ProgressBar";
 
@@ -60,4 +48,24 @@ export type { CircularProgressProps, CircularProgressColorToken, CircularProgres
 export { default as AvatarCircle } from "./AvatarCircle";
 export type { AvatarCircleProps, AvatarCircleSize, AvatarCircleColor } from "./AvatarCircle";
 
-// Note: ErrorBoundary is at src/components/ErrorBoundary.tsx (not in ui folder)
+export { default as AppIcon } from "./AppIcon";
+export type { IconKey } from "./AppIcon";
+
+export { default as ThemeToggle } from "./ThemeToggle";
+
+// ── shadcn primitives (direct imports for advanced use) ──
+export { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogTrigger, DialogClose } from "./dialog";
+export { Input } from "./input";
+export { Textarea } from "./textarea";
+export { Label } from "./label";
+export { Progress } from "./progress";
+export { Separator } from "./separator";
+export { Skeleton } from "./skeleton";
+export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./tooltip";
+export { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "./dropdown-menu";
+export { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs";
+export { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./select";
+export { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTrigger } from "./sheet";
+export { Switch } from "./switch";
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./accordion";
+export { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./table";

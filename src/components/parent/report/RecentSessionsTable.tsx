@@ -17,27 +17,27 @@ export function RecentSessionsTable({
 }: RecentSessionsTableProps) {
   return (
     <section className="mb-10 report-card page-break-before">
-      <h2 className="text-xl font-bold text-primary-900 mb-4">
+      <h2 className="text-xl font-bold text-primary mb-4">
         Recent Session History
       </h2>
 
       {recentSessions.length > 0 ? (
         <table className="w-full border-collapse text-sm">
           <thead>
-            <tr className="bg-neutral-50 border-b border-neutral-200/60">
-              <th className="text-left py-2 px-3 font-semibold text-primary-700">
+            <tr className="bg-muted border-b border-border">
+              <th className="text-left py-2 px-3 font-semibold text-primary">
                 Date
               </th>
-              <th className="text-left py-2 px-3 font-semibold text-primary-700">
+              <th className="text-left py-2 px-3 font-semibold text-primary">
                 Topic
               </th>
-              <th className="text-left py-2 px-3 font-semibold text-primary-700">
+              <th className="text-left py-2 px-3 font-semibold text-primary">
                 Subject
               </th>
-              <th className="text-center py-2 px-3 font-semibold text-primary-700">
+              <th className="text-center py-2 px-3 font-semibold text-primary">
                 Before
               </th>
-              <th className="text-center py-2 px-3 font-semibold text-primary-700">
+              <th className="text-center py-2 px-3 font-semibold text-primary">
                 After
               </th>
             </tr>
@@ -47,21 +47,21 @@ export function RecentSessionsTable({
             {recentSessions.map((session, idx) => (
               <tr
                 key={idx}
-                className={idx % 2 === 0 ? "bg-neutral-0" : "bg-neutral-50"}
+                className={idx % 2 === 0 ? "bg-background" : "bg-muted"}
               >
-                <td className="py-2 px-3 text-neutral-600">
+                <td className="py-2 px-3 text-muted-foreground">
                   {formatReportDate(session.date)}
                 </td>
-                <td className="py-2 px-3 font-medium text-primary-900">
+                <td className="py-2 px-3 font-medium text-primary">
                   {session.topic_name}
                 </td>
-                <td className="py-2 px-3 text-neutral-600">
+                <td className="py-2 px-3 text-muted-foreground">
                   {session.subject_name}
                 </td>
-                <td className="py-2 px-3 text-center text-neutral-600">
+                <td className="py-2 px-3 text-center text-muted-foreground">
                   {getConfidenceLabel(session.pre_confidence)}
                 </td>
-                <td className="py-2 px-3 text-center text-neutral-600">
+                <td className="py-2 px-3 text-center text-muted-foreground">
                   {getConfidenceLabel(session.post_confidence)}
                 </td>
               </tr>
@@ -69,7 +69,7 @@ export function RecentSessionsTable({
           </tbody>
         </table>
       ) : (
-        <p className="text-neutral-500 italic">
+        <p className="text-muted-foreground italic">
           No session history available.
         </p>
       )}

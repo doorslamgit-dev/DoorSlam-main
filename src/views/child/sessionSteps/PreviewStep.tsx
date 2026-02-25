@@ -52,7 +52,7 @@ export default function PreviewStep({
 
       {/* Focus Mode Section */}
       <section className="mb-6">
-        <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
+        <div className="bg-background rounded-2xl shadow-sm p-6">
           <FocusModeToggle
             isActive={state.socialMediaOff}
             onToggle={handlers.handleSocialMediaToggle}
@@ -63,17 +63,17 @@ export default function PreviewStep({
 
       {/* Pre-Confidence Section */}
       <section className="mb-6">
-        <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
+        <div className="bg-background rounded-2xl shadow-sm p-6">
           <div className="flex items-center space-x-3 mb-6">
-            <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
-              <AppIcon name="gauge" className="text-primary-600 w-6 h-6" />
+            <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+              <AppIcon name="gauge" className="text-primary w-6 h-6" />
             </div>
 
             <div className="flex-1">
-              <h2 className="text-xl font-bold text-primary-900">
+              <h2 className="text-xl font-bold text-primary">
                 How confident are you with this topic?
               </h2>
-              <p className="text-neutral-500 text-sm">
+              <p className="text-muted-foreground text-sm">
                 This helps us tailor the session to your needs
               </p>
             </div>
@@ -101,7 +101,7 @@ export default function PreviewStep({
         <button
           type="button"
           onClick={onExit}
-          className="text-neutral-500 hover:text-neutral-700 text-sm font-medium transition"
+          className="text-muted-foreground hover:text-foreground text-sm font-medium transition"
         >
           Not ready? Go back to dashboard
         </button>
