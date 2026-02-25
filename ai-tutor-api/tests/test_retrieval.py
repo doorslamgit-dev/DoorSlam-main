@@ -127,3 +127,27 @@ class TestFormatRetrievalContext:
         chunks = [_make_chunk(source_type="specification")]
         result = format_retrieval_context(chunks)
         assert "specification" in result
+
+    def test_rich_label_with_year_and_session(self):
+        """Source label includes year, session, and paper number when available."""
+        chunk = _make_chunk()
+        chunk.year = 2024
+        chunk.session = "June"
+        chunk.paper_number = "1"
+        result = format_retrieval_context([chunk])
+        assert "June 2024" in result
+        assert "Paper 1" in result
+
+    def test_chunk_type_in_label(self):
+        """Chunk type is shown in source label when not 'general'."""
+        chunk = _make_chunk()
+        chunk.chunk_metadata = {"chunk_type": "question"}
+        result = format_retrieval_context([chunk])
+        assert "Content type: question" in result
+
+    def test_chunk_type_general_not_shown(self):
+        """Chunk type 'general' is not explicitly shown in label."""
+        chunk = _make_chunk()
+        chunk.chunk_metadata = {"chunk_type": "general"}
+        result = format_retrieval_context([chunk])
+        assert "Content type" not in result

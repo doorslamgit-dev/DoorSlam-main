@@ -99,6 +99,8 @@ class TestClassifyBatch:
         assert results[0].primary_topic is not None
         assert results[0].primary_topic.topic_id == "topic-001"
         assert results[0].primary_topic.confidence == 0.9
+        # Default chunk_type when not provided by LLM
+        assert results[0].chunk_type == "general"
 
     @pytest.mark.anyio
     async def test_secondary_topics(self, monkeypatch):
@@ -229,6 +231,66 @@ class TestClassifyBatch:
                 source_type="specification",
                 doc_title="AQA Biology Spec",
             )
+
+    @pytest.mark.anyio
+    async def test_chunk_type_classified(self, monkeypatch):
+        """chunk_type is read from LLM response and stored on ChunkTopicResult."""
+        response = _make_llm_response([
+            {
+                "chunk_index": 0,
+                "primary_topic_number": 1,
+                "confidence": 0.9,
+                "secondary_topic_numbers": [],
+                "chunk_type": "question",
+            },
+            {
+                "chunk_index": 1,
+                "primary_topic_number": 2,
+                "confidence": 0.8,
+                "secondary_topic_numbers": [],
+                "chunk_type": "marking_criteria",
+            },
+        ])
+
+        mock_client = MagicMock()
+        mock_client.chat.completions.create = AsyncMock(return_value=response)
+
+        results = await _classify_batch(
+            client=mock_client,
+            chunks=[(0, "Q1. Describe the cell."), (1, "Award 1 mark for...")],
+            taxonomy=SAMPLE_TAXONOMY,
+            source_type="past_paper",
+            doc_title="Biology Paper 1 2024",
+        )
+
+        assert results[0].chunk_type == "question"
+        assert results[1].chunk_type == "marking_criteria"
+
+    @pytest.mark.anyio
+    async def test_invalid_chunk_type_defaults_to_general(self, monkeypatch):
+        """Invalid chunk_type from LLM falls back to 'general'."""
+        response = _make_llm_response([
+            {
+                "chunk_index": 0,
+                "primary_topic_number": 1,
+                "confidence": 0.9,
+                "secondary_topic_numbers": [],
+                "chunk_type": "not_a_valid_type",
+            },
+        ])
+
+        mock_client = MagicMock()
+        mock_client.chat.completions.create = AsyncMock(return_value=response)
+
+        results = await _classify_batch(
+            client=mock_client,
+            chunks=[(0, "Some content.")],
+            taxonomy=SAMPLE_TAXONOMY,
+            source_type="specification",
+            doc_title="AQA Biology Spec",
+        )
+
+        assert results[0].chunk_type == "general"
 
 
 class TestExtractTopicsForChunks:
