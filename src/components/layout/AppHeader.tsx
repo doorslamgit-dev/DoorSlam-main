@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 export default function AppHeader() {
   return (
-    <header className="bg-neutral-0 border-b border-neutral-200/60 sticky top-0 z-50">
+    <header className="bg-background border-b border-border sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
         <Link
@@ -30,8 +30,8 @@ export default function AppHeader() {
             className="h-14 w-auto hidden dark:block"
           />
           <div>
-            <div className="text-xl font-bold text-primary-900 leading-tight">Doorslam</div>
-            <div className="text-sm text-neutral-500">
+            <div className="text-xl font-bold text-primary leading-tight">Doorslam</div>
+            <div className="text-sm text-muted-foreground">
               Revision without the drama
             </div>
           </div>
@@ -41,19 +41,19 @@ export default function AppHeader() {
         <div className="flex items-center gap-2">
           <Link
             to="/pricing"
-            className="px-4 py-2 rounded-xl text-neutral-700 hover:bg-neutral-50 text-sm font-medium"
+            className="px-4 py-2 rounded-xl text-foreground hover:bg-accent text-sm font-medium"
           >
             Pricing
           </Link>
           <Link
             to="/login"
-            className="px-4 py-2 rounded-xl text-neutral-700 hover:bg-neutral-50 text-sm font-medium"
+            className="px-4 py-2 rounded-xl text-foreground hover:bg-accent text-sm font-medium"
           >
             Log in
           </Link>
           <Link
             to="/signup"
-            className="px-4 py-2 rounded-xl bg-primary-600 text-white text-sm font-semibold hover:bg-primary-700 transition-colors"
+            className="px-4 py-2 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-colors"
           >
             Sign up
           </Link>

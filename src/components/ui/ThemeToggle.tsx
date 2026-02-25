@@ -1,99 +1,91 @@
 // src/components/ui/ThemeToggle.tsx
+// Updated to use cn() and shadcn color tokens.
 
-import { useTheme } from '../../contexts/ThemeContext';
-import AppIcon from './AppIcon';
+import { useTheme } from "../../contexts/ThemeContext";
+import { cn } from "@/lib/utils";
+import AppIcon from "./AppIcon";
 
 interface ThemeToggleProps {
-  variant?: 'icon' | 'button' | 'switch';
+  variant?: "icon" | "button" | "switch";
   className?: string;
 }
 
-/**
- * Theme toggle component with multiple variants
- * @example
- * // Icon only (minimal)
- * <ThemeToggle variant="icon" />
- *
- * // Full button with label
- * <ThemeToggle variant="button" />
- *
- * // Switch style (default)
- * <ThemeToggle variant="switch" />
- */
-export default function ThemeToggle({ variant = 'switch', className = '' }: ThemeToggleProps) {
+export default function ThemeToggle({ variant = "switch", className }: ThemeToggleProps) {
   const { theme, toggleTheme } = useTheme();
-  const isDark = theme === 'dark';
+  const isDark = theme === "dark";
 
-  // Icon-only variant (minimal, for headers/navbars)
-  if (variant === 'icon') {
+  if (variant === "icon") {
     return (
       <button
         onClick={toggleTheme}
-        className={`p-2 rounded-lg hover:bg-neutral-100 transition-colors ${className}`}
-        aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
-        title={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+        className={cn("p-2 rounded-lg hover:bg-accent transition-colors", className)}
+        aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
+        title={`Switch to ${isDark ? "light" : "dark"} mode`}
       >
         {isDark ? (
           <AppIcon name="sun" className="w-5 h-5 text-warning" />
         ) : (
-          <AppIcon name="moon" className="w-5 h-5 text-neutral-600" />
+          <AppIcon name="moon" className="w-5 h-5 text-muted-foreground" />
         )}
       </button>
     );
   }
 
-  // Full button variant (for settings pages)
-  if (variant === 'button') {
+  if (variant === "button") {
     return (
       <button
         onClick={toggleTheme}
-        className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 border-neutral-200 hover:border-primary-300 dark:hover:border-primary-600 hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-all ${className}`}
-        aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+        className={cn(
+          "flex items-center gap-3 px-4 py-3 rounded-xl border-2 border-border hover:border-primary/30 hover:bg-primary/5 transition-all",
+          className
+        )}
+        aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
       >
-        <div className="w-10 h-10 rounded-lg bg-primary-100 dark:bg-primary-900 flex items-center justify-center">
+        <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
           {isDark ? (
-            <AppIcon name="moon" className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+            <AppIcon name="moon" className="w-5 h-5 text-primary" />
           ) : (
-            <AppIcon name="sun" className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+            <AppIcon name="sun" className="w-5 h-5 text-primary" />
           )}
         </div>
         <div className="flex-1 text-left">
-          <div className="font-semibold text-neutral-700">
-            {isDark ? 'Dark Mode' : 'Light Mode'}
+          <div className="font-semibold text-foreground">
+            {isDark ? "Dark Mode" : "Light Mode"}
           </div>
-          <div className="text-sm text-neutral-500">
-            {isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+          <div className="text-sm text-muted-foreground">
+            {isDark ? "Switch to light theme" : "Switch to dark theme"}
           </div>
         </div>
-        <AppIcon name="arrow-right" className="w-4 h-4 text-neutral-400" />
+        <AppIcon name="arrow-right" className="w-4 h-4 text-muted-foreground" />
       </button>
     );
   }
 
-  // Switch variant (default, toggle switch style)
+  // Switch variant (default)
   return (
     <button
       onClick={toggleTheme}
-      className={`relative inline-flex items-center gap-3 ${className}`}
+      className={cn("relative inline-flex items-center gap-3", className)}
       role="switch"
       aria-checked={isDark}
-      aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+      aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
     >
-      <div className="relative w-14 h-8 bg-neutral-200 rounded-full transition-colors">
+      <div className="relative w-14 h-8 bg-secondary rounded-full transition-colors">
         <div
-          className={`absolute top-1 left-1 w-6 h-6 bg-neutral-0 rounded-full shadow-md transition-transform duration-200 flex items-center justify-center ${
-            isDark ? 'translate-x-6' : 'translate-x-0'
-          }`}
+          className={cn(
+            "absolute top-1 left-1 w-6 h-6 bg-background rounded-full shadow-md transition-transform duration-200 flex items-center justify-center",
+            isDark ? "translate-x-6" : "translate-x-0"
+          )}
         >
           {isDark ? (
-            <AppIcon name="moon" className="w-3 h-3 text-neutral-700" />
+            <AppIcon name="moon" className="w-3 h-3 text-foreground" />
           ) : (
-            <AppIcon name="sun" className="w-3 h-3 text-primary-600" />
+            <AppIcon name="sun" className="w-3 h-3 text-primary" />
           )}
         </div>
       </div>
-      <span className="text-sm font-medium text-neutral-700">
-        {isDark ? 'Dark' : 'Light'} Mode
+      <span className="text-sm font-medium text-foreground">
+        {isDark ? "Dark" : "Light"} Mode
       </span>
     </button>
   );

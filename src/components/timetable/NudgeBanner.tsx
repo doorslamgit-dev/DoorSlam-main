@@ -33,15 +33,15 @@ export default function NudgeBanner({
       : "Consider reviewing the schedule to catch up.";
 
   return (
-    <div className="bg-neutral-800 rounded-xl px-4 py-3 flex items-center gap-3 max-w-md">
+    <div className="bg-foreground rounded-xl px-4 py-3 flex items-center gap-3 max-w-md">
       <div className="flex-shrink-0">
         <AppIcon name="triangle-alert" className="w-5 h-5 text-amber-400" />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium text-neutral-0 leading-tight">
+        <p className="text-sm font-medium text-background leading-tight">
           Nudge: {nudgeText}
         </p>
-        <p className="text-xs text-neutral-400 mt-0.5 leading-tight">
+        <p className="text-xs text-muted-foreground mt-0.5 leading-tight">
           {nudgeDetail}
         </p>
       </div>

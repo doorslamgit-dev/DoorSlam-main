@@ -1,18 +1,14 @@
 // src/components/parent/dashboard/DashboardHeroCard.tsx
-// "This Week's Story" — compact hero card matching design wireframe
-
+// "This Week's Story" — hero card with KPI stats and next best action
 
 import AppIcon from '../../ui/AppIcon';
-import type {
-  ChildSummary,
-  DailyPattern,
-  SubjectCoverage,
-} from '../../../types/parent/parentDashboardTypes';
+import Button from '../../ui/Button';
+import StatCard from '../../ui/StatCard';
+import type { ChildSummary, SubjectCoverage } from '../../../types/parent/parentDashboardTypes';
 import type { PlanCoverageOverview } from '../../../services/timetableService';
 
 interface DashboardHeroCardProps {
   child: ChildSummary | null;
-  dailyPattern: DailyPattern[];
   childCoverage: SubjectCoverage[];
   onActionClick: (action: string) => void;
   onViewDetailedBreakdown: () => void;
@@ -24,18 +20,13 @@ interface DashboardHeroCardProps {
 
 function HeroSkeleton() {
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-5 border border-neutral-200/50 animate-pulse h-full">
-      <div className="h-5 bg-neutral-200 rounded w-40 mb-3" />
-      <div className="h-3 bg-neutral-100 rounded w-64 mb-4" />
-      <div className="flex gap-2 mb-4">
-        {[1, 2, 3, 4, 5, 6, 7].map((i) => (
-          <div key={i} className="h-8 w-12 bg-neutral-100 rounded-lg flex-1" />
-        ))}
-      </div>
+    <div className="bg-background rounded-2xl shadow-sm p-5 border border-default animate-pulse h-full">
+      <div className="h-5 bg-muted rounded w-40 mb-3" />
+      <div className="h-3 bg-secondary rounded w-64 mb-6" />
       <div className="grid grid-cols-3 gap-3">
-        <div className="h-16 bg-neutral-100 rounded-lg" />
-        <div className="h-16 bg-neutral-100 rounded-lg" />
-        <div className="h-16 bg-neutral-100 rounded-lg" />
+        <div className="h-16 bg-secondary rounded-lg" />
+        <div className="h-16 bg-secondary rounded-lg" />
+        <div className="h-16 bg-secondary rounded-lg" />
       </div>
     </div>
   );
@@ -54,7 +45,6 @@ function generateHeroSentence(child: ChildSummary): string {
   return `${total} sessions planned — time to get started!`;
 }
 
-/** Get the Monday-based week label, e.g. "Week 12 February" */
 function getWeekLabel(): string {
   const now = new Date();
   const weekNum = getISOWeek(now);
@@ -90,28 +80,21 @@ function NextBestAction({
 
   if (needsSchedule) {
     return (
-      <div className="bg-primary-50 rounded-lg p-3 mt-auto border border-primary-200/50">
+      <div className="bg-primary/5 rounded-lg p-3 mt-auto border border-primary/20">
         <div className="flex items-center gap-1.5 mb-1">
-          <AppIcon name="calendar-plus" className="w-3.5 h-3.5 text-primary-600" />
-          <span className="text-xs font-semibold text-neutral-700">Next Best Action</span>
+          <AppIcon name="calendar-plus" className="w-3.5 h-3.5 text-primary" />
+          <span className="text-xs font-semibold text-dark">Next Best Action</span>
         </div>
-        <p className="text-xs text-neutral-500 mb-2.5">
+        <p className="text-xs text-muted mb-2.5">
           Complete {child.first_name}&apos;s revision schedule to start generating sessions.
         </p>
         <div className="flex flex-wrap gap-2">
-          <button
-            onClick={onSetupSchedule}
-            className="px-3 py-1.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition font-medium text-xs"
-          >
+          <Button variant="primary" size="sm" onClick={onSetupSchedule}>
             Complete Schedule Setup
-          </button>
-          <button
-            disabled
-            className="px-3 py-1.5 bg-neutral-100 text-neutral-400 rounded-lg font-medium text-xs cursor-not-allowed"
-            title="Complete the schedule first"
-          >
+          </Button>
+          <Button variant="secondary" size="sm" disabled title="Complete the schedule first">
             Invite {child.first_name}
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -119,27 +102,21 @@ function NextBestAction({
 
   if (needsInvite) {
     return (
-      <div className="bg-accent-green/5 rounded-lg p-3 mt-auto border border-accent-green/20">
+      <div className="bg-success/10 rounded-lg p-3 mt-auto border border-success-border">
         <div className="flex items-center gap-1.5 mb-1">
-          <AppIcon name="user-plus" className="w-3.5 h-3.5 text-accent-green" />
-          <span className="text-xs font-semibold text-neutral-700">Next Best Action</span>
+          <AppIcon name="user-plus" className="w-3.5 h-3.5 text-success" />
+          <span className="text-xs font-semibold text-dark">Next Best Action</span>
         </div>
-        <p className="text-xs text-neutral-500 mb-2.5">
+        <p className="text-xs text-muted mb-2.5">
           Schedule is ready! Invite {child.first_name} so they can start their sessions.
         </p>
         <div className="flex flex-wrap gap-2">
-          <button
-            onClick={onInviteChild}
-            className="px-3 py-1.5 bg-accent-green text-white rounded-lg hover:opacity-90 transition font-medium text-xs"
-          >
+          <Button variant="primary" size="sm" onClick={onInviteChild}>
             Invite {child.first_name}
-          </button>
-          <button
-            onClick={() => onActionClick('adjust-plan')}
-            className="px-3 py-1.5 bg-neutral-0 border border-neutral-200 text-neutral-600 rounded-lg hover:bg-neutral-100 transition font-medium text-xs"
-          >
+          </Button>
+          <Button variant="secondary" size="sm" onClick={() => onActionClick('adjust-plan')}>
             Review Schedule
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -147,39 +124,27 @@ function NextBestAction({
 
   // Fully set up — normal action buttons
   return (
-    <div className="bg-neutral-50 rounded-lg p-3 mt-auto">
+    <div className="bg-muted rounded-lg p-3 mt-auto">
       <div className="flex items-center gap-1.5 mb-1">
         <AppIcon name="lightbulb" className="w-3.5 h-3.5 text-warning" />
-        <span className="text-xs font-semibold text-neutral-700">Next Best Action</span>
+        <span className="text-xs font-semibold text-dark">Next Best Action</span>
       </div>
-      <p className="text-xs text-neutral-500 mb-2.5">
+      <p className="text-xs text-muted mb-2.5">
         {child.insight_message || 'Keep up the current routine.'}
       </p>
       <div className="flex flex-wrap gap-2">
-        <button
-          onClick={() => onActionClick('adjust-plan')}
-          className="px-3 py-1.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition font-medium text-xs"
-        >
+        <Button variant="primary" size="sm" onClick={() => onActionClick('adjust-plan')}>
           Adjust Next Week&apos;s Plan
-        </button>
-        <button
-          onClick={() => onActionClick('keep-plan')}
-          className="px-3 py-1.5 bg-neutral-0 border border-neutral-200 text-neutral-600 rounded-lg hover:bg-neutral-100 transition font-medium text-xs"
-        >
+        </Button>
+        <Button variant="secondary" size="sm" onClick={() => onActionClick('keep-plan')}>
           Keep Plan As-Is
-        </button>
-        <button
-          onClick={() => onActionClick('review-topics')}
-          className="px-3 py-1.5 bg-neutral-0 border border-neutral-200 text-neutral-600 rounded-lg hover:bg-neutral-100 transition font-medium text-xs"
-        >
+        </Button>
+        <Button variant="secondary" size="sm" onClick={() => onActionClick('review-topics')}>
           Review Tricky Topics
-        </button>
-        <button
-          onClick={() => onActionClick('export')}
-          className="px-3 py-1.5 bg-neutral-0 border border-neutral-200 text-neutral-600 rounded-lg hover:bg-neutral-100 transition font-medium text-xs"
-        >
+        </Button>
+        <Button variant="secondary" size="sm" onClick={() => onActionClick('export')}>
           Export Report
-        </button>
+        </Button>
       </div>
     </div>
   );
@@ -187,7 +152,6 @@ function NextBestAction({
 
 export function DashboardHeroCard({
   child,
-  dailyPattern,
   childCoverage: _childCoverage,
   onActionClick,
   planOverview,
@@ -201,89 +165,51 @@ export function DashboardHeroCard({
   const sessionsCompleted = child.week_sessions_completed;
   const sessionsTotal = child.week_sessions_total;
 
-  // Determine today's day index (0=Mon ... 6=Sun)
-  const todayIdx = (new Date().getDay() + 6) % 7;
-
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-5 border border-neutral-200/50 h-full flex flex-col">
-      {/* Header row: title + week nav */}
+    <div className="bg-background rounded-2xl shadow-sm p-5 border border-default h-full flex flex-col">
+      {/* Header row: title + week label */}
       <div className="flex items-center justify-between mb-1">
-        <h2 className="text-base font-bold text-neutral-800">This Week&apos;s Story</h2>
-        <div className="flex items-center gap-2 text-xs text-neutral-500">
+        <h2 className="text-base font-bold text-dark">This Week&apos;s Story</h2>
+        <div className="flex items-center gap-2 text-xs text-muted">
           <span>{getWeekLabel()}</span>
-          <AppIcon name="calendar" className="w-3.5 h-3.5 text-neutral-400" />
-          <button className="p-0.5 hover:bg-neutral-100 rounded" aria-label="Previous week">
-            <AppIcon name="chevron-left" className="w-3.5 h-3.5 text-neutral-400" />
+          <AppIcon name="calendar" className="w-3.5 h-3.5" />
+          <button className="p-0.5 hover:bg-accent rounded" aria-label="Previous week">
+            <AppIcon name="chevron-left" className="w-3.5 h-3.5" />
           </button>
-          <button className="p-0.5 hover:bg-neutral-100 rounded" aria-label="Next week">
-            <AppIcon name="chevron-right" className="w-3.5 h-3.5 text-neutral-400" />
+          <button className="p-0.5 hover:bg-accent rounded" aria-label="Next week">
+            <AppIcon name="chevron-right" className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>
 
       {/* Narrative one-liner */}
-      <p className="text-sm text-neutral-500 mb-3">{heroSentence}</p>
+      <p className="text-sm text-muted mb-3">{heroSentence}</p>
 
-      {/* Compact day strip */}
-      {dailyPattern.length > 0 && (
-        <div className="flex gap-1.5 mb-4">
-          {dailyPattern.map((day, idx) => {
-            const isToday = idx === todayIdx;
-            const isDone = day.sessions_completed >= day.sessions_total && day.sessions_total > 0;
-            const inProgress = !isDone && day.sessions_completed > 0;
-
-            let pillClass = 'bg-neutral-100 text-neutral-500';
-            let label = day.day_name_short;
-
-            if (isDone) {
-              pillClass = 'bg-primary-600 text-white';
-            } else if (inProgress) {
-              pillClass = 'bg-primary-100 text-primary-700';
-              label = 'In Progress';
-            } else if (isToday) {
-              pillClass = 'bg-neutral-200 text-neutral-700';
-            }
-
-            return (
-              <div
-                key={day.day_of_week}
-                className={`flex-1 text-center py-1.5 rounded-lg text-xs font-medium ${pillClass}`}
-              >
-                {label}
-              </div>
-            );
-          })}
-        </div>
-      )}
-
-      {/* 3 compact KPI cards */}
+      {/* 3 KPI cells — using StatCard primitive */}
       <div className="grid grid-cols-3 gap-3 mb-4">
-        <div className="bg-neutral-50 rounded-lg p-3">
-          <p className="text-[11px] text-neutral-500 mb-1">Sessions Completed</p>
-          <p className="text-lg font-bold text-primary-900">
-            {sessionsCompleted}/{sessionsTotal}
-          </p>
-          <p className="text-[10px] text-neutral-400">
-            {sessionsTotal > 0
+        <StatCard
+          label="Sessions Completed"
+          value={`${sessionsCompleted}/${sessionsTotal}`}
+          sublabel={
+            sessionsTotal > 0
               ? `${Math.round((sessionsCompleted / sessionsTotal) * 100)}% completion rate`
-              : 'None planned'}
-          </p>
-        </div>
-        <div className="bg-neutral-50 rounded-lg p-3">
-          <p className="text-[11px] text-neutral-500 mb-1">Avg Confidence Change</p>
-          <p className="text-lg font-bold text-accent-green">0%</p>
-          <p className="text-[10px] text-neutral-400">Pre → Post session growth</p>
-        </div>
-        <div className="bg-neutral-50 rounded-lg p-3">
-          <p className="text-[11px] text-neutral-500 mb-1">Focus Mode Usage</p>
-          <p className="text-lg font-bold text-primary-900">0/0</p>
-          <p className="text-[10px] text-neutral-400">
-            Used in 0% of sessions
-          </p>
-        </div>
+              : 'None planned'
+          }
+        />
+        <StatCard
+          label="Avg Confidence Change"
+          value="0%"
+          valueColor="success"
+          sublabel="Pre → Post session growth"
+        />
+        <StatCard
+          label="Focus Mode Usage"
+          value="0/0"
+          sublabel="Used in 0% of sessions"
+        />
       </div>
 
-      {/* Next Best Action — conditional based on setup state */}
+      {/* Next Best Action — conditional on setup state */}
       <NextBestAction
         child={child}
         planOverview={planOverview}

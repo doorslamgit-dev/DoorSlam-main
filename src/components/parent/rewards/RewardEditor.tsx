@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 import AppIcon from '../../ui/AppIcon';
 import Button from '../../ui/Button';
 import FormField from '../../ui/FormField';
-import Select from '../../ui/Select';
 import type {
   ChildReward,
   RewardCategory,
@@ -184,22 +183,28 @@ export function RewardEditor({
           {/* Limit Settings */}
           <div>
             <div className="flex gap-2">
-              <Select
-                label="Limit (Optional)"
-                options={[
-                  { value: '', label: 'No limit' },
-                  { value: 'per_day', label: 'Per day' },
-                  { value: 'per_week', label: 'Per week' },
-                  { value: 'per_month', label: 'Per month' },
-                ]}
-                value={formData.limit_type || ''}
-                onChange={(val) => setFormData(prev => ({
-                  ...prev,
-                  limit_type: (val || null) as LimitType,
-                  limit_count: val ? (prev.limit_count || 1) : undefined,
-                }))}
-                className="flex-1"
-              />
+              <div className="flex-1">
+                <label className="block text-sm font-medium text-foreground mb-1">
+                  Limit (Optional)
+                </label>
+                <select
+                  value={formData.limit_type || ''}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setFormData(prev => ({
+                      ...prev,
+                      limit_type: (val || null) as LimitType,
+                      limit_count: val ? (prev.limit_count || 1) : undefined,
+                    }));
+                  }}
+                  className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                >
+                  <option value="">No limit</option>
+                  <option value="per_day">Per day</option>
+                  <option value="per_week">Per week</option>
+                  <option value="per_month">Per month</option>
+                </select>
+              </div>
               {formData.limit_type && (
                 <FormField
                   label="Max"

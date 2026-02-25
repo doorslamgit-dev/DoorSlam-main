@@ -40,11 +40,11 @@ export function SubjectProgressHeader({
   const ui = getStatusUI(status);
 
   return (
-    <div className="bg-gradient-to-br from-primary-50 to-white rounded-2xl shadow-card p-8">
+    <div className="bg-gradient-to-br from-primary/5 to-white rounded-2xl shadow-sm p-8">
       {/* Header */}
       <div className="mb-6">
         <div className="flex items-center gap-3 mb-2 flex-wrap">
-          <h1 className="text-2xl md:text-3xl font-bold text-primary-900">
+          <h1 className="text-2xl md:text-3xl font-bold text-primary">
             {headline}
           </h1>
 
@@ -58,7 +58,7 @@ export function SubjectProgressHeader({
           )}
         </div>
 
-        <p className="text-neutral-600 max-w-xl">{message}</p>
+        <p className="text-muted-foreground max-w-xl">{message}</p>
       </div>
 
       {/* Action Buttons */}

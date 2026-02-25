@@ -10,7 +10,7 @@ export default function SessionStatus({ status, isLocked }: SessionStatusProps) 
   // (If something is locked, it can't meaningfully be "ready" or "in progress")
   if (status === "completed") {
     return (
-      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-success-bg text-success text-xs font-medium">
+      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-success/10 text-success text-xs font-medium">
         <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
           <path
             fillRule="evenodd"
@@ -25,7 +25,7 @@ export default function SessionStatus({ status, isLocked }: SessionStatusProps) 
 
   if (isLocked) {
     return (
-      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-neutral-100 text-neutral-500 text-xs font-medium">
+      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary text-muted-foreground text-xs font-medium">
         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
             strokeLinecap="round"
@@ -41,7 +41,7 @@ export default function SessionStatus({ status, isLocked }: SessionStatusProps) 
 
   if (status === "started") {
     return (
-      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-warning-bg text-warning text-xs font-medium">
+      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-warning/10 text-warning text-xs font-medium">
         <div className="w-1.5 h-1.5 rounded-full bg-warning animate-pulse" />
         In progress
       </span>
@@ -49,8 +49,8 @@ export default function SessionStatus({ status, isLocked }: SessionStatusProps) 
   }
 
   return (
-    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary-100 text-primary-700 text-xs font-medium">
-      <div className="w-1.5 h-1.5 rounded-full bg-primary-600" />
+    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-medium">
+      <div className="w-1.5 h-1.5 rounded-full bg-primary" />
       Ready
     </span>
   );

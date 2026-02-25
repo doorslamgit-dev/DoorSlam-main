@@ -11,7 +11,6 @@ export const CONFIDENCE_OPTIONS: ConfidenceOption[] = [
   {
     id: "very_confident",
     label: "Got it!",
-    emoji: "😊",
     description: "I could teach this to a friend",
     icon: "rocket",
     bgColor: "bg-neutral-0",
@@ -21,9 +20,8 @@ export const CONFIDENCE_OPTIONS: ConfidenceOption[] = [
   {
     id: "fairly_confident",
     label: "Pretty good",
-    emoji: "🙂",
     description: "I understand most of it",
-    icon: "check",
+    icon: "check-circle",
     bgColor: "bg-neutral-0",
     selectedBg: "bg-info-bg",
     selectedBorder: "border-blue-500",
@@ -31,9 +29,8 @@ export const CONFIDENCE_OPTIONS: ConfidenceOption[] = [
   {
     id: "bit_unsure",
     label: "A bit wobbly",
-    emoji: "🤔",
     description: "Some parts are still unclear",
-    icon: "circle-question",
+    icon: "circle-help",
     bgColor: "bg-neutral-0",
     selectedBg: "bg-warning-bg",
     selectedBorder: "border-amber-500",
@@ -41,7 +38,6 @@ export const CONFIDENCE_OPTIONS: ConfidenceOption[] = [
   {
     id: "need_help",
     label: "Need more practice",
-    emoji: "😅",
     description: "I'd like to go over this again",
     icon: "hand-heart",
     bgColor: "bg-neutral-0",

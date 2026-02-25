@@ -27,20 +27,20 @@ export default function StepProgressBar({
   const progressPercent = (safeCurrent / safeTotal) * 100;
 
   return (
-    <div className="bg-neutral-0 border-b border-neutral-200 py-4">
+    <div className="bg-background border-b border-border py-4">
       <div className="max-w-4xl mx-auto px-4">
         <div className="flex items-center justify-between mb-3">
-          <p className="text-neutral-600 text-sm">
+          <p className="text-muted-foreground text-sm">
             {STEP_LABELS[STEP_ORDER[safeCurrent - 1] ?? "preview"]}
           </p>
 
           <div className="flex items-center gap-4">
-            <span className="text-neutral-500 text-sm">
+            <span className="text-muted-foreground text-sm">
               {safeCurrent} of {safeTotal} steps
             </span>
 
             {timeRemainingMinutes !== null && (
-              <div className="flex items-center gap-1 text-neutral-500 text-sm">
+              <div className="flex items-center gap-1 text-muted-foreground text-sm">
                 <span className="text-xs" aria-hidden="true">
                   <AppIcon name={ICON_CLOCK} />
                 </span>
@@ -50,9 +50,9 @@ export default function StepProgressBar({
           </div>
         </div>
 
-        <div className="w-full bg-neutral-200 rounded-full h-2 mb-4">
+        <div className="w-full bg-border rounded-full h-2 mb-4">
           <div
-            className="bg-primary-600 h-full rounded-full transition-all duration-500"
+            className="bg-primary h-full rounded-full transition-all duration-500"
             style={{ width: `${progressPercent}%` }}
           />
         </div>
@@ -68,21 +68,21 @@ export default function StepProgressBar({
                 <div
                   className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
                     isComplete
-                      ? "bg-accent-green"
+                      ? "bg-success"
                       : isCurrent
-                      ? "bg-primary-600"
-                      : "bg-neutral-200"
+                      ? "bg-primary"
+                      : "bg-border"
                   }`}
                   aria-hidden="true"
                 >
                   {isComplete ? (
-                    <span className="text-white text-sm">
+                    <span className="text-primary-foreground text-sm">
                       <AppIcon name={ICON_CHECK} />
                     </span>
                   ) : (
                     <span
                       className={`text-sm font-semibold ${
-                        isCurrent ? "text-white" : "text-neutral-500"
+                        isCurrent ? "text-primary-foreground" : "text-muted-foreground"
                       }`}
                     >
                       {idx + 1}
@@ -92,7 +92,7 @@ export default function StepProgressBar({
 
                 <span
                   className={`text-xs mt-1 hidden md:block ${
-                    isCurrent ? "text-primary-600 font-semibold" : "text-neutral-400"
+                    isCurrent ? "text-primary font-semibold" : "text-muted-foreground"
                   }`}
                 >
                   {STEP_LABELS[stepKey]}

@@ -38,23 +38,23 @@ export function TimetableControls({
         <div className="flex items-center gap-2">
           <button
             onClick={onPrevious}
-            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-neutral-100 transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-accent transition-colors"
           >
             <AppIcon
               name="chevron-left"
-              className="w-4 h-4 text-neutral-600"
+              className="w-4 h-4 text-muted-foreground"
             />
           </button>
-          <h3 className="text-base font-semibold min-w-[160px] text-center text-neutral-700">
+          <h3 className="text-base font-semibold min-w-[160px] text-center text-foreground">
             {formatDateRange(viewMode, referenceDate)}
           </h3>
           <button
             onClick={onNext}
-            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-neutral-100 transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-accent transition-colors"
           >
             <AppIcon
               name="chevron-right"
-              className="w-4 h-4 text-neutral-600"
+              className="w-4 h-4 text-muted-foreground"
             />
           </button>
         </div>
@@ -67,8 +67,8 @@ export function TimetableControls({
               onClick={() => handleViewModeClick(mode)}
               className={`px-3.5 py-1.5 border rounded-full text-sm font-medium transition-colors ${
                 viewMode === mode
-                  ? "bg-primary-600 border-primary-600 text-neutral-0"
-                  : "bg-neutral-0 border-neutral-200 text-neutral-600 hover:border-neutral-300"
+                  ? "bg-primary border-primary text-primary-foreground"
+                  : "bg-background border-border text-muted-foreground hover:border-input"
               }`}
             >
               {mode.charAt(0).toUpperCase() + mode.slice(1)}
@@ -91,7 +91,7 @@ export function TimetableControls({
                   backgroundColor: getSubjectColor(subject.subject_name),
                 }}
               />
-              <span className="text-xs text-neutral-500">
+              <span className="text-xs text-muted-foreground">
                 {subject.subject_name}
               </span>
             </div>

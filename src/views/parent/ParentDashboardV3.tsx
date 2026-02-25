@@ -20,21 +20,21 @@ const DashboardInviteModal = lazy(
 
 function DashboardSkeleton() {
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <div className="min-h-screen bg-transparent">
       <div className="max-w-content mx-auto px-6 py-8">
-        <div className="h-8 bg-neutral-200 rounded w-40 mb-4 animate-pulse" />
-        <div className="bg-neutral-0 rounded-2xl shadow-card p-8 animate-pulse mb-8">
-          <div className="h-8 bg-primary-100 rounded w-1/3 mb-4" />
-          <div className="h-4 bg-primary-100 rounded w-2/3 mb-8" />
+        <div className="h-8 bg-border rounded w-40 mb-4 animate-pulse" />
+        <div className="bg-background rounded-2xl shadow-sm p-8 animate-pulse mb-8">
+          <div className="h-8 bg-primary/10 rounded w-1/3 mb-4" />
+          <div className="h-4 bg-primary/10 rounded w-2/3 mb-8" />
           <div className="grid grid-cols-3 gap-4">
-            <div className="h-24 bg-neutral-100 rounded-xl" />
-            <div className="h-24 bg-neutral-100 rounded-xl" />
-            <div className="h-24 bg-neutral-100 rounded-xl" />
+            <div className="h-24 bg-secondary rounded-xl" />
+            <div className="h-24 bg-secondary rounded-xl" />
+            <div className="h-24 bg-secondary rounded-xl" />
           </div>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          <div className="h-64 bg-neutral-0 rounded-2xl shadow-card animate-pulse" />
-          <div className="h-64 bg-neutral-0 rounded-2xl shadow-card animate-pulse" />
+          <div className="h-64 bg-background rounded-2xl shadow-sm animate-pulse" />
+          <div className="h-64 bg-background rounded-2xl shadow-sm animate-pulse" />
         </div>
       </div>
     </div>
@@ -43,15 +43,15 @@ function DashboardSkeleton() {
 
 function ErrorState({ message, onRetry }: { message: string; onRetry: () => void }) {
   return (
-    <div className="bg-accent-red/5 border border-accent-red/20 rounded-2xl p-8 text-center">
-      <div className="w-16 h-16 bg-accent-red/10 rounded-full flex items-center justify-center mx-auto mb-4">
-        <AppIcon name="triangle-alert" className="w-8 h-8 text-accent-red" />
+    <div className="bg-destructive/5 border border-destructive/20 rounded-2xl p-8 text-center">
+      <div className="w-16 h-16 bg-destructive/10 rounded-full flex items-center justify-center mx-auto mb-4">
+        <AppIcon name="triangle-alert" className="w-8 h-8 text-destructive" />
       </div>
-      <h3 className="text-lg font-bold text-primary-900 mb-2">Something went wrong</h3>
-      <p className="text-neutral-600 mb-4">{message}</p>
+      <h3 className="text-lg font-bold text-foreground mb-2">Something went wrong</h3>
+      <p className="text-muted-foreground mb-4">{message}</p>
       <button
         onClick={onRetry}
-        className="px-6 py-3 bg-primary-600 text-white rounded-xl font-semibold hover:bg-primary-700 transition-colors"
+        className="px-6 py-3 bg-primary text-primary-foreground rounded-xl font-semibold hover:bg-primary/90 transition-colors"
       >
         Try again
       </button>
@@ -66,7 +66,7 @@ function ParentDashboardV3Inner() {
     data,
     selectedChild,
     selectedChildId,
-    dailyPattern,
+    dailyPattern: _dailyPattern,
     childComingUp,
     childCoverage,
     childMoments,
@@ -143,7 +143,7 @@ function ParentDashboardV3Inner() {
   // Error state
   if (error) {
     return (
-      <div className="min-h-screen bg-neutral-50">
+      <div className="min-h-screen bg-transparent">
         <div className="max-w-content mx-auto px-6 py-8">
           <ErrorState message={error} onRetry={refresh} />
         </div>
@@ -154,7 +154,7 @@ function ParentDashboardV3Inner() {
   // No data state
   if (!data) {
     return (
-      <div className="min-h-screen bg-neutral-50">
+      <div className="min-h-screen bg-transparent">
         <div className="max-w-content mx-auto px-6 py-8">
           <ErrorState message="No data available" onRetry={refresh} />
         </div>
@@ -163,11 +163,11 @@ function ParentDashboardV3Inner() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <div className="min-h-screen bg-transparent">
       <main className="max-w-content mx-auto px-4 py-4 lg:px-6 lg:py-5">
         {/* Page Header: title + message banner */}
         <div className="flex items-center justify-between mb-4">
-          <h1 className="text-2xl font-bold text-neutral-800">Dashboard</h1>
+          <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
           <DashboardMessageBanner message={bannerMessage} />
         </div>
 
@@ -176,7 +176,6 @@ function ParentDashboardV3Inner() {
           <div className="lg:col-span-2">
             <DashboardHeroCard
               child={selectedChild}
-              dailyPattern={dailyPattern}
               childCoverage={childCoverage}
               onActionClick={handleActionClick}
               onViewDetailedBreakdown={handleViewDetailedBreakdown}
@@ -198,7 +197,6 @@ function ParentDashboardV3Inner() {
         <div className="mb-4">
           <DashboardRevisionPlan
             planOverview={planOverview}
-            comingUp={childComingUp}
             loading={planOverviewLoading}
             onEditSchedule={handleEditSchedule}
           />

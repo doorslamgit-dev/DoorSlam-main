@@ -59,16 +59,16 @@ export function PendingRedemptions({
 
   if (redemptions.length === 0) {
     return (
-      <div className="bg-neutral-0 rounded-xl border border-neutral-200 p-6">
-        <h3 className="text-lg font-semibold text-neutral-900 mb-2">
+      <div className="bg-background rounded-xl border border-border p-6">
+        <h3 className="text-lg font-semibold text-foreground mb-2">
           Pending Approvals
         </h3>
         <div className="text-center py-8">
-          <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-success-bg flex items-center justify-center">
+          <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-success/10 flex items-center justify-center">
             <AppIcon name="check" className="w-6 h-6 text-success" />
           </div>
-          <p className="text-neutral-600">No pending requests</p>
-          <p className="text-sm text-neutral-500">
+          <p className="text-muted-foreground">No pending requests</p>
+          <p className="text-sm text-muted-foreground">
             When your child requests a reward, it will appear here for your approval.
           </p>
         </div>
@@ -77,12 +77,12 @@ export function PendingRedemptions({
   }
 
   return (
-    <div className="bg-neutral-0 rounded-xl border border-neutral-200 p-6">
+    <div className="bg-background rounded-xl border border-border p-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-neutral-900">
+        <h3 className="text-lg font-semibold text-foreground">
           Pending Approvals
         </h3>
-        <span className="bg-warning-bg text-warning text-sm font-medium px-3 py-1 rounded-full">
+        <span className="bg-warning/10 text-warning text-sm font-medium px-3 py-1 rounded-full">
           {redemptions.length} waiting
         </span>
       </div>
@@ -91,27 +91,27 @@ export function PendingRedemptions({
         {redemptions.map((redemption) => (
           <div
             key={redemption.id}
-            className="border border-neutral-200 rounded-lg p-4"
+            className="border border-border rounded-lg p-4"
           >
             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1 flex-wrap">
-                  <span className="font-medium text-neutral-900">
+                  <span className="font-medium text-foreground">
                     {redemption.child_name}
                   </span>
-                  <span className="text-neutral-400">•</span>
-                  <span className="text-sm text-neutral-500">
+                  <span className="text-muted-foreground">•</span>
+                  <span className="text-sm text-muted-foreground">
                     {formatTimeAgo(redemption.requested_at)}
                   </span>
                 </div>
-                <p className="text-lg font-semibold text-neutral-900 truncate">
+                <p className="text-lg font-semibold text-foreground truncate">
                   {redemption.reward_name}
                 </p>
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-sm">
-                  <span className="text-primary-600 font-medium">
+                  <span className="text-primary font-medium">
                     {redemption.points_cost} points
                   </span>
-                  <span className="text-neutral-500">
+                  <span className="text-muted-foreground">
                     Balance: {redemption.child_current_balance} pts
                   </span>
                   <span className="text-warning flex items-center gap-1">
@@ -123,7 +123,7 @@ export function PendingRedemptions({
 
               <div className="flex items-center gap-2 w-full sm:w-auto">
                 {isProcessing === redemption.id ? (
-                  <span className="text-neutral-500 flex items-center gap-2">
+                  <span className="text-muted-foreground flex items-center gap-2">
                     <AppIcon name="loader" className="w-4 h-4 animate-spin" />
                     Processing...
                   </span>
@@ -138,7 +138,7 @@ export function PendingRedemptions({
                     </button>
                     <button
                       onClick={() => handleDeclineClick(redemption.id)}
-                      className="flex-1 sm:flex-none px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 transition-colors text-sm font-medium"
+                      className="flex-1 sm:flex-none px-4 py-2 border border-input text-foreground rounded-lg hover:bg-accent transition-colors text-sm font-medium"
                     >
                       {declineReasonId === redemption.id ? 'Confirm' : 'Decline'}
                     </button>
@@ -155,14 +155,14 @@ export function PendingRedemptions({
                   value={declineReason}
                   onChange={(e) => setDeclineReason(e.target.value)}
                   placeholder="Reason (optional)"
-                  className="flex-1 px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="flex-1 px-3 py-2 border border-input rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                 />
                 <button
                   onClick={() => {
                     setDeclineReasonId(null);
                     setDeclineReason('');
                   }}
-                  className="px-3 py-2 text-sm text-neutral-500 hover:text-neutral-700"
+                  className="px-3 py-2 text-sm text-muted-foreground hover:text-foreground"
                 >
                   Cancel
                 </button>

@@ -56,7 +56,6 @@ export type CompleteStepProps = {
 export interface ConfidenceOption {
   id: ConfidenceLevel;
   label: string;
-  emoji: string;
   description: string;
   icon: string;
   bgColor: string;

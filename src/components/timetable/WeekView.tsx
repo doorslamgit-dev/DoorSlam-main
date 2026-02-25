@@ -268,30 +268,30 @@ export function WeekView({
   );
 
   const gridContent = (
-    <div className="bg-neutral-0 rounded-2xl shadow-card overflow-hidden mb-6">
+    <div className="bg-background rounded-2xl shadow-sm overflow-hidden mb-6">
       {/* Header Row */}
-      <div className="grid grid-cols-8 border-b border-neutral-200">
-        <div className="p-3 border-r bg-neutral-50 border-neutral-200">
-          <div className="text-xs font-medium text-neutral-600">Time</div>
+      <div className="grid grid-cols-8 border-b border-border">
+        <div className="p-3 border-r bg-muted border-border">
+          <div className="text-xs font-medium text-muted-foreground">Time</div>
         </div>
         {dayMeta.map((day, index) => (
           <div
             key={index}
-            className={`p-3 text-center border-r last:border-r-0 border-neutral-200 ${
+            className={`p-3 text-center border-r last:border-r-0 border-border ${
               day.isBlocked
-                ? "bg-neutral-200"
+                ? "bg-secondary"
                 : day.isToday
-                  ? "bg-primary-50"
-                  : "bg-neutral-0"
+                  ? "bg-primary/5"
+                  : "bg-background"
             }`}
           >
             <div
               className={`text-sm font-medium ${
                 day.isBlocked
-                  ? "text-neutral-500"
+                  ? "text-muted-foreground"
                   : day.isToday
-                    ? "text-primary-600"
-                    : "text-neutral-700"
+                    ? "text-primary"
+                    : "text-foreground"
               }`}
             >
               {DAYS[index]}
@@ -299,16 +299,16 @@ export function WeekView({
             <div
               className={`text-xs ${
                 day.isBlocked
-                  ? "text-neutral-400"
+                  ? "text-muted-foreground"
                   : day.isToday
-                    ? "text-primary-600"
-                    : "text-neutral-500"
+                    ? "text-primary"
+                    : "text-muted-foreground"
               }`}
             >
               {day.date.getDate()}
             </div>
             {day.isBlocked && (
-              <div className="text-[10px] text-neutral-400 mt-0.5">
+              <div className="text-[10px] text-muted-foreground mt-0.5">
                 Blocked
               </div>
             )}
@@ -318,7 +318,7 @@ export function WeekView({
 
       {/* Time-slot rows */}
       {activeSlots.length === 0 ? (
-        <div className="p-8 text-center text-sm text-neutral-500">
+        <div className="p-8 text-center text-sm text-muted-foreground">
           No sessions scheduled this week
         </div>
       ) : (
@@ -359,7 +359,7 @@ export function WeekView({
       <DragOverlay>
         {activeDragData && (
           <div
-            className="rounded-lg p-2 shadow-lg ring-2 ring-primary-200 rotate-1"
+            className="rounded-lg p-2 shadow-lg ring-2 ring-primary/20 rotate-1"
             style={{
               backgroundColor: `${activeDragData.subjectColor}25`,
               borderLeft: `3px solid ${activeDragData.subjectColor}`,
@@ -372,7 +372,7 @@ export function WeekView({
             >
               {activeDragData.topicName}
             </div>
-            <div className="text-[10px] text-neutral-500 mt-0.5">
+            <div className="text-[10px] text-muted-foreground mt-0.5">
               {activeDragData.subjectName}
             </div>
           </div>

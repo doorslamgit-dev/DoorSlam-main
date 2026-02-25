@@ -124,21 +124,21 @@ export default function CompleteStep({
             className="w-12 h-12 rounded-xl flex items-center justify-center"
             style={{ backgroundColor: subjectColor }}
           >
-            <AppIcon name={subjectIcon} className="text-white w-6 h-6" />
+            <AppIcon name={subjectIcon} className="text-primary-foreground w-6 h-6" />
           </div>
           <div>
-            <p className="text-neutral-500 text-sm">
+            <p className="text-muted-foreground text-sm">
               {overview.subject_name} • Step {overview.step_index} of {overview.total_steps}
             </p>
-            <h1 className="text-2xl font-bold text-primary-900">{overview.topic_name}</h1>
+            <h1 className="text-2xl font-bold text-primary">{overview.topic_name}</h1>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 bg-success-bg px-3 py-1.5 rounded-full">
+          <div className="flex items-center gap-2 bg-success/10 px-3 py-1.5 rounded-full">
             <AppIcon name="circle-check" className="text-success w-4 h-4" />
             <span className="text-success font-medium text-sm">Complete!</span>
           </div>
-          <div className="flex items-center gap-2 text-neutral-500 text-sm">
+          <div className="flex items-center gap-2 text-muted-foreground text-sm">
             <AppIcon name="clock" className="w-4 h-4" />
             <span>{sessionMinutes} mins</span>
           </div>
@@ -152,14 +152,14 @@ export default function CompleteStep({
 
       {/* Confidence Check */}
       <section>
-        <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
+        <div className="bg-background rounded-2xl shadow-sm p-6">
           <div className="flex items-center space-x-3 mb-5">
-            <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
-              <span className="text-2xl">🤔</span>
+            <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+              <AppIcon name="circle-help" className="w-6 h-6 text-primary" aria-hidden />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-primary-900">How do you feel about this topic?</h2>
-              <p className="text-neutral-500 text-sm">Be honest - it helps us help you!</p>
+              <h2 className="text-xl font-bold text-primary">How do you feel about this topic?</h2>
+              <p className="text-muted-foreground text-sm">Be honest - it helps us help you!</p>
             </div>
           </div>
 
@@ -173,14 +173,14 @@ export default function CompleteStep({
 
       {/* Notes Section */}
       <section>
-        <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
+        <div className="bg-background rounded-2xl shadow-sm p-6">
           <div className="flex items-center space-x-3 mb-5">
-            <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
-              <AppIcon name="pencil" className="text-primary-600 w-6 h-6" />
+            <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+              <AppIcon name="pencil" className="text-primary w-6 h-6" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-primary-900">Any notes for next time?</h2>
-              <p className="text-neutral-500 text-sm">Questions, thoughts, things to remember</p>
+              <h2 className="text-xl font-bold text-primary">Any notes for next time?</h2>
+              <p className="text-muted-foreground text-sm">Questions, thoughts, things to remember</p>
             </div>
           </div>
 
@@ -190,12 +190,12 @@ export default function CompleteStep({
             disabled={saving}
             placeholder="What stood out? Any questions? Write anything you want to remember..."
             rows={3}
-            className="w-full px-4 py-3 border-2 border-neutral-200 rounded-xl focus:outline-none focus:border-primary-500 transition resize-none disabled:opacity-50 text-neutral-700"
+            className="w-full px-4 py-3 border-2 border-border rounded-xl focus:outline-none focus:border-ring transition resize-none disabled:opacity-50 text-foreground"
           />
 
           <div className="mt-4">
-            <p className="text-sm text-neutral-600 mb-3 flex items-center gap-2">
-              <AppIcon name="mic" className="text-primary-600 w-4 h-4" />
+            <p className="text-sm text-muted-foreground mb-3 flex items-center gap-2">
+              <AppIcon name="mic" className="text-primary w-4 h-4" />
               <span className="font-medium">Or say it instead:</span>
             </p>
             <AudioRecorder
@@ -211,19 +211,19 @@ export default function CompleteStep({
 
       {/* Encouragement */}
       <section>
-        <div className="bg-gradient-to-br from-primary-600 to-primary-700 rounded-2xl shadow-card p-6 text-white">
+        <div className="bg-gradient-to-br from-primary to-primary/90 rounded-2xl shadow-sm p-6 text-primary-foreground">
           <div className="flex items-start space-x-4">
             <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
-              <AppIcon name="star" className="text-white w-6 h-6" />
+              <AppIcon name="star" className="text-primary-foreground w-6 h-6" />
             </div>
             <div className="flex-1">
               <h3 className="text-lg font-bold mb-2">Amazing work, {childName}!</h3>
-              <p className="text-primary-100 text-sm mb-3">
+              <p className="text-primary-foreground/80 text-sm mb-3">
                 Every session makes you stronger. Take a break, have a snack, and feel proud of what you've
                 done today!
               </p>
-              <p className="text-primary-200 text-xs flex items-center gap-2">
-                <span>💡</span>
+              <p className="text-primary-foreground/70 text-xs flex items-center gap-2">
+                <AppIcon name="lightbulb" className="w-4 h-4 text-primary-foreground/70 flex-shrink-0" aria-hidden />
                 <span>Top tip: Tell someone what you learned - it helps it stick!</span>
               </p>
             </div>
@@ -233,13 +233,13 @@ export default function CompleteStep({
 
       {/* Action Buttons */}
       <section>
-        <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
+        <div className="bg-background rounded-2xl shadow-sm p-6">
           <div className="flex items-center justify-between">
             <button
               type="button"
               onClick={handleFinish}
               disabled={!canFinish || saving}
-              className="flex items-center gap-2 px-5 py-3 bg-neutral-100 text-neutral-700 font-medium rounded-xl hover:bg-neutral-200 transition disabled:opacity-50"
+              className="flex items-center gap-2 px-5 py-3 bg-secondary text-foreground font-medium rounded-xl hover:bg-accent transition disabled:opacity-50"
             >
               <AppIcon name="home" className="w-4 h-4" />
               <span>Home</span>
@@ -253,7 +253,7 @@ export default function CompleteStep({
                   onStartNextSession();
                 }}
                 disabled={!canFinish || saving}
-                className="flex items-center gap-2 px-6 py-3 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition disabled:opacity-50"
+                className="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-semibold rounded-xl hover:bg-primary/90 transition disabled:opacity-50"
               >
                 <span>{saving ? "Saving..." : "Next Session"}</span>
                 <AppIcon name="arrow-right" className="w-4 h-4" />
@@ -263,7 +263,7 @@ export default function CompleteStep({
                 type="button"
                 onClick={handleFinish}
                 disabled={!canFinish || saving}
-                className="flex items-center gap-2 px-6 py-3 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition disabled:opacity-50"
+                className="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-semibold rounded-xl hover:bg-primary/90 transition disabled:opacity-50"
               >
                 <span>{saving ? "Saving..." : "Finish"}</span>
                 <AppIcon name="circle-check" className="w-4 h-4" />
@@ -272,7 +272,7 @@ export default function CompleteStep({
           </div>
 
           {!canFinish && (
-            <p className="mt-4 text-center text-neutral-500 text-sm">
+            <p className="mt-4 text-center text-muted-foreground text-sm">
               Please tell us how you're feeling about this topic to continue
             </p>
           )}

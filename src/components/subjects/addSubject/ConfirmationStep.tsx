@@ -16,40 +16,40 @@ export default function ConfirmationStep({
 }: ConfirmationStepProps) {
   return (
     <div className="space-y-6">
-      <p className="text-neutral-600">
+      <p className="text-muted-foreground">
         You're about to add {subjectsWithGrades.length} subject
         {subjectsWithGrades.length !== 1 ? "s" : ""} to {childName}'s
         revision plan.
       </p>
 
-      <div className="bg-neutral-50 rounded-xl p-4 space-y-3">
+      <div className="bg-muted rounded-xl p-4 space-y-3">
         {subjectsWithGrades.map((subject) => (
           <div
             key={subject.subject_id}
-            className="flex items-center justify-between bg-neutral-0 rounded-lg p-3 border border-neutral-200"
+            className="flex items-center justify-between bg-background rounded-lg p-3 border border-border"
           >
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-primary-100 flex items-center justify-center">
-                <AppIcon name="book" className="w-5 h-5 text-primary-600" />
+              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                <AppIcon name="book" className="w-5 h-5 text-primary" />
               </div>
               <div>
-                <p className="font-medium text-neutral-800">
+                <p className="font-medium text-foreground">
                   {subject.subject_name}
                 </p>
-                <p className="text-sm text-neutral-500">
+                <p className="text-sm text-muted-foreground">
                   {subject.exam_board_name}
                 </p>
               </div>
             </div>
             <div className="text-right">
               <div className="flex items-center gap-2 text-sm">
-                <span className="text-neutral-500">Target:</span>
-                <span className="font-semibold text-primary-600">
+                <span className="text-muted-foreground">Target:</span>
+                <span className="font-semibold text-primary">
                   Grade {subject.target_grade}
                 </span>
               </div>
               {subject.current_grade && (
-                <p className="text-xs text-neutral-400">
+                <p className="text-xs text-muted-foreground">
                   Current: Grade {subject.current_grade}
                 </p>
               )}
@@ -58,7 +58,7 @@ export default function ConfirmationStep({
         ))}
       </div>
 
-      <div className="bg-info-bg border border-info-border rounded-xl p-4">
+      <div className="bg-info/10 border border-info-border rounded-xl p-4">
         <p className="text-sm text-info">
           <strong>What happens next:</strong> Sessions will be automatically
           redistributed across all subjects based on your priority order.{" "}

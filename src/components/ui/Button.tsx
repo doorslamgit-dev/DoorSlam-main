@@ -1,46 +1,51 @@
 // src/components/ui/Button.tsx
-/**
- * Button Component
- * ================
- * A consistent, accessible button component with multiple variants.
- *
- * VARIANTS:
- * - primary: Main CTA buttons (purple background, white text)
- * - secondary: Secondary actions (white/gray background, dark text)
- * - ghost: Minimal style for tertiary actions (transparent, no border)
- * - danger: Destructive actions (red styling)
- *
- * SIZES:
- * - sm: Compact buttons for tight spaces (py-2 px-3)
- * - md: Default size for most uses (py-2.5 px-4)
- * - lg: Prominent CTAs (py-3 px-6)
- *
- * FEATURES:
- * - Loading state with spinner
- * - Icon support (left or right)
- * - Full width option
- * - Disabled state styling
- * - Consistent focus rings for accessibility
- *
- * USAGE:
- * ```tsx
- * <Button variant="primary" size="md" onClick={handleClick}>
- *   Save Changes
- * </Button>
- *
- * <Button variant="secondary" leftIcon="arrow-left" onClick={goBack}>
- *   Back
- * </Button>
- *
- * <Button variant="primary" loading>
- *   Saving...
- * </Button>
- * ```
- */
+// shadcn-based Button with DoorSlam API compatibility.
 
 import { type ButtonHTMLAttributes, type ReactNode, forwardRef } from "react";
+import { Slot } from "@radix-ui/react-slot";
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "@/lib/utils";
 import AppIcon from "./AppIcon";
 import type { IconKey } from "./AppIcon";
+
+// ============================================================================
+// CVA VARIANTS
+// ============================================================================
+
+const buttonVariants = cva(
+  "inline-flex items-center justify-center whitespace-nowrap font-semibold ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  {
+    variants: {
+      variant: {
+        primary: "bg-primary text-primary-foreground hover:bg-primary/90",
+        secondary:
+          "bg-secondary text-secondary-foreground border border-border hover:bg-secondary/80",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        danger:
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        // shadcn standard aliases
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        destructive:
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        outline:
+          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
+      },
+      size: {
+        sm: "py-2 px-3 text-sm gap-1.5 rounded-lg",
+        md: "py-2.5 px-4 text-sm gap-2 rounded-xl",
+        lg: "py-3 px-6 text-base gap-2 rounded-xl",
+        // shadcn standard aliases
+        default: "py-2.5 px-4 text-sm gap-2 rounded-xl",
+        icon: "h-10 w-10 rounded-xl",
+      },
+    },
+    defaultVariants: {
+      variant: "primary",
+      size: "md",
+    },
+  }
+);
 
 // ============================================================================
 // TYPES
@@ -49,11 +54,11 @@ import type { IconKey } from "./AppIcon";
 export type ButtonVariant = "primary" | "secondary" | "ghost" | "danger";
 export type ButtonSize = "sm" | "md" | "lg";
 
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  /** Visual style variant */
-  variant?: ButtonVariant;
-  /** Size preset */
-  size?: ButtonSize;
+export interface ButtonProps
+  extends ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  /** Render as child component (Radix Slot pattern) */
+  asChild?: boolean;
   /** Shows loading spinner and disables button */
   loading?: boolean;
   /** Icon to show on the left */
@@ -63,64 +68,19 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /** Makes button full width */
   fullWidth?: boolean;
   /** Button content */
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 // ============================================================================
-// STYLE MAPPINGS
+// ICON SIZES
 // ============================================================================
 
-/**
- * Variant styles define the visual appearance
- * All use design tokens from themes.css via Tailwind
- */
-const variantStyles: Record<ButtonVariant, string> = {
-  primary: [
-    "bg-primary-600 text-white",
-    "hover:bg-primary-700",
-    "focus:ring-primary-500",
-    "disabled:bg-primary-300",
-  ].join(" "),
-
-  secondary: [
-    "bg-neutral-100 text-neutral-700 border border-neutral-200",
-    "hover:bg-neutral-200 hover:border-neutral-300",
-    "focus:ring-neutral-400",
-    "disabled:bg-neutral-50 disabled:text-neutral-400",
-  ].join(" "),
-
-  ghost: [
-    "bg-transparent text-neutral-600",
-    "hover:bg-neutral-100 hover:text-neutral-700",
-    "focus:ring-neutral-400",
-    "disabled:text-neutral-400",
-  ].join(" "),
-
-  danger: [
-    "bg-accent-red text-white",
-    "hover:bg-red-600",
-    "focus:ring-red-500",
-    "disabled:bg-red-300",
-  ].join(" "),
-};
-
-/**
- * Size styles define padding and text size
- * Uses consistent spacing scale
- */
-const sizeStyles: Record<ButtonSize, string> = {
-  sm: "py-2 px-3 text-sm gap-1.5",
-  md: "py-2.5 px-4 text-sm gap-2",
-  lg: "py-3 px-6 text-base gap-2",
-};
-
-/**
- * Icon sizes matched to button sizes
- */
-const iconSizes: Record<ButtonSize, string> = {
+const iconSizeMap: Record<string, string> = {
   sm: "w-3.5 h-3.5",
   md: "w-4 h-4",
   lg: "w-5 h-5",
+  default: "w-4 h-4",
+  icon: "w-4 h-4",
 };
 
 // ============================================================================
@@ -130,61 +90,38 @@ const iconSizes: Record<ButtonSize, string> = {
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
+      className,
       variant = "primary",
       size = "md",
+      asChild = false,
       loading = false,
       leftIcon,
       rightIcon,
       fullWidth = false,
       disabled,
-      className = "",
       children,
       ...props
     },
     ref
   ) => {
     const isDisabled = disabled || loading;
-
-    const baseStyles = [
-      // Layout
-      "inline-flex items-center justify-center",
-      // Typography
-      "font-semibold",
-      // Shape
-      "rounded-xl",
-      // Transitions
-      "transition-colors duration-150",
-      // Focus state (accessibility)
-      "focus:outline-none focus:ring-2 focus:ring-offset-2",
-      // Disabled state
-      "disabled:cursor-not-allowed",
-    ].join(" ");
-
-    const classes = [
-      baseStyles,
-      variantStyles[variant],
-      sizeStyles[size],
-      fullWidth ? "w-full" : "",
-      className,
-    ]
-      .filter(Boolean)
-      .join(" ");
+    const Comp = asChild ? Slot : "button";
+    const iconSize = iconSizeMap[size ?? "md"];
 
     return (
-      <button
+      <Comp
+        className={cn(
+          buttonVariants({ variant, size, className }),
+          fullWidth && "w-full"
+        )}
         ref={ref}
         disabled={isDisabled}
-        className={classes}
         {...props}
       >
         {/* Loading spinner replaces left icon */}
         {loading ? (
-          <span className={`${iconSizes[size]} animate-spin`}>
-            <svg
-              className="w-full h-full"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
+          <span className={cn(iconSize, "animate-spin")}>
+            <svg className="w-full h-full" fill="none" viewBox="0 0 24 24">
               <circle
                 className="opacity-25"
                 cx="12"
@@ -201,16 +138,16 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             </svg>
           </span>
         ) : leftIcon ? (
-          <AppIcon name={leftIcon} className={iconSizes[size]} />
+          <AppIcon name={leftIcon} className={iconSize} />
         ) : null}
 
         {children}
 
         {/* Right icon (not shown when loading) */}
         {!loading && rightIcon && (
-          <AppIcon name={rightIcon} className={iconSizes[size]} />
+          <AppIcon name={rightIcon} className={iconSize} />
         )}
-      </button>
+      </Comp>
     );
   }
 );
@@ -218,3 +155,4 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 Button.displayName = "Button";
 
 export default Button;
+export { Button, buttonVariants };

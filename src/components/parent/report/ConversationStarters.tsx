@@ -22,25 +22,25 @@ export function ConversationStarters({
 }: ConversationStartersProps) {
   return (
     <section className="mb-10 report-card">
-      <h2 className="text-xl font-bold text-primary-900 mb-4 flex items-center gap-2">
+      <h2 className="text-xl font-bold text-primary mb-4 flex items-center gap-2">
         <AppIcon
           name="message-circle"
-          className="w-5 h-5 text-primary-600"
+          className="w-5 h-5 text-primary"
           aria-hidden
         />
         <span>Conversation Starters for Teachers</span>
       </h2>
 
-      <p className="text-sm text-neutral-600 mb-4">
+      <p className="text-sm text-muted-foreground mb-4">
         Use these questions to guide discussions with {childName}'s teachers:
       </p>
 
-      <div className="bg-primary-50 rounded-lg p-5 space-y-4 border border-primary-200/40">
+      <div className="bg-primary/5 rounded-lg p-5 space-y-4 border border-primary/20">
         <div>
-          <p className="font-medium text-primary-900 mb-1">
+          <p className="font-medium text-primary mb-1">
             On overall progress:
           </p>
-          <p className="text-neutral-700 italic">
+          <p className="text-foreground italic">
             "{childName} has completed {lifetimeSessions} revision sessions. How
             does this align with what you're seeing in class?"
           </p>
@@ -48,8 +48,8 @@ export function ConversationStarters({
 
         {strengths.length > 0 && (
           <div>
-            <p className="font-medium text-primary-900 mb-1">On strengths:</p>
-            <p className="text-neutral-700 italic">
+            <p className="font-medium text-primary mb-1">On strengths:</p>
+            <p className="text-foreground italic">
               "They're showing strong confidence in{" "}
               {strengths[0]?.topic_name}. Are there ways to build on this in
               lessons?"
@@ -59,10 +59,10 @@ export function ConversationStarters({
 
         {areasForSupport.length > 0 && (
           <div>
-            <p className="font-medium text-primary-900 mb-1">
+            <p className="font-medium text-primary mb-1">
               On areas needing support:
             </p>
-            <p className="text-neutral-700 italic">
+            <p className="text-foreground italic">
               "{areasForSupport[0]?.topic_name} seems to be more challenging —
               confidence is at {areasForSupport[0]?.confidence_percent}%. What
               additional support would you recommend?"
@@ -71,10 +71,10 @@ export function ConversationStarters({
         )}
 
         <div>
-          <p className="font-medium text-primary-900 mb-1">
+          <p className="font-medium text-primary mb-1">
             On study habits:
           </p>
-          <p className="text-neutral-700 italic">
+          <p className="text-foreground italic">
             "{childName} has a {currentStreak}-day study streak. Is this
             consistent effort showing in their classwork?"
           </p>

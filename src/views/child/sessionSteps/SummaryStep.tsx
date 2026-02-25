@@ -199,18 +199,18 @@ export default function SummaryStep({
             className="w-12 h-12 rounded-xl flex items-center justify-center"
             style={{ backgroundColor: subjectColor }}
           >
-            <AppIcon name={subjectIcon} className="text-white w-6 h-6" />
+            <AppIcon name={subjectIcon} className="text-primary-foreground w-6 h-6" />
           </div>
           <div>
-            <p className="text-neutral-500 text-sm">
+            <p className="text-muted-foreground text-sm">
               {overview.subject_name} • Step {overview.step_index} of {overview.total_steps}
             </p>
-            <h1 className="text-2xl font-bold text-primary-900">{overview.topic_name}</h1>
+            <h1 className="text-2xl font-bold text-primary">{overview.topic_name}</h1>
           </div>
         </div>
-        <div className="w-full bg-neutral-200 rounded-full h-2 overflow-hidden">
+        <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
           <div
-            className="bg-primary-600 h-full rounded-full transition-all duration-300"
+            className="bg-primary h-full rounded-full transition-all duration-300"
             style={{ width: `${progressPercent}%` }}
           />
         </div>
@@ -218,14 +218,14 @@ export default function SummaryStep({
 
       {/* Key Takeaways */}
       <section>
-        <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
+        <div className="bg-background rounded-2xl shadow-sm p-6">
           <div className="flex items-center space-x-3 mb-5">
-            <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
-              <AppIcon name="lightbulb" className="text-primary-600 w-6 h-6" />
+            <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+              <AppIcon name="lightbulb" className="text-primary w-6 h-6" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-primary-900">What You've Learned</h2>
-              <p className="text-neutral-500 text-sm">The key points from this session</p>
+              <h2 className="text-xl font-bold text-primary">What You've Learned</h2>
+              <p className="text-muted-foreground text-sm">The key points from this session</p>
             </div>
           </div>
 
@@ -239,14 +239,14 @@ export default function SummaryStep({
 
       {/* Help Me Remember (Memory Tools) */}
       <section>
-        <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
+        <div className="bg-background rounded-2xl shadow-sm p-6">
           <div className="flex items-center space-x-3 mb-5">
-            <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
-              <AppIcon name="brain" className="text-primary-600 w-6 h-6" />
+            <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+              <AppIcon name="brain" className="text-primary w-6 h-6" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-primary-900">Help Me Remember</h2>
-              <p className="text-neutral-500 text-sm">Create a song to help the facts stick!</p>
+              <h2 className="text-xl font-bold text-primary">Help Me Remember</h2>
+              <p className="text-muted-foreground text-sm">Create a song to help the facts stick!</p>
             </div>
           </div>
 
@@ -254,14 +254,14 @@ export default function SummaryStep({
             <MnemonicNotAvailable subjectName={overview.subject_name} />
           ) : !mnemonic || mnemonic.status === "failed" ? (
             <div className="space-y-5">
-              <div className="p-5 bg-gradient-to-br from-primary-50 to-primary-100 rounded-xl border border-primary-200">
+              <div className="p-5 bg-gradient-to-br from-primary/5 to-primary/10 rounded-xl border border-primary/20">
                 <div className="flex items-start space-x-3 mb-4">
-                  <div className="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center flex-shrink-0">
-                    <AppIcon name="bot" className="text-white w-5 h-5" />
+                  <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                    <AppIcon name="bot" className="text-primary-foreground w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-primary-900 mb-1">StudyBuddy's Music Maker</h3>
-                    <p className="text-neutral-600 text-sm">
+                    <h3 className="font-bold text-primary mb-1">StudyBuddy's Music Maker</h3>
+                    <p className="text-muted-foreground text-sm">
                       Pick a music style and I'll create a catchy song to help you remember the key facts!
                     </p>
                   </div>
@@ -279,7 +279,7 @@ export default function SummaryStep({
                       type="button"
                       onClick={handleGenerateMnemonic}
                       disabled={isGenerating || saving}
-                      className="flex items-center space-x-2 px-6 py-3 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition disabled:opacity-50"
+                      className="flex items-center space-x-2 px-6 py-3 bg-primary text-primary-foreground font-semibold rounded-xl hover:bg-primary/90 transition disabled:opacity-50"
                     >
                       <AppIcon name="wand-sparkles" className="w-4 h-4" />
                       <span>Make My Song!</span>
@@ -289,7 +289,7 @@ export default function SummaryStep({
               </div>
 
               {mnemonic?.status === "failed" && (
-                <div className="p-4 bg-warning-bg border border-warning-border rounded-xl">
+                <div className="p-4 bg-warning/10 border border-warning-border rounded-xl">
                   <p className="text-warning text-sm flex items-center">
                     <AppIcon name="triangle-alert" className="mr-2 w-4 h-4" />
                     The last attempt didn't work. Try a different style or continue without a song.
@@ -305,18 +305,18 @@ export default function SummaryStep({
 
       {/* Encouragement */}
       <section>
-        <div className="bg-gradient-to-br from-primary-600 to-primary-700 rounded-2xl shadow-card p-6 text-white">
+        <div className="bg-gradient-to-br from-primary to-primary/90 rounded-2xl shadow-sm p-6 text-primary-foreground">
           <div className="flex items-start space-x-4">
             <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
-              <AppIcon name="bot" className="text-white w-6 h-6" />
+              <AppIcon name="bot" className="text-primary-foreground w-6 h-6" />
             </div>
             <div className="flex-1">
               <h3 className="text-lg font-bold mb-2">Amazing progress!</h3>
-              <p className="text-primary-50 mb-3 text-sm">
+              <p className="text-primary-foreground/90 mb-3 text-sm">
                 You've covered the key concepts for {overview.topic_name}. Take a moment to look over the
                 points above — they'll help in your exams!
               </p>
-              <p className="text-primary-100 text-xs flex items-center space-x-2">
+              <p className="text-primary-foreground/80 text-xs flex items-center space-x-2">
                 <AppIcon name="lightbulb" className="w-3 h-3" />
                 <span>Top tip: Try explaining what you learned to someone else — it really helps it stick!</span>
               </p>
@@ -327,17 +327,17 @@ export default function SummaryStep({
 
       {/* Continue */}
       <section>
-        <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
+        <div className="bg-background rounded-2xl shadow-sm p-6">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="font-bold text-primary-900 mb-1">Ready to wrap up?</h3>
-              <p className="text-neutral-600 text-sm">One quick reflection and you're done!</p>
+              <h3 className="font-bold text-primary mb-1">Ready to wrap up?</h3>
+              <p className="text-muted-foreground text-sm">One quick reflection and you're done!</p>
             </div>
             <button
               type="button"
               onClick={handleContinue}
               disabled={saving}
-              className="flex items-center space-x-2 px-6 py-3 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition disabled:opacity-50"
+              className="flex items-center space-x-2 px-6 py-3 bg-primary text-primary-foreground font-semibold rounded-xl hover:bg-primary/90 transition disabled:opacity-50"
             >
               <span>Continue</span>
               <AppIcon name="arrow-right" className="w-4 h-4" />
