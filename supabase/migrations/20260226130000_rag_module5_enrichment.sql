@@ -1,6 +1,9 @@
 -- Module 5: Document enrichment columns + updated search_chunks()
 -- Adds document-level summary and key_points for richer RAG context.
 
+-- Set search_path to include extensions (where pgvector 'vector' type lives)
+SET search_path TO rag, public, extensions;
+
 -- =========================================================================
 -- 1. Add enrichment columns to rag.documents
 -- =========================================================================

@@ -46,8 +46,8 @@ def load_taxonomy(subject_id: str) -> SubjectTaxonomy:
     sb = _get_supabase()
 
     # Get subject name
-    subject_result = sb.table("subjects").select("name").eq("id", subject_id).execute()
-    subject_name = subject_result.data[0]["name"] if subject_result.data else "Unknown"
+    subject_result = sb.table("subjects").select("subject_name").eq("id", subject_id).execute()
+    subject_name = subject_result.data[0]["subject_name"] if subject_result.data else "Unknown"
 
     # Get components for this subject
     components = (
