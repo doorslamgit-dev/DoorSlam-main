@@ -5,7 +5,7 @@
    This enables Tailwind opacity modifiers like bg-primary/10.
 
    Brand: Electric Indigo primary, Lime Burst accent, Deep Navy dark.
-   Fonts: Space Grotesk (display) + DM Sans (body).
+   Fonts: DM Sans (display + body).
    ============================================================================ */
 
 /* ----------------------------------------------------------------------------
@@ -154,7 +154,7 @@
 :root {
   /* Typography */
   --font-family-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-family-display: 'Space Grotesk', 'DM Sans', sans-serif;
+  --font-family-display: 'DM Sans', sans-serif;
   --font-family-mono: 'Fira Code', 'Monaco', 'Courier New', monospace;
 
   --font-size-xs: 0.75rem;

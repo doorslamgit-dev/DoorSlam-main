@@ -70,7 +70,7 @@ function DayStrip({ dailyPattern }: { dailyPattern: DailyPattern[] }) {
   const todayIdx = (new Date().getDay() + 6) % 7;
 
   return (
-    <div className="grid grid-cols-7 gap-2 mb-4">
+    <div className="grid grid-cols-7 gap-2">
       {dailyPattern.map((day, idx) => {
         const isToday = idx === todayIdx;
         const isDone = day.sessions_completed >= day.sessions_total && day.sessions_total > 0;
@@ -134,7 +134,7 @@ function NextBestAction({
 
   if (needsSchedule) {
     return (
-      <div className="bg-primary/5 rounded-lg p-3 mt-auto border border-primary/20">
+      <div className="bg-primary/5 rounded-lg p-3 border border-primary/20">
         <div className="flex items-center gap-1.5 mb-1">
           <AppIcon name="calendar-plus" className="w-3.5 h-3.5 text-primary" />
           <span className="text-xs font-semibold text-foreground">Next Best Action</span>
@@ -156,7 +156,7 @@ function NextBestAction({
 
   if (needsInvite) {
     return (
-      <div className="bg-success/10 rounded-lg p-3 mt-auto border border-success/20">
+      <div className="bg-success/10 rounded-lg p-3 border border-success/20">
         <div className="flex items-center gap-1.5 mb-1">
           <AppIcon name="user-plus" className="w-3.5 h-3.5 text-success" />
           <span className="text-xs font-semibold text-foreground">Next Best Action</span>
@@ -178,14 +178,10 @@ function NextBestAction({
 
   // Fully set up — normal action buttons
   return (
-    <div className="bg-muted rounded-lg p-3 mt-auto">
+    <div className="bg-muted rounded-lg p-3">
       <div className="flex items-center gap-1.5 mb-1">
-        <AppIcon name="lightbulb" className="w-3.5 h-3.5 text-warning" />
         <span className="text-xs font-semibold text-foreground">Next Best Action</span>
       </div>
-      <p className="text-xs text-muted-foreground mb-2.5">
-        {child.insight_message || 'Keep up the current routine.'}
-      </p>
       <div className="flex flex-wrap gap-2">
         <Button variant="primary" size="sm" onClick={() => onActionClick('adjust-plan')}>
           Adjust Next Week&apos;s Plan
@@ -221,9 +217,9 @@ export function DashboardHeroCard({
   const sessionsTotal = child.week_sessions_total;
 
   return (
-    <div className="bg-background rounded-2xl shadow-sm p-5 border border-border h-full flex flex-col">
+    <div className="bg-background rounded-2xl shadow-sm p-5 border border-border flex flex-col h-full gap-4">
       {/* Header row: title + week label */}
-      <div className="flex items-center justify-between mb-1">
+      <div className="flex items-center justify-between">
         <h2 className="text-base font-bold text-foreground">This Week&apos;s Story</h2>
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
           <span>{getWeekLabel()}</span>
@@ -238,13 +234,13 @@ export function DashboardHeroCard({
       </div>
 
       {/* Narrative one-liner */}
-      <p className="text-sm text-muted-foreground mb-3">{heroSentence}</p>
+      <p className="text-sm text-muted-foreground -mt-2">{heroSentence}</p>
 
       {/* Day strip — embedded from weekly progress */}
       <DayStrip dailyPattern={dailyPattern} />
 
       {/* 3 KPI cells — using StatCard primitive */}
-      <div className="grid grid-cols-3 gap-3 mb-4">
+      <div className="grid grid-cols-3 gap-3">
         <StatCard
           label="Sessions Completed"
           value={`${sessionsCompleted}/${sessionsTotal}`}

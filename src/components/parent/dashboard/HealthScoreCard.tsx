@@ -71,9 +71,10 @@ export function HealthScoreCard({
         </Badge>
       </div>
 
-      {/* Score ring — compact */}
-      <div className="flex items-center justify-center mb-4">
-        <div className="relative w-20 h-20">
+      {/* Score ring — fills available flex space */}
+      <div className="flex-1 relative min-h-0">
+        <div className="absolute inset-0 flex items-center justify-center py-3">
+        <div className="relative aspect-square h-full max-h-40">
           <svg className="w-full h-full -rotate-90" viewBox="0 0 120 120">
             <circle
               cx="60" cy="60" r="52"
@@ -92,10 +93,11 @@ export function HealthScoreCard({
             <span className="text-2xl font-bold text-foreground">{health.score}</span>
           </div>
         </div>
+        </div>
       </div>
 
       {/* 4 Sub-metrics — tight rows */}
-      <div className="space-y-0 flex-1">
+      <div className="space-y-0">
         <div className="flex items-center justify-between py-1.5 border-b border-border">
           <div className="flex items-center gap-1.5">
             <AppIcon name="check-circle" className="w-3.5 h-3.5 text-success" />
