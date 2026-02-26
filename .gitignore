@@ -27,3 +27,7 @@ tsconfig.tsbuildinfo
 .env.local
 .env.*.local
 supabase/.temp/
+
+# Legacy/tool-generated
+.bolt/
+.playwright-mcp/
