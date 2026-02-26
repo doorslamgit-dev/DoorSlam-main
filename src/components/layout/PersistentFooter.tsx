@@ -51,7 +51,7 @@ export default function PersistentFooter() {
           size="sm"
           leftIcon="sparkles"
           onClick={() => setAiPanelOpen(!isAiPanelOpen)}
-          className="text-primary border-primary/30 hover:bg-primary/5"
+          className="text-primary border-primary/30 hover:bg-primary/5 [&_svg]:text-lime"
         >
           Ask AI Tutor
         </Button>
