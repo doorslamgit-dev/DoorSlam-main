@@ -110,7 +110,7 @@ def _lookup_pathway(subject_id: str, tier: str) -> str | None:
         sb.table("exam_pathways")
         .select("id")
         .eq("subject_id", subject_id)
-        .ilike("name", tier)
+        .ilike("pathway_name", tier)
         .limit(1)
         .execute()
     )

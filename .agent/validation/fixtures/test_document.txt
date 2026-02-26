@@ -1,0 +1,11 @@
+This is a simple test document for AI Tutor validation.
+
+It contains basic text content that can be used to verify document upload
+and text extraction functionality.
+
+Key topics covered:
+- Mathematics: algebra, geometry, statistics
+- Science: biology, chemistry, physics
+- English: comprehension, creative writing
+
+This document is intentionally short and simple for testing purposes.

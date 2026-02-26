@@ -102,7 +102,7 @@ def upload_to_storage(
     sb.storage.from_("exam-documents").upload(
         file_key,
         file_bytes,
-        {"content-type": content_type},
+        {"content-type": content_type, "upsert": "true"},
     )
     logger.info("Uploaded to Storage: %s", file_key)
 
