@@ -135,13 +135,6 @@ function ParentDashboardV3Inner() {
     navigateWithScroll(`/parent/rewards${selectedChildId ? `?child=${selectedChildId}` : ''}`);
   };
 
-  const handleAddSubject = () => {
-    navigateWithScroll(`/parent/subjects${selectedChildId ? `?child=${selectedChildId}` : ''}`);
-  };
-
-  const handleProgressReport = () => {
-    navigateWithScroll(`/parent/insights/report${selectedChildId ? `?child=${selectedChildId}` : ''}`);
-  };
 
   if (loading) return <DashboardSkeleton />;
 
