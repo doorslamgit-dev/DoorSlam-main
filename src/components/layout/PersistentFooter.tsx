@@ -1,7 +1,6 @@
 // src/components/layout/PersistentFooter.tsx
 
 import { useNavigate } from 'react-router-dom';
-import AppIcon from '../ui/AppIcon';
 import Button from '../ui/Button';
 import { useAuth } from '../../contexts/AuthContext';
 import { useSidebar } from '../../contexts/SidebarContext';
@@ -47,20 +46,15 @@ export default function PersistentFooter() {
 
       {/* Right side: AI Tutor toggle */}
       <div className="flex-1 flex justify-end">
-        <button
-          type="button"
+        <Button
+          variant="outline"
+          size="sm"
+          leftIcon="sparkles"
           onClick={() => setAiPanelOpen(!isAiPanelOpen)}
-          className={`
-            inline-flex items-center justify-center w-9 h-9 rounded-full transition-colors
-            ${isAiPanelOpen
-              ? 'bg-primary/10 text-primary/90'
-              : 'text-muted-foreground hover:bg-muted'
-            }
-          `}
-          aria-label="Toggle AI Tutor"
+          className="text-primary border-primary/30 hover:bg-primary/5"
         >
-          <AppIcon name="settings" className="w-4.5 h-4.5" />
-        </button>
+          Ask AI Tutor
+        </Button>
       </div>
     </footer>
   );

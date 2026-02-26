@@ -22,8 +22,8 @@ export function DashboardNotificationBanner({ child }: DashboardNotificationBann
   return (
     <div className="flex items-center justify-between gap-4 bg-foreground/90 rounded-xl px-4 py-2.5 max-w-[500px]">
       <p className="text-sm text-background/80 min-w-0">{message}</p>
-      <Button variant="primary" size="sm" leftIcon="bot">
-        Ask AI Tutor
+      <Button variant="primary" size="sm" leftIcon="sparkles">
+        ASK AI TUTOR
       </Button>
     </div>
   );
