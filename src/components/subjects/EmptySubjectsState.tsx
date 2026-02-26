@@ -7,7 +7,7 @@ interface EmptySubjectsStateProps {
 export function EmptySubjectsState({ onAddSubject }: EmptySubjectsStateProps) {
   return (
     <div className="bg-background rounded-2xl shadow-soft p-8 text-center">
-      <div className="w-16 h-16 rounded-full bg-primary/10 dark:bg-primary/90/30 flex items-center justify-center mx-auto mb-4">
+      <div className="w-16 h-16 rounded-full bg-primary/10 dark:bg-primary/20 flex items-center justify-center mx-auto mb-4">
         <AppIcon name="book" className="text-2xl text-primary dark:text-primary/70" />
       </div>
 

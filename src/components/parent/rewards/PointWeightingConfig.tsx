@@ -101,7 +101,7 @@ export function PointWeightingConfig({
               value={completionWeight}
               onChange={(e) => handleSliderChange('completion_weight', parseInt(e.target.value))}
               disabled={disabled}
-              className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary-600"
+              className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
             />
             <p className="text-xs text-muted-foreground mt-1">
               Did they finish the session?
@@ -125,7 +125,7 @@ export function PointWeightingConfig({
               value={accuracyWeight}
               onChange={(e) => handleSliderChange('accuracy_weight', parseInt(e.target.value))}
               disabled={disabled}
-              className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-green-600"
+              className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-success"
             />
             <p className="text-xs text-muted-foreground mt-1">
               Did they get practice questions right?
@@ -149,7 +149,7 @@ export function PointWeightingConfig({
               value={focusWeight}
               onChange={(e) => handleSliderChange('focus_weight', parseInt(e.target.value))}
               disabled={disabled}
-              className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-blue-600"
+              className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-info"
             />
             <p className="text-xs text-muted-foreground mt-1">
               Was Focus Mode on? Did they stay on task?
@@ -189,7 +189,7 @@ export function PointWeightingConfig({
           value={autoApproveThreshold}
           onChange={(e) => onChange('auto_approve_threshold', parseInt(e.target.value))}
           disabled={disabled}
-          className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-neutral-600"
+          className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-muted-foreground"
         />
         <p className="text-xs text-muted-foreground mt-1">
           {autoApproveThreshold === 0 

@@ -24,7 +24,7 @@ export default function ChildInfoBanner({
     .slice(0, 2);
 
   return (
-    <div className="bg-gradient-to-r from-primary-600 to-primary-600 rounded-xl shadow-sm p-6 text-white">
+    <div className="bg-primary rounded-xl shadow-sm p-6 text-white">
       <div className="flex items-center justify-between flex-wrap gap-4">
         {/* Child Info */}
         <div className="flex items-center gap-5">

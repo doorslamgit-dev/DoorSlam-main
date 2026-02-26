@@ -31,7 +31,7 @@ export default function SourceChips({ sources }: SourceChipsProps) {
       {visible.map((source, i) => (
         <span
           key={`${source.documentTitle}-${i}`}
-          className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-neutral-50 border border-neutral-200/60 text-[11px] text-neutral-500 max-w-[200px]"
+          className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-muted border border-border text-[11px] text-muted-foreground max-w-[200px]"
           title={`${source.documentTitle} (${Math.round(source.similarity * 100)}% match)`}
         >
           <AppIcon
@@ -46,7 +46,7 @@ export default function SourceChips({ sources }: SourceChipsProps) {
         <button
           type="button"
           onClick={() => setExpanded(true)}
-          className="text-[11px] text-primary-600 hover:text-primary-700 hover:underline"
+          className="text-[11px] text-primary hover:text-primary/90 hover:underline"
         >
           +{hiddenCount} more
         </button>
@@ -56,7 +56,7 @@ export default function SourceChips({ sources }: SourceChipsProps) {
         <button
           type="button"
           onClick={() => setExpanded(false)}
-          className="text-[11px] text-primary-600 hover:text-primary-700 hover:underline"
+          className="text-[11px] text-primary hover:text-primary/90 hover:underline"
         >
           show less
         </button>

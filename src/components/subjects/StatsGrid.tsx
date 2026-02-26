@@ -24,7 +24,7 @@ export function StatsGrid({
       {/* Total Subjects Card */}
       <div className="bg-background rounded-xl p-4 shadow-sm border border-border">
         <div className="mb-3">
-          <div className="w-10 h-10 rounded-lg bg-primary/10 dark:bg-primary/90/30 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-lg bg-primary/10 dark:bg-primary/20 flex items-center justify-center">
             <AppIcon name="book" className="w-5 h-5 text-primary dark:text-primary/70" aria-hidden />
           </div>
         </div>
@@ -37,7 +37,7 @@ export function StatsGrid({
       {/* Sessions This Week Card */}
       <div className="bg-background rounded-xl p-4 shadow-sm border border-border">
         <div className="mb-3">
-          <div className="w-10 h-10 rounded-lg bg-success/10 dark:bg-green-900/30 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-lg bg-success/10 dark:bg-success/20 flex items-center justify-center">
             <AppIcon
               name="calendar-check"
               className="w-5 h-5 text-success"
@@ -54,7 +54,7 @@ export function StatsGrid({
       {/* Topics Covered Card */}
       <div className="bg-background rounded-xl p-4 shadow-sm border border-border">
         <div className="mb-3">
-          <div className="w-10 h-10 rounded-lg bg-info/10 dark:bg-blue-900/30 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-lg bg-info/10 dark:bg-info/20 flex items-center justify-center">
             <AppIcon
               name="chart-bar"
               className="w-5 h-5 text-info dark:text-info"
@@ -73,7 +73,7 @@ export function StatsGrid({
         <div className="mb-3">
           <div
             className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-              needsFocus ? "bg-warning/10 dark:bg-amber-900/30" : "bg-success/10 dark:bg-green-900/30"
+              needsFocus ? "bg-warning/10 dark:bg-warning/20" : "bg-success/10 dark:bg-success/20"
             }`}
           >
             <AppIcon

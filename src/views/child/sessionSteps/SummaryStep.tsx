@@ -289,7 +289,7 @@ export default function SummaryStep({
               </div>
 
               {mnemonic?.status === "failed" && (
-                <div className="p-4 bg-warning/10 border border-warning-border rounded-xl">
+                <div className="p-4 bg-warning/10 border border-warning/20 rounded-xl">
                   <p className="text-warning text-sm flex items-center">
                     <AppIcon name="triangle-alert" className="mr-2 w-4 h-4" />
                     The last attempt didn't work. Try a different style or continue without a song.

@@ -143,16 +143,16 @@ export function getStreakColorScheme(streak: number): { bg: string; text: string
     return { bg: "bg-secondary", text: "text-muted-foreground" };
   }
   if (streak < 3) {
-    return { bg: "bg-orange-50", text: "text-orange-600" };
+    return { bg: "bg-streak/10", text: "text-streak" };
   }
   if (streak < 7) {
-    return { bg: "bg-orange-100", text: "text-orange-700" };
+    return { bg: "bg-streak/15", text: "text-streak" };
   }
   if (streak < 14) {
     return { bg: "bg-warning/10", text: "text-warning" };
   }
   // 14+ days
-  return { bg: "bg-gradient-to-r from-amber-100 to-orange-100", text: "text-orange-800" };
+  return { bg: "bg-gradient-to-r from-streak/15 to-streak/10", text: "text-streak" };
 }
 
 /**

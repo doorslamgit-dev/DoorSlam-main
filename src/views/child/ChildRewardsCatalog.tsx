@@ -20,7 +20,7 @@ import type {
 function getCategoryStyle(code: string): { bg: string; text: string; icon: string } {
   const styles: Record<string, { bg: string; text: string; icon: string }> = {
     screen_time: { bg: 'bg-info/10', text: 'text-info', icon: 'monitor' },
-    treats: { bg: 'bg-pink-100', text: 'text-pink-600', icon: 'candy' },
+    treats: { bg: 'bg-destructive/10', text: 'text-destructive', icon: 'candy' },
     activities: { bg: 'bg-success/10', text: 'text-success', icon: 'ticket' },
     pocket_money: { bg: 'bg-warning/10', text: 'text-warning', icon: 'wallet' },
     privileges: { bg: 'bg-primary/10', text: 'text-primary', icon: 'crown' },
@@ -200,7 +200,7 @@ export function ChildRewardsCatalog() {
     return (
       <PageLayout bgColor="bg-secondary">
         <div className="max-w-2xl mx-auto px-4 py-8">
-          <div className="bg-destructive/10 border border-danger-border rounded-2xl p-6 text-center">
+          <div className="bg-destructive/10 border border-destructive/20 rounded-2xl p-6 text-center">
             <p className="text-destructive font-medium">{error}</p>
           </div>
         </div>
@@ -262,7 +262,7 @@ export function ChildRewardsCatalog() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
           {/* Pending Redemptions */}
           {pendingRedemptions.length > 0 && (
-            <div className="bg-warning/10 rounded-2xl p-5 border border-warning-border">
+            <div className="bg-warning/10 rounded-2xl p-5 border border-warning/20">
               <h3 className="font-semibold text-primary mb-3 flex items-center gap-2">
                 <AppIcon name="clock" className="w-5 h-5 text-warning" />
                 Waiting for Parent Approval
@@ -385,7 +385,7 @@ export function ChildRewardsCatalog() {
                               key={reward.id}
                               onClick={() => handleRequestRedemption(reward.id)}
                               disabled={actionLoading === reward.id}
-                              className="bg-muted rounded-2xl p-4 border-2 border-accent-green/30 hover:border-accent-green hover:shadow-md transition-all text-left disabled:opacity-50"
+                              className="bg-muted rounded-2xl p-4 border-2 border-success/30 hover:border-success hover:shadow-md transition-all text-left disabled:opacity-50"
                             >
                               <div className={`w-12 h-12 ${style.bg} rounded-xl flex items-center justify-center mb-3`}>
                                 <AppIcon name={style.icon as import('../../components/ui/AppIcon').IconKey} className={`w-6 h-6 ${style.text}`} aria-hidden />
@@ -425,7 +425,7 @@ export function ChildRewardsCatalog() {
                               </p>
                               <p className="text-muted-foreground text-sm mb-2">{reward.points_cost} pts</p>
                               <div className="h-1.5 bg-muted rounded-full overflow-hidden mb-1">
-                                <div className="h-full bg-amber-400 rounded-full" style={{ width: `${progress}%` }} />
+                                <div className="h-full bg-warning rounded-full" style={{ width: `${progress}%` }} />
                               </div>
                               <p className="text-xs text-muted-foreground">{pointsNeeded} more needed</p>
                             </div>
@@ -457,7 +457,7 @@ export function ChildRewardsCatalog() {
                       key={item.id}
                       className={`rounded-2xl p-4 border-2 transition-all ${
                         isAdded 
-                          ? 'bg-success/5 border-accent-green/30' 
+                          ? 'bg-success/5 border-success/30'
                           : isPending
                           ? 'bg-primary/5 border-primary/20'
                           : 'bg-muted border-border hover:border-primary'

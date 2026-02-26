@@ -60,18 +60,18 @@ export default function ConversationListItem({
       onClick={() => onSelect(id)}
       className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-left transition-colors group ${
         isActive
-          ? 'bg-primary-50 text-primary-700'
-          : 'hover:bg-neutral-50 text-neutral-700'
+          ? 'bg-primary/5 text-primary/90'
+          : 'hover:bg-muted text-foreground'
       }`}
     >
       <AppIcon
         name="message-circle"
         className={`w-3.5 h-3.5 flex-shrink-0 ${
-          isActive ? 'text-primary-500' : 'text-neutral-400'
+          isActive ? 'text-primary' : 'text-muted-foreground'
         }`}
       />
       <span className="flex-1 text-sm truncate">{title || 'New conversation'}</span>
-      <span className="text-[10px] text-neutral-400 flex-shrink-0 whitespace-nowrap">
+      <span className="text-[10px] text-muted-foreground flex-shrink-0 whitespace-nowrap">
         {formatRelativeTime(lastActiveAt)}
       </span>
       <button
@@ -79,8 +79,8 @@ export default function ConversationListItem({
         onClick={handleDelete}
         className={`p-0.5 rounded transition-all flex-shrink-0 ${
           confirming
-            ? 'text-danger opacity-100'
-            : 'text-neutral-400 opacity-0 group-hover:opacity-100 hover:text-danger'
+            ? 'text-destructive opacity-100'
+            : 'text-muted-foreground opacity-0 group-hover:opacity-100 hover:text-destructive'
         }`}
         aria-label={confirming ? 'Confirm delete' : 'Delete conversation'}
         title={confirming ? 'Click again to confirm' : 'Delete'}

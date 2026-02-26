@@ -172,27 +172,27 @@ function getStatus(completionPercent: number, scheduleGap: number): StatusConfig
   if (completionPercent >= 100) {
     return {
       badgeVariant: 'success', textColor: 'text-success',
-      borderColor: 'border-success-border', bgLight: 'bg-success/10',
+      borderColor: 'border-success/20', bgLight: 'bg-success/10',
       icon: 'circle-check', label: 'Complete', isHealthy: true,
     };
   }
   if (scheduleGap >= 0) {
     return {
       badgeVariant: 'success', textColor: 'text-success',
-      borderColor: 'border-success-border', bgLight: 'bg-success/10',
+      borderColor: 'border-success/20', bgLight: 'bg-success/10',
       icon: 'circle-check', label: 'On Track', isHealthy: true,
     };
   }
   if (scheduleGap >= -3) {
     return {
       badgeVariant: 'warning', textColor: 'text-warning',
-      borderColor: 'border-warning-border', bgLight: 'bg-warning/10',
+      borderColor: 'border-warning/20', bgLight: 'bg-warning/10',
       icon: 'triangle-alert', label: 'Attention', isHealthy: false,
     };
   }
   return {
     badgeVariant: 'danger', textColor: 'text-destructive',
-    borderColor: 'border-danger-border', bgLight: 'bg-destructive/10',
+    borderColor: 'border-destructive/20', bgLight: 'bg-destructive/10',
     icon: 'flame', label: 'Behind', isHealthy: false,
   };
 }

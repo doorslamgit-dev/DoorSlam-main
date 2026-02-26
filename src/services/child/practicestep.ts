@@ -11,19 +11,19 @@ export const DIFFICULTY_OPTIONS: Array<{
   {
     value: "easy",
     label: "Easy",
-    color: "bg-success/10 text-success border-success-border",
+    color: "bg-success/10 text-success border-success/20",
     icon: "sprout",
   },
   {
     value: "medium",
     label: "Medium",
-    color: "bg-warning/10 text-warning border-warning-border",
+    color: "bg-warning/10 text-warning border-warning/20",
     icon: "star",
   },
   {
     value: "hard",
     label: "Hard",
-    color: "bg-destructive/10 text-destructive border-danger",
+    color: "bg-destructive/10 text-destructive border-destructive/20",
     icon: "flame",
   },
 ];

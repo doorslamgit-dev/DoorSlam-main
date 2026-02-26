@@ -80,6 +80,10 @@ export default {
   				DEFAULT: 'hsl(var(--lime))',
   				foreground: 'hsl(var(--lime-foreground))'
   			},
+  			streak: {
+  				DEFAULT: 'hsl(var(--streak))',
+  				foreground: 'hsl(var(--streak-foreground))'
+  			},
   			chart: {
   				'1': 'hsl(var(--chart-1))',
   				'2': 'hsl(var(--chart-2))',

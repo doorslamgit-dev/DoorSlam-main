@@ -74,7 +74,7 @@ export default function ExamTypeStep(props: {
       {/* Exam type options */}
       {loading ? (
         <div className="flex items-center justify-center py-8">
-          <div className="w-6 h-6 border-2 border-primary/20 border-t-primary-600 rounded-full animate-spin" />
+          <div className="w-6 h-6 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
           <span className="ml-3 text-sm text-muted-foreground">Loading exam types…</span>
         </div>
       ) : (

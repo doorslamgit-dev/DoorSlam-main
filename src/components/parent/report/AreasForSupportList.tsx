@@ -15,10 +15,10 @@ export function AreasForSupportList({
 }: AreasForSupportListProps) {
   return (
     <section className="mb-10 report-card">
-      <h2 className="text-xl font-bold text-primary-900 mb-4 flex items-center gap-2">
+      <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
         <AppIcon
           name="triangle-alert"
-          className="w-5 h-5 text-accent-amber"
+          className="w-5 h-5 text-warning"
           aria-hidden
         />
         <span>Areas for Support</span>
@@ -29,29 +29,29 @@ export function AreasForSupportList({
           {areasForSupport.map((topic) => (
             <div
               key={topic.topic_id}
-              className="flex items-center justify-between bg-accent-amber/10 border border-accent-amber/20 rounded-lg px-4 py-3"
+              className="flex items-center justify-between bg-warning/10 border border-warning/20 rounded-lg px-4 py-3"
             >
               <div>
-                <p className="font-medium text-primary-900">
+                <p className="font-medium text-foreground">
                   {topic.topic_name}
                 </p>
-                <p className="text-sm text-neutral-500">
+                <p className="text-sm text-muted-foreground">
                   {topic.subject_name} • Last reviewed:{" "}
                   {formatReportDate(topic.last_reviewed)}
                 </p>
               </div>
 
               <div className="text-right">
-                <p className="text-2xl font-bold text-accent-amber">
+                <p className="text-2xl font-bold text-warning">
                   {topic.confidence_percent}%
                 </p>
-                <p className="text-xs text-neutral-500">confidence</p>
+                <p className="text-xs text-muted-foreground">confidence</p>
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <p className="text-neutral-500 italic">
+        <p className="text-muted-foreground italic">
           No areas of concern identified.
         </p>
       )}

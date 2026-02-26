@@ -12,7 +12,7 @@ export function DangerZoneSection() {
   };
 
   return (
-    <div className="rounded-2xl p-6 border-2 border-accent-red bg-destructive/10">
+    <div className="rounded-2xl p-6 border-2 border-destructive bg-destructive/10">
       <div className="flex items-center gap-3 mb-4">
         <AppIcon name="trash" className="w-5 h-5 text-destructive" />
         <h2 className="text-lg font-semibold text-destructive">Danger Zone</h2>
@@ -27,7 +27,7 @@ export function DangerZoneSection() {
         <button
           type="button"
           onClick={() => setShowDeleteConfirm(true)}
-          className="px-4 py-2 rounded-xl border-2 border-accent-red text-destructive font-medium hover:bg-destructive/10 transition-colors"
+          className="px-4 py-2 rounded-xl border-2 border-destructive text-destructive font-medium hover:bg-destructive/10 transition-colors"
         >
           Delete my account
         </button>
@@ -41,7 +41,7 @@ export function DangerZoneSection() {
             type="text"
             value={deleteConfirmText}
             onChange={(e) => setDeleteConfirmText(e.target.value)}
-            className="w-full px-4 py-2.5 rounded-xl border border-accent-red focus:outline-none"
+            className="w-full px-4 py-2.5 rounded-xl border border-destructive focus:outline-none"
           />
 
           <div className="flex gap-3">

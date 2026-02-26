@@ -24,7 +24,7 @@ export const CONFIDENCE_OPTIONS: ConfidenceOption[] = [
     icon: "check-circle",
     bgColor: "bg-background",
     selectedBg: "bg-info/10",
-    selectedBorder: "border-blue-500",
+    selectedBorder: "border-info",
   },
   {
     id: "bit_unsure",
@@ -33,7 +33,7 @@ export const CONFIDENCE_OPTIONS: ConfidenceOption[] = [
     icon: "circle-help",
     bgColor: "bg-background",
     selectedBg: "bg-warning/10",
-    selectedBorder: "border-amber-500",
+    selectedBorder: "border-warning",
   },
   {
     id: "need_help",
@@ -42,6 +42,6 @@ export const CONFIDENCE_OPTIONS: ConfidenceOption[] = [
     icon: "hand-heart",
     bgColor: "bg-background",
     selectedBg: "bg-destructive/10",
-    selectedBorder: "border-danger",
+    selectedBorder: "border-destructive",
   },
 ];

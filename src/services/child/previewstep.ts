@@ -16,7 +16,7 @@ export const CONFIDENCE_OPTIONS: ConfidenceOption[] = [
     bgColor: "bg-success/10",
     iconBgColor: "bg-success",
     iconColor: "text-white",
-    selectedBorder: "border-accent-green",
+    selectedBorder: "border-success",
   },
   {
     id: "fairly_confident",
@@ -36,7 +36,7 @@ export const CONFIDENCE_OPTIONS: ConfidenceOption[] = [
     bgColor: "bg-muted",
     iconBgColor: "bg-warning/20",
     iconColor: "text-warning",
-    selectedBorder: "border-accent-amber",
+    selectedBorder: "border-warning",
   },
   {
     id: "need_help",
@@ -46,7 +46,7 @@ export const CONFIDENCE_OPTIONS: ConfidenceOption[] = [
     bgColor: "bg-muted",
     iconBgColor: "bg-destructive/20",
     iconColor: "text-destructive",
-    selectedBorder: "border-accent-red",
+    selectedBorder: "border-destructive",
   },
 ];
 

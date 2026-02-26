@@ -60,7 +60,7 @@ export default function RewardsMiniCard({ childId }: RewardsMiniCardProps) {
   // Loading state
   if (loading) {
     return (
-      <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-6 border border-warning-border/30 flex items-center justify-center min-h-[180px]">
+      <div className="bg-gradient-to-br from-warning/10 to-warning/10 rounded-2xl p-6 border border-warning/20 flex items-center justify-center min-h-[180px]">
         <AppIcon name="loader" className="w-6 h-6 text-warning animate-spin" />
       </div>
     );
@@ -84,11 +84,11 @@ export default function RewardsMiniCard({ childId }: RewardsMiniCardProps) {
   }
 
   return (
-    <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-6 border border-warning-border/30">
+    <div className="bg-gradient-to-br from-warning/10 to-warning/10 rounded-2xl p-6 border border-warning/20">
       {/* Header with points */}
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-amber-200 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-xl bg-warning/20 flex items-center justify-center">
             <AppIcon name="star" className="w-5 h-5 text-warning" />
           </div>
           <div>
@@ -126,7 +126,7 @@ export default function RewardsMiniCard({ childId }: RewardsMiniCardProps) {
           {/* Progress bar */}
           <div className="h-2 bg-white/70 rounded-full overflow-hidden mb-1">
             <div
-              className="h-full bg-gradient-to-r from-amber-400 to-orange-500 rounded-full transition-all duration-500"
+              className="h-full bg-gradient-to-r from-warning to-warning/90 rounded-full transition-all duration-500"
               style={{ width: `${summary.next_goal.progress_percent}%` }}
             />
           </div>
@@ -156,7 +156,7 @@ export default function RewardsMiniCard({ childId }: RewardsMiniCardProps) {
       {/* CTA Button */}
       <button
         onClick={() => navigate('/child/rewards')}
-        className="w-full py-2.5 bg-warning hover:bg-amber-600 text-primary-foreground rounded-xl font-medium text-sm transition-colors flex items-center justify-center gap-2"
+        className="w-full py-2.5 bg-warning hover:bg-warning/90 text-primary-foreground rounded-xl font-medium text-sm transition-colors flex items-center justify-center gap-2"
       >
         <AppIcon name="gift" className="w-4 h-4" />
         {summary.unlocked_count > 0 ? 'Claim Rewards' : 'View Rewards'}

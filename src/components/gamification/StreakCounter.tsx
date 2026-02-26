@@ -50,12 +50,12 @@ export default function StreakCounter({
 
   return (
     <div
-      className={`inline-flex items-center gap-2 ${colors.bg} border border-orange-200 rounded-xl ${classes.container}`}
+      className={`inline-flex items-center gap-2 ${colors.bg} border border-streak/20 rounded-xl ${classes.container}`}
     >
       {/* Flame icon */}
       <AppIcon
         name="flame"
-        className={`${classes.icon} text-orange-600 ${
+        className={`${classes.icon} text-streak ${
           animated && currentStreak > 0 ? "animate-pulse" : ""
         }`}
         aria-hidden
@@ -67,7 +67,7 @@ export default function StreakCounter({
           <span className={`font-bold ${colors.text} ${classes.number}`}>
             {currentStreak}
           </span>
-          <span className={`text-orange-600 ${classes.message}`}>
+          <span className={`text-streak ${classes.message}`}>
             {currentStreak === 1 ? "day" : "days"}
           </span>
         </div>
@@ -81,8 +81,8 @@ export default function StreakCounter({
 
       {/* Best streak badge */}
       {longestStreak !== undefined && longestStreak > currentStreak && (
-        <div className="ml-2 pl-2 border-l border-orange-200">
-          <div className="text-xs text-orange-600">Best: {longestStreak}</div>
+        <div className="ml-2 pl-2 border-l border-streak/20">
+          <div className="text-xs text-streak">Best: {longestStreak}</div>
         </div>
       )}
     </div>
@@ -99,7 +99,7 @@ export function StreakBadge({ streak }: { streak: number }) {
     <div
       className={`inline-flex items-center gap-1 px-2 py-0.5 ${colors.bg} rounded-full`}
     >
-      <AppIcon name="flame" className="w-3.5 h-3.5 text-orange-600" aria-hidden />
+      <AppIcon name="flame" className="w-3.5 h-3.5 text-streak" aria-hidden />
       <span className={`text-xs font-semibold ${colors.text}`}>{streak}</span>
     </div>
   );
@@ -116,19 +116,19 @@ export function StreakCelebration({
   return (
     <div className="text-center py-6">
       <div className="flex justify-center mb-4">
-        <div className="w-16 h-16 rounded-2xl bg-orange-50 border border-orange-200 flex items-center justify-center animate-bounce">
-          <AppIcon name="flame" className="w-10 h-10 text-orange-600" aria-hidden />
+        <div className="w-16 h-16 rounded-2xl bg-streak/10 border border-streak/20 flex items-center justify-center animate-bounce">
+          <AppIcon name="flame" className="w-10 h-10 text-streak" aria-hidden />
         </div>
       </div>
 
-      <div className="text-4xl font-bold text-orange-600 mb-2">
+      <div className="text-4xl font-bold text-streak mb-2">
         {streak} Day Streak!
       </div>
 
       {isNewRecord && (
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-100 to-orange-100 rounded-full">
-          <AppIcon name="party-popper" className="w-5 h-5 text-orange-700" aria-hidden />
-          <span className="font-semibold text-orange-700">New Personal Best!</span>
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-streak/15 to-streak/10 rounded-full">
+          <AppIcon name="party-popper" className="w-5 h-5 text-streak" aria-hidden />
+          <span className="font-semibold text-streak">New Personal Best!</span>
         </div>
       )}
 

@@ -34,9 +34,9 @@ function getProgressBarColor(coverage: number, priorityTier: string): string {
   const threshold = priorityTier === "high" ? 80 : priorityTier === "medium" ? 60 : 40;
 
   if (coverage >= threshold + 15) return "bg-success";
-  if (coverage >= threshold) return "bg-green-400";
-  if (coverage >= threshold - 15) return "bg-amber-400";
-  return "bg-red-400";
+  if (coverage >= threshold) return "bg-success";
+  if (coverage >= threshold - 15) return "bg-warning";
+  return "bg-destructive";
 }
 
 function getPriorityLabel(tier: string): { label: string; color: string } {

@@ -278,7 +278,7 @@ export default function AnalyticsSharingCard({
       )}
 
       {/* Coming soon badge */}
-      <div className="mt-4 p-3 rounded-xl flex items-center gap-3 bg-warning/10 border border-accent-amber/30">
+      <div className="mt-4 p-3 rounded-xl flex items-center gap-3 bg-warning/10 border border-warning/20">
         <AppIcon name="rocket" className="w-5 h-5 text-warning flex-shrink-0" aria-hidden />
         <div>
           <p className="text-sm font-medium text-warning">

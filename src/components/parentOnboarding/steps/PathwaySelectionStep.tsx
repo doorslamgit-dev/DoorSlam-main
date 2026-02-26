@@ -81,9 +81,9 @@ function SubjectPathwayCard({
   const isSkipped = subjectSelections.some((s) => s.pathway_id === "skipped");
 
   const statusStyles = isComplete
-    ? "border-accent-green/30 bg-background"
+    ? "border-success/30 bg-background"
     : isSkipped
-      ? "border-warning-border bg-background"
+      ? "border-warning/20 bg-background"
       : "border-border bg-background";
 
   const badgeStyles = isComplete
@@ -417,7 +417,7 @@ export default function PathwaySelectionStep({
   if (error) {
     return (
       <div className="space-y-6">
-        <div className="rounded-xl border border-accent-red/30 bg-destructive/5 p-4">
+        <div className="rounded-xl border border-destructive/30 bg-destructive/5 p-4">
           <div className="flex items-start gap-3">
             <AppIcon
               name="triangle-alert"
@@ -503,7 +503,7 @@ export default function PathwaySelectionStep({
 
       {/* Skipped warning */}
       {skippedCount > 0 && (
-        <div className="rounded-xl bg-warning/10 border border-warning-border p-4 text-sm text-amber-900">
+        <div className="rounded-xl bg-warning/10 border border-warning/20 p-4 text-sm text-foreground">
           <div className="flex items-start gap-3">
             <AppIcon
               name="triangle-alert"

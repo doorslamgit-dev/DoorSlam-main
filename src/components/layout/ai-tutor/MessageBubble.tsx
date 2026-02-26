@@ -20,7 +20,7 @@ export default function MessageBubble({ role, content, isStreaming, sources }: M
       {/* Avatar */}
       <div
         className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center ${
-          isUser ? 'bg-primary-100 text-primary-600' : 'bg-neutral-100 text-neutral-500'
+          isUser ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground'
         }`}
       >
         <AppIcon
@@ -34,8 +34,8 @@ export default function MessageBubble({ role, content, isStreaming, sources }: M
         <div
           className={`rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed ${
             isUser
-              ? 'bg-primary-600 text-white rounded-br-md'
-              : 'bg-neutral-100 text-neutral-800 rounded-bl-md'
+              ? 'bg-primary text-white rounded-br-md'
+              : 'bg-muted text-foreground rounded-bl-md'
           }`}
         >
           {isUser ? (

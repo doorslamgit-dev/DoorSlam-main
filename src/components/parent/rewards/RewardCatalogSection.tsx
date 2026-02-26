@@ -22,7 +22,7 @@ function getCategoryIcon(code: string): string {
 function getCategoryStyle(code: string): { bg: string; text: string } {
   const styles: Record<string, { bg: string; text: string }> = {
     screen_time: { bg: 'bg-info/10', text: 'text-info' },
-    treats: { bg: 'bg-pink-100', text: 'text-pink-600' },
+    treats: { bg: 'bg-destructive/10', text: 'text-destructive' },
     activities: { bg: 'bg-success/10', text: 'text-success' },
     pocket_money: { bg: 'bg-warning/10', text: 'text-warning' },
     privileges: { bg: 'bg-primary/10', text: 'text-primary' },

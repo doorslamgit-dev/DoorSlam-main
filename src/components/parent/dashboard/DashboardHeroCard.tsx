@@ -102,7 +102,7 @@ function NextBestAction({
 
   if (needsInvite) {
     return (
-      <div className="bg-success/10 rounded-lg p-3 mt-auto border border-success-border">
+      <div className="bg-success/10 rounded-lg p-3 mt-auto border border-success/20">
         <div className="flex items-center gap-1.5 mb-1">
           <AppIcon name="user-plus" className="w-3.5 h-3.5 text-success" />
           <span className="text-xs font-semibold text-foreground">Next Best Action</span>

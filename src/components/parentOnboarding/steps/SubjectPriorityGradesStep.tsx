@@ -184,7 +184,7 @@ function SortableCard({ subject, index, onGradeChange }: SortableCardProps) {
 
           {/* Large Gap Warning */}
           {hasLargeGap && (
-            <div className="mt-4 flex items-start gap-2 rounded-lg bg-warning/10 border border-accent-amber/30 p-3">
+            <div className="mt-4 flex items-start gap-2 rounded-lg bg-warning/10 border border-warning/30 p-3">
               <AppIcon
                 name="triangle-alert"
                 className="w-4 h-4 text-warning mt-0.5"

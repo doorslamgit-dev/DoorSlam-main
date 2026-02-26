@@ -190,7 +190,7 @@ export function QuestionCard({
 
               {/* Self-assessment */}
               {!selfAssessment && (
-                <div className="bg-info/10 border border-info-border rounded-xl p-5">
+                <div className="bg-info/10 border border-info/20 rounded-xl p-5">
                   <p className="text-info font-medium mb-4 text-center">
                     How do you think you did? Select to see the answer:
                   </p>
@@ -198,7 +198,7 @@ export function QuestionCard({
                     <button
                       type="button"
                       onClick={() => onSelfAssess("got_it")}
-                      className="flex-1 max-w-[140px] py-4 px-4 bg-background hover:bg-success/10 border-2 border-success-border hover:border-green-400 text-success rounded-xl transition flex flex-col items-center gap-2 shadow-sm"
+                      className="flex-1 max-w-[140px] py-4 px-4 bg-background hover:bg-success/10 border-2 border-success/20 hover:border-success text-success rounded-xl transition flex flex-col items-center gap-2 shadow-sm"
                     >
                       <span className="text-2xl">😊</span>
                       <span className="text-sm font-semibold">Nailed it!</span>
@@ -206,7 +206,7 @@ export function QuestionCard({
                     <button
                       type="button"
                       onClick={() => onSelfAssess("unsure")}
-                      className="flex-1 max-w-[140px] py-4 px-4 bg-background hover:bg-warning/10 border-2 border-warning-border hover:border-amber-400 text-warning rounded-xl transition flex flex-col items-center gap-2 shadow-sm"
+                      className="flex-1 max-w-[140px] py-4 px-4 bg-background hover:bg-warning/10 border-2 border-warning/20 hover:border-warning text-warning rounded-xl transition flex flex-col items-center gap-2 shadow-sm"
                     >
                       <span className="text-2xl">🤔</span>
                       <span className="text-sm font-semibold">Not sure</span>
@@ -214,7 +214,7 @@ export function QuestionCard({
                     <button
                       type="button"
                       onClick={() => onSelfAssess("not_quite")}
-                      className="flex-1 max-w-[140px] py-4 px-4 bg-background hover:bg-destructive/10 border-2 border-danger-border hover:border-danger text-destructive rounded-xl transition flex flex-col items-center gap-2 shadow-sm"
+                      className="flex-1 max-w-[140px] py-4 px-4 bg-background hover:bg-destructive/10 border-2 border-destructive/20 hover:border-destructive text-destructive rounded-xl transition flex flex-col items-center gap-2 shadow-sm"
                     >
                       <span className="text-2xl">😅</span>
                       <span className="text-sm font-semibold">Missed it</span>
@@ -252,8 +252,8 @@ export function QuestionCard({
             </div>
 
             {/* Correct answer */}
-            <div className="bg-success/10 border border-success-border rounded-xl p-4">
-              <h4 className="font-semibold text-green-900 mb-2 flex items-center gap-2">
+            <div className="bg-success/10 border border-success/20 rounded-xl p-4">
+              <h4 className="font-semibold text-foreground mb-2 flex items-center gap-2">
                 <AppIcon name={ICONS.checkCircle} className="text-success" />
                 Correct Answer
               </h4>
@@ -269,7 +269,7 @@ export function QuestionCard({
               <button
                 type="button"
                 disabled
-                className="py-2.5 px-4 bg-gradient-to-r from-primary-100 to-blue-100 text-primary/70 font-medium rounded-xl flex items-center gap-2 cursor-not-allowed opacity-60 text-sm"
+                className="py-2.5 px-4 bg-gradient-to-r from-primary/10 to-info/10 text-primary/70 font-medium rounded-xl flex items-center gap-2 cursor-not-allowed opacity-60 text-sm"
               >
                 <AppIcon name={ICONS.robot} />
                 <span>Smart Mark my answer</span>
@@ -282,7 +282,7 @@ export function QuestionCard({
 
             {/* Mark scheme */}
             {question.mark_scheme && question.mark_scheme.length > 0 && (
-              <div className="bg-info/10 border border-info-border rounded-xl p-4">
+              <div className="bg-info/10 border border-info/20 rounded-xl p-4">
                 <h4 className="font-semibold text-info mb-2 flex items-center gap-2">
                   <AppIcon name={ICONS.idea} className="text-info" />
                   Mark Scheme
@@ -310,8 +310,8 @@ export function QuestionCard({
 
             {/* Common mistakes */}
             {question.common_mistakes && question.common_mistakes.length > 0 && (
-              <div className="bg-warning/10 border border-warning-border rounded-xl p-4">
-                <h4 className="font-semibold text-amber-900 mb-2 flex items-center gap-2">
+              <div className="bg-warning/10 border border-warning/20 rounded-xl p-4">
+                <h4 className="font-semibold text-foreground mb-2 flex items-center gap-2">
                   <AppIcon name={ICONS.warning} className="text-warning" />
                   Common Mistakes to Avoid
                 </h4>

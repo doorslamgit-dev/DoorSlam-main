@@ -1943,12 +1943,12 @@ export default function DesignGuidelines() {
              </div>
              <ChartPlaceholder height="h-40" label="Bar chart — Planned vs Completed sessions per day" />
              <div className="grid grid-cols-2 gap-3 mt-4">
-               <div className="bg-success/10 rounded-xl p-3 border border-success-border">
+               <div className="bg-success/10 rounded-xl p-3 border border-success/20">
                  <p className="text-xs text-muted-foreground mb-1">Best Day</p>
                  <p className="text-base font-bold text-foreground">Thursday</p>
                  <p className="text-xs text-muted-foreground">3 sessions completed</p>
                </div>
-               <div className="bg-warning/10 rounded-xl p-3 border border-warning-border">
+               <div className="bg-warning/10 rounded-xl p-3 border border-warning/20">
                  <p className="text-xs text-muted-foreground mb-1">Hardest Day</p>
                  <p className="text-base font-bold text-foreground">Saturday</p>
                  <p className="text-xs text-muted-foreground">0 of 2 sessions done</p>
@@ -1970,12 +1970,12 @@ export default function DesignGuidelines() {
              </div>
              <ChartPlaceholder height="h-40" label="Line chart — Pre vs Post confidence across sessions" />
              <div className="grid grid-cols-2 gap-3 mt-4">
-               <div className="bg-success/10 rounded-xl p-3 border border-success-border">
+               <div className="bg-success/10 rounded-xl p-3 border border-success/20">
                  <p className="text-xs text-muted-foreground mb-1">Largest Lift</p>
                  <p className="text-base font-bold text-foreground">+24%</p>
                  <p className="text-xs text-muted-foreground">Biology · Cell Division</p>
                </div>
-               <div className="bg-warning/10 rounded-xl p-3 border border-warning-border">
+               <div className="bg-warning/10 rounded-xl p-3 border border-warning/20">
                  <p className="text-xs text-muted-foreground mb-1">Most Fragile</p>
                  <p className="text-base font-bold text-foreground">English</p>
                  <p className="text-xs text-muted-foreground">Avg confidence still low</p>
@@ -2108,7 +2108,7 @@ export default function DesignGuidelines() {
                    <p className="text-xs font-semibold text-muted-foreground mb-1.5">{subject}</p>
                    <div className="flex flex-wrap gap-1.5">
                      {topics.map(({ name, score }) => {
-                       const colors = ['', 'bg-error-bg text-error border-error-border', 'bg-warning/10 text-warning border-warning-border', 'bg-secondary text-muted-foreground border-border', 'bg-success/10 text-success border-success-border', 'bg-primary/5 text-primary border-primary/20'];
+                       const colors = ['', 'bg-destructive/10 text-destructive border-destructive/20', 'bg-warning/10 text-warning border-warning/20', 'bg-secondary text-muted-foreground border-border', 'bg-success/10 text-success border-success/20', 'bg-primary/5 text-primary border-primary/20'];
                        return (
                          <span key={name} className={`text-xs px-2 py-1 rounded-lg border font-medium ${colors[score]}`}>
                            {name}
@@ -2120,7 +2120,7 @@ export default function DesignGuidelines() {
                ))}
                <div className="flex items-center gap-3 pt-2 border-t border-border">
                  <span className="text-xs text-muted-foreground">Confidence:</span>
-                 {[{ label: 'Low', cls: 'bg-error-bg text-error' }, { label: 'Med', cls: 'bg-warning/10 text-warning' }, { label: 'OK', cls: 'bg-secondary text-muted-foreground' }, { label: 'High', cls: 'bg-success/10 text-success' }].map(({ label, cls }) => (
+                 {[{ label: 'Low', cls: 'bg-destructive/10 text-destructive' }, { label: 'Med', cls: 'bg-warning/10 text-warning' }, { label: 'OK', cls: 'bg-secondary text-muted-foreground' }, { label: 'High', cls: 'bg-success/10 text-success' }].map(({ label, cls }) => (
                    <span key={label} className={`text-xs px-2 py-0.5 rounded ${cls}`}>{label}</span>
                  ))}
                </div>

@@ -256,7 +256,7 @@ export function getStatusColors(status: FeasibilityStatus): {
     case "sufficient":
       return {
         bg: "bg-success/10",
-        border: "border-success-border",
+        border: "border-success/20",
         text: "text-success",
         icon: "fa-circle-check",
         iconClass: "text-success",
@@ -264,7 +264,7 @@ export function getStatusColors(status: FeasibilityStatus): {
     case "marginal":
       return {
         bg: "bg-warning/10",
-        border: "border-warning-border",
+        border: "border-warning/20",
         text: "text-warning",
         icon: "fa-triangle-exclamation",
         iconClass: "text-warning",
@@ -272,7 +272,7 @@ export function getStatusColors(status: FeasibilityStatus): {
     case "insufficient":
       return {
         bg: "bg-destructive/10",
-        border: "border-danger-border",
+        border: "border-destructive/20",
         text: "text-destructive",
         icon: "fa-circle-xmark",
         iconClass: "text-destructive",

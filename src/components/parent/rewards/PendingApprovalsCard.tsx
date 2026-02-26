@@ -50,7 +50,7 @@ export function PendingApprovalsCard({
   }
 
   return (
-    <div className="bg-background rounded-xl border border-warning-border p-4 sm:p-6">
+    <div className="bg-background rounded-xl border border-warning/20 p-4 sm:p-6">
       <div className="flex items-center gap-3 mb-4">
         <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-warning/10">
           <AppIcon name="clock" className="w-5 h-5 text-warning" />
@@ -71,7 +71,7 @@ export function PendingApprovalsCard({
           return (
             <div
               key={redemption.id}
-              className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-warning/10 rounded-lg border border-amber-100"
+              className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-warning/10 rounded-lg border border-warning/20"
             >
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-lg bg-warning/10 flex items-center justify-center">

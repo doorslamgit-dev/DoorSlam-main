@@ -21,7 +21,7 @@ type StatusUI = {
 export const STATUS_UI: Record<StatusIndicator, StatusUI> = {
   on_track: {
     badgeClass: "bg-success text-white",
-    insightClass: "bg-success/10 border border-success-border",
+    insightClass: "bg-success/10 border border-success/20",
     headline: "Everything's on track this week",
     description:
       "Your children are keeping a steady revision rhythm. Sessions are happening consistently, and engagement is strong across all subjects.",
@@ -30,7 +30,7 @@ export const STATUS_UI: Record<StatusIndicator, StatusUI> = {
   },
   keep_an_eye: {
     badgeClass: "bg-info text-white",
-    insightClass: "bg-info/10 border border-info-border",
+    insightClass: "bg-info/10 border border-info/20",
     headline: "Worth keeping an eye on",
     description:
       "Activity has slowed slightly. Nothing to worry about yet, but worth monitoring over the next few days.",
@@ -39,7 +39,7 @@ export const STATUS_UI: Record<StatusIndicator, StatusUI> = {
   },
   needs_attention: {
     badgeClass: "bg-warning text-white",
-    insightClass: "bg-warning/10 border border-warning-border",
+    insightClass: "bg-warning/10 border border-warning/20",
     headline: "Some sessions need a little boost",
     description:
       "A few sessions were missed this week. A gentle check-in with your children could help get things back on track.",

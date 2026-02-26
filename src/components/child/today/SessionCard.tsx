@@ -38,11 +38,11 @@ export default function SessionCard({
     <div
       className={`bg-background rounded-2xl border shadow-sm overflow-hidden transition-all ${
         session.status === "completed"
-          ? "border-success-border dark:border-green-800 opacity-75"
+          ? "border-success/20 dark:border-success/30 opacity-75"
           : isLocked
           ? "border-border opacity-60"
           : isNext
-          ? "border-primary/50 dark:border-primary ring-2 ring-primary/10 dark:ring-primary/90/50"
+          ? "border-primary/50 dark:border-primary ring-2 ring-primary/10 dark:ring-primary/20"
           : "border-border"
       }`}
     >
@@ -84,7 +84,7 @@ export default function SessionCard({
 
         {/* Topic progress for in-progress sessions */}
         {isStarted && session.total_topics && session.total_topics > 1 && (
-          <div className="mb-4 p-3 bg-warning/10 rounded-xl border border-warning-border">
+          <div className="mb-4 p-3 bg-warning/10 rounded-xl border border-warning/20">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-medium text-warning">Topic Progress</span>
               <span className="text-sm text-warning">
@@ -92,7 +92,7 @@ export default function SessionCard({
               </span>
             </div>
 
-            <div className="h-2 bg-amber-200 rounded-full overflow-hidden">
+            <div className="h-2 bg-warning/20 rounded-full overflow-hidden">
               <div
                 className="h-full bg-warning rounded-full transition-all duration-300"
                 style={{

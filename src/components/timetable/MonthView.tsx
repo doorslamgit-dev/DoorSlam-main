@@ -78,7 +78,7 @@ export function MonthView({
                   dayBlocked
                     ? "border-input bg-secondary"
                     : isToday
-                    ? "border-primary dark:border-primary bg-primary/5 dark:bg-primary/90/30"
+                    ? "border-primary dark:border-primary bg-primary/5 dark:bg-primary/20"
                     : "border-border bg-background"
                 }`}
               >

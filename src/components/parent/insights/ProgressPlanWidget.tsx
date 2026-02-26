@@ -22,9 +22,9 @@ interface ProgressPlanWidgetProps {
 export default function ProgressPlanWidget({ data, loading }: ProgressPlanWidgetProps) {
   if (loading) {
     return (
-      <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200 animate-pulse">
-        <div className="h-6 bg-neutral-100 rounded w-1/3 mb-4" />
-        <div className="h-60 bg-neutral-100 rounded" />
+      <div className="bg-background rounded-2xl shadow-soft p-6 border border-border animate-pulse">
+        <div className="h-6 bg-muted rounded w-1/3 mb-4" />
+        <div className="h-60 bg-muted rounded" />
       </div>
     );
   }
@@ -37,11 +37,11 @@ export default function ProgressPlanWidget({ data, loading }: ProgressPlanWidget
     })) || [];
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200">
+    <div className="bg-background rounded-2xl shadow-soft p-6 border border-border">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="text-lg font-bold text-primary-900 mb-1">Progress vs Plan</h3>
-          <p className="text-xs text-neutral-500">Planned vs completed sessions</p>
+          <h3 className="text-lg font-bold text-foreground mb-1">Progress vs Plan</h3>
+          <p className="text-xs text-muted-foreground">Planned vs completed sessions</p>
         </div>
       </div>
 
@@ -73,31 +73,31 @@ export default function ProgressPlanWidget({ data, loading }: ProgressPlanWidget
             </BarChart>
           </ResponsiveContainer>
         ) : (
-          <div className="h-full flex items-center justify-center text-neutral-400">
+          <div className="h-full flex items-center justify-center text-muted-foreground">
             No session data for this period
           </div>
         )}
       </div>
 
-      <div className="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-neutral-200">
+      <div className="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-border">
         <div className="flex items-center space-x-2">
-          <div className="w-10 h-10 bg-accent-green bg-opacity-10 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
-            <AppIcon name="trophy" className="w-5 h-5 text-accent-green" />
+          <div className="w-10 h-10 bg-success/10 dark:bg-success/20 rounded-lg flex items-center justify-center">
+            <AppIcon name="trophy" className="w-5 h-5 text-success" />
           </div>
           <div>
-            <div className="text-xs text-neutral-500">Best Day</div>
-            <div className="font-semibold text-sm text-neutral-700">
+            <div className="text-xs text-muted-foreground">Best Day</div>
+            <div className="font-semibold text-sm text-foreground">
               {data?.best_day?.day_name?.trim() || "N/A"}
             </div>
           </div>
         </div>
         <div className="flex items-center space-x-2">
-          <div className="w-10 h-10 bg-accent-amber bg-opacity-10 dark:bg-amber-900/30 rounded-lg flex items-center justify-center">
-            <AppIcon name="triangle-alert" className="w-5 h-5 text-accent-amber" />
+          <div className="w-10 h-10 bg-warning/10 dark:bg-warning/20 rounded-lg flex items-center justify-center">
+            <AppIcon name="triangle-alert" className="w-5 h-5 text-warning" />
           </div>
           <div>
-            <div className="text-xs text-neutral-500">Hardest Day</div>
-            <div className="font-semibold text-sm text-neutral-700">
+            <div className="text-xs text-muted-foreground">Hardest Day</div>
+            <div className="font-semibold text-sm text-foreground">
               {data?.worst_day?.day_name?.trim() || "None"}
             </div>
           </div>
