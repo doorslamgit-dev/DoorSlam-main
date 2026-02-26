@@ -129,13 +129,6 @@ export function WeekView({
       }
     }
 
-    const hasUnscheduled = dayMeta.some((day) =>
-      sessionLookup.has(`${day.dateStr}:unscheduled`)
-    );
-    if (hasUnscheduled) {
-      slotsWithData.push("unscheduled");
-    }
-
     return slotsWithData;
   }, [dayMeta, sessionLookup]);
 

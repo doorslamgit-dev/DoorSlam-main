@@ -90,8 +90,8 @@ function DroppableCell({
             key={topic.id}
             topicId={topic.id}
             topicName={topic.topic_name}
-            subjectName={session.subject_name}
-            subjectColor={getSubjectColor(session.subject_name)}
+            subjectName={topic.subject_name}
+            subjectColor={getSubjectColor(topic.subject_name)}
             sessionStatus={session.status}
             sessionDate={session.session_date}
             plannedSessionId={session.planned_session_id}

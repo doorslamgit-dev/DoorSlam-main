@@ -19,7 +19,13 @@ export interface TimetableSession {
   icon: string;
   color: string;
   topic_count: number;
-  topics_preview: Array<{ id: string; topic_name: string; order_index: number }>;
+  topics_preview: Array<{
+    id: string;
+    topic_name: string;
+    order_index: number;
+    subject_name: string;
+    subject_color: string;
+  }>;
   time_of_day: string | null;
 }
 
@@ -270,20 +276,42 @@ export async function fetchWeekPlan(
       }
     }
 
-    // Fetch topic names in one batch
-    const topicMap = new Map<string, { id: string; topic_name: string; order_index: number }>();
+    // Fetch topic names + their subject info via the curriculum hierarchy
+    const topicMap = new Map<string, {
+      id: string;
+      topic_name: string;
+      order_index: number;
+      subject_name: string;
+      subject_color: string;
+    }>();
     if (allTopicIds.length > 0) {
       const { data: topicsData } = await supabase
         .from("topics")
-        .select("id, topic_name, order_index")
+        .select(`
+          id,
+          topic_name,
+          order_index,
+          themes!inner (
+            components!inner (
+              subjects!inner (
+                subject_name,
+                color
+              )
+            )
+          )
+        `)
         .in("id", allTopicIds);
 
       if (topicsData) {
-        for (const t of topicsData) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Supabase nested join typed as any
+        for (const t of topicsData as any[]) {
+          const subject = t.themes?.components?.subjects;
           topicMap.set(t.id, {
             id: t.id,
             topic_name: t.topic_name,
             order_index: t.order_index ?? 0,
+            subject_name: subject?.subject_name ?? "Unknown",
+            subject_color: subject?.color ?? COLORS.neutral[500],
           });
         }
       }
@@ -305,7 +333,13 @@ export async function fetchWeekPlan(
       const topicIds: string[] = row.topic_ids || [];
       const topicsPreview = topicIds
         .map((tid: string) => topicMap.get(tid))
-        .filter(Boolean) as { id: string; topic_name: string; order_index: number }[];
+        .filter(Boolean) as {
+          id: string;
+          topic_name: string;
+          order_index: number;
+          subject_name: string;
+          subject_color: string;
+        }[];
 
       const session: TimetableSession = {
         planned_session_id: row.id,
@@ -445,20 +479,42 @@ export async function fetchTodaySessions(
       }
     }
 
-    // Fetch topic names
-    const topicMap = new Map<string, { id: string; topic_name: string; order_index: number }>();
+    // Fetch topic names + their subject info via the curriculum hierarchy
+    const topicMap = new Map<string, {
+      id: string;
+      topic_name: string;
+      order_index: number;
+      subject_name: string;
+      subject_color: string;
+    }>();
     if (allTopicIds.length > 0) {
       const { data: topicsData } = await supabase
         .from("topics")
-        .select("id, topic_name, order_index")
+        .select(`
+          id,
+          topic_name,
+          order_index,
+          themes!inner (
+            components!inner (
+              subjects!inner (
+                subject_name,
+                color
+              )
+            )
+          )
+        `)
         .in("id", allTopicIds);
 
       if (topicsData) {
-        for (const t of topicsData) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Supabase nested join typed as any
+        for (const t of topicsData as any[]) {
+          const subject = t.themes?.components?.subjects;
           topicMap.set(t.id, {
             id: t.id,
             topic_name: t.topic_name,
             order_index: t.order_index ?? 0,
+            subject_name: subject?.subject_name ?? "Unknown",
+            subject_color: subject?.color ?? COLORS.neutral[500],
           });
         }
       }
@@ -469,7 +525,13 @@ export async function fetchTodaySessions(
       const topicIds: string[] = row.topic_ids || [];
       const topicsPreview = topicIds
         .map((tid: string) => topicMap.get(tid))
-        .filter(Boolean) as { id: string; topic_name: string; order_index: number }[];
+        .filter(Boolean) as {
+          id: string;
+          topic_name: string;
+          order_index: number;
+          subject_name: string;
+          subject_color: string;
+        }[];
 
       return {
         planned_session_id: row.id,

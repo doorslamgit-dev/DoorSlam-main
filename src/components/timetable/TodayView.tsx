@@ -248,8 +248,8 @@ export default function TodayView({
                                       key={topic.id}
                                       topicId={topic.id}
                                       topicName={topic.topic_name}
-                                      subjectName={session.subject_name}
-                                      subjectColor={color}
+                                      subjectName={topic.subject_name}
+                                      subjectColor={getSubjectColor(topic.subject_name)}
                                       sessionStatus={session.status}
                                       sessionDate={dateStr}
                                       plannedSessionId={
