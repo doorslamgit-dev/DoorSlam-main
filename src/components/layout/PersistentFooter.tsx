@@ -18,8 +18,8 @@ export default function PersistentFooter() {
     <footer
       className={`
         fixed bottom-0 left-0 right-0 h-14 z-[var(--z-sidebar)]
-        bg-neutral-0
-        border-t border-neutral-200/60
+        bg-background
+        border-t border-border
         flex items-center justify-between px-4
         transition-all duration-300
         ${leftOffset} ${rightOffset}
@@ -53,8 +53,8 @@ export default function PersistentFooter() {
           className={`
             inline-flex items-center justify-center w-9 h-9 rounded-full transition-colors
             ${isAiPanelOpen
-              ? 'bg-primary-100 text-primary-700'
-              : 'text-neutral-500 hover:bg-neutral-100'
+              ? 'bg-primary/10 text-primary/90'
+              : 'text-muted-foreground hover:bg-muted'
             }
           `}
           aria-label="Toggle AI Tutor"

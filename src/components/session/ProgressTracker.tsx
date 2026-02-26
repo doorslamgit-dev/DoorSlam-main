@@ -68,7 +68,7 @@ export default function ProgressTracker({
         <div className="relative">
           <div className="h-2 bg-muted rounded-full overflow-hidden">
             <div
-              className="h-full bg-gradient-to-r from-primary-600 to-primary/50 rounded-full transition-all duration-500"
+              className="h-full bg-gradient-to-r from-primary to-primary/50 rounded-full transition-all duration-500"
               style={{ width: `${progressPercent}%` }}
             />
           </div>

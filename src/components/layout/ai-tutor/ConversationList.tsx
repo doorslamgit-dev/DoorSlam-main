@@ -71,7 +71,7 @@ export default function ConversationList({
   if (loading && conversations.length === 0) {
     return (
       <div className="flex items-center justify-center py-6">
-        <span className="text-xs text-neutral-400">Loading conversations...</span>
+        <span className="text-xs text-muted-foreground">Loading conversations...</span>
       </div>
     );
   }
@@ -79,7 +79,7 @@ export default function ConversationList({
   if (error && conversations.length === 0) {
     return (
       <div className="flex items-center justify-center py-6">
-        <span className="text-xs text-danger">{error}</span>
+        <span className="text-xs text-destructive">{error}</span>
       </div>
     );
   }
@@ -87,7 +87,7 @@ export default function ConversationList({
   if (conversations.length === 0) {
     return (
       <div className="flex items-center justify-center py-6">
-        <span className="text-xs text-neutral-400">No past conversations</span>
+        <span className="text-xs text-muted-foreground">No past conversations</span>
       </div>
     );
   }
@@ -111,7 +111,7 @@ export default function ConversationList({
           type="button"
           onClick={handleLoadMore}
           disabled={loading}
-          className="text-xs text-primary-600 hover:text-primary-700 py-2 text-center transition-colors"
+          className="text-xs text-primary hover:text-primary/90 py-2 text-center transition-colors"
         >
           {loading ? 'Loading...' : 'Load more'}
         </button>

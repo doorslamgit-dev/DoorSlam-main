@@ -21,17 +21,17 @@ const momentConfig: Record<
 > = {
   achievement: {
     iconBg: "bg-warning",
-    borderColor: "border-accent-amber/20",
+    borderColor: "border-warning/20",
     icon: "trophy",
   },
   sessions_milestone: {
     iconBg: "bg-success",
-    borderColor: "border-accent-green/20",
+    borderColor: "border-success/20",
     icon: "check-circle",
   },
   streak_milestone: {
     iconBg: "bg-warning",
-    borderColor: "border-accent-amber/20",
+    borderColor: "border-warning/20",
     icon: "flame",
   },
   getting_started: {

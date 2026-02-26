@@ -52,7 +52,7 @@ export function TeachingSlideCard({
                 i === currentIndex
                   ? "bg-info"
                   : i < currentIndex
-                  ? "bg-blue-300"
+                  ? "bg-info/30"
                   : "bg-muted"
               }`}
             />
@@ -96,8 +96,8 @@ export function TeachingSlideCard({
 
           {/* Examiner tip */}
           {slide.examiner_tip && (
-            <div className="bg-warning/10 border border-warning-border rounded-xl p-4">
-              <h4 className="font-semibold text-amber-900 mb-2 flex items-center gap-2">
+            <div className="bg-warning/10 border border-warning/20 rounded-xl p-4">
+              <h4 className="font-semibold text-foreground mb-2 flex items-center gap-2">
                 <span className="text-warning" aria-hidden="true">
                   <AppIcon name={icons.graduationCap} />
                 </span>

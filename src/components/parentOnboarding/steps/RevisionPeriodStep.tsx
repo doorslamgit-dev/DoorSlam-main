@@ -173,7 +173,7 @@ export default function RevisionPeriodStep({
 
       {/* Validation Error */}
       {validationError && revisionPeriod.start_date && revisionPeriod.end_date && (
-        <div className="mb-8 p-4 bg-destructive/10 border border-accent-red/30 rounded-xl">
+        <div className="mb-8 p-4 bg-destructive/10 border border-destructive/30 rounded-xl">
           <div className="flex items-center gap-3">
             <AppIcon
               name="triangle-alert"
@@ -301,7 +301,7 @@ export default function RevisionPeriodStep({
                   parseInt(e.target.value, 10)
                 )
               }
-              className="w-full h-2 bg-muted rounded-full appearance-none cursor-pointer accent-primary-600"
+              className="w-full h-2 bg-muted rounded-full appearance-none cursor-pointer accent-primary"
               style={{
                 background: `linear-gradient(to right, ${COLORS.primary[600]} 0%, ${COLORS.primary[600]} ${
                   ((currentScore - 1) / 4) * 100
@@ -351,7 +351,7 @@ export default function RevisionPeriodStep({
                 handleChange("past_revision_score", parseInt(e.target.value, 10))
               }
               disabled={revisionPeriod.is_first_time}
-              className={`w-full h-2 bg-muted rounded-full appearance-none cursor-pointer accent-primary-600 ${
+              className={`w-full h-2 bg-muted rounded-full appearance-none cursor-pointer accent-primary ${
                 revisionPeriod.is_first_time ? "opacity-50 cursor-not-allowed" : ""
               }`}
               style={{

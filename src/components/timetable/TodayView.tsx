@@ -168,7 +168,7 @@ export default function TodayView({
                         key={session.planned_session_id}
                         className={`rounded-xl border-2 p-4 transition-all hover:shadow-md ${
                           isCompleted
-                            ? "bg-success/5 border-accent-green/30"
+                            ? "bg-success/5 border-success/30"
                             : isStarted
                               ? "bg-primary/5 border-primary/50"
                               : "bg-background border-border hover:border-primary/50"

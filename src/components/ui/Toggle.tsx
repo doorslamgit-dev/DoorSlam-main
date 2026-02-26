@@ -104,14 +104,14 @@ export default function Toggle({
       className={[
         "relative inline-flex flex-shrink-0 rounded-full transition-colors duration-200",
         trackSizes[size],
-        checked ? "bg-primary-600" : "bg-neutral-200",
+        checked ? "bg-primary" : "bg-muted",
         disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer",
       ].join(" ")}
     >
       <span
         aria-hidden="true"
         className={[
-          "absolute top-[2px] left-[2px] rounded-full bg-neutral-0 shadow transition-transform duration-200",
+          "absolute top-[2px] left-[2px] rounded-full bg-background shadow transition-transform duration-200",
           thumbSizes[size].base,
           checked ? thumbSizes[size].translate : "translate-x-0",
         ].join(" ")}
@@ -126,9 +126,9 @@ export default function Toggle({
   return (
     <div className={`flex items-center justify-between ${className}`}>
       <div className="min-w-0">
-        <p className="text-sm font-medium text-neutral-700">{label}</p>
+        <p className="text-sm font-medium text-foreground">{label}</p>
         {description && (
-          <p className="text-xs text-neutral-500">{description}</p>
+          <p className="text-xs text-muted-foreground">{description}</p>
         )}
       </div>
       {toggle}

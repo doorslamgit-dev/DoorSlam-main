@@ -61,10 +61,10 @@ interface ToastContextType {
 // ============================================================================
 
 const variantStyles: Record<ToastVariant, string> = {
-  success: "bg-success-bg border-success-border text-neutral-700",
-  error: "bg-error-bg border-error-border text-neutral-700",
-  warning: "bg-warning-bg border-warning-border text-neutral-700",
-  info: "bg-info-bg border-info-border text-neutral-700",
+  success: "bg-success/10 border-success/20 text-foreground",
+  error: "bg-destructive/10 border-destructive/20 text-foreground",
+  warning: "bg-warning/10 border-warning/20 text-foreground",
+  info: "bg-info/10 border-info/20 text-foreground",
 };
 
 const variantIcons: Record<ToastVariant, IconKey> = {
@@ -76,7 +76,7 @@ const variantIcons: Record<ToastVariant, IconKey> = {
 
 const variantIconColors: Record<ToastVariant, string> = {
   success: "text-success",
-  error: "text-error",
+  error: "text-destructive",
   warning: "text-warning",
   info: "text-info",
 };
@@ -147,7 +147,7 @@ function ToastItem({
           setVisible(false);
           setTimeout(() => onDismiss(t.id), 200);
         }}
-        className="flex-shrink-0 text-neutral-500 hover:text-neutral-700 transition-colors"
+        className="flex-shrink-0 text-muted-foreground hover:text-foreground transition-colors"
         aria-label="Dismiss"
       >
         <AppIcon name="x" className="w-4 h-4" />

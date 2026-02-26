@@ -300,7 +300,7 @@ export function HeroStatusBanner({
 
         {/* Expanded Nudges List */}
         {showNudges && nudgeCount > 0 && (
-          <div className="bg-warning/10 rounded-xl p-4 mb-6 border border-accent-amber/20">
+          <div className="bg-warning/10 rounded-xl p-4 mb-6 border border-warning/20">
             <div className="flex items-center gap-2 mb-3">
               <AppIcon
                 name="lightbulb"

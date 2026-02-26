@@ -25,7 +25,7 @@ export default function AnalyticsGateWidget({
 
   if (enabled) {
     return (
-      <div className="bg-success bg-opacity-10 rounded-2xl p-6 border border-accent-green border-opacity-30">
+      <div className="bg-success/10 rounded-2xl p-6 border border-success/30">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-success rounded-lg flex items-center justify-center">
@@ -53,7 +53,7 @@ export default function AnalyticsGateWidget({
   }
 
   return (
-    <div className="bg-gradient-to-br from-primary/5 via-white to-primary-100 rounded-2xl shadow-sm p-8 border-2 border-primary/20">
+    <div className="bg-gradient-to-br from-primary/5 via-white to-primary/10 rounded-2xl shadow-sm p-8 border-2 border-primary/20">
       <div className="flex items-start justify-between mb-6">
         <div className="flex-1">
           <div className="inline-flex items-center space-x-2 px-3 py-1 bg-primary text-white rounded-full text-xs font-semibold mb-4">

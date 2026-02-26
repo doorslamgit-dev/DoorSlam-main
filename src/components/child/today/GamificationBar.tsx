@@ -45,7 +45,7 @@ export function GamificationInline({ gamification }: GamificationBarProps) {
 
       {/* Streak - if active */}
       {streak.current > 0 && (
-        <div className="flex items-center gap-1 text-orange-600">
+        <div className="flex items-center gap-1 text-streak">
           <AppIcon name="flame" className="w-4 h-4" aria-hidden />
           <span className="text-sm font-medium">{streak.current}</span>
         </div>

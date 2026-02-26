@@ -52,8 +52,8 @@ export function CompleteScreen({
           <p className="text-3xl font-bold text-success">{knownCount}</p>
           <p className="text-sm text-muted-foreground mt-1">Already knew</p>
         </div>
-        <div className="bg-orange-50 rounded-xl p-4 text-center">
-          <p className="text-3xl font-bold text-orange-500">{learningCount}</p>
+        <div className="bg-warning/10 rounded-xl p-4 text-center">
+          <p className="text-3xl font-bold text-warning">{learningCount}</p>
           <p className="text-sm text-muted-foreground mt-1">To learn</p>
         </div>
       </div>

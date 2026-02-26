@@ -132,7 +132,7 @@ export default function ConfidenceTrendWidget({ data, loading }: ConfidenceTrend
 
       {/* Lift and Fragile */}
       <div className="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-border">
-        <div className="p-3 bg-success bg-opacity-5 rounded-lg border border-accent-green border-opacity-20">
+        <div className="p-3 bg-success/5 rounded-lg border border-success/20">
           <div className="text-xs text-muted-foreground mb-1">Largest Lift</div>
           <div className="font-bold text-sm text-foreground truncate">
             {data?.largest_lift?.topic_name || "N/A"}
@@ -142,7 +142,7 @@ export default function ConfidenceTrendWidget({ data, loading }: ConfidenceTrend
           )}
         </div>
 
-        <div className="p-3 bg-warning bg-opacity-5 rounded-lg border border-accent-amber border-opacity-20">
+        <div className="p-3 bg-warning/5 rounded-lg border border-warning/20">
           <div className="text-xs text-muted-foreground mb-1">Most Fragile</div>
           <div className="font-bold text-sm text-foreground truncate">
             {data?.most_fragile?.topic_name || "N/A"}

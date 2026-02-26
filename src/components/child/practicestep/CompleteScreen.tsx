@@ -70,7 +70,7 @@ export function CompleteScreen({
 
       {/* Do more questions option */}
       {hasMoreQuestions && remainingQuestions > 0 && (
-        <div className="bg-info/10 border border-info-border rounded-xl p-4 mb-6">
+        <div className="bg-info/10 border border-info/20 rounded-xl p-4 mb-6">
           <div className="flex items-center justify-between">
             <div>
               <p className="font-medium text-info">Want more practice?</p>

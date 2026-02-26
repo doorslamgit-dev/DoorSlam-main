@@ -35,7 +35,7 @@ export default function NudgeBanner({
   return (
     <div className="bg-foreground rounded-xl px-4 py-3 flex items-center gap-3 max-w-md">
       <div className="flex-shrink-0">
-        <AppIcon name="triangle-alert" className="w-5 h-5 text-amber-400" />
+        <AppIcon name="triangle-alert" className="w-5 h-5 text-warning" />
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-sm font-medium text-background leading-tight">

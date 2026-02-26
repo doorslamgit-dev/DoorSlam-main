@@ -124,7 +124,7 @@ export default function DropdownMenu({
             "absolute z-[var(--z-dropdown)]",
             positionClasses,
             width,
-            "bg-neutral-0 rounded-xl shadow-card border border-neutral-200/60 py-1",
+            "bg-background rounded-xl shadow-soft border border-border/60 py-1",
             "transition-all duration-150",
           ].join(" ")}
         >
@@ -133,7 +133,7 @@ export default function DropdownMenu({
               return (
                 <div
                   key={`sep-${idx}`}
-                  className="border-t border-neutral-200/60 my-1"
+                  className="border-t border-border/60 my-1"
                 />
               );
             }
@@ -152,14 +152,14 @@ export default function DropdownMenu({
                   "w-full px-4 py-2.5 text-left text-sm flex items-center gap-3",
                   "transition-colors",
                   isDanger
-                    ? "text-danger hover:bg-error-bg"
-                    : "text-neutral-700 hover:bg-neutral-50",
+                    ? "text-destructive hover:bg-destructive/10"
+                    : "text-foreground hover:bg-muted",
                 ].join(" ")}
               >
                 {item.icon && (
                   <AppIcon
                     name={item.icon}
-                    className={`w-4 h-4 ${isDanger ? "" : "text-neutral-400"}`}
+                    className={`w-4 h-4 ${isDanger ? "" : "text-muted-foreground"}`}
                   />
                 )}
                 {item.label}

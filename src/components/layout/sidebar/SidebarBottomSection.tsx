@@ -25,10 +25,10 @@ const HELP_LINKS: HelpLink[] = [
 ];
 
 const TIER_LABELS: Record<string, { label: string; color: string }> = {
-  trial: { label: 'Trial', color: 'bg-amber-100 text-amber-700' },
+  trial: { label: 'Trial', color: 'bg-warning/15 text-warning' },
   family: { label: 'Family', color: 'bg-primary/10 text-primary' },
   premium: { label: 'Premium', color: 'bg-purple-100 text-purple-700' },
-  expired: { label: 'Expired', color: 'bg-red-100 text-red-700' },
+  expired: { label: 'Expired', color: 'bg-destructive/10 text-destructive' },
 };
 
 export default function SidebarBottomSection() {

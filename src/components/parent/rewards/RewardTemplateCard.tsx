@@ -27,10 +27,10 @@ function getCategoryStyle(code: CategoryCode | string): {
   lightBg: string 
 } {
   const styles: Record<string, { bg: string; text: string; border: string; lightBg: string }> = {
-    screen_time: { bg: 'bg-info/10', text: 'text-info', border: 'border-info-border', lightBg: 'bg-info/10' },
-    treats: { bg: 'bg-pink-100', text: 'text-pink-600', border: 'border-pink-200', lightBg: 'bg-pink-50' },
-    activities: { bg: 'bg-success/10', text: 'text-success', border: 'border-success-border', lightBg: 'bg-success/10' },
-    pocket_money: { bg: 'bg-warning/10', text: 'text-warning', border: 'border-warning-border', lightBg: 'bg-warning/10' },
+    screen_time: { bg: 'bg-info/10', text: 'text-info', border: 'border-info/20', lightBg: 'bg-info/10' },
+    treats: { bg: 'bg-destructive/10', text: 'text-destructive', border: 'border-destructive/20', lightBg: 'bg-destructive/5' },
+    activities: { bg: 'bg-success/10', text: 'text-success', border: 'border-success/20', lightBg: 'bg-success/10' },
+    pocket_money: { bg: 'bg-warning/10', text: 'text-warning', border: 'border-warning/20', lightBg: 'bg-warning/10' },
     privileges: { bg: 'bg-primary/10', text: 'text-primary', border: 'border-primary/20', lightBg: 'bg-primary/5' },
     custom: { bg: 'bg-secondary', text: 'text-muted-foreground', border: 'border-border', lightBg: 'bg-muted' },
   };

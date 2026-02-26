@@ -68,7 +68,7 @@ export function WorkedExampleCard({
       {/* Progress indicator */}
       <div className="flex items-center justify-between text-sm text-muted-foreground">
         <span className="flex items-center gap-2">
-          <span className="text-teal-600" aria-hidden="true">
+          <span className="text-success" aria-hidden="true">
             <AppIcon name={icons.pencil} />
           </span>
           Worked Example {currentIndex + 1} of {totalExamples}
@@ -78,13 +78,13 @@ export function WorkedExampleCard({
       {/* Main card */}
       <div className="bg-background rounded-2xl shadow-sm overflow-hidden">
         {/* Title bar */}
-        <div className="bg-teal-600 px-6 py-4">
+        <div className="bg-success px-6 py-4">
           <h3 className="text-xl font-bold text-white">{example.title}</h3>
         </div>
 
         <div className="p-6 space-y-6">
           {/* Question context */}
-          <div className="bg-muted rounded-xl p-4 border-l-4 border-teal-500">
+          <div className="bg-muted rounded-xl p-4 border-l-4 border-success">
             <h4 className="font-semibold text-foreground mb-2">Question</h4>
             <p className="text-foreground">{example.question_context}</p>
           </div>
@@ -92,7 +92,7 @@ export function WorkedExampleCard({
           {/* Solution steps - progressive reveal */}
           <div>
             <h4 className="font-semibold text-foreground mb-3 flex items-center gap-2">
-              <span className="text-teal-600" aria-hidden="true">
+              <span className="text-success" aria-hidden="true">
                 <AppIcon name={icons.lightbulb} />
               </span>
               Solution
@@ -105,13 +105,13 @@ export function WorkedExampleCard({
               {example.steps?.slice(0, revealedSteps).map((step, i) => (
                 <div
                   key={step.step_id}
-                  className="flex gap-3 p-3 bg-teal-50 rounded-lg animate-fadeIn"
+                  className="flex gap-3 p-3 bg-success/10 rounded-lg animate-fadeIn"
                 >
-                  <div className="flex-shrink-0 w-8 h-8 bg-teal-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                  <div className="flex-shrink-0 w-8 h-8 bg-success text-white rounded-full flex items-center justify-center text-sm font-bold">
                     {i + 1}
                   </div>
                   <div className="flex-1">
-                    <p className="text-teal-900">{step.content}</p>
+                    <p className="text-foreground">{step.content}</p>
                     {step.marks > 0 && (
                       <span className="inline-block mt-1 text-xs bg-primary/10 text-primary px-2 py-0.5 rounded">
                         {step.marks} mark{step.marks > 1 ? "s" : ""}
@@ -126,7 +126,7 @@ export function WorkedExampleCard({
                 <button
                   type="button"
                   onClick={handleRevealNext}
-                  className="w-full py-3 border-2 border-dashed border-teal-300 text-teal-700 font-medium rounded-lg hover:bg-teal-50 transition"
+                  className="w-full py-3 border-2 border-dashed border-success/30 text-success font-medium rounded-lg hover:bg-success/10 transition"
                 >
                   Show next step <span aria-hidden="true">→</span>
                 </button>
@@ -136,8 +136,8 @@ export function WorkedExampleCard({
 
           {/* Final answer - only show after all steps */}
           {showAnswer && example.final_answer && (
-            <div className="bg-success/10 border border-success-border rounded-xl p-4 animate-fadeIn">
-              <h4 className="font-semibold text-green-900 mb-2 flex items-center gap-2">
+            <div className="bg-success/10 border border-success/20 rounded-xl p-4 animate-fadeIn">
+              <h4 className="font-semibold text-foreground mb-2 flex items-center gap-2">
                 <span className="text-success" aria-hidden="true">
                   <AppIcon name={icons.checkCircle} />
                 </span>
@@ -152,7 +152,7 @@ export function WorkedExampleCard({
             <button
               type="button"
               onClick={() => setShowAnswer(true)}
-              className="w-full py-3 bg-success/10 text-success font-medium rounded-lg hover:bg-green-200 transition"
+              className="w-full py-3 bg-success/10 text-success font-medium rounded-lg hover:bg-success/20 transition"
             >
               Show final answer
             </button>
@@ -173,8 +173,8 @@ export function WorkedExampleCard({
                   Show common mistake to avoid
                 </button>
               ) : (
-                <div className="bg-warning/10 border border-warning-border rounded-xl p-4 animate-fadeIn">
-                  <h4 className="font-semibold text-amber-900 mb-2 flex items-center gap-2">
+                <div className="bg-warning/10 border border-warning/20 rounded-xl p-4 animate-fadeIn">
+                  <h4 className="font-semibold text-foreground mb-2 flex items-center gap-2">
                     <span className="text-warning" aria-hidden="true">
                       <AppIcon name={icons.warning} />
                     </span>

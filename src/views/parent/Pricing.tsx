@@ -393,7 +393,7 @@ export default function Pricing() {
             {tier === "premium" ? "Premium" : "Family"} plan
           </h1>
           {isTrialing && trialDaysRemaining > 0 && (
-            <p className="text-sm text-amber-700 font-medium mb-3">
+            <p className="text-sm text-warning font-medium mb-3">
               Free trial — {trialDaysRemaining} day{trialDaysRemaining === 1 ? "" : "s"} remaining
             </p>
           )}
@@ -610,7 +610,7 @@ export default function Pricing() {
         </div>
 
         {/* Premium Plan */}
-        <div className="bg-gradient-to-br from-primary/5 to-primary-100/50 rounded-2xl shadow-sm border-2 border-primary/20 p-8 relative">
+        <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-2xl shadow-sm border-2 border-primary/20 p-8 relative">
           <div className="absolute -top-3 left-1/2 -translate-x-1/2">
             <span className="px-4 py-1 bg-primary text-white text-sm font-semibold rounded-full">
               Most Popular
@@ -709,8 +709,8 @@ export default function Pricing() {
             {confirmAction?.priceLabel ? ` at ${confirmAction.priceLabel}` : ""}.
           </p>
           {isTrialing && (
-            <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg">
-              <p className="text-sm text-amber-800">
+            <div className="p-3 bg-warning/10 border border-warning/20 rounded-lg">
+              <p className="text-sm text-foreground">
                 <strong>Note:</strong> Your free trial will end immediately and billing will start.
               </p>
             </div>

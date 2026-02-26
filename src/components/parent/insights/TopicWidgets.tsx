@@ -19,9 +19,9 @@ function TopicCard({
   variant: "strengths" | "needs-attention";
 }) {
   const isStrength = variant === "strengths";
-  const bgColor = isStrength ? "bg-accent-green" : "bg-accent-amber";
-  const textColor = isStrength ? "text-accent-green" : "text-accent-amber";
-  const borderColor = isStrength ? "border-accent-green" : "border-accent-amber";
+  const bgColor = isStrength ? "bg-success" : "bg-warning";
+  const textColor = isStrength ? "text-success" : "text-warning";
+  const borderColor = isStrength ? "border-success" : "border-warning";
 
   const rawConfidence = topic.avg_post_confidence;
   const hasValidConfidence =
@@ -33,11 +33,11 @@ function TopicCard({
   const confidenceChange = topic.confidence_change ?? 0;
 
   return (
-    <div className={`p-3 ${bgColor} bg-opacity-5 rounded-lg border ${borderColor} border-opacity-20`}>
+    <div className={`p-3 ${bgColor}/5 rounded-lg border ${borderColor}/20`}>
       <div className="flex items-center justify-between mb-2">
         <div className="flex-1 min-w-0">
-          <h4 className="font-semibold text-sm text-neutral-900 truncate">{topic.topic_name}</h4>
-          <p className="text-xs text-neutral-600">
+          <h4 className="font-semibold text-sm text-foreground truncate">{topic.topic_name}</h4>
+          <p className="text-xs text-muted-foreground">
             {topic.subject_name} • {sessionCount} session{sessionCount !== 1 ? "s" : ""}
           </p>
         </div>
@@ -48,12 +48,12 @@ function TopicCard({
         </div>
       </div>
 
-      <div className="w-full bg-neutral-200 rounded-full h-1.5 mb-2">
+      <div className="w-full bg-muted rounded-full h-1.5 mb-2">
         <div className={`${bgColor} h-1.5 rounded-full transition-all`} style={{ width: `${confidencePercent}%` }} />
       </div>
 
       {!isStrength && (
-        <div className="text-xs text-neutral-600 flex items-center gap-1">
+        <div className="text-xs text-muted-foreground flex items-center gap-1">
           <AppIcon name="info" className={`w-3.5 h-3.5 ${textColor}`} />
           {!hasValidConfidence
             ? "No confidence data yet"
@@ -71,12 +71,12 @@ function TopicCard({
 export function BuildingConfidenceWidget({ topics, loading }: Omit<TopicListWidgetProps, "variant">) {
   if (loading) {
     return (
-      <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200 animate-pulse">
-        <div className="h-6 bg-neutral-100 rounded w-1/2 mb-4" />
+      <div className="bg-background rounded-2xl shadow-soft p-6 border border-border animate-pulse">
+        <div className="h-6 bg-muted rounded w-1/2 mb-4" />
         <div className="space-y-3">
-          <div className="h-20 bg-neutral-100 rounded" />
-          <div className="h-20 bg-neutral-100 rounded" />
-          <div className="h-20 bg-neutral-100 rounded" />
+          <div className="h-20 bg-muted rounded" />
+          <div className="h-20 bg-muted rounded" />
+          <div className="h-20 bg-muted rounded" />
         </div>
       </div>
     );
@@ -90,14 +90,14 @@ export function BuildingConfidenceWidget({ topics, loading }: Omit<TopicListWidg
     .slice(0, 3);
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200">
+    <div className="bg-background rounded-2xl shadow-soft p-6 border border-border">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="text-lg font-bold text-primary-900 mb-1">Building Confidence</h3>
-          <p className="text-xs text-neutral-500">Top 3 strongest areas</p>
+          <h3 className="text-lg font-bold text-foreground mb-1">Building Confidence</h3>
+          <p className="text-xs text-muted-foreground">Top 3 strongest areas</p>
         </div>
-        <div className="w-10 h-10 bg-accent-green bg-opacity-10 rounded-lg flex items-center justify-center">
-          <AppIcon name="star" className="w-5 h-5 text-accent-green" />
+        <div className="w-10 h-10 bg-success/10 rounded-lg flex items-center justify-center">
+          <AppIcon name="star" className="w-5 h-5 text-success" />
         </div>
       </div>
 
@@ -107,7 +107,7 @@ export function BuildingConfidenceWidget({ topics, loading }: Omit<TopicListWidg
             <TopicCard key={topic.topic_id} topic={topic} variant="strengths" />
           ))
         ) : (
-          <div className="text-center py-8 text-neutral-400">No session data yet</div>
+          <div className="text-center py-8 text-muted-foreground">No session data yet</div>
         )}
       </div>
     </div>
@@ -117,12 +117,12 @@ export function BuildingConfidenceWidget({ topics, loading }: Omit<TopicListWidg
 export function NeedsAttentionWidget({ topics, loading }: Omit<TopicListWidgetProps, "variant">) {
   if (loading) {
     return (
-      <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200 animate-pulse">
-        <div className="h-6 bg-neutral-100 rounded w-1/2 mb-4" />
+      <div className="bg-background rounded-2xl shadow-soft p-6 border border-border animate-pulse">
+        <div className="h-6 bg-muted rounded w-1/2 mb-4" />
         <div className="space-y-3">
-          <div className="h-20 bg-neutral-100 rounded" />
-          <div className="h-20 bg-neutral-100 rounded" />
-          <div className="h-20 bg-neutral-100 rounded" />
+          <div className="h-20 bg-muted rounded" />
+          <div className="h-20 bg-muted rounded" />
+          <div className="h-20 bg-muted rounded" />
         </div>
       </div>
     );
@@ -136,14 +136,14 @@ export function NeedsAttentionWidget({ topics, loading }: Omit<TopicListWidgetPr
     .slice(0, 3);
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-6 border border-neutral-200">
+    <div className="bg-background rounded-2xl shadow-soft p-6 border border-border">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="text-lg font-bold text-primary-900 mb-1">Where Support Helps Most</h3>
-          <p className="text-xs text-neutral-500">3 areas needing attention</p>
+          <h3 className="text-lg font-bold text-foreground mb-1">Where Support Helps Most</h3>
+          <p className="text-xs text-muted-foreground">3 areas needing attention</p>
         </div>
-        <div className="w-10 h-10 bg-accent-amber bg-opacity-10 rounded-lg flex items-center justify-center">
-          <AppIcon name="hand-heart" className="w-5 h-5 text-accent-amber" />
+        <div className="w-10 h-10 bg-warning/10 rounded-lg flex items-center justify-center">
+          <AppIcon name="hand-heart" className="w-5 h-5 text-warning" />
         </div>
       </div>
 
@@ -153,7 +153,7 @@ export function NeedsAttentionWidget({ topics, loading }: Omit<TopicListWidgetPr
             <TopicCard key={topic.topic_id} topic={topic} variant="needs-attention" />
           ))
         ) : (
-          <div className="text-center py-8 text-neutral-400">No concerns to highlight</div>
+          <div className="text-center py-8 text-muted-foreground">No concerns to highlight</div>
         )}
       </div>
     </div>

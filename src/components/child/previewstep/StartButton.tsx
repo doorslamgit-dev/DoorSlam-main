@@ -13,11 +13,11 @@ export function StartButton({ canStart, isStarting, onStart }: StartButtonProps)
   const arrowIcon: IconKey = "arrow-right";
 
   return (
-    <div className="bg-neutral-0 rounded-2xl shadow-card p-6">
+    <div className="bg-background rounded-2xl shadow-soft p-6">
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="font-bold text-primary-900 mb-1">Ready to begin?</h3>
-          <p className="text-neutral-600 text-sm">
+          <h3 className="font-bold text-foreground mb-1">Ready to begin?</h3>
+          <p className="text-muted-foreground text-sm">
             {canStart ? "Let's start your revision session" : "Select your confidence level to continue"}
           </p>
         </div>
@@ -26,7 +26,7 @@ export function StartButton({ canStart, isStarting, onStart }: StartButtonProps)
           type="button"
           onClick={onStart}
           disabled={!canStart || isStarting}
-          className="flex items-center space-x-2 px-8 py-4 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex items-center space-x-2 px-8 py-4 bg-primary text-white font-semibold rounded-xl hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <span>{isStarting ? "Starting..." : "Start Session"}</span>
           <AppIcon name={arrowIcon} className="text-white" />

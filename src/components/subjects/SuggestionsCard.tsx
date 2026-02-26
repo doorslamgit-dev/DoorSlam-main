@@ -66,7 +66,7 @@ export default function SuggestionsCard({ suggestions }: SuggestionsCardProps) {
         {suggestions.map((suggestion, index) => (
           <div
             key={`${suggestion.type}-${index}`}
-            className="p-4 bg-info/10 rounded-lg border border-info-border"
+            className="p-4 bg-info/10 rounded-lg border border-info/20"
           >
             <div className="flex items-start gap-3">
               <div className="w-8 h-8 rounded-full bg-info/10 flex items-center justify-center flex-shrink-0">
@@ -95,7 +95,7 @@ export default function SuggestionsCard({ suggestions }: SuggestionsCardProps) {
 
                 <button
                   type="button"
-                  className="text-xs font-medium text-info hover:text-info bg-background px-3 py-1.5 rounded border border-info-border"
+                  className="text-xs font-medium text-info hover:text-info bg-background px-3 py-1.5 rounded border border-info/20"
                 >
                   {suggestion.action_label}
                 </button>

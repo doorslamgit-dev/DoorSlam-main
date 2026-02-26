@@ -58,7 +58,7 @@ export default function ConfirmationStep({
         ))}
       </div>
 
-      <div className="bg-info/10 border border-info-border rounded-xl p-4">
+      <div className="bg-info/10 border border-info/20 rounded-xl p-4">
         <p className="text-sm text-info">
           <strong>What happens next:</strong> Sessions will be automatically
           redistributed across all subjects based on your priority order.{" "}

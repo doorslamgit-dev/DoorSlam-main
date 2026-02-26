@@ -27,7 +27,7 @@ export default function TodayTipCard() {
   return (
     <div className="bg-background rounded-2xl shadow-sm p-6">
       <div className="flex items-start space-x-4">
-        <div className="w-12 h-12 bg-primary/10 dark:bg-primary/90/30 rounded-full flex items-center justify-center flex-shrink-0">
+        <div className="w-12 h-12 bg-primary/10 dark:bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
           <AppIcon name="lightbulb" className="text-primary dark:text-primary w-6 h-6" />
         </div>
         <div className="flex-1">

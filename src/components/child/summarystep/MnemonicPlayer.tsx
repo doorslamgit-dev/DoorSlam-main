@@ -263,7 +263,7 @@ export function MnemonicPlayer({ mnemonic, sessionId }: MnemonicPlayerProps) {
 
   if (mnemonic.status === "generating") {
     return (
-      <div className="p-6 bg-gradient-to-br from-primary/5 to-primary-100 rounded-xl border border-primary/20">
+      <div className="p-6 bg-gradient-to-br from-primary/5 to-primary/10 rounded-xl border border-primary/20">
         <div className="flex items-center justify-center space-x-4 py-8">
           <AppIcon name={"spinner" as IconKey} className="text-primary text-3xl animate-spin" />
           <div>
@@ -277,7 +277,7 @@ export function MnemonicPlayer({ mnemonic, sessionId }: MnemonicPlayerProps) {
 
   if (mnemonic.status === "failed") {
     return (
-      <div className="p-6 bg-destructive/5 rounded-xl border border-accent-red/20">
+      <div className="p-6 bg-destructive/5 rounded-xl border border-destructive/20">
         <p className="text-destructive font-semibold mb-2">Oops! Something went wrong</p>
         <p className="text-muted-foreground text-sm">
           We couldn't make your song this time. Try picking a different style or skip for now.
@@ -289,7 +289,7 @@ export function MnemonicPlayer({ mnemonic, sessionId }: MnemonicPlayerProps) {
   if (mnemonic.status !== "ready") return null;
 
   return (
-    <div className="p-6 bg-gradient-to-br from-primary/5 to-primary-100 rounded-xl border border-primary/20">
+    <div className="p-6 bg-gradient-to-br from-primary/5 to-primary/10 rounded-xl border border-primary/20">
       <audio
         ref={audioRef}
         src={resolvedAudioUrl ?? undefined}
@@ -333,7 +333,7 @@ export function MnemonicPlayer({ mnemonic, sessionId }: MnemonicPlayerProps) {
         <div className="flex items-center space-x-3">
           <div
             className={`w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-br ${
-              styleConfig?.gradient || "from-primary/50 to-primary-600"
+              styleConfig?.gradient || "from-primary/50 to-primary"
             }`}
           >
             <AppIcon name={styleIconKey} className="text-white text-lg" />

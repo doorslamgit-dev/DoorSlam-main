@@ -22,10 +22,10 @@ interface DashboardMessageBannerProps {
 }
 
 const VARIANT_STYLES: Record<BannerVariant, { bg: string; iconColor: string }> = {
-  nudge: { bg: 'bg-neutral-800', iconColor: 'text-amber-400' },
-  alert: { bg: 'bg-accent-red/10', iconColor: 'text-accent-red' },
-  achievement: { bg: 'bg-primary-600', iconColor: 'text-amber-300' },
-  reminder: { bg: 'bg-neutral-800', iconColor: 'text-primary-400' },
+  nudge: { bg: 'bg-foreground', iconColor: 'text-warning' },
+  alert: { bg: 'bg-destructive/10', iconColor: 'text-destructive' },
+  achievement: { bg: 'bg-primary', iconColor: 'text-warning' },
+  reminder: { bg: 'bg-foreground', iconColor: 'text-primary/60' },
 };
 
 export function DashboardMessageBanner({ message }: DashboardMessageBannerProps) {
@@ -39,11 +39,11 @@ export function DashboardMessageBanner({ message }: DashboardMessageBannerProps)
         <AppIcon name={message.icon} className={`w-5 h-5 ${style.iconColor}`} />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium text-neutral-0 leading-tight">
+        <p className="text-sm font-medium text-background leading-tight">
           {message.title}
         </p>
         {message.detail && (
-          <p className="text-xs text-neutral-400 mt-0.5 leading-tight">
+          <p className="text-xs text-muted-foreground mt-0.5 leading-tight">
             {message.detail}
           </p>
         )}

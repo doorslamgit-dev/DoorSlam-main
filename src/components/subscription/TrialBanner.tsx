@@ -17,7 +17,7 @@ export function TrialBanner() {
   // Show expired/past due warning
   if (tier === "expired" || isPastDue) {
     return (
-      <div className="bg-destructive/10 border border-accent-red/20 rounded-xl p-4 mb-6">
+      <div className="bg-destructive/10 border border-destructive/20 rounded-xl p-4 mb-6">
         <div className="flex items-start gap-3">
           <div className="w-10 h-10 bg-destructive/20 rounded-full flex items-center justify-center flex-shrink-0">
             <AppIcon name="triangle-alert" className="w-5 h-5 text-destructive" />
@@ -54,19 +54,19 @@ export function TrialBanner() {
           : "low";
 
     const bgColor = {
-      high: "bg-amber-50 border-amber-200",
+      high: "bg-warning/10 border-warning/20",
       medium: "bg-primary/5 border-primary/20",
       low: "bg-muted border-border",
     }[urgency];
 
     const iconBg = {
-      high: "bg-amber-100",
+      high: "bg-warning/15",
       medium: "bg-primary/10",
       low: "bg-secondary",
     }[urgency];
 
     const textColor = {
-      high: "text-amber-700",
+      high: "text-warning",
       medium: "text-primary",
       low: "text-foreground",
     }[urgency];

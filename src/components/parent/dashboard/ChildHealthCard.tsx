@@ -25,28 +25,28 @@ const statusStyles: Record<
   }
 > = {
   on_track: {
-    badgeBg: "bg-accent-green",
+    badgeBg: "bg-success",
     badgeText: "text-white",
-    insightBg: "bg-accent-green/10",
-    insightBorder: "border-accent-green/20",
+    insightBg: "bg-success/10",
+    insightBorder: "border-success/20",
   },
   keep_an_eye: {
-    badgeBg: "bg-primary-600",
+    badgeBg: "bg-primary",
     badgeText: "text-white",
-    insightBg: "bg-primary-50",
-    insightBorder: "border-primary-200/40",
+    insightBg: "bg-primary/5",
+    insightBorder: "border-primary/20",
   },
   needs_attention: {
-    badgeBg: "bg-accent-amber",
+    badgeBg: "bg-warning",
     badgeText: "text-white",
-    insightBg: "bg-accent-amber/10",
-    insightBorder: "border-accent-amber/20",
+    insightBg: "bg-warning/10",
+    insightBorder: "border-warning/20",
   },
   getting_started: {
     badgeBg: "bg-foreground",
     badgeText: "text-white",
-    insightBg: "bg-neutral-50",
-    insightBorder: "border-neutral-200/60",
+    insightBg: "bg-muted",
+    insightBorder: "border-border",
   },
 };
 
@@ -253,7 +253,7 @@ export function ChildHealthCard({
 
       {/* Mocks Warning */}
       {child.mocks_flag && child.mocks_message && (
-        <div className="mt-4 bg-warning/10 border border-accent-amber/20 rounded-lg p-3 flex items-center gap-2">
+        <div className="mt-4 bg-warning/10 border border-warning/20 rounded-lg p-3 flex items-center gap-2">
           <AppIcon
             name="calendar-clock"
             className="w-4 h-4 text-warning"

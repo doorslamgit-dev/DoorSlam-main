@@ -324,7 +324,7 @@ export default function SubjectBoardStep(props: Props) {
 
       {/* Error state */}
       {error && (
-        <div className="mb-6 rounded-xl border border-accent-red/30 bg-destructive/10 p-4">
+        <div className="mb-6 rounded-xl border border-destructive/30 bg-destructive/10 p-4">
           <div className="flex items-start gap-3">
             <AppIcon
               name="triangle-alert"
@@ -344,7 +344,7 @@ export default function SubjectBoardStep(props: Props) {
 
         {loading ? (
           <div className="flex items-center justify-center py-8">
-            <div className="w-6 h-6 border-2 border-primary/20 border-t-primary-600 rounded-full animate-spin" />
+            <div className="w-6 h-6 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
             <span className="ml-3 text-sm text-muted-foreground">Loading subjects…</span>
           </div>
         ) : (

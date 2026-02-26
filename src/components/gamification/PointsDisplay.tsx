@@ -78,7 +78,7 @@ export default function PointsDisplay({
 // Compact version for headers
 export function PointsBadge({ balance }: { balance: number }) {
   return (
-    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-warning/15 border border-accent-amber/20 rounded-full">
+    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-warning/15 border border-warning/20 rounded-full">
       <AppIcon
         name="sparkles"
         className="w-4 h-4 text-warning"

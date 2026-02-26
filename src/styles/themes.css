@@ -57,6 +57,10 @@
     --lime: 84 81% 44%;                   /* #84CC16 */
     --lime-foreground: 0 0% 100%;
 
+    /* Streak (gamification — deliberately distinct from warning) */
+    --streak: 24 95% 53%;                 /* #F97316 — Orange-500 */
+    --streak-foreground: 0 0% 100%;
+
     /* Chart colors */
     --chart-1: 239 84% 67%;               /* primary indigo */
     --chart-2: 175 84% 32%;               /* teal */
@@ -120,6 +124,10 @@
     /* Lime accent */
     --lime: 84 81% 44%;                   /* #84CC16 — good contrast on navy */
     --lime-foreground: 0 0% 100%;
+
+    /* Streak */
+    --streak: 25 95% 53%;                 /* Orange-500 — brighter on dark */
+    --streak-foreground: 0 0% 100%;
 
     /* Chart colors (dark mode — brighter variants) */
     --chart-1: 239 84% 74%;               /* indigo-400 */
