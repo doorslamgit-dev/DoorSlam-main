@@ -135,13 +135,6 @@ function ParentDashboardV3Inner() {
     navigateWithScroll(`/parent/rewards${selectedChildId ? `?child=${selectedChildId}` : ''}`);
   };
 
-  const handleAddSubject = () => {
-    navigateWithScroll(`/parent/subjects${selectedChildId ? `?child=${selectedChildId}` : ''}`);
-  };
-
-  const handleProgressReport = () => {
-    navigateWithScroll(`/parent/insights/report${selectedChildId ? `?child=${selectedChildId}` : ''}`);
-  };
 
   if (loading) return <DashboardSkeleton />;
 
@@ -232,36 +225,6 @@ function ParentDashboardV3Inner() {
         )}
       </main>
 
-      {/* Sticky bottom action bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-sticky pointer-events-none">
-        <div className="max-w-content mx-auto px-4 lg:px-6 pb-4 flex justify-end pointer-events-auto">
-          <div className="flex items-center gap-2 bg-background border border-border rounded-2xl shadow-lg px-3 py-2">
-            <button
-              onClick={handleEditSchedule}
-              className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-foreground hover:bg-accent rounded-xl transition-colors"
-            >
-              <AppIcon name="calendar" className="w-4 h-4" />
-              Schedule
-            </button>
-            <div className="w-px h-5 bg-border" />
-            <button
-              onClick={handleAddSubject}
-              className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-foreground hover:bg-accent rounded-xl transition-colors"
-            >
-              <AppIcon name="plus-circle" className="w-4 h-4" />
-              Add New Subject
-            </button>
-            <div className="w-px h-5 bg-border" />
-            <button
-              onClick={handleProgressReport}
-              className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-foreground hover:bg-accent rounded-xl transition-colors"
-            >
-              <AppIcon name="chart-bar" className="w-4 h-4" />
-              Progress Report
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
