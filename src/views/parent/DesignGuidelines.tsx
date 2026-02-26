@@ -274,7 +274,7 @@ const MOCK_CHILD: ChildSummary = {
  hero_sentence: '4 of 6 sessions done — strong progress.',
 };
 
-const _MOCK_DAILY_PATTERN: DailyPattern[] = [
+const MOCK_DAILY_PATTERN: DailyPattern[] = [
  { day_of_week: 'Monday', day_name_short: 'Mon', day_index: 0, sessions_completed: 1, sessions_total: 1, total_minutes: 45, is_rest_day: false },
  { day_of_week: 'Tuesday', day_name_short: 'Tue', day_index: 1, sessions_completed: 1, sessions_total: 1, total_minutes: 60, is_rest_day: false },
  { day_of_week: 'Wednesday', day_name_short: 'Wed', day_index: 2, sessions_completed: 1, sessions_total: 1, total_minutes: 45, is_rest_day: false },
@@ -1580,6 +1580,7 @@ export default function DesignGuidelines() {
              <DashboardHeroCard
                child={MOCK_CHILD}
                childCoverage={MOCK_DASHBOARD_COVERAGE}
+               dailyPattern={MOCK_DAILY_PATTERN}
                onActionClick={() => undefined}
                onViewDetailedBreakdown={() => undefined}
                planOverview={MOCK_PLAN_OVERVIEW}

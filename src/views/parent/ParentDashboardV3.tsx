@@ -7,7 +7,6 @@ import { useChildDashboardData } from '../../hooks/parent/useChildDashboardData'
 import { DashboardChildHeader } from '../../components/parent/dashboard/DashboardChildHeader';
 import { DashboardHeroCard } from '../../components/parent/dashboard/DashboardHeroCard';
 import { HealthScoreCard } from '../../components/parent/dashboard/HealthScoreCard';
-import { DashboardWeeklyProgress } from '../../components/parent/dashboard/DashboardWeeklyProgress';
 import { DashboardTodaySessions } from '../../components/parent/dashboard/DashboardTodaySessions';
 import { DashboardRevisionPlan } from '../../components/parent/dashboard/DashboardRevisionPlan';
 import { DashboardRecentActivity } from '../../components/parent/dashboard/DashboardRecentActivity';
@@ -181,6 +180,7 @@ function ParentDashboardV3Inner() {
             <DashboardHeroCard
               child={selectedChild}
               childCoverage={childCoverage}
+              dailyPattern={dailyPattern}
               onActionClick={handleActionClick}
               onViewDetailedBreakdown={handleViewDetailedBreakdown}
               planOverview={planOverview}
@@ -197,12 +197,7 @@ function ParentDashboardV3Inner() {
           />
         </div>
 
-        {/* Row 2: This Week's Progress — full width */}
-        <div className="mb-4">
-          <DashboardWeeklyProgress child={selectedChild} dailyPattern={dailyPattern} />
-        </div>
-
-        {/* Row 3: Today's Sessions (left) + Revision Plan (right) */}
+        {/* Row 2: Today's Sessions (left) + Revision Plan (right) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
           <DashboardTodaySessions sessions={childComingUp} reminders={childReminders} />
           <DashboardRevisionPlan
