@@ -138,7 +138,7 @@ export function HealthScoreCard({
       </div>
 
       {/* Ask AI Tutor CTA */}
-      <Button variant="primary" size="sm" leftIcon="bot" fullWidth className="mt-4">
+      <Button variant="outline" size="sm" leftIcon="sparkles" fullWidth className="mt-4 text-primary border-primary/30 hover:bg-primary/5">
         Ask AI Tutor
       </Button>
     </div>

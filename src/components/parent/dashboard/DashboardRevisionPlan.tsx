@@ -151,7 +151,7 @@ export function DashboardRevisionPlan({
       </div>
 
       {/* Ask AI Tutor CTA */}
-      <Button variant="primary" size="sm" leftIcon="bot" fullWidth className="mt-3">
+      <Button variant="outline" size="sm" leftIcon="sparkles" className="mt-3 text-primary border-primary/30 hover:bg-primary/5">
         Ask AI Tutor
       </Button>
     </div>
