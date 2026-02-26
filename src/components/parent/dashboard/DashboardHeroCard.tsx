@@ -4,12 +4,17 @@
 import AppIcon from '../../ui/AppIcon';
 import Button from '../../ui/Button';
 import StatCard from '../../ui/StatCard';
-import type { ChildSummary, SubjectCoverage } from '../../../types/parent/parentDashboardTypes';
+import type {
+  ChildSummary,
+  SubjectCoverage,
+  DailyPattern,
+} from '../../../types/parent/parentDashboardTypes';
 import type { PlanCoverageOverview } from '../../../services/timetableService';
 
 interface DashboardHeroCardProps {
   child: ChildSummary | null;
   childCoverage: SubjectCoverage[];
+  dailyPattern: DailyPattern[];
   onActionClick: (action: string) => void;
   onViewDetailedBreakdown: () => void;
   planOverview?: PlanCoverageOverview | null;
@@ -57,6 +62,55 @@ function getISOWeek(date: Date): number {
   d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
   const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
   return Math.ceil(((d.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
+}
+
+function DayStrip({ dailyPattern }: { dailyPattern: DailyPattern[] }) {
+  if (dailyPattern.length === 0) return null;
+
+  const todayIdx = (new Date().getDay() + 6) % 7;
+
+  return (
+    <div className="grid grid-cols-7 gap-2 mb-4">
+      {dailyPattern.map((day, idx) => {
+        const isToday = idx === todayIdx;
+        const isDone = day.sessions_completed >= day.sessions_total && day.sessions_total > 0;
+        const inProgress = !isDone && day.sessions_completed > 0;
+        const hasContent = day.sessions_total > 0;
+
+        let cellClass = 'bg-muted border border-border text-muted-foreground';
+        let cellContent: React.ReactNode = '\u2013';
+        let labelClass = 'text-muted-foreground';
+
+        if (isDone) {
+          cellClass = 'bg-success border-0 text-white';
+          cellContent = <AppIcon name="check" className="w-3.5 h-3.5 mx-auto" />;
+        } else if (inProgress) {
+          cellClass = 'bg-primary/10 border border-primary/20 text-primary';
+          cellContent = `${day.sessions_completed}/${day.sessions_total}`;
+        } else if (isToday && hasContent) {
+          cellClass = 'bg-primary border-0 text-primary-foreground';
+          cellContent = `${day.sessions_completed}/${day.sessions_total}`;
+          labelClass = 'text-foreground font-semibold';
+        } else if (isToday) {
+          cellClass = 'bg-muted border-0 text-muted-foreground';
+          labelClass = 'text-foreground font-semibold';
+        }
+
+        return (
+          <div key={day.day_of_week} className="flex flex-col items-center gap-1">
+            <span className={`text-[11px] font-medium ${labelClass}`}>
+              {isToday ? 'Today' : day.day_name_short}
+            </span>
+            <div
+              className={`w-full h-9 rounded-lg flex items-center justify-center text-xs font-semibold ${cellClass}`}
+            >
+              {cellContent}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
 }
 
 function NextBestAction({
@@ -153,6 +207,7 @@ function NextBestAction({
 export function DashboardHeroCard({
   child,
   childCoverage: _childCoverage,
+  dailyPattern,
   onActionClick,
   planOverview,
   onSetupSchedule,
@@ -184,6 +239,9 @@ export function DashboardHeroCard({
 
       {/* Narrative one-liner */}
       <p className="text-sm text-muted-foreground mb-3">{heroSentence}</p>
+
+      {/* Day strip — embedded from weekly progress */}
+      <DayStrip dailyPattern={dailyPattern} />
 
       {/* 3 KPI cells — using StatCard primitive */}
       <div className="grid grid-cols-3 gap-3 mb-4">
