@@ -3,7 +3,6 @@
 
 import { Link } from 'react-router-dom';
 import AppIcon from '../ui/AppIcon';
-import BrandWordmark from '../ui/BrandWordmark';
 import { useSidebar } from '../../contexts/SidebarContext';
 import SidebarNav from './sidebar/SidebarNav';
 import SidebarBottomSection from './sidebar/SidebarBottomSection';
@@ -45,8 +44,8 @@ export default function Sidebar() {
         {/* Logo + collapse toggle */}
         <div className={`flex items-center h-16 border-b border-border ${isCollapsed ? 'justify-center px-2' : 'justify-between px-4'}`}>
           {!isCollapsed && (
-            <Link to="/" className="flex items-center gap-2 min-w-0">
-              <BrandWordmark size="sm" />
+            <Link to="/" className="flex items-center min-w-0">
+              <img src="/images/doorslam-logo-full.png" alt="Doorslam" className="h-7" />
             </Link>
           )}
 
