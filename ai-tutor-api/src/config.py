@@ -37,6 +37,9 @@ class Settings(BaseSettings):
     retrieval_similarity_threshold: float = 0.2
     max_history_tokens: int = 4000
 
+    # Curriculum extraction (spec PDF → component/theme/topic hierarchy)
+    curriculum_extraction_model: str = "gpt-4o"
+
     # Metadata extraction (Module 4)
     extraction_model: str = "gpt-4o-mini"
     extraction_temperature: float = 0.0

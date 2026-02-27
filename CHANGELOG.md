@@ -10,6 +10,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Curriculum Extraction Pipeline — Populate Components, Themes & Topics**
+  - LLM-based curriculum extractor: parses GCSE specification PDFs into the component → theme → topic hierarchy using GPT-4o with structured JSON output
+  - Cross-validation service: fuzzy-matches extracted topics against Save My Exams / PMT revision guide filenames for automated quality scoring
+  - CLI pipeline (`scripts/extract_curriculum.py`): end-to-end workflow with `--dry-run`, `--stage`, `--validate`, `--approve`, `--normalize`, `--check` commands
+  - Database migration: enhanced `curriculum_staging` table with ordering, batch tracking, and status workflow; normalization RPC (`rpc_normalize_curriculum_staging`) for idempotent import into production tables
+  - Unique constraints on `components`, `themes`, `topics` for safe ON CONFLICT upserts
+  - Supporting table population: automatically creates `exam_spec_versions`, `exam_pathways`, and `exam_papers` from spec PDF metadata
+  - Config: `CURRICULUM_EXTRACTION_MODEL` setting (default: `gpt-4o`)
+  - 35 new tests covering extraction parsing, staging row generation, cross-validation, fuzzy matching, and report generation
+
 - **AI Tutor Module 5: Multi-Format Support + Enhanced Metadata**
   - Docling parser: structured Markdown output preserving tables, headings, and formatting from PDFs (replaces plain-text PyMuPDF)
   - Multi-format support: PPTX, XLSX, CSV, HTML, LaTeX, and images via Docling, with per-file fallback to legacy parsers

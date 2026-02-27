@@ -7,6 +7,23 @@ For architecture decisions, see [docs/decisions/](decisions/).
 
 ---
 
+## Curriculum Extraction Pipeline — Populate Components, Themes & Topics (27 Feb 2026)
+
+**Why this change is happening**: The `components`, `themes`, and `topics` tables — the backbone of Doorslam's curriculum data model — were effectively empty (only 4 pilot topics from FEAT-003). Every downstream feature (session planning, timetabling, progress tracking, AI Tutor topic-scoped retrieval) requires these tables to be populated with accurate, board-specific curriculum data. With specification PDFs already uploaded to Google Drive for every subject, we need an automated, reusable pipeline to extract the curriculum hierarchy from any spec and import it into the database — not a one-off manual process, because new subjects and exam boards will be added over the coming weeks.
+
+**What it does**: Takes a GCSE/IGCSE specification PDF, sends it through GPT-4o with a structured extraction prompt, and produces the complete component → theme → topic hierarchy. The extracted data is staged in `curriculum_staging` for review, optionally cross-validated against Save My Exams / PMT revision guide filenames (fuzzy matching), and then normalised into the production `components`, `themes`, and `topics` tables via a Postgres RPC. The pipeline also populates supporting tables (`exam_spec_versions`, `exam_pathways`, `exam_papers`) from the same spec. A CLI script provides `--dry-run`, `--stage`, `--validate`, `--approve`, `--normalize`, and `--check` commands for the full workflow.
+
+**How it was developed**:
+- Curriculum extractor (`curriculum_extractor.py`): new service that sends spec text to GPT-4o with a detailed structured extraction prompt. Returns typed dataclasses (`CurriculumExtraction → ExtractedComponent → ExtractedTheme → ExtractedTopic`) plus pathway and paper info. Handles specs up to ~100k chars (~25k tokens). Uses `response_format=json_object` for reliable parsing.
+- Curriculum validator (`curriculum_validator.py`): new service that lists revision guide filenames from Google Drive (via existing `drive_walker.py` and `filename_parser.py`), extracts topic slugs, and fuzzy-matches them against extracted topics using `difflib.SequenceMatcher`. Produces a `ValidationReport` with match rate, coverage rate, and detailed mismatch lists.
+- CLI script (`scripts/extract_curriculum.py`): end-to-end pipeline tool. Handles prerequisite checks (verifies subject, exam board, qualification exist), spec text retrieval (from local file or RAG chunks), LLM extraction, staging, validation, approval, and normalization.
+- Database migration (`20260227120000_curriculum_staging_enhancement.sql`): enhances `curriculum_staging` with `component_order`, `theme_order`, `topic_order`, `canonical_code`, `extraction_batch_id`, and `status` columns. Adds unique constraints on `components`, `themes`, `topics` for idempotent upserts. Creates `rpc_normalize_curriculum_staging()` Postgres function.
+- Config: new `CURRICULUM_EXTRACTION_MODEL` setting (default: `gpt-4o`) in `ai-tutor-api/src/config.py`.
+- Reuses: existing `metadata_resolver.py` for subject/board UUID resolution, `drive_walker.py` for Drive file listing, `filename_parser.py` for revision guide slug extraction, `parser.py` for PDF text extraction.
+- See ADR-011 for the extraction approach, staging flow, and validation strategy.
+
+---
+
 ## AI Tutor Module 5 — Multi-Format Support + Enhanced Metadata (25 Feb 2026)
 
 **Why this change is happening**: The RAG pipeline had three compounding problems. First, PyMuPDF extracted plain text only — tables in PDFs (grade boundaries, mark allocations) were silently destroyed, and DOCX table content was dropped. Second, metadata was thin: only `topic_id` per chunk, no document-level summaries, and the chat LLM saw only basic source labels without knowing the year, session, document type, or what kind of content it was citing. Third, Storage paths were normalised by `_build_file_key()`, losing the original Drive folder structure needed for browsing and downloading original documents.
