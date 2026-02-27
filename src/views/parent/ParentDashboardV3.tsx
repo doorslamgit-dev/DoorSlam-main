@@ -160,7 +160,7 @@ function ParentDashboardV3Inner() {
 
   return (
     <div className="min-h-screen bg-transparent">
-      <main className="max-w-content mx-auto px-4 py-4 lg:px-6 lg:py-5 pb-24">
+      <main className="max-w-content mx-auto px-6 py-8 pb-24">
         {/* Page Header: Dashboard title + subtitle + inline notification banner */}
         <DashboardChildHeader
           child={selectedChild}
@@ -168,7 +168,7 @@ function ParentDashboardV3Inner() {
         />
 
         {/* Row 1: Hero (2/3) + Health Score (1/3) */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
           <div className="lg:col-span-2 h-full">
             <DashboardHeroCard
               child={selectedChild}
@@ -191,7 +191,7 @@ function ParentDashboardV3Inner() {
         </div>
 
         {/* Row 2: Today's Sessions (left) + Revision Plan (right) */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           <DashboardTodaySessions sessions={childComingUp} reminders={childReminders} />
           <DashboardRevisionPlan
             planOverview={planOverview}
@@ -201,7 +201,7 @@ function ParentDashboardV3Inner() {
         </div>
 
         {/* Row 4: Recent Activity + Progress Moments + Coming Up Next */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
           <DashboardRecentActivity comingUp={childComingUp} coverage={childCoverage} />
           <DashboardProgressMoments moments={childMoments} />
           <DashboardComingUpNext sessions={childComingUp} />

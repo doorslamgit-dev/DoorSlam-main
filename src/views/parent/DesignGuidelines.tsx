@@ -19,6 +19,7 @@ import StatCard from '@/components/ui/StatCard';
 import IconCircle from '@/components/ui/IconCircle';
 import CircularProgress from '@/components/ui/CircularProgress';
 import AvatarCircle from '@/components/ui/AvatarCircle';
+import AskAITutorButton from '@/components/ui/AskAITutorButton';
 import { PageLayout } from '@/components/layout';
 import Footer from '@/components/layout/Footer';
 import DashboardHeroCard from '@/components/parent/dashboard/DashboardHeroCard';
@@ -102,6 +103,7 @@ const NAV_SECTIONS = [
  { id: 'icon-circle', label: 'IconCircle' },
  { id: 'circular-progress', label: 'CircularProgress' },
  { id: 'avatar-circle', label: 'AvatarCircle' },
+ { id: 'ask-ai-tutor-btn', label: 'AskAITutorButton' },
 ] as const;
 
 const MODULE_NAV_SECTIONS = [
@@ -462,6 +464,7 @@ export default function DesignGuidelines() {
  const [formValue, setFormValue] = useState('');
  const [textareaValue, setTextareaValue] = useState('');
  const [activeTab, setActiveTab] = useState<'tokens' | 'modules' | 'migration' | 'brand'>('tokens');
+ const [searchQuery, setSearchQuery] = useState('');
 
  const iconKeys = Object.keys(ICON_MAP) as IconKey[];
 
@@ -546,11 +549,23 @@ export default function DesignGuidelines() {
      {/* Sticky sidebar nav */}
      <aside className="w-44 shrink-0 hidden lg:block">
        <div className="sticky top-6">
-         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
+         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
            Contents
          </p>
+         <div className="relative mb-2">
+           <AppIcon name="search" className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-muted-foreground pointer-events-none" />
+           <input
+             type="text"
+             placeholder="Search..."
+             value={searchQuery}
+             onChange={(e) => setSearchQuery(e.target.value)}
+             className="w-full pl-6 pr-2 py-1.5 text-xs rounded-lg border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+           />
+         </div>
          <nav className="space-y-0.5">
-           {NAV_SECTIONS.map((s) => (
+           {NAV_SECTIONS.filter((s) =>
+             s.label.toLowerCase().includes(searchQuery.toLowerCase())
+           ).map((s) => (
              <button
                key={s.id}
                onClick={() => scrollTo(s.id)}
@@ -559,6 +574,11 @@ export default function DesignGuidelines() {
                {s.label}
              </button>
            ))}
+           {NAV_SECTIONS.filter((s) =>
+             s.label.toLowerCase().includes(searchQuery.toLowerCase())
+           ).length === 0 && (
+             <p className="text-xs text-muted-foreground px-2 py-2">No results</p>
+           )}
          </nav>
        </div>
      </aside>
@@ -1378,6 +1398,38 @@ export default function DesignGuidelines() {
          </SubSection>
        </Section>
 
+       {/* ════════════════════════════════ ASK AI TUTOR BUTTON ════════════════════════════════ */}
+       <Section id="ask-ai-tutor-btn" title="AskAITutorButton">
+         <SubSection title="Default">
+           <DemoPanel className="flex flex-wrap gap-4 items-center">
+             <AskAITutorButton />
+           </DemoPanel>
+         </SubSection>
+
+         <SubSection title="Full Width">
+           <DemoPanel>
+             <AskAITutorButton fullWidth />
+           </DemoPanel>
+         </SubSection>
+
+         <SubSection title="On dark background">
+           <DemoPanel className="bg-foreground">
+             <AskAITutorButton className="bg-transparent hover:bg-white/10 border-white/20 text-white [&_svg]:text-lime" />
+           </DemoPanel>
+         </SubSection>
+
+         <SubSection title="Usage rule">
+           <div className="bg-warning/10 border border-warning/30 rounded-xl p-4 text-sm text-foreground space-y-1">
+             <p className="font-semibold text-warning">Never inline-recreate this button</p>
+             <p className="text-xs text-muted-foreground">
+               Always import <code className="font-mono bg-secondary px-1 rounded">AskAITutorButton</code> from{' '}
+               <code className="font-mono bg-secondary px-1 rounded">@/components/ui/AskAITutorButton</code>.
+               The label ("Ask AI Tutor"), icon (sparkles, lime), and core styling are fixed — pass only <code className="font-mono bg-secondary px-1 rounded">className</code> for layout spacing.
+             </p>
+           </div>
+         </SubSection>
+       </Section>
+
      </main>
    </div>
  )}
@@ -1388,11 +1440,23 @@ export default function DesignGuidelines() {
      {/* Sticky sidebar nav */}
      <aside className="w-44 shrink-0 hidden lg:block">
        <div className="sticky top-6">
-         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
+         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
            Modules
          </p>
+         <div className="relative mb-2">
+           <AppIcon name="search" className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-muted-foreground pointer-events-none" />
+           <input
+             type="text"
+             placeholder="Search..."
+             value={searchQuery}
+             onChange={(e) => setSearchQuery(e.target.value)}
+             className="w-full pl-6 pr-2 py-1.5 text-xs rounded-lg border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+           />
+         </div>
          <nav className="space-y-0.5">
-           {MODULE_NAV_SECTIONS.map((s) => (
+           {MODULE_NAV_SECTIONS.filter((s) =>
+             s.label.toLowerCase().includes(searchQuery.toLowerCase())
+           ).map((s) => (
              <button
                key={s.id}
                onClick={() => scrollTo(s.id)}
@@ -1401,6 +1465,11 @@ export default function DesignGuidelines() {
                {s.label}
              </button>
            ))}
+           {MODULE_NAV_SECTIONS.filter((s) =>
+             s.label.toLowerCase().includes(searchQuery.toLowerCase())
+           ).length === 0 && (
+             <p className="text-xs text-muted-foreground px-2 py-2">No results</p>
+           )}
          </nav>
        </div>
      </aside>

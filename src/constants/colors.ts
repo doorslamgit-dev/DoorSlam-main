@@ -40,7 +40,7 @@ export const COLORS = {
     purple: "#7C3AED",
     pink: "#EC4899",
     orange: "#F97316",
-    teal: "#14B8A6",
+    lime: "#84CC16",
     indigo: "#6366F1",
   },
 
@@ -94,11 +94,11 @@ export const SUBJECT_COLOR_MAP: Record<string, string> = {
   "combined science": COLORS.accent.green,
   "physics": COLORS.accent.blue,
   "chemistry": COLORS.accent.green,
-  "biology": COLORS.accent.teal,
+  "biology": COLORS.accent.lime,
 
   // Humanities
   "history": COLORS.accent.amber,
-  "geography": COLORS.accent.teal,
+  "geography": COLORS.accent.lime,
   "religious studies": COLORS.accent.purple,
   "re": COLORS.accent.purple,
   "religious education": COLORS.accent.purple,

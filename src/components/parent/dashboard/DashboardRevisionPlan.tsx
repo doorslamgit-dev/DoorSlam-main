@@ -4,7 +4,7 @@
 
 import AppIcon from '../../ui/AppIcon';
 import Badge from '../../ui/Badge';
-import Button from '../../ui/Button';
+import AskAITutorButton from '../../ui/AskAITutorButton';
 import type { BadgeVariant } from '../../ui/Badge';
 import { getSubjectIcon } from '../../../constants/icons';
 import { getSubjectColor } from '../../../constants/colors';
@@ -87,21 +87,18 @@ export function DashboardRevisionPlan({
 
   return (
     <div className="bg-background rounded-2xl shadow-sm p-5 h-full flex flex-col">
-      {/* Header: title + weeks + status badge */}
-      <div className="flex items-start justify-between mb-3">
-        <div>
-          <h2 className="text-base font-bold text-foreground">Revision Plan</h2>
-          <p className="text-xs text-muted-foreground mt-0.5">
+      {/* Header: title + badge row */}
+      <div className="flex items-center justify-between mb-3">
+        <h2 className="text-base font-bold text-foreground">Revision Plan</h2>
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-muted-foreground">
             {weeksRemaining > 0 ? `${Math.round(weeksRemaining)} weeks until exams` : 'Exam period'}
-          </p>
+          </span>
+          <Badge variant={status.badgeVariant} badgeStyle="soft" size="sm">
+            {status.label}
+          </Badge>
         </div>
-        <Badge variant={status.badgeVariant} badgeStyle="solid" size="sm">
-          {status.label}
-        </Badge>
       </div>
-
-      {/* Progress by Subject */}
-      <h3 className="text-xs font-semibold text-muted-foreground mb-2">Progress by Subject</h3>
       <div className="space-y-2 flex-1">
         {consolidated.map((subject, idx) => {
           const color = getSubjectColor(subject.subject_name);
@@ -125,9 +122,6 @@ export function DashboardRevisionPlan({
                   {subject.completed_sessions} / {subject.planned_sessions}
                 </span>
               </div>
-              <span className="text-[10px] text-muted-foreground w-10 text-right shrink-0">
-                {subject.remaining_sessions} left
-              </span>
             </div>
           );
         })}
@@ -135,11 +129,7 @@ export function DashboardRevisionPlan({
 
       {/* Schedule status footer */}
       <div className={`${status.bgLight} border ${status.borderColor} rounded-lg p-2.5 mt-3`}>
-        <div className="flex items-center gap-2">
-          <AppIcon
-            name={status.isHealthy ? 'circle-check' : 'clock'}
-            className={`w-3.5 h-3.5 ${status.textColor}`}
-          />
+        <div className="flex items-center justify-between gap-2">
           <p className="text-xs text-foreground">
             <strong className="text-foreground">{scheduledPerWeek} sessions/week</strong>
             {' '}Scheduled
@@ -147,13 +137,9 @@ export function DashboardRevisionPlan({
               <span className="text-muted-foreground"> · {neededPerWeek}/week needed for full coverage</span>
             )}
           </p>
+          <AskAITutorButton className="shrink-0 bg-transparent hover:bg-black/5" />
         </div>
       </div>
-
-      {/* Ask AI Tutor CTA */}
-      <Button variant="outline" size="sm" leftIcon="sparkles" className="mt-3 text-primary border-primary/30 hover:bg-primary/5 [&_svg]:text-lime">
-        Ask AI Tutor
-      </Button>
     </div>
   );
 }

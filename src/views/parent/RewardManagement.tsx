@@ -5,6 +5,8 @@
 
 import AppIcon from '../../components/ui/AppIcon';
 import { useSelectedChild } from '../../contexts/SelectedChildContext';
+import { PageChildHeader, NotificationBanner } from '../../components/layout';
+import { useParentDashboardData } from '../../hooks/parent/useParentDashboardData';
 
 // Components
 import {
@@ -24,6 +26,15 @@ import {
 
 export function RewardManagement() {
   const { children: childOptions, selectedChildId, setSelectedChildId } = useSelectedChild();
+
+  // Lightweight child status fetch for notification banner
+  const { data: parentData } = useParentDashboardData({ enableRealtime: false, enableVisibilityRefresh: false });
+  const selectedChildSummary = parentData?.children.find(c => c.child_id === selectedChildId) || null;
+  const showNotificationBanner =
+    selectedChildSummary?.status_indicator === 'needs_attention' ||
+    selectedChildSummary?.status_indicator === 'keep_an_eye';
+  const notificationMessage =
+    selectedChildSummary?.status_detail || selectedChildSummary?.insight_message || '';
 
   // Hooks
   const {
@@ -147,7 +158,18 @@ export function RewardManagement() {
         </div>
       )}
 
-      <main className="max-w-5xl mx-auto px-4 py-6 space-y-6">
+      <main className="max-w-5xl mx-auto px-6 py-8 space-y-6">
+        {/* Page Header */}
+        <PageChildHeader
+          title="Rewards"
+          subtitle={
+            enabledCount === 0
+              ? 'No rewards set up yet'
+              : `${enabledCount} reward${enabledCount !== 1 ? 's' : ''} active`
+          }
+          banner={showNotificationBanner ? <NotificationBanner message={notificationMessage} /> : undefined}
+        />
+
         {/* Hero Header */}
         <section className="bg-gradient-to-br from-primary/5 via-primary/10 to-white rounded-2xl shadow-sm p-6 border border-primary/20">
           <RewardHeroHeader

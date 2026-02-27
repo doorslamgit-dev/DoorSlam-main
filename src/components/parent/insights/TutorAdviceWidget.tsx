@@ -59,7 +59,7 @@ export default function TutorAdviceWidget({
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <div className="bg-background bg-opacity-10 backdrop-blur-sm rounded-xl p-5 border border-white border-opacity-20">
+        <div className="bg-white/10 backdrop-blur-sm rounded-xl p-5 border border-white/20">
           <h4 className="font-semibold text-primary-foreground mb-3 flex items-center space-x-2">
             <AppIcon name="lightbulb" className="w-4 h-4 text-yellow-300" />
             <span>This Week's Focus</span>
@@ -74,7 +74,7 @@ export default function TutorAdviceWidget({
           </ul>
         </div>
 
-        <div className="bg-background bg-opacity-10 backdrop-blur-sm rounded-xl p-5 border border-white border-opacity-20">
+        <div className="bg-white/10 backdrop-blur-sm rounded-xl p-5 border border-white/20">
           <h4 className="font-semibold text-primary-foreground mb-3 flex items-center space-x-2">
             <AppIcon name="triangle-alert" className="w-4 h-4 text-warning" />
             <span>Watch Out For</span>
@@ -99,7 +99,7 @@ export default function TutorAdviceWidget({
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
           <div className="p-4 bg-muted rounded-lg border border-border">
             <div className="flex items-start space-x-3">
-              <div className="w-8 h-8 bg-destructive bg-opacity-10 rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="w-8 h-8 bg-destructive/10 rounded-lg flex items-center justify-center flex-shrink-0">
                 <AppIcon name="x" className="w-4 h-4 text-destructive" />
               </div>
               <div className="flex-1">
@@ -110,9 +110,9 @@ export default function TutorAdviceWidget({
             </div>
           </div>
 
-          <div className="p-4 bg-success bg-opacity-5 rounded-lg border border-success border-opacity-20">
+          <div className="p-4 bg-success/5 rounded-lg border border-success/20">
             <div className="flex items-start space-x-3">
-              <div className="w-8 h-8 bg-success bg-opacity-10 rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="w-8 h-8 bg-success/10 rounded-lg flex items-center justify-center flex-shrink-0">
                 <AppIcon name="check" className="w-4 h-4 text-success" />
               </div>
               <div className="flex-1">

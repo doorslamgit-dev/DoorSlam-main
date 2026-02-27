@@ -4,7 +4,7 @@
 
 import AppIcon from '../../ui/AppIcon';
 import Badge from '../../ui/Badge';
-import Button from '../../ui/Button';
+import AskAITutorButton from '../../ui/AskAITutorButton';
 import type { BadgeVariant } from '../../ui/Badge';
 import { calculateHealthScore } from '../../../utils/healthScore';
 import type { ChildSummary, SubjectCoverage } from '../../../types/parent/parentDashboardTypes';
@@ -66,7 +66,7 @@ export function HealthScoreCard({
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
         <h3 className="text-base font-bold text-foreground">Health Score</h3>
-        <Badge variant={rag.badgeVariant} size="sm" badgeStyle="solid">
+        <Badge variant={rag.badgeVariant} size="sm" badgeStyle="soft">
           {rag.label}
         </Badge>
       </div>
@@ -140,9 +140,7 @@ export function HealthScoreCard({
       </div>
 
       {/* Ask AI Tutor CTA */}
-      <Button variant="outline" size="sm" leftIcon="sparkles" fullWidth className="mt-4 text-primary border-primary/30 hover:bg-primary/5 [&_svg]:text-lime">
-        Ask AI Tutor
-      </Button>
+      <AskAITutorButton fullWidth className="mt-4" />
     </div>
   );
 }

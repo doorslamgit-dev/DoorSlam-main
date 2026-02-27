@@ -9,15 +9,16 @@ A comprehensive guide to the Doorslam UI component system. This document is desi
 ## Table of Contents
 
 1. [Button](#button)
-2. [Card](#card)
-3. [Alert](#alert)
-4. [LoadingSpinner](#loadingspinner)
-5. [FormField](#formfield)
-6. [EmptyState](#emptystate)
-7. [Badge](#badge)
-8. [AppIcon](#appicon)
-9. [ThemeToggle](#themetoggle)
-10. [Design Tokens Reference](#design-tokens-reference)
+2. [AskAITutorButton](#askaituorbutton)
+3. [Card](#card)
+4. [Alert](#alert)
+5. [LoadingSpinner](#loadingspinner)
+6. [FormField](#formfield)
+7. [EmptyState](#emptystate)
+8. [Badge](#badge)
+9. [AppIcon](#appicon)
+10. [ThemeToggle](#themetoggle)
+11. [Design Tokens Reference](#design-tokens-reference)
 
 ---
 
@@ -95,6 +96,73 @@ interface ButtonProps {
 │  White text    Dark text      Dark text     White text     │
 └─────────────────────────────────────────────────────────────┘
 ```
+
+---
+
+## AskAITutorButton
+
+**File:** `AskAITutorButton.tsx`
+
+The dedicated CTA for opening the AI Tutor. This is a branded, fixed-style button — **do not recreate it inline**. Use this component everywhere the AI Tutor is surfaced.
+
+### Design Spec
+
+- **Icon:** `sparkles` (lime green — `[&_svg]:text-lime`)
+- **Label:** "Ask AI Tutor"
+- **Style:** Outline variant, `text-primary`, `border-primary`, `hover:bg-primary/5`
+- **Size:** Always `sm`
+
+```
+┌─────────────────────────────┐
+│  ✦  Ask AI Tutor            │
+└─────────────────────────────┘
+  Purple text  Lime sparkle  Subtle border
+```
+
+### Props
+
+```typescript
+interface AskAITutorButtonProps {
+  onClick?: () => void;      // Handler — required when wired to panel toggle
+  className?: string;        // Layout overrides only (e.g. "mt-4", "w-full")
+  fullWidth?: boolean;       // Spans container width
+}
+```
+
+### Examples
+
+```tsx
+import AskAITutorButton from '@/components/ui/AskAITutorButton';
+
+// Standard usage (e.g. footer toggle)
+<AskAITutorButton onClick={() => setAiPanelOpen(!isAiPanelOpen)} />
+
+// Full-width in a card
+<AskAITutorButton fullWidth className="mt-4" />
+
+// With layout margin
+<AskAITutorButton className="mt-3" />
+
+// On a dark background (transparent bg override)
+<AskAITutorButton className="bg-transparent hover:bg-transparent" />
+```
+
+### Where it's used
+
+| Component | Context |
+|-----------|---------|
+| `PersistentFooter` | Persistent footer — toggles AI panel |
+| `HealthScoreCard` | Parent dashboard health widget |
+| `DashboardRevisionPlan` | Parent dashboard revision plan card |
+| `DashboardNotificationBanner` | Contextual nudge banner (dark bg) |
+| `NudgeBanner` | Timetable page nudge banner |
+
+### Rules
+
+- **Never** inline-recreate this button with raw `<Button>` — always import `AskAITutorButton`
+- **Never** change the label, icon, or core colour styling
+- `className` is for layout spacing/overrides only, not re-styling
+- Always wire `onClick` when the button can toggle the AI panel
 
 ---
 
@@ -549,8 +617,10 @@ Small status indicators, labels, and tags.
 | Style | Appearance |
 |-------|------------|
 | `solid` | Filled background, white text |
-| `soft` | Light background, darker text (default) |
+| `soft` | Light tinted background, coloured text (default) |
 | `outline` | Border only, no fill |
+
+> **Platform standard:** All status/RAG indicator badges must use `badgeStyle="soft"`. This ensures the coloured text reads consistently with other semantic colour usage (icon strokes, chart fills, etc.) throughout the UI. `solid` badges are reserved for high-contrast callouts where the badge is the primary visual focus (e.g. notification counts, pill labels on dark backgrounds).
 
 ### Props
 
@@ -584,8 +654,10 @@ import { STATUS_TO_BADGE_VARIANT } from './Badge';
 ### Examples
 
 ```tsx
-// Simple status
+// Status badge — always use soft (platform standard)
 <Badge variant="success">On Track</Badge>
+<Badge variant="warning">Keep an Eye</Badge>
+<Badge variant="danger">Needs Attention</Badge>
 
 // With icon
 <Badge variant="warning" icon="clock">Pending</Badge>
@@ -596,8 +668,8 @@ import { STATUS_TO_BADGE_VARIANT } from './Badge';
 // With dot
 <Badge variant="success" dot>Active</Badge>
 
-// Solid style
-<Badge variant="danger" badgeStyle="solid">Urgent</Badge>
+// Solid — only for high-contrast callouts, not status indicators
+<Badge variant="danger" badgeStyle="solid">3</Badge>
 ```
 
 ### Visual Reference

@@ -4,6 +4,8 @@ export { default as AppLayout } from "./AppLayout";
 export { default as AppShell } from "./AppShell";
 export { default as ChildNav } from "./ChildNav";
 export { default as Footer } from "./Footer";
+export { NotificationBanner } from "./NotificationBanner";
+export { PageChildHeader } from "./PageChildHeader";
 export { default as PageLayout } from "./PageLayout";
 export { default as ParentNav } from "./ParentNav";
 export { default as PersistentFooter } from "./PersistentFooter";

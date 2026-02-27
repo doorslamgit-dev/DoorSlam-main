@@ -5,9 +5,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { useSelectedChild } from "../../contexts/SelectedChildContext";
-import { PageLayout } from "../../components/layout";
+import { PageLayout, PageChildHeader } from "../../components/layout";
 import {
-  TimetableHeader,
   TimetableActionCards,
   TimetableControls,
   TodayView,
@@ -19,6 +18,7 @@ import {
   EditScheduleModal,
 } from "../../components/timetable";
 import { useTimetableData } from "../../hooks/useTimetableData";
+import { getTimetableStatus } from "../../utils/timetableUtils";
 
 export default function Timetable() {
   const navigate = useNavigate();
@@ -113,40 +113,51 @@ export default function Timetable() {
 
   if (!user) return null;
 
+  const timetableStatus = getTimetableStatus(planOverview);
+  const timetableSubtitle = planOverviewLoading
+    ? 'Loading plan status...'
+    : timetableStatus.key === 'no_plan'
+    ? 'No revision plan found'
+    : timetableStatus.description;
+
   return (
     <PageLayout hideFooter>
-      <main className="max-w-7xl mx-auto px-6 py-6">
-        {/* Row 1: Title + Nudge banner */}
-        <div className="flex items-start justify-between mb-4">
-          <TimetableHeader
-            planOverview={planOverview}
-            planOverviewLoading={planOverviewLoading}
-          />
-          <NudgeBanner
+      <main className="max-w-7xl mx-auto px-6 py-8">
+        {/* Row 1: Page Header + Nudge banner */}
+        <PageChildHeader
+          title="Timetable"
+          subtitle={timetableSubtitle}
+          banner={
+            <NudgeBanner
+              planOverview={planOverview}
+              planOverviewLoading={planOverviewLoading}
+            />
+          }
+        />
+
+        {/* Row 2: Action buttons + status badge */}
+        <div className="mb-6">
+          <TimetableActionCards
+            onAddSession={() => setShowAddSessionModal(true)}
+            onEditSchedule={handleEditSchedule}
+            onBlockDates={() => setShowBlockDatesModal(true)}
             planOverview={planOverview}
             planOverviewLoading={planOverviewLoading}
           />
         </div>
 
-        {/* Row 2: Action buttons + status badge */}
-        <TimetableActionCards
-          onAddSession={() => setShowAddSessionModal(true)}
-          onEditSchedule={handleEditSchedule}
-          onBlockDates={() => setShowBlockDatesModal(true)}
-          planOverview={planOverview}
-          planOverviewLoading={planOverviewLoading}
-        />
-
         {/* Row 3: Date nav + view toggle + subject legend */}
-        <TimetableControls
-          viewMode={viewMode}
-          referenceDate={referenceDate}
-          onPrevious={goToPrevious}
-          onNext={goToNext}
-          onViewModeChange={handleViewModeChange}
-          onTodayClick={goToToday}
-          subjectLegend={subjectLegend}
-        />
+        <div className="mb-6">
+          <TimetableControls
+            viewMode={viewMode}
+            referenceDate={referenceDate}
+            onPrevious={goToPrevious}
+            onNext={goToNext}
+            onViewModeChange={handleViewModeChange}
+            onTodayClick={goToToday}
+            subjectLegend={subjectLegend}
+          />
+        </div>
 
         {/* Row 4: Calendar views */}
         {viewMode === "today" && (

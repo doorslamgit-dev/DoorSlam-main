@@ -242,6 +242,8 @@ export function DashboardHeroCard({
       {/* 3 KPI cells — using StatCard primitive */}
       <div className="grid grid-cols-3 gap-3">
         <StatCard
+          background="none"
+          size="lg"
           label="Sessions Completed"
           value={`${sessionsCompleted}/${sessionsTotal}`}
           sublabel={
@@ -251,12 +253,16 @@ export function DashboardHeroCard({
           }
         />
         <StatCard
+          background="none"
+          size="lg"
           label="Avg Confidence Change"
           value="0%"
           valueColor="success"
           sublabel="Pre → Post session growth"
         />
         <StatCard
+          background="none"
+          size="lg"
           label="Focus Mode Usage"
           value="0/0"
           sublabel="Used in 0% of sessions"

@@ -2,6 +2,7 @@
 
 import { useNavigate } from 'react-router-dom';
 import Button from '../ui/Button';
+import AskAITutorButton from '../ui/AskAITutorButton';
 import { useAuth } from '../../contexts/AuthContext';
 import { useSidebar } from '../../contexts/SidebarContext';
 
@@ -46,15 +47,7 @@ export default function PersistentFooter() {
 
       {/* Right side: AI Tutor toggle */}
       <div className="flex-1 flex justify-end">
-        <Button
-          variant="outline"
-          size="sm"
-          leftIcon="sparkles"
-          onClick={() => setAiPanelOpen(!isAiPanelOpen)}
-          className="text-primary border-primary/30 hover:bg-primary/5 [&_svg]:text-lime"
-        >
-          Ask AI Tutor
-        </Button>
+        <AskAITutorButton onClick={() => setAiPanelOpen(!isAiPanelOpen)} />
       </div>
     </footer>
   );

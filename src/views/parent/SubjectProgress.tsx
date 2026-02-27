@@ -9,19 +9,15 @@ import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../../contexts/AuthContext";
 import { useSelectedChild } from "../../contexts/SelectedChildContext";
-import { PageLayout } from "../../components/layout";
+import { PageLayout, PageChildHeader, NotificationBanner } from "../../components/layout";
 import {
   SubjectCard,
-  CoverageSummary,
-  QuickStats,
-  RecentActivity,
-  SubjectProgressHeader,
   StatsGrid,
   EmptySubjectsState,
 } from "../../components/subjects";
 import AddSubjectModal from "../../components/subjects/AddSubjectModal";
 import { useSubjectProgressData } from "../../hooks/useSubjectProgressData";
-import { getStatusUI, type StatusIndicator } from "../../utils/statusStyles";
+import type { StatusIndicator } from "../../utils/statusStyles";
 
 function safeStatusIndicator(value: unknown): StatusIndicator | null {
   if (
@@ -38,7 +34,7 @@ function safeStatusIndicator(value: unknown): StatusIndicator | null {
 export default function SubjectProgress() {
   const navigate = useNavigate();
   const { user, activeChildId, loading: authLoading } = useAuth();
-  const { children: childOptions, selectedChildId, selectedChildName, setSelectedChildId } = useSelectedChild();
+  const { selectedChildId, selectedChildName } = useSelectedChild();
 
   const {
     data,
@@ -136,33 +132,14 @@ export default function SubjectProgress() {
   const childRecord = data.child as unknown as Record<string, unknown>;
   const rpcStatus = childRecord.status_indicator;
   const childStatus = safeStatusIndicator(rpcStatus) ?? "on_track";
-  const ui = getStatusUI(childStatus);
-
-  // Prefer RPC-provided label/detail, fall back to central label
-  const childStatusLabel =
-    (childRecord.status_label as string) || ui.badgeText || "On Track";
   const childStatusDetail = (childRecord.status_detail as string) || "";
 
   const totalSubjects = data.subjects.length;
   const subjectsNeedingAttention = data.subjects.filter(
     (s) => s.status === "needs_attention"
   );
-  const subjectsOnTrack = data.subjects.filter(
-    (s) => s.status === "in_progress" || s.status === "completed"
-  ).length;
-
   const sessionsThisWeek = data.child.sessions_this_week || 0;
   const topicsCoveredThisWeek = data.child.topics_covered_this_week || 0;
-
-  const avgCoverage =
-    totalSubjects > 0
-      ? Math.round(
-          data.subjects.reduce((sum, s) => sum + s.completion_percentage, 0) /
-            totalSubjects
-        )
-      : 0;
-
-  const weeksUntilExams = 12;
 
   const getHeadlineContent = () => {
     if (totalSubjects === 0) {
@@ -215,61 +192,38 @@ export default function SubjectProgress() {
   const existingSubjectIds = data.subjects.map((s) => s.subject_id);
   const childName = selectedChildName || data.child.child_name || "Your child";
 
+  const showNotificationBanner = childStatus === 'needs_attention' || childStatus === 'keep_an_eye';
+  const notificationMessage = childStatusDetail || headlineContent.message;
+
   return (
     <PageLayout hideFooter>
       <main className="max-w-6xl mx-auto px-6 py-8">
-        {/* Hero Section */}
-        <section className="mb-8">
-          <SubjectProgressHeader
-            children={childOptions.map(c => ({ child_id: c.child_id, child_name: c.child_name }))}
-            selectedChildId={selectedChildId}
-            onChildChange={setSelectedChildId}
+        {/* Page Header */}
+        <PageChildHeader
+          title="Subjects"
+          subtitle={headlineContent.headline}
+          banner={showNotificationBanner ? <NotificationBanner message={notificationMessage} /> : undefined}
+        />
+
+        {/* Stats Grid */}
+        <div className="mb-6">
+          <StatsGrid
             totalSubjects={totalSubjects}
-            childStatus={childStatus}
-            childStatusLabel={childStatusLabel}
-            headline={headlineContent.headline}
-            message={headlineContent.message}
-            onDashboardClick={() => navigate("/parent/dashboard")}
-            onScheduleClick={() => navigate("/parent/timetable")}
-            onAddSubject={handleAddSubject}
+            sessionsThisWeek={sessionsThisWeek}
+            topicsCoveredThisWeek={topicsCoveredThisWeek}
+            subjectsNeedingAttention={subjectsNeedingAttention.length}
           />
+        </div>
 
-          {/* Stats Grid */}
-          <div className="mt-6">
-            <StatsGrid
-              totalSubjects={totalSubjects}
-              sessionsThisWeek={sessionsThisWeek}
-              topicsCoveredThisWeek={topicsCoveredThisWeek}
-              subjectsNeedingAttention={subjectsNeedingAttention.length}
-            />
-          </div>
-        </section>
+        {/* Subject Cards */}
+        <div className="space-y-6">
+          {data.subjects.map((subject) => (
+            <SubjectCard key={subject.subject_id} subject={subject} />
+          ))}
 
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Subject Cards Grid */}
-          <div className="lg:col-span-2 space-y-6">
-            {data.subjects.map((subject) => (
-              <SubjectCard key={subject.subject_id} subject={subject} />
-            ))}
-
-            {data.subjects.length === 0 && (
-              <EmptySubjectsState onAddSubject={handleAddSubject} />
-            )}
-          </div>
-
-          {/* Sidebar */}
-          <div className="space-y-6">
-            <CoverageSummary subjects={data.subjects} />
-            <QuickStats
-              subjectsOnTrack={subjectsOnTrack}
-              totalSubjects={totalSubjects}
-              needsAttention={subjectsNeedingAttention.length}
-              avgCoverage={avgCoverage}
-              weeksUntilExams={weeksUntilExams}
-            />
-            <RecentActivity subjects={data.subjects} />
-          </div>
+          {data.subjects.length === 0 && (
+            <EmptySubjectsState onAddSubject={handleAddSubject} />
+          )}
         </div>
       </main>
 

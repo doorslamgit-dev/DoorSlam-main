@@ -38,7 +38,7 @@
     --destructive: 347 77% 50%;           /* #E11D48 — Coral (darkened for AA on white) */
     --destructive-foreground: 0 0% 100%;
 
-    --success: 175 84% 32%;               /* #0F766E — Teal (darkened for AA on white) */
+    --success: 84 81% 44%;                /* #84CC16 — Lime */
     --success-foreground: 0 0% 100%;
 
     --warning: 32 95% 44%;                /* #D97706 — Amber (darkened for AA on white) */
@@ -63,7 +63,7 @@
 
     /* Chart colors */
     --chart-1: 239 84% 67%;               /* primary indigo */
-    --chart-2: 175 84% 32%;               /* teal */
+    --chart-2: 84 81% 44%;                /* lime */
     --chart-3: 32 95% 44%;                /* amber */
     --chart-4: 188 94% 43%;               /* cyan */
     --chart-5: 258 90% 66%;               /* #8B5CF6 violet */
@@ -108,7 +108,7 @@
     --destructive: 347 77% 60%;           /* #F43F5E — Coral (original, good on dark) */
     --destructive-foreground: 0 0% 100%;
 
-    --success: 166 72% 40%;               /* #14B8A6 — Teal (original, good on dark) */
+    --success: 84 81% 44%;                /* #84CC16 — Lime */
     --success-foreground: 0 0% 100%;
 
     --warning: 38 92% 50%;                /* #F59E0B — Amber (original, good on dark) */
@@ -131,7 +131,7 @@
 
     /* Chart colors (dark mode — brighter variants) */
     --chart-1: 239 84% 74%;               /* indigo-400 */
-    --chart-2: 166 72% 40%;               /* teal */
+    --chart-2: 84 81% 44%;                /* lime */
     --chart-3: 38 92% 50%;                /* amber */
     --chart-4: 188 94% 43%;               /* cyan */
     --chart-5: 258 90% 66%;               /* violet */

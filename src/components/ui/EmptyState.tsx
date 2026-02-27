@@ -79,7 +79,7 @@ const EmptyState = forwardRef<HTMLDivElement, EmptyStateProps>(
           />
         )}
 
-        <h3 className="text-lg font-semibold text-foreground mb-2">
+        <h3 className={cn("font-semibold text-foreground mb-2", variant === "minimal" ? "text-sm" : "text-lg")}>
           {title}
         </h3>
 

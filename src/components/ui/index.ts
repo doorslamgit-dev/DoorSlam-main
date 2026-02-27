@@ -12,6 +12,8 @@
 export { default as Button, buttonVariants } from "./Button";
 export type { ButtonProps, ButtonVariant, ButtonSize } from "./Button";
 
+export { default as AskAITutorButton } from "./AskAITutorButton";
+
 export { default as Card, CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, cardVariants } from "./Card";
 export type { CardProps, CardVariant, CardPadding } from "./Card";
 

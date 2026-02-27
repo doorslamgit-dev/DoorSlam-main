@@ -2,7 +2,7 @@
 // Top-right nudge banner — shows contextual guidance based on plan status.
 
 import AppIcon from "../ui/AppIcon";
-import Button from "../ui/Button";
+import AskAITutorButton from "../ui/AskAITutorButton";
 import type { PlanCoverageOverview } from "../../services/timetableService";
 import { getTimetableStatus } from "../../utils/timetableUtils";
 
@@ -45,9 +45,7 @@ export default function NudgeBanner({
           {nudgeDetail}
         </p>
       </div>
-      <Button variant="secondary" size="sm">
-        Ask AI Tutor
-      </Button>
+      <AskAITutorButton />
     </div>
   );
 }

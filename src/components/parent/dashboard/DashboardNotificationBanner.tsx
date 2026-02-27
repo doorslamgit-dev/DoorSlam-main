@@ -1,7 +1,7 @@
 // src/components/parent/dashboard/DashboardNotificationBanner.tsx
 // Contextual nudge banner shown when child needs attention
 
-import Button from '../../ui/Button';
+import AskAITutorButton from '../../ui/AskAITutorButton';
 import type { ChildSummary } from '../../../types/parent/parentDashboardTypes';
 
 interface DashboardNotificationBannerProps {
@@ -22,9 +22,7 @@ export function DashboardNotificationBanner({ child }: DashboardNotificationBann
   return (
     <div className="flex items-center justify-between gap-4 bg-foreground/90 rounded-xl px-4 py-2.5 max-w-[500px]">
       <p className="text-sm text-background/80 min-w-0">{message}</p>
-      <Button variant="outline" size="sm" leftIcon="sparkles" className="bg-transparent text-primary border-primary/30 hover:bg-transparent [&_svg]:text-lime">
-        ASK AI TUTOR
-      </Button>
+      <AskAITutorButton className="bg-transparent hover:bg-transparent" />
     </div>
   );
 }

@@ -6,13 +6,13 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useSelectedChild } from '../../contexts/SelectedChildContext';
-import { PageLayout } from '../../components/layout';
+import { PageLayout, PageChildHeader, NotificationBanner } from '../../components/layout';
 import Alert from '../../components/ui/Alert';
 import AppIcon from '../../components/ui/AppIcon';
 import { useInsightsDashboardData } from '../../hooks/useInsightsDashboardData';
+import { useParentDashboardData } from '../../hooks/parent/useParentDashboardData';
 
 import {
-  HeroStoryWidget,
   ProgressPlanWidget,
   ConfidenceTrendWidget,
   FocusModeWidget,
@@ -31,8 +31,6 @@ export default function InsightsDashboard() {
   const { selectedChildId, selectedChildName } = useSelectedChild();
 
   const {
-    dateRange,
-    setDateRange,
     insightsData,
     tutorAdvice,
     shareAnalytics,
@@ -49,6 +47,15 @@ export default function InsightsDashboard() {
     childName: selectedChildName,
   });
 
+  // Lightweight child status fetch for notification banner
+  const { data: parentData } = useParentDashboardData({ enableRealtime: false, enableVisibilityRefresh: false });
+  const selectedChildSummary = parentData?.children.find(c => c.child_id === selectedChildId) || null;
+  const showNotificationBanner =
+    selectedChildSummary?.status_indicator === 'needs_attention' ||
+    selectedChildSummary?.status_indicator === 'keep_an_eye';
+  const notificationMessage =
+    selectedChildSummary?.status_detail || selectedChildSummary?.insight_message || '';
+
   // Redirect if not parent
   useEffect(() => {
     if (authLoading) return;
@@ -58,12 +65,6 @@ export default function InsightsDashboard() {
       navigate('/child/today', { replace: true });
     }
   }, [authLoading, user, isParent, navigate]);
-
-  const handleExport = () => {
-    if (selectedChildId) {
-      window.open(`/parent/insights/report?childId=${selectedChildId}`, '_blank');
-    }
-  };
 
   if (authLoading) {
     return (
@@ -83,23 +84,18 @@ export default function InsightsDashboard() {
   return (
     <PageLayout hideFooter>
       <main className="max-w-6xl mx-auto px-6 py-8">
+        {/* Page Header */}
+        <PageChildHeader
+          title="Insights"
+          subtitle={selectedChildName ? `${selectedChildName}'s revision insights` : 'Revision insights'}
+          banner={showNotificationBanner ? <NotificationBanner message={notificationMessage} /> : undefined}
+        />
+
         {error && (
           <Alert variant="error" className="mb-6">
             {error}
           </Alert>
         )}
-
-        <section className="mb-8">
-          <HeroStoryWidget
-            childName={selectedChildName}
-            summary={insightsData?.summary || null}
-            advice={tutorAdvice}
-            loading={loadingInsights}
-            dateRange={dateRange}
-            onDateRangeChange={setDateRange}
-            onExport={handleExport}
-          />
-        </section>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           <ProgressPlanWidget
