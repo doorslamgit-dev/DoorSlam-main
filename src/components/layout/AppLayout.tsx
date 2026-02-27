@@ -11,7 +11,7 @@ import AppHeader from "./AppHeader";
 import AppShell from "./AppShell";
 
 // Routes exempt from the subscription gate (user can access without a subscription)
-const SUBSCRIPTION_EXEMPT_ROUTES = ["/pricing", "/parent/onboarding", "/account", "/login", "/signup", "/child"];
+const SUBSCRIPTION_EXEMPT_ROUTES = ["/pricing", "/parent/onboarding", "/account", "/login", "/signup", "/child", "/admin"];
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -23,8 +23,11 @@ export default function AppLayout({ children }: AppLayoutProps) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
-  // Subscription gate: redirect expired parents to /pricing
+  const isAdminRoute = pathname.startsWith("/admin");
+
+  // Subscription gate: redirect expired parents to /pricing (skip for admin routes)
   useEffect(() => {
+    if (isAdminRoute) return;
     if (loading || subLoading || !user || !isParent) return;
 
     const isExempt = SUBSCRIPTION_EXEMPT_ROUTES.some((route) => pathname.startsWith(route));
@@ -34,7 +37,12 @@ export default function AppLayout({ children }: AppLayoutProps) {
     if (tier === "expired") {
       navigate("/pricing", { replace: true });
     }
-  }, [loading, subLoading, user, isParent, tier, pathname, navigate]);
+  }, [isAdminRoute, loading, subLoading, user, isParent, tier, pathname, navigate]);
+
+  // Admin routes use their own layout (AdminLayout) — pass through without consumer shell
+  if (isAdminRoute) {
+    return <>{children}</>;
+  }
 
   // Loading: neutral layout (no header, no sidebar) to prevent flash
   if (loading) {

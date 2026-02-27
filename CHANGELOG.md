@@ -10,6 +10,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Admin Dashboard — Curriculum Management**
+  - New `admin` role added to `user_role` enum with dedicated RLS policies for curriculum staging, subjects, components, themes, topics, and exam boards
+  - Admin layout with sidebar navigation (`/admin`, `/admin/curriculum`), role-gated access, separate from consumer app shell
+  - Curriculum management page with three tabs: Overview (pipeline stats + CTAs), Staging (hierarchical review with bulk approve/reject), Production (read-only hierarchy + comparison)
+  - Subject selector dropdown, pipeline status grid, action panel with CLI command display and copy-to-clipboard
+  - `curriculumAdminService` with Supabase queries, mutations (bulk approve, update status, normalize, delete batch), and pure helper functions
+  - `useCurriculumAdmin` hook combining data fetching and action dispatch
+  - `AuthContext` updated with `isAdmin` boolean; `HomePage` auto-redirects admin users to `/admin`
+  - 11 new tests for service pure functions (`groupStagingIntoHierarchy`, `computeStatusCounts`)
+  - See ADR-011 for admin role architecture decision
+
+### Changed
+- **Admin Dashboard — Expanded to 6-Phase Content Pipeline View**
+  - Replaced 3-tab layout (Overview/Staging/Production) with sequential 6-phase pipeline view
+  - Phase 1 (Documents): inventory of source documents by type (QP, MS, ER, GT, SP, Spec, Rev) and year
+  - Phase 2 (Processing): document ingestion status breakdown with recent job history table
+  - Phase 3 (Enrichment & Metadata): document summary completeness, chunk topic/type classification progress bars and distribution
+  - Phase 4 (Chunks & Embeddings): vector DB state with per-document chunk distribution
+  - Phase 5 (Curriculum Staging): existing staging functionality preserved
+  - Phase 6 (Production Tables): existing production hierarchy preserved
+  - New pipeline status strip showing all 6 phases with health indicators at a glance
+  - New `pipelineAdminService` using `supabase.schema('rag')` for RAG table queries
+  - New Supabase RPC functions (`get_document_stats_for_subject`, `get_chunk_stats_for_subject`) for server-side aggregation
+  - Admin read access to `rag.ingestion_jobs` via new RLS policy
+  - 23 new tests for pipeline phase health computation helpers
+  - Extracted `CliCommand` as a shared component reused across all pipeline phases
+
 - **AI Tutor Module 5: Multi-Format Support + Enhanced Metadata**
   - Docling parser: structured Markdown output preserving tables, headings, and formatting from PDFs (replaces plain-text PyMuPDF)
   - Multi-format support: PPTX, XLSX, CSV, HTML, LaTeX, and images via Docling, with per-file fallback to legacy parsers

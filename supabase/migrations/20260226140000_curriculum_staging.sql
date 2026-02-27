@@ -1,0 +1,7 @@
+-- Migration 20260226140000: curriculum_staging table
+-- This migration was applied to the remote database from the
+-- feature/curriculum-extraction-pipeline branch.
+-- Placeholder file added here to keep local migration history in sync.
+--
+-- Original: creates curriculum_staging table, RPC for normalizing
+-- staging data into production tables (components, themes, topics).

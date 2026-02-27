@@ -22,7 +22,7 @@ export type SessionHeaderProps = {
 
 export default function SessionHeader({
   subjectName,
-  subjectIcon,
+  subjectIcon: _subjectIcon,
   subjectColor,
   subjectColorClass,
   topicName,
@@ -33,7 +33,7 @@ export default function SessionHeader({
 }: SessionHeaderProps) {
   // Support both CSS class and inline color
   const colorValue = subjectColor || subjectColorClass;
-  const isInlineColor = colorValue?.startsWith("#") || colorValue?.startsWith("rgb");
+  const _isInlineColor = colorValue?.startsWith("#") || colorValue?.startsWith("rgb");
 
   return (
     <header className="bg-background border-b border-border sticky top-0 z-40">

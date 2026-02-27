@@ -16,7 +16,7 @@ export type Profile = {
   id: string;
   email: string;
   full_name: string | null;
-  role: "parent" | "child" | string;
+  role: "parent" | "child" | "admin" | string;
   country: string | null;
   created_at: string | null;
   updated_at: string | null;
@@ -40,6 +40,7 @@ type AuthContextValue = {
 
   isParent: boolean;
   isChild: boolean;
+  isAdmin: boolean;
   isUnresolved: boolean;
 
   signIn: (email: string, password: string) => Promise<{ error: { message: string } | null }>;
@@ -333,11 +334,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   // CORRECT LOGIC based on actual data model:
-  // - Parents have a profile row, no activeChildId
+  // - Parents have a profile row with role='parent', no activeChildId
   // - Children have no profile row in profiles table, but have activeChildId
-  const isParent = !!profile && !activeChildId;
+  // - Admins have a profile row with role='admin', no activeChildId
+  const isAdmin = !!profile && profile.role === "admin" && !activeChildId;
+  const isParent = !!profile && !activeChildId && !isAdmin;
   const isChild = !!activeChildId;
-  const isUnresolved = !!user && !isParent && !isChild;
+  const isUnresolved = !!user && !isParent && !isChild && !isAdmin;
 
   const value = useMemo<AuthContextValue>(
     () => ({
@@ -349,6 +352,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       parentChildCount,
       isParent,
       isChild,
+      isAdmin,
       isUnresolved,
       signIn,
       signUp,
@@ -356,7 +360,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       refresh,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps -- auth functions are stable
-    [user, session, loading, profile, activeChildId, parentChildCount, isParent, isChild, isUnresolved]
+    [user, session, loading, profile, activeChildId, parentChildCount, isParent, isChild, isAdmin, isUnresolved]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
