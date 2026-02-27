@@ -10,6 +10,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Admin Dashboard — Curriculum Management**
+  - New `admin` role added to `user_role` enum with dedicated RLS policies for curriculum staging, subjects, components, themes, topics, and exam boards
+  - Admin layout with sidebar navigation (`/admin`, `/admin/curriculum`), role-gated access, separate from consumer app shell
+  - Curriculum management page with three tabs: Overview (pipeline stats + CTAs), Staging (hierarchical review with bulk approve/reject), Production (read-only hierarchy + comparison)
+  - Subject selector dropdown, pipeline status grid, action panel with CLI command display and copy-to-clipboard
+  - `curriculumAdminService` with Supabase queries, mutations (bulk approve, update status, normalize, delete batch), and pure helper functions
+  - `useCurriculumAdmin` hook combining data fetching and action dispatch
+  - `AuthContext` updated with `isAdmin` boolean; `HomePage` auto-redirects admin users to `/admin`
+  - 11 new tests for service pure functions (`groupStagingIntoHierarchy`, `computeStatusCounts`)
+  - See ADR-011 for admin role architecture decision
+
 - **AI Tutor Module 5: Multi-Format Support + Enhanced Metadata**
   - Docling parser: structured Markdown output preserving tables, headings, and formatting from PDFs (replaces plain-text PyMuPDF)
   - Multi-format support: PPTX, XLSX, CSV, HTML, LaTeX, and images via Docling, with per-file fallback to legacy parsers

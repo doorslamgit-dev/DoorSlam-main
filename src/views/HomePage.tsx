@@ -5,11 +5,15 @@ import Landing from '@/views/Landing';
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const { loading, user, isParent, isChild, isUnresolved, parentChildCount } = useAuth();
+  const { loading, user, isParent, isChild, isAdmin, isUnresolved, parentChildCount } = useAuth();
 
   useEffect(() => {
     if (loading) return;
     if (!user || isUnresolved) return;
+    if (isAdmin) {
+      navigate('/admin', { replace: true });
+      return;
+    }
     if (isChild) {
       navigate('/child/today', { replace: true });
       return;
@@ -21,7 +25,7 @@ export default function HomePage() {
         navigate('/parent', { replace: true });
       }
     }
-  }, [loading, user, isParent, isChild, isUnresolved, parentChildCount, navigate]);
+  }, [loading, user, isParent, isChild, isAdmin, isUnresolved, parentChildCount, navigate]);
 
   if (loading) {
     return (

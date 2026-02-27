@@ -1,12 +1,16 @@
 import { Routes, Route, Navigate, useParams } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import AppLayout from '@/components/layout/AppLayout';
+import AdminLayout from '@/components/layout/AdminLayout';
 import HomePage from '@/views/HomePage';
 
 const Login = lazy(() => import('@/views/Login'));
 const SignUp = lazy(() => import('@/views/SignUp'));
 const Pricing = lazy(() => import('@/views/parent/Pricing'));
 const Account = lazy(() => import('@/views/Account'));
+
+const AdminDashboard = lazy(() => import('@/views/admin/AdminDashboard'));
+const CurriculumAdmin = lazy(() => import('@/views/admin/CurriculumAdmin'));
 
 const ParentDashboardV3 = lazy(() =>
   import('@/views/parent/ParentDashboardV3').then((m) => ({ default: m.ParentDashboardV3 }))
@@ -63,6 +67,12 @@ export function AppRouter() {
           <Route path="/parent/design-guidelines" element={<DesignGuidelines />} />
           <Route path="/parent/subjects" element={<SubjectProgress />} />
           <Route path="/parent/timetable" element={<Timetable />} />
+
+          {/* Admin routes */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminDashboard />} />
+            <Route path="curriculum" element={<CurriculumAdmin />} />
+          </Route>
 
           {/* Child routes */}
           <Route path="/child/today" element={<Today />} />
