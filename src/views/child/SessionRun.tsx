@@ -13,7 +13,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 // Components
 import {
   SessionHeader,
-  StepProgressBar,
   LoadingState,
   ErrorState,
 } from "../../components/child/sessionRun";
@@ -279,23 +278,19 @@ export default function SessionRun() {
   const activeRevisionSessionId = revisionSessionId ?? sessionData.revision_session_id;
 
   return (
-    <div className="min-h-screen bg-secondary">
+    <div className="min-h-screen">
       <SessionHeader
         subjectName={sessionData.subject_name}
         subjectIcon={subjectIcon}
         subjectColor={subjectColor}
         topicName={sessionData.topic_name}
         onExit={handleExit}
-      />
-
-      <StepProgressBar
         currentStepIndex={currentStepIndex}
-        totalSteps={STEP_ORDER.length}
         steps={sessionData.steps}
         timeRemainingMinutes={timeRemainingMinutes}
       />
 
-      <main className="max-w-4xl mx-auto px-4 py-6 pb-24">{renderStep()}</main>
+      <main className="max-w-[1120px] mx-auto px-6 py-8 pb-24">{renderStep()}</main>
 
       {/* FEAT-011: Study Buddy Panel - Phase 3 added childId for voice input */}
       {activeRevisionSessionId && sessionData.child_id && (

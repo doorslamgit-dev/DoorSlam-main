@@ -7,14 +7,11 @@
 import AppIcon from "../../../components/ui/AppIcon";
 import { PreviewStepProps } from "../../../types/child/previewstep";
 import { usePreviewStep } from "../../../hooks/child/previewstep";
-import { getIconFromName } from "../../../services/child/previewstep";
 import {
   ConfidenceSelector,
   FocusModeToggle,
-  TopicHeader,
   StartButton,
 } from "../../../components/child/previewstep";
-import { getSubjectColor } from "../../../constants/colors";
 
 export default function PreviewStep({
   overview,
@@ -30,26 +27,10 @@ export default function PreviewStep({
     onNext,
   });
 
-  const subjectIcon = getIconFromName(overview.subject_icon);
-  const subjectColor = getSubjectColor(overview.subject_name);
-  const sessionMinutes = overview.session_duration_minutes ?? 20;
-
   const isBusy = saving || state.isStarting;
 
   return (
     <div className="space-y-6">
-      {/* Topic Header Section */}
-      <section className="mb-6">
-        <TopicHeader
-          subjectName={overview.subject_name}
-          topicName={overview.topic_name}
-          subjectIcon={subjectIcon}
-          subjectColor={subjectColor}
-          sessionMinutes={sessionMinutes}
-          totalSteps={overview.total_steps}
-        />
-      </section>
-
       {/* Focus Mode Section */}
       <section className="mb-6">
         <div className="bg-background rounded-2xl shadow-sm p-6">

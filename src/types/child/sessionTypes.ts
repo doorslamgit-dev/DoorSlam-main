@@ -191,7 +191,7 @@ export const STEP_ORDER: StepKey[] = [
 export const STEP_LABELS: Record<StepKey, string> = {
   preview: "Preview",
   recall: "Recall",
-  reinforce: "Core Teaching",
+  reinforce: "Revision",
   practice: "Practice",
   summary: "Summary",
   complete: "Complete",

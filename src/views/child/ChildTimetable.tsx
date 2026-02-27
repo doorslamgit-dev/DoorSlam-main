@@ -135,10 +135,8 @@ export default function ChildTimetable() {
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-primary">
-                My Timetable
-              </h1>
-              <p className="text-muted-foreground">Your revision schedule</p>
+              <h1 className="text-2xl font-bold text-foreground">My Timetable</h1>
+              <p className="text-sm text-muted-foreground mt-0.5">Your revision schedule</p>
             </div>
           </div>
         </div>

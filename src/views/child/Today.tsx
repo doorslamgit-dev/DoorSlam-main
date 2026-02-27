@@ -137,32 +137,30 @@ export default function Today() {
 
   return (
     <PageLayout>
-      <main className="max-w-[1120px] mx-auto px-4 py-6">
-        
+      <main className="max-w-[1120px] mx-auto px-6 py-8">
+
         {/* Header with greeting and streak badge */}
-        <TodayHeader 
-          childName={childName} 
-          currentStreak={currentStreak} 
+        <TodayHeader
+          childName={childName}
+          currentStreak={currentStreak}
         />
 
-        {/* Today's Sessions Card */}
-        <section className="mb-8">
-          <SessionList
-            sessions={todaySessions}
-            nextSessionId={nextSession?.planned_session_id}
-            onStartSession={handleStartSession}
-          />
+        {/* Today's Sessions + Coming Up Next */}
+        <section className="mb-6">
+          <div className={`grid grid-cols-1 gap-6 ${upcomingDays.length > 0 ? "md:grid-cols-2" : ""}`}>
+            <SessionList
+              sessions={todaySessions}
+              nextSessionId={nextSession?.planned_session_id}
+              onStartSession={handleStartSession}
+            />
+            {upcomingDays.length > 0 && (
+              <UpcomingSection days={upcomingDays.slice(0, 3)} />
+            )}
+          </div>
         </section>
 
-        {/* Coming Up Next */}
-        {upcomingDays.length > 0 && (
-          <section className="mb-8">
-            <UpcomingSection days={upcomingDays.slice(0, 3)} />
-          </section>
-        )}
-
         {/* This Week's Progress */}
-        <section className="mb-8">
+        <section className="mb-6">
           <TodayProgressCard
             completedToday={completedCount}
             totalToday={totalCount}
@@ -171,22 +169,22 @@ export default function Today() {
         </section>
 
         {/* Streak & Rewards Row - Two Column Layout */}
-        <section className="mb-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <section className="mb-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Streak Momentum Card */}
             <StreakMomentumCard
               currentStreak={currentStreak}
               completedToday={completedCount}
               totalToday={totalCount}
             />
-            
+
             {/* Rewards Mini Card */}
             {childId && <RewardsMiniCard childId={childId} />}
           </div>
         </section>
 
         {/* Today's Tip */}
-        <section className="mb-8">
+        <section className="mb-6">
           <TodayTipCard />
         </section>
 

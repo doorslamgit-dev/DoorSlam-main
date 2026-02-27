@@ -19,7 +19,7 @@ interface PageLayoutProps {
  */
 export default function PageLayout({
   children,
-  hideFooter = false,
+  hideFooter = true,
   bgColor = "bg-transparent",
 }: PageLayoutProps) {
   return (

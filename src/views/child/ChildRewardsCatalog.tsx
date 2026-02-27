@@ -184,7 +184,7 @@ export function ChildRewardsCatalog() {
   // Loading state
   if (loading) {
     return (
-      <PageLayout bgColor="bg-secondary">
+      <PageLayout bgColor="bg-transparent">
         <div className="flex items-center justify-center py-32">
           <div className="text-center">
             <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-3" />
@@ -198,7 +198,7 @@ export function ChildRewardsCatalog() {
   // Error state
   if (error) {
     return (
-      <PageLayout bgColor="bg-secondary">
+      <PageLayout bgColor="bg-transparent">
         <div className="max-w-2xl mx-auto px-4 py-8">
           <div className="bg-destructive/10 border border-destructive/20 rounded-2xl p-6 text-center">
             <p className="text-destructive font-medium">{error}</p>
@@ -215,13 +215,13 @@ export function ChildRewardsCatalog() {
   const unlockedRewards = myRewards.filter(r => r.can_afford && r.is_available);
 
   return (
-    <PageLayout bgColor="bg-secondary">
-      <main className="max-w-[1120px] mx-auto px-4 py-6">
+    <PageLayout bgColor="bg-transparent">
+      <main className="max-w-[1120px] mx-auto px-6 py-8">
         
         {/* Page Header */}
         <section className="mb-6">
-          <h1 className="text-3xl font-bold text-primary mb-2">My Rewards</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-2xl font-bold text-foreground">My Rewards</h1>
+          <p className="text-sm text-muted-foreground mt-0.5">
             Earn points from your revision sessions and spend them on rewards!
           </p>
         </section>
