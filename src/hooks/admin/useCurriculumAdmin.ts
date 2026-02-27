@@ -1,7 +1,8 @@
 // src/hooks/admin/useCurriculumAdmin.ts
 // Combined data + actions hook for the curriculum admin page.
+// Fetches all 6 pipeline phases in parallel when a subject is selected.
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import type {
   NormalizationResult,
   ProductionComponent,
@@ -11,6 +12,12 @@ import type {
   StagingStatusCounts,
   SubjectOption,
 } from '@/types/curriculumAdmin';
+import type {
+  ChunkStats,
+  DocumentStats,
+  IngestionJob,
+  PipelinePhaseState,
+} from '@/types/pipelineAdmin';
 import {
   bulkApproveStaging,
   computeStatusCounts,
@@ -22,6 +29,17 @@ import {
   normalizeStaging,
   updateStagingStatus,
 } from '@/services/curriculumAdminService';
+import {
+  computeChunkPhaseHealth,
+  computeDocumentPhaseHealth,
+  computeEnrichmentPhaseHealth,
+  computeProcessingPhaseHealth,
+  computeProductionPhaseHealth,
+  computeStagingPhaseHealth,
+  fetchChunkStats,
+  fetchDocumentStats,
+  fetchRecentJobs,
+} from '@/services/pipelineAdminService';
 
 interface UseCurriculumAdminReturn {
   // Data
@@ -32,6 +50,12 @@ interface UseCurriculumAdminReturn {
   stagingHierarchy: StagingHierarchy | null;
   statusCounts: StagingStatusCounts | null;
   productionData: ProductionComponent[];
+
+  // Pipeline data (phases 1-4)
+  documentStats: DocumentStats | null;
+  chunkStats: ChunkStats | null;
+  recentJobs: IngestionJob[];
+  phaseStates: PipelinePhaseState[];
 
   // Loading / error
   loading: boolean;
@@ -60,9 +84,16 @@ export function useCurriculumAdmin(): UseCurriculumAdminReturn {
   const [selectedSubjectId, setSelectedSubjectId] = useState<string | null>(null);
   const [subjectsLoading, setSubjectsLoading] = useState(true);
 
-  // Data
+  // Curriculum data (phases 5-6)
   const [stagingData, setStagingData] = useState<StagingRow[]>([]);
   const [productionData, setProductionData] = useState<ProductionComponent[]>([]);
+
+  // Pipeline data (phases 1-4)
+  const [documentStats, setDocumentStats] = useState<DocumentStats | null>(null);
+  const [chunkStats, setChunkStats] = useState<ChunkStats | null>(null);
+  const [recentJobs, setRecentJobs] = useState<IngestionJob[]>([]);
+
+  // Loading / error
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -76,6 +107,19 @@ export function useCurriculumAdmin(): UseCurriculumAdminReturn {
   // Derived state
   const stagingHierarchy = stagingData.length > 0 ? groupStagingIntoHierarchy(stagingData) : null;
   const statusCounts = stagingData.length > 0 ? computeStatusCounts(stagingData) : null;
+
+  // Compute phase health from all data sources
+  const phaseStates = useMemo<PipelinePhaseState[]>(
+    () => [
+      computeDocumentPhaseHealth(documentStats),
+      computeProcessingPhaseHealth(documentStats),
+      computeEnrichmentPhaseHealth(documentStats, chunkStats),
+      computeChunkPhaseHealth(chunkStats),
+      computeStagingPhaseHealth(statusCounts),
+      computeProductionPhaseHealth(productionData),
+    ],
+    [documentStats, chunkStats, statusCounts, productionData]
+  );
 
   // Fetch subjects on mount
   useEffect(() => {
@@ -99,26 +143,56 @@ export function useCurriculumAdmin(): UseCurriculumAdminReturn {
     };
   }, []);
 
-  // Fetch staging + production data when subject changes
+  // Fetch all pipeline data when subject changes
   const loadSubjectData = useCallback(async (subjectId: string) => {
     setLoading(true);
     setError(null);
 
-    const [stagingResult, productionResult] = await Promise.all([
-      fetchStagingData(subjectId),
-      fetchProductionHierarchy(subjectId),
-    ]);
+    // Fetch all 6 phases in parallel
+    const [stagingResult, productionResult, docStatsResult, chunkStatsResult, jobsResult] =
+      await Promise.all([
+        fetchStagingData(subjectId),
+        fetchProductionHierarchy(subjectId),
+        fetchDocumentStats(subjectId),
+        fetchChunkStats(subjectId),
+        fetchRecentJobs(),
+      ]);
+
+    // Process results — collect errors without stopping
+    const errors: string[] = [];
 
     if (stagingResult.error) {
-      setError(stagingResult.error);
+      errors.push(stagingResult.error);
     } else {
       setStagingData(stagingResult.data ?? []);
     }
 
     if (productionResult.error) {
-      setError((prev) => (prev ? `${prev}; ${productionResult.error}` : productionResult.error));
+      errors.push(productionResult.error);
     } else {
       setProductionData(productionResult.data ?? []);
+    }
+
+    if (docStatsResult.error) {
+      errors.push(docStatsResult.error);
+    } else {
+      setDocumentStats(docStatsResult.data);
+    }
+
+    if (chunkStatsResult.error) {
+      errors.push(chunkStatsResult.error);
+    } else {
+      setChunkStats(chunkStatsResult.data);
+    }
+
+    if (jobsResult.error) {
+      errors.push(jobsResult.error);
+    } else {
+      setRecentJobs(jobsResult.data);
+    }
+
+    if (errors.length > 0) {
+      setError(errors.join('; '));
     }
 
     setLoading(false);
@@ -130,6 +204,9 @@ export function useCurriculumAdmin(): UseCurriculumAdminReturn {
     } else {
       setStagingData([]);
       setProductionData([]);
+      setDocumentStats(null);
+      setChunkStats(null);
+      setRecentJobs([]);
     }
   }, [selectedSubjectId, loadSubjectData]);
 
@@ -244,6 +321,10 @@ export function useCurriculumAdmin(): UseCurriculumAdminReturn {
     stagingHierarchy,
     statusCounts,
     productionData,
+    documentStats,
+    chunkStats,
+    recentJobs,
+    phaseStates,
     loading,
     subjectsLoading,
     error,

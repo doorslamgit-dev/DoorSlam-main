@@ -24,6 +24,24 @@ For architecture decisions, see [docs/decisions/](decisions/).
 - Architecture supports adding more admin tools over time — the layout and routing are generic, only the curriculum page is domain-specific.
 - See ADR-011 for the admin role architecture decision.
 
+**Subsequent changes — Full Content Pipeline View (27 Feb 2026)**:
+The original curriculum page showed only stages 5–6 (staging and production tables) in a 3-tab layout. This expansion replaces the tabs with a sequential 6-phase pipeline view covering the entire content ingestion lifecycle for a chosen subject:
+
+1. **Documents** — source document inventory (QPs, mark schemes, examiner reports, grade thresholds, specs, revision papers), broken down by doc_type and year.
+2. **Processing** — PDF parsing and ingestion job status: pending/processing/completed/failed counts, recent ingestion job history table.
+3. **Enrichment & Metadata** — LLM-generated document summaries and key_points completeness, chunk topic assignment progress, chunk content-type classification distribution (12 types: question, answer, marking_criteria, grade_table, examiner_comment, definition, explanation, worked_example, learning_objective, practical, data_table, general).
+4. **Chunks & Embeddings** — vector database state: total chunks, embedding coverage, per-document chunk distribution.
+5. **Curriculum Staging** — unchanged from original (approval workflow).
+6. **Production Tables** — unchanged from original (read-only hierarchy).
+
+Key technical changes:
+- **Database migration** (`20260227160000_admin_rag_pipeline_access.sql`): Admin RLS policy on `rag.ingestion_jobs` (was service_role only). Two new PostgreSQL RPC functions (`rag.get_document_stats_for_subject`, `rag.get_chunk_stats_for_subject`) aggregate stats server-side to avoid transferring 2000-dimension embedding vectors to the client.
+- **First frontend use of `supabase.schema('rag')`** in `pipelineAdminService.ts` — queries the RAG schema from the React app (supabase-js v2.39+ feature).
+- **Phase health system**: Each phase computes a `PhaseHealth` state (`empty | partial | complete | error`) from its data, displayed as colored dots in a `PipelineStatusStrip` at the top and badges on each collapsible `PipelinePhaseCard`.
+- **Extracted `CliCommand`** from `ActionPanel` into a shared component reused across all 6 phases for CLI trigger commands (Google Drive sync, batch ingestion, re-enrich, topic backfill, re-embed, extraction).
+- **23 unit tests** for the 6 pure phase health computation helpers in `pipelineAdminService.test.ts`.
+- Removed `OverviewTab.tsx` and `PipelineStatusGrid.tsx` (replaced by pipeline view).
+
 ---
 
 ## AI Tutor Module 5 — Multi-Format Support + Enhanced Metadata (25 Feb 2026)

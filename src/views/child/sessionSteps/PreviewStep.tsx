@@ -14,7 +14,7 @@ import {
 } from "../../../components/child/previewstep";
 
 export default function PreviewStep({
-  overview,
+  overview: _overview,
   payload,
   saving,
   onPatch,

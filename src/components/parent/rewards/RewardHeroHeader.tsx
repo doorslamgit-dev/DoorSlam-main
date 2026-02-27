@@ -18,7 +18,7 @@ export function RewardHeroHeader({
   childList,
   selectedChildId,
   onSelectChild,
-  enabledCount,
+  enabledCount: _enabledCount,
 }: RewardHeroHeaderProps) {
   const selectedChild = childList.find(c => c.id === selectedChildId);
   const childName = selectedChild?.preferred_name || selectedChild?.first_name || 'Child';
