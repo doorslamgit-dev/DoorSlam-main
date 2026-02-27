@@ -41,6 +41,7 @@ import type {
 } from '@/types/parent/parentDashboardTypes';
 import type { PlanCoverageOverview } from '@/services/timetableService';
 import type { SubjectProgress, TopicCovered, TopicComingUp } from '@/types/subjectProgress';
+import SessionCard from '@/components/timetable/SessionCard';
 
 // ============================================================================
 // SECTION LAYOUT HELPERS
@@ -1724,7 +1725,7 @@ export default function DesignGuidelines() {
        {/* ════════════════════════════════ TIMETABLE ════════════════════════════════ */}
        <Section id="mod-timetable" title="Timetable">
          <p className="text-sm text-muted-foreground -mt-2">
-           The weekly calendar view with draggable session cards across time-slot rows and day columns.
+           Three calendar views: Week (draggable session grid), Today (time-slot grouped session cards), and Month (overview calendar with session badges).
          </p>
 
          <SubSection title="Week View">
@@ -1795,38 +1796,279 @@ export default function DesignGuidelines() {
            </DemoPanel>
          </SubSection>
 
+         {/* Session Card */}
+         <SubSection title="Session Card">
+           <SourceTag path="src/components/timetable/SessionCard.tsx" />
+           <p className="text-xs text-muted-foreground mb-3">
+             Reusable card rendered once per session in TodayView. All states use a uniform <code className="text-xs bg-muted px-1 py-0.5 rounded">bg-background border-border</code> card — status is communicated solely via the <code className="text-xs bg-muted px-1 py-0.5 rounded">Badge</code> component. Subject title always uses <code className="text-xs bg-muted px-1 py-0.5 rounded">text-foreground</code>. Icon uses solid fill when active, 12% tint when completed.
+           </p>
+           <div className="space-y-3 max-w-lg">
+             {[
+               { subject: 'English Literature', icon: 'book-open' as const, color: '#1EC592', mins: 30, topics: 2, badgeVariant: 'default' as const, badgeLabel: 'Planned', badgeIcon: 'clock' as const, iconBg: '#1EC592', iconColor: 'white' },
+               { subject: 'Computer Science', icon: 'monitor' as const, color: '#5B2CFF', mins: 45, topics: 3, badgeVariant: 'warning' as const, badgeLabel: 'In Progress', badgeIcon: 'clock' as const, iconBg: '#5B2CFF', iconColor: 'white' },
+               { subject: 'Mathematics', icon: 'book' as const, color: '#5B2CFF', mins: 45, topics: 4, badgeVariant: 'success' as const, badgeLabel: 'Done', badgeIcon: 'check' as const, iconBg: 'rgba(91,44,255,0.12)', iconColor: '#5B2CFF' },
+             ].map(({ subject, icon, mins, topics, badgeVariant, badgeLabel, badgeIcon, iconBg, iconColor }) => (
+               <div key={subject} className="rounded-xl border-2 border-border bg-background p-4">
+                 <div className="flex items-start gap-4">
+                   <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: iconBg }}>
+                     <AppIcon name={icon} className="w-5 h-5" style={{ color: iconColor }} />
+                   </div>
+                   <div className="flex-1 min-w-0">
+                     <div className="flex items-start justify-between gap-2">
+                       <div>
+                         <h4 className="font-semibold text-base text-foreground">{subject}</h4>
+                         <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
+                           <span className="flex items-center gap-1"><AppIcon name="clock" className="w-3 h-3" />{mins} min</span>
+                           <span>{topics} topics</span>
+                         </div>
+                       </div>
+                       <Badge variant={badgeVariant} badgeStyle="soft" size="sm" icon={badgeIcon}>{badgeLabel}</Badge>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             ))}
+           </div>
+           {/* State spec */}
+           <div className="mt-3 grid grid-cols-1 md:grid-cols-3 gap-3">
+             {[
+               { label: 'Planned', badge: 'default · soft', icon: 'Solid fill icon' },
+               { label: 'In Progress', badge: 'warning · soft', icon: 'Solid fill icon' },
+               { label: 'Completed', badge: 'success · soft', icon: '12% tint icon' },
+             ].map(({ label, badge, icon }) => (
+               <div key={label} className="rounded-xl border-2 border-border bg-background p-3">
+                 <p className="text-xs font-semibold text-foreground">{label}</p>
+                 <p className="text-xs text-muted-foreground mt-0.5">Badge: {badge}</p>
+                 <p className="text-xs text-muted-foreground">{icon}</p>
+               </div>
+             ))}
+           </div>
+         </SubSection>
+
          {/* Today View */}
          <SubSection title="Today View">
            <SourceTag path="src/components/timetable/TodayView.tsx" />
-           <DemoPanel className="max-w-sm">
-             <div className="space-y-3">
-               <div className="flex items-center justify-between mb-4">
-                 <h3 className="text-sm font-bold text-foreground">Today&apos;s Sessions</h3>
-                 <button className="flex items-center gap-1.5 text-xs text-primary font-medium">
+           <p className="text-xs text-muted-foreground mb-3">
+             Sessions grouped by time slot (morning / afternoon / evening). Each session card uses semantic border/background tokens for status. Subject icons use solid fill (active) or 12% tint (completed) via <code className="text-xs bg-muted px-1 py-0.5 rounded">hexToRgba(color, 0.12)</code>.
+           </p>
+           <DemoPanel className="p-0 overflow-hidden">
+             {/* Header — today tint */}
+             <div className="px-6 py-4 border-b bg-primary/5 border-primary/20">
+               <div className="flex items-center justify-between">
+                 <div>
+                   <h2 className="text-2xl font-bold text-primary">Thursday, 27 February</h2>
+                   <p className="text-sm text-muted-foreground mt-1">3 sessions scheduled • Today</p>
+                 </div>
+                 <button className="inline-flex items-center gap-1.5 text-xs font-semibold bg-primary text-primary-foreground px-3 py-2 rounded-lg">
                    <AppIcon name="plus" className="w-3.5 h-3.5" />
-                   Add
+                   Add Session
                  </button>
                </div>
-               {[
-                 { subject: 'Mathematics', topic: 'Quadratic Equations', time: '4:00 – 4:45pm', color: '#5B2CFF', done: true },
-                 { subject: 'Biology', topic: 'Cell Division', time: '5:00 – 5:45pm', color: '#3B82F6', done: false },
-               ].map(({ subject, topic, time, color, done }) => (
-                 <div key={subject} className={`flex items-center gap-3 p-3 rounded-xl border ${done ? 'border-border bg-muted opacity-60' : 'border-border bg-background'}`}>
-                   <div className="w-1 self-stretch rounded-full" style={{ backgroundColor: color }} />
-                   <div className="flex-1 min-w-0">
-                     <p className={`text-sm font-medium truncate ${done ? 'line-through text-muted-foreground' : 'text-foreground'}`}>{subject}</p>
-                     <p className="text-xs text-muted-foreground truncate">{topic}</p>
-                     <p className="text-xs text-muted-foreground mt-0.5">{time}</p>
-                   </div>
-                   {done ? (
-                     <AppIcon name="check-circle" className="w-5 h-5 text-success shrink-0" />
-                   ) : (
-                     <button className="w-6 h-6 rounded-full border-2 border-input shrink-0" />
-                   )}
+             </div>
+             {/* Sessions */}
+             <div className="p-6 space-y-6">
+               {/* Afternoon slot */}
+               <div>
+                 <div className="flex items-center gap-2 mb-3">
+                   <AppIcon name="clock" className="w-4 h-4 text-muted-foreground" />
+                   <h3 className="text-sm font-semibold text-muted-foreground">Afternoon</h3>
+                   <div className="flex-1 h-px bg-muted" />
                  </div>
-               ))}
+                 <div className="space-y-3">
+                   {/* Completed session */}
+                   <div className="rounded-xl border-2 border-border bg-background p-4">
+                     <div className="flex items-start gap-4">
+                       <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: 'rgba(91,44,255,0.12)' }}>
+                         <AppIcon name="book" className="w-5 h-5" style={{ color: '#5B2CFF' }} />
+                       </div>
+                       <div className="flex-1 min-w-0">
+                         <div className="flex items-start justify-between gap-2">
+                           <div>
+                             <h4 className="font-semibold text-base text-foreground">Mathematics</h4>
+                             <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
+                               <span className="flex items-center gap-1"><AppIcon name="clock" className="w-3 h-3" />45 min</span>
+                               <span>3 topics</span>
+                             </div>
+                           </div>
+                           <Badge variant="success" badgeStyle="soft" size="sm" icon="check">Done</Badge>
+                         </div>
+                       </div>
+                     </div>
+                   </div>
+                   {/* In-progress session */}
+                   <div className="rounded-xl border-2 border-border bg-background p-4">
+                     <div className="flex items-start gap-4">
+                       <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: '#3B82F6' }}>
+                         <AppIcon name="sparkles" className="w-5 h-5 text-white" />
+                       </div>
+                       <div className="flex-1 min-w-0">
+                         <div className="flex items-start justify-between gap-2">
+                           <div>
+                             <h4 className="font-semibold text-base text-foreground">Biology</h4>
+                             <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
+                               <span className="flex items-center gap-1"><AppIcon name="clock" className="w-3 h-3" />45 min</span>
+                               <span>2 topics</span>
+                             </div>
+                           </div>
+                           <Badge variant="warning" badgeStyle="soft" size="sm" icon="clock">In Progress</Badge>
+                         </div>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+               {/* Evening slot */}
+               <div>
+                 <div className="flex items-center gap-2 mb-3">
+                   <AppIcon name="clock" className="w-4 h-4 text-muted-foreground" />
+                   <h3 className="text-sm font-semibold text-muted-foreground">Evening</h3>
+                   <div className="flex-1 h-px bg-muted" />
+                 </div>
+                 {/* Planned session */}
+                 <div className="rounded-xl border-2 border-border bg-background p-4">
+                   <div className="flex items-start gap-4">
+                     <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: '#1EC592' }}>
+                       <AppIcon name="book-open" className="w-5 h-5 text-white" />
+                     </div>
+                     <div className="flex-1 min-w-0">
+                       <div className="flex items-start justify-between gap-2">
+                         <div>
+                           <h4 className="font-semibold text-base text-foreground">English Literature</h4>
+                           <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
+                             <span className="flex items-center gap-1"><AppIcon name="clock" className="w-3 h-3" />30 min</span>
+                             <span>2 topics</span>
+                           </div>
+                         </div>
+                         <Badge variant="default" badgeStyle="soft" size="sm" icon="clock">Planned</Badge>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+               </div>
              </div>
            </DemoPanel>
+           {/* Spec notes */}
+           <div className="mt-3 grid grid-cols-1 md:grid-cols-3 gap-3">
+             {[
+               { label: 'Completed', icon: 'Icon: 12% tint, colored', badge: 'success · soft' },
+               { label: 'In Progress', icon: 'Icon: solid fill, white text', badge: 'warning · soft' },
+               { label: 'Planned', icon: 'Icon: solid fill, white text', badge: 'default · soft' },
+             ].map(({ label, icon, badge }) => (
+               <div key={label} className="rounded-xl border-2 border-border bg-background p-3">
+                 <p className="text-xs font-semibold text-foreground">{label}</p>
+                 <p className="text-xs text-muted-foreground mt-0.5">{icon}</p>
+                 <p className="text-xs text-muted-foreground">Badge: {badge}</p>
+               </div>
+             ))}
+           </div>
+         </SubSection>
+
+         {/* Month View */}
+         <SubSection title="Month View">
+           <SourceTag path="src/components/timetable/MonthView.tsx" />
+           <p className="text-xs text-muted-foreground mb-3">
+             Monthly calendar grid. Today&apos;s cell uses <code className="text-xs bg-muted px-1 py-0.5 rounded">bg-primary/5 border-primary</code>. Session badges use per-subject color at 12% opacity via <code className="text-xs bg-muted px-1 py-0.5 rounded">hexToRgba(color, 0.12)</code>. Blocked days use <code className="text-xs bg-muted px-1 py-0.5 rounded">bg-secondary border-input</code>. No inline <code className="text-xs bg-muted px-1 py-0.5 rounded">dark:</code> overrides.
+           </p>
+           <DemoPanel className="p-0 overflow-hidden">
+             <div className="p-6">
+               {/* Day headers */}
+               <div className="grid grid-cols-7 gap-1 mb-2">
+                 {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((d) => (
+                   <div key={d} className="text-center text-sm font-medium py-2 text-muted-foreground">{d}</div>
+                 ))}
+               </div>
+               {/* Calendar grid — 5 rows × 7 cols (February 2026 demo) */}
+               <div className="grid grid-cols-7 gap-1">
+                 {[
+                   /* row 1 — Feb starts on Sunday = index 6 */
+                   { day: null }, { day: null }, { day: null }, { day: null }, { day: null }, { day: null }, { day: 1, sessions: [] },
+                   /* row 2 */
+                   { day: 2, sessions: [{ subject: 'Maths', color: '#5B2CFF' }] },
+                   { day: 3, sessions: [] },
+                   { day: 4, sessions: [{ subject: 'Biology', color: '#3B82F6' }, { subject: 'English', color: '#1EC592' }] },
+                   { day: 5, sessions: [] },
+                   { day: 6, sessions: [{ subject: 'Maths', color: '#5B2CFF' }] },
+                   { day: 7, sessions: [] },
+                   { day: 8, sessions: [] },
+                   /* row 3 */
+                   { day: 9, sessions: [{ subject: 'Biology', color: '#3B82F6' }] },
+                   { day: 10, sessions: [] },
+                   { day: 11, sessions: [{ subject: 'Maths', color: '#5B2CFF' }, { subject: 'English', color: '#1EC592' }] },
+                   { day: 12, sessions: [] },
+                   { day: 13, sessions: [{ subject: 'Biology', color: '#3B82F6' }] },
+                   { day: 14, sessions: [] },
+                   { day: 15, sessions: [] },
+                   /* row 4 — day 27 = today */
+                   { day: 16, sessions: [] },
+                   { day: 17, sessions: [{ subject: 'Maths', color: '#5B2CFF' }] },
+                   { day: 18, sessions: [] },
+                   { day: 19, sessions: [{ subject: 'English', color: '#1EC592' }] },
+                   { day: 20, sessions: [] },
+                   { day: 21, sessions: [], blocked: true },
+                   { day: 22, sessions: [], blocked: true },
+                   /* row 5 */
+                   { day: 23, sessions: [{ subject: 'Biology', color: '#3B82F6' }] },
+                   { day: 24, sessions: [] },
+                   { day: 25, sessions: [{ subject: 'Maths', color: '#5B2CFF' }, { subject: 'Biology', color: '#3B82F6' }, { subject: 'Extra', color: '#8B5CF6' }] },
+                   { day: 26, sessions: [] },
+                   { day: 27, sessions: [{ subject: 'Maths', color: '#5B2CFF' }], isToday: true },
+                   { day: 28, sessions: [] },
+                   { day: null }, /* padding */
+                 ].map((cell, i) => {
+                   if (!cell.day) return <div key={`e-${i}`} className="h-24" />;
+                   const isToday = 'isToday' in cell && cell.isToday;
+                   const blocked = 'blocked' in cell && cell.blocked;
+                   return (
+                     <div
+                       key={cell.day}
+                       className={`h-24 border rounded-lg p-2 overflow-hidden ${
+                         blocked
+                           ? 'border-input bg-secondary'
+                           : isToday
+                           ? 'border-primary bg-primary/5'
+                           : 'border-border bg-background'
+                       }`}
+                     >
+                       <div className={`text-sm font-medium mb-1 ${blocked ? 'text-muted-foreground' : isToday ? 'text-primary' : 'text-foreground'}`}>
+                         {cell.day}
+                       </div>
+                       {blocked ? (
+                         <div className="text-xs text-muted-foreground italic">Blocked</div>
+                       ) : (
+                         <div className="space-y-1">
+                           {cell.sessions.slice(0, 2).map((s, si) => (
+                             <div
+                               key={si}
+                               className="text-xs px-1.5 py-0.5 rounded truncate"
+                               style={{ backgroundColor: `rgba(${parseInt(s.color.slice(1, 3), 16)}, ${parseInt(s.color.slice(3, 5), 16)}, ${parseInt(s.color.slice(5, 7), 16)}, 0.12)`, color: s.color }}
+                             >
+                               {s.subject}
+                             </div>
+                           ))}
+                           {cell.sessions.length > 2 && (
+                             <div className="text-xs text-muted-foreground">+{cell.sessions.length - 2} more</div>
+                           )}
+                         </div>
+                       )}
+                     </div>
+                   );
+                 })}
+               </div>
+             </div>
+           </DemoPanel>
+           {/* Spec notes */}
+           <div className="mt-3 grid grid-cols-1 md:grid-cols-3 gap-3">
+             {[
+               { label: 'Today', classes: 'bg-primary/5 border-primary', text: 'border-primary text number' },
+               { label: 'Normal day', classes: 'bg-background border-border', text: 'text-foreground day number' },
+               { label: 'Blocked', classes: 'bg-secondary border-input', text: 'text-muted-foreground + italic label' },
+             ].map(({ label, classes, text }) => (
+               <div key={label} className={`rounded-lg border p-3 ${classes}`}>
+                 <p className="text-xs font-semibold text-foreground">{label}</p>
+                 <p className="text-xs text-muted-foreground mt-0.5">{text}</p>
+               </div>
+             ))}
+           </div>
          </SubSection>
        </Section>
 

@@ -19,7 +19,7 @@ export default function QuickStats({
   weeksUntilExams,
 }: QuickStatsProps) {
   return (
-    <div className="bg-background rounded-2xl shadow-soft p-6">
+    <div className="bg-background rounded-2xl shadow-sm border border-border p-6">
       <h3 className="text-lg font-semibold mb-4 text-foreground">
         Quick Stats
       </h3>

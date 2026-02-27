@@ -13,7 +13,7 @@ interface SubjectBalanceWidgetProps {
 export default function SubjectBalanceWidget({ data, loading }: SubjectBalanceWidgetProps) {
   if (loading) {
     return (
-      <div className="bg-background rounded-2xl shadow-soft p-6 border border-border animate-pulse">
+      <div className="bg-background rounded-2xl shadow-sm p-6 border border-border animate-pulse">
         <div className="h-6 bg-muted rounded w-1/3 mb-4" />
         <div className="h-48 bg-muted rounded-full mx-auto" style={{ width: 192 }} />
       </div>
@@ -42,7 +42,7 @@ export default function SubjectBalanceWidget({ data, loading }: SubjectBalanceWi
   };
 
   return (
-    <div className="bg-background rounded-2xl shadow-soft p-6 border border-border">
+    <div className="bg-background rounded-2xl shadow-sm p-6 border border-border">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div>

@@ -41,7 +41,7 @@ export default function StreakMomentumCard({
   const streakLabel = currentStreak >= 7 ? "incredible!" : "great momentum!";
 
   return (
-    <div className="bg-gradient-to-r from-primary/5 to-primary/10 rounded-2xl shadow-soft p-6 border border-primary/20">
+    <div className="bg-gradient-to-r from-primary/5 to-primary/10 rounded-2xl shadow-sm p-6 border border-primary/20">
       <div className="flex items-start space-x-4">
         <div className="w-12 h-12 bg-success rounded-full flex items-center justify-center flex-shrink-0">
           <AppIcon name="flame" className="text-white w-6 h-6" />

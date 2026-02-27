@@ -83,7 +83,7 @@ export default function InsightsDashboard() {
 
   return (
     <PageLayout hideFooter>
-      <main className="max-w-6xl mx-auto px-6 py-8">
+      <main className="max-w-[1120px] mx-auto px-6 py-8">
         {/* Page Header */}
         <PageChildHeader
           title="Insights"

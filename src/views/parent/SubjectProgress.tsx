@@ -90,7 +90,7 @@ export default function SubjectProgress() {
   if (error) {
     return (
       <PageLayout hideFooter>
-        <div className="max-w-6xl mx-auto px-6 py-8">
+        <div className="max-w-[1120px] mx-auto px-6 py-8">
           <div className="rounded-2xl p-6 text-center bg-destructive/10 border border-danger-border">
             <p className="font-medium text-destructive">
               Failed to load subject progress
@@ -111,7 +111,7 @@ export default function SubjectProgress() {
   if (!data || !data.child) {
     return (
       <PageLayout hideFooter>
-        <div className="max-w-6xl mx-auto px-6 py-8">
+        <div className="max-w-[1120px] mx-auto px-6 py-8">
           <div className="bg-background rounded-2xl shadow-sm p-8 text-center">
             <p className="text-muted-foreground">
               No children found. Please add a child first.
@@ -197,7 +197,7 @@ export default function SubjectProgress() {
 
   return (
     <PageLayout hideFooter>
-      <main className="max-w-6xl mx-auto px-6 py-8">
+      <main className="max-w-[1120px] mx-auto px-6 py-8">
         {/* Page Header */}
         <PageChildHeader
           title="Subjects"

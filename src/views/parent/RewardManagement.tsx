@@ -146,7 +146,7 @@ export function RewardManagement() {
       {/* Error Banner */}
       {error && (
         <div className="bg-destructive/10 border-b border-destructive/20 px-4 py-3">
-          <div className="max-w-5xl mx-auto flex items-center justify-between">
+          <div className="max-w-[1120px] mx-auto flex items-center justify-between">
             <p className="text-destructive">{error}</p>
             <button
               onClick={clearError}
@@ -158,7 +158,7 @@ export function RewardManagement() {
         </div>
       )}
 
-      <main className="max-w-5xl mx-auto px-6 py-8 space-y-6">
+      <main className="max-w-[1120px] mx-auto px-6 py-8 space-y-6">
         {/* Page Header */}
         <PageChildHeader
           title="Rewards"
@@ -170,25 +170,13 @@ export function RewardManagement() {
           banner={showNotificationBanner ? <NotificationBanner message={notificationMessage} /> : undefined}
         />
 
-        {/* Hero Header */}
-        <section className="bg-gradient-to-br from-primary/5 via-primary/10 to-white rounded-2xl shadow-sm p-6 border border-primary/20">
-          <RewardHeroHeader
-            childList={childOptions.map(c => ({ id: c.child_id, first_name: c.child_name, preferred_name: null }))}
-            selectedChildId={selectedChildId}
-            onSelectChild={setSelectedChildId}
-            enabledCount={enabledCount}
+        {/* Quick Start - only show if no rewards enabled */}
+        {enabledCount === 0 && (
+          <QuickStartBanner
+            onQuickStart={handleQuickStart}
+            loading={quickStarting}
           />
-
-          {/* Quick Start - only show if no rewards enabled */}
-          {enabledCount === 0 && (
-            <div className="mt-4">
-              <QuickStartBanner
-                onQuickStart={handleQuickStart}
-                loading={quickStarting}
-              />
-            </div>
-          )}
-        </section>
+        )}
 
         {/* Agreed/Active Rewards */}
         <AgreedRewardsCard

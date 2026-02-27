@@ -122,7 +122,7 @@ export default function Timetable() {
 
   return (
     <PageLayout hideFooter>
-      <main className="max-w-7xl mx-auto px-6 py-8">
+      <main className="max-w-[1120px] mx-auto px-6 py-8">
         {/* Row 1: Page Header + Nudge banner */}
         <PageChildHeader
           title="Timetable"

@@ -4,24 +4,23 @@
 
 import AppIcon from "../ui/AppIcon";
 import type { SubjectProgress } from "../../types/subjectProgress";
-import { STATUS_COLORS, getSubjectColor } from "../../constants/colors";
+import { getSubjectColor } from "../../constants/colors";
 import { hexToRgba } from "../../utils/colorUtils";
 
 interface SubjectCardProps {
   subject: SubjectProgress;
 }
 
-// FEAT-010: Consistent status colors
-function getStatusStyle(status: string) {
+function getStatusBadge(status: string): { label: string; className: string } {
   switch (status) {
     case "in_progress":
-      return { label: "On Track", bgColor: STATUS_COLORS.on_track };
+      return { label: "On Track", className: "bg-success/10 text-success" };
     case "needs_attention":
-      return { label: "Needs Focus", bgColor: STATUS_COLORS.needs_attention };
+      return { label: "Needs Focus", className: "bg-warning/10 text-warning" };
     case "completed":
-      return { label: "Completed", bgColor: STATUS_COLORS.completed };
+      return { label: "Completed", className: "bg-primary/10 text-primary" };
     default:
-      return { label: "Not Started", bgColor: STATUS_COLORS.not_started };
+      return { label: "Not Started", className: "bg-muted text-muted-foreground" };
   }
 }
 
@@ -62,14 +61,14 @@ function mapSubjectIconToAppIcon(icon?: string) {
 }
 
 export default function SubjectCard({ subject }: SubjectCardProps) {
-  const statusStyle = getStatusStyle(subject.status);
+  const statusBadge = getStatusBadge(subject.status);
   const recentlyCovered = subject.recently_covered?.slice(0, 3) || [];
   const comingUp = subject.coming_up?.slice(0, 3) || [];
   const subjectColor = getSubjectColor(subject.subject_name);
   const iconKey = mapSubjectIconToAppIcon(subject.subject_icon);
 
   return (
-    <div className="bg-background rounded-2xl shadow-soft p-6">
+    <div className="bg-background rounded-2xl shadow-sm border border-border p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-3">
@@ -96,12 +95,9 @@ export default function SubjectCard({ subject }: SubjectCardProps) {
           </div>
         </div>
 
-        {/* Status badge - solid background with white text */}
-        <span
-          className="px-3 py-1 text-white text-sm rounded-full font-medium"
-          style={{ backgroundColor: statusStyle.bgColor }}
-        >
-          {statusStyle.label}
+        {/* Status badge */}
+        <span className={`px-3 py-1 text-xs rounded-full font-medium ${statusBadge.className}`}>
+          {statusBadge.label}
         </span>
       </div>
 

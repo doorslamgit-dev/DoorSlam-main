@@ -1,5 +1,6 @@
 import type { TimetableSession } from "../../services/timetableService";
 import { getSubjectColor } from "../../constants/colors";
+import { hexToRgba } from "../../utils/colorUtils";
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
@@ -48,7 +49,7 @@ export function MonthView({
     today.getFullYear() === year && today.getMonth() === month;
 
   return (
-    <div className="bg-background rounded-2xl shadow-sm overflow-hidden mb-6">
+    <div className="bg-background rounded-2xl shadow-sm border border-border overflow-hidden mb-6">
       <div className="p-6">
         <div className="grid grid-cols-7 gap-1 mb-2">
           {DAYS.map((day) => (
@@ -78,7 +79,7 @@ export function MonthView({
                   dayBlocked
                     ? "border-input bg-secondary"
                     : isToday
-                    ? "border-primary dark:border-primary bg-primary/5 dark:bg-primary/20"
+                    ? "border-primary bg-primary/5"
                     : "border-border bg-background"
                 }`}
               >
@@ -87,7 +88,7 @@ export function MonthView({
                     dayBlocked
                       ? "text-muted-foreground"
                       : isToday
-                      ? "text-primary dark:text-primary/70"
+                      ? "text-primary"
                       : "text-foreground"
                   }`}
                 >
@@ -104,7 +105,7 @@ export function MonthView({
                           key={session.planned_session_id}
                           className="text-xs px-1.5 py-0.5 rounded truncate"
                           style={{
-                            backgroundColor: `${color}20`,
+                            backgroundColor: hexToRgba(color, 0.12),
                             color: color,
                           }}
                         >

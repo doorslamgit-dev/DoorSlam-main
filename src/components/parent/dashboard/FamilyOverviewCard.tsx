@@ -18,7 +18,7 @@ export function FamilyOverviewCard({
     childrenCount > 0 ? Math.round(totalSessions / childrenCount) : 0;
 
   return (
-    <div className="bg-background rounded-2xl shadow-soft p-6 border border-border">
+    <div className="bg-background rounded-2xl shadow-sm p-6 border border-border">
       <div className="flex items-center justify-between mb-5">
         <h3 className="text-lg font-bold text-foreground">Family Overview</h3>
         <span className="text-xs font-medium text-muted-foreground">This week</span>
