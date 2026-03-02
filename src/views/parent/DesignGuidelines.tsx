@@ -41,7 +41,6 @@ import type {
 } from '@/types/parent/parentDashboardTypes';
 import type { PlanCoverageOverview } from '@/services/timetableService';
 import type { SubjectProgress, TopicCovered, TopicComingUp } from '@/types/subjectProgress';
-import SessionCard from '@/components/timetable/SessionCard';
 
 // ============================================================================
 // SECTION LAYOUT HELPERS
@@ -1744,7 +1743,7 @@ export default function DesignGuidelines() {
                      <p className={`text-xs ${i === 0 ? 'text-primary' : 'text-muted-foreground'}`}>
                        {day.split(' ')[1]} Feb
                      </p>
-                     {i === 0 && <span className="text-[9px] font-bold text-primary bg-primary/10 px-1.5 py-0.5 rounded-full">TODAY</span>}
+                     {i === 0 && <span className="text-2xs font-bold text-primary bg-primary/10 px-1.5 py-0.5 rounded-full">TODAY</span>}
                    </div>
                  ))}
                </div>
@@ -2859,12 +2858,12 @@ export default function DesignGuidelines() {
        <h2 className="text-2xl font-bold text-foreground font-display mb-4">Foundation</h2>
        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
          <div className="bg-card border border-border rounded-xl p-5">
-           <span className="text-[10px] font-bold tracking-wider uppercase text-lime bg-lime/10 px-2 py-0.5 rounded-full">Mission</span>
+           <span className="text-2xs font-bold tracking-wider uppercase text-lime bg-lime/10 px-2 py-0.5 rounded-full">Mission</span>
            <h3 className="text-sm font-bold text-foreground mt-3 mb-1">Make exam revision fun, engaging and efficient</h3>
            <p className="text-xs text-muted-foreground leading-relaxed">DoorSlam exists to fundamentally reframe what revision looks like. We reject the notion that effective study must be tedious. Through AI-driven personalisation and gamified mechanics, we make every session feel like genuine progress.</p>
          </div>
          <div className="bg-card border border-border rounded-xl p-5">
-           <span className="text-[10px] font-bold tracking-wider uppercase text-primary bg-primary/10 px-2 py-0.5 rounded-full">Vision</span>
+           <span className="text-2xs font-bold tracking-wider uppercase text-primary bg-primary/10 px-2 py-0.5 rounded-full">Vision</span>
            <h3 className="text-sm font-bold text-foreground mt-3 mb-1">Cutting-edge AI for optimal grades</h3>
            <p className="text-xs text-muted-foreground leading-relaxed">We envision a future where every GCSE student has access to an intelligent tutor that adapts to their learning style, identifies knowledge gaps in real time, and creates dynamic conversations between the student and their subjects.</p>
          </div>
@@ -2911,16 +2910,16 @@ export default function DesignGuidelines() {
        <h2 className="text-2xl font-bold text-foreground font-display mb-4">Archetypes &amp; Voice</h2>
        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
          <div className="bg-card border border-border rounded-xl p-5">
-           <span className="text-[10px] font-bold tracking-wider uppercase text-destructive bg-destructive/10 px-2 py-0.5 rounded-full">Primary Archetype</span>
+           <span className="text-2xs font-bold tracking-wider uppercase text-destructive bg-destructive/10 px-2 py-0.5 rounded-full">Primary Archetype</span>
            <h3 className="text-sm font-bold text-foreground mt-3 mb-1">The Magician</h3>
            <p className="text-xs text-muted-foreground leading-relaxed">Transforms the ordinary into the extraordinary. Takes mundane revision and makes it genuinely engaging. Promises transformation — exactly what students and parents seek.</p>
-           <p className="text-[10px] text-[#8B5CF6] mt-2">Core desire: Make understanding happen · Core fear: Stagnation</p>
+           <p className="text-2xs text-[#8B5CF6] mt-2">Core desire: Make understanding happen · Core fear: Stagnation</p>
          </div>
          <div className="bg-card border border-border rounded-xl p-5">
-           <span className="text-[10px] font-bold tracking-wider uppercase text-primary bg-primary/10 px-2 py-0.5 rounded-full">Secondary Archetype</span>
+           <span className="text-2xs font-bold tracking-wider uppercase text-primary bg-primary/10 px-2 py-0.5 rounded-full">Secondary Archetype</span>
            <h3 className="text-sm font-bold text-foreground mt-3 mb-1">The Jester</h3>
            <p className="text-xs text-muted-foreground leading-relaxed">Lives in the moment. Brings lightness to serious situations. Ensures DoorSlam never feels like another tedious EdTech platform. Gives us permission to be playful and use humour.</p>
-           <p className="text-[10px] text-info mt-2">Core desire: Enjoy the moment · Core fear: Being boring</p>
+           <p className="text-2xs text-info mt-2">Core desire: Enjoy the moment · Core fear: Being boring</p>
          </div>
        </div>
 
@@ -2939,7 +2938,7 @@ export default function DesignGuidelines() {
                <div className="h-1.5 bg-secondary rounded-full overflow-hidden">
                  <div className={`h-full rounded-full ${dim.color}`} style={{ width: `${dim.pct}%` }} />
                </div>
-               <p className="text-[10px] text-muted-foreground mt-2">{dim.note}</p>
+               <p className="text-2xs text-muted-foreground mt-2">{dim.note}</p>
              </div>
            ))}
          </div>
@@ -2954,7 +2953,7 @@ export default function DesignGuidelines() {
        <p className="text-xs text-muted-foreground italic mb-6">&ldquo;Slam&rdquo; carries dual meaning — mastering exams and the brand name itself. Active, confident, using language students already use.</p>
 
        <div className="bg-card border border-border rounded-xl p-5 mb-4">
-         <span className="text-[10px] font-bold tracking-wider uppercase text-primary bg-primary/10 px-2 py-0.5 rounded-full">Value Proposition</span>
+         <span className="text-2xs font-bold tracking-wider uppercase text-primary bg-primary/10 px-2 py-0.5 rounded-full">Value Proposition</span>
          <p className="text-sm text-foreground mt-3 leading-relaxed">DoorSlam is the AI-powered revision platform that makes GCSE study feel like a game — adapting to how you learn, identifying what you don&apos;t know, and turning every session into real progress.</p>
        </div>
 
@@ -2980,7 +2979,7 @@ export default function DesignGuidelines() {
        <h2 className="text-2xl font-bold text-foreground font-display mb-4">Three Directions</h2>
        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
          <div className="bg-card border border-border rounded-xl p-5 text-center">
-           <span className="text-[10px] font-bold tracking-wider uppercase text-lime bg-lime/10 px-2 py-0.5 rounded-full">Direction 01</span>
+           <span className="text-2xs font-bold tracking-wider uppercase text-lime bg-lime/10 px-2 py-0.5 rounded-full">Direction 01</span>
            <div className="h-20 flex items-center justify-center my-3">
              <span className="text-2xl font-bold font-display text-foreground">DOOR<span className="text-lime">SLAM</span></span>
            </div>
@@ -2988,7 +2987,7 @@ export default function DesignGuidelines() {
            <p className="text-xs text-muted-foreground">Split-colour wordmark creates a visual snap — a typographic door slam.</p>
          </div>
          <div className="bg-card border border-border rounded-xl p-5 text-center">
-           <span className="text-[10px] font-bold tracking-wider uppercase text-primary bg-primary/10 px-2 py-0.5 rounded-full">Direction 02</span>
+           <span className="text-2xs font-bold tracking-wider uppercase text-primary bg-primary/10 px-2 py-0.5 rounded-full">Direction 02</span>
            <div className="h-20 flex items-center justify-center my-3">
              <div className="w-10 h-12 bg-primary rounded-md flex items-center justify-center relative">
                <div className="w-2 h-2 bg-lime rounded-full ml-1" />
@@ -2998,7 +2997,7 @@ export default function DesignGuidelines() {
            <p className="text-xs text-muted-foreground">Abstracted door with dynamic &ldquo;slam&rdquo; motion lines. Ideal for app icons and avatars.</p>
          </div>
          <div className="bg-card border border-border rounded-xl p-5 text-center">
-           <span className="text-[10px] font-bold tracking-wider uppercase text-destructive bg-destructive/10 px-2 py-0.5 rounded-full">Recommended</span>
+           <span className="text-2xs font-bold tracking-wider uppercase text-destructive bg-destructive/10 px-2 py-0.5 rounded-full">Recommended</span>
            <div className="h-20 flex items-center justify-center gap-2 my-3">
              <div className="w-7 h-9 bg-primary rounded flex items-center justify-center">
                <div className="w-1.5 h-1.5 bg-lime rounded-full ml-0.5" />
@@ -3043,7 +3042,7 @@ export default function DesignGuidelines() {
                </div>
              </div>
              <h3 className="text-xs font-bold text-foreground">{platform.name}</h3>
-             <p className="text-[10px] text-muted-foreground">{platform.desc}</p>
+             <p className="text-2xs text-muted-foreground">{platform.desc}</p>
            </div>
          ))}
        </div>
@@ -3060,14 +3059,14 @@ export default function DesignGuidelines() {
          <div className="bg-card border border-border rounded-xl overflow-hidden">
            <div className="bg-[#0A1628] p-6 aspect-video flex flex-col justify-center relative">
              <p className="text-sm font-bold text-white font-display">Presentation Title</p>
-             <p className="text-[10px] text-[#9CA3AF] mt-1">Subtitle or date here</p>
+             <p className="text-2xs text-[#9CA3AF] mt-1">Subtitle or date here</p>
              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary" />
            </div>
-           <p className="px-4 py-2 text-[10px] text-muted-foreground">01 — Title Slide</p>
+           <p className="px-4 py-2 text-2xs text-muted-foreground">01 — Title Slide</p>
          </div>
          <div className="bg-card border border-border rounded-xl overflow-hidden">
            <div className="bg-white p-6 aspect-video flex flex-col relative">
-             <div className="bg-[#0A1628] text-white text-[10px] font-bold font-display px-3 py-1 -mx-6 -mt-6 mb-3">DOORSLAM</div>
+             <div className="bg-[#0A1628] text-white text-2xs font-bold font-display px-3 py-1 -mx-6 -mt-6 mb-3">DOORSLAM</div>
              <p className="text-xs font-bold text-[#0A1628] font-display">Section Heading</p>
              <div className="flex-1 mt-2 space-y-1.5">
                <div className="h-1 bg-[#E5E7EB] rounded w-4/5" />
@@ -3075,7 +3074,7 @@ export default function DesignGuidelines() {
                <div className="h-1 bg-[#E5E7EB] rounded w-3/5" />
              </div>
            </div>
-           <p className="px-4 py-2 text-[10px] text-muted-foreground">02 — Content Slide</p>
+           <p className="px-4 py-2 text-2xs text-muted-foreground">02 — Content Slide</p>
          </div>
        </div>
      </section>

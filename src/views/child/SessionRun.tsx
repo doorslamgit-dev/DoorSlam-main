@@ -290,7 +290,7 @@ export default function SessionRun() {
         timeRemainingMinutes={timeRemainingMinutes}
       />
 
-      <main className="max-w-[1120px] mx-auto px-6 py-8 pb-24">{renderStep()}</main>
+      <main className="max-w-content mx-auto px-6 py-8 pb-24">{renderStep()}</main>
 
       {/* FEAT-011: Study Buddy Panel - Phase 3 added childId for voice input */}
       {activeRevisionSessionId && sessionData.child_id && (

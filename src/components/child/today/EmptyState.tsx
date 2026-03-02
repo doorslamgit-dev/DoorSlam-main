@@ -25,7 +25,7 @@ interface ErrorStateProps {
 
 export function ErrorState({ message, onRetry }: ErrorStateProps) {
   return (
-    <div className="max-w-[1120px] mx-auto px-4 py-8">
+    <div className="max-w-content mx-auto px-4 py-8">
       <div className="bg-destructive/10 border border-destructive/20 rounded-2xl p-6 text-center">
         <div className="w-12 h-12 bg-destructive/10 rounded-full flex items-center justify-center mx-auto mb-4">
           <AppIcon name="triangle-alert" className="text-destructive w-6 h-6" />

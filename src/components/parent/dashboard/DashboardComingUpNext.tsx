@@ -34,7 +34,7 @@ function DayAvatar({ label }: { label: string }) {
   const abbr = isTomorrow ? 'Tmr' : label.slice(0, 3);
   return (
     <div
-      className={`w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
+      className={`w-8 h-8 rounded-full flex items-center justify-center text-2xs font-bold shrink-0 ${
         isTomorrow ? 'bg-primary/10 text-primary' : 'bg-secondary text-muted-foreground'
       }`}
     >

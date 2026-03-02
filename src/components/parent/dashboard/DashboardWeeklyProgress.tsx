@@ -85,7 +85,7 @@ export function DashboardWeeklyProgress({ child, dailyPattern }: DashboardWeekly
 
           return (
             <div key={day.day_of_week} className="flex flex-col items-center gap-1.5">
-              <span className={`text-[11px] font-medium ${labelClass}`}>
+              <span className={`text-xs font-medium ${labelClass}`}>
                 {isToday ? 'Today' : day.day_name_short}
               </span>
               <div

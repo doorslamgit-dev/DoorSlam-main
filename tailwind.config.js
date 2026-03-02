@@ -97,6 +97,12 @@ export default {
   			display: 'var(--font-family-display)'
   		},
   		fontSize: {
+  			'2xs': [
+  				'var(--font-size-2xs)',
+  				{
+  					lineHeight: '1.25'
+  				}
+  			],
   			xs: [
   				'var(--font-size-xs)',
   				{

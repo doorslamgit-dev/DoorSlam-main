@@ -8,7 +8,7 @@ import BrandWordmark from '../ui/BrandWordmark';
 export default function Footer() {
   return (
     <footer className="bg-foreground text-muted-foreground py-12 mt-16">
-      <div className="max-w-[1120px] mx-auto px-6">
+      <div className="max-w-content mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="space-y-4">

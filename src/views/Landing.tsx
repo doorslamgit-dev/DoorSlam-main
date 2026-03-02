@@ -10,7 +10,7 @@ export default function Landing() {
     <div className="bg-background flex flex-col min-h-screen">
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-primary/5/30 via-white to-white pt-12 pb-20">
-        <div className="max-w-[1120px] mx-auto px-6">
+        <div className="max-w-content mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-6">
               <h1 className="text-5xl font-bold text-foreground leading-tight">
@@ -72,7 +72,7 @@ export default function Landing() {
 
       {/* Choose Your Path Section */}
       <section className="py-20 bg-background">
-        <div className="max-w-[1120px] mx-auto px-6">
+        <div className="max-w-content mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-primary mb-4">Choose your path</h2>
             <p className="text-xl text-muted-foreground">Get started with the experience that's right for you</p>
@@ -123,7 +123,7 @@ export default function Landing() {
 
       {/* How It Works Section */}
       <section className="py-20 bg-muted">
-        <div className="max-w-[1120px] mx-auto px-6">
+        <div className="max-w-content mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-primary mb-4">How it works</h2>
             <p className="text-xl text-muted-foreground">Get your child exam-ready in three simple steps</p>
@@ -159,7 +159,7 @@ export default function Landing() {
 
       {/* Testimonials Section */}
       <section className="py-20 bg-background">
-        <div className="max-w-[1120px] mx-auto px-6">
+        <div className="max-w-content mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-primary mb-4">Why parents choose DoorSlam</h2>
             <p className="text-xl text-muted-foreground">Trusted by thousands of families across the UK</p>
@@ -204,7 +204,7 @@ export default function Landing() {
 
       {/* CTA Section */}
       <section className="py-20 bg-primary/5">
-        <div className="max-w-[1120px] mx-auto px-6 text-center">
+        <div className="max-w-content mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold text-primary mb-4">Ready to transform revision time?</h2>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
             Join thousands of parents who've already taken the stress out of GCSE preparation.

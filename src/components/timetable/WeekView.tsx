@@ -301,7 +301,7 @@ export function WeekView({
               {day.date.getDate()}
             </div>
             {day.isBlocked && (
-              <div className="text-[10px] text-muted-foreground mt-0.5">
+              <div className="text-2xs text-muted-foreground mt-0.5">
                 Blocked
               </div>
             )}
@@ -365,7 +365,7 @@ export function WeekView({
             >
               {activeDragData.topicName}
             </div>
-            <div className="text-[10px] text-muted-foreground mt-0.5">
+            <div className="text-2xs text-muted-foreground mt-0.5">
               {activeDragData.subjectName}
             </div>
           </div>

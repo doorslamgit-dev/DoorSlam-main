@@ -126,7 +126,7 @@ export function DayCard({
               </div>
 
               <div className="flex-1 min-w-0">
-                <label className="block text-[10px] font-medium text-muted-foreground uppercase tracking-wide mb-1">
+                <label className="block text-2xs font-medium text-muted-foreground uppercase tracking-wide mb-1">
                   Time
                 </label>
                 <select
@@ -143,7 +143,7 @@ export function DayCard({
               </div>
 
               <div className="flex-1 min-w-0">
-                <label className="block text-[10px] font-medium text-muted-foreground uppercase tracking-wide mb-1">
+                <label className="block text-2xs font-medium text-muted-foreground uppercase tracking-wide mb-1">
                   Duration
                 </label>
                 <select

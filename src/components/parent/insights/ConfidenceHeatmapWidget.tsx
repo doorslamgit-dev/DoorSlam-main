@@ -98,7 +98,7 @@ export default function ConfidenceHeatmapWidget({ data, loading }: ConfidenceHea
                       }
                     >
                       {displayValue && (
-                        <span className={`text-[10px] font-semibold ${colors.text}`}>
+                        <span className={`text-2xs font-semibold ${colors.text}`}>
                           {displayValue}
                         </span>
                       )}
@@ -117,19 +117,19 @@ export default function ConfidenceHeatmapWidget({ data, loading }: ConfidenceHea
       <div className="flex items-center justify-center gap-4 mt-4 pt-4 border-t border-border">
         <div className="flex items-center gap-1">
           <div className="w-4 h-4 bg-destructive bg-opacity-30 rounded" />
-          <span className="text-[10px] text-muted-foreground">Low</span>
+          <span className="text-2xs text-muted-foreground">Low</span>
         </div>
         <div className="flex items-center gap-1">
           <div className="w-4 h-4 bg-warning bg-opacity-25 rounded" />
-          <span className="text-[10px] text-muted-foreground">Building</span>
+          <span className="text-2xs text-muted-foreground">Building</span>
         </div>
         <div className="flex items-center gap-1">
           <div className="w-4 h-4 bg-success bg-opacity-35 rounded" />
-          <span className="text-[10px] text-muted-foreground">Good</span>
+          <span className="text-2xs text-muted-foreground">Good</span>
         </div>
         <div className="flex items-center gap-1">
           <div className="w-4 h-4 bg-success bg-opacity-50 rounded" />
-          <span className="text-[10px] text-muted-foreground">Strong</span>
+          <span className="text-2xs text-muted-foreground">Strong</span>
         </div>
       </div>
     </div>

@@ -5,6 +5,7 @@
 import AppIcon from '../../ui/AppIcon';
 import Button from '../../ui/Button';
 import EmptyState from '../../ui/EmptyState';
+import { hexToRgba } from '../../../utils/colorUtils';
 import type { IconKey } from '../../ui/AppIcon';
 import type { EnabledReward, CategoryCode } from '../../../types/parent/rewardTypes';
 
@@ -87,7 +88,7 @@ export function DashboardActiveRewards({
             <div key={reward.id} className="flex items-center gap-2.5">
               <div
                 className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
-                style={{ backgroundColor: `${color}20` }}
+                style={{ backgroundColor: hexToRgba(color, 0.12) }}
               >
                 <AppIcon
                   name={getCategoryIcon(reward.category_code)}
@@ -98,7 +99,7 @@ export function DashboardActiveRewards({
               <span className="text-xs font-medium text-muted-foreground flex-1 min-w-0 truncate">
                 {reward.name}
               </span>
-              <span className="text-[10px] font-semibold text-primary bg-primary/5 px-1.5 py-0.5 rounded shrink-0">
+              <span className="text-2xs font-semibold text-primary bg-primary/5 px-1.5 py-0.5 rounded shrink-0">
                 {reward.points_cost} pts
               </span>
               <button

@@ -37,7 +37,7 @@ export default function SessionHeader({
 
   return (
     <header className="bg-background border-b border-border sticky top-0 z-40">
-      <div className="max-w-[1120px] mx-auto px-6 h-16 flex items-center justify-between gap-4">
+      <div className="max-w-content mx-auto px-6 h-16 flex items-center justify-between gap-4">
 
         {/* Left: subject name/topic */}
         <div className="flex items-center gap-3 min-w-0 flex-1">

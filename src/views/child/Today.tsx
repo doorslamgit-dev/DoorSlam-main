@@ -137,7 +137,7 @@ export default function Today() {
 
   return (
     <PageLayout>
-      <main className="max-w-[1120px] mx-auto px-6 py-8">
+      <main className="max-w-content mx-auto px-6 py-8">
 
         {/* Header with greeting and streak badge */}
         <TodayHeader

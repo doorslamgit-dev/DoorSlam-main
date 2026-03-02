@@ -98,17 +98,17 @@ export function CoverageCard({ coverage, required: _required, feasibility }: Cov
             <div className="text-lg font-semibold text-foreground">
               {coverage.available_sessions}
             </div>
-            <div className="text-[10px] text-muted-foreground uppercase">Sessions</div>
+            <div className="text-2xs text-muted-foreground uppercase">Sessions</div>
           </div>
           <div className="p-2 bg-white/50 rounded-lg">
             <div className="text-lg font-semibold text-foreground">
               {coverage.total_topics_covered}
             </div>
-            <div className="text-[10px] text-muted-foreground uppercase">Topics</div>
+            <div className="text-2xs text-muted-foreground uppercase">Topics</div>
           </div>
           <div className="p-2 bg-white/50 rounded-lg">
             <div className="text-lg font-semibold text-foreground">{coverage.subjects.length}</div>
-            <div className="text-[10px] text-muted-foreground uppercase">Subjects</div>
+            <div className="text-2xs text-muted-foreground uppercase">Subjects</div>
           </div>
         </div>
 
@@ -162,7 +162,7 @@ export function CoverageCard({ coverage, required: _required, feasibility }: Cov
                         {subject.subject_name}
                       </span>
                       <span
-                        className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${badge.className}`}
+                        className={`text-2xs px-1.5 py-0.5 rounded font-medium ${badge.className}`}
                       >
                         {badge.label}
                       </span>
@@ -177,7 +177,7 @@ export function CoverageCard({ coverage, required: _required, feasibility }: Cov
                       style={{ width: `${Math.min(100, subject.coverage_percent)}%` }}
                     />
                   </div>
-                  <div className="mt-1 flex justify-between text-[10px] text-muted-foreground">
+                  <div className="mt-1 flex justify-between text-2xs text-muted-foreground">
                     <span>
                       {subject.topics_covered}/{subject.topic_count} topics
                     </span>
@@ -188,7 +188,7 @@ export function CoverageCard({ coverage, required: _required, feasibility }: Cov
             })}
 
           {/* Explanation */}
-          <div className="pt-2 text-[10px] text-muted-foreground">
+          <div className="pt-2 text-2xs text-muted-foreground">
             <p>
               <strong>High priority</strong> subjects get more sessions automatically. 100% coverage
               isn't always needed — focus matters more than breadth.

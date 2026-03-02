@@ -216,7 +216,7 @@ export function ChildRewardsCatalog() {
 
   return (
     <PageLayout bgColor="bg-transparent">
-      <main className="max-w-[1120px] mx-auto px-6 py-8">
+      <main className="max-w-content mx-auto px-6 py-8">
         
         {/* Page Header */}
         <section className="mb-6">

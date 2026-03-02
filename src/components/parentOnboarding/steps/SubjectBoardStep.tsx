@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import AppIcon from "../../ui/AppIcon";
+import { hexToRgba } from "../../../utils/colorUtils";
 import {
   rpcListSubjectGroupsForExamTypes,
   type SubjectGroupRow,
@@ -374,7 +375,7 @@ export default function SubjectBoardStep(props: Props) {
                       {/* Icon with database color */}
                       <div
                         className="flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center"
-                        style={{ backgroundColor: `${color}20` }}
+                        style={{ backgroundColor: hexToRgba(color, 0.12) }}
                       >
                         <i
                           className={`fa-solid ${icon}`}

@@ -36,7 +36,7 @@ function deriveInitials(name: string): string {
 // ============================================================================
 
 const sizeStyles: Record<AvatarCircleSize, { circle: string; text: string; imgSize: number }> = {
-  xs: { circle: "w-6 h-6", text: "text-[9px] font-semibold", imgSize: 24 },
+  xs: { circle: "w-6 h-6", text: "text-2xs font-semibold", imgSize: 24 },
   sm: { circle: "w-8 h-8", text: "text-xs font-semibold", imgSize: 32 },
   md: { circle: "w-10 h-10", text: "text-sm font-semibold", imgSize: 40 },
   lg: { circle: "w-14 h-14", text: "text-lg font-bold", imgSize: 56 },

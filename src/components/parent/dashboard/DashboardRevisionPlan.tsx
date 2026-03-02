@@ -8,6 +8,7 @@ import AskAITutorButton from '../../ui/AskAITutorButton';
 import type { BadgeVariant } from '../../ui/Badge';
 import { getSubjectIcon } from '../../../constants/icons';
 import { getSubjectColor } from '../../../constants/colors';
+import { hexToRgba } from '../../../utils/colorUtils';
 import type { PlanCoverageOverview } from '../../../services/timetableService';
 
 interface DashboardRevisionPlanProps {
@@ -47,7 +48,7 @@ export function DashboardRevisionPlan({
         <div className="flex items-center gap-3">
           <div className="w-14 h-14 bg-secondary rounded-xl flex flex-col items-center justify-center text-muted-foreground">
             <AppIcon name="triangle-alert" className="w-5 h-5 mb-0.5" />
-            <span className="text-[9px] font-medium">No Plan</span>
+            <span className="text-2xs font-medium">No Plan</span>
           </div>
           <div>
             <h2 className="text-sm font-semibold text-foreground">No Revision Plan Found</h2>
@@ -106,7 +107,7 @@ export function DashboardRevisionPlan({
             <div key={`${subject.subject_name}-${idx}`} className="flex items-center gap-2">
               <div
                 className="w-6 h-6 rounded flex items-center justify-center shrink-0"
-                style={{ backgroundColor: `${color}20` }}
+                style={{ backgroundColor: hexToRgba(color, 0.12) }}
               >
                 <AppIcon name={getSubjectIcon(subject.icon)} className="w-3 h-3" style={{ color }} />
               </div>
@@ -118,7 +119,7 @@ export function DashboardRevisionPlan({
                   className="h-full rounded-full bg-success transition-all duration-500"
                   style={{ width: `${Math.max(subject.completion_percent, 0)}%` }}
                 />
-                <span className="absolute inset-0 flex items-center justify-center text-[10px] font-medium text-muted-foreground">
+                <span className="absolute inset-0 flex items-center justify-center text-2xs font-medium text-muted-foreground">
                   {subject.completed_sessions} / {subject.planned_sessions}
                 </span>
               </div>

@@ -5,6 +5,7 @@
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import AppIcon from "../ui/AppIcon";
+import { hexToRgba } from "../../utils/colorUtils";
 
 export interface TopicCardProps {
   topicId: string;
@@ -67,7 +68,7 @@ export default function TopicCard({
   const isCardDraggable = isDragEnabled && sessionStatus !== "completed";
 
   const style = {
-    backgroundColor: `${subjectColor}15`,
+    backgroundColor: hexToRgba(subjectColor, 0.08),
     borderLeft: `3px solid ${subjectColor}`,
     transform: CSS.Translate.toString(transform),
     opacity: isDragging ? 0.5 : 1,
@@ -113,7 +114,7 @@ export default function TopicCard({
       </div>
 
       {/* Subject label */}
-      <div className="text-[10px] text-muted-foreground mt-0.5 leading-tight">
+      <div className="text-2xs text-muted-foreground mt-0.5 leading-tight">
         {subjectName}
       </div>
 

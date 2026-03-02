@@ -484,7 +484,7 @@ export default function Pricing() {
               >
                 {label}
                 {isCurrent && (
-                  <span className="block text-[10px] font-normal text-primary leading-tight">
+                  <span className="block text-2xs font-normal text-primary leading-tight">
                     Current
                   </span>
                 )}

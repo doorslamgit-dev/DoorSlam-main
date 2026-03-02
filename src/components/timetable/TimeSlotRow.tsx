@@ -64,14 +64,14 @@ function DroppableCell({
     >
       {day.isBlocked ? (
         <div className="h-full flex items-center justify-center">
-          <span className="text-[10px] text-muted-foreground italic">
+          <span className="text-2xs text-muted-foreground italic">
             No revision
           </span>
         </div>
       ) : isOver && !session ? (
         /* Empty cell with drag hover — show drop indicator */
         <div className="h-full flex items-center justify-center">
-          <span className="text-[10px] text-primary font-medium">
+          <span className="text-2xs text-primary font-medium">
             Drop here
           </span>
         </div>
@@ -80,7 +80,7 @@ function DroppableCell({
         null
       ) : topics.length === 0 ? (
         /* Session exists but no topics assigned yet */
-        <div className="text-[10px] text-muted-foreground italic p-1">
+        <div className="text-2xs text-muted-foreground italic p-1">
           Topics TBD
         </div>
       ) : (

@@ -71,7 +71,7 @@ export default function ConversationListItem({
         }`}
       />
       <span className="flex-1 text-sm truncate">{title || 'New conversation'}</span>
-      <span className="text-[10px] text-muted-foreground flex-shrink-0 whitespace-nowrap">
+      <span className="text-2xs text-muted-foreground flex-shrink-0 whitespace-nowrap">
         {formatRelativeTime(lastActiveAt)}
       </span>
       <button

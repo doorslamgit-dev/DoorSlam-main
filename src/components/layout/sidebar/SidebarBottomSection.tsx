@@ -102,7 +102,7 @@ export default function SidebarBottomSection() {
               <div className="flex-1 text-left min-w-0">
                 <p className="text-sm font-medium text-foreground truncate">{displayName}</p>
                 {tierInfo && (
-                  <span className={`inline-block text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${tierInfo.color}`}>
+                  <span className={`inline-block text-2xs font-semibold px-1.5 py-0.5 rounded-full ${tierInfo.color}`}>
                     {tierInfo.label}
                   </span>
                 )}

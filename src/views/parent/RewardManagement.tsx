@@ -146,7 +146,7 @@ export function RewardManagement() {
       {/* Error Banner */}
       {error && (
         <div className="bg-destructive/10 border-b border-destructive/20 px-4 py-3">
-          <div className="max-w-[1120px] mx-auto flex items-center justify-between">
+          <div className="max-w-content mx-auto flex items-center justify-between">
             <p className="text-destructive">{error}</p>
             <button
               onClick={clearError}
@@ -158,7 +158,7 @@ export function RewardManagement() {
         </div>
       )}
 
-      <main className="max-w-[1120px] mx-auto px-6 py-8 space-y-6">
+      <main className="max-w-content mx-auto px-6 py-8 space-y-6">
         {/* Page Header */}
         <PageChildHeader
           title="Rewards"

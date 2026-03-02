@@ -6,6 +6,7 @@ import Badge from '../../ui/Badge';
 import EmptyState from '../../ui/EmptyState';
 import { getSubjectIcon } from '../../../constants/icons';
 import { getSubjectColor } from '../../../constants/colors';
+import { hexToRgba } from '../../../utils/colorUtils';
 import type { ComingUpSession, GentleReminder } from '../../../types/parent/parentDashboardTypes';
 
 interface DashboardTodaySessionsProps {
@@ -63,7 +64,7 @@ export function DashboardTodaySessions({ sessions, reminders }: DashboardTodaySe
                 {/* Subject icon — dynamic color so using inline style */}
                 <div
                   className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-                  style={{ backgroundColor: `${color}20` }}
+                  style={{ backgroundColor: hexToRgba(color, 0.12) }}
                 >
                   <AppIcon
                     name={getSubjectIcon(session.subject_icon)}

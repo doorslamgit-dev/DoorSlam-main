@@ -95,7 +95,7 @@ function SubjectRow({ subject, compact = false }: SubjectRowProps) {
             <span className="text-sm font-medium text-foreground truncate">
               {subject.subject_name}
             </span>
-            <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${priority.color}`}>
+            <span className={`text-2xs px-1.5 py-0.5 rounded font-medium ${priority.color}`}>
               {priority.label}
             </span>
           </div>
@@ -124,7 +124,7 @@ function SubjectRow({ subject, compact = false }: SubjectRowProps) {
             <h4 className="text-sm font-semibold text-foreground truncate">
               {subject.subject_name}
             </h4>
-            <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${priority.color}`}>
+            <span className={`text-2xs px-1.5 py-0.5 rounded font-medium ${priority.color}`}>
               {priority.label} priority
             </span>
           </div>

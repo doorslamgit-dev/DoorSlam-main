@@ -3,6 +3,7 @@
 import AppIcon from "../ui/AppIcon";
 import type { FocusArea } from "../../types/subjectProgress";
 import { getSubjectColor } from "../../constants/colors";
+import { hexToRgba } from "../../utils/colorUtils";
 
 interface FocusAreasCardProps {
   focusAreas: FocusArea[];
@@ -116,7 +117,7 @@ export default function FocusAreasCard({
               <div
                 className="w-8 h-8 rounded flex items-center justify-center flex-shrink-0"
                 style={{
-                  backgroundColor: `${color}15`,
+                  backgroundColor: hexToRgba(color, 0.08),
                 }}
               >
                 <SubjectIcon

@@ -33,15 +33,15 @@ const sizeStyles: Record<StatCardSize, {
 }> = {
   sm: {
     padding: "p-2.5",
-    label: "text-[10px] text-muted-foreground mb-0.5",
+    label: "text-2xs text-muted-foreground mb-0.5",
     value: "text-base font-bold",
-    sublabel: "text-[9px] text-muted-foreground mt-0.5",
+    sublabel: "text-2xs text-muted-foreground mt-0.5",
   },
   md: {
     padding: "p-3",
-    label: "text-[11px] text-muted-foreground mb-1",
+    label: "text-xs text-muted-foreground mb-1",
     value: "text-lg font-bold",
-    sublabel: "text-[10px] text-muted-foreground mt-0.5",
+    sublabel: "text-2xs text-muted-foreground mt-0.5",
   },
   lg: {
     padding: "p-4",

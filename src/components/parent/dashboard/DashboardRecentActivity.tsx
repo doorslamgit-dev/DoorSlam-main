@@ -96,9 +96,9 @@ export function DashboardRecentActivity({
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-xs font-medium text-muted-foreground truncate">{activity.title}</p>
-              <p className="text-[10px] text-muted-foreground truncate">{activity.detail}</p>
+              <p className="text-2xs text-muted-foreground truncate">{activity.detail}</p>
             </div>
-            <span className="text-[10px] text-muted-foreground shrink-0">{activity.timeLabel}</span>
+            <span className="text-2xs text-muted-foreground shrink-0">{activity.timeLabel}</span>
           </div>
         ))}
       </div>
