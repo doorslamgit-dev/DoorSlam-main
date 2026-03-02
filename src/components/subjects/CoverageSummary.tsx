@@ -2,7 +2,8 @@
 // Updated to show SESSION ALLOCATION distribution instead of topic distribution
 
 import type { SubjectProgress } from "../../types/subjectProgress";
-import { COLORS, getSubjectColor } from "../../constants/colors";
+import { COLORS } from "../../constants/colors";
+import { useSubjectColor } from "../../contexts/SubjectColorContext";
 
 interface CoverageSummaryProps {
   subjects: SubjectProgress[];
@@ -60,6 +61,8 @@ function getLabelPosition(
 }
 
 export default function CoverageSummary({ subjects }: CoverageSummaryProps) {
+  const { getColor } = useSubjectColor();
+
   if (subjects.length === 0) {
     return null;
   }
@@ -68,7 +71,7 @@ export default function CoverageSummary({ subjects }: CoverageSummaryProps) {
   // sessions_total = all sessions for this subject in the revision plan
   const subjectData = subjects.map((subject) => ({
     subject_name: subject.subject_name,
-    color: getSubjectColor(subject.subject_name),
+    color: getColor(subject.subject_id, subject.subject_color),
     // Use sessions_total for distribution (with fallback for pre-update data)
     sessionCount: subject.sessions_total ?? (subject.topics_covered_total + subject.topics_remaining),
   }));

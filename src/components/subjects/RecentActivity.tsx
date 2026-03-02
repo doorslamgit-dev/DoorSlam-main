@@ -2,7 +2,9 @@
 
 import type { SubjectProgress } from "../../types/subjectProgress";
 import AppIcon from "../ui/AppIcon";
-import { COLORS, ACTIVITY_COLORS, getSubjectColor } from "../../constants/colors";
+import { COLORS, ACTIVITY_COLORS } from "../../constants/colors";
+import { hexToRgba } from "../../utils/colorUtils";
+import { useSubjectColor } from "../../contexts/SubjectColorContext";
 
 interface RecentActivityProps {
   subjects: SubjectProgress[];
@@ -18,6 +20,7 @@ interface Activity {
 }
 
 export default function RecentActivity({ subjects }: RecentActivityProps) {
+  const { getColor } = useSubjectColor();
   const activities: Activity[] = [];
 
   // Gather recent activities from all subjects
@@ -30,7 +33,7 @@ export default function RecentActivity({ subjects }: RecentActivityProps) {
         type: "completed",
         subject: subject.subject_name,
         topic: topic.topic_name,
-        color: getSubjectColor(subject.subject_name),
+        color: getColor(subject.subject_id, subject.subject_color),
         timeAgo: formatDaysAgo(topic.days_since),
       });
     });
@@ -46,7 +49,7 @@ export default function RecentActivity({ subjects }: RecentActivityProps) {
           type: "needs_practice",
           subject: subject.subject_name,
           topic: upcomingTopic.topic_name,
-          color: getSubjectColor(subject.subject_name),
+          color: getColor(subject.subject_id, subject.subject_color),
           timeAgo: "review needed",
         });
       }
@@ -81,7 +84,7 @@ export default function RecentActivity({ subjects }: RecentActivityProps) {
             <div className="mt-0.5 flex-shrink-0">
               <div
                 className="w-6 h-6 rounded-full flex items-center justify-center"
-                style={{ backgroundColor: `${getActivityColor(activity.type)}15` }}
+                style={{ backgroundColor: hexToRgba(getActivityColor(activity.type), 0.08) }}
               >
                 <AppIcon
                   name={getActivityIcon(activity.type)}

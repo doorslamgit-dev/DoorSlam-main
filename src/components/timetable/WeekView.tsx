@@ -26,7 +26,6 @@ import {
 } from "../../services/timetableService";
 import TimeSlotRow from "./TimeSlotRow";
 import { TIME_SLOT_ORDER } from "../../utils/timetableUtils";
-import { getSubjectColor } from "../../constants/colors";
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
@@ -153,7 +152,7 @@ export function WeekView({
         setActiveDragData({
           topicName: data.topicName as string,
           subjectName: data.subjectName as string,
-          subjectColor: getSubjectColor(data.subjectName as string),
+          subjectColor: data.subjectColor as string,
         });
       }
     },

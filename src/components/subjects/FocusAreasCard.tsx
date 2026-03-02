@@ -2,8 +2,8 @@
 
 import AppIcon from "../ui/AppIcon";
 import type { FocusArea } from "../../types/subjectProgress";
-import { getSubjectColor } from "../../constants/colors";
 import { hexToRgba } from "../../utils/colorUtils";
+import { useSubjectColor } from "../../contexts/SubjectColorContext";
 
 interface FocusAreasCardProps {
   focusAreas: FocusArea[];
@@ -82,6 +82,8 @@ export default function FocusAreasCard({
   focusAreas,
   childName,
 }: FocusAreasCardProps) {
+  const { getColor } = useSubjectColor();
+
   if (focusAreas.length === 0) return null;
 
   return (
@@ -108,7 +110,7 @@ export default function FocusAreasCard({
 
       <div className="space-y-3">
         {focusAreas.map((area) => {
-          const color = getSubjectColor(area.subject_name);
+          const color = getColor(area.subject_id ?? '', area.subject_color);
           return (
             <div
               key={area.subject_id}

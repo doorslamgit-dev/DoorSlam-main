@@ -1,5 +1,4 @@
 import type { TimetableSession } from "../../services/timetableService";
-import { getSubjectColor } from "../../constants/colors";
 import { hexToRgba } from "../../utils/colorUtils";
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -99,7 +98,7 @@ export function MonthView({
                 ) : (
                   <div className="space-y-1">
                     {daySessions.slice(0, 2).map((session) => {
-                      const color = getSubjectColor(session.subject_name);
+                      const color = session.color;
                       return (
                         <div
                           key={session.planned_session_id}

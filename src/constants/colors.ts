@@ -78,6 +78,24 @@ export const STATUS_COLORS = {
 } as const;
 
 /**
+ * Subject palette — 10 visually distinct colors for index-based assignment.
+ * The first subject added to the plan gets index 0, the second index 1, etc.
+ * Covers the full color wheel with maximum perceptual separation.
+ */
+export const SUBJECT_PALETTE: readonly string[] = [
+  "#5B2CFF", // 1. Brand Purple
+  "#EF4444", // 2. Red
+  "#F97316", // 3. Orange
+  "#F59E0B", // 4. Amber
+  "#84CC16", // 5. Lime
+  "#10B981", // 6. Emerald
+  "#14B8A6", // 7. Teal
+  "#3B82F6", // 8. Blue
+  "#A855F7", // 9. Violet
+  "#EC4899", // 10. Pink
+] as const;
+
+/**
  * Subject color mapping - centralized color assignments for GCSE subjects
  * Maps subject names (normalized, lowercase) to color values from our token system
  */

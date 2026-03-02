@@ -4,8 +4,8 @@
 
 import AppIcon from "../ui/AppIcon";
 import type { SubjectProgress } from "../../types/subjectProgress";
-import { getSubjectColor } from "../../constants/colors";
 import { hexToRgba } from "../../utils/colorUtils";
+import { useSubjectColor } from "../../contexts/SubjectColorContext";
 
 interface SubjectCardProps {
   subject: SubjectProgress;
@@ -61,10 +61,11 @@ function mapSubjectIconToAppIcon(icon?: string) {
 }
 
 export default function SubjectCard({ subject }: SubjectCardProps) {
+  const { getColor } = useSubjectColor();
   const statusBadge = getStatusBadge(subject.status);
   const recentlyCovered = subject.recently_covered?.slice(0, 3) || [];
   const comingUp = subject.coming_up?.slice(0, 3) || [];
-  const subjectColor = getSubjectColor(subject.subject_name);
+  const subjectColor = getColor(subject.subject_id, subject.subject_color);
   const iconKey = mapSubjectIconToAppIcon(subject.subject_icon);
 
   return (

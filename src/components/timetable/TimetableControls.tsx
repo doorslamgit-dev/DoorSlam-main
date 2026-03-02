@@ -2,7 +2,6 @@ import AppIcon from "../ui/AppIcon";
 import { formatDateRange } from "../../services/timetableService";
 import type { SubjectLegend as SubjectLegendType } from "../../services/timetableService";
 import type { ViewMode } from "../../hooks/useTimetableData";
-import { getSubjectColor } from "../../constants/colors";
 
 interface TimetableControlsProps {
   viewMode: ViewMode;
@@ -88,7 +87,7 @@ export function TimetableControls({
               <div
                 className="w-3 h-3 rounded"
                 style={{
-                  backgroundColor: getSubjectColor(subject.subject_name),
+                  backgroundColor: subject.subject_color,
                 }}
               />
               <span className="text-xs text-muted-foreground">

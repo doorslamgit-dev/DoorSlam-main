@@ -2,7 +2,7 @@
 // "Coming Up Next" card — upcoming sessions grouped by day
 
 import EmptyState from '../../ui/EmptyState';
-import { getSubjectColor } from '../../../constants/colors';
+import { useSubjectColor } from '../../../contexts/SubjectColorContext';
 import type { ComingUpSession } from '../../../types/parent/parentDashboardTypes';
 
 interface DashboardComingUpNextProps {
@@ -44,6 +44,7 @@ function DayAvatar({ label }: { label: string }) {
 }
 
 export function DashboardComingUpNext({ sessions }: DashboardComingUpNextProps) {
+  const { getColor } = useSubjectColor();
   const groups = groupByDay(sessions);
 
   return (
@@ -66,7 +67,7 @@ export function DashboardComingUpNext({ sessions }: DashboardComingUpNextProps) 
                 <p className="text-xs font-semibold text-muted-foreground mb-1">{group.label}</p>
                 <ul className="space-y-1">
                   {group.sessions.slice(0, 3).map((session) => {
-                    const color = getSubjectColor(session.subject_name);
+                    const color = getColor(session.subject_id, session.subject_color);
                     return (
                       <li key={session.planned_session_id} className="flex items-center gap-1.5">
                         <div

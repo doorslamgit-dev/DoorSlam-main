@@ -4,7 +4,6 @@
 import { useDroppable } from "@dnd-kit/core";
 import TopicCard from "./TopicCard";
 import { TIME_SLOT_LABELS } from "../../utils/timetableUtils";
-import { getSubjectColor } from "../../constants/colors";
 import type { TimetableSession } from "../../services/timetableService";
 
 export interface DayCellData {
@@ -91,7 +90,7 @@ function DroppableCell({
             topicId={topic.id}
             topicName={topic.topic_name}
             subjectName={topic.subject_name}
-            subjectColor={getSubjectColor(topic.subject_name)}
+            subjectColor={topic.subject_color}
             sessionStatus={session.status}
             sessionDate={session.session_date}
             plannedSessionId={session.planned_session_id}

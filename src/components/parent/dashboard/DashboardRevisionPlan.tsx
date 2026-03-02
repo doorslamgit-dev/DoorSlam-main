@@ -7,8 +7,8 @@ import Badge from '../../ui/Badge';
 import AskAITutorButton from '../../ui/AskAITutorButton';
 import type { BadgeVariant } from '../../ui/Badge';
 import { getSubjectIcon } from '../../../constants/icons';
-import { getSubjectColor } from '../../../constants/colors';
 import { hexToRgba } from '../../../utils/colorUtils';
+import { useSubjectColor } from '../../../contexts/SubjectColorContext';
 import type { PlanCoverageOverview } from '../../../services/timetableService';
 
 interface DashboardRevisionPlanProps {
@@ -22,6 +22,7 @@ export function DashboardRevisionPlan({
   loading = false,
   onEditSchedule: _onEditSchedule,
 }: DashboardRevisionPlanProps) {
+  const { getColor } = useSubjectColor();
   if (loading) {
     return (
       <div className="bg-background rounded-2xl shadow-sm p-5 animate-pulse">
@@ -102,7 +103,7 @@ export function DashboardRevisionPlan({
       </div>
       <div className="space-y-2 flex-1">
         {consolidated.map((subject, idx) => {
-          const color = getSubjectColor(subject.subject_name);
+          const color = getColor(subject.subject_id, subject.color);
           return (
             <div key={`${subject.subject_name}-${idx}`} className="flex items-center gap-2">
               <div

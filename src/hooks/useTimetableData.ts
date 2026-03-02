@@ -6,6 +6,7 @@ import {
   fetchTodaySessions,
   fetchPlanCoverageOverview,
   fetchDateOverrides,
+  fetchChildSubjects,
   extractSubjectLegend,
   getWeekStart,
   formatDateISO,
@@ -16,6 +17,7 @@ import {
   type PlanCoverageOverview,
   type DateOverride,
 } from "../services/timetableService";
+import { buildSubjectColorMap } from "../utils/colorUtils";
 
 export type ViewMode = "today" | "week" | "month";
 
@@ -35,6 +37,7 @@ interface UseTimetableDataReturn {
   loading: boolean;
   error: string | null;
   subjectLegend: SubjectLegend[];
+  subjectColorMap: Record<string, string>;
   planOverview: PlanCoverageOverview | null;
   planOverviewLoading: boolean;
   dateOverrides: DateOverride[];
@@ -65,6 +68,7 @@ export function useTimetableData({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [subjectLegend, setSubjectLegend] = useState<SubjectLegend[]>([]);
+  const [subjectColorMap, setSubjectColorMap] = useState<Record<string, string>>({});
   const [planOverview, setPlanOverview] = useState<PlanCoverageOverview | null>(
     null
   );
@@ -103,6 +107,21 @@ export function useTimetableData({
     }
   }, [initialChildId]);
 
+  // Build palette color map when child changes
+  useEffect(() => {
+    if (!selectedChildId) return;
+
+    async function loadSubjectColors() {
+      const { data } = await fetchChildSubjects(selectedChildId!);
+      if (data && data.length > 0) {
+        const colorMap = buildSubjectColorMap(data.map((s) => s.subject_id));
+        setSubjectColorMap(colorMap);
+      }
+    }
+
+    loadSubjectColors();
+  }, [selectedChildId]);
+
   // Load plan overview when child changes
   useEffect(() => {
     if (!selectedChildId) return;
@@ -127,6 +146,41 @@ export function useTimetableData({
   useEffect(() => {
     if (!selectedChildId) return;
 
+    // Apply palette colors to a flat list of sessions
+    function applyColors(
+      sessions: TimetableSession[],
+      colorMap: Record<string, string>
+    ): TimetableSession[] {
+      return sessions.map((s) => {
+        const color = colorMap[s.subject_id] ?? s.color;
+        return {
+          ...s,
+          color,
+          topics_preview: s.topics_preview.map((t) => ({
+            ...t,
+            subject_color: colorMap[t.subject_id] ?? colorMap[s.subject_id] ?? t.subject_color,
+          })),
+        };
+      });
+    }
+
+    // Build legend from a (already color-remapped) flat session list
+    function buildLegend(sessions: TimetableSession[]): SubjectLegend[] {
+      const legend: SubjectLegend[] = [];
+      const seen = new Set<string>();
+      sessions.forEach((s) => {
+        if (!seen.has(s.subject_id)) {
+          seen.add(s.subject_id);
+          legend.push({
+            subject_id: s.subject_id,
+            subject_name: s.subject_name,
+            subject_color: s.color,
+          });
+        }
+      });
+      return legend;
+    }
+
     async function loadSessions() {
       if (!skipNextLoading.current) {
         setLoading(true);
@@ -144,20 +198,9 @@ export function useTimetableData({
           setError(error);
           setTodaySessions([]);
         } else {
-          setTodaySessions(data || []);
-          const legend: SubjectLegend[] = [];
-          const seen = new Set<string>();
-          (data || []).forEach((s) => {
-            if (!seen.has(s.subject_id)) {
-              seen.add(s.subject_id);
-              legend.push({
-                subject_id: s.subject_id,
-                subject_name: s.subject_name,
-                subject_color: s.color,
-              });
-            }
-          });
-          setSubjectLegend(legend);
+          const colored = applyColors(data || [], subjectColorMap);
+          setTodaySessions(colored);
+          setSubjectLegend(buildLegend(colored));
         }
       } else if (viewMode === "month") {
         const { data, error } = await fetchMonthSessions(
@@ -170,20 +213,9 @@ export function useTimetableData({
           setError(error);
           setMonthSessions([]);
         } else {
-          setMonthSessions(data || []);
-          const legend: SubjectLegend[] = [];
-          const seen = new Set<string>();
-          (data || []).forEach((s) => {
-            if (!seen.has(s.subject_id)) {
-              seen.add(s.subject_id);
-              legend.push({
-                subject_id: s.subject_id,
-                subject_name: s.subject_name,
-                subject_color: s.color,
-              });
-            }
-          });
-          setSubjectLegend(legend);
+          const colored = applyColors(data || [], subjectColorMap);
+          setMonthSessions(colored);
+          setSubjectLegend(buildLegend(colored));
         }
       } else {
         const weekStart = getWeekStart(referenceDate);
@@ -196,8 +228,12 @@ export function useTimetableData({
           setError(error);
           setWeekData([]);
         } else {
-          setWeekData(data || []);
-          setSubjectLegend(extractSubjectLegend(data || []));
+          const coloredWeek = (data || []).map((day) => ({
+            ...day,
+            sessions: applyColors(day.sessions, subjectColorMap),
+          }));
+          setWeekData(coloredWeek);
+          setSubjectLegend(extractSubjectLegend(coloredWeek));
         }
       }
 
@@ -205,7 +241,7 @@ export function useTimetableData({
     }
 
     loadSessions();
-  }, [selectedChildId, viewMode, referenceDate, refreshKey]);
+  }, [selectedChildId, viewMode, referenceDate, refreshKey, subjectColorMap]);
 
   // Navigation functions
   const goToPrevious = () => {
@@ -272,6 +308,7 @@ export function useTimetableData({
     loading,
     error,
     subjectLegend,
+    subjectColorMap,
     planOverview,
     planOverviewLoading,
     dateOverrides,

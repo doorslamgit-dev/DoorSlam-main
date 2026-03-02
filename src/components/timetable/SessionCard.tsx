@@ -8,7 +8,6 @@ import Badge from "../ui/Badge";
 import TopicCard from "./TopicCard";
 import type { TimetableSession } from "../../services/timetableService";
 import { getSubjectIcon } from "../../constants/icons";
-import { getSubjectColor } from "../../constants/colors";
 import { hexToRgba } from "../../utils/colorUtils";
 
 // ============================================================================
@@ -29,7 +28,7 @@ interface SessionCardProps {
 export default function SessionCard({ session, dateStr }: SessionCardProps) {
   const isCompleted = session.status === "completed";
   const isStarted = session.status === "started";
-  const color = getSubjectColor(session.subject_name);
+  const color = session.color;
 
   return (
     <div className="rounded-xl border-2 border-border bg-background p-4 transition-all hover:shadow-md">
@@ -87,7 +86,7 @@ export default function SessionCard({ session, dateStr }: SessionCardProps) {
                   topicId={topic.id}
                   topicName={topic.topic_name}
                   subjectName={topic.subject_name}
-                  subjectColor={getSubjectColor(topic.subject_name)}
+                  subjectColor={topic.subject_color}
                   sessionStatus={session.status}
                   sessionDate={dateStr}
                   plannedSessionId={session.planned_session_id}

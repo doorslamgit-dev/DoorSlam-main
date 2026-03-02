@@ -61,6 +61,7 @@ export default function TopicCard({
         topicId,
         topicName,
         subjectName,
+        subjectColor,
         plannedSessionId,
       },
     });

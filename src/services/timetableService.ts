@@ -23,6 +23,7 @@ export interface TimetableSession {
     id: string;
     topic_name: string;
     order_index: number;
+    subject_id: string;
     subject_name: string;
     subject_color: string;
   }>;
@@ -281,6 +282,7 @@ export async function fetchWeekPlan(
       id: string;
       topic_name: string;
       order_index: number;
+      subject_id: string;
       subject_name: string;
       subject_color: string;
     }>();
@@ -294,6 +296,7 @@ export async function fetchWeekPlan(
           themes!inner (
             components!inner (
               subjects!inner (
+                id,
                 subject_name,
                 color
               )
@@ -310,6 +313,7 @@ export async function fetchWeekPlan(
             id: t.id,
             topic_name: t.topic_name,
             order_index: t.order_index ?? 0,
+            subject_id: subject?.id ?? "",
             subject_name: subject?.subject_name ?? "Unknown",
             subject_color: subject?.color ?? COLORS.neutral[500],
           });
@@ -484,6 +488,7 @@ export async function fetchTodaySessions(
       id: string;
       topic_name: string;
       order_index: number;
+      subject_id: string;
       subject_name: string;
       subject_color: string;
     }>();
@@ -497,6 +502,7 @@ export async function fetchTodaySessions(
           themes!inner (
             components!inner (
               subjects!inner (
+                id,
                 subject_name,
                 color
               )
@@ -513,6 +519,7 @@ export async function fetchTodaySessions(
             id: t.id,
             topic_name: t.topic_name,
             order_index: t.order_index ?? 0,
+            subject_id: subject?.id ?? "",
             subject_name: subject?.subject_name ?? "Unknown",
             subject_color: subject?.color ?? COLORS.neutral[500],
           });
@@ -755,6 +762,7 @@ export async function fetchChildSubjects(
       .select(
         `
         subject_id,
+        sort_order,
         subjects!inner (
           subject_name,
           color,
@@ -763,7 +771,9 @@ export async function fetchChildSubjects(
       `
       )
       .eq("child_id", childId)
-      .eq("is_paused", false);
+      .eq("is_paused", false)
+      .order("sort_order", { ascending: true })
+      .order("created_at", { ascending: true });
 
     if (error) throw error;
 

@@ -84,6 +84,7 @@ function DemoPanel({ children, className = '' }: { children: ReactNode; classNam
 
 const NAV_SECTIONS = [
  { id: 'colors', label: 'Colors' },
+ { id: 'subject-colors', label: 'Subject Colors' },
  { id: 'typography', label: 'Typography' },
  { id: 'spacing', label: 'Spacing' },
  { id: 'radius', label: 'Border Radius' },
@@ -151,6 +152,19 @@ const accentColors = [
  { name: 'Coral', role: 'Error / Destructive', hex: '#F43F5E', tw: 'bg-destructive' },
  { name: 'Cyan', role: 'Info / Links', hex: '#06B6D4', tw: 'bg-info' },
  { name: 'Violet', role: 'Charts / Accent', hex: '#8B5CF6', tw: 'bg-[#8B5CF6]' },
+];
+
+const subjectPaletteData = [
+  { index: 0, hex: '#5B2CFF', name: 'Brand Purple' },
+  { index: 1, hex: '#EF4444', name: 'Red' },
+  { index: 2, hex: '#F97316', name: 'Orange' },
+  { index: 3, hex: '#F59E0B', name: 'Amber' },
+  { index: 4, hex: '#84CC16', name: 'Lime' },
+  { index: 5, hex: '#10B981', name: 'Emerald' },
+  { index: 6, hex: '#14B8A6', name: 'Teal' },
+  { index: 7, hex: '#3B82F6', name: 'Blue' },
+  { index: 8, hex: '#A855F7', name: 'Violet' },
+  { index: 9, hex: '#EC4899', name: 'Pink' },
 ];
 
 const semanticColors = [
@@ -649,6 +663,55 @@ export default function DesignGuidelines() {
              ))}
            </div>
          </SubSection>
+
+         <div id="subject-colors" className="scroll-mt-6">
+           <SubSection title="Subject Colours (Palette)">
+             <div className="space-y-5">
+               <p className="text-sm text-muted-foreground leading-relaxed">
+                 Subjects are assigned palette colours by <strong className="text-foreground font-semibold">sort order</strong> — the position the subject was added to the plan. Slot 0 goes to the first subject, slot 1 to the second, and so on. All platform views (timetable, dashboard, subjects page, today view) derive colour from this same mapping via <code className="text-xs bg-secondary px-1 rounded font-mono">SubjectColorContext</code>. The legacy name-based lookup (<code className="text-xs bg-secondary px-1 rounded font-mono">getSubjectColor</code>) is no longer used.
+               </p>
+
+               {/* Swatches */}
+               <div className="flex gap-3 flex-wrap">
+                 {subjectPaletteData.map(({ index, hex, name }) => (
+                   <div key={index} className="flex flex-col items-center gap-1.5">
+                     <div
+                       className="w-12 h-12 rounded-xl border border-black/5"
+                       style={{ backgroundColor: hex }}
+                     />
+                     <span className="text-xs font-semibold text-muted-foreground">#{index}</span>
+                     <span className="text-xs text-muted-foreground text-center" style={{ maxWidth: 60 }}>{name}</span>
+                     <span className="text-2xs text-muted-foreground font-mono">{hex}</span>
+                   </div>
+                 ))}
+               </div>
+
+               {/* Usage */}
+               <div className="bg-secondary rounded-xl p-4">
+                 <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Usage</p>
+                 <pre className="text-xs font-mono text-foreground leading-relaxed whitespace-pre-wrap">{`// 1. Resolve the colour in a component
+const { getColor } = useSubjectColor();
+const color = getColor(subject.subject_id, subject.subject_color);
+
+// 2. Solid backgrounds
+style={{ backgroundColor: color }}
+
+// 3. Opacity tints — NEVER use \${color}20 string concat
+import { hexToRgba } from '@/utils/colorUtils';
+style={{ backgroundColor: hexToRgba(color, 0.12) }}`}</pre>
+               </div>
+
+               {/* Source files */}
+               <div className="text-xs text-muted-foreground space-y-1.5">
+                 <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Source files</p>
+                 <p><code className="font-mono bg-secondary px-1.5 py-0.5 rounded text-foreground">src/constants/colors.ts</code> — <code className="font-mono">SUBJECT_PALETTE</code> (the 10 hex values)</p>
+                 <p><code className="font-mono bg-secondary px-1.5 py-0.5 rounded text-foreground">src/utils/colorUtils.ts</code> — <code className="font-mono">buildSubjectColorMap(subjectIds[])</code>, <code className="font-mono">hexToRgba(hex, alpha)</code></p>
+                 <p><code className="font-mono bg-secondary px-1.5 py-0.5 rounded text-foreground">src/contexts/SubjectColorContext.tsx</code> — <code className="font-mono">useSubjectColor()</code> · fetches subjects once per child, works for both parent &amp; child views</p>
+                 <p><code className="font-mono bg-secondary px-1.5 py-0.5 rounded text-foreground">src/hooks/useTimetableData.ts</code> — applies palette map to timetable sessions directly</p>
+               </div>
+             </div>
+           </SubSection>
+         </div>
        </Section>
 
        {/* ════════════════════════════════ TYPOGRAPHY ════════════════════════════════ */}

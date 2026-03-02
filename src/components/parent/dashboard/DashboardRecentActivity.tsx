@@ -5,7 +5,8 @@
 import AppIcon from '../../ui/AppIcon';
 import EmptyState from '../../ui/EmptyState';
 import type { IconKey } from '../../ui/AppIcon';
-import { getSubjectColor } from '../../../constants/colors';
+import { hexToRgba } from '../../../utils/colorUtils';
+import { useSubjectColor } from '../../../contexts/SubjectColorContext';
 import type {
   ComingUpSession,
   SubjectCoverage,
@@ -29,6 +30,7 @@ export function DashboardRecentActivity({
   comingUp,
   coverage,
 }: DashboardRecentActivityProps) {
+  const { getColor } = useSubjectColor();
   const activities: ActivityItem[] = [];
 
   // Add upcoming sessions as activity items
@@ -36,7 +38,7 @@ export function DashboardRecentActivity({
     activities.push({
       id: session.planned_session_id,
       icon: 'calendar',
-      iconColor: getSubjectColor(session.subject_name),
+      iconColor: getColor(session.subject_id, session.subject_color),
       title: `${session.subject_name} — ${session.topic_name}`,
       detail: `${session.session_duration_minutes} min session`,
       timeLabel: session.is_today
@@ -56,7 +58,7 @@ export function DashboardRecentActivity({
       activities.push({
         id: `coverage-${s.subject_id}`,
         icon: 'check-circle',
-        iconColor: getSubjectColor(s.subject_name),
+        iconColor: getColor(s.subject_id, s.subject_color),
         title: `${s.subject_name} progress`,
         detail: `${s.topics_covered} topics covered`,
         timeLabel: `${s.sessions_completed} sessions`,
@@ -86,7 +88,7 @@ export function DashboardRecentActivity({
           <div key={activity.id} className="flex items-center gap-2.5">
             <div
               className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
-              style={{ backgroundColor: `${activity.iconColor}20` }}
+              style={{ backgroundColor: hexToRgba(activity.iconColor, 0.12) }}
             >
               <AppIcon
                 name={activity.icon}

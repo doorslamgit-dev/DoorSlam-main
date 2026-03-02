@@ -5,8 +5,8 @@ import AppIcon from '../../ui/AppIcon';
 import Badge from '../../ui/Badge';
 import EmptyState from '../../ui/EmptyState';
 import { getSubjectIcon } from '../../../constants/icons';
-import { getSubjectColor } from '../../../constants/colors';
 import { hexToRgba } from '../../../utils/colorUtils';
+import { useSubjectColor } from '../../../contexts/SubjectColorContext';
 import type { ComingUpSession, GentleReminder } from '../../../types/parent/parentDashboardTypes';
 
 interface DashboardTodaySessionsProps {
@@ -30,6 +30,7 @@ function getSessionBadge(
 }
 
 export function DashboardTodaySessions({ sessions, reminders }: DashboardTodaySessionsProps) {
+  const { getColor } = useSubjectColor();
   const todaySessions = sessions.filter((s) => s.is_today);
 
   return (
@@ -57,7 +58,7 @@ export function DashboardTodaySessions({ sessions, reminders }: DashboardTodaySe
       ) : (
         <div className="space-y-3 flex-1">
           {todaySessions.map((session) => {
-            const color = getSubjectColor(session.subject_name);
+            const color = getColor(session.subject_id, session.subject_color);
             const badge = getSessionBadge(session, reminders);
             return (
               <div key={session.planned_session_id} className="flex items-center gap-3">

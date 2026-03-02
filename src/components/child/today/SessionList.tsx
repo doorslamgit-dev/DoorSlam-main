@@ -4,7 +4,7 @@
 import AppIcon from "../../ui/AppIcon";
 import type { SessionRow } from "../../../types/today";
 import { getSubjectIcon } from "../../../constants/icons";
-import { getSubjectColor } from "../../../constants/colors";
+import { useSubjectColor } from "../../../contexts/SubjectColorContext";
 
 interface SessionListProps {
   sessions: SessionRow[];
@@ -17,6 +17,7 @@ export default function SessionList({
   nextSessionId,
   onStartSession,
 }: SessionListProps) {
+  const { getColor } = useSubjectColor();
   const totalCount = sessions.length;
 
   return (
@@ -47,6 +48,7 @@ export default function SessionList({
               <SessionItem
                 key={session.planned_session_id}
                 session={session}
+                subjectColor={getColor(session.subject_id, session.color)}
                 isNext={nextSessionId === session.planned_session_id}
                 onStart={() => onStartSession(session.planned_session_id)}
               />
@@ -73,10 +75,12 @@ export default function SessionList({
  */
 function SessionItem({
   session,
+  subjectColor,
   isNext,
   onStart,
 }: {
   session: SessionRow;
+  subjectColor: string;
   isNext: boolean;
   onStart: () => void;
 }) {
@@ -86,7 +90,6 @@ function SessionItem({
   const isReady = isNext && (isNotStarted || isStarted);
 
   const subjectIcon = getSubjectIcon(session.icon);
-  const subjectColor = getSubjectColor(session.subject_name);
   const topicDisplay =
     session.topic_names?.[0] || session.topics_preview?.[0]?.topic_name || "Topic TBD";
 
