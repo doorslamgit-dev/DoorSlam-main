@@ -11,11 +11,11 @@ interface ConfidenceHeatmapWidgetProps {
 
 // Get color based on confidence value (1-4 scale)
 function getHeatmapColor(value: number | null): { bg: string; text: string } {
-  if (value === null) return { bg: "bg-secondary", text: "" };
-  if (value <= 1) return { bg: "bg-destructive bg-opacity-30", text: "text-destructive" };
-  if (value <= 2) return { bg: "bg-warning bg-opacity-25", text: "text-warning" };
-  if (value <= 3) return { bg: "bg-success bg-opacity-35", text: "text-success" };
-  return { bg: "bg-success bg-opacity-50", text: "text-success" };
+  if (value === null) return { bg: "bg-muted", text: "" };
+  if (value <= 1) return { bg: "bg-destructive/30", text: "text-destructive" };
+  if (value <= 2) return { bg: "bg-warning/25", text: "text-warning" };
+  if (value <= 3) return { bg: "bg-success/30", text: "text-success" };
+  return { bg: "bg-success/50", text: "text-success" };
 }
 
 // Convert confidence level to display value (percentage)
@@ -28,10 +28,10 @@ export default function ConfidenceHeatmapWidget({ data, loading }: ConfidenceHea
   if (loading) {
     return (
       <div className="bg-background rounded-2xl shadow-sm p-6 border border-border animate-pulse">
-        <div className="h-6 bg-secondary rounded w-1/3 mb-4" />
+        <div className="h-6 bg-muted rounded w-1/3 mb-4" />
         <div className="space-y-2">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-8 bg-secondary rounded" />
+            <div key={i} className="h-8 bg-muted rounded" />
           ))}
         </div>
       </div>
@@ -49,7 +49,7 @@ export default function ConfidenceHeatmapWidget({ data, loading }: ConfidenceHea
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="text-lg font-bold text-primary mb-1">Confidence Map</h3>
+          <h3 className="text-lg font-bold text-foreground mb-1">Confidence Map</h3>
           <p className="text-xs text-muted-foreground">Recent session trends</p>
         </div>
       </div>
@@ -116,19 +116,19 @@ export default function ConfidenceHeatmapWidget({ data, loading }: ConfidenceHea
       {/* Legend */}
       <div className="flex items-center justify-center gap-4 mt-4 pt-4 border-t border-border">
         <div className="flex items-center gap-1">
-          <div className="w-4 h-4 bg-destructive bg-opacity-30 rounded" />
+          <div className="w-4 h-4 bg-destructive/30 rounded" />
           <span className="text-2xs text-muted-foreground">Low</span>
         </div>
         <div className="flex items-center gap-1">
-          <div className="w-4 h-4 bg-warning bg-opacity-25 rounded" />
+          <div className="w-4 h-4 bg-warning/25 rounded" />
           <span className="text-2xs text-muted-foreground">Building</span>
         </div>
         <div className="flex items-center gap-1">
-          <div className="w-4 h-4 bg-success bg-opacity-35 rounded" />
+          <div className="w-4 h-4 bg-success/30 rounded" />
           <span className="text-2xs text-muted-foreground">Good</span>
         </div>
         <div className="flex items-center gap-1">
-          <div className="w-4 h-4 bg-success bg-opacity-50 rounded" />
+          <div className="w-4 h-4 bg-success/50 rounded" />
           <span className="text-2xs text-muted-foreground">Strong</span>
         </div>
       </div>

@@ -87,9 +87,7 @@ export default function TodayView({
         <div className="flex items-center justify-between">
           <div>
             <h2
-              className={`text-2xl font-bold font-display ${
-                isToday ? "text-primary" : "text-foreground"
-              }`}
+              className="text-2xl font-bold font-display text-foreground"
             >
               {date.toLocaleDateString("en-GB", {
                 weekday: "long",

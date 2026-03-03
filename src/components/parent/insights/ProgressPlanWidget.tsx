@@ -81,7 +81,7 @@ export default function ProgressPlanWidget({ data, loading }: ProgressPlanWidget
 
       <div className="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-border">
         <div className="flex items-center space-x-2">
-          <div className="w-10 h-10 bg-success/10 dark:bg-success/20 rounded-lg flex items-center justify-center">
+          <div className="w-10 h-10 bg-success/10 rounded-lg flex items-center justify-center">
             <AppIcon name="trophy" className="w-5 h-5 text-success" />
           </div>
           <div>
@@ -92,7 +92,7 @@ export default function ProgressPlanWidget({ data, loading }: ProgressPlanWidget
           </div>
         </div>
         <div className="flex items-center space-x-2">
-          <div className="w-10 h-10 bg-warning/10 dark:bg-warning/20 rounded-lg flex items-center justify-center">
+          <div className="w-10 h-10 bg-warning/10 rounded-lg flex items-center justify-center">
             <AppIcon name="triangle-alert" className="w-5 h-5 text-warning" />
           </div>
           <div>

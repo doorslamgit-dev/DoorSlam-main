@@ -337,7 +337,9 @@ export async function fetchWeekPlan(
       const topicIds: string[] = row.topic_ids || [];
       const topicsPreview = topicIds
         .map((tid: string) => topicMap.get(tid))
-        .filter(Boolean) as {
+        .filter(Boolean)
+        // Guard: only show topics that belong to this session's subject
+        .filter((topic: any) => topic?.subject_id === row.subject_id) as {
           id: string;
           topic_name: string;
           order_index: number;
@@ -532,7 +534,9 @@ export async function fetchTodaySessions(
       const topicIds: string[] = row.topic_ids || [];
       const topicsPreview = topicIds
         .map((tid: string) => topicMap.get(tid))
-        .filter(Boolean) as {
+        .filter(Boolean)
+        // Guard: only show topics that belong to this session's subject
+        .filter((topic: any) => topic?.subject_id === row.subject_id) as {
           id: string;
           topic_name: string;
           order_index: number;

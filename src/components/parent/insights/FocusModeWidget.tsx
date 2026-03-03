@@ -13,10 +13,10 @@ export default function FocusModeWidget({ data, loading }: FocusModeWidgetProps)
   if (loading) {
     return (
       <div className="bg-background rounded-2xl shadow-sm p-6 border border-border animate-pulse">
-        <div className="h-6 bg-secondary rounded w-1/3 mb-4" />
+        <div className="h-6 bg-muted rounded w-1/3 mb-4" />
         <div className="grid grid-cols-2 gap-4">
-          <div className="h-32 bg-secondary rounded" />
-          <div className="h-32 bg-secondary rounded" />
+          <div className="h-32 bg-muted rounded" />
+          <div className="h-32 bg-muted rounded" />
         </div>
       </div>
     );
@@ -33,11 +33,11 @@ export default function FocusModeWidget({ data, loading }: FocusModeWidgetProps)
     <div className="bg-background rounded-2xl shadow-sm p-6 border border-border">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="text-lg font-bold text-primary mb-1">Focus Mode Impact</h3>
+          <h3 className="text-lg font-bold text-foreground mb-1">Focus Mode Impact</h3>
           <p className="text-xs text-muted-foreground">ON vs OFF comparison</p>
         </div>
-        <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-          <AppIcon name="bolt" className="w-5 h-5 text-white" />
+        <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+          <AppIcon name="bolt" className="w-5 h-5 text-primary" />
         </div>
       </div>
 

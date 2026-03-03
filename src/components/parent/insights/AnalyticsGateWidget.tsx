@@ -53,7 +53,7 @@ export default function AnalyticsGateWidget({
   }
 
   return (
-    <div className="bg-gradient-to-br from-primary/5 via-white to-primary/10 rounded-2xl shadow-sm p-8 border-2 border-primary/20">
+    <div className="bg-hero-soft rounded-2xl shadow-sm p-8 border border-border">
       <div className="flex items-start justify-between mb-6">
         <div className="flex-1">
           <div className="inline-flex items-center space-x-2 px-3 py-1 bg-primary text-white rounded-full text-xs font-semibold mb-4">
@@ -100,7 +100,7 @@ export default function AnalyticsGateWidget({
         </div>
       </div>
 
-      <div className="flex items-center justify-between p-5 bg-background rounded-xl border-2 border-primary/50">
+      <div className="flex items-center justify-between p-5 bg-background rounded-xl border border-border">
         <div className="flex items-center space-x-4">
           <button
             onClick={handleToggle}

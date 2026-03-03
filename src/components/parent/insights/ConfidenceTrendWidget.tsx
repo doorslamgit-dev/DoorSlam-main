@@ -2,7 +2,6 @@
 // FEAT-008: Confidence Trend - Pre vs Post over sessions
 // FEAT-010: Icon standardisation (AppIcon + Lucide) + theme-ready chart colours
 
-import React from "react";
 import {
   LineChart,
   Line,
@@ -26,8 +25,8 @@ export default function ConfidenceTrendWidget({ data, loading }: ConfidenceTrend
   if (loading) {
     return (
       <div className="bg-background rounded-2xl shadow-sm p-6 border border-border animate-pulse">
-        <div className="h-6 bg-secondary rounded w-1/3 mb-4" />
-        <div className="h-60 bg-secondary rounded" />
+        <div className="h-6 bg-muted rounded w-1/3 mb-4" />
+        <div className="h-60 bg-muted rounded" />
       </div>
     );
   }
@@ -48,13 +47,13 @@ export default function ConfidenceTrendWidget({ data, loading }: ConfidenceTrend
           <p className="text-xs font-medium text-foreground mb-1">{topic || label}</p>
           <p className="text-xs text-muted-foreground">
             Pre:{" "}
-            <span className="font-semibold" style={{ color: "var(--chart-pre)" }}>
+            <span className="font-semibold" style={{ color: COLORS.primary[300] }}>
               {payload[0]?.value}%
             </span>
           </p>
           <p className="text-xs text-muted-foreground">
             Post:{" "}
-            <span className="font-semibold" style={{ color: "var(--chart-post)" }}>
+            <span className="font-semibold" style={{ color: COLORS.primary[600] }}>
               {payload[1]?.value}%
             </span>
           </p>
@@ -69,11 +68,10 @@ export default function ConfidenceTrendWidget({ data, loading }: ConfidenceTrend
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="text-lg font-bold text-primary mb-1">Confidence Trend</h3>
+          <h3 className="text-lg font-bold text-foreground mb-1">Confidence Trend</h3>
           <p className="text-xs text-muted-foreground">Pre vs post over last sessions</p>
         </div>
 
-        {/* Optional: keep an icon slot consistent across widgets */}
         <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
           <AppIcon icon={ICON_MAP["check-circle"]} className="w-5 h-5 text-primary" />
         </div>
@@ -83,45 +81,34 @@ export default function ConfidenceTrendWidget({ data, loading }: ConfidenceTrend
       <div className="h-60">
         {chartData.length > 0 ? (
           <ResponsiveContainer width="100%" height="100%">
-            {/* Theme tokens for chart colours live on the container */}
-            <div
-              style={{
-                // Theme-ready color variables pointing to our design system
-                "--chart-pre": COLORS.primary[300],
-                "--chart-post": COLORS.primary[600],
-              } as React.CSSProperties}
-              className="w-full h-full"
-            >
-              <LineChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke={COLORS.neutral[200]} />
-                <XAxis
-                  dataKey="name"
-                  tick={{ fontSize: 12, fill: COLORS.neutral[500] }}
-                  axisLine={{ stroke: COLORS.neutral[200] }}
-                />
-                <YAxis
-                  domain={[0, 100]}
-                  tick={{ fontSize: 12, fill: COLORS.neutral[500] }}
-                  axisLine={{ stroke: COLORS.neutral[200] }}
-                />
-                <Tooltip content={<CustomTooltip />} />
-
-                <Line
-                  type="monotone"
-                  dataKey="Pre"
-                  stroke="var(--chart-pre)"
-                  strokeWidth={2}
-                  dot={{ fill: "var(--chart-pre)", strokeWidth: 0, r: 4 }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="Post"
-                  stroke="var(--chart-post)"
-                  strokeWidth={2}
-                  dot={{ fill: "var(--chart-post)", strokeWidth: 0, r: 4 }}
-                />
-              </LineChart>
-            </div>
+            <LineChart data={chartData}>
+              <CartesianGrid strokeDasharray="3 3" stroke={COLORS.neutral[200]} />
+              <XAxis
+                dataKey="name"
+                tick={{ fontSize: 12, fill: COLORS.neutral[500] }}
+                axisLine={{ stroke: COLORS.neutral[200] }}
+              />
+              <YAxis
+                domain={[0, 100]}
+                tick={{ fontSize: 12, fill: COLORS.neutral[500] }}
+                axisLine={{ stroke: COLORS.neutral[200] }}
+              />
+              <Tooltip content={<CustomTooltip />} />
+              <Line
+                type="monotone"
+                dataKey="Pre"
+                stroke={COLORS.primary[300]}
+                strokeWidth={2}
+                dot={{ fill: COLORS.primary[300], strokeWidth: 0, r: 4 }}
+              />
+              <Line
+                type="monotone"
+                dataKey="Post"
+                stroke={COLORS.primary[600]}
+                strokeWidth={2}
+                dot={{ fill: COLORS.primary[600], strokeWidth: 0, r: 4 }}
+              />
+            </LineChart>
           </ResponsiveContainer>
         ) : (
           <div className="h-full flex items-center justify-center text-muted-foreground">

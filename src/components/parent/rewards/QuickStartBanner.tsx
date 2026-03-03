@@ -10,7 +10,7 @@ interface QuickStartBannerProps {
 
 export function QuickStartBanner({ onQuickStart, loading = false }: QuickStartBannerProps) {
   return (
-    <div className="bg-background rounded-xl p-4 border border-primary/20 flex flex-col sm:flex-row items-center justify-between gap-3">
+    <div className="bg-background rounded-xl shadow-sm p-4 border border-primary/20 flex flex-col sm:flex-row items-center justify-between gap-3">
       <div className="flex items-center gap-3">
         <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
           <AppIcon name="zap" className="w-5 h-5 text-primary" />

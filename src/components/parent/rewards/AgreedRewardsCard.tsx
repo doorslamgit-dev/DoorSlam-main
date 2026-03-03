@@ -16,7 +16,7 @@ export function AgreedRewardsCard({ rewards, onUpdatePoints }: AgreedRewardsCard
   }
 
   return (
-    <div className="bg-background rounded-xl border border-border p-4 sm:p-6">
+    <div className="bg-background rounded-xl shadow-sm border border-border p-4 sm:p-6">
       <div className="flex items-center gap-3 mb-4">
         <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-success/10">
           <AppIcon name="check-circle" className="w-5 h-5 text-success" />

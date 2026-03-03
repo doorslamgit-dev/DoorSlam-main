@@ -71,8 +71,11 @@ export default function TopicCard({
   const style = {
     backgroundColor: hexToRgba(subjectColor, 0.08),
     borderLeft: `3px solid ${subjectColor}`,
-    transform: CSS.Translate.toString(transform),
-    opacity: isDragging ? 0.5 : 1,
+    // When DragOverlay is active the overlay handles the visual movement —
+    // keep the original card pinned in the source cell so the source slot
+    // never appears empty during a drag.
+    transform: isDragging ? undefined : CSS.Translate.toString(transform),
+    opacity: isDragging ? 0.4 : 1,
   };
 
   return (

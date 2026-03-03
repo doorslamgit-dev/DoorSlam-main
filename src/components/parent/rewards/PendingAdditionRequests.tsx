@@ -68,7 +68,7 @@ export function PendingAdditionRequests({
   }
 
   return (
-    <div className="bg-primary/5 rounded-xl border border-primary/20 p-6">
+    <div className="bg-primary/5 rounded-xl shadow-sm border border-primary/20 p-6">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <AppIcon name="send" className="w-5 h-5 text-primary" />

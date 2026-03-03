@@ -69,7 +69,7 @@ export function RewardCatalogSection({
         const enabledInCategory = category.templates.filter(t => t.is_enabled).length;
 
         return (
-          <div key={category.id} className="bg-background rounded-xl border border-border p-4 sm:p-6">
+          <div key={category.id} className="bg-background rounded-xl shadow-sm border border-border p-4 sm:p-6">
             {/* Category Header */}
             <div className="flex items-center gap-3 mb-4">
               <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${style.bg}`}>

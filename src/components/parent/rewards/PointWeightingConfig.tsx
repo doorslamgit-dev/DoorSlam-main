@@ -33,7 +33,7 @@ export function PointWeightingConfig({
   };
 
   return (
-    <div className="bg-background rounded-xl border border-border p-4 sm:p-6">
+    <div className="bg-background rounded-xl shadow-sm border border-border p-4 sm:p-6">
       <h3 className="text-lg font-semibold text-foreground mb-4">
         Point Weighting
       </h3>

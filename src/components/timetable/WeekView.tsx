@@ -203,6 +203,12 @@ export function WeekView({
           return;
         }
 
+        // Prevent cross-subject drops — a topic must stay within its own subject's sessions
+        const sourceSession = findSourceSession(sourceSessionId);
+        if (sourceSession && sourceSession.subject_id !== targetSession.subject_id) {
+          return;
+        }
+
         // If requires approval mode, delegate to parent
         if (onMoveRequiresApproval) {
           const activeData = active.data.current;

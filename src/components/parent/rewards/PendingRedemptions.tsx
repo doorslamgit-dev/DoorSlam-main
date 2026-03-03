@@ -59,7 +59,7 @@ export function PendingRedemptions({
 
   if (redemptions.length === 0) {
     return (
-      <div className="bg-background rounded-xl border border-border p-6">
+      <div className="bg-background rounded-xl shadow-sm border border-border p-6">
         <h3 className="text-lg font-semibold text-foreground mb-2">
           Pending Approvals
         </h3>
@@ -77,7 +77,7 @@ export function PendingRedemptions({
   }
 
   return (
-    <div className="bg-background rounded-xl border border-border p-6">
+    <div className="bg-background rounded-xl shadow-sm border border-border p-6">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-foreground">
           Pending Approvals
