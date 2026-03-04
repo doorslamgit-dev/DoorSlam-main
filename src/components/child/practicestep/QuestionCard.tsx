@@ -133,7 +133,7 @@ export function QuestionCard({
                   value={userAnswer}
                   onChange={(e) => onAnswerChange(e.target.value)}
                   placeholder="Enter your answer..."
-                  className="w-full p-4 text-lg border-2 border-border rounded-xl focus:border-primary focus:outline-none transition"
+                  className="w-full p-4 text-lg border-2 border-input rounded-xl placeholder:text-muted-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus:border-transparent transition-all"
                 />
               ) : (
                 <textarea
@@ -141,7 +141,7 @@ export function QuestionCard({
                   onChange={(e) => onAnswerChange(e.target.value)}
                   placeholder="Write your answer..."
                   rows={4}
-                  className="w-full p-4 text-lg border-2 border-border rounded-xl focus:border-primary focus:outline-none transition resize-none"
+                  className="w-full p-4 text-lg border-2 border-input rounded-xl placeholder:text-muted-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus:border-transparent transition-all resize-none"
                 />
               )}
 

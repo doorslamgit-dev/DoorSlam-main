@@ -20,6 +20,8 @@ import IconCircle from '@/components/ui/IconCircle';
 import CircularProgress from '@/components/ui/CircularProgress';
 import AvatarCircle from '@/components/ui/AvatarCircle';
 import AskAITutorButton from '@/components/ui/AskAITutorButton';
+import { SectionHeader, StepIntroScreen, ConfidenceSelector } from '@/components/child/session';
+import type { ConfidenceSelectorOption } from '@/components/child/session';
 import { PageLayout } from '@/components/layout';
 import Footer from '@/components/layout/Footer';
 import DashboardHeroCard from '@/components/parent/dashboard/DashboardHeroCard';
@@ -105,6 +107,9 @@ const NAV_SECTIONS = [
  { id: 'circular-progress', label: 'CircularProgress' },
  { id: 'avatar-circle', label: 'AvatarCircle' },
  { id: 'ask-ai-tutor-btn', label: 'AskAITutorButton' },
+ { id: 'session-section-header', label: 'SectionHeader' },
+ { id: 'session-intro-screen', label: 'StepIntroScreen' },
+ { id: 'session-confidence', label: 'ConfidenceSelector' },
 ] as const;
 
 const MODULE_NAV_SECTIONS = [
@@ -242,6 +247,24 @@ const gradientTokens = [
     description: 'Page background behind content cards in dark mode',
     style: 'linear-gradient(135deg, hsl(239 84% 74% / 0.15) 0%, hsl(218 63% 10%) 40%, hsl(84 81% 44% / 0.10) 100%)',
   },
+];
+
+// ============================================================================
+// CHILD SESSION COMPONENT DEMO DATA
+// ============================================================================
+
+const DEMO_LIST_OPTIONS: ConfidenceSelectorOption[] = [
+  { id: 'very_confident', label: 'Very confident', description: 'I already know this topic well', icon: 'rocket', bgColor: 'bg-success/10', iconBgColor: 'bg-success', iconColor: 'text-white', selectedBorder: 'border-success' },
+  { id: 'fairly_confident', label: 'Fairly confident', description: 'I know some of it but could use a refresher', icon: 'check', bgColor: 'bg-muted', iconBgColor: 'bg-primary/20', iconColor: 'text-primary', selectedBorder: 'border-primary' },
+  { id: 'bit_unsure', label: 'A bit unsure', description: "I've heard of it but don't know it well", icon: 'circle-question', bgColor: 'bg-muted', iconBgColor: 'bg-warning/20', iconColor: 'text-warning', selectedBorder: 'border-warning' },
+  { id: 'need_help', label: 'New to me', description: 'This topic is completely new or very unclear', icon: 'hand-heart', bgColor: 'bg-muted', iconBgColor: 'bg-destructive/20', iconColor: 'text-destructive', selectedBorder: 'border-destructive' },
+];
+
+const DEMO_GRID_OPTIONS: ConfidenceSelectorOption[] = [
+  { id: 'very_confident', label: 'Got it!', description: 'I could teach this to a friend', icon: 'rocket', bgColor: 'bg-background', selectedBg: 'bg-success/10', selectedBorder: 'border-success' },
+  { id: 'fairly_confident', label: 'Pretty good', description: 'I understand most of it', icon: 'check-circle', bgColor: 'bg-background', selectedBg: 'bg-info/10', selectedBorder: 'border-info' },
+  { id: 'bit_unsure', label: 'A bit wobbly', description: 'Some parts are still unclear', icon: 'circle-help', bgColor: 'bg-background', selectedBg: 'bg-warning/10', selectedBorder: 'border-warning' },
+  { id: 'need_help', label: 'Need more practice', description: "I'd like to go over this again", icon: 'hand-heart', bgColor: 'bg-background', selectedBg: 'bg-destructive/10', selectedBorder: 'border-destructive' },
 ];
 
 // ============================================================================
@@ -479,6 +502,8 @@ export default function DesignGuidelines() {
  const [textareaValue, setTextareaValue] = useState('');
  const [activeTab, setActiveTab] = useState<'tokens' | 'modules' | 'migration' | 'brand'>('tokens');
  const [searchQuery, setSearchQuery] = useState('');
+ const [demoListSelected, setDemoListSelected] = useState<string | null>(null);
+ const [demoGridSelected, setDemoGridSelected] = useState<string | null>('fairly_confident');
 
  const iconKeys = Object.keys(ICON_MAP) as IconKey[];
 
@@ -1490,6 +1515,141 @@ style={{ backgroundColor: hexToRgba(color, 0.12) }}`}</pre>
                The label ("Ask AI Tutor"), icon (sparkles, lime), and core styling are fixed — pass only <code className="font-mono bg-secondary px-1 rounded">className</code> for layout spacing.
              </p>
            </div>
+         </SubSection>
+       </Section>
+
+       {/* ════════════════════════════════ SECTION HEADER ════════════════════════════════ */}
+       <Section id="session-section-header" title="SectionHeader">
+         <p className="text-sm text-muted-foreground -mt-2">
+           Icon badge + title + optional description row used across session step cards. Default bottom margin is{' '}
+           <code className="bg-secondary px-1 py-0.5 rounded text-xs font-mono">mb-5</code>; override with{' '}
+           <code className="bg-secondary px-1 py-0.5 rounded text-xs font-mono">className</code>.
+         </p>
+         <SourceTag path="src/components/child/session/SectionHeader.tsx" />
+
+         <SubSection title="With description">
+           <DemoPanel>
+             <SectionHeader
+               icon="gauge"
+               title="How confident are you with this topic?"
+               description="This helps us tailor the session to your needs"
+             />
+           </DemoPanel>
+         </SubSection>
+
+         <SubSection title="Without description">
+           <DemoPanel>
+             <SectionHeader icon="lightbulb" title="What did you learn?" />
+           </DemoPanel>
+         </SubSection>
+
+         <SubSection title="Icon variants">
+           <DemoPanel className="space-y-4">
+             <SectionHeader icon="brain" title="Reflection" description="Take a moment to reflect on what you've learned" className="mb-0" />
+             <SectionHeader icon="pencil" title="Practice" description="Test your knowledge with some questions" className="mb-0" />
+             <SectionHeader icon="book-open" title="Reinforce" description="Review the key ideas from this session" className="mb-0" />
+           </DemoPanel>
+         </SubSection>
+       </Section>
+
+       {/* ════════════════════════════════ STEP INTRO SCREEN ════════════════════════════════ */}
+       <Section id="session-intro-screen" title="StepIntroScreen">
+         <p className="text-sm text-muted-foreground -mt-2">
+           Centred intro card shown at the start of each session step. The{' '}
+           <code className="bg-secondary px-1 py-0.5 rounded text-xs font-mono">description</code> prop accepts{' '}
+           <code className="bg-secondary px-1 py-0.5 rounded text-xs font-mono">ReactNode</code> for inline highlights.
+           Optional <code className="bg-secondary px-1 py-0.5 rounded text-xs font-mono">detail</code> adds a second
+           paragraph; omit it and <code className="bg-secondary px-1 py-0.5 rounded text-xs font-mono">description</code> gets
+           the bottom margin instead.
+         </p>
+         <SourceTag path="src/components/child/session/StepIntroScreen.tsx" />
+
+         <SubSection title="Recall step — icon + detail + buttonIcon">
+           <DemoPanel>
+             <StepIntroScreen
+               icon="lightbulb"
+               title="Hey Alex!"
+               description={<>Before we start, let's see what you already know about <span className="font-semibold text-primary">Quadratic Equations</span>!</>}
+               detail="5 quick questions – no pressure, just do your best!"
+               buttonLabel="Let's go!"
+               buttonIcon="rocket"
+               onStart={() => {}}
+             />
+           </DemoPanel>
+         </SubSection>
+
+         <SubSection title="Reinforce step — multiple counts in detail">
+           <DemoPanel>
+             <StepIntroScreen
+               icon="book-open"
+               title="Time to learn!"
+               description={<>Let's explore the key ideas about <span className="font-semibold text-primary">Quadratic Equations</span>.</>}
+               detail="2 quick explanations + 1 worked example"
+               buttonLabel="Let's learn!"
+               onStart={() => {}}
+             />
+           </DemoPanel>
+         </SubSection>
+
+         <SubSection title="Practice step">
+           <DemoPanel>
+             <StepIntroScreen
+               icon="pencil"
+               title="Time to practise!"
+               description={<>Let's see how much you've learned about <span className="font-semibold text-primary">Quadratic Equations</span>.</>}
+               detail="6 questions ready"
+               buttonLabel="Let's do this!"
+               onStart={() => {}}
+             />
+           </DemoPanel>
+         </SubSection>
+       </Section>
+
+       {/* ════════════════════════════════ CONFIDENCE SELECTOR ════════════════════════════════ */}
+       <Section id="session-confidence" title="ConfidenceSelector">
+         <p className="text-sm text-muted-foreground -mt-2">
+           Interactive confidence rating. Use{' '}
+           <code className="bg-secondary px-1 py-0.5 rounded text-xs font-mono">variant="list"</code> in the Preview step
+           (vertical, large icon circles) and{' '}
+           <code className="bg-secondary px-1 py-0.5 rounded text-xs font-mono">variant="grid"</code> in the Complete step
+           (2-column compact). Step-specific wrappers in{' '}
+           <code className="bg-secondary px-1 py-0.5 rounded text-xs font-mono">previewstep/</code> and{' '}
+           <code className="bg-secondary px-1 py-0.5 rounded text-xs font-mono">completestep/</code> handle type-safe casting.
+         </p>
+         <SourceTag path="src/components/child/session/ConfidenceSelector.tsx" />
+
+         <SubSection title='variant="list" — Preview step (click to select)'>
+           <DemoPanel>
+             <ConfidenceSelector
+               options={DEMO_LIST_OPTIONS}
+               selected={demoListSelected}
+               onSelect={setDemoListSelected}
+               variant="list"
+             />
+           </DemoPanel>
+         </SubSection>
+
+         <SubSection title='variant="grid" — Complete step (click to select)'>
+           <DemoPanel>
+             <ConfidenceSelector
+               options={DEMO_GRID_OPTIONS}
+               selected={demoGridSelected}
+               onSelect={setDemoGridSelected}
+               variant="grid"
+             />
+           </DemoPanel>
+         </SubSection>
+
+         <SubSection title="Disabled state">
+           <DemoPanel>
+             <ConfidenceSelector
+               options={DEMO_LIST_OPTIONS}
+               selected="fairly_confident"
+               onSelect={() => {}}
+               variant="list"
+               disabled
+             />
+           </DemoPanel>
          </SubSection>
        </Section>
 
@@ -3012,7 +3172,7 @@ style={{ backgroundColor: hexToRgba(color, 0.12) }}`}</pre>
      <section>
        <p className="text-xs font-bold tracking-widest uppercase text-warning mb-1">Messaging Hierarchy</p>
        <h2 className="text-2xl font-bold text-foreground font-display mb-2">What We Say</h2>
-       <p className="text-3xl font-bold text-foreground font-display mb-2">Slam your GCSEs.</p>
+       <p className="text-3xl font-bold text-foreground font-display mb-2">Revision without the drama.</p>
        <p className="text-xs text-muted-foreground italic mb-6">&ldquo;Slam&rdquo; carries dual meaning — mastering exams and the brand name itself. Active, confident, using language students already use.</p>
 
        <div className="bg-card border border-border rounded-xl p-5 mb-4">

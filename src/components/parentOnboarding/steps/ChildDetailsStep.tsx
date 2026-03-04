@@ -61,7 +61,7 @@ export default function ChildDetailsStep({
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 set("first_name", e.target.value)
               }
-              className="w-full px-4 py-3 border border-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
+              className="w-full px-4 py-3 border border-input rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
               placeholder="e.g. Hannah"
               required
             />
@@ -82,7 +82,7 @@ export default function ChildDetailsStep({
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 set("last_name", e.target.value)
               }
-              className="w-full px-4 py-3 border border-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
+              className="w-full px-4 py-3 border border-input rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
               placeholder="Optional"
             />
           </div>
@@ -104,7 +104,7 @@ export default function ChildDetailsStep({
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 set("preferred_name", e.target.value)
               }
-              className="w-full px-4 py-3 border border-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
+              className="w-full px-4 py-3 border border-input rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
               placeholder="What they like to be called"
             />
           </div>
@@ -122,7 +122,7 @@ export default function ChildDetailsStep({
                 id="year-group"
                 value={String(value.year_group ?? 11)}
                 onChange={(e) => set("year_group", Number(e.target.value))}
-                className="w-full px-4 py-3 pr-10 border border-border rounded-xl text-foreground bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all appearance-none cursor-pointer"
+                className="w-full px-4 py-3 pr-10 border border-input rounded-xl text-foreground bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all appearance-none cursor-pointer"
               >
                 {[7, 8, 9, 10, 11, 12, 13].map((y) => (
                   <option key={y} value={String(y)}>
@@ -154,7 +154,7 @@ export default function ChildDetailsStep({
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               set("country", e.target.value)
             }
-            className="w-full px-4 py-3 border border-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
+            className="w-full px-4 py-3 border border-input rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
             placeholder="e.g. England"
           />
         </div>

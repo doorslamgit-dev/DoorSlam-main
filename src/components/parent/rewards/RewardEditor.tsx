@@ -83,7 +83,7 @@ export function RewardEditor({
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-end sm:items-center justify-center z-50 p-0 sm:p-4">
+    <div className="fixed inset-0 bg-black/50 flex items-end sm:items-center justify-center z-50 p-0 sm:p-4">
       <div className="bg-background rounded-t-xl sm:rounded-xl shadow-xl w-full sm:max-w-md max-h-[90vh] overflow-y-auto">
         <div className="p-4 sm:p-6 border-b border-border flex items-center justify-between sticky top-0 bg-background z-10">
           <h2 className="text-lg sm:text-xl font-semibold text-foreground">
@@ -166,8 +166,8 @@ export function RewardEditor({
               value={formData.name}
               onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
               placeholder="e.g., 30 minutes extra gaming"
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring ${
-                errors.name ? 'border-danger' : 'border-input'
+              className={`w-full px-4 py-2 border rounded-xl placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all ${
+                errors.name ? 'border-destructive' : 'border-input'
               }`}
             />
             {errors.name && (
@@ -188,8 +188,8 @@ export function RewardEditor({
                 ...prev, 
                 points_cost: parseInt(e.target.value) || 0 
               }))}
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring ${
-                errors.points_cost ? 'border-danger' : 'border-input'
+              className={`w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all ${
+                errors.points_cost ? 'border-destructive' : 'border-input'
               }`}
             />
             {errors.points_cost && (
@@ -210,7 +210,7 @@ export function RewardEditor({
                   limit_type: (e.target.value || null) as LimitType,
                   limit_count: e.target.value ? (prev.limit_count || 1) : undefined,
                 }))}
-                className="flex-1 px-4 py-2 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
+                className="flex-1 px-4 py-2 border border-input rounded-xl focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
               >
                 <option value="">No limit</option>
                 <option value="per_day">Per day</option>
@@ -227,8 +227,8 @@ export function RewardEditor({
                     limit_count: parseInt(e.target.value) || undefined 
                   }))}
                   placeholder="Max"
-                  className={`w-24 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring ${
-                    errors.limit_count ? 'border-danger' : 'border-input'
+                  className={`w-24 px-4 py-2 border rounded-xl placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all ${
+                    errors.limit_count ? 'border-destructive' : 'border-input'
                   }`}
                 />
               )}

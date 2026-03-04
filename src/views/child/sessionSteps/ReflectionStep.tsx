@@ -39,11 +39,11 @@ export default function ReflectionStep({
     await onFinish({ confidenceLevel, notes });
   };
 
-  const confidenceLevels: Array<{ value: string; label: string; icon: IconKey; color: string }> = [
-    { value: "confident", label: "Confident", icon: "check-circle", color: "green" },
-    { value: "on_track", label: "On Track", icon: "circle-check", color: "blue" },
-    { value: "needs_practice", label: "Needs Practice", icon: "circle-help", color: "yellow" },
-    { value: "struggling", label: "Struggling", icon: "alert-circle", color: "red" },
+  const confidenceLevels: Array<{ value: string; label: string; icon: IconKey; activeClass: string }> = [
+    { value: "confident", label: "Confident", icon: "check-circle", activeClass: "border-success bg-success/10" },
+    { value: "on_track", label: "On Track", icon: "circle-check", activeClass: "border-info bg-info/10" },
+    { value: "needs_practice", label: "Needs Practice", icon: "circle-help", activeClass: "border-warning bg-warning/10" },
+    { value: "struggling", label: "Struggling", icon: "alert-circle", activeClass: "border-destructive bg-destructive/10" },
   ];
 
   return (
@@ -79,7 +79,7 @@ export default function ReflectionStep({
               onClick={() => setConfidenceLevel(level.value)}
               className={`p-4 rounded-xl border-2 transition-all text-left ${
                 confidenceLevel === level.value
-                  ? `border-${level.color}-600 bg-${level.color}-50`
+                  ? level.activeClass
                   : "border-border hover:border-input"
               }`}
             >
@@ -101,7 +101,7 @@ export default function ReflectionStep({
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           placeholder="What went well? What was challenging? Any questions you still have?"
-          className="w-full h-32 p-4 border-2 border-border rounded-xl resize-none focus:outline-none focus:border-ring"
+          className="w-full h-32 p-4 border-2 border-input rounded-xl placeholder:text-muted-foreground resize-none focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus:border-transparent transition-all"
         />
       </div>
 

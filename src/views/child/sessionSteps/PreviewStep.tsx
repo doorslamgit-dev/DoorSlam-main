@@ -4,7 +4,6 @@
 // FEAT-008: Social media toggle for focus mode
 // REFACTORED: January 2026 - Modular structure with extracted components
 
-import AppIcon from "../../../components/ui/AppIcon";
 import { PreviewStepProps } from "../../../types/child/previewstep";
 import { usePreviewStep } from "../../../hooks/child/previewstep";
 import {
@@ -12,6 +11,7 @@ import {
   FocusModeToggle,
   StartButton,
 } from "../../../components/child/previewstep";
+import { SectionHeader } from "../../../components/child/session";
 
 export default function PreviewStep({
   overview: _overview,
@@ -45,20 +45,12 @@ export default function PreviewStep({
       {/* Pre-Confidence Section */}
       <section className="mb-6">
         <div className="bg-background rounded-2xl shadow-sm p-6">
-          <div className="flex items-center space-x-3 mb-6">
-            <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
-              <AppIcon name="gauge" className="text-primary w-6 h-6" />
-            </div>
-
-            <div className="flex-1">
-              <h2 className="text-xl font-bold text-primary">
-                How confident are you with this topic?
-              </h2>
-              <p className="text-muted-foreground text-sm">
-                This helps us tailor the session to your needs
-              </p>
-            </div>
-          </div>
+          <SectionHeader
+            icon="gauge"
+            title="How confident are you with this topic?"
+            description="This helps us tailor the session to your needs"
+            className="mb-6"
+          />
 
           <ConfidenceSelector
             selected={state.preConfidence}

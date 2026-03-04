@@ -132,7 +132,7 @@ export function DayCard({
                 <select
                   value={slot.time_of_day}
                   onChange={(e) => onUpdateSlot(idx, "time_of_day", e.target.value)}
-                  className="w-full px-3 py-2 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+                  className="w-full px-3 py-2 text-sm border border-input rounded-xl bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
                 >
                   {TIME_OF_DAY_OPTIONS.map((opt) => (
                     <option key={opt.value} value={opt.value}>
@@ -149,7 +149,7 @@ export function DayCard({
                 <select
                   value={slot.session_pattern}
                   onChange={(e) => onUpdateSlot(idx, "session_pattern", e.target.value)}
-                  className="w-full px-3 py-2 text-sm border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+                  className="w-full px-3 py-2 text-sm border border-input rounded-xl bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
                 >
                   {SESSION_PATTERN_OPTIONS.map((opt) => (
                     <option key={opt.value} value={opt.value}>

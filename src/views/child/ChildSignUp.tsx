@@ -169,7 +169,7 @@ export default function ChildSignUp() {
           <p className="text-muted-foreground">{invitation.parent_name} has invited you to start your revision journey</p>
         </div>
 
-        <div className="bg-success bg-opacity-10 border border-success rounded-xl p-4 mb-6">
+        <div className="bg-success/10 border border-success rounded-xl p-4 mb-6">
           <div className="flex items-start space-x-3">
             <AppIcon name="check-circle" className="w-6 h-6 text-success mt-0.5" />
             <div>

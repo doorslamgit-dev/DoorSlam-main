@@ -5,6 +5,7 @@
 
 import { useMemo } from "react";
 import AppIcon from "../../../components/ui/AppIcon";
+import { SectionHeader } from "../../../components/child/session";
 
 import type { SummaryStepProps, MnemonicStyle, MnemonicData } from "../../../types/child/summarystep";
 import { useSummaryStep } from "../../../hooks/child/summarystep";
@@ -219,15 +220,11 @@ export default function SummaryStep({
       {/* Key Takeaways */}
       <section>
         <div className="bg-background rounded-2xl shadow-sm p-6">
-          <div className="flex items-center space-x-3 mb-5">
-            <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
-              <AppIcon name="lightbulb" className="text-primary w-6 h-6" />
-            </div>
-            <div>
-              <h2 className="text-xl font-bold text-primary">What You've Learned</h2>
-              <p className="text-muted-foreground text-sm">The key points from this session</p>
-            </div>
-          </div>
+          <SectionHeader
+            icon="lightbulb"
+            title="What You've Learned"
+            description="The key points from this session"
+          />
 
           <div className="space-y-3">
             {displayTakeaways.map((takeaway, index) => (
@@ -240,15 +237,11 @@ export default function SummaryStep({
       {/* Help Me Remember (Memory Tools) */}
       <section>
         <div className="bg-background rounded-2xl shadow-sm p-6">
-          <div className="flex items-center space-x-3 mb-5">
-            <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
-              <AppIcon name="brain" className="text-primary w-6 h-6" />
-            </div>
-            <div>
-              <h2 className="text-xl font-bold text-primary">Help Me Remember</h2>
-              <p className="text-muted-foreground text-sm">Create a song to help the facts stick!</p>
-            </div>
-          </div>
+          <SectionHeader
+            icon="brain"
+            title="Help Me Remember"
+            description="Create a song to help the facts stick!"
+          />
 
           {!mnemonicSuitable ? (
             <MnemonicNotAvailable subjectName={overview.subject_name} />

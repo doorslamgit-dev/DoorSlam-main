@@ -149,7 +149,7 @@ function SortableCard({ subject, index, onGradeChange }: SortableCardProps) {
                   const val = e.target.value === "" ? null : parseInt(e.target.value, 10);
                   onGradeChange("current_grade", val);
                 }}
-                className="w-full px-3 py-2 border border-border rounded-lg text-sm bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
+                className="w-full px-3 py-2 border border-input rounded-xl text-sm bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
               >
                 {GRADE_OPTIONS.map((opt) => (
                   <option key={opt.label} value={opt.value ?? ""}>
@@ -170,7 +170,7 @@ function SortableCard({ subject, index, onGradeChange }: SortableCardProps) {
                   const val = e.target.value === "" ? null : parseInt(e.target.value, 10);
                   onGradeChange("target_grade", val);
                 }}
-                className="w-full px-3 py-2 border border-border rounded-lg text-sm bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
+                className="w-full px-3 py-2 border border-input rounded-xl text-sm bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
               >
                 <option value="">Select target</option>
                 {TARGET_GRADE_OPTIONS.map((opt) => (

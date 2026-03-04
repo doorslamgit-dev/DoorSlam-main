@@ -8,6 +8,7 @@
 // FEAT-011 Phase 2: Added studyBuddyService.updateSummary on completion
 
 import AppIcon from "../../../components/ui/AppIcon";
+import { SectionHeader } from "../../../components/child/session";
 
 import type {
   CompleteStepProps,
@@ -153,15 +154,11 @@ export default function CompleteStep({
       {/* Confidence Check */}
       <section>
         <div className="bg-background rounded-2xl shadow-sm p-6">
-          <div className="flex items-center space-x-3 mb-5">
-            <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
-              <AppIcon name="circle-help" className="w-6 h-6 text-primary" aria-hidden />
-            </div>
-            <div>
-              <h2 className="text-xl font-bold text-primary">How do you feel about this topic?</h2>
-              <p className="text-muted-foreground text-sm">Be honest - it helps us help you!</p>
-            </div>
-          </div>
+          <SectionHeader
+            icon="circle-help"
+            title="How do you feel about this topic?"
+            description="Be honest - it helps us help you!"
+          />
 
           <ConfidenceSelector
             selected={postConfidence}
@@ -174,15 +171,11 @@ export default function CompleteStep({
       {/* Notes Section */}
       <section>
         <div className="bg-background rounded-2xl shadow-sm p-6">
-          <div className="flex items-center space-x-3 mb-5">
-            <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
-              <AppIcon name="pencil" className="text-primary w-6 h-6" />
-            </div>
-            <div>
-              <h2 className="text-xl font-bold text-primary">Any notes for next time?</h2>
-              <p className="text-muted-foreground text-sm">Questions, thoughts, things to remember</p>
-            </div>
-          </div>
+          <SectionHeader
+            icon="pencil"
+            title="Any notes for next time?"
+            description="Questions, thoughts, things to remember"
+          />
 
           <textarea
             value={journalNote}
@@ -190,7 +183,7 @@ export default function CompleteStep({
             disabled={saving}
             placeholder="What stood out? Any questions? Write anything you want to remember..."
             rows={3}
-            className="w-full px-4 py-3 border-2 border-border rounded-xl focus:outline-none focus:border-ring transition resize-none disabled:opacity-50 text-foreground"
+            className="w-full px-4 py-3 border-2 border-input rounded-xl placeholder:text-muted-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus:border-transparent transition-all resize-none disabled:opacity-50 text-foreground"
           />
 
           <div className="mt-4">

@@ -60,7 +60,7 @@ export default function SignUp() {
         <div className="text-center mb-8">
           <BrandWordmark size="lg" light className="mb-2" />
           <p className="text-primary-foreground/80">
-            Slam your GCSEs.
+            Revision without the drama.
           </p>
         </div>
 

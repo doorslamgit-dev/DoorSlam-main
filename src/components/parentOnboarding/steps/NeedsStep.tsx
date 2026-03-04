@@ -251,7 +251,7 @@ function FormalArrangementsScreen(props: {
                               onBlur={() => {
                                 onToggle(cluster.code, accommodationInputs[cluster.code]);
                               }}
-                              className="mt-2 w-full rounded-xl border border-border px-4 py-3 text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
+                              className="mt-2 w-full rounded-xl border border-input px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
                             />
                             {cluster.common_arrangements &&
                               cluster.common_arrangements.length > 0 && (

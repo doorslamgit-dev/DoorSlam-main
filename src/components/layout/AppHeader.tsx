@@ -19,7 +19,7 @@ export default function AppHeader() {
           <div>
             <BrandWordmark size="md" />
             <div className="text-sm text-muted-foreground">
-              Slam your GCSEs.
+              Revision without the drama.
             </div>
           </div>
         </Link>
