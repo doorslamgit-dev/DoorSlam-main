@@ -341,6 +341,7 @@ export async function fetchWeekPlan(
           id: string;
           topic_name: string;
           order_index: number;
+          subject_id: string;
           subject_name: string;
           subject_color: string;
         }[];
@@ -536,6 +537,7 @@ export async function fetchTodaySessions(
           id: string;
           topic_name: string;
           order_index: number;
+          subject_id: string;
           subject_name: string;
           subject_color: string;
         }[];
