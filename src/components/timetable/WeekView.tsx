@@ -147,6 +147,7 @@ export function WeekView({
   // Drag start — show overlay
   const handleDragStart = useCallback(
     (event: DragStartEvent) => {
+      console.log("[DnD] Drag started:", event.active.id);
       const data = event.active.data.current;
       if (data) {
         setActiveDragData({
@@ -158,6 +159,12 @@ export function WeekView({
     },
     []
   );
+
+  // Drag cancelled — dnd-kit aborted the drag instead of ending it
+  const handleDragCancel = useCallback(() => {
+    console.warn("[DnD] Drag CANCELLED (not ended) — this is why the drop fails");
+    setActiveDragData(null);
+  }, []);
 
   // Find a session by ID across all week data
   const findSourceSession = useCallback(
@@ -373,6 +380,7 @@ export function WeekView({
       collisionDetection={pointerWithin}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
+      onDragCancel={handleDragCancel}
     >
       {gridContent}
 
