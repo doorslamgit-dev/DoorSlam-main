@@ -196,7 +196,544 @@ When adding new props to a React component, add the corresponding variant to the
 
 ---
 
-## 7. Files touched
+## 7. Code Connect
+
+Code Connect links each Figma component to its React source file. Once published, Figma's Dev Mode shows a live code snippet — with the correct props already filled in — whenever a developer inspects an instance. No more guessing component names or prop spellings.
+
+### What it unlocks
+
+- **Dev Mode snippet panel** — inspect any instance in Figma, see `<Button variant="primary" size="md">Label</Button>` ready to copy
+- **Prop mapping** — Figma variant properties map to React props; switching the variant in Figma updates the snippet automatically
+- **Import path** — each snippet shows the exact import line for the project
+- **Storybook integration** — Code Connect also works as a bridge to Storybook if that is added later
+
+---
+
+### Prerequisites
+
+```bash
+# Install the Figma Code Connect CLI (once per machine or CI)
+npm install --save-dev @figma/code-connect
+
+# Authenticate (generates ~/.config/figma/credentials.json)
+npx figma connect auth
+```
+
+The CLI needs a personal access token with **File content (read)** and **Code Connect (write)** scopes. Generate one at figma.com → Settings → Personal access tokens.
+
+---
+
+### Project config
+
+Create `figma.config.json` at the repo root (next to `package.json`):
+
+```json
+{
+  "codeConnect": {
+    "react": {
+      "importPaths": {
+        "src/components/ui/*": "@/components/ui/*",
+        "src/components/child/session/*": "@/components/child/session/*"
+      }
+    }
+  }
+}
+```
+
+This tells the CLI how to rewrite import paths in generated snippets so they match the project's `@/` alias.
+
+---
+
+### Connection files
+
+Each component needs a `.figma.tsx` file alongside its source. The file declares:
+1. The Figma file key and node ID to connect to
+2. The React component to use
+3. A `props` mapping from Figma variant properties → React prop values
+4. An example render that the snippet panel will display
+
+**File key:** `TSeO2EF4ijKMzrp4LVaCr7`
+
+---
+
+#### Button — `src/components/ui/Button.figma.tsx`
+
+```tsx
+import figma from "@figma/code-connect";
+import { Button } from "./Button";
+
+figma.connect(Button, "figma.com/design/TSeO2EF4ijKMzrp4LVaCr7?node-id=2979-54040", {
+  props: {
+    variant: figma.enum("Variant", {
+      primary:   "primary",
+      secondary: "secondary",
+      ghost:     "ghost",
+      danger:    "danger",
+    }),
+    size: figma.enum("Size", {
+      sm: "sm",
+      md: "md",
+      lg: "lg",
+    }),
+  },
+  example: ({ variant, size }) => (
+    <Button variant={variant} size={size}>Label</Button>
+  ),
+});
+```
+
+---
+
+#### Badge — `src/components/ui/Badge.figma.tsx`
+
+> Note: The Figma variant property is `Style` but the React prop is `badgeStyle`.
+
+```tsx
+import figma from "@figma/code-connect";
+import { Badge } from "./Badge";
+
+figma.connect(Badge, "figma.com/design/TSeO2EF4ijKMzrp4LVaCr7?node-id=2979-54077", {
+  props: {
+    variant: figma.enum("Variant", {
+      default: "default",
+      primary: "primary",
+      success: "success",
+      warning: "warning",
+      danger:  "danger",
+      info:    "info",
+    }),
+    badgeStyle: figma.enum("Style", {
+      soft:    "soft",
+      solid:   "solid",
+      outline: "outline",
+    }),
+  },
+  example: ({ variant, badgeStyle }) => (
+    <Badge variant={variant} badgeStyle={badgeStyle}>Label</Badge>
+  ),
+});
+```
+
+---
+
+#### Alert — `src/components/ui/Alert.figma.tsx`
+
+> Note: The `Title=yes` variant maps to passing a `title` string prop; `Title=no` omits it.
+
+```tsx
+import figma from "@figma/code-connect";
+import { Alert } from "./Alert";
+
+figma.connect(Alert, "figma.com/design/TSeO2EF4ijKMzrp4LVaCr7?node-id=2979-54100", {
+  props: {
+    variant: figma.enum("Variant", {
+      error:   "error",
+      success: "success",
+      warning: "warning",
+      info:    "info",
+    }),
+    title: figma.enum("Title", {
+      yes: "Alert title",
+      no:  undefined,
+    }),
+  },
+  example: ({ variant, title }) => (
+    <Alert variant={variant} title={title}>Message goes here.</Alert>
+  ),
+});
+```
+
+---
+
+#### Card — `src/components/ui/Card.figma.tsx`
+
+```tsx
+import figma from "@figma/code-connect";
+import { Card } from "./Card";
+
+figma.connect(Card, "figma.com/design/TSeO2EF4ijKMzrp4LVaCr7?node-id=2979-54113", {
+  props: {
+    variant: figma.enum("Variant", {
+      default:  "default",
+      elevated: "elevated",
+      outlined: "outlined",
+      flat:     "flat",
+    }),
+  },
+  example: ({ variant }) => (
+    <Card variant={variant}>Content</Card>
+  ),
+});
+```
+
+---
+
+#### Progress Bar — `src/components/ui/ProgressBar.figma.tsx`
+
+> Note: Figma uses `Color=destructive` which maps to React's `color="danger"` (the prop type is `ProgressBarColor`).
+
+```tsx
+import figma from "@figma/code-connect";
+import { ProgressBar } from "./ProgressBar";
+
+figma.connect(ProgressBar, "figma.com/design/TSeO2EF4ijKMzrp4LVaCr7?node-id=2979-54180", {
+  props: {
+    color: figma.enum("Color", {
+      primary:     "primary",
+      success:     "success",
+      warning:     "warning",
+      destructive: "danger",
+    }),
+    size: figma.enum("Size", {
+      sm: "sm",
+      md: "md",
+      lg: "lg",
+    }),
+  },
+  example: ({ color, size }) => (
+    <ProgressBar value={65} color={color} size={size} />
+  ),
+});
+```
+
+---
+
+#### Empty State — `src/components/ui/EmptyState.figma.tsx`
+
+```tsx
+import figma from "@figma/code-connect";
+import { EmptyState } from "./EmptyState";
+
+figma.connect(EmptyState, "figma.com/design/TSeO2EF4ijKMzrp4LVaCr7?node-id=2979-54149", {
+  props: {
+    variant: figma.enum("Variant", {
+      default: "default",
+      minimal: "minimal",
+    }),
+  },
+  example: ({ variant }) => (
+    <EmptyState variant={variant} icon="inbox" title="Nothing here yet" description="Add something to get started." />
+  ),
+});
+```
+
+---
+
+#### Icon Circle — `src/components/ui/IconCircle.figma.tsx`
+
+> Note: Figma uses `Color=muted`; the React prop type maps this to `color="neutral"`.
+
+```tsx
+import figma from "@figma/code-connect";
+import { IconCircle } from "./IconCircle";
+
+figma.connect(IconCircle, "figma.com/design/TSeO2EF4ijKMzrp4LVaCr7?node-id=2979-54907", {
+  props: {
+    color: figma.enum("Color", {
+      primary:     "primary",
+      success:     "success",
+      warning:     "warning",
+      destructive: "danger",
+      info:        "info",
+      muted:       "neutral",
+    }),
+    size: figma.enum("Size", {
+      lg: "lg",
+      xl: "xl",
+    }),
+  },
+  example: ({ color, size }) => (
+    <IconCircle icon="star" color={color} size={size} />
+  ),
+});
+```
+
+---
+
+#### Circular Progress — `src/components/ui/CircularProgress.figma.tsx`
+
+```tsx
+import figma from "@figma/code-connect";
+import { CircularProgress } from "./CircularProgress";
+
+figma.connect(CircularProgress, "figma.com/design/TSeO2EF4ijKMzrp4LVaCr7?node-id=2979-54968", {
+  props: {
+    color: figma.enum("Color", {
+      primary:     "primary",
+      success:     "success",
+      warning:     "warning",
+      destructive: "danger",
+      info:        "info",
+    }),
+    size: figma.enum("Size", {
+      lg: "lg",
+      xl: "xl",
+    }),
+  },
+  example: ({ color, size }) => (
+    <CircularProgress value={72} color={color} size={size} />
+  ),
+});
+```
+
+---
+
+#### Stat Card — `src/components/ui/StatCard.figma.tsx`
+
+```tsx
+import figma from "@figma/code-connect";
+import { StatCard } from "./StatCard";
+
+figma.connect(StatCard, "figma.com/design/TSeO2EF4ijKMzrp4LVaCr7?node-id=2979-55049", {
+  props: {
+    size: figma.enum("Size", {
+      sm: "sm",
+      md: "md",
+      lg: "lg",
+    }),
+  },
+  example: ({ size }) => (
+    <StatCard label="Total Sessions" value={128} size={size} />
+  ),
+});
+```
+
+---
+
+#### Avatar Circle — `src/components/ui/AvatarCircle.figma.tsx`
+
+```tsx
+import figma from "@figma/code-connect";
+import { AvatarCircle } from "./AvatarCircle";
+
+figma.connect(AvatarCircle, "figma.com/design/TSeO2EF4ijKMzrp4LVaCr7?node-id=2979-55036", {
+  props: {
+    size: figma.enum("Size", {
+      xs: "xs",
+      sm: "sm",
+      md: "md",
+      lg: "lg",
+      xl: "xl",
+    }),
+  },
+  example: ({ size }) => (
+    <AvatarCircle initials="JD" size={size} />
+  ),
+});
+```
+
+---
+
+#### Theme Toggle — `src/components/ui/ThemeToggle.figma.tsx`
+
+> The Figma `Mode` property is presentational only — the React component reads from a theme context. No prop mapping needed; the snippet shows the plain usage.
+
+```tsx
+import figma from "@figma/code-connect";
+import ThemeToggle from "./ThemeToggle";
+
+figma.connect(ThemeToggle, "figma.com/design/TSeO2EF4ijKMzrp4LVaCr7?node-id=2979-55059", {
+  example: () => <ThemeToggle />,
+});
+```
+
+---
+
+#### Ask AI Tutor Button — `src/components/ui/AskAITutorButton.figma.tsx`
+
+> Note: Figma variant `Width=full` maps to React prop `fullWidth={true}`.
+
+```tsx
+import figma from "@figma/code-connect";
+import AskAITutorButton from "./AskAITutorButton";
+
+figma.connect(AskAITutorButton, "figma.com/design/TSeO2EF4ijKMzrp4LVaCr7?node-id=2979-55066", {
+  props: {
+    fullWidth: figma.enum("Width", {
+      default: false,
+      full:    true,
+    }),
+  },
+  example: ({ fullWidth }) => (
+    <AskAITutorButton fullWidth={fullWidth} onClick={() => {}} />
+  ),
+});
+```
+
+---
+
+#### Section Header — `src/components/child/session/SectionHeader.figma.tsx`
+
+> The `Description=yes/no` variant is presentational — in React the description is a string prop. The snippet shows both cases.
+
+```tsx
+import figma from "@figma/code-connect";
+import { SectionHeader } from "./SectionHeader";
+
+figma.connect(SectionHeader, "figma.com/design/TSeO2EF4ijKMzrp4LVaCr7?node-id=2979-54980", {
+  props: {
+    description: figma.enum("Description", {
+      yes: "Supporting context for this section.",
+      no:  undefined,
+    }),
+  },
+  example: ({ description }) => (
+    <SectionHeader icon="gauge" title="Section Title" description={description} />
+  ),
+});
+```
+
+---
+
+#### Step Intro Screen — `src/components/child/session/StepIntroScreen.figma.tsx`
+
+```tsx
+import figma from "@figma/code-connect";
+import { StepIntroScreen } from "./StepIntroScreen";
+
+figma.connect(StepIntroScreen, "figma.com/design/TSeO2EF4ijKMzrp4LVaCr7?node-id=2979-54981", {
+  example: () => (
+    <StepIntroScreen
+      icon="pencil"
+      title="Time to practise!"
+      description={<>Learn about <span className="font-semibold text-primary">Topic Name</span>.</>}
+      detail="3 questions ready"
+      buttonLabel="Let's go!"
+      onStart={() => {}}
+    />
+  ),
+});
+```
+
+---
+
+#### Confidence Selector — `src/components/child/session/ConfidenceSelector.figma.tsx`
+
+```tsx
+import figma from "@figma/code-connect";
+import { ConfidenceSelector } from "./ConfidenceSelector";
+import { CONFIDENCE_OPTIONS } from "./constants";
+
+figma.connect(ConfidenceSelector, "figma.com/design/TSeO2EF4ijKMzrp4LVaCr7?node-id=2979-55015", {
+  props: {
+    variant: figma.enum("Variant", {
+      list: "list",
+      grid: "grid",
+    }),
+  },
+  example: ({ variant }) => (
+    <ConfidenceSelector
+      options={CONFIDENCE_OPTIONS}
+      selected={null}
+      onSelect={() => {}}
+      variant={variant}
+    />
+  ),
+});
+```
+
+---
+
+### Prop mapping reference
+
+A summary of every place where the Figma variant property name or value differs from the React prop:
+
+| Component | Figma property | Figma value | React prop | React value |
+|-----------|---------------|-------------|------------|-------------|
+| Badge | `Style` | `soft` / `solid` / `outline` | `badgeStyle` | unchanged |
+| Alert | `Title` | `yes` | `title` | `"Alert title"` (string) |
+| Alert | `Title` | `no` | `title` | omitted |
+| ProgressBar | `Color` | `destructive` | `color` | `"danger"` |
+| IconCircle | `Color` | `muted` | `color` | `"neutral"` |
+| IconCircle | `Color` | `destructive` | `color` | `"danger"` |
+| CircularProgress | `Color` | `destructive` | `color` | `"danger"` |
+| AskAITutorButton | `Width` | `full` | `fullWidth` | `true` |
+| AskAITutorButton | `Width` | `default` | `fullWidth` | `false` (or omitted) |
+| ThemeToggle | `Mode` | — | — | no prop (reads context) |
+| SectionHeader | `Description` | `yes` / `no` | `description` | string / omitted |
+
+---
+
+### Publishing
+
+Once the `.figma.tsx` files exist, publish with:
+
+```bash
+# Dry run — shows what will be published without writing to Figma
+npx figma connect publish --dry-run
+
+# Publish all connections
+npx figma connect publish
+```
+
+To publish only specific files:
+```bash
+npx figma connect publish src/components/ui/Button.figma.tsx
+```
+
+To remove all published connections (e.g. before a full re-publish):
+```bash
+npx figma connect unpublish
+```
+
+---
+
+### CI integration
+
+Add to `.github/workflows/figma-code-connect.yml` to auto-publish on every merge to `main`:
+
+```yaml
+name: Figma Code Connect
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/**/*.figma.tsx"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npx figma connect publish
+        env:
+          FIGMA_ACCESS_TOKEN: ${{ secrets.FIGMA_ACCESS_TOKEN }}
+```
+
+Add `FIGMA_ACCESS_TOKEN` as a repository secret with the same personal access token used for local auth.
+
+---
+
+### What developers see in Dev Mode
+
+Once published, selecting any component instance in Figma Dev Mode shows:
+
+```
+Code  ←  active tab in the right panel
+
+import { Button } from "@/components/ui/Button";
+
+<Button variant="primary" size="md">
+  Label
+</Button>
+```
+
+Switching the variant in Figma (e.g. to `Variant=ghost, Size=sm`) immediately updates the snippet to:
+
+```tsx
+<Button variant="ghost" size="sm">
+  Label
+</Button>
+```
+
+---
+
+## 8. Files touched
 
 | File | What changed |
 |------|-------------|
