@@ -29,8 +29,9 @@ export function getTimetableStatus(planOverview: PlanCoverageOverview | null): T
 
   const { totals, pace, revision_period } = planOverview;
   const weeksRemaining = revision_period?.weeks_remaining || 0;
+  // Use remaining (not total) divided by remaining weeks
   const scheduledPerWeek =
-    weeksRemaining > 0 ? Math.round(totals.planned_sessions / weeksRemaining) : 0;
+    weeksRemaining > 0 ? Math.round(totals.remaining_sessions / weeksRemaining) : 0;
   const neededPerWeek = pace?.sessions_per_week_needed || scheduledPerWeek;
   const scheduleGap = scheduledPerWeek - neededPerWeek;
   const completionPercent = totals.completion_percent || 0;

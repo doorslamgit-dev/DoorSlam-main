@@ -2,7 +2,6 @@
 // Service for coverage-based session planning calculations
 // Supports both Time-First (schedule → coverage) and Coverage-First (coverage → schedule) modes
 
-import { supabase } from "../../lib/supabase";
 import type { SubjectWithGrades } from "../../components/parentOnboarding/steps/SubjectPriorityGradesStep";
 import type { NeedClusterSelection } from "../../components/parentOnboarding/steps/NeedsStep";
 import {
@@ -413,75 +412,4 @@ export function checkFeasibility(
     message,
     suggestion,
   };
-}
-
-/* ============================
-   RPC Functions (For authoritative calculations)
-============================ */
-
-/**
- * Calculate coverage distribution via RPC (authoritative, uses real topic counts)
- *
- * NOTE: The RPC parameter is named `p_available_sessions` but we pass topic slots.
- * The backend RPC should be updated to rename this parameter to `p_available_topic_slots`.
- * Until then, the backend treats the value the same way (1 unit = 1 topic's capacity).
- */
-export async function calculateCoverageDistribution(
-  subjectData: Array<{
-    subject_id: string;
-    subject_name?: string;
-    sort_order: number;
-    current_grade: number | null;
-    target_grade: number | null;
-  }>,
-  availableTopicSlots: number,
-  goalCode: string,
-  needClusterCodes: string[]
-): Promise<CoverageDistributionResult> {
-  const { data, error } = await supabase.rpc("rpc_calculate_coverage_distribution", {
-    p_subject_data: subjectData,
-    // TODO: Rename to p_available_topic_slots when backend RPC is updated
-    p_available_sessions: availableTopicSlots,
-    p_goal_code: goalCode,
-    p_need_cluster_codes: needClusterCodes,
-  });
-
-  if (error) {
-    console.error("Error calculating coverage distribution:", error);
-    throw error;
-  }
-
-  return data as CoverageDistributionResult;
-}
-
-/**
- * Calculate required sessions for coverage via RPC
- */
-export async function calculateSessionsForCoverage(
-  subjectData: Array<{
-    subject_id: string;
-    subject_name?: string;
-    sort_order: number;
-    current_grade: number | null;
-    target_grade: number | null;
-  }>,
-  coverageTargets: CoverageTargets,
-  goalCode: string,
-  needClusterCodes: string[],
-  totalWeeks: number
-): Promise<SessionsForCoverageResult> {
-  const { data, error } = await supabase.rpc("rpc_calculate_sessions_for_coverage", {
-    p_subject_data: subjectData,
-    p_coverage_targets: coverageTargets,
-    p_goal_code: goalCode,
-    p_need_cluster_codes: needClusterCodes,
-    p_total_weeks: totalWeeks,
-  });
-
-  if (error) {
-    console.error("Error calculating sessions for coverage:", error);
-    throw error;
-  }
-
-  return data as SessionsForCoverageResult;
 }

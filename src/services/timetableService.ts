@@ -92,12 +92,18 @@ export interface PlanCoverageOverview {
     total_minutes: number;
     total_hours: number;
     completion_percent: number;
+    /** Topic slot equivalents (p20=1, p45=2, p70=3) */
+    total_topic_slots?: number;
+    completed_topic_slots?: number;
+    remaining_topic_slots?: number;
   };
   subjects: SubjectCoverage[];
   status: "no_plan" | "complete" | "on_track" | "manageable" | "intensive";
   pace: {
     sessions_per_week_needed: number;
     hours_per_week_needed: number;
+    /** Topic slots per week needed to complete remaining plan */
+    topic_slots_per_week_needed?: number;
   } | null;
 }
 

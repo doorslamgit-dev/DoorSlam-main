@@ -11,107 +11,67 @@
 
 PR #79 unified all frontend coverage constants into `planning_parameters` and updated `rpc_get_plan_impact_assessment` to read from the DB. Three backend RPCs still have hardcoded values or don't use topic slots.
 
-## Gap 1 — `rpc_get_plan_coverage_overview` (HIGH PRIORITY)
+## Gap 1 — `rpc_get_plan_coverage_overview` (HIGH PRIORITY) — DONE
 
-**What it does**: Powers the parent dashboard (`DashboardRevisionPlan`, `TimetableHeader`, `HealthScoreCard`, `DashboardHeroCard`) and timetable views.
+**Status**: Complete (bugfix/coverage-rpc-consolidation branch)
 
-**Current problem**:
-- Returns `planned_sessions`, `completed_sessions`, `remaining_sessions` as raw session counts
-- Does NOT return topic slot equivalents
-- `pace.sessions_per_week_needed` is based on raw sessions, not topic-adjusted capacity
-- Does NOT factor in child's goal, needs, or grade gaps
-- The dashboard's `scheduledPerWeek` calculation (fixed in PR #78 to use `remaining_sessions`) is still session-based, not topic-slot-based
+**What was done**:
+1. SQL migration `20260307120000_coverage_overview_topic_slots.sql` — Updates RPC to return `total_topic_slots`, `completed_topic_slots`, `remaining_topic_slots`, and `topic_slots_per_week_needed`. Reads `get_planning_param()` for coverage target. Calculates weekly capacity from `weekly_availability_slots`.
+2. `PlanCoverageOverview` type updated with optional topic slot fields
+3. Fixed `scheduledPerWeek` bug in `DashboardRevisionPlan.tsx` — was dividing `planned_sessions` (total) by remaining weeks, now uses `remaining_sessions`
+4. Fixed same `scheduledPerWeek` bug in `timetableUtils.ts`
 
-**Consumers** (12 files):
-- `DashboardRevisionPlan.tsx` — progress bars, "X sessions/week scheduled"
-- `DashboardHeroCard.tsx` — hero status display
-- `HealthScoreCard.tsx` — health score calculation
-- `TimetableHeader.tsx` — timetable status badge
-- `timetableUtils.ts` — `getTimetableStatus()` helper
-- `healthScore.ts` — health score utility
-- `useChildDashboardData.ts`, `useTimetableData.ts` — data hooks
-- `ParentDashboardV3.tsx`, `Timetable.tsx` — view wiring
-
-**Fix**:
-1. SQL: Update `rpc_get_plan_coverage_overview` to:
-   - Join `weekly_availability_slots` to calculate topic slots (same pattern as impact assessment RPC)
-   - Read `get_planning_param('coverage.target_slots_per_topic', 1.5)` for coverage target
-   - Read child's goal and needs for effort-adjusted target
-   - Add new fields to response: `total_topic_slots`, `remaining_topic_slots`, `topic_slots_per_week_needed`
-   - Keep existing session fields for backwards compatibility
-2. Frontend: `PlanCoverageOverview` type already has optional topic slot fields (added in PR #78). Consumers should prefer topic slot fields when available, falling back to session fields.
-3. Update `DashboardRevisionPlan.tsx` and `timetableUtils.ts` to use topic-slot-based pace when available.
-
-**Estimated scope**: ~1 SQL migration + ~3 frontend file edits
+**Note**: SQL migration must be applied via Supabase Dashboard (Docker not available for CLI push).
 
 ---
 
-## Gap 2 — `rpc_calculate_coverage_distribution` and `rpc_calculate_sessions_for_coverage` (LOW PRIORITY)
+## Gap 2 — Dead RPC wrapper functions — DONE (removed)
 
-**What they do**: Backend equivalents of `calculateCoverageLocal` and `calculateSessionsForCoverageLocal`. Intended for authoritative calculations using real topic counts from the DB.
+**Status**: Complete — dead code removed
 
-**Current problem**:
-- Have their own hardcoded constants (not reading from `planning_parameters`)
-- Defined in `coverageService.ts` but **never called by any component** — only the `Local` variants are used
-
-**Why low priority**: No frontend code calls these RPCs. They exist for future use when we switch from the 50-topic fallback to real DB topic counts.
-
-**Fix (when needed)**:
-1. SQL: Update both RPCs to use `get_planning_param()` for all constants
-2. Frontend: Switch onboarding `AvailabilityBuilderStep` from `Local` functions to RPC functions once we have reliable topic counts in the DB
-3. Remove `DEFAULT_TOPICS_PER_SUBJECT = 50` fallback when real counts are available
-
-**Estimated scope**: ~1 SQL migration + ~2 frontend file edits (defer until topic counts are populated)
+**What was done**:
+- Confirmed via codebase-wide search that `calculateCoverageDistribution` and `calculateSessionsForCoverage` RPC wrapper functions in `coverageService.ts` were never called by any component
+- Only the `Local` variants (`calculateCoverageLocal`, `calculateSessionsForCoverageLocal`) are used by `AvailabilityBuilderStep.tsx`
+- Removed both dead functions (lines 418-487) and the now-unused `supabase` import
+- The backend RPCs (`rpc_calculate_coverage_distribution`, `rpc_calculate_sessions_for_coverage`) still exist in the database but have no frontend callers. They can be updated to use `get_planning_param()` in a future migration when real topic counts are populated.
 
 ---
 
-## Gap 3 — `p_available_sessions` parameter naming (LOW PRIORITY)
+## Gap 3 — `p_available_sessions` parameter naming (LOW PRIORITY) — Deferred
 
-**What it is**: The `rpc_calculate_coverage_distribution` RPC parameter is named `p_available_sessions` but we're passing topic slots.
+**What it is**: The `rpc_calculate_coverage_distribution` RPC parameter is named `p_available_sessions` but receives topic slots.
 
-**Current problem**: Naming mismatch. The code works (value is treated as topic slot capacity internally) but the parameter name is misleading.
-
-**Fix**:
-1. SQL: Rename parameter from `p_available_sessions` to `p_available_topic_slots`
-2. Frontend: Update the call site in `coverageService.ts` (line ~441)
-3. Remove the TODO comment in the code
-
-**Estimated scope**: Trivial — ~1 SQL change + ~1 frontend line. Can be bundled with Gap 2.
+**Status**: Deferred — the frontend wrapper function has been removed (Gap 2), so there's no frontend code with this naming mismatch. The backend RPC parameter can be renamed in a future migration when these RPCs are activated.
 
 ---
 
-## Execution Plan
+## Execution Summary
 
-### Phase 1 — Dashboard fix (Gap 1) — Do now
+### Phase 1 — Dashboard fix + dead code cleanup — COMPLETE
 ```
 Branch: bugfix/coverage-rpc-consolidation
-Commit: fix(coverage): update rpc_get_plan_coverage_overview to use topic slots and planning_parameters
 ```
 
-1. Write SQL migration `20260307120000_coverage_overview_topic_slots.sql`
-2. Apply via Supabase Dashboard
-3. Update `DashboardRevisionPlan.tsx` to prefer `topic_slots_per_week_needed` over `sessions_per_week_needed`
-4. Update `timetableUtils.ts` `getTimetableStatus()` to use topic-slot pace
-5. Run lint, type-check, test, build
-6. Update CHANGELOG, PRODUCT_EVOLUTION
-7. PR to develop
+1. [x] SQL migration `20260307120000_coverage_overview_topic_slots.sql` written
+2. [ ] Apply SQL migration via Supabase Dashboard
+3. [x] `PlanCoverageOverview` type updated with topic slot fields
+4. [x] Fixed `scheduledPerWeek` bug in `DashboardRevisionPlan.tsx`
+5. [x] Fixed `scheduledPerWeek` bug in `timetableUtils.ts`
+6. [x] Removed dead RPC wrapper functions from `coverageService.ts`
+7. [x] Updated CHANGELOG, PRODUCT_EVOLUTION
+8. [x] CI checks pass
+9. [ ] PR to develop
 
-### Phase 2 — RPC cleanup (Gaps 2 + 3) — Defer until topic counts populated
-```
-Branch: refactor/coverage-rpc-cleanup
-Commit: refactor(coverage): update remaining RPCs to use planning_parameters
-```
-
-Only needed once curriculum topic counts are reliably populated in the database. Until then, the `Local` calculation functions (now reading from `planning_parameters` via `planningConstants`) are the active code path.
+### Phase 2 — Backend RPC constants cleanup — Deferred
+Only needed once curriculum topic counts are reliably populated in the database. The `Local` calculation functions (reading from `planning_parameters` via `planningConstants`) remain the active code path.
 
 ---
 
 ## Validation Checklist
 
-After Phase 1:
-- [ ] Parent dashboard shows "X topic slots/week" (or equivalent friendly label) instead of raw session counts
-- [ ] Dashboard status badges (On Track / Attention / Behind) use topic-slot-based pace
-- [ ] Health score reflects topic slot capacity, not raw sessions
+After Phase 1 + SQL migration applied:
+- [ ] Dashboard status badges (On Track / Attention / Behind) use remaining sessions for pace calculation
 - [ ] `rpc_get_plan_coverage_overview` returns `total_topic_slots` and `topic_slots_per_week_needed`
 - [ ] Existing session-based fields still returned for backwards compatibility
+- [ ] Dead RPC wrapper functions no longer in coverageService.ts
 - [ ] All CI checks pass
