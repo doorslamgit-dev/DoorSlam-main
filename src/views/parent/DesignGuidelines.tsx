@@ -4,7 +4,6 @@
 
 import { useState } from 'react';
 import type { ReactNode } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
 import Alert from '@/components/ui/Alert';
@@ -497,7 +496,6 @@ function MigrationColumn({ label, children }: { label: string; children: ReactNo
 // ============================================================================
 
 export default function DesignGuidelines() {
- const navigate = useNavigate();
  const [formValue, setFormValue] = useState('');
  const [textareaValue, setTextareaValue] = useState('');
  const [activeTab, setActiveTab] = useState<'tokens' | 'modules' | 'migration' | 'brand'>('tokens');
@@ -517,23 +515,11 @@ export default function DesignGuidelines() {
  {/* ── Page Header ── */}
  <div className="bg-background border-b border-border px-6 py-4">
  <div className="max-w-7xl mx-auto">
-   {/* Top row: back + title */}
-   <div className="flex items-center gap-4 mb-4">
-     <Button
-       variant="ghost"
-       size="sm"
-       leftIcon="arrow-left"
-       onClick={() => navigate('/parent/settings')}
-     >
-       Settings
-     </Button>
-     <div className="h-4 w-px bg-muted" />
-     <div>
-       <h1 className="text-xl font-bold text-foreground">Design Guidelines</h1>
-       <p className="text-xs text-muted-foreground">
-         Component library · Design token reference · Page modules · Live examples
-       </p>
-     </div>
+   <div className="mb-4">
+     <h1 className="text-xl font-bold text-foreground">Design Guidelines</h1>
+     <p className="text-xs text-muted-foreground">
+       Component library · Design token reference · Page modules · Live examples
+     </p>
    </div>
 
    {/* Tab navigation */}

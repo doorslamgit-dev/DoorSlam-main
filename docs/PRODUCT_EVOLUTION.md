@@ -7,6 +7,23 @@ For architecture decisions, see [docs/decisions/](decisions/).
 
 ---
 
+## Content Generation Pipeline — Source-First PDF Extraction (6 Mar 2026)
+
+**Why this change is happening**: The platform needs structured revision content (flashcards, teaching slides, worked examples, practice questions) for every curriculum topic. The source material already exists as revision PDFs organized by theme in Supabase Storage. Rather than reverse-engineering content from RAG vector chunks (which achieved only 42% topic classification coverage), the content is extracted directly from the original PDF documents.
+
+**What it does**: Admin users can generate revision content for any subject from the Content Generation page. For each topic, the system finds the relevant revision PDFs by matching the curriculum theme to document file keys, downloads them from Supabase Storage, sends them to Claude as native PDF documents, and receives structured content items back. Generated content goes into a staging table for human review before promotion to production.
+
+**How it was developed**:
+- `supabase/functions/content-generate/index.ts` — Supabase Edge Function that orchestrates the pipeline: resolves curriculum hierarchy, matches revision PDFs to themes via slug matching, downloads from `exam-documents` storage bucket, sends PDFs to Claude API using native document content blocks, validates output against content schemas, inserts into `content_units_staging`.
+- `src/services/contentGenerationService.ts` — Frontend service layer wrapping the Edge Function call plus staging CRUD, review actions, promote RPC, coverage queries, and statistics.
+- `src/components/admin/content/ContentGenerationAdmin.tsx` — Admin UI with three tabs: Coverage Grid (topics × content types with generate buttons), Staging Review (filter/approve/reject generated items), Statistics (production vs staging counts).
+- `src/components/admin/content/ContentReviewPanel.tsx` — Review interface for individual staging items with approve/reject/edit actions.
+- Content types: `flashcard` (front/back), `teaching_slide` (title/content/key_points), `worked_example` (question/steps/answer), `practice_question` (multiple_choice/short_text/numeric with mark scheme).
+- PDFs cached per theme so multiple topics within the same theme share a single download.
+- Fixed EnrichmentPhase CLI commands to reference correct script paths (`scripts/backfill_topics.py`, `scripts/backfill_enrichment.py`) with `--subject-id` parameter.
+
+---
+
 ## Admin Dashboard — Curriculum Management (27 Feb 2026)
 
 **Why this change is happening**: The curriculum extraction pipeline (Python backend) can now extract topics from GCSE specification PDFs and stage them in the `curriculum_staging` table. However, there was no way for Doorslam staff to review, approve, or manage this staged data. Without an admin interface, curriculum operators would have to work directly in SQL to approve topics and promote them to production — error-prone and not scalable as subjects are added.

@@ -10,6 +10,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Content Generation Pipeline — Source-First PDF Extraction**
+  - New `content-generate` Supabase Edge Function reads revision PDFs directly from Supabase Storage
+  - PDFs sent to Claude API as native document inputs — no RAG chunking or topic classification needed
+  - Generates flashcards, teaching slides, worked examples, and practice questions per curriculum topic
+  - Groups topics by theme, downloads matching revision PDFs, caches per theme for efficiency
+  - Content validated against schemas and inserted into `content_units_staging` for review
+  - Admin Content Generation UI with coverage grid, staging review panel, and statistics view
+  - `contentGenerationService.ts` with generate, staging CRUD, review, promote, and coverage functions
+  - Fixed CLI commands in EnrichmentPhase to reference correct backfill scripts with `--subject-id`
+
 - **Admin Dashboard — Curriculum Management**
   - New `admin` role added to `user_role` enum with dedicated RLS policies for curriculum staging, subjects, components, themes, topics, and exam boards
   - Admin layout with sidebar navigation (`/admin`, `/admin/curriculum`), role-gated access, separate from consumer app shell

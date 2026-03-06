@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import Landing from '@/views/Landing';
+import BetaLanding from '@/views/BetaLanding';
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ export default function HomePage() {
     );
   }
 
-  if (!user || isUnresolved) return <Landing />;
+  if (!user || isUnresolved) return <BetaLanding />;
 
   return (
     <div className="min-h-screen flex items-center justify-center text-sm text-muted-foreground">

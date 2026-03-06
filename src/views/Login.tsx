@@ -98,7 +98,7 @@ export default function Login() {
         </div>
 
         <p className="text-center text-primary-foreground/80 text-sm mt-6">
-          Confident revision planning for your children
+          Revision without the drama
         </p>
       </div>
     </div>

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DoorSlam — Revision without the drama</title>
+  <meta name="description" content="AI-powered GCSE revision that adapts to how your child learns. Personalised plans, real-time progress tracking, and an AI tutor that makes revision feel less like a chore." />
+  <meta property="og:title" content="DoorSlam — Revision without the drama" />
+  <meta property="og:description" content="AI-powered GCSE revision that adapts to how your child learns." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.doorslam.io" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #4F46E5;
+      --primary-hover: #4338CA;
+      --primary-light: rgba(79, 70, 229, 0.08);
+      --primary-border: rgba(79, 70, 229, 0.3);
+      --lime: #84CC16;
+      --success: #22C55E;
+      --success-light: rgba(34, 197, 94, 0.1);
+      --foreground: #1F2330;
+      --muted: #6B7280;
+      --border: #E5E7EB;
+      --bg: #FFFFFF;
+      --bg-muted: #F9FAFB;
+      --destructive: #E11D48;
+      --radius: 0.75rem;
+    }
+
+    body {
+      font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+      color: var(--foreground);
+      background: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Nav */
+    .nav {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 56rem;
+      margin: 0 auto;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: -0.025em;
+      text-decoration: none;
+    }
+    .brand-door { color: var(--primary); }
+    .brand-slam { color: var(--lime); }
+    .brand svg { height: 1.2em; width: auto; flex-shrink: 0; }
+
+    /* Main */
+    .main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 1.5rem;
+      min-height: calc(100vh - 8rem);
+    }
+    .hero {
+      max-width: 40rem;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .hero h1 span { color: var(--primary); }
+    .hero .subtitle {
+      font-size: 1.125rem;
+      color: var(--muted);
+      max-width: 32rem;
+      margin: 0 auto 2rem;
+      line-height: 1.7;
+    }
+
+    /* Feature pills */
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .feature-dot {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+      background: var(--primary);
+      flex-shrink: 0;
+    }
+
+    /* Signup card */
+    .signup-card {
+      background: var(--bg-muted);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 2rem;
+      max-width: 28rem;
+      margin: 0 auto 1.5rem;
+      text-align: left;
+    }
+    .signup-card h2 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    .signup-card .card-desc {
+      font-size: 0.875rem;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+    }
+    .form-group { margin-bottom: 1rem; }
+    .email-input {
+      width: 100%;
+      padding: 0.625rem 1rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--bg);
+      font-size: 0.875rem;
+      font-family: inherit;
+      color: var(--foreground);
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .email-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-light);
+    }
+    .email-input::placeholder { color: #9CA3AF; }
+
+    /* Role selector */
+    .role-selector {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .role-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.375rem;
+      padding: 0.5rem 0.75rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--bg);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      font-family: inherit;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .role-btn:hover { border-color: var(--primary-border); }
+    .role-btn.active {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+    .role-btn svg {
+      width: 0.875rem;
+      height: 0.875rem;
+      flex-shrink: 0;
+    }
+
+    /* Submit button */
+    .submit-btn {
+      width: 100%;
+      padding: 0.625rem 1.5rem;
+      border-radius: var(--radius);
+      border: none;
+      background: var(--primary);
+      color: #fff;
+      font-size: 0.875rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .submit-btn:hover { background: var(--primary-hover); }
+    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* Error */
+    .error-msg {
+      font-size: 0.875rem;
+      color: var(--destructive);
+      margin-bottom: 0.75rem;
+    }
+
+    /* Success state */
+    .success {
+      text-align: center;
+      padding: 1.5rem 0;
+    }
+    .success-icon {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      background: var(--success-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 0.75rem;
+    }
+    .success-icon svg { width: 1.5rem; height: 1.5rem; color: var(--success); }
+    .success h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .success p {
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+
+    .fine-print {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 1.5rem;
+    }
+    .footer-inner {
+      max-width: 56rem;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    .footer .brand { font-size: 1rem; }
+
+    /* Hidden */
+    .hidden { display: none; }
+
+    @media (max-width: 640px) {
+      .footer-inner { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="/" class="brand">
+        <svg viewBox="0 0 14 21" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="2" y="3.705" width="10" height="13" rx="0.5" fill="#84CC16"/>
+          <path d="M2 3.876c0-.192.11-.367.283-.45l7-3.376c.332-.16.717.082.717.45V19.946c0 .36-.367.601-.697.46l-7-3L2 16.946V3.876Z" fill="#4F46E5"/>
+        </svg>
+        <span><span class="brand-door">DOOR</span><span class="brand-slam">SLAM</span></span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <main class="main">
+    <div class="hero">
+      <h1>Revision <span>without the drama</span></h1>
+      <p class="subtitle">
+        AI-powered GCSE revision that adapts to how your child learns.
+        Personalised plans, real-time progress tracking, and an AI tutor
+        that makes revision feel less like a chore.
+      </p>
+
+      <div class="features">
+        <div class="feature"><div class="feature-dot"></div>AI-powered learning</div>
+        <div class="feature"><div class="feature-dot"></div>Smart revision plans</div>
+        <div class="feature"><div class="feature-dot"></div>Progress insights</div>
+      </div>
+
+      <!-- Signup card -->
+      <div class="signup-card">
+        <div id="form-view">
+          <h2>Join the beta</h2>
+          <p class="card-desc">Be among the first to try DoorSlam. Free during beta.</p>
+
+          <form id="signup-form">
+            <div class="form-group">
+              <input type="email" id="email" class="email-input" placeholder="Your email address" required />
+            </div>
+
+            <div class="role-selector">
+              <button type="button" class="role-btn active" data-role="parent">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                Parent
+              </button>
+              <button type="button" class="role-btn" data-role="student">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
+                Student
+              </button>
+              <button type="button" class="role-btn" data-role="teacher">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Teacher
+              </button>
+            </div>
+
+            <div id="error-msg" class="error-msg hidden"></div>
+
+            <button type="submit" class="submit-btn" id="submit-btn">Get early access</button>
+          </form>
+        </div>
+
+        <div id="success-view" class="success hidden">
+          <div class="success-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3>You're on the list!</h3>
+          <p>We'll be in touch when beta access is ready. Keep an eye on your inbox.</p>
+        </div>
+      </div>
+
+      <p class="fine-print">No spam, ever. We'll only email you about your beta access.</p>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <a href="/" class="brand">
+        <svg viewBox="0 0 14 21" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="2" y="3.705" width="10" height="13" rx="0.5" fill="#84CC16"/>
+          <path d="M2 3.876c0-.192.11-.367.283-.45l7-3.376c.332-.16.717.082.717.45V19.946c0 .36-.367.601-.697.46l-7-3L2 16.946V3.876Z" fill="#4F46E5"/>
+        </svg>
+        <span><span class="brand-door">DOOR</span><span class="brand-slam">SLAM</span></span>
+      </a>
+      <p>&copy; 2026 DoorSlam. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Supabase JS (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script>
+    const SUPABASE_URL = 'https://hpdoircrqgoqabhnsuav.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhwZG9pcmNycWdvcWFiaG5zdWF2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU1MzMwMTMsImV4cCI6MjA4MTEwOTAxM30.ABcXVPYyvf9fL7bhKhkJg0hI5JtkloSfS9SpSakn6GU';
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    let selectedRole = 'parent';
+
+    // Role buttons
+    document.querySelectorAll('.role-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedRole = btn.dataset.role;
+      });
+    });
+
+    // Form submit
+    document.getElementById('signup-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim().toLowerCase();
+      if (!email) return;
+
+      const submitBtn = document.getElementById('submit-btn');
+      const errorEl = document.getElementById('error-msg');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Signing up...';
+      errorEl.classList.add('hidden');
+
+      try {
+        const { error } = await sb.from('beta_signups').insert({ email, role: selectedRole });
+
+        if (error) {
+          if (error.code === '23505') {
+            // Already signed up — show success anyway
+            showSuccess();
+          } else {
+            showError('Something went wrong. Please try again.');
+          }
+        } else {
+          showSuccess();
+        }
+      } catch {
+        showError('Something went wrong. Please try again.');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Get early access';
+      }
+    });
+
+    function showSuccess() {
+      document.getElementById('form-view').classList.add('hidden');
+      document.getElementById('success-view').classList.remove('hidden');
+    }
+
+    function showError(msg) {
+      const el = document.getElementById('error-msg');
+      el.textContent = msg;
+      el.classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>
