@@ -70,6 +70,11 @@ import type {
 } from '../services/addSubjectService';
 
 import type {
+  DeletionImpactAssessment,
+  DeleteSubjectsResult,
+} from '../services/deleteSubjectService';
+
+import type {
   ExamType,
   Goal,
   NeedCluster,
@@ -683,6 +688,37 @@ export function isSubjectForPrioritization(data: unknown): data is SubjectForPri
  * Validates AddSubjectsResult structure
  */
 export function isAddSubjectsResult(data: unknown): data is AddSubjectsResult {
+  if (!isObject(data)) return false;
+
+  return (
+    hasProperty(data, 'success') && isBoolean(data.success)
+  );
+}
+
+/**
+ * Validates DeletionImpactAssessment structure
+ */
+export function isDeletionImpactAssessment(data: unknown): data is DeletionImpactAssessment {
+  if (!isObject(data)) return false;
+
+  return (
+    hasProperty(data, 'child_id') && isString(data.child_id) &&
+    hasProperty(data, 'remaining_subject_count') && isNumber(data.remaining_subject_count) &&
+    hasProperty(data, 'removing_subject_count') && isNumber(data.removing_subject_count) &&
+    hasProperty(data, 'future_sessions_to_delete') && isNumber(data.future_sessions_to_delete) &&
+    hasProperty(data, 'current_coverage_percent') && isNumber(data.current_coverage_percent) &&
+    hasProperty(data, 'new_coverage_percent') && isNumber(data.new_coverage_percent) &&
+    hasProperty(data, 'recommendation') && isString(data.recommendation) &&
+    hasProperty(data, 'recommendation_detail') && isString(data.recommendation_detail) &&
+    hasProperty(data, 'remaining_subjects') && isArray(data.remaining_subjects) &&
+    hasProperty(data, 'removing_subjects') && isArray(data.removing_subjects)
+  );
+}
+
+/**
+ * Validates DeleteSubjectsResult structure
+ */
+export function isDeleteSubjectsResult(data: unknown): data is DeleteSubjectsResult {
   if (!isObject(data)) return false;
 
   return (

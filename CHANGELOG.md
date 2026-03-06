@@ -10,6 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Delete Subject Modal** — parents can now remove subjects from a child's revision plan via a 3-step modal flow
+  - Step 1: checkbox selection of subjects to remove
+  - Step 2: impact preview showing coverage before/after, sessions freed, and recommendation
+  - Step 3: destructive confirmation with clear warnings; completed sessions/XP preserved
+  - New `rpc_get_deletion_impact_assessment` RPC for read-only preview of removal impact
+  - New `rpc_remove_subjects_from_child` RPC that deletes in FK order (pathways → exams → progress → planned sessions → child_subjects)
+  - New `deleteSubjectService.ts` with type guards for API response validation
+  - Wired into Subjects page replacing the previous TODO placeholder
+
 - **Configurable Planning Parameters** — all coverage/recommendation constants now stored in a `planning_parameters` database table (ADR-012)
   - New `planningParametersService.ts` fetches, caches (5-min TTL), and exposes sync getters for all parameters
   - New `planningConstants.ts` shared module replaces duplicated constants in `coverageService.ts` and `sessionCalculator.ts`

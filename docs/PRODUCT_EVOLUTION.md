@@ -31,6 +31,21 @@ For architecture decisions, see [docs/decisions/](decisions/).
 
 ---
 
+## Delete Subject Modal (7 Mar 2026)
+
+**Why this change is happening**: Parents could add subjects to a child's revision plan but had no way to remove them. The Delete Subject button on the Subjects page was a non-functional placeholder. Parents need the ability to remove subjects they no longer want tracked — whether a child has dropped a GCSE, the subject was added by mistake, or priorities have changed. Removing subjects also frees up session capacity, so the parent needs guidance on whether their remaining schedule has excess capacity.
+
+**What it does**: The Delete Subject button now opens a 3-step modal. In Step 1, parents select one or more subjects to remove from a checkbox list. Step 2 shows an impact preview: how many future sessions will be deleted, how coverage changes (before vs after percentages), sessions-per-topic ratio, and a colour-coded recommendation — either "coverage improves" (fewer subjects means better depth), "excess capacity" (freed slots exceed what remaining subjects need), or "no change". Step 3 is a destructive confirmation showing exactly which subjects will be removed, with a warning that this cannot be undone. Completed sessions and earned XP are always preserved for gamification history; only future planned sessions are deleted. The schedule is not automatically redistributed — freed capacity is advisory, and the parent can adjust via the existing Edit Schedule flow.
+
+**How it was developed**:
+- `supabase/migrations/20260307150000_remove_subject_rpcs.sql` — Two new RPCs: `rpc_get_deletion_impact_assessment` (read-only preview using `get_planning_param()` for coverage calculations, partitions subjects into remaining/removing with topic counts via LATERAL joins) and `rpc_remove_subjects_from_child` (executes deletion in FK order: child_pathways, child_exams, child_subject_progress, nulls out revision_sessions/study_buddy_threads FKs, deletes future planned_sessions, then child_subjects). Both use SECURITY DEFINER with `auth.uid()` ownership verification.
+- `src/services/deleteSubjectService.ts` — Service layer with `getDeletionImpactAssessment()` and `removeSubjectsFromChild()`, following the addSubjectService pattern. Types: `DeletionImpactAssessment`, `DeleteSubjectsResult`, `SubjectWithTopics`.
+- `src/utils/typeGuards.ts` — Added `isDeletionImpactAssessment()` and `isDeleteSubjectsResult()` type guards for API response validation.
+- `src/components/subjects/DeleteSubjectModal.tsx` — Single-file 3-step modal (SELECT → IMPACT → CONFIRM) with its own modal shell matching AddSubjectModal's visual pattern. Includes `ImpactDisplay` sub-component with coverage comparison cards, session impact stats, and colour-coded recommendation.
+- `src/views/parent/SubjectProgress.tsx` — Wired delete button to open modal, added success callback to refresh data, renders DeleteSubjectModal alongside AddSubjectModal.
+
+---
+
 ## Subject Action Buttons & Coverage Calculation Fix (6 Mar 2026)
 
 **Why this change is happening**: Parents needed quick-access buttons to add or delete subjects from the Subjects page, similar to the Timetable page's action buttons. Separately, the coverage calculation engine was counting raw sessions (time blocks) instead of topic slots — a p70 session covers 3 topics but was being counted as 1, leading to understated coverage estimates and incorrect "add more sessions" recommendations.
