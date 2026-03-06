@@ -189,6 +189,7 @@ export default function ChildTimetable() {
             referenceDate={referenceDate}
             isDateBlocked={isDateBlocked}
             canEdit={canEdit || requiresApproval}
+            childId={activeChildId || undefined}
             onDataChanged={refreshData}
             onMoveRequiresApproval={
               requiresApproval ? handleMoveRequiresApproval : undefined
