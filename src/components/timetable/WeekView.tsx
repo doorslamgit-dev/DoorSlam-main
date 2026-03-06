@@ -178,7 +178,11 @@ export function WeekView({
       setActiveDragData(null);
 
       const { active, over } = event;
-      if (!over) return;
+      console.log("[DnD] handleDragEnd fired — over:", over?.id ?? "null");
+      if (!over) {
+        console.warn("[DnD] No droppable under pointer");
+        return;
+      }
 
       // Parse source: draggable ID = "plannedSessionId:topicId"
       const activeIdStr = String(active.id);
@@ -191,21 +195,29 @@ export function WeekView({
       const targetSession = overData?.session as TimetableSession | null;
       const targetDateStr = overData?.dateStr as string | undefined;
 
+      console.log("[DnD] source=%s, target=%s, hasSession=%s, childId=%s",
+        sourceSessionId, overIdStr, !!targetSession, childId);
+
       // If dropped on the same session, do nothing
-      if (targetSession?.planned_session_id === sourceSessionId) return;
+      if (targetSession?.planned_session_id === sourceSessionId) {
+        console.log("[DnD] Dropped on same session — no-op");
+        return;
+      }
 
       if (targetSession) {
         // --- Drop on existing session ---
         const maxTopics = getMaxTopicsForPattern(targetSession.session_pattern);
         const currentCount = targetSession.topics_preview?.length ?? 0;
         if (currentCount >= maxTopics) {
-          console.warn("Target session is full");
+          console.warn("[DnD] Target session full (%d/%d)", currentCount, maxTopics);
           return;
         }
 
         // Prevent cross-subject drops — a topic must stay within its own subject's sessions
         const sourceSession = findSourceSession(sourceSessionId);
         if (sourceSession && sourceSession.subject_id !== targetSession.subject_id) {
+          console.warn("[DnD] Cross-subject blocked: src=%s tgt=%s",
+            sourceSession.subject_id, targetSession.subject_id);
           return;
         }
 
@@ -224,6 +236,7 @@ export function WeekView({
           return;
         }
 
+        console.log("[DnD] Moving topic %s: %s → %s", topicId, sourceSessionId, targetSession.planned_session_id);
         const result = await moveTopicBetweenSessions(
           topicId,
           sourceSessionId,
@@ -231,19 +244,25 @@ export function WeekView({
         );
 
         if (result.success) {
+          console.log("[DnD] Move succeeded — refreshing");
           onDataChanged?.();
         } else {
-          console.error("Failed to move topic:", result.error);
+          console.error("[DnD] Move failed:", result.error);
         }
       } else if (childId && targetDateStr) {
         // --- Drop on empty cell — create session on the fly ---
         const sourceSession = findSourceSession(sourceSessionId);
-        if (!sourceSession) return;
+        if (!sourceSession) {
+          console.warn("[DnD] Source session not found:", sourceSessionId);
+          return;
+        }
 
         // Parse the time slot from the droppable ID (format: "dateStr:timeSlot")
         const parts = overIdStr.split(":");
         const targetTimeSlot = parts.length > 1 ? parts[parts.length - 1] : "afternoon";
 
+        console.log("[DnD] Creating session at %s/%s and moving topic %s",
+          targetDateStr, targetTimeSlot, topicId);
         const result = await createSessionAndMoveTopic({
           childId,
           topicId,
@@ -256,10 +275,14 @@ export function WeekView({
         });
 
         if (result.success) {
+          console.log("[DnD] Create+move succeeded — refreshing");
           onDataChanged?.();
         } else {
-          console.error("Failed to create session and move topic:", result.error);
+          console.error("[DnD] Create+move failed:", result.error);
         }
+      } else {
+        console.warn("[DnD] No branch matched — childId=%s, targetDateStr=%s, hasSession=%s",
+          childId, targetDateStr, !!targetSession);
       }
     },
     [childId, onDataChanged, onMoveRequiresApproval, findSourceSession]
