@@ -24,6 +24,11 @@ For architecture decisions, see [docs/decisions/](decisions/).
 - `src/router.tsx` — Added `/admin/parameters` route
 - `docs/decisions/ADR-012-planning-parameters.md` — Architectural decision record
 
+**Subsequent changes** (7 Mar 2026 — `bugfix/coverage-rpc-consolidation`):
+- Fixed `scheduledPerWeek` bug in `DashboardRevisionPlan.tsx` and `timetableUtils.ts` — was dividing total planned sessions (including completed) by remaining weeks, giving inflated pace numbers. Now uses `remaining_sessions`.
+- SQL migration `20260307120000_coverage_overview_topic_slots.sql` updates `rpc_get_plan_coverage_overview` to return topic slot fields (`total_topic_slots`, `remaining_topic_slots`, `topic_slots_per_week_needed`) using `get_planning_param()` and `weekly_availability_slots`.
+- Removed dead RPC wrapper functions (`calculateCoverageDistribution`, `calculateSessionsForCoverage`) from `coverageService.ts` — confirmed never called by any component.
+
 ---
 
 ## Subject Action Buttons & Coverage Calculation Fix (6 Mar 2026)

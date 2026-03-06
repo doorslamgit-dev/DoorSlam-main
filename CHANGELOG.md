@@ -22,6 +22,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Delete Subject handler is a TODO placeholder pending delete modal implementation
 
 ### Fixed
+- **Dashboard `scheduledPerWeek` bug** — was dividing `planned_sessions` (total including completed) by remaining weeks, causing inflated pace estimates; now correctly uses `remaining_sessions`
+  - Fixed in `DashboardRevisionPlan.tsx` and `timetableUtils.ts` (`getTimetableStatus()`)
+- **`rpc_get_plan_coverage_overview` now returns topic slot fields** — new SQL migration adds `total_topic_slots`, `completed_topic_slots`, `remaining_topic_slots`, and `topic_slots_per_week_needed` to the RPC response, using `get_planning_param()` for coverage target and `weekly_availability_slots` for capacity calculation
 - **Coverage calculations now use topic slots instead of raw sessions**
   - A p20 session = 1 topic slot, p45 = 2, p70 = 3. Coverage was previously counting raw sessions (1 each), causing incorrect feasibility recommendations for non-p20 sessions
   - `AvailabilityBuilderStep` now passes `weeklyStats.topics × totalWeeks` to coverage calculations
@@ -29,6 +32,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Updated all UI labels in CoverageCard, CoveragePreview, EditScheduleModal, and AvailabilityBuilderStep
   - Added JSDoc to `ImpactAssessment` type clarifying unit semantics (raw sessions vs topic slots)
   - Added TODO comments on RPC parameters pending backend rename
+
+### Removed
+- **Dead RPC wrapper functions in `coverageService.ts`** — removed `calculateCoverageDistribution` and `calculateSessionsForCoverage` (and unused `supabase` import). These called backend RPCs that no frontend component ever invoked; only the `Local` variants are used.
 
 ### Changed
 - **Add-subject prioritize screen now has working drag-and-drop** — replaced non-functional grip icon placeholder with full @dnd-kit integration (matching onboarding `SubjectPriorityGradesStep` pattern)
