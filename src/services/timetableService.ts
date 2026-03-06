@@ -337,10 +337,7 @@ export async function fetchWeekPlan(
       const topicIds: string[] = row.topic_ids || [];
       const topicsPreview = topicIds
         .map((tid: string) => topicMap.get(tid))
-        .filter(Boolean)
-        // Guard: only show topics that belong to this session's subject
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- topic type from topicMap is loosely typed
-        .filter((topic: any) => topic?.subject_id === row.subject_id) as {
+        .filter(Boolean) as {
           id: string;
           topic_name: string;
           order_index: number;
@@ -536,10 +533,7 @@ export async function fetchTodaySessions(
       const topicIds: string[] = row.topic_ids || [];
       const topicsPreview = topicIds
         .map((tid: string) => topicMap.get(tid))
-        .filter(Boolean)
-        // Guard: only show topics that belong to this session's subject
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- topic type from topicMap is loosely typed
-        .filter((topic: any) => topic?.subject_id === row.subject_id) as {
+        .filter(Boolean) as {
           id: string;
           topic_name: string;
           order_index: number;
