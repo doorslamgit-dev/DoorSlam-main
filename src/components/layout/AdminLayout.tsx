@@ -2,10 +2,11 @@
 // Layout shell for admin routes. Checks admin role and provides sidebar navigation.
 // No subscription gate — admins are Doorslam staff, not subscribers.
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import AppIcon from '@/components/ui/AppIcon';
+import ThemeToggle from '@/components/ui/ThemeToggle';
 import type { IconKey } from '@/components/ui/AppIcon';
 
 interface AdminNavItem {
@@ -17,13 +18,16 @@ interface AdminNavItem {
 
 const ADMIN_NAV: AdminNavItem[] = [
   { href: '/admin', icon: 'home', label: 'Dashboard', exact: true },
-  { href: '/admin/curriculum', icon: 'clipboard-list', label: 'Curriculum' },
+  { href: '/admin/curriculum', icon: 'clipboard-list', label: 'Content Pipeline' },
+  { href: '/admin/content', icon: 'sparkles', label: 'Content Generation' },
+  { href: '/admin/design', icon: 'palette', label: 'Design Guidelines' },
 ];
 
 export default function AdminLayout() {
-  const { user, loading, isAdmin } = useAuth();
+  const { user, loading, isAdmin, signOut } = useAuth();
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
     if (loading) return;
@@ -31,6 +35,12 @@ export default function AdminLayout() {
       navigate('/login', { replace: true });
     }
   }, [loading, user, isAdmin, navigate]);
+
+  const handleSignOut = async () => {
+    setShowMenu(false);
+    await signOut();
+    navigate('/', { replace: true });
+  };
 
   if (loading) {
     return (
@@ -41,6 +51,8 @@ export default function AdminLayout() {
   }
 
   if (!user || !isAdmin) return null;
+
+  const initials = (user.email ?? 'A').charAt(0).toUpperCase();
 
   return (
     <div className="min-h-screen bg-muted flex">
@@ -84,10 +96,43 @@ export default function AdminLayout() {
           </div>
         </nav>
 
-        {/* Bottom section */}
-        <div className="border-t border-border p-4">
-          <div className="text-xs text-muted-foreground truncate">
-            {user.email}
+        {/* Bottom section — theme toggle + user */}
+        <div className="border-t border-border">
+          <div className="px-3 py-2">
+            <ThemeToggle variant="icon" />
+          </div>
+
+          <div className="px-3 py-3 relative">
+            <button
+              type="button"
+              onClick={() => setShowMenu(!showMenu)}
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-accent transition-colors"
+            >
+              <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground text-sm font-semibold flex-shrink-0">
+                {initials}
+              </div>
+              <div className="flex-1 text-left min-w-0">
+                <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+              </div>
+              <AppIcon name="chevron-up" className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+            </button>
+
+            {/* Dropdown menu */}
+            {showMenu && (
+              <>
+                <div className="fixed inset-0 z-40" onClick={() => setShowMenu(false)} />
+                <div className="absolute bottom-full mb-2 left-3 right-3 bg-background rounded-lg shadow-sm border border-border py-1 z-50">
+                  <button
+                    type="button"
+                    onClick={handleSignOut}
+                    className="w-full px-4 py-2.5 text-left text-sm text-destructive hover:bg-destructive/5 flex items-center gap-3"
+                  >
+                    <AppIcon name="log-out" className="w-4 h-4" />
+                    Log out
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </aside>

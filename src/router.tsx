@@ -11,6 +11,10 @@ const Account = lazy(() => import('@/views/Account'));
 
 const AdminDashboard = lazy(() => import('@/views/admin/AdminDashboard'));
 const CurriculumAdmin = lazy(() => import('@/views/admin/CurriculumAdmin'));
+const ContentGenerationAdmin = lazy(() =>
+  import('@/components/admin/content/ContentGenerationAdmin')
+);
+const DesignGuidelines = lazy(() => import('@/views/parent/DesignGuidelines'));
 
 const ParentDashboardV3 = lazy(() =>
   import('@/views/parent/ParentDashboardV3').then((m) => ({ default: m.ParentDashboardV3 }))
@@ -22,7 +26,6 @@ const RewardManagement = lazy(() =>
   import('@/views/parent/RewardManagement').then((m) => ({ default: m.RewardManagement }))
 );
 const ParentSettingsPage = lazy(() => import('@/views/parent/ParentSettingsPage'));
-const DesignGuidelines = lazy(() => import('@/views/parent/DesignGuidelines'));
 const SubjectProgress = lazy(() => import('@/views/parent/SubjectProgress'));
 const Timetable = lazy(() => import('@/views/parent/Timetable'));
 
@@ -64,7 +67,6 @@ export function AppRouter() {
           <Route path="/parent/insights/report" element={<InsightsReport />} />
           <Route path="/parent/rewards" element={<RewardManagement />} />
           <Route path="/parent/settings" element={<ParentSettingsPage />} />
-          <Route path="/parent/design-guidelines" element={<DesignGuidelines />} />
           <Route path="/parent/subjects" element={<SubjectProgress />} />
           <Route path="/parent/timetable" element={<Timetable />} />
 
@@ -72,6 +74,8 @@ export function AppRouter() {
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<AdminDashboard />} />
             <Route path="curriculum" element={<CurriculumAdmin />} />
+            <Route path="content" element={<ContentGenerationAdmin />} />
+            <Route path="design" element={<DesignGuidelines />} />
           </Route>
 
           {/* Child routes */}

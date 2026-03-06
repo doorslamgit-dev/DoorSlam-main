@@ -119,28 +119,6 @@ export default function ParentSettingsPage() {
           {/* Security Section */}
           <SecuritySection />
 
-          {/* Design Guidelines */}
-          <div className="bg-background rounded-2xl shadow-sm p-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <AppIcon name="palette" className="w-5 h-5 text-primary" />
-                <div>
-                  <h2 className="text-base font-semibold text-foreground">Design Guidelines</h2>
-                  <p className="text-sm text-muted-foreground">
-                    Component library and design token reference
-                  </p>
-                </div>
-              </div>
-              <button
-                onClick={() => navigate('/parent/design-guidelines')}
-                className="flex items-center gap-1 text-sm font-medium text-primary hover:text-primary transition-colors"
-              >
-                View
-                <AppIcon name="arrow-right" className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-
           {/* Danger Zone */}
           <DangerZoneSection />
         </div>

@@ -9,8 +9,23 @@ const ADMIN_TOOLS = [
   {
     href: '/admin/curriculum',
     icon: 'clipboard-list' as const,
-    title: 'Curriculum Management',
-    description: 'Extract, review, and approve curriculum data from specification PDFs. Manage components, themes, and topics for each subject.',
+    title: 'Content Pipeline',
+    description:
+      'Ingest source documents from Google Drive into Supabase Storage and the RAG vector store. Manages chunking, embedding, and metadata enrichment for the AI Tutor.',
+  },
+  {
+    href: '/admin/content',
+    icon: 'sparkles' as const,
+    title: 'Content Generation',
+    description:
+      'Generate revision content (flashcards, teaching slides, worked examples, practice questions) from source PDFs. Review, approve, and promote to production.',
+  },
+  {
+    href: '/admin/design',
+    icon: 'palette' as const,
+    title: 'Design Guidelines',
+    description:
+      'Component library, design tokens, and visual reference for the Doorslam UI system.',
   },
 ];
 
@@ -20,7 +35,7 @@ export default function AdminDashboard() {
       <div>
         <h1 className="text-2xl font-bold text-foreground">Admin Dashboard</h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Doorslam internal tools for managing curriculum data and platform configuration.
+          Doorslam internal tools for managing content, curriculum data, and platform configuration.
         </p>
       </div>
 
