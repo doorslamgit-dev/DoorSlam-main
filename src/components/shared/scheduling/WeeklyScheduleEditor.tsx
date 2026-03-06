@@ -2,7 +2,7 @@
 // Reusable weekly schedule editor
 // Used by: AvailabilityBuilderStep (onboarding), EditScheduleModal (timetable)
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import AppIcon from "../../ui/AppIcon";
 import DayCard, {
   type DayTemplate,
@@ -38,6 +38,14 @@ export default function WeeklyScheduleEditor({
   compact = false,
 }: WeeklyScheduleEditorProps) {
   const [showAllDays, setShowAllDays] = useState(false);
+
+  // Auto-expand when an existing schedule loads (non-Monday days have slots)
+  useEffect(() => {
+    const hasNonMondaySlots = template.slice(1).some((day) => day.slots.length > 0);
+    if (hasNonMondaySlots) {
+      setShowAllDays(true);
+    }
+  }, [template]);
 
   // Calculate stats
   const weeklyStats = useMemo(() => calculateWeeklyStats(template), [template]);
