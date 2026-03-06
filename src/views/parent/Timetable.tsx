@@ -38,6 +38,7 @@ export default function Timetable() {
     planOverview,
     planOverviewLoading,
     dateOverrides,
+    weeklyTemplate,
     setViewMode,
     goToPrevious,
     goToNext,
@@ -262,6 +263,7 @@ export default function Timetable() {
             isDateBlocked={isDateBlocked}
             canEdit={true}
             childId={selectedChildId || undefined}
+            weeklyTemplate={weeklyTemplate}
             onDataChanged={handleSessionAdded}
           />
         )}

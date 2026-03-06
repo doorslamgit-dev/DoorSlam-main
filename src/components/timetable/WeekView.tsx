@@ -21,8 +21,11 @@ import {
   moveTopicBetweenSessions,
   createSessionAndMoveTopic,
   getMaxTopicsForPattern,
+  getPatternDurationMinutes,
+  getTemplateSlotForDate,
   type WeekDayData,
   type TimetableSession,
+  type DayTemplate,
 } from "../../services/timetableService";
 import TimeSlotRow from "./TimeSlotRow";
 import { TIME_SLOT_ORDER } from "../../utils/timetableUtils";
@@ -35,6 +38,8 @@ export interface WeekViewProps {
   isDateBlocked: (dateStr: string) => boolean;
   canEdit?: boolean;
   childId?: string;
+  /** Parent's weekly schedule template — used to determine session pattern for empty-cell drops */
+  weeklyTemplate?: DayTemplate[];
   onDataChanged?: () => void;
   /** For child "requires_approval" mode: instead of moving, submit a request */
   onMoveRequiresApproval?: (
@@ -75,6 +80,7 @@ export function WeekView({
   isDateBlocked,
   canEdit = true,
   childId,
+  weeklyTemplate,
   onDataChanged,
   onMoveRequiresApproval,
 }: WeekViewProps) {
@@ -241,6 +247,20 @@ export function WeekView({
         const parts = overIdStr.split(":");
         const targetTimeSlot = parts.length > 1 ? parts[parts.length - 1] : "afternoon";
 
+        // Look up the parent's template for this day+slot to get the correct pattern
+        let sessionPattern = sourceSession.session_pattern;
+        let sessionDurationMinutes = sourceSession.session_duration_minutes;
+
+        if (weeklyTemplate && weeklyTemplate.length > 0) {
+          const templateSlot = getTemplateSlotForDate(weeklyTemplate, targetDateStr, targetTimeSlot);
+          if (!templateSlot) {
+            // Parent didn't schedule a session for this day/slot — reject the drop
+            return;
+          }
+          sessionPattern = templateSlot.session_pattern;
+          sessionDurationMinutes = getPatternDurationMinutes(templateSlot.session_pattern);
+        }
+
         const result = await createSessionAndMoveTopic({
           childId,
           topicId,
@@ -248,8 +268,8 @@ export function WeekView({
           targetDate: targetDateStr,
           targetTimeOfDay: targetTimeSlot,
           subjectId: sourceSession.subject_id,
-          sessionPattern: sourceSession.session_pattern,
-          sessionDurationMinutes: sourceSession.session_duration_minutes,
+          sessionPattern,
+          sessionDurationMinutes,
         });
 
         if (result.success) {
@@ -259,7 +279,7 @@ export function WeekView({
         }
       }
     },
-    [childId, onDataChanged, onMoveRequiresApproval, findSourceSession]
+    [childId, weeklyTemplate, onDataChanged, onMoveRequiresApproval, findSourceSession]
   );
 
   const gridContent = (

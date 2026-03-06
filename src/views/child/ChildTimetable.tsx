@@ -42,6 +42,7 @@ export default function ChildTimetable() {
     loading,
     subjectLegend,
     dateOverrides,
+    weeklyTemplate,
     setViewMode,
     goToPrevious,
     goToNext,
@@ -190,6 +191,7 @@ export default function ChildTimetable() {
             isDateBlocked={isDateBlocked}
             canEdit={canEdit || requiresApproval}
             childId={activeChildId || undefined}
+            weeklyTemplate={weeklyTemplate}
             onDataChanged={refreshData}
             onMoveRequiresApproval={
               requiresApproval ? handleMoveRequiresApproval : undefined

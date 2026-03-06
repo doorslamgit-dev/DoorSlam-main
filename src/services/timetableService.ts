@@ -1351,3 +1351,43 @@ export function getMaxTopicsForPattern(sessionPattern: string): number {
       return 3;
   }
 }
+
+/**
+ * Get the duration in minutes for a given session pattern.
+ */
+export function getPatternDurationMinutes(sessionPattern: string): number {
+  switch (sessionPattern) {
+    case "SINGLE_20":
+    case "p20":
+      return 20;
+    case "DOUBLE_45":
+    case "p45":
+      return 45;
+    case "TRIPLE_70":
+    case "p70":
+      return 70;
+    default:
+      return 70;
+  }
+}
+
+/**
+ * Look up the template slot for a given date + time-of-day.
+ * Returns the slot's session_pattern if found, or null if the parent
+ * did not schedule a session for that day/slot.
+ */
+export function getTemplateSlotForDate(
+  template: DayTemplate[],
+  dateStr: string,
+  timeOfDay: string
+): AvailabilitySlot | null {
+  const date = new Date(dateStr + "T12:00:00");
+  // JS getDay(): 0=Sun, template: 0=Mon … 6=Sun
+  const jsDay = date.getDay();
+  const templateDayIndex = jsDay === 0 ? 6 : jsDay - 1;
+
+  const day = template[templateDayIndex];
+  if (!day || !day.is_enabled) return null;
+
+  return day.slots.find((s) => s.time_of_day === timeOfDay) ?? null;
+}
