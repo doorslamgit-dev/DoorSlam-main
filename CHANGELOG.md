@@ -10,6 +10,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Subject Action Buttons** — Add Subject and Delete Subject buttons on the Subjects page, matching the Timetable page pattern
+  - New `SubjectActionCards` component with consistent secondary button styling
+  - Delete Subject handler is a TODO placeholder pending delete modal implementation
+
+### Fixed
+- **Coverage calculations now use topic slots instead of raw sessions**
+  - A p20 session = 1 topic slot, p45 = 2, p70 = 3. Coverage was previously counting raw sessions (1 each), causing incorrect feasibility recommendations for non-p20 sessions
+  - `AvailabilityBuilderStep` now passes `weeklyStats.topics × totalWeeks` to coverage calculations
+  - Renamed `available_sessions` → `available_topic_slots` and `recommended_sessions` → `recommended_topic_slots` in coverage service types
+  - Updated all UI labels in CoverageCard, CoveragePreview, EditScheduleModal, and AvailabilityBuilderStep
+  - Added JSDoc to `ImpactAssessment` type clarifying unit semantics (raw sessions vs topic slots)
+  - Added TODO comments on RPC parameters pending backend rename
+
+### Changed
+- **Remove arrow buttons from add-subject prioritize screen** — only drag-and-drop reordering remains
+  - Removed `onMoveSubjectUp`/`onMoveSubjectDown` from `PrioritizeSubjectsStep` and `AddSubjectModal`
+
 - **Content Generation Pipeline — Source-First PDF Extraction**
   - New `content-generate` Supabase Edge Function reads revision PDFs directly from Supabase Storage
   - PDFs sent to Claude API as native document inputs — no RAG chunking or topic classification needed

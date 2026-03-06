@@ -37,7 +37,7 @@ export interface SubjectCoverage {
 }
 
 export interface CoverageDistributionResult {
-  available_sessions: number;
+  available_topic_slots: number;
   total_topics: number;
   total_topics_covered: number;
   overall_coverage_percent: number;
@@ -63,7 +63,7 @@ export interface SubjectRequirement {
 }
 
 export interface SessionsForCoverageResult {
-  total_required_sessions: number;
+  total_required_topic_slots: number;
   sessions_per_week: number;
   sessions_per_day: number;
   total_weeks: number;
@@ -78,8 +78,8 @@ export interface SessionsForCoverageResult {
 
 export interface FeasibilityResult {
   status: FeasibilityStatus;
-  available_sessions: number;
-  recommended_sessions: number;
+  available_topic_slots: number;
+  recommended_topic_slots: number;
   coverage_percent: number;
   shortfall: number;
   surplus: number;
@@ -254,12 +254,13 @@ export function getCoverageStatusInfo(status: CoverageStatus): {
 ============================ */
 
 /**
- * Calculate coverage distribution from available sessions (Time-First mode)
+ * Calculate coverage distribution from available topic slots (Time-First mode)
+ * A topic slot = capacity for 1 topic (e.g. p20=1 slot, p45=2 slots, p70=3 slots)
  * This is a frontend-only calculation for real-time updates
  */
 export function calculateCoverageLocal(
   subjects: SubjectWithGrades[],
-  availableSessions: number,
+  availableTopicSlots: number,
   goalCode: string | undefined,
   needClusters: NeedClusterSelection[]
 ): CoverageDistributionResult {
@@ -303,7 +304,7 @@ export function calculateCoverageLocal(
   for (const data of subjectData) {
     const allocatedSessions =
       totalWeight > 0
-        ? availableSessions * (data.combinedWeight / totalWeight)
+        ? availableTopicSlots * (data.combinedWeight / totalWeight)
         : 0;
 
     // Topics covered = sessions / (sessions_per_topic × goal × needs)
@@ -346,7 +347,7 @@ export function calculateCoverageLocal(
   const overallCoverage = totalWeight > 0 ? weightedCoverage / totalWeight : 0;
 
   return {
-    available_sessions: availableSessions,
+    available_topic_slots: availableTopicSlots,
     total_topics: totalTopics,
     total_topics_covered: Math.round(totalTopicsCovered),
     overall_coverage_percent: Math.round(overallCoverage * 10) / 10,
@@ -427,7 +428,7 @@ export function calculateSessionsForCoverageLocal(
   }
 
   return {
-    total_required_sessions: Math.round(totalRequiredSessions),
+    total_required_topic_slots: Math.round(totalRequiredSessions),
     sessions_per_week: Math.round(sessionsPerWeek * 10) / 10,
     sessions_per_day: Math.round(sessionsPerDay * 10) / 10,
     total_weeks: totalWeeks,
@@ -449,8 +450,8 @@ export function checkFeasibility(
   coverageTargetResult: SessionsForCoverageResult,
   totalWeeks: number
 ): FeasibilityResult {
-  const available = coverageResult.available_sessions;
-  const recommended = coverageTargetResult.total_required_sessions;
+  const available = coverageResult.available_topic_slots;
+  const recommended = coverageTargetResult.total_required_topic_slots;
   const coveragePercent = coverageResult.overall_coverage_percent;
   
   const shortfall = Math.max(0, recommended - available);
@@ -467,23 +468,23 @@ export function checkFeasibility(
     status = "sufficient";
     message = `Your schedule provides ${coveragePercent}% weighted coverage across all subjects.`;
     if (surplus > 10) {
-      suggestion = `You have ${surplus} extra sessions for flexibility and review.`;
+      suggestion = `You have ${surplus} extra topic slots for flexibility and review.`;
     }
   } else if (coveragePercent >= 65) {
     status = "marginal";
     message = `Your schedule provides ${coveragePercent}% weighted coverage. High-priority subjects are well covered, but lower-priority subjects have reduced coverage.`;
-    suggestion = `To reach full coverage targets, add ${Math.ceil(shortfall / totalWeeks)} sessions per week (${shortfall} total).`;
+    suggestion = `To reach full coverage targets, add ${Math.ceil(shortfall / totalWeeks)} topic slots per week (${shortfall} total).`;
   } else {
     status = "insufficient";
     message = `Your schedule provides ${coveragePercent}% weighted coverage. Consider adding more study time or extending your revision period.`;
     const additionalPerWeek = Math.ceil(shortfall / totalWeeks);
-    suggestion = `Add ${additionalPerWeek} more sessions per week to improve coverage, or adjust your priority subjects.`;
+    suggestion = `Add ${additionalPerWeek} more topic slots per week to improve coverage, or adjust your priority subjects.`;
   }
 
   return {
     status,
-    available_sessions: available,
-    recommended_sessions: recommended,
+    available_topic_slots: available,
+    recommended_topic_slots: recommended,
     coverage_percent: coveragePercent,
     shortfall,
     surplus,
@@ -500,6 +501,10 @@ export function checkFeasibility(
 
 /**
  * Calculate coverage distribution via RPC (authoritative, uses real topic counts)
+ *
+ * NOTE: The RPC parameter is named `p_available_sessions` but we pass topic slots.
+ * The backend RPC should be updated to rename this parameter to `p_available_topic_slots`.
+ * Until then, the backend treats the value the same way (1 unit = 1 topic's capacity).
  */
 export async function calculateCoverageDistribution(
   subjectData: Array<{
@@ -509,13 +514,14 @@ export async function calculateCoverageDistribution(
     current_grade: number | null;
     target_grade: number | null;
   }>,
-  availableSessions: number,
+  availableTopicSlots: number,
   goalCode: string,
   needClusterCodes: string[]
 ): Promise<CoverageDistributionResult> {
   const { data, error } = await supabase.rpc("rpc_calculate_coverage_distribution", {
     p_subject_data: subjectData,
-    p_available_sessions: availableSessions,
+    // TODO: Rename to p_available_topic_slots when backend RPC is updated
+    p_available_sessions: availableTopicSlots,
     p_goal_code: goalCode,
     p_need_cluster_codes: needClusterCodes,
   });

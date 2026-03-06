@@ -7,6 +7,7 @@ export { default as RecentActivity } from "./RecentActivity";
 export { SubjectProgressHeader } from "./SubjectProgressHeader";
 export { StatsGrid } from "./StatsGrid";
 export { EmptySubjectsState } from "./EmptySubjectsState";
+export { default as SubjectActionCards } from "./SubjectActionCards";
 
 // Legacy exports - keeping for backward compatibility
 // These can be removed once no longer needed

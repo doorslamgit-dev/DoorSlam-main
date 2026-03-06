@@ -81,11 +81,12 @@ export default function EditScheduleModal({
       if (!day.is_enabled) return acc;
       day.slots.forEach((slot) => {
         acc.sessions += 1;
+        acc.topicSlots += slot.session_pattern === "p20" ? 1 : slot.session_pattern === "p70" ? 3 : 2;
         acc.minutes += slot.session_pattern === "p20" ? 20 : slot.session_pattern === "p70" ? 70 : 45;
       });
       return acc;
     },
-    { sessions: 0, minutes: 0 }
+    { sessions: 0, topicSlots: 0, minutes: 0 }
   );
 
   async function handleSave(mode: SaveMode) {
@@ -179,7 +180,7 @@ export default function EditScheduleModal({
   ) : (
     <div className="flex items-center justify-between">
       <div className="text-sm text-muted-foreground">
-        {weeklyStats.sessions} sessions/week · {weeklyStats.minutes} mins/week
+        {weeklyStats.sessions} sessions/week · {weeklyStats.topicSlots} topic slots · {weeklyStats.minutes} mins/week
       </div>
       <div className="flex items-center gap-3">
         <button
