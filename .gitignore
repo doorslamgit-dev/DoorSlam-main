@@ -31,3 +31,4 @@ supabase/.temp/
 # Legacy/tool-generated
 .bolt/
 .playwright-mcp/
+.agent/
