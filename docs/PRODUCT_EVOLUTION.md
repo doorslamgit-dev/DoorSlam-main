@@ -7,6 +7,25 @@ For architecture decisions, see [docs/decisions/](decisions/).
 
 ---
 
+## Configurable Planning Parameters (6 Mar 2026)
+
+**Why this change is happening**: The platform had two independent frontend calculators (`coverageService.ts` and `sessionCalculator.ts`) with inconsistent hardcoded constants — for example, `SESSIONS_PER_TOPIC` was 1.0 in one and 1.5 in the other, goal multipliers differed (1.1 vs 1.15 for "improve grade"), and priority weights were substantially different (medium: 0.6 vs 0.85). The backend RPCs also had their own hardcoded values that didn't factor in the child's goal, learning needs, or grade gaps. This meant parents could see different coverage numbers depending on which screen they were viewing, and recommendations were inaccurate.
+
+**What it does**: All planning constants are now stored in a single `planning_parameters` database table. Both frontend calculators and backend RPCs read from this single source of truth. An admin page at `/admin/parameters` lets the team tune these values (within validated bounds) without code deploys. The unified canonical values are: 1.5 topic slots per topic for good coverage, goal multipliers of 1.0/1.15/1.3, memory needs +0.2, attention needs +0.1, grade gap scaling of 0.1 per point, and priority weights of 1.0/0.85/0.7. The `rpc_get_plan_impact_assessment` RPC now reads the child's goal and learning needs from the database and factors them into coverage calculations.
+
+**How it was developed**:
+- `supabase/migrations/20260306140000_planning_parameters.sql` — Creates `planning_parameters` table with RLS, seeds 14 canonical values, adds `get_planning_param()` SQL helper, `rpc_get_planning_parameters()` for frontend caching, `rpc_update_planning_parameter()` for admin updates with min/max validation, and updated `rpc_get_plan_impact_assessment` that reads goals/needs from child data
+- `src/services/planningParametersService.ts` — Fetches all parameters via RPC, caches for 5 minutes, exposes sync getters (`getParam`, `getGoalMultiplier`, `getNeedsMultiplier`, `getPriorityWeight`, `getEffortMultiplier`), admin update function with cache invalidation, hardcoded defaults as fallback
+- `src/services/parentOnboarding/planningConstants.ts` — Shared module imported by both calculators, delegates all lookups to `planningParametersService`
+- `src/services/parentOnboarding/coverageService.ts` — Removed 6 hardcoded constants and 5 local helper functions, replaced with imports from `planningConstants`
+- `src/services/parentOnboarding/sessionCalculator.ts` — Removed 4 hardcoded constants and 3 local helper functions, replaced with imports from `planningConstants`
+- `src/views/admin/PlanningParametersAdmin.tsx` — Admin page grouped by category (coverage, goals, needs, grades, priority, session) with inline editing, validation, and save
+- `src/views/admin/AdminDashboard.tsx` — Added Planning Parameters card
+- `src/router.tsx` — Added `/admin/parameters` route
+- `docs/decisions/ADR-012-planning-parameters.md` — Architectural decision record
+
+---
+
 ## Subject Action Buttons & Coverage Calculation Fix (6 Mar 2026)
 
 **Why this change is happening**: Parents needed quick-access buttons to add or delete subjects from the Subjects page, similar to the Timetable page's action buttons. Separately, the coverage calculation engine was counting raw sessions (time blocks) instead of topic slots — a p70 session covers 3 topics but was being counted as 1, leading to understated coverage estimates and incorrect "add more sessions" recommendations.
@@ -24,7 +43,7 @@ For architecture decisions, see [docs/decisions/](decisions/).
 - `src/components/subjects/addSubject/ImpactAssessmentStep.tsx` — Clarified ambiguous labels ("Current sessions/week", "Total topics (all subjects)"), added "Current schedule" section with plan length and sessions-per-topic ratio, capped absurd "add N sessions" recommendations at 10/week with a generic message for larger values.
 - `src/services/addSubjectService.ts` — Added JSDoc to `ImpactAssessment` type clarifying unit semantics
 
-**Subsequent changes**: Backend Supabase RPCs should rename `p_available_sessions` parameter to `p_available_topic_slots` for consistency. Design and Technology subject needs curriculum topics loaded in the backend (currently shows +0 topics correctly). The `rpc_get_plan_impact_assessment` RPC may need adjustment — its `additional_sessions_needed` calculation can produce unreasonably large values (e.g. 45/week) that suggest a sessions-vs-topic-slots confusion in the backend logic.
+**Subsequent changes**: The `rpc_get_plan_impact_assessment` RPC has been updated (see "Configurable Planning Parameters" above) to use topic slots and factor in goals/needs. Backend RPC parameter `p_available_sessions` should still be renamed to `p_available_topic_slots` for consistency. Design and Technology subject needs curriculum topics loaded in the backend (currently shows +0 topics correctly).
 
 ---
 

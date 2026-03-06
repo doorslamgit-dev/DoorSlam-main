@@ -10,6 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Configurable Planning Parameters** — all coverage/recommendation constants now stored in a `planning_parameters` database table (ADR-012)
+  - New `planningParametersService.ts` fetches, caches (5-min TTL), and exposes sync getters for all parameters
+  - New `planningConstants.ts` shared module replaces duplicated constants in `coverageService.ts` and `sessionCalculator.ts`
+  - Admin UI at `/admin/parameters` for viewing and editing parameters with validation bounds
+  - SQL migration creates table, seeds canonical values, adds `get_planning_param()` helper, and updates `rpc_get_plan_impact_assessment` to factor in goals, needs, and grade gaps
+  - Unified canonical values: `coverage_target=1.5`, `improve_grade=1.15`, `excel=1.3`, `memory=+0.2`, `attention=+0.1`, `grade_gap=0.1/point`, `priority: high=1.0, medium=0.85, low=0.7`
+
 - **Subject Action Buttons** — Add Subject and Delete Subject buttons on the Subjects page, matching the Timetable page pattern
   - New `SubjectActionCards` component with consistent secondary button styling
   - Delete Subject handler is a TODO placeholder pending delete modal implementation
