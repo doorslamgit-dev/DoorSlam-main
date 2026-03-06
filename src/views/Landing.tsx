@@ -14,8 +14,8 @@ export default function Landing() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-6">
               <h1 className="text-5xl font-bold text-foreground leading-tight">
-                Confident revision,<br />
-                <span className="text-primary dark:text-primary/70">without the stress</span>
+                Revision<br />
+                <span className="text-primary dark:text-primary/70">without the drama</span>
               </h1>
               <p className="text-lg text-muted-foreground leading-relaxed">
                 Help your child stay on track with personalized GCSE revision plans.
