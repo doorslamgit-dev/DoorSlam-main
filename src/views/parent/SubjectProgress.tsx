@@ -17,6 +17,7 @@ import {
   SubjectActionCards,
 } from "../../components/subjects";
 import AddSubjectModal from "../../components/subjects/AddSubjectModal";
+import DeleteSubjectModal from "../../components/subjects/DeleteSubjectModal";
 import { useSubjectProgressData } from "../../hooks/useSubjectProgressData";
 import type { StatusIndicator } from "../../utils/statusStyles";
 
@@ -48,6 +49,7 @@ export default function SubjectProgress() {
   });
 
   const [isAddSubjectModalOpen, setIsAddSubjectModalOpen] = useState(false);
+  const [isDeleteSubjectModalOpen, setIsDeleteSubjectModalOpen] = useState(false);
 
   useEffect(() => {
     if (authLoading) return;
@@ -68,10 +70,14 @@ export default function SubjectProgress() {
   };
 
   const handleDeleteSubject = () => {
-    // TODO: Open delete subject modal
+    setIsDeleteSubjectModalOpen(true);
   };
 
   const handleAddSubjectSuccess = () => {
+    refreshData();
+  };
+
+  const handleDeleteSubjectSuccess = () => {
     refreshData();
   };
 
@@ -260,6 +266,24 @@ export default function SubjectProgress() {
           isOpen={isAddSubjectModalOpen}
           onClose={() => setIsAddSubjectModalOpen(false)}
           onSuccess={handleAddSubjectSuccess}
+        />
+      )}
+
+      {/* Delete Subject Modal */}
+      {selectedChildId && data?.subjects && data.subjects.length > 0 && (
+        <DeleteSubjectModal
+          childId={selectedChildId}
+          childName={childName}
+          currentSubjects={data.subjects.map((s) => ({
+            subject_id: s.subject_id,
+            subject_name: s.subject_name,
+            exam_board_name: s.exam_board_name,
+            icon: s.icon,
+            color: s.color,
+          }))}
+          isOpen={isDeleteSubjectModalOpen}
+          onClose={() => setIsDeleteSubjectModalOpen(false)}
+          onSuccess={handleDeleteSubjectSuccess}
         />
       )}
     </PageLayout>
