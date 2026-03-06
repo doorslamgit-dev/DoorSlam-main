@@ -1,5 +1,6 @@
 import AppIcon from "../ui/AppIcon";
 import { formatDateRange } from "../../services/timetableService";
+import type { SubjectLegend } from "../../services/timetableService";
 import type { ViewMode } from "../../hooks/useTimetableData";
 
 interface TimetableControlsProps {
@@ -9,6 +10,7 @@ interface TimetableControlsProps {
   onNext: () => void;
   onViewModeChange: (mode: ViewMode) => void;
   onTodayClick: () => void;
+  subjectLegend?: SubjectLegend[];
 }
 
 export function TimetableControls({
@@ -18,6 +20,7 @@ export function TimetableControls({
   onNext,
   onViewModeChange,
   onTodayClick,
+  subjectLegend: _subjectLegend,
 }: TimetableControlsProps) {
   const handleViewModeClick = (mode: ViewMode) => {
     onViewModeChange(mode);
