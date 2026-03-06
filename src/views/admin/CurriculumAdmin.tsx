@@ -97,6 +97,7 @@ export default function CurriculumAdmin() {
                 docStats={documentStats}
                 chunkStats={chunkStats}
                 specCode={specCode}
+                subjectId={selectedSubjectId}
               />
             </PipelinePhaseCard>
 

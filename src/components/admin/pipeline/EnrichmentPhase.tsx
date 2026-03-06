@@ -10,6 +10,7 @@ interface EnrichmentPhaseProps {
   docStats: DocumentStats | null;
   chunkStats: ChunkStats | null;
   specCode: string | null;
+  subjectId: string | null;
 }
 
 function ProgressBar({ value, max, label }: { value: number; max: number; label: string }) {
@@ -37,6 +38,7 @@ export default function EnrichmentPhase({
   docStats,
   chunkStats,
   specCode,
+  subjectId,
 }: EnrichmentPhaseProps) {
   const hasDocStats = docStats && docStats.total > 0;
   const hasChunkStats = chunkStats && chunkStats.total_chunks > 0;
@@ -152,11 +154,11 @@ export default function EnrichmentPhase({
         <div className="flex flex-wrap gap-2 pt-2 border-t border-border">
           <CliCommand
             label="Re-enrich Documents"
-            command={`cd ai-tutor-api && ./venv/bin/python -m scripts.enrich --spec-code ${specCode}`}
+            command={`cd ai-tutor-api && ./venv/bin/python scripts/backfill_enrichment.py --subject-id ${subjectId}`}
           />
           <CliCommand
             label="Topic Backfill"
-            command={`cd ai-tutor-api && ./venv/bin/python -m scripts.classify_chunks --spec-code ${specCode}`}
+            command={`cd ai-tutor-api && ./venv/bin/python scripts/backfill_topics.py --subject-id ${subjectId}`}
           />
         </div>
       )}
