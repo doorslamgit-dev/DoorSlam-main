@@ -24,8 +24,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Added TODO comments on RPC parameters pending backend rename
 
 ### Changed
-- **Remove arrow buttons from add-subject prioritize screen** — only drag-and-drop reordering remains
-  - Removed `onMoveSubjectUp`/`onMoveSubjectDown` from `PrioritizeSubjectsStep` and `AddSubjectModal`
+- **Add-subject prioritize screen now has working drag-and-drop** — replaced non-functional grip icon placeholder with full @dnd-kit integration (matching onboarding `SubjectPriorityGradesStep` pattern)
+  - Removed `onMoveSubjectUp`/`onMoveSubjectDown` arrow buttons; added `onReorder` callback with `SortableContext` and `useSortable`
+- **Plan Impact page (add-subject Step 5) — clarified labels and capped absurd recommendations**
+  - "Sessions/week" → "Current sessions/week", "Total topics" → "Total topics (all subjects)", added "Estimated coverage"
+  - Added "Current schedule" section showing plan length, total sessions, and sessions-per-topic ratio
+  - Capped "additional sessions needed" at 10/week; values above show a generic "schedule needs expansion" message instead of nonsensical numbers
 
 - **Content Generation Pipeline — Source-First PDF Extraction**
   - New `content-generate` Supabase Edge Function reads revision PDFs directly from Supabase Storage

@@ -28,7 +28,9 @@ import SubjectPriorityGradesStep, {
 } from "../parentOnboarding/steps/SubjectPriorityGradesStep";
 
 // Import add subject step components
-import PrioritizeSubjectsStep from "./addSubject/PrioritizeSubjectsStep";
+import PrioritizeSubjectsStep, {
+  type PrioritizedSubject,
+} from "./addSubject/PrioritizeSubjectsStep";
 import ImpactAssessmentStep from "./addSubject/ImpactAssessmentStep";
 import ConfirmationStep from "./addSubject/ConfirmationStep";
 
@@ -70,19 +72,6 @@ const STEP_TITLES: Record<number, string> = {
   [STEPS.IMPACT]: "Plan impact",
   [STEPS.CONFIRM]: "Confirm & add",
 };
-
-// Subject item for prioritization
-interface PrioritizedSubject {
-  subject_id: string;
-  subject_name: string;
-  exam_board_name?: string;
-  current_grade?: string | null;
-  target_grade?: string | null;
-  grade_gap?: number;
-  is_new: boolean;
-  icon?: string;
-  color?: string;
-}
 
 export default function AddSubjectModal({
   childId,
@@ -479,6 +468,7 @@ export default function AddSubjectModal({
           {step === STEPS.PRIORITIZE && (
             <PrioritizeSubjectsStep
               prioritizedSubjects={prioritizedSubjects}
+              onReorder={setPrioritizedSubjects}
             />
           )}
 

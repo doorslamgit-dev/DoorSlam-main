@@ -20,10 +20,11 @@ For architecture decisions, see [docs/decisions/](decisions/).
 - `src/components/parentOnboarding/steps/AvailabilityBuilderStep.tsx` — Changed `weeklyStats.sessions` → `weeklyStats.topics` when computing total planned capacity
 - `src/components/parentOnboarding/availability/CoverageCard.tsx` and `CoveragePreview.tsx` — Updated display labels
 - `src/components/timetable/EditScheduleModal.tsx` — Added topic slot counting to weekly stats display
-- `src/components/subjects/addSubject/PrioritizeSubjectsStep.tsx` — Removed arrow up/down buttons; drag handle remains
+- `src/components/subjects/addSubject/PrioritizeSubjectsStep.tsx` — Replaced non-functional grip icon placeholder with full @dnd-kit drag-and-drop (SortableContext, useSortable, arrayMove), matching the onboarding SubjectPriorityGradesStep pattern. Added `onReorder` callback.
+- `src/components/subjects/addSubject/ImpactAssessmentStep.tsx` — Clarified ambiguous labels ("Current sessions/week", "Total topics (all subjects)"), added "Current schedule" section with plan length and sessions-per-topic ratio, capped absurd "add N sessions" recommendations at 10/week with a generic message for larger values.
 - `src/services/addSubjectService.ts` — Added JSDoc to `ImpactAssessment` type clarifying unit semantics
 
-**Subsequent changes**: Backend Supabase RPCs should rename `p_available_sessions` parameter to `p_available_topic_slots` for consistency. Design and Technology subject needs curriculum topics loaded in the backend (currently shows +0 topics correctly).
+**Subsequent changes**: Backend Supabase RPCs should rename `p_available_sessions` parameter to `p_available_topic_slots` for consistency. Design and Technology subject needs curriculum topics loaded in the backend (currently shows +0 topics correctly). The `rpc_get_plan_impact_assessment` RPC may need adjustment — its `additional_sessions_needed` calculation can produce unreasonably large values (e.g. 45/week) that suggest a sessions-vs-topic-slots confusion in the backend logic.
 
 ---
 
