@@ -5,7 +5,6 @@ export { TimetableControls } from "./TimetableControls";
 export { WeekView } from "./WeekView";
 export { MonthView } from "./MonthView";
 export { default as TimetableActionCards } from "./TimetableActionCards";
-export { default as NudgeBanner } from "./NudgeBanner";
 export { default as TodayView } from "./TodayView";
 export { default as TopicCard } from "./TopicCard";
 export { default as TimeSlotRow } from "./TimeSlotRow";
