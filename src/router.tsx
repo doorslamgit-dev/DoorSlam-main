@@ -15,6 +15,7 @@ const ContentGenerationAdmin = lazy(() =>
   import('@/components/admin/content/ContentGenerationAdmin')
 );
 const DesignGuidelines = lazy(() => import('@/views/parent/DesignGuidelines'));
+const PlanningParametersAdmin = lazy(() => import('@/views/admin/PlanningParametersAdmin'));
 
 const ParentDashboardV3 = lazy(() =>
   import('@/views/parent/ParentDashboardV3').then((m) => ({ default: m.ParentDashboardV3 }))
@@ -76,6 +77,7 @@ export function AppRouter() {
             <Route path="curriculum" element={<CurriculumAdmin />} />
             <Route path="content" element={<ContentGenerationAdmin />} />
             <Route path="design" element={<DesignGuidelines />} />
+            <Route path="parameters" element={<PlanningParametersAdmin />} />
           </Route>
 
           {/* Child routes */}

@@ -21,6 +21,13 @@ const ADMIN_TOOLS = [
       'Generate revision content (flashcards, teaching slides, worked examples, practice questions) from source PDFs. Review, approve, and promote to production.',
   },
   {
+    href: '/admin/parameters',
+    icon: 'sliders-horizontal' as const,
+    title: 'Planning Parameters',
+    description:
+      'Configure coverage targets, goal multipliers, learning needs adjustments, grade gap scaling, and priority weights that drive all session recommendations.',
+  },
+  {
     href: '/admin/design',
     icon: 'palette' as const,
     title: 'Design Guidelines',

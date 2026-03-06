@@ -5,12 +5,23 @@
 import { supabase } from "../../lib/supabase";
 import type { SubjectWithGrades } from "../../components/parentOnboarding/steps/SubjectPriorityGradesStep";
 import type { NeedClusterSelection } from "../../components/parentOnboarding/steps/NeedsStep";
+import {
+  type PriorityTier,
+  getTargetSlotsPerTopic,
+  getDefaultTopicsPerSubject,
+  getGoalMultiplier,
+  getNeedsFactors,
+  getPriorityTier,
+  getPriorityWeight,
+  getEffortMultiplier,
+  MAX_REALISTIC_SESSIONS_PER_DAY,
+} from "./planningConstants";
 
 /* ============================
    Types
 ============================ */
 
-export type PriorityTier = "high" | "medium" | "low";
+export type { PriorityTier };
 export type CoverageStatus = "excellent" | "good" | "adequate" | "limited";
 export type FeasibilityStatus = "sufficient" | "marginal" | "insufficient";
 
@@ -90,7 +101,7 @@ export interface FeasibilityResult {
 }
 
 /* ============================
-   Constants
+   Constants (re-exported from planningConstants for backwards compatibility)
 ============================ */
 
 export const DEFAULT_COVERAGE_TARGETS: CoverageTargets = {
@@ -99,99 +110,8 @@ export const DEFAULT_COVERAGE_TARGETS: CoverageTargets = {
   low: 50,
 };
 
-export const DEFAULT_TOPICS_PER_SUBJECT = 50;
-export const SESSIONS_PER_TOPIC = 1.0;
-export const MAX_REALISTIC_SESSIONS_PER_DAY = 4;
-
-// Priority weights (match database config)
-export const PRIORITY_WEIGHTS: Record<PriorityTier, number> = {
-  high: 1.0,
-  medium: 0.6,
-  low: 0.4,
-};
-
-// Goal multipliers
-export const GOAL_MULTIPLIERS: Record<string, number> = {
-  pass_exam: 1.0,
-  improve_grade: 1.1,
-  excel: 1.2,
-};
-
-// Need codes that affect multiplier
-const MEMORY_NEED_CODES = ["REMEMBERING_FACTS", "MEMORY_DIFFICULTIES"];
-const ATTENTION_NEED_CODES = ["ADHD_TRAITS", "ATTENTION_FOCUS"];
-
-/* ============================
-   Helper Functions
-============================ */
-
-/**
- * Get priority tier from sort order
- */
-export function getPriorityTier(sortOrder: number): PriorityTier {
-  if (sortOrder <= 2) return "high";
-  if (sortOrder <= 5) return "medium";
-  return "low";
-}
-
-/**
- * Get priority weight from sort order
- */
-export function getPriorityWeight(sortOrder: number): number {
-  return PRIORITY_WEIGHTS[getPriorityTier(sortOrder)];
-}
-
-/**
- * Calculate goal multiplier
- */
-export function getGoalMultiplier(goalCode: string | undefined): number {
-  if (!goalCode) return 1.0;
-  return GOAL_MULTIPLIERS[goalCode] ?? 1.0;
-}
-
-/**
- * Calculate needs multiplier and get recommended pattern
- */
-export function getNeedsFactors(needClusters: NeedClusterSelection[]): {
-  multiplier: number;
-  pattern: "p20" | "p45" | "p70";
-  advice: string | null;
-} {
-  let multiplier = 1.0;
-  let pattern: "p20" | "p45" | "p70" = "p45";
-  let advice: string | null = null;
-
-  const codes = needClusters.map((nc) => nc.cluster_code);
-
-  // Memory difficulties: +15%
-  if (codes.some((c) => MEMORY_NEED_CODES.includes(c))) {
-    multiplier += 0.15;
-  }
-
-  // Attention/ADHD: +10% and recommend shorter sessions
-  if (codes.some((c) => ATTENTION_NEED_CODES.includes(c))) {
-    multiplier += 0.1;
-    pattern = "p20";
-    advice =
-      "Based on the learning needs you selected, we recommend shorter 20-minute sessions for better focus and retention.";
-  }
-
-  return { multiplier, pattern, advice };
-}
-
-/**
- * Calculate effort multiplier from grade gap
- */
-export function getEffortMultiplier(
-  currentGrade: number | null,
-  targetGrade: number | null
-): number {
-  const gradeGap = Math.max(
-    0,
-    (targetGrade ?? 5) - (currentGrade ?? 5)
-  );
-  return 1.0 + gradeGap * 0.08;
-}
+// Re-export functions so existing callers don't break
+export { getGoalMultiplier, getNeedsFactors, getPriorityTier, getPriorityWeight, getEffortMultiplier };
 
 /**
  * Get coverage status from percentage
@@ -291,7 +211,7 @@ export function calculateCoverageLocal(
       priorityWeight,
       effortMultiplier,
       combinedWeight,
-      topicCount: DEFAULT_TOPICS_PER_SUBJECT,
+      topicCount: getDefaultTopicsPerSubject(),
     });
   }
 
@@ -309,7 +229,7 @@ export function calculateCoverageLocal(
 
     // Topics covered = sessions / (sessions_per_topic × goal × needs)
     const topicsCovered =
-      allocatedSessions / (SESSIONS_PER_TOPIC * goalMultiplier * needsMultiplier);
+      allocatedSessions / (getTargetSlotsPerTopic() * goalMultiplier * needsMultiplier);
 
     // Coverage percentage (capped at 100%)
     const coveragePercent = Math.min(
@@ -376,7 +296,7 @@ export function calculateSessionsForCoverageLocal(
   const subjectResults: SubjectRequirement[] = [];
 
   for (const subject of subjects) {
-    const topicCount = DEFAULT_TOPICS_PER_SUBJECT;
+    const topicCount = getDefaultTopicsPerSubject();
     const priorityTier = getPriorityTier(subject.sort_order);
     const coverageTarget = coverageTargets[priorityTier];
     const effortMultiplier = getEffortMultiplier(
@@ -388,7 +308,7 @@ export function calculateSessionsForCoverageLocal(
     const topicsToCover = topicCount * (coverageTarget / 100);
     const requiredSessions =
       topicsToCover *
-      SESSIONS_PER_TOPIC *
+      getTargetSlotsPerTopic() *
       effortMultiplier *
       goalMultiplier *
       needsMultiplier;

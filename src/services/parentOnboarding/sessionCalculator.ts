@@ -4,6 +4,15 @@
 import type { SubjectWithGrades } from "../../components/parentOnboarding/steps/SubjectPriorityGradesStep";
 import type { NeedClusterSelection } from "../../components/parentOnboarding/steps/NeedsStep";
 import type { IconKey } from "../../components/ui/AppIcon";
+import {
+  getTargetSlotsPerTopic,
+  getDefaultTopicsPerSubject,
+  getContingencyPercent,
+  getGoalMultiplier,
+  getNeedsFactors,
+  getPriorityWeight,
+  getEffortMultiplier,
+} from "./planningConstants";
 
 /* ============================
    Types
@@ -53,71 +62,8 @@ export interface FeasibilityResult {
 }
 
 /* ============================
-   Constants
-============================ */
-
-const DEFAULT_TOPICS_PER_SUBJECT = 50;
-const SESSIONS_PER_TOPIC = 1.5;
-
-const GOAL_MULTIPLIERS: Record<string, number> = {
-  pass_exam: 1.0,
-  improve_grade: 1.15,
-  excel: 1.3,
-};
-
-const MEMORY_NEED_CODES = ["REMEMBERING_FACTS", "MEMORY_DIFFICULTIES"];
-const ATTENTION_NEED_CODES = ["ADHD_TRAITS", "ATTENTION_FOCUS"];
-
-/* ============================
    Calculator Functions
 ============================ */
-
-/**
- * Calculate goal multiplier
- */
-function getGoalMultiplier(goalCode: string | undefined): number {
-  if (!goalCode) return 1.0;
-  return GOAL_MULTIPLIERS[goalCode] ?? 1.0;
-}
-
-/**
- * Calculate needs multiplier and recommended session pattern
- */
-function getNeedsFactors(needClusters: NeedClusterSelection[]): {
-  multiplier: number;
-  pattern: "p20" | "p45" | "p70";
-  advice: string | null;
-} {
-  let multiplier = 1.0;
-  let pattern: "p20" | "p45" | "p70" = "p45";
-  let advice: string | null = null;
-
-  const codes = needClusters.map((nc) => nc.cluster_code);
-
-  // Memory difficulties: +0.2
-  if (codes.some((c) => MEMORY_NEED_CODES.includes(c))) {
-    multiplier += 0.2;
-  }
-
-  // Attention/ADHD: +0.1 and recommend shorter sessions
-  if (codes.some((c) => ATTENTION_NEED_CODES.includes(c))) {
-    multiplier += 0.1;
-    pattern = "p20";
-    advice =
-      "Based on the learning needs you selected, we recommend shorter 20-minute sessions for better focus and retention.";
-  }
-
-  return { multiplier, pattern, advice };
-}
-
-/**
- * Calculate priority factor based on sort order
- */
-function getPriorityFactor(sortOrder: number): number {
-  if (sortOrder <= 2) return 1.0; // High priority
-  if (sortOrder <= 5) return 0.85; // Medium priority
-  return 0.7; // Lower priority
-}
 
 /**
  * Calculate recommended sessions for given inputs
@@ -126,7 +72,7 @@ export function calculateRecommendation(
   subjects: SubjectWithGrades[],
   goalCode: string | undefined,
   needClusters: NeedClusterSelection[],
-  contingencyPercent: number = 10
+  contingencyPercent: number = getContingencyPercent()
 ): RecommendationCalculation {
   const goalMultiplier = getGoalMultiplier(goalCode);
   const { multiplier: needsMultiplier, pattern, advice } = getNeedsFactors(needClusters);
@@ -135,15 +81,15 @@ export function calculateRecommendation(
   const subjectsBreakdown: SubjectBreakdown[] = [];
 
   for (const subject of subjects) {
-    const topicCount = DEFAULT_TOPICS_PER_SUBJECT;
-    const baseSessions = topicCount * SESSIONS_PER_TOPIC;
+    const topicCount = getDefaultTopicsPerSubject();
+    const baseSessions = topicCount * getTargetSlotsPerTopic();
 
     const currentGrade = subject.current_grade ?? 5;
     const targetGrade = subject.target_grade ?? 5;
     const gradeGap = Math.max(0, targetGrade - currentGrade);
-    const gapMultiplier = 1.0 + gradeGap * 0.1;
+    const gapMultiplier = getEffortMultiplier(subject.current_grade, subject.target_grade);
 
-    const priorityFactor = getPriorityFactor(subject.sort_order);
+    const priorityFactor = getPriorityWeight(subject.sort_order);
 
     const adjustedSessions =
       baseSessions * gapMultiplier * goalMultiplier * needsMultiplier * priorityFactor;
