@@ -7,6 +7,26 @@ For architecture decisions, see [docs/decisions/](decisions/).
 
 ---
 
+## Subject Action Buttons & Coverage Calculation Fix (6 Mar 2026)
+
+**Why this change is happening**: Parents needed quick-access buttons to add or delete subjects from the Subjects page, similar to the Timetable page's action buttons. Separately, the coverage calculation engine was counting raw sessions (time blocks) instead of topic slots — a p70 session covers 3 topics but was being counted as 1, leading to understated coverage estimates and incorrect "add more sessions" recommendations.
+
+**What it does**: The Subjects page now has "Add Subject" and "Delete Subject" action buttons below the header. Coverage calculations across onboarding and schedule editing now correctly account for session patterns: a p20 session contributes 1 topic slot, p45 contributes 2, and p70 contributes 3. This means a parent with 5 p70 sessions/week is correctly shown as having 15 topic slots per week, not 5. Feasibility recommendations and coverage percentages now accurately reflect the child's revision capacity regardless of session pattern or plan length.
+
+**How it was developed**:
+- `src/components/subjects/SubjectActionCards.tsx` — New component following `TimetableActionCards` pattern with secondary button styling
+- `src/views/parent/SubjectProgress.tsx` — Wired action buttons between header and stats grid
+- `src/services/parentOnboarding/coverageService.ts` — Renamed `available_sessions` → `available_topic_slots` and `recommended_sessions` → `recommended_topic_slots` in types. Updated `calculateCoverageLocal` to accept topic slots. Updated feasibility message text.
+- `src/components/parentOnboarding/steps/AvailabilityBuilderStep.tsx` — Changed `weeklyStats.sessions` → `weeklyStats.topics` when computing total planned capacity
+- `src/components/parentOnboarding/availability/CoverageCard.tsx` and `CoveragePreview.tsx` — Updated display labels
+- `src/components/timetable/EditScheduleModal.tsx` — Added topic slot counting to weekly stats display
+- `src/components/subjects/addSubject/PrioritizeSubjectsStep.tsx` — Removed arrow up/down buttons; drag handle remains
+- `src/services/addSubjectService.ts` — Added JSDoc to `ImpactAssessment` type clarifying unit semantics
+
+**Subsequent changes**: Backend Supabase RPCs should rename `p_available_sessions` parameter to `p_available_topic_slots` for consistency. Design and Technology subject needs curriculum topics loaded in the backend (currently shows +0 topics correctly).
+
+---
+
 ## Content Generation Pipeline — Source-First PDF Extraction (6 Mar 2026)
 
 **Why this change is happening**: The platform needs structured revision content (flashcards, teaching slides, worked examples, practice questions) for every curriculum topic. The source material already exists as revision PDFs organized by theme in Supabase Storage. Rather than reverse-engineering content from RAG vector chunks (which achieved only 42% topic classification coverage), the content is extracted directly from the original PDF documents.

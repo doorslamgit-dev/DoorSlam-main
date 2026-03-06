@@ -18,14 +18,10 @@ interface PrioritizedSubject {
 
 interface PrioritizeSubjectsStepProps {
   prioritizedSubjects: PrioritizedSubject[];
-  onMoveSubjectUp: (index: number) => void;
-  onMoveSubjectDown: (index: number) => void;
 }
 
 export default function PrioritizeSubjectsStep({
   prioritizedSubjects,
-  onMoveSubjectUp,
-  onMoveSubjectDown,
 }: PrioritizeSubjectsStepProps) {
   return (
     <div className="space-y-6">
@@ -87,30 +83,6 @@ export default function PrioritizeSubjectsStep({
               </div>
             </div>
 
-            {/* Move buttons */}
-            <div className="flex gap-1">
-              <button
-                type="button"
-                onClick={() => onMoveSubjectUp(index)}
-                disabled={index === 0}
-                className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-accent disabled:opacity-30 disabled:cursor-not-allowed"
-                aria-label="Move up"
-              >
-                <AppIcon name="arrow-up" className="w-4 h-4 text-muted-foreground" />
-              </button>
-              <button
-                type="button"
-                onClick={() => onMoveSubjectDown(index)}
-                disabled={index === prioritizedSubjects.length - 1}
-                className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-accent disabled:opacity-30 disabled:cursor-not-allowed"
-                aria-label="Move down"
-              >
-                <AppIcon
-                  name="arrow-down"
-                  className="w-4 h-4 text-muted-foreground"
-                />
-              </button>
-            </div>
           </div>
         ))}
       </div>

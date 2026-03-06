@@ -160,15 +160,16 @@ export default function AvailabilityBuilderStep({
     [revisionPeriod.start_date, revisionPeriod.end_date]
   );
 
-  const totalPlannedSessions = useMemo(() => {
-    return Math.round(weeklyStats.sessions * totalWeeks);
-  }, [weeklyStats.sessions, totalWeeks]);
+  const totalPlannedTopicSlots = useMemo(() => {
+    return Math.round(weeklyStats.topics * totalWeeks);
+  }, [weeklyStats.topics, totalWeeks]);
 
   // Coverage calculations (Time-First: schedule → coverage)
+  // Uses topic slots (not raw sessions) so p70=3 slots, p45=2, p20=1
   const coverageResult = useMemo(() => {
     if (subjects.length === 0) return null;
-    return calculateCoverageLocal(subjects, totalPlannedSessions, goalCode, needClusters);
-  }, [subjects, totalPlannedSessions, goalCode, needClusters]);
+    return calculateCoverageLocal(subjects, totalPlannedTopicSlots, goalCode, needClusters);
+  }, [subjects, totalPlannedTopicSlots, goalCode, needClusters]);
 
   // Required sessions calculation (Coverage-First: coverage → schedule)
   const requiredResult = useMemo(() => {
@@ -344,11 +345,11 @@ export default function AvailabilityBuilderStep({
             </div>
             <div className="flex-1">
               <h3 className="text-sm font-semibold text-primary mb-1">
-                For target coverage: ~{requiredResult.sessions_per_week} sessions/week
+                For target coverage: ~{requiredResult.sessions_per_week} topic slots/week
               </h3>
               <p className="text-xs text-primary leading-relaxed">
                 Based on {subjects.length} subject{subjects.length !== 1 ? "s" : ""}, this would
-                mean ~{requiredResult.sessions_per_day.toFixed(1)} sessions per study day.
+                mean ~{requiredResult.sessions_per_day.toFixed(1)} topic slots per study day.
                 {!requiredResult.is_realistic && (
                   <span className="block mt-1 text-warning">
                     <span className="inline-flex items-center gap-1">
@@ -526,8 +527,8 @@ export default function AvailabilityBuilderStep({
             <div className="text-xs text-muted-foreground">minutes/week</div>
           </div>
           <div>
-            <div className="text-2xl font-bold text-foreground">{totalPlannedSessions}</div>
-            <div className="text-xs text-muted-foreground">total sessions</div>
+            <div className="text-2xl font-bold text-foreground">{totalPlannedTopicSlots}</div>
+            <div className="text-xs text-muted-foreground">topic slots</div>
           </div>
         </div>
       </div>

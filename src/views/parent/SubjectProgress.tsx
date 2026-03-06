@@ -14,6 +14,7 @@ import {
   SubjectCard,
   StatsGrid,
   EmptySubjectsState,
+  SubjectActionCards,
 } from "../../components/subjects";
 import AddSubjectModal from "../../components/subjects/AddSubjectModal";
 import { useSubjectProgressData } from "../../hooks/useSubjectProgressData";
@@ -64,6 +65,10 @@ export default function SubjectProgress() {
 
   const handleAddSubject = () => {
     setIsAddSubjectModalOpen(true);
+  };
+
+  const handleDeleteSubject = () => {
+    // TODO: Open delete subject modal
   };
 
   const handleAddSubjectSuccess = () => {
@@ -204,6 +209,14 @@ export default function SubjectProgress() {
           subtitle={headlineContent.headline}
           banner={showNotificationBanner ? <NotificationBanner message={notificationMessage} /> : undefined}
         />
+
+        {/* Action buttons */}
+        <div className="mb-4">
+          <SubjectActionCards
+            onAddSubject={handleAddSubject}
+            onDeleteSubject={handleDeleteSubject}
+          />
+        </div>
 
         {/* Stats Grid */}
         <div className="mb-6">

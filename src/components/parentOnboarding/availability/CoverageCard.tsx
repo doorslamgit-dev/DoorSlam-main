@@ -96,9 +96,9 @@ export function CoverageCard({ coverage, required: _required, feasibility }: Cov
         <div className="mt-4 grid grid-cols-3 gap-3 text-center">
           <div className="p-2 bg-white/50 rounded-lg">
             <div className="text-lg font-semibold text-foreground">
-              {coverage.available_sessions}
+              {coverage.available_topic_slots}
             </div>
-            <div className="text-2xs text-muted-foreground uppercase">Sessions</div>
+            <div className="text-2xs text-muted-foreground uppercase">Topic slots</div>
           </div>
           <div className="p-2 bg-white/50 rounded-lg">
             <div className="text-lg font-semibold text-foreground">

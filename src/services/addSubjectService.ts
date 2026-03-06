@@ -73,23 +73,37 @@ export interface ChildExamType {
   subject_count: number;
 }
 
-// FEAT-012: Impact assessment types
+/**
+ * FEAT-012: Impact assessment for adding subjects.
+ * Returned by RPC `rpc_get_plan_impact_assessment`.
+ *
+ * Unit note: "sessions" fields from the RPC represent raw schedule sessions
+ * (time blocks), NOT topic slots. A p20 session = 1 topic slot, p45 = 2, p70 = 3.
+ * The `sessions_per_topic` ratio accounts for the child's session pattern internally.
+ * Coverage calculations in the backend use the child's stored session pattern to
+ * convert between sessions and topic capacity.
+ */
 export interface ImpactAssessment {
   child_id: string;
+  /** Raw session count per week (time blocks, not topic slots) */
   current_weekly_sessions: number;
   weeks_in_plan: number;
+  /** Raw session count over the full plan (time blocks, not topic slots) */
   total_available_sessions: number;
   existing_subjects: SubjectWithTopics[];
   existing_subject_count: number;
   existing_topic_count: number;
   new_subjects: SubjectWithTopics[];
   new_subject_count: number;
+  /** Will be 0 if the subject has no curriculum content loaded in the backend */
   new_topic_count: number;
   total_topics: number;
+  /** Effective sessions needed per topic (accounts for session pattern internally) */
   sessions_per_topic: number;
   coverage_percent: number;
   recommendation: "on_track" | "tight_but_ok" | "add_sessions" | "prioritize";
   recommendation_detail: string;
+  /** Additional raw sessions (time blocks) recommended per week */
   additional_sessions_needed: number;
 }
 

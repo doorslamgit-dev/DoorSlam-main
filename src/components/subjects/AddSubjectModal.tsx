@@ -310,27 +310,7 @@ export default function AddSubjectModal({
     }
   }, [step, hasPathwayStep]);
 
-  // Move subject up in priority
-  const moveSubjectUp = (index: number) => {
-    if (index === 0) return;
-    const newOrder = [...prioritizedSubjects];
-    [newOrder[index - 1], newOrder[index]] = [
-      newOrder[index],
-      newOrder[index - 1],
-    ];
-    setPrioritizedSubjects(newOrder);
-  };
 
-  // Move subject down in priority
-  const moveSubjectDown = (index: number) => {
-    if (index === prioritizedSubjects.length - 1) return;
-    const newOrder = [...prioritizedSubjects];
-    [newOrder[index], newOrder[index + 1]] = [
-      newOrder[index + 1],
-      newOrder[index],
-    ];
-    setPrioritizedSubjects(newOrder);
-  };
 
   // Submit handler
   const handleSubmit = async () => {
@@ -499,8 +479,6 @@ export default function AddSubjectModal({
           {step === STEPS.PRIORITIZE && (
             <PrioritizeSubjectsStep
               prioritizedSubjects={prioritizedSubjects}
-              onMoveSubjectUp={moveSubjectUp}
-              onMoveSubjectDown={moveSubjectDown}
             />
           )}
 

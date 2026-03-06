@@ -239,8 +239,8 @@ export default function CoveragePreview({
       {/* Summary stats */}
       <div className="grid grid-cols-3 gap-4 p-4 bg-muted rounded-xl border border-border">
         <div className="text-center">
-          <div className="text-2xl font-bold text-foreground">{coverage.available_sessions}</div>
-          <div className="text-xs text-muted-foreground">sessions planned</div>
+          <div className="text-2xl font-bold text-foreground">{coverage.available_topic_slots}</div>
+          <div className="text-xs text-muted-foreground">topic slots</div>
         </div>
         <div className="text-center">
           <div className="text-2xl font-bold text-foreground">{coverage.total_topics_covered}</div>
@@ -248,9 +248,9 @@ export default function CoveragePreview({
         </div>
         <div className="text-center">
           <div className="text-2xl font-bold text-foreground">
-            {Math.round(coverage.available_sessions / Math.max(1, totalWeeks))}
+            {Math.round(coverage.available_topic_slots / Math.max(1, totalWeeks))}
           </div>
-          <div className="text-xs text-muted-foreground">per week</div>
+          <div className="text-xs text-muted-foreground">slots/week</div>
         </div>
       </div>
 
