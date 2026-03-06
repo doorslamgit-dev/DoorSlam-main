@@ -18,8 +18,8 @@ interface AdminNavItem {
 
 const ADMIN_NAV: AdminNavItem[] = [
   { href: '/admin', icon: 'home', label: 'Dashboard', exact: true },
-  { href: '/admin/curriculum', icon: 'clipboard-list', label: 'Content Pipeline' },
-  { href: '/admin/content', icon: 'sparkles', label: 'Content Generation' },
+  { href: '/admin/curriculum', icon: 'clipboard-list', label: 'RAG Content Pipeline' },
+  { href: '/admin/content', icon: 'sparkles', label: 'Revision Content' },
   { href: '/admin/design', icon: 'palette', label: 'Design Guidelines' },
 ];
 

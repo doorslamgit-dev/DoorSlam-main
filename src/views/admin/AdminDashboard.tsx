@@ -9,14 +9,14 @@ const ADMIN_TOOLS = [
   {
     href: '/admin/curriculum',
     icon: 'clipboard-list' as const,
-    title: 'Content Pipeline',
+    title: 'RAG Content Pipeline',
     description:
       'Ingest source documents from Google Drive into Supabase Storage and the RAG vector store. Manages chunking, embedding, and metadata enrichment for the AI Tutor.',
   },
   {
     href: '/admin/content',
     icon: 'sparkles' as const,
-    title: 'Content Generation',
+    title: 'Revision Content Generation',
     description:
       'Generate revision content (flashcards, teaching slides, worked examples, practice questions) from source PDFs. Review, approve, and promote to production.',
   },
