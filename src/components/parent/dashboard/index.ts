@@ -12,5 +12,3 @@ export { QuickActionsSection } from "./QuickActionsSection";
 export { FamilyOverviewCard } from "./FamilyOverviewCard";
 export { WeeklyRhythmChart } from "./WeeklyRhythmChart";
 export { ResourcesSection } from "./ResourcesSection";
-export { DashboardMessageBanner } from "./DashboardMessageBanner";
-export type { BannerMessage, BannerVariant } from "./DashboardMessageBanner";

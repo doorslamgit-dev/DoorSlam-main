@@ -10,7 +10,6 @@ import { useParentDashboardData } from '../../hooks/parent/useParentDashboardDat
 
 // Components
 import {
-  RewardHeroHeader,
   AgreedRewardsCard,
   PendingApprovalsCard,
   RewardCatalogSection,
@@ -25,7 +24,7 @@ import {
 } from '../../hooks/parent/rewards';
 
 export function RewardManagement() {
-  const { children: childOptions, selectedChildId, setSelectedChildId } = useSelectedChild();
+  const { selectedChildId } = useSelectedChild();
 
   // Lightweight child status fetch for notification banner
   const { data: parentData } = useParentDashboardData({ enableRealtime: false, enableVisibilityRefresh: false });
@@ -170,25 +169,13 @@ export function RewardManagement() {
           banner={showNotificationBanner ? <NotificationBanner message={notificationMessage} /> : undefined}
         />
 
-        {/* Hero Header */}
-        <section className="bg-gradient-to-br from-primary/5 via-primary/10 to-white rounded-2xl shadow-sm p-6 border border-primary/20">
-          <RewardHeroHeader
-            childList={childOptions.map(c => ({ id: c.child_id, first_name: c.child_name, preferred_name: null }))}
-            selectedChildId={selectedChildId}
-            onSelectChild={setSelectedChildId}
-            enabledCount={enabledCount}
+        {/* Quick Start - only show if no rewards enabled */}
+        {enabledCount === 0 && (
+          <QuickStartBanner
+            onQuickStart={handleQuickStart}
+            loading={quickStarting}
           />
-
-          {/* Quick Start - only show if no rewards enabled */}
-          {enabledCount === 0 && (
-            <div className="mt-4">
-              <QuickStartBanner
-                onQuickStart={handleQuickStart}
-                loading={quickStarting}
-              />
-            </div>
-          )}
-        </section>
+        )}
 
         {/* Agreed/Active Rewards */}
         <AgreedRewardsCard

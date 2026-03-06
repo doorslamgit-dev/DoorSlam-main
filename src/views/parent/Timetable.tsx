@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { useSelectedChild } from "../../contexts/SelectedChildContext";
-import { PageLayout, PageChildHeader } from "../../components/layout";
+import { PageLayout, PageChildHeader, NotificationBanner } from "../../components/layout";
 import Badge from "../../components/ui/Badge";
 import {
   TimetableActionCards,
@@ -13,7 +13,6 @@ import {
   TodayView,
   WeekView,
   MonthView,
-  NudgeBanner,
   AddSessionModal,
   BlockDatesModal,
   EditScheduleModal,
@@ -159,6 +158,13 @@ export default function Timetable() {
     ? 'No revision plan found'
     : timetableStatus.description;
 
+  const timetableNudge =
+    planOverviewLoading || timetableStatus.key === 'complete' || timetableStatus.key === 'on_track' || timetableStatus.key === 'no_plan'
+      ? null
+      : timetableStatus.key === 'needs_attention'
+        ? 'Some sessions need a little boost — a gentle check in could help.'
+        : 'Several sessions are falling behind — consider reviewing the schedule.';
+
   return (
     <PageLayout hideFooter>
       <main className="max-w-content mx-auto px-6 py-8">
@@ -166,12 +172,7 @@ export default function Timetable() {
         <PageChildHeader
           title="Timetable"
           subtitle={timetableSubtitle}
-          banner={
-            <NudgeBanner
-              planOverview={planOverview}
-              planOverviewLoading={planOverviewLoading}
-            />
-          }
+          banner={timetableNudge ? <NotificationBanner message={timetableNudge} variant="warning" /> : undefined}
         />
 
         {/* Row 2: Action buttons + date nav + view toggle + status badge */}

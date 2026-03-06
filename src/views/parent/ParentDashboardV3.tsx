@@ -11,9 +11,8 @@ import { DashboardTodaySessions } from '../../components/parent/dashboard/Dashbo
 import { DashboardRevisionPlan } from '../../components/parent/dashboard/DashboardRevisionPlan';
 import { DashboardRecentActivity } from '../../components/parent/dashboard/DashboardRecentActivity';
 import { DashboardProgressMoments } from '../../components/parent/dashboard/DashboardProgressMoments';
-import { DashboardComingUpNext } from '../../components/parent/dashboard/DashboardComingUpNext';
 import { DashboardActiveRewards } from '../../components/parent/dashboard/DashboardActiveRewards';
-import { DashboardNotificationBanner } from '../../components/parent/dashboard/DashboardNotificationBanner';
+import { NotificationBanner } from '../../components/layout';
 import AppIcon from '../../components/ui/AppIcon';
 
 const DashboardInviteModal = lazy(
@@ -164,7 +163,15 @@ function ParentDashboardV3Inner() {
         {/* Page Header: Dashboard title + subtitle + inline notification banner */}
         <DashboardChildHeader
           child={selectedChild}
-          banner={selectedChild && <DashboardNotificationBanner child={selectedChild} />}
+          banner={
+            selectedChild &&
+            (selectedChild.status_indicator === 'needs_attention' || selectedChild.status_indicator === 'keep_an_eye') ? (
+              <NotificationBanner
+                message={selectedChild.status_detail || selectedChild.insight_message || 'A gentle check in could help get things back on track.'}
+                variant="warning"
+              />
+            ) : undefined
+          }
         />
 
         {/* Row 1: Hero (2/3) + Health Score (1/3) */}
@@ -200,19 +207,16 @@ function ParentDashboardV3Inner() {
           />
         </div>
 
-        {/* Row 4: Recent Activity + Progress Moments + Coming Up Next */}
+        {/* Row 4: Recent Activity + Progress Moments + Active Rewards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
           <DashboardRecentActivity comingUp={childComingUp} coverage={childCoverage} />
           <DashboardProgressMoments moments={childMoments} />
-          <DashboardComingUpNext sessions={childComingUp} />
+          <DashboardActiveRewards
+            rewards={enabledRewards}
+            loading={rewardsLoading}
+            onConfigureRewards={handleConfigureRewards}
+          />
         </div>
-
-        {/* Row 5: Active Rewards — full width */}
-        <DashboardActiveRewards
-          rewards={enabledRewards}
-          loading={rewardsLoading}
-          onConfigureRewards={handleConfigureRewards}
-        />
 
         {/* Invite child modal (lazy-loaded) */}
         {showInviteModal && selectedChild && (
