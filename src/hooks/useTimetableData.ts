@@ -7,6 +7,7 @@ import {
   fetchPlanCoverageOverview,
   fetchDateOverrides,
   fetchChildSubjects,
+  fetchWeeklyTemplate,
   extractSubjectLegend,
   getWeekStart,
   formatDateISO,
@@ -16,6 +17,7 @@ import {
   type SubjectLegend,
   type PlanCoverageOverview,
   type DateOverride,
+  type DayTemplate,
 } from "../services/timetableService";
 import { buildSubjectColorMap } from "../utils/colorUtils";
 
@@ -38,6 +40,7 @@ interface UseTimetableDataReturn {
   error: string | null;
   subjectLegend: SubjectLegend[];
   subjectColorMap: Record<string, string>;
+  weeklyTemplate: DayTemplate[];
   planOverview: PlanCoverageOverview | null;
   planOverviewLoading: boolean;
   dateOverrides: DateOverride[];
@@ -74,6 +77,7 @@ export function useTimetableData({
   );
   const [planOverviewLoading, setPlanOverviewLoading] = useState(true);
   const [dateOverrides, setDateOverrides] = useState<DateOverride[]>([]);
+  const [weeklyTemplate, setWeeklyTemplate] = useState<DayTemplate[]>([]);
   const [refreshKey, setRefreshKey] = useState(0);
   const skipNextLoading = useRef(false);
 
@@ -138,8 +142,14 @@ export function useTimetableData({
       setDateOverrides(data || []);
     }
 
+    async function loadTemplate() {
+      const { data } = await fetchWeeklyTemplate(selectedChildId!);
+      setWeeklyTemplate(data || []);
+    }
+
     loadPlanOverview();
     loadOverrides();
+    loadTemplate();
   }, [selectedChildId]);
 
   // Load sessions when child, view mode, or date changes
@@ -309,6 +319,7 @@ export function useTimetableData({
     error,
     subjectLegend,
     subjectColorMap,
+    weeklyTemplate,
     planOverview,
     planOverviewLoading,
     dateOverrides,
